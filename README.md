@@ -200,7 +200,6 @@ This project is proprietary and confidential. All rights reserved.
 - Built with [shadcn/ui](https://ui.shadcn.com/)
 - Deployed on [Vercel](https://vercel.com)
 - Icons by [Lucide](https://lucide.dev)
-- Initial scaffolding via [Lovable](https://lovable.dev)
 
 ---
 
