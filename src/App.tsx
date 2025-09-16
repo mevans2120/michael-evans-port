@@ -13,6 +13,7 @@ import BeforeLauncher from "./pages/BeforeLauncher";
 import VirginAmerica from "./pages/VirginAmerica";
 import Peddle from "./pages/Peddle";
 import NotFound from "./pages/NotFound";
+import Studio from "./pages/Studio";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
         <Route path="/case-studies/before-launcher" element={<BeforeLauncher />} />
         <Route path="/case-studies/virgin-america" element={<VirginAmerica />} />
         <Route path="/case-studies/peddle" element={<Peddle />} />
+        <Route path="/studio/*" element={<Studio />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
