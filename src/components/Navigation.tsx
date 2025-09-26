@@ -16,47 +16,62 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
-    }`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      }`}
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="text-lg font-medium text-foreground">
             Michael <span className="text-gradient">Evans</span>
           </Link>
           
-          <button 
+          <button
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
+            aria-controls="navigation-menu"
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           >
-            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            {isMenuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
             <span>Menu</span>
           </button>
         </div>
         
         {/* Navigation Menu */}
         {isMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50 shadow-lg z-40">
+          <div
+            id="navigation-menu"
+            className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50 shadow-lg z-40"
+            role="menu"
+            aria-labelledby="menu-button"
+          >
             <div className="container mx-auto px-6 py-6">
               <div className="flex flex-col gap-4">
-                <Link 
-                  to="/" 
+                <Link
+                  to="/"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setIsMenuOpen(false)}
+                  role="menuitem"
                 >
                   Home
                 </Link>
-                <Link 
-                  to="/about" 
+                <Link
+                  to="/about"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setIsMenuOpen(false)}
+                  role="menuitem"
                 >
                   About
                 </Link>
-                <Link 
-                  to="/capabilities" 
+                <Link
+                  to="/capabilities"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setIsMenuOpen(false)}
+                  role="menuitem"
                 >
                   Capabilities
                 </Link>

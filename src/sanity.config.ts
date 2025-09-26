@@ -13,7 +13,7 @@ export default defineConfig({
   name: 'default',
   title: 'Michael Evans Portfolio',
 
-  projectId: 'vc89ievx',
+  projectId: '5n331bys',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

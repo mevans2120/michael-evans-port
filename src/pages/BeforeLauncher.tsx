@@ -5,8 +5,8 @@ const BeforeLauncher = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
-      <div className="pt-32 pb-12 px-6">
+
+      <main id="main-content" role="main" className="pt-32 pb-12 px-6">
         <div className="container mx-auto max-w-4xl">
           <div className="mb-8">
             <a href="/" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -64,7 +64,7 @@ const BeforeLauncher = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

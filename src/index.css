@@ -18,14 +18,14 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 8%;
 
-    --primary: 220 90% 56%;
+    --primary: 220 90% 45%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 215 20% 92%;
     --secondary-foreground: 215 25% 8%;
 
     --muted: 215 20% 92%;
-    --muted-foreground: 215 15% 45%;
+    --muted-foreground: 215 15% 35%;
 
     --accent: 276 100% 75%;
     --accent-foreground: 215 25% 8%;
@@ -79,7 +79,7 @@ All colors MUST be HSL.
     --secondary-foreground: 0 0% 98%;
 
     --muted: 215 25% 12%;
-    --muted-foreground: 215 15% 65%;
+    --muted-foreground: 215 15% 70%;
 
     --accent: 276 100% 75%;
     --accent-foreground: 215 28% 4%;
@@ -125,6 +125,11 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Focus visible styles for keyboard navigation */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
   .text-gradient {
     background: var(--gradient-primary);
     -webkit-background-clip: text;

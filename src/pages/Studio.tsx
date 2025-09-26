@@ -10,27 +10,24 @@ export default function StudioPage() {
         const { Studio } = await import('sanity')
         const { defineConfig } = await import('sanity')
         const { structureTool } = await import('sanity/structure')
+        const { visionTool } = await import('@sanity/vision')
+
+        // Import schemas
+        const projectSchema = await import('../sanity-schemas/project')
+        const profileSchema = await import('../sanity-schemas/profile')
+        const capabilitySchema = await import('../sanity-schemas/capability')
 
         const config = defineConfig({
           name: 'default',
           title: 'Michael Evans Portfolio',
-          projectId: 'vc89ievx',
+          projectId: '5n331bys',
           dataset: 'production',
-          plugins: [structureTool()],
+          plugins: [structureTool(), visionTool()],
           schema: {
             types: [
-              {
-                name: 'test',
-                title: 'Test',
-                type: 'document',
-                fields: [
-                  {
-                    name: 'title',
-                    title: 'Title',
-                    type: 'string',
-                  },
-                ],
-              },
+              projectSchema.default,
+              profileSchema.default,
+              capabilitySchema.default,
             ],
           },
           basePath: '/studio',

@@ -1,13 +1,15 @@
 import Navigation from "@/components/Navigation";
-import DynamicHero from "@/components/DynamicHero";
+import HeroDropdownVisual from "@/components/HeroDropdownVisual";
 import Contact from "@/components/Contact";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <DynamicHero />
-      <Contact />
+      <main id="main-content" role="main">
+        <HeroDropdownVisual />
+        <Contact />
+      </main>
     </div>
   );
 };

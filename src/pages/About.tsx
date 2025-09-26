@@ -5,8 +5,8 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
-      <div className="pt-20 pb-12 px-6">
+
+      <main id="main-content" role="main" className="pt-20 pb-12 px-6">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-16 animate-fade-in">
             <h1 className="text-6xl md:text-7xl font-light text-foreground mb-8">
@@ -66,7 +66,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       <Contact />
     </div>

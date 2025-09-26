@@ -14,6 +14,8 @@ import VirginAmerica from "./pages/VirginAmerica";
 import Peddle from "./pages/Peddle";
 import NotFound from "./pages/NotFound";
 import Studio from "./pages/Studio";
+import NavigationTest from "./pages/NavigationTest";
+import DropdownTest from "./pages/DropdownTest";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +24,13 @@ const App = () => (
     <Toaster />
     <Sonner />
     <BrowserRouter>
+      {/* Skip navigation link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      >
+        Skip to main content
+      </a>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/capabilities" element={<Capabilities />} />
@@ -33,6 +42,8 @@ const App = () => (
         <Route path="/case-studies/virgin-america" element={<VirginAmerica />} />
         <Route path="/case-studies/peddle" element={<Peddle />} />
         <Route path="/studio/*" element={<Studio />} />
+        <Route path="/nav-test" element={<NavigationTest />} />
+        <Route path="/dropdown-test" element={<DropdownTest />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
