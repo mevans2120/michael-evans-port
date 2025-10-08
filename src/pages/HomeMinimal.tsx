@@ -125,7 +125,7 @@ const HomeMinimal: React.FC = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className={`text-lg font-medium ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-              Michael <span className="text-gradient">Evans</span>
+              M<span className="text-gradient">Evans</span>
             </Link>
 
             <Link
