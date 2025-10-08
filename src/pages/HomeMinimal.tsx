@@ -143,14 +143,14 @@ const HomeMinimal: React.FC = () => {
       </nav>
 
       {/* Compact Hero Section */}
-      <section className="pt-32 pb-16 px-6 relative">
+      <section className="pt-32 pb-16 md:pb-8 px-6 relative">
         {/* Subtle decorative accent */}
         <div className={`absolute top-20 right-10 w-32 h-32 rounded-full blur-3xl ${
           isDarkMode ? 'bg-purple-500/20' : 'bg-purple-100 opacity-30'
         }`} />
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl font-light mb-6 leading-relaxed">
+          <div className="max-w-4xl -mx-6 md:mx-0">
+            <h1 className="text-4xl md:text-5xl font-light leading-relaxed min-h-[8rem] md:min-h-[10rem]">
               <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Michael Evans</span>{' '}
               <span className={`transition-opacity duration-150 ${isTransitioning ? 'opacity-0' : 'opacity-100'} ${
                 isDarkMode ? 'text-gray-100' : 'text-gray-900'
@@ -166,16 +166,66 @@ const HomeMinimal: React.FC = () => {
                 }`}>
                   {currentOption.dropdown}
                 </span>
-                <ChevronDown className={`w-3 h-3 transition-colors ${
+                <ChevronDown className={`w-4 h-4 transition-colors ${
                   isDarkMode
                     ? 'text-purple-400 group-hover:text-purple-300'
                     : 'text-purple-500 group-hover:text-purple-700'
                 }`} />
               </button>
             </h1>
-            <p className={`text-lg font-light ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Product strategist and creative technologist
-            </p>
+          </div>
+        </div>
+      </section>
+
+      <Separator className={`mx-auto max-w-6xl ${isDarkMode ? 'bg-gray-800' : ''}`} />
+
+      {/* About Section */}
+      <section className="py-16 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="md:max-w-4xl -mx-6 md:mx-0">
+            {/* Image and Heading */}
+            <div className="flex gap-6 md:gap-8 items-start mb-4">
+              {/* Image */}
+              <div className="w-40 h-40 md:w-44 md:h-44 flex-shrink-0">
+                <div className={`w-full h-full rounded-2xl overflow-hidden border ${
+                  isDarkMode ? 'border-gray-800' : 'border-gray-200'
+                }`}>
+                  <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-indigo-500/30 flex items-center justify-center">
+                    <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Photo</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Heading */}
+              <div className="flex-1 min-w-0">
+                <h2 className={`text-2xl font-light flex items-center gap-3 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}>
+                  Product Strategist & Creative Technologist
+                  <span className={`w-12 h-px bg-gradient-to-r ${
+                    isDarkMode ? 'from-purple-400/50 to-transparent' : 'from-purple-400 to-transparent'
+                  }`}></span>
+                </h2>
+              </div>
+            </div>
+
+            {/* Body Text - Full Width */}
+            <div>
+              <p className={`text-base mb-6 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                I help companies design and build products that blend strategic thinking with technical execution. With two decades of experience across product strategy, UX design, and full-stack development, I specialize in translating complex challenges into elegant, AI-powered solutions.
+              </p>
+              <Link
+                to="/about"
+                className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                  isDarkMode
+                    ? 'text-purple-400 hover:text-purple-300'
+                    : 'text-purple-600 hover:text-purple-700'
+                }`}
+              >
+                Learn more about my background
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -188,7 +238,7 @@ const HomeMinimal: React.FC = () => {
           isDarkMode ? 'bg-purple-500/20' : 'bg-purple-100 opacity-20'
         }`} />
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="mb-12">
+          <div className="mb-12 -mx-6 md:mx-0">
             <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
               isDarkMode ? 'text-gray-100' : 'text-gray-900'
             }`}>
@@ -200,7 +250,7 @@ const HomeMinimal: React.FC = () => {
             <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 -mx-6 md:mx-0">
             {caseStudies.map((study, index) => (
               <Link
                 key={index}
@@ -258,7 +308,7 @@ const HomeMinimal: React.FC = () => {
           isDarkMode ? 'bg-indigo-500/20' : 'bg-indigo-100 opacity-20'
         }`} />
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 -mx-6 md:mx-0">
             <div className={`backdrop-blur-sm rounded-2xl p-8 border ${
               isDarkMode
                 ? 'bg-gray-900/60 border-gray-800'
