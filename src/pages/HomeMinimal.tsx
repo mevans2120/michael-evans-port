@@ -212,7 +212,7 @@ const HomeMinimal: React.FC = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="md:max-w-4xl -mx-6 md:mx-0">
             {/* Image and Heading */}
-            <div className="flex gap-6 md:gap-8 items-start mb-4">
+            <div className="flex gap-6 md:gap-8 items-center mb-4">
               {/* Image */}
               <div className="w-40 h-40 md:w-44 md:h-44 flex-shrink-0">
                 <div className={`w-full h-full rounded-2xl overflow-hidden border ${
