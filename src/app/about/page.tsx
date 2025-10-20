@@ -12,11 +12,7 @@ interface ProfileData {
   title: string;
   tagline: string;
   bio: any[];
-  profileImage?: {
-    asset: {
-      url: string;
-    };
-  };
+  profileImage?: string;
   social: {
     email?: string;
     linkedin?: string;

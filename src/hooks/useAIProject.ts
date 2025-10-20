@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { client } from '@/lib/sanity/client';
 import { aiProjectQuery, allAIProjectsQuery } from '@/lib/sanity/queries';
-import { AIProjectData } from '@/data/aiProjects';
+import { AIProjectData } from '@/types/sanity';
 import { logger } from '@/lib/logger';
 
 /**
@@ -19,7 +19,7 @@ function convertSanityToAIProjectData(sanityData: any): AIProjectData {
     subtitle: sanityData.subtitle || '',
     description: sanityData.description || '',
     heroImage: sanityData.heroImage?.asset?._ref
-      ? `https://cdn.sanity.io/images/${import.meta.env.VITE_SANITY_PROJECT_ID}/production/${sanityData.heroImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`
+      ? `https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5n331bys'}/production/${sanityData.heroImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`
       : PLACEHOLDER_IMAGE,
     category: sanityData.category || '',
     status: sanityData.status || 'In Progress',
@@ -41,7 +41,7 @@ function convertSanityToAIProjectData(sanityData: any): AIProjectData {
     achievements: sanityData.achievements || [],
     images: (sanityData.images || []).map((img: any) => ({
       url: img.image?.asset?._ref
-        ? `https://cdn.sanity.io/images/${import.meta.env.VITE_SANITY_PROJECT_ID}/production/${img.image.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`
+        ? `https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5n331bys'}/production/${img.image.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`
         : PLACEHOLDER_IMAGE,
       caption: img.caption || '',
     })),

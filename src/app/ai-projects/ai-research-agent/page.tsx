@@ -74,7 +74,7 @@ export default function AIResearchAgentPage() {
                   >
                     <ExternalLink size={16} />
                     Visit Live Site
-                  </Link>
+                  </a>
                 )}
                 {project.links.github && (
                   <a
@@ -85,7 +85,7 @@ export default function AIResearchAgentPage() {
                   >
                     <Github size={16} />
                     View on GitHub
-                  </Link>
+                  </a>
                 )}
               </div>
             )}
@@ -207,7 +207,7 @@ export default function AIResearchAgentPage() {
 
             {/* CTA */}
             <div className="text-center">
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
               >

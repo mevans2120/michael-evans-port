@@ -88,3 +88,48 @@ export interface HeroOption {
   tags: string[];
   color: string;
 }
+
+/**
+ * AI Project Data
+ * Structure for AI project data from Sanity CMS
+ */
+export interface AIProjectData {
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  heroImage: string;
+  category: string;
+  status: 'Live' | 'In Progress' | 'Coming Soon';
+  links: {
+    live?: string;
+    github?: string;
+  };
+  overview: {
+    problem: string;
+    solution: string;
+    role: string;
+    timeline: string;
+  };
+  metrics: {
+    label: string;
+    value: string;
+  }[];
+  techStack: string[];
+  aiComponents: {
+    name: string;
+    description: string;
+    technology: string;
+  }[];
+  developmentProcess: {
+    phase: string;
+    description: string;
+    outcomes: string[];
+  }[];
+  learnings: string[];
+  achievements: string[];
+  images: {
+    url: string;
+    caption: string;
+  }[];
+}
