@@ -1,6 +1,6 @@
 import { defineCliConfig } from 'sanity/cli'
 
-const projectId = 'vc89ievx'
+const projectId = '5n331bys'
 const dataset = 'production'
 
 export default defineCliConfig({

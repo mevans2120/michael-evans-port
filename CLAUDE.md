@@ -87,3 +87,4 @@ The portfolio site is fully functional with:
 - All custom routes must be defined before the catch-all `*` route in App.tsx
 - Use the `cn()` utility for combining Tailwind classes with conditional logic
 - Memory bank system documented in `/memory-bank/` for development continuity
+- 4 please

@@ -3,7 +3,7 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './schemas'
 
-const projectId = 'vc89ievx'
+const projectId = '5n331bys'
 const dataset = 'production'
 
 export default defineConfig({

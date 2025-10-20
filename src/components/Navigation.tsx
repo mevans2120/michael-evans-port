@@ -1,5 +1,7 @@
+"use client"
+
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 const Navigation = () => {
@@ -25,10 +27,10 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-lg font-medium text-foreground">
+          <Link href="/" className="text-lg font-medium text-foreground">
             M<span className="text-gradient">Evans</span>
           </Link>
-          
+
           <button
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -40,7 +42,7 @@ const Navigation = () => {
             <span>Menu</span>
           </button>
         </div>
-        
+
         {/* Navigation Menu */}
         {isMenuOpen && (
           <div
@@ -52,7 +54,7 @@ const Navigation = () => {
             <div className="container mx-auto px-6 py-6">
               <div className="flex flex-col gap-4">
                 <Link
-                  to="/"
+                  href="/"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                   role="menuitem"
@@ -60,47 +62,39 @@ const Navigation = () => {
                   Home
                 </Link>
                 <Link
-                  to="/about"
+                  href="/about"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                   role="menuitem"
                 >
                   About
                 </Link>
-                <Link
-                  to="/capabilities"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                  role="menuitem"
-                >
-                  Capabilities
-                </Link>
                 <div className="border-t border-border/30 pt-4 mt-2">
                   <div className="text-xs text-muted-foreground/70 mb-3 px-0 uppercase tracking-wider">Case Studies</div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <Link 
-                      to="/case-studies/casa-bonita" 
+                    <Link
+                      href="/case-studies/casa-bonita"
                       className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Casa Bonita Platform
                     </Link>
-                    <Link 
-                      to="/case-studies/before-launcher" 
+                    <Link
+                      href="/case-studies/before-launcher"
                       className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Before Launcher
                     </Link>
-                    <Link 
-                      to="/case-studies/virgin-america" 
+                    <Link
+                      href="/case-studies/virgin-america"
                       className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Virgin America Digital
                     </Link>
-                    <Link 
-                      to="/case-studies/peddle" 
+                    <Link
+                      href="/case-studies/peddle"
                       className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -109,26 +103,40 @@ const Navigation = () => {
                   </div>
                 </div>
                 <div className="border-t border-border/30 pt-4 mt-2">
-                  <div className="text-xs text-muted-foreground/70 mb-3 px-0 uppercase tracking-wider">AI Research</div>
+                  <div className="text-xs text-muted-foreground/70 mb-3 px-0 uppercase tracking-wider">AI Projects</div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <Link 
-                      to="/ai-showcase" 
+                    <Link
+                      href="/ai-projects/post-pal"
                       className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      AI Showcase
+                      Post Pal
                     </Link>
-                    <Link 
-                      to="/ai-research" 
+                    <Link
+                      href="/ai-projects/karuna-gatton"
                       className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      AI Research
+                      KarunaGatton.com
+                    </Link>
+                    <Link
+                      href="/ai-projects/ai-research-agent"
+                      className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      AI Research Agent
+                    </Link>
+                    <Link
+                      href="/ai-projects/department-of-art"
+                      className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      DepartmentOfArt.com
                     </Link>
                   </div>
                 </div>
-                <a 
-                  href="mailto:hello@mevans212.com" 
+                <a
+                  href="mailto:hello@mevans212.com"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors border-t border-border/30 pt-4 mt-2"
                   onClick={() => setIsMenuOpen(false)}
                 >

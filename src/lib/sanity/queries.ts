@@ -109,3 +109,87 @@ export const capabilitiesByCategoryQuery = groq`
     skills
   }
 `
+
+// Get active hero options for homepage rotation
+export const heroOptionsQuery = groq`
+  *[_type == "heroOption" && active == true] | order(order asc) {
+    _id,
+    prefix,
+    dropdown,
+    linkType,
+    "internalSlug": internalLink->slug.current,
+    "internalType": internalLink->_type,
+    externalLink,
+    label,
+    description,
+    "imageUrl": image.asset->url,
+    tags,
+    colorGradient,
+    order
+  }
+`
+
+// Get single AI project by slug
+export const aiProjectQuery = groq`
+  *[_type == "aiProject" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    subtitle,
+    description,
+    category,
+    status,
+    heroImage,
+    liveUrl,
+    githubUrl,
+    overview {
+      problem,
+      solution,
+      role,
+      timeline
+    },
+    metrics[] {
+      label,
+      value
+    },
+    techStack[],
+    aiComponents[] {
+      name,
+      description,
+      technology
+    },
+    developmentProcess[] {
+      phase,
+      description,
+      outcomes[]
+    },
+    learnings[],
+    achievements[],
+    images[] {
+      image,
+      caption,
+      alt
+    },
+    featured,
+    order,
+    publishedAt
+  }
+`
+
+// Get all AI projects
+export const allAIProjectsQuery = groq`
+  *[_type == "aiProject"] | order(order asc, publishedAt desc) {
+    _id,
+    title,
+    slug,
+    subtitle,
+    description,
+    category,
+    status,
+    heroImage,
+    liveUrl,
+    githubUrl,
+    featured,
+    order
+  }
+`
