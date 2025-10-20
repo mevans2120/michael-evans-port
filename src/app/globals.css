@@ -8,60 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 240 10% 3%;
-    --foreground: 0 0% 98%;
-    --name-purple: 280 100% 80%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 8%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 8%;
-
-    --primary: 220 90% 45%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 215 20% 92%;
-    --secondary-foreground: 215 25% 8%;
-
-    --muted: 215 20% 92%;
-    --muted-foreground: 215 15% 35%;
-
-    --accent: 276 100% 75%;
-    --accent-foreground: 215 25% 8%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 215 20% 88%;
-    --input: 215 20% 88%;
-    --ring: 220 90% 56%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(220 90% 56%), hsl(276 100% 75%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(215 20% 95%));
-    --shadow-elegant: 0 10px 30px -10px hsl(220 90% 56% / 0.1);
-    --shadow-card: 0 4px 20px -4px hsl(215 25% 8% / 0.1);
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
+    /* Always dark theme - no light mode */
     --background: 240 10% 3%;
     --foreground: 0 0% 98%;
     --name-purple: 280 100% 80%;
@@ -95,6 +42,9 @@ All colors MUST be HSL.
     --gradient-subtle: linear-gradient(180deg, hsl(215 28% 4%), hsl(215 25% 8%));
     --shadow-elegant: 0 10px 30px -10px hsl(220 90% 56% / 0.2);
     --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+
+    --radius: 0.75rem;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -111,16 +61,15 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground font-light;
-  }
-
-  body {
-    @apply dark;
-  }
-
   html {
+    background-color: #050510;
     scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #050510;
+    color: #fafafa;
+    font-weight: 300;
   }
 }
 

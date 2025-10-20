@@ -14,6 +14,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Michael Evans | AI/ML Portfolio",
   description: "Portfolio showcasing AI/ML expertise, creative technology solutions, and professional case studies",
+  themeColor: "#050510",
 };
 
 export default function RootLayout({
@@ -22,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className="font-sans">
         {/* Skip navigation link for accessibility */}
         <a

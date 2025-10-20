@@ -64,12 +64,14 @@ export default function HomePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [imageLoaded, setImageLoaded] = useState<{ [key: number]: boolean }>({});
   const [sanityHeroOptions, setSanityHeroOptions] = useState<HeroOption[] | null>(null);
   const [isLoadingHeroOptions, setIsLoadingHeroOptions] = useState(true);
   const router = useRouter();
+
+  // Site is always dark - no light mode
+  const isDarkMode = true;
 
   // Fetch hero options from Sanity
   useEffect(() => {
@@ -94,19 +96,6 @@ export default function HomePage() {
   const heroOptions = useMemo(() => {
     return sanityHeroOptions || FALLBACK_HERO_OPTIONS;
   }, [sanityHeroOptions]);
-
-  // Detect browser dark mode preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
 
   useEffect(() => {
     if (!isOpen) {

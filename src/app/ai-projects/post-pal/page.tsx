@@ -74,7 +74,7 @@ export default function PostPalPage() {
                   >
                     <ExternalLink size={16} />
                     Visit Live Site
-                  </Link>
+                  </a>
                 )}
                 {project.links.github && (
                   <a
@@ -85,7 +85,7 @@ export default function PostPalPage() {
                   >
                     <Github size={16} />
                     View on GitHub
-                  </Link>
+                  </a>
                 )}
               </div>
             )}
@@ -213,7 +213,7 @@ export default function PostPalPage() {
               >
                 View More Projects
                 <ArrowRight size={18} />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
