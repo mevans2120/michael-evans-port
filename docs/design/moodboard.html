@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Board - Michael Evans Portfolio Enhancements</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #050510;
+      color: #fafafa;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 56px;
+      font-weight: 300;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #C680FF, #fafafa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #9ca3af;
+      margin-bottom: 60px;
+      font-weight: 300;
+    }
+
+    section {
+      margin-bottom: 80px;
+    }
+
+    h2 {
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: #fafafa;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: #9ca3af;
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .color-swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 200ms;
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-4px);
+    }
+
+    .color-display {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .color-info {
+      background: #1a1a1a;
+      padding: 16px;
+    }
+
+    .color-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #fafafa;
+    }
+
+    .color-hex {
+      font-size: 13px;
+      color: #6b7280;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 8px;
+    }
+
+    .color-usage {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .type-sample {
+      margin: 24px 0;
+      padding: 32px;
+      background: #0d0d15;
+      border-radius: 12px;
+      border: 1px solid #2d2d3d;
+      transition: border-color 200ms;
+    }
+
+    .type-sample:hover {
+      border-color: #C680FF;
+    }
+
+    .type-display {
+      margin-bottom: 12px;
+    }
+
+    .type-meta {
+      font-size: 13px;
+      color: #6b7280;
+      font-family: 'Courier New', monospace;
+    }
+
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .component-demo {
+      background: #0d0d15;
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid #2d2d3d;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .button-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms;
+      border: none;
+    }
+
+    .button-primary {
+      background: #C680FF;
+      color: #0d0d15;
+    }
+
+    .button-primary:hover {
+      background: #d49fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(198, 128, 255, 0.3);
+    }
+
+    .button-secondary {
+      background: transparent;
+      color: #C680FF;
+      border: 1px solid #C680FF;
+    }
+
+    .button-secondary:hover {
+      background: rgba(198, 128, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .card-demo {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #2d2d3d;
+      transition: all 300ms;
+    }
+
+    .card-demo:hover {
+      transform: translateY(-4px);
+      border-color: #C680FF;
+      box-shadow: 0 12px 40px rgba(198, 128, 255, 0.2);
+    }
+
+    .tag-demo {
+      display: inline-block;
+      padding: 6px 12px;
+      background: rgba(198, 128, 255, 0.15);
+      color: #C680FF;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(198, 128, 255, 0.3);
+      transition: all 200ms;
+      cursor: pointer;
+    }
+
+    .tag-demo:hover {
+      background: rgba(198, 128, 255, 0.25);
+      border-color: #C680FF;
+    }
+
+    .spacing-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .spacing-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .spacing-bar {
+      background: #C680FF;
+      height: 40px;
+      border-radius: 4px;
+      transition: all 200ms;
+    }
+
+    .spacing-bar:hover {
+      background: #d49fff;
+    }
+
+    .spacing-label {
+      font-size: 14px;
+      color: #9ca3af;
+      min-width: 80px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .inspiration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .inspiration-card {
+      background: #0d0d15;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #2d2d3d;
+      transition: all 200ms;
+    }
+
+    .inspiration-card:hover {
+      transform: translateY(-4px);
+      border-color: #C680FF;
+    }
+
+    .inspiration-image {
+      background: linear-gradient(135deg, #2d2d3d, #1a1a2e);
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .inspiration-info {
+      padding: 16px;
+    }
+
+    .inspiration-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #fafafa;
+    }
+
+    .inspiration-desc {
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section {
+      animation: fadeSlideIn 0.6s ease-out backwards;
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.3s; }
+    section:nth-child(5) { animation-delay: 0.4s; }
+    section:nth-child(6) { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Design Mood Board</h1>
+    <p class="subtitle">Visual design language for interactive portfolio enhancements</p>
+
+    <!-- Color Palette -->
+    <section>
+      <h2>Color Palette</h2>
+      <p class="section-desc">Dark theme with vibrant purple accents for interactive elements</p>
+
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-display" style="background: #050510; color: #fafafa;">
+            Background
+          </div>
+          <div class="color-info">
+            <div class="color-name">Deep Space</div>
+            <div class="color-hex">#050510 / hsl(240 10% 3%)</div>
+            <div class="color-usage">Main background, creates depth and contrast</div>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="color-display" style="background: #C680FF; color: #0d0d15;">
+            Primary Accent
+          </div>
+          <div class="color-info">
+            <div class="color-name">Vibrant Purple</div>
+            <div class="color-hex">#C680FF / hsl(276 100% 75%)</div>
+            <div class="color-usage">CTAs, links, active states, brand identity</div>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="color-display" style="background: #1a1a2e; color: #fafafa;">
+            Card Surface
+          </div>
+          <div class="color-info">
+            <div class="color-name">Elevated Dark</div>
+            <div class="color-hex">#1a1a2e / hsl(280 25% 12%)</div>
+            <div class="color-usage">Cards, elevated surfaces, modals</div>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="color-display" style="background: #fafafa; color: #050510;">
+            Foreground
+          </div>
+          <div class="color-info">
+            <div class="color-name">Off-White</div>
+            <div class="color-hex">#fafafa / hsl(0 0% 98%)</div>
+            <div class="color-usage">Body text, headings, primary content</div>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="color-display" style="background: #2d2d3d; color: #fafafa;">
+            Border/Subtle
+          </div>
+          <div class="color-info">
+            <div class="color-name">Muted Gray</div>
+            <div class="color-hex">#2d2d3d / hsl(280 25% 20%)</div>
+            <div class="color-usage">Borders, dividers, subtle elements</div>
+          </div>
+        </div>
+
+        <div class="color-swatch">
+          <div class="color-display" style="background: #9ca3af; color: #0d0d15;">
+            Muted Text
+          </div>
+          <div class="color-info">
+            <div class="color-name">Soft Gray</div>
+            <div class="color-hex">#9ca3af / hsl(215 15% 70%)</div>
+            <div class="color-usage">Secondary text, descriptions, metadata</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section>
+      <h2>Typography System</h2>
+      <p class="section-desc">Clean sans-serif with optional serif accents for headlines</p>
+
+      <div class="type-sample">
+        <div class="type-display" style="font-family: 'Inter', sans-serif; font-size: 48px; font-weight: 300; line-height: 1.2;">
+          Display Headline / Inter Light
+        </div>
+        <div class="type-meta">font-family: Inter | font-size: 48px | font-weight: 300 | line-height: 1.2</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display" style="font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 400; line-height: 1.2;">
+          Alternative Serif Headline
+        </div>
+        <div class="type-meta">font-family: Playfair Display | font-size: 40px | font-weight: 400 | line-height: 1.2</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display" style="font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 500; line-height: 1.4;">
+          Section Heading / Inter Medium
+        </div>
+        <div class="type-meta">font-family: Inter | font-size: 24px | font-weight: 500 | line-height: 1.4</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display" style="font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 300; line-height: 1.6; color: #fafafa;">
+          Body text uses Inter Light at 16px for excellent readability on dark backgrounds. This weight provides a modern, elegant feel while maintaining clarity across all screen sizes. The generous line-height of 1.6 ensures comfortable reading for longer content sections.
+        </div>
+        <div class="type-meta">font-family: Inter | font-size: 16px | font-weight: 300 | line-height: 1.6</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-display" style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: #9ca3af; line-height: 1.5;">
+          Secondary text and descriptions use Inter Regular at 14px with reduced opacity for visual hierarchy.
+        </div>
+        <div class="type-meta">font-family: Inter | font-size: 14px | font-weight: 400 | color: #9ca3af</div>
+      </div>
+    </section>
+
+    <!-- Spacing Scale -->
+    <section>
+      <h2>Spacing Scale</h2>
+      <p class="section-desc">Consistent spacing units based on 4px base grid</p>
+
+      <div class="spacing-scale">
+        <div class="spacing-item">
+          <div class="spacing-label">4px (xs)</div>
+          <div class="spacing-bar" style="width: 4px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">8px (sm)</div>
+          <div class="spacing-bar" style="width: 8px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">12px (md)</div>
+          <div class="spacing-bar" style="width: 12px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">16px (lg)</div>
+          <div class="spacing-bar" style="width: 16px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">24px (xl)</div>
+          <div class="spacing-bar" style="width: 24px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">32px (2xl)</div>
+          <div class="spacing-bar" style="width: 32px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">48px (3xl)</div>
+          <div class="spacing-bar" style="width: 48px;"></div>
+        </div>
+        <div class="spacing-item">
+          <div class="spacing-label">64px (4xl)</div>
+          <div class="spacing-bar" style="width: 64px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component Examples -->
+    <section>
+      <h2>Interactive Components</h2>
+      <p class="section-desc">Hover states and transitions demonstrate motion with purpose</p>
+
+      <div class="component-grid">
+        <div class="component-demo">
+          <div class="demo-label">Primary Button</div>
+          <button class="button-demo button-primary">
+            View Live Demo
+            <span style="font-size: 16px;">→</span>
+          </button>
+        </div>
+
+        <div class="component-demo">
+          <div class="demo-label">Secondary Button</div>
+          <button class="button-demo button-secondary">
+            View Source Code
+            <span style="font-size: 16px;">↗</span>
+          </button>
+        </div>
+
+        <div class="component-demo">
+          <div class="demo-label">Project Card</div>
+          <div class="card-demo">
+            <div style="font-weight: 600; margin-bottom: 8px;">AI Research Agent</div>
+            <div style="font-size: 14px; color: #9ca3af; margin-bottom: 12px;">
+              Autonomous research assistant powered by LLMs
+            </div>
+            <div>
+              <span class="tag-demo">AI/ML</span>
+              <span class="tag-demo">React</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="component-demo">
+          <div class="demo-label">Filter Tags</div>
+          <div>
+            <span class="tag-demo">All Projects</span>
+            <span class="tag-demo">AI/ML</span>
+            <span class="tag-demo">Mobile</span>
+            <span class="tag-demo">Web</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Design Rationale -->
+    <section>
+      <h2>Design Rationale</h2>
+      <p class="section-desc">Why these choices support user jobs and portfolio goals</p>
+
+      <div class="type-sample">
+        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #C680FF;">Dark Theme Foundation</h3>
+        <p style="font-size: 14px; color: #9ca3af; line-height: 1.6;">
+          <strong style="color: #fafafa;">Insight:</strong> 92% of developer portfolios in 2025 use dark themes. This aligns with user expectations for technical portfolios and reduces eye strain during extended viewing sessions.
+        </p>
+      </div>
+
+      <div class="type-sample">
+        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #C680FF;">Purple Accent Color</h3>
+        <p style="font-size: 14px; color: #9ca3af; line-height: 1.6;">
+          <strong style="color: #fafafa;">Insight:</strong> The vibrant purple (#C680FF) creates strong visual hierarchy without being aggressive. Research shows purple conveys creativity and technical sophistication—perfect for AI/ML positioning.
+        </p>
+      </div>
+
+      <div class="type-sample">
+        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #C680FF;">Light Font Weight (300)</h3>
+        <p style="font-size: 14px; color: #9ca3af; line-height: 1.6;">
+          <strong style="color: #fafafa;">Insight:</strong> Light typography creates an elegant, modern feel aligned with award-winning agency sites. The generous letter-spacing and line-height ensure readability isn't compromised.
+        </p>
+      </div>
+
+      <div class="type-sample">
+        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #C680FF;">Purposeful Motion</h3>
+        <p style="font-size: 14px; color: #9ca3af; line-height: 1.6;">
+          <strong style="color: #fafafa;">Insight:</strong> All hover states and transitions use subtle transforms (translateY -4px, scale 1.02) and smooth timing (200-300ms). This creates polish without distraction—motion guides attention rather than demanding it.
+        </p>
+      </div>
+    </section>
+
+    <!-- Inspiration Sources -->
+    <section>
+      <h2>Inspiration & References</h2>
+      <p class="section-desc">Award-winning patterns adapted for Michael's portfolio</p>
+
+      <div class="inspiration-grid">
+        <div class="inspiration-card">
+          <div class="inspiration-image">Noomo Agency</div>
+          <div class="inspiration-info">
+            <div class="inspiration-title">Awwwards Site of the Year</div>
+            <div class="inspiration-desc">Immersive 3D environments, cinematic scroll experiences, high-contrast dark theme</div>
+          </div>
+        </div>
+
+        <div class="inspiration-card">
+          <div class="inspiration-image">CodePen Embeds</div>
+          <div class="inspiration-info">
+            <div class="inspiration-title">Interactive Demos</div>
+            <div class="inspiration-desc">Live code examples that let visitors see work in action instantly</div>
+          </div>
+        </div>
+
+        <div class="inspiration-card">
+          <div class="inspiration-image">Behance Case Studies</div>
+          <div class="inspiration-info">
+            <div class="inspiration-title">Process-Driven Stories</div>
+            <div class="inspiration-desc">6-section format with problem, process, solution, and impact</div>
+          </div>
+        </div>
+
+        <div class="inspiration-card">
+          <div class="inspiration-image">LaCrapule Studio</div>
+          <div class="inspiration-info">
+            <div class="inspiration-title">Site of the Day (Oct 2025)</div>
+            <div class="inspiration-desc">Bold typography, experimental interfaces, interactive case studies</div>
+          </div>
+        </div>
+
+        <div class="inspiration-card">
+          <div class="inspiration-image">GitHub Portfolios</div>
+          <div class="inspiration-info">
+            <div class="inspiration-title">Developer Portfolio Examples</div>
+            <div class="inspiration-desc">Code-focused presentations with technical depth and live demos</div>
+          </div>
+        </div>
+
+        <div class="inspiration-card">
+          <div class="inspiration-image">Awwwards Filters</div>
+          <div class="inspiration-info">
+            <div class="inspiration-title">Tag-Based Navigation</div>
+            <div class="inspiration-desc">Pill-style filters with instant visual feedback and smooth animations</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

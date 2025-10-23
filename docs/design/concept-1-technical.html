@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept A: Tab-Based Media Switcher - Interactive Project Demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #050510;
+      color: #fafafa;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 300;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #C680FF, #fafafa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #9ca3af;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .concept-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .meta-item {
+      background: #1a1a2e;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      border: 1px solid #2d2d3d;
+    }
+
+    .meta-label {
+      color: #6b7280;
+      margin-right: 8px;
+    }
+
+    .meta-value {
+      color: #C680FF;
+      font-weight: 500;
+    }
+
+    /* Demo Container */
+    .demo-container {
+      background: #0d0d15;
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid #2d2d3d;
+      margin-bottom: 60px;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    /* Project Card (context) */
+    .project-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #2d2d3d;
+      margin-bottom: 24px;
+    }
+
+    .project-title {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #fafafa;
+    }
+
+    .project-desc {
+      font-size: 16px;
+      color: #9ca3af;
+      font-weight: 300;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: rgba(198, 128, 255, 0.15);
+      color: #C680FF;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid rgba(198, 128, 255, 0.3);
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #2d2d3d;
+      margin-bottom: 32px;
+    }
+
+    .tab-button {
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      color: #9ca3af;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .tab-button:hover {
+      color: #fafafa;
+    }
+
+    .tab-button.active {
+      color: #C680FF;
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #C680FF;
+      border-radius: 2px 2px 0 0;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeSlideIn 0.3s ease-out;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Demo Viewport */
+    .demo-viewport {
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      border: 1px solid #2d2d3d;
+    }
+
+    .demo-placeholder {
+      color: #6b7280;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .demo-iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      background: #000;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #6b7280;
+    }
+
+    .play-button {
+      width: 64px;
+      height: 64px;
+      background: rgba(198, 128, 255, 0.2);
+      border: 2px solid #C680FF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      cursor: pointer;
+      transition: all 200ms;
+    }
+
+    .play-button:hover {
+      background: rgba(198, 128, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-left: 20px solid #C680FF;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 4px;
+    }
+
+    /* Code Block */
+    .code-block {
+      background: #000;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid #2d2d3d;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2d2d3d;
+    }
+
+    .code-filename {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .copy-button {
+      padding: 4px 12px;
+      background: transparent;
+      border: 1px solid #C680FF;
+      color: #C680FF;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .copy-button:hover {
+      background: rgba(198, 128, 255, 0.1);
+    }
+
+    .code-line {
+      color: #9ca3af;
+    }
+
+    .keyword { color: #C680FF; }
+    .string { color: #7dd3fc; }
+    .comment { color: #6b7280; }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: #C680FF;
+      color: #0d0d15;
+    }
+
+    .btn-primary:hover {
+      background: #d49fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(198, 128, 255, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #C680FF;
+      border: 1px solid #C680FF;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(198, 128, 255, 0.1);
+    }
+
+    /* Analysis Section */
+    .analysis {
+      background: #1a1a2e;
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #2d2d3d;
+      margin-top: 40px;
+    }
+
+    .analysis h2 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      color: #fafafa;
+    }
+
+    .analysis h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: #C680FF;
+    }
+
+    .analysis ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .analysis li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 8px;
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .analysis li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #C680FF;
+    }
+
+    .pros li::before { content: '✓'; color: #10b981; }
+    .cons li::before { content: '✗'; color: #ef4444; }
+
+    .note {
+      background: rgba(198, 128, 255, 0.1);
+      border-left: 3px solid #C680FF;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Concept A: Tab-Based Media Switcher</h1>
+      <p class="subtitle">Interactive project demos with organized tab navigation</p>
+
+      <div class="concept-meta">
+        <div class="meta-item">
+          <span class="meta-label">Approach:</span>
+          <span class="meta-value">Quick Access All Demo Types</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Best For:</span>
+          <span class="meta-value">Technical CTOs, Developers</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Implementation:</span>
+          <span class="meta-value">Medium Complexity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Demo -->
+    <div class="demo-container">
+      <div class="demo-label">Interactive Prototype ↓</div>
+
+      <!-- Project Context -->
+      <div class="project-card">
+        <div class="project-title">AI Research Agent</div>
+        <div class="project-desc">
+          Autonomous research assistant that gathers, synthesizes, and presents information from multiple sources using advanced language models and retrieval augmented generation (RAG).
+        </div>
+        <div class="project-tags">
+          <span class="tag">AI/ML</span>
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">OpenAI</span>
+          <span class="tag">Vector DB</span>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+          <button class="tab-button active" onclick="switchTab('live')">
+            <span style="margin-right: 4px;">🚀</span> Live Demo
+          </button>
+          <button class="tab-button" onclick="switchTab('video')">
+            <span style="margin-right: 4px;">▶</span> Video Walkthrough
+          </button>
+          <button class="tab-button" onclick="switchTab('code')">
+            <span style="margin-right: 4px;">{ }</span> View Code
+          </button>
+          <button class="tab-button" onclick="switchTab('case-study')">
+            <span style="margin-right: 4px;">📖</span> Full Case Study
+          </button>
+        </div>
+
+        <!-- Live Demo Tab -->
+        <div id="live-tab" class="tab-content active">
+          <div class="demo-viewport">
+            <div class="demo-placeholder">
+              <div style="font-size: 48px; margin-bottom: 12px;">🤖</div>
+              <div style="font-size: 16px; margin-bottom: 8px;">Live Demo</div>
+              <div style="font-size: 13px; max-width: 300px;">Embedded iframe or Stackblitz/CodeSandbox would appear here</div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary">
+              Open in New Tab
+              <span>↗</span>
+            </button>
+            <button class="btn btn-secondary">
+              View on GitHub
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video Tab -->
+        <div id="video-tab" class="tab-content">
+          <div class="demo-viewport">
+            <div class="video-container">
+              <div class="video-placeholder">
+                <div class="play-button">
+                  <div class="play-icon"></div>
+                </div>
+                <div>2:30 Loom Walkthrough</div>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary">
+              Watch on Loom
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Code Tab -->
+        <div id="code-tab" class="tab-content">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-filename">src/agents/research-agent.ts</div>
+              <button class="copy-button">Copy Code</button>
+            </div>
+            <div class="code-line"><span class="keyword">import</span> { <span class="string">OpenAI</span> } <span class="keyword">from</span> <span class="string">'openai'</span>;</div>
+            <div class="code-line"><span class="keyword">import</span> { <span class="string">VectorStore</span> } <span class="keyword">from</span> <span class="string">'./vector-store'</span>;</div>
+            <div class="code-line">&nbsp;</div>
+            <div class="code-line"><span class="comment">// Initialize research agent with RAG capabilities</span></div>
+            <div class="code-line"><span class="keyword">export class</span> ResearchAgent {</div>
+            <div class="code-line">  <span class="keyword">private</span> client: OpenAI;</div>
+            <div class="code-line">  <span class="keyword">private</span> vectorStore: VectorStore;</div>
+            <div class="code-line">&nbsp;</div>
+            <div class="code-line">  <span class="keyword">async</span> <span class="string">research</span>(query: <span class="keyword">string</span>) {</div>
+            <div class="code-line">    <span class="keyword">const</span> context = <span class="keyword">await</span> <span class="keyword">this</span>.vectorStore.retrieve(query);</div>
+            <div class="code-line">    <span class="keyword">return</span> <span class="keyword">this</span>.client.chat.completions.create({...});</div>
+            <div class="code-line">  }</div>
+            <div class="code-line">}</div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary">
+              View Full Source
+              <span>→</span>
+            </button>
+            <button class="btn btn-secondary">
+              Fork on CodeSandbox
+              <span>↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Case Study Tab -->
+        <div id="case-study-tab" class="tab-content">
+          <div style="background: #0d0d15; padding: 32px; border-radius: 8px; border: 1px solid #2d2d3d;">
+            <div style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">Full Case Study</div>
+            <div style="color: #9ca3af; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+              Deep dive into the problem, approach, technical challenges, and measurable impact. Includes process diagrams, architecture decisions, and lessons learned.
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-primary">
+                Read Case Study
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analysis -->
+    <div class="analysis">
+      <h2>Concept Analysis</h2>
+
+      <h3>Strategic Approach</h3>
+      <p style="color: #9ca3af; font-size: 14px; margin-bottom: 16px;">
+        Tab-based navigation puts ALL demo types (live, video, code, case study) at equal visual priority. Users can quickly switch between different ways of experiencing the project without scrolling or modal overlays.
+      </p>
+
+      <h3 class="pros">Strengths</h3>
+      <ul class="pros">
+        <li><strong>Immediate Access:</strong> All demo types visible in tab bar—users know what's available instantly</li>
+        <li><strong>No Scrolling Required:</strong> Content swaps in place, maintaining scroll position</li>
+        <li><strong>Organized Hierarchy:</strong> Clear separation between demo types prevents cognitive overload</li>
+        <li><strong>Familiar Pattern:</strong> Tab navigation is universally understood (no learning curve)</li>
+        <li><strong>Easy Implementation:</strong> Simple state management, works great with React hooks</li>
+        <li><strong>Mobile Friendly:</strong> Tabs can scroll horizontally on small screens</li>
+      </ul>
+
+      <h3 class="cons">Tradeoffs</h3>
+      <ul class="cons">
+        <li><strong>Requires All Content:</strong> Empty tabs feel incomplete—need video/code for every project</li>
+        <li><strong>Single Focus:</strong> Can only view one demo type at a time (can't compare code + live demo)</li>
+        <li><strong>Tab Overflow:</strong> More than 5 tabs gets cramped on mobile</li>
+        <li><strong>Not Immersive:</strong> Stays within project card—less "wow factor" than full-screen overlay</li>
+      </ul>
+
+      <h3>Best Use Cases</h3>
+      <ul>
+        <li><strong>Technical Audiences:</strong> Developers/CTOs who want quick access to code snippets</li>
+        <li><strong>Projects with Multiple Demos:</strong> When you have live demo + video + code for most projects</li>
+        <li><strong>Homepage Portfolio Grid:</strong> Works well in card format without leaving the page</li>
+      </ul>
+
+      <h3>Implementation Notes</h3>
+      <ul>
+        <li>Use React state to track active tab (useState hook)</li>
+        <li>Lazy load iframe/video content until tab is activated (performance)</li>
+        <li>Add keyboard navigation (arrow keys to switch tabs, Enter to activate)</li>
+        <li>Consider adding tab count badges if content varies (e.g., "3 code examples")</li>
+        <li>Use Framer Motion for smooth tab content transitions</li>
+      </ul>
+
+      <div class="note">
+        <strong>Design Principle: Show, Don't Tell</strong><br>
+        This concept excels at letting users choose HOW they want to evaluate the work. Visual learners pick video, technical users jump to code, busy recruiters scan the case study CTA. The tab metaphor clearly communicates "here are your options."
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Remove active state from all buttons
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab
+      document.getElementById(tabName + '-tab').classList.add('active');
+
+      // Add active state to clicked button
+      event.target.closest('.tab-button').classList.add('active');
+    }
+  </script>
+</body>
+</html>

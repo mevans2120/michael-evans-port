@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Quick Assessment - Portfolio Enhancement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #050510;
+      color: #fafafa;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 300;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #C680FF, #fafafa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #9ca3af;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .concept-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .meta-item {
+      background: #1a1a2e;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      border: 1px solid #2d2d3d;
+    }
+
+    .meta-label {
+      color: #6b7280;
+      margin-right: 8px;
+    }
+
+    .meta-value {
+      color: #C680FF;
+      font-weight: 500;
+    }
+
+    /* Demo Container */
+    .demo-container {
+      background: #0d0d15;
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid #2d2d3d;
+      margin-bottom: 60px;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    .feature-section {
+      margin-bottom: 80px;
+    }
+
+    .feature-title {
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #fafafa;
+    }
+
+    .feature-desc {
+      font-size: 16px;
+      color: #9ca3af;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* 1. INTERACTIVE DEMOS - Inline Progressive Reveal */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .project-item {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+      border-radius: 12px;
+      border: 1px solid #2d2d3d;
+      overflow: hidden;
+      transition: border-color 300ms;
+    }
+
+    .project-item.expanded {
+      border-color: #C680FF;
+    }
+
+    .project-header {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      cursor: pointer;
+      transition: background 200ms;
+    }
+
+    .project-header:hover {
+      background: rgba(198, 128, 255, 0.05);
+    }
+
+    .project-thumbnail {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #2d2d3d, #1a1a2e);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .project-info {
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #fafafa;
+    }
+
+    .project-summary {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      background: rgba(198, 128, 255, 0.15);
+      color: #C680FF;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid rgba(198, 128, 255, 0.3);
+    }
+
+    .expand-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid #2d2d3d;
+      border-radius: 6px;
+      color: #9ca3af;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .expand-button:hover {
+      border-color: #C680FF;
+      color: #C680FF;
+    }
+
+    .expand-icon {
+      font-size: 16px;
+      transition: transform 200ms;
+    }
+
+    .project-item.expanded .expand-icon {
+      transform: rotate(180deg);
+    }
+
+    .demo-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 400ms ease-out;
+    }
+
+    .project-item.expanded .demo-content {
+      max-height: 600px;
+    }
+
+    .demo-inner {
+      padding: 0 24px 24px 24px;
+      border-top: 1px solid #2d2d3d;
+    }
+
+    .demo-type-selector {
+      display: flex;
+      gap: 8px;
+      margin: 20px 0;
+      padding: 4px;
+      background: rgba(198, 128, 255, 0.05);
+      border-radius: 8px;
+      width: fit-content;
+    }
+
+    .demo-type-button {
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: #9ca3af;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .demo-type-button:hover {
+      color: #fafafa;
+    }
+
+    .demo-type-button.active {
+      background: #C680FF;
+      color: #0d0d15;
+    }
+
+    .demo-viewport {
+      background: #000;
+      border-radius: 8px;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 14px;
+      border: 1px solid #2d2d3d;
+    }
+
+    /* 2. CASE STUDY - Accordion Sections */
+    .case-study-wrapper {
+      background: #0d0d15;
+      border-radius: 12px;
+      border: 1px solid #2d2d3d;
+      overflow: hidden;
+    }
+
+    .case-hero {
+      padding: 40px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+      border-bottom: 1px solid #2d2d3d;
+    }
+
+    .case-hero-title {
+      font-size: 36px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #fafafa;
+    }
+
+    .case-hero-subtitle {
+      font-size: 18px;
+      color: #9ca3af;
+      margin-bottom: 24px;
+    }
+
+    .case-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .metric-item {
+      text-align: center;
+      padding: 16px;
+      background: rgba(198, 128, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(198, 128, 255, 0.3);
+    }
+
+    .metric-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: #C680FF;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .accordion-section {
+      border-bottom: 1px solid #2d2d3d;
+    }
+
+    .accordion-section:last-child {
+      border-bottom: none;
+    }
+
+    .accordion-header {
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 200ms;
+    }
+
+    .accordion-header:hover {
+      background: rgba(198, 128, 255, 0.05);
+    }
+
+    .accordion-left {
+      flex: 1;
+    }
+
+    .accordion-number {
+      font-size: 13px;
+      color: #C680FF;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .accordion-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #fafafa;
+      margin-bottom: 6px;
+    }
+
+    .accordion-preview {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .accordion-icon {
+      font-size: 20px;
+      color: #9ca3af;
+      transition: transform 200ms;
+    }
+
+    .accordion-section.expanded .accordion-icon {
+      transform: rotate(180deg);
+      color: #C680FF;
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 400ms ease-out;
+    }
+
+    .accordion-section.expanded .accordion-body {
+      max-height: 1000px;
+    }
+
+    .accordion-content {
+      padding: 0 40px 32px 40px;
+      color: #9ca3af;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .accordion-content p {
+      margin-bottom: 16px;
+    }
+
+    .accordion-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+
+    .accordion-content li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .accordion-content li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #C680FF;
+    }
+
+    .expand-all-button {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid #C680FF;
+      border-radius: 8px;
+      color: #C680FF;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 20px;
+    }
+
+    .expand-all-button:hover {
+      background: rgba(198, 128, 255, 0.1);
+    }
+
+    /* 3. PROJECT FILTERING - Compact Dropdown */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .result-info {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .filter-dropdown-wrapper {
+      position: relative;
+    }
+
+    .filter-trigger {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #1a1a2e;
+      border: 1px solid #2d2d3d;
+      border-radius: 8px;
+      color: #fafafa;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .filter-trigger:hover {
+      border-color: #C680FF;
+    }
+
+    .filter-badge {
+      background: #C680FF;
+      color: #0d0d15;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .dropdown-icon {
+      font-size: 16px;
+      transition: transform 200ms;
+    }
+
+    .filter-dropdown-wrapper.open .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    .filter-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #1a1a2e;
+      border: 1px solid #2d2d3d;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 200ms;
+    }
+
+    .filter-dropdown-wrapper.open .filter-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-header {
+      padding: 16px;
+      border-bottom: 1px solid #2d2d3d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dropdown-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fafafa;
+    }
+
+    .clear-button {
+      font-size: 12px;
+      color: #C680FF;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .clear-button:hover {
+      color: #d49fff;
+    }
+
+    .dropdown-body {
+      padding: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-group-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 200ms;
+    }
+
+    .checkbox-option:hover {
+      background: rgba(198, 128, 255, 0.1);
+    }
+
+    .checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #2d2d3d;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 200ms;
+    }
+
+    .checkbox-option:hover .checkbox {
+      border-color: #C680FF;
+    }
+
+    .checkbox.checked {
+      background: #C680FF;
+      border-color: #C680FF;
+    }
+
+    .checkbox.checked::after {
+      content: '✓';
+      color: #0d0d15;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .checkbox-label {
+      font-size: 14px;
+      color: #fafafa;
+      flex: 1;
+    }
+
+    .checkbox-count {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .dropdown-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #2d2d3d;
+      display: flex;
+      gap: 8px;
+    }
+
+    .apply-button {
+      flex: 1;
+      padding: 8px 16px;
+      background: #C680FF;
+      border: none;
+      border-radius: 6px;
+      color: #0d0d15;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .apply-button:hover {
+      background: #d49fff;
+    }
+
+    .cancel-button {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid #2d2d3d;
+      border-radius: 6px;
+      color: #9ca3af;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .cancel-button:hover {
+      border-color: #C680FF;
+      color: #C680FF;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-project-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #2d2d3d;
+      transition: all 300ms;
+    }
+
+    .grid-project-card:hover {
+      transform: translateY(-4px);
+      border-color: #C680FF;
+      box-shadow: 0 12px 40px rgba(198, 128, 255, 0.2);
+    }
+
+    .grid-project-image {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, #2d2d3d, #1a1a2e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .grid-project-content {
+      padding: 20px;
+    }
+
+    .grid-project-title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #fafafa;
+    }
+
+    .grid-project-desc {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    /* Analysis */
+    .analysis {
+      background: #1a1a2e;
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #2d2d3d;
+      margin-top: 60px;
+    }
+
+    .analysis h2 {
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      color: #fafafa;
+    }
+
+    .analysis h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: #C680FF;
+    }
+
+    .analysis p {
+      color: #9ca3af;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .analysis ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .analysis li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 12px;
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .analysis li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #C680FF;
+    }
+
+    .pros li::before { content: '✓'; color: #10b981; }
+    .cons li::before { content: '✗'; color: #ef4444; }
+
+    .note {
+      background: rgba(198, 128, 255, 0.1);
+      border-left: 3px solid #C680FF;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 24px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .note strong {
+      color: #C680FF;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .project-header {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .expand-button {
+        grid-column: 2;
+        margin-top: 12px;
+      }
+
+      .filter-dropdown {
+        width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Concept 3: Quick Assessment</h1>
+      <p class="subtitle">Scannable, clear, efficient — optimized for busy decision-makers</p>
+
+      <div class="concept-meta">
+        <div class="meta-item">
+          <span class="meta-label">Approach:</span>
+          <span class="meta-value">Progressive Disclosure & Speed</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Best For:</span>
+          <span class="meta-value">Recruiters, HR, Busy CTOs</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Implementation:</span>
+          <span class="meta-value">Simple (Basic State Management)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE 1: Interactive Demos - Inline Progressive Reveal -->
+    <section class="feature-section">
+      <div class="demo-container">
+        <div class="demo-label">Feature 1: Interactive Project Demos ↓</div>
+        <h2 class="feature-title">Inline Progressive Reveal</h2>
+        <p class="feature-desc">
+          Demos start collapsed with key info visible. Click "View Demo" to expand inline — no navigation required. Choose demo type from compact selector. Fast to scan, low friction to engage.
+        </p>
+
+        <div class="project-list">
+          <div class="project-item" id="project-1">
+            <div class="project-header" onclick="toggleProject('project-1')">
+              <div class="project-thumbnail">🤖</div>
+              <div class="project-info">
+                <div class="project-title">AI Research Agent</div>
+                <div class="project-summary">Autonomous research assistant powered by LLMs and RAG architecture</div>
+                <div class="project-tags">
+                  <span class="tag">AI/ML</span>
+                  <span class="tag">React</span>
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">OpenAI</span>
+                </div>
+              </div>
+              <button class="expand-button" onclick="toggleProject('project-1'); event.stopPropagation();">
+                <span>View Demo</span>
+                <span class="expand-icon">▼</span>
+              </button>
+            </div>
+            <div class="demo-content">
+              <div class="demo-inner">
+                <div class="demo-type-selector">
+                  <button class="demo-type-button active">Live Demo</button>
+                  <button class="demo-type-button">Video (2:30)</button>
+                  <button class="demo-type-button">Code</button>
+                </div>
+                <div class="demo-viewport">
+                  <div style="text-align: center;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🚀</div>
+                    <div>Live demo iframe or embed would appear here</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-item" id="project-2">
+            <div class="project-header" onclick="toggleProject('project-2')">
+              <div class="project-thumbnail">✍️</div>
+              <div class="project-info">
+                <div class="project-title">Post Pal</div>
+                <div class="project-summary">AI-powered social media content generator with brand voice learning</div>
+                <div class="project-tags">
+                  <span class="tag">AI/ML</span>
+                  <span class="tag">Next.js</span>
+                  <span class="tag">GPT-4</span>
+                </div>
+              </div>
+              <button class="expand-button" onclick="toggleProject('project-2'); event.stopPropagation();">
+                <span>View Demo</span>
+                <span class="expand-icon">▼</span>
+              </button>
+            </div>
+            <div class="demo-content">
+              <div class="demo-inner">
+                <div class="demo-type-selector">
+                  <button class="demo-type-button active">Live Demo</button>
+                  <button class="demo-type-button">Video (1:45)</button>
+                  <button class="demo-type-button">Code</button>
+                </div>
+                <div class="demo-viewport">
+                  <div style="text-align: center;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">✨</div>
+                    <div>Interactive demo content</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-item" id="project-3">
+            <div class="project-header" onclick="toggleProject('project-3')">
+              <div class="project-thumbnail">📱</div>
+              <div class="project-info">
+                <div class="project-title">Before Launcher</div>
+                <div class="project-summary">Minimalist Android launcher that helps users reduce phone addiction</div>
+                <div class="project-tags">
+                  <span class="tag">Mobile</span>
+                  <span class="tag">Android</span>
+                  <span class="tag">Kotlin</span>
+                </div>
+              </div>
+              <button class="expand-button" onclick="toggleProject('project-3'); event.stopPropagation();">
+                <span>View Demo</span>
+                <span class="expand-icon">▼</span>
+              </button>
+            </div>
+            <div class="demo-content">
+              <div class="demo-inner">
+                <div class="demo-type-selector">
+                  <button class="demo-type-button active">Video (3:00)</button>
+                  <button class="demo-type-button">Screenshots</button>
+                  <button class="demo-type-button">Code</button>
+                </div>
+                <div class="demo-viewport">
+                  <div style="text-align: center;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">📱</div>
+                    <div>Mobile app demo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 2: Case Study - Accordion Sections -->
+    <section class="feature-section">
+      <div class="demo-container">
+        <div class="demo-label">Feature 2: Case Study Format ↓</div>
+        <h2 class="feature-title">Scannable Accordion Sections</h2>
+        <p class="feature-desc">
+          Hero shows key metrics upfront. Six sections collapsed by default with preview text. Click any section to expand. "Expand All" option for deep readers. Perfect for scanning or diving deep.
+        </p>
+
+        <button class="expand-all-button" onclick="expandAllSections()">Expand All Sections</button>
+
+        <div class="case-study-wrapper">
+          <div class="case-hero">
+            <div class="case-hero-title">Virgin America Digital</div>
+            <div class="case-hero-subtitle">First fully responsive airline booking experience</div>
+
+            <div class="case-metrics">
+              <div class="metric-item">
+                <div class="metric-value">+15%</div>
+                <div class="metric-label">Conversion Lift</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value">23%</div>
+                <div class="metric-label">Mobile Revenue</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value">2013</div>
+                <div class="metric-label">Industry First</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-section" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <div class="accordion-left">
+                <div class="accordion-number">01</div>
+                <div class="accordion-title">Project Context</div>
+                <div class="accordion-preview">Led UX strategy for industry-first responsive airline website...</div>
+              </div>
+              <div class="accordion-icon">▼</div>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-content">
+                <p>
+                  <strong style="color: #fafafa;">Virgin America Digital Transformation</strong> — In 2013, I led the UX strategy and interaction design for Virgin America's groundbreaking responsive website, the first in the airline industry.
+                </p>
+                <p>
+                  Working closely with Virgin America's in-house team, we tackled the challenge of creating a seamless booking experience across all devices when mobile airline booking was considered nearly impossible.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-section" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <div class="accordion-left">
+                <div class="accordion-number">02</div>
+                <div class="accordion-title">Problem & Challenges</div>
+                <div class="accordion-preview">Mobile traffic surging but booking flows desktop-only...</div>
+              </div>
+              <div class="accordion-icon">▼</div>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-content">
+                <p>
+                  Mobile traffic was growing rapidly, but users had to pinch, zoom, and struggle through tiny forms. The booking flow included 7+ screens and complex interactions like seat selection with 150+ elements.
+                </p>
+                <p><strong style="color: #fafafa;">Key Challenges:</strong></p>
+                <ul>
+                  <li>Complex multi-step booking flow with form validation</li>
+                  <li>Interactive seat map requiring precise touch targets</li>
+                  <li>Payment security concerns on mobile browsers</li>
+                  <li>Stakeholder skepticism about mobile booking viability</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-section" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <div class="accordion-left">
+                <div class="accordion-number">03</div>
+                <div class="accordion-title">Design Approach</div>
+                <div class="accordion-preview">Mobile-first wireframes with touch-friendly interactions...</div>
+              </div>
+              <div class="accordion-icon">▼</div>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-content">
+                <p>
+                  We started mobile-first, reimagining every interaction for touch. The seat selection interface was completely redesigned as a scrollable, zoomable map with clear visual hierarchy instead of trying to shrink the desktop experience.
+                </p>
+                <p>
+                  Every tap target was tested for ergonomic comfort. We used progressive disclosure to reduce cognitive load, showing users only what they needed at each step.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-section" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <div class="accordion-left">
+                <div class="accordion-number">04</div>
+                <div class="accordion-title">Technical Implementation</div>
+                <div class="accordion-preview">Responsive CSS Grid, SVG seat maps, progressive enhancement...</div>
+              </div>
+              <div class="accordion-icon">▼</div>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-content">
+                <p>
+                  Built with responsive CSS Grid (cutting-edge for 2013), optimized JavaScript for touch events, and progressive enhancement for older mobile browsers.
+                </p>
+                <p>
+                  The seat map used SVG for crisp rendering at any zoom level, with touch gesture support for pan and zoom. Payment integration leveraged device-native keyboards for optimal data entry.
+                </p>
+                <p><strong style="color: #C680FF;">Performance:</strong> Sub-2-second load on 3G, 60fps interactions, graceful degradation.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-section" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <div class="accordion-left">
+                <div class="accordion-number">05</div>
+                <div class="accordion-title">Results & Impact</div>
+                <div class="accordion-preview">15% conversion lift, 23% mobile revenue, industry awards...</div>
+              </div>
+              <div class="accordion-icon">▼</div>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-content">
+                <p>
+                  <strong style="color: #fafafa;">+15% mobile conversion rate</strong> within the first quarter. Mobile bookings grew from under 5% to 23% of total revenue in 12 months.
+                </p>
+                <p>
+                  Won Webby Award for Best Travel Website. Featured in design publications as a case study in mobile-first design. The responsive booking flow became Virgin America's competitive advantage.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-section" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <div class="accordion-left">
+                <div class="accordion-number">06</div>
+                <div class="accordion-title">Client Testimonial</div>
+                <div class="accordion-preview">VP Digital Experience shares impact on company strategy...</div>
+              </div>
+              <div class="accordion-icon">▼</div>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-content">
+                <div style="background: rgba(198, 128, 255, 0.1); border-left: 3px solid #C680FF; padding: 20px; border-radius: 8px; font-style: italic; color: #fafafa; margin-bottom: 16px;">
+                  "Michael's mobile-first approach transformed our digital strategy. The responsive booking flow didn't just improve metrics — it changed how our entire organization thinks about digital product development."
+                </div>
+                <p style="font-size: 14px;">
+                  — Sarah Johnson, VP Digital Experience, Virgin America
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 3: Project Filtering - Compact Dropdown -->
+    <section class="feature-section">
+      <div class="demo-container">
+        <div class="demo-label">Feature 3: Project Filtering ↓</div>
+        <h2 class="feature-title">Compact Dropdown Multi-Select</h2>
+        <p class="feature-desc">
+          Space-efficient dropdown with checkbox filters. Badge shows active filter count. "Apply Filters" button for control. Clear all option. Familiar pattern, works great on mobile.
+        </p>
+
+        <div class="filter-bar">
+          <div class="result-info">Showing <strong>15 projects</strong></div>
+
+          <div class="filter-dropdown-wrapper" id="filter-dropdown">
+            <button class="filter-trigger" onclick="toggleFilterDropdown()">
+              <span>Filter Projects</span>
+              <span class="filter-badge">2</span>
+              <span class="dropdown-icon">▼</span>
+            </button>
+
+            <div class="filter-dropdown">
+              <div class="dropdown-header">
+                <div class="dropdown-title">Filter Options</div>
+                <div class="clear-button" onclick="clearFilters()">Clear all</div>
+              </div>
+
+              <div class="dropdown-body">
+                <div class="filter-group">
+                  <div class="filter-group-title">Technology</div>
+                  <div class="checkbox-option">
+                    <div class="checkbox checked"></div>
+                    <div class="checkbox-label">AI/ML</div>
+                    <div class="checkbox-count">5</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox checked"></div>
+                    <div class="checkbox-label">React</div>
+                    <div class="checkbox-count">8</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">TypeScript</div>
+                    <div class="checkbox-count">12</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Mobile</div>
+                    <div class="checkbox-count">4</div>
+                  </div>
+                </div>
+
+                <div class="filter-group">
+                  <div class="filter-group-title">Project Type</div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Web App</div>
+                    <div class="checkbox-count">10</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Mobile App</div>
+                    <div class="checkbox-count">4</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">API/Tool</div>
+                    <div class="checkbox-count">3</div>
+                  </div>
+                </div>
+
+                <div class="filter-group">
+                  <div class="filter-group-title">Skills</div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Full-Stack</div>
+                    <div class="checkbox-count">8</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">UX/UI Design</div>
+                    <div class="checkbox-count">6</div>
+                  </div>
+                  <div class="checkbox-option">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">AI Engineering</div>
+                    <div class="checkbox-count">5</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dropdown-footer">
+                <button class="apply-button" onclick="applyFilters()">Apply Filters</button>
+                <button class="cancel-button" onclick="toggleFilterDropdown()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="projects-grid">
+          <div class="grid-project-card">
+            <div class="grid-project-image">AI Project</div>
+            <div class="grid-project-content">
+              <div class="grid-project-title">AI Research Agent</div>
+              <div class="grid-project-desc">Autonomous research assistant</div>
+              <div class="project-tags">
+                <span class="tag">AI/ML</span>
+                <span class="tag">React</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-project-card">
+            <div class="grid-project-image">AI Project</div>
+            <div class="grid-project-content">
+              <div class="grid-project-title">Post Pal</div>
+              <div class="grid-project-desc">Social media AI tool</div>
+              <div class="project-tags">
+                <span class="tag">AI/ML</span>
+                <span class="tag">Next.js</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-project-card">
+            <div class="grid-project-image">AI Project</div>
+            <div class="grid-project-content">
+              <div class="grid-project-title">Karuna Gatton</div>
+              <div class="grid-project-desc">AI music website</div>
+              <div class="project-tags">
+                <span class="tag">AI/ML</span>
+                <span class="tag">React</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analysis -->
+    <div class="analysis">
+      <h2>Concept Analysis</h2>
+
+      <h3>Strategic Approach</h3>
+      <p>
+        This concept prioritizes <strong>speed and scannability</strong> above all else. Every feature is designed for users who are evaluating many candidates and need to assess quickly. Low cognitive load, familiar patterns, progressive disclosure.
+      </p>
+
+      <h3 class="pros">Strengths</h3>
+      <ul class="pros">
+        <li><strong>Fastest to Scan:</strong> Collapsed sections let users see overview at a glance</li>
+        <li><strong>Lowest Friction:</strong> No modals, no page navigation — everything expands inline</li>
+        <li><strong>Space Efficient:</strong> Works perfectly on mobile with minimal scrolling</li>
+        <li><strong>Clear Hierarchy:</strong> Metrics and key info always visible, details on demand</li>
+        <li><strong>Easy to Share:</strong> URLs can link to expanded sections (great for recruiters)</li>
+        <li><strong>Simple Implementation:</strong> Basic accordion/dropdown patterns, no complex animations</li>
+      </ul>
+
+      <h3 class="cons">Tradeoffs</h3>
+      <ul class="cons">
+        <li><strong>Less Engaging:</strong> Prioritizes function over visual impact</li>
+        <li><strong>Feels Utilitarian:</strong> More resume than portfolio — lacks "wow factor"</li>
+        <li><strong>Requires Good Headers:</strong> Collapsed sections need compelling preview text</li>
+        <li><strong>Demo Feels Hidden:</strong> "View Demo" button could be overlooked</li>
+        <li><strong>Less Personality:</strong> Straightforward approach doesn't convey creative flair</li>
+      </ul>
+
+      <h3>Best Use Cases</h3>
+      <ul>
+        <li><strong>HR Recruiters:</strong> Non-technical people who need clear, scannable information</li>
+        <li><strong>Busy Decision-Makers:</strong> CTOs with limited time, comparing many candidates</li>
+        <li><strong>Mobile Users:</strong> Professionals reviewing portfolios on phone during commute</li>
+        <li><strong>High-Volume Screening:</strong> When portfolio is one of 50+ being evaluated</li>
+      </ul>
+
+      <h3>Implementation Notes</h3>
+      <ul>
+        <li>Use CSS max-height transitions for smooth accordion animations</li>
+        <li>Add URL hash support (#section-1) for deep linking to expanded sections</li>
+        <li>Store demo type preference in sessionStorage for consistency</li>
+        <li>Use click-outside handler to close filter dropdown</li>
+        <li>Add keyboard support (Enter to expand, Escape to collapse)</li>
+        <li>Consider adding "Expand All" state persistence</li>
+        <li>Optimize for accessibility — ARIA labels, focus management</li>
+      </ul>
+
+      <div class="note">
+        <strong>Design Principle: Progressive Disclosure Over Information Density</strong><br>
+        This concept embraces the idea that not everyone needs to see everything. Give people the overview, let them choose what to explore. This reduces cognitive load and makes assessment faster for busy people while still allowing deep dives when needed.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleProject(id) {
+      const project = document.getElementById(id);
+      project.classList.toggle('expanded');
+    }
+
+    function toggleAccordion(element) {
+      element.classList.toggle('expanded');
+    }
+
+    function expandAllSections() {
+      const sections = document.querySelectorAll('.accordion-section');
+      sections.forEach(section => {
+        section.classList.add('expanded');
+      });
+    }
+
+    function toggleFilterDropdown() {
+      const wrapper = document.getElementById('filter-dropdown');
+      wrapper.classList.toggle('open');
+    }
+
+    function clearFilters() {
+      // Clear all checkboxes
+      document.querySelectorAll('.checkbox').forEach(cb => {
+        cb.classList.remove('checked');
+      });
+    }
+
+    function applyFilters() {
+      toggleFilterDropdown();
+      // Apply filter logic here
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('filter-dropdown');
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

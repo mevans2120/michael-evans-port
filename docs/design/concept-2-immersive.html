@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Immersive Storyteller - Portfolio Enhancement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #050510;
+      color: #fafafa;
+      padding: 60px 40px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 400;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #C680FF, #fafafa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #9ca3af;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .concept-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .meta-item {
+      background: #1a1a2e;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      border: 1px solid #2d2d3d;
+    }
+
+    .meta-label {
+      color: #6b7280;
+      margin-right: 8px;
+    }
+
+    .meta-value {
+      color: #C680FF;
+      font-weight: 500;
+    }
+
+    /* Demo Container */
+    .demo-container {
+      background: #0d0d15;
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid #2d2d3d;
+      margin-bottom: 60px;
+    }
+
+    .demo-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    /* Feature Sections */
+    .feature-section {
+      margin-bottom: 80px;
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 12px;
+      color: #fafafa;
+    }
+
+    .feature-desc {
+      font-size: 16px;
+      color: #9ca3af;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* 1. INTERACTIVE DEMOS - Full-Screen Overlay */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .project-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #2d2d3d;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: #C680FF;
+      box-shadow: 0 20px 60px rgba(198, 128, 255, 0.3);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #2d2d3d, #1a1a2e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 16, 0.8) 100%);
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 64px;
+      height: 64px;
+      background: rgba(198, 128, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 200ms;
+    }
+
+    .project-card:hover .play-overlay {
+      transform: translate(-50%, -50%) scale(1.2);
+      background: #C680FF;
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-left: 20px solid #0d0d15;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 4px;
+    }
+
+    .project-content {
+      padding: 24px;
+    }
+
+    .project-title {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #fafafa;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      background: rgba(198, 128, 255, 0.15);
+      color: #C680FF;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid rgba(198, 128, 255, 0.3);
+    }
+
+    /* Full-Screen Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 16, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1000px;
+      max-height: 90vh;
+      background: #0d0d15;
+      border-radius: 16px;
+      border: 1px solid #2d2d3d;
+      overflow: hidden;
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid #2d2d3d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #fafafa;
+    }
+
+    .close-button {
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border: 1px solid #2d2d3d;
+      border-radius: 8px;
+      color: #9ca3af;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 200ms;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-button:hover {
+      background: rgba(198, 128, 255, 0.1);
+      border-color: #C680FF;
+      color: #C680FF;
+    }
+
+    .modal-body {
+      padding: 32px;
+      overflow-y: auto;
+      max-height: calc(90vh - 100px);
+    }
+
+    .video-player {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-placeholder {
+      text-align: center;
+      color: #6b7280;
+    }
+
+    .demo-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #2d2d3d;
+      margin-bottom: 24px;
+    }
+
+    .demo-tab {
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      color: #9ca3af;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      transition: all 200ms;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .demo-tab:hover {
+      color: #fafafa;
+    }
+
+    .demo-tab.active {
+      color: #C680FF;
+    }
+
+    .demo-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #C680FF;
+    }
+
+    /* 2. CASE STUDY - Split-Screen Layout */
+    .case-study-container {
+      background: #0d0d15;
+      border-radius: 12px;
+      border: 1px solid #2d2d3d;
+      overflow: hidden;
+      min-height: 600px;
+    }
+
+    .split-screen {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .split-left {
+      position: sticky;
+      top: 0;
+      height: 600px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .split-visual {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2d2d3d, #1a1a2e);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .split-visual::before {
+      content: attr(data-section);
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 12px;
+      color: #C680FF;
+      background: rgba(198, 128, 255, 0.1);
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(198, 128, 255, 0.3);
+    }
+
+    .split-right {
+      padding: 60px 40px;
+      background: #0d0d15;
+    }
+
+    .case-section {
+      margin-bottom: 80px;
+      opacity: 0.4;
+      transition: opacity 0.3s;
+    }
+
+    .case-section.active {
+      opacity: 1;
+    }
+
+    .section-number {
+      font-size: 14px;
+      color: #C680FF;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      color: #fafafa;
+    }
+
+    .section-content {
+      font-size: 15px;
+      color: #9ca3af;
+      line-height: 1.7;
+    }
+
+    /* 3. PROJECT FILTERING - Sidebar Faceted */
+    .filter-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .filter-sidebar {
+      position: sticky;
+      top: 20px;
+      background: #0d0d15;
+      border: 1px solid #2d2d3d;
+      border-radius: 12px;
+      padding: 24px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #2d2d3d;
+    }
+
+    .filter-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fafafa;
+    }
+
+    .clear-filters {
+      font-size: 12px;
+      color: #C680FF;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color 200ms;
+    }
+
+    .clear-filters:hover {
+      color: #d49fff;
+    }
+
+    .filter-group {
+      margin-bottom: 24px;
+    }
+
+    .filter-group-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fafafa;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: all 200ms;
+    }
+
+    .filter-option:hover {
+      color: #C680FF;
+    }
+
+    .checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #2d2d3d;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 200ms;
+    }
+
+    .filter-option:hover .checkbox {
+      border-color: #C680FF;
+    }
+
+    .checkbox.checked {
+      background: #C680FF;
+      border-color: #C680FF;
+    }
+
+    .checkbox.checked::after {
+      content: '✓';
+      color: #0d0d15;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .filter-label {
+      font-size: 14px;
+      color: #9ca3af;
+      flex: 1;
+    }
+
+    .filter-count {
+      font-size: 12px;
+      color: #6b7280;
+      background: rgba(198, 128, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .result-count {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+
+    /* Analysis Section */
+    .analysis {
+      background: #1a1a2e;
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #2d2d3d;
+      margin-top: 60px;
+    }
+
+    .analysis h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 24px;
+      color: #fafafa;
+    }
+
+    .analysis h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: #C680FF;
+    }
+
+    .analysis p {
+      color: #9ca3af;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .analysis ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .analysis li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 12px;
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .analysis li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #C680FF;
+    }
+
+    .pros li::before { content: '✓'; color: #10b981; }
+    .cons li::before { content: '✗'; color: #ef4444; }
+
+    .note {
+      background: rgba(198, 128, 255, 0.1);
+      border-left: 3px solid #C680FF;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 24px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .note strong {
+      color: #C680FF;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .split-screen {
+        grid-template-columns: 1fr;
+      }
+
+      .split-left {
+        position: relative;
+        height: 300px;
+      }
+
+      .filter-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-sidebar {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Concept 2: Immersive Storyteller</h1>
+      <p class="subtitle">Cinematic, engaging, memorable experience for creative audiences</p>
+
+      <div class="concept-meta">
+        <div class="meta-item">
+          <span class="meta-label">Approach:</span>
+          <span class="meta-value">Cinematic & Visual-First</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Best For:</span>
+          <span class="meta-value">Agency Partners, Creative Directors</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Implementation:</span>
+          <span class="meta-value">Complex (Modals, Scroll Effects)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE 1: Interactive Demos - Full-Screen Overlay -->
+    <section class="feature-section">
+      <div class="demo-container">
+        <div class="demo-label">Feature 1: Interactive Project Demos ↓</div>
+        <h2 class="feature-title">Full-Screen Cinematic Overlay</h2>
+        <p class="feature-desc">
+          Click any project card to launch an immersive full-screen experience. Video plays automatically, with tabs below for code and live demo access. Creates a memorable, cinematic impression.
+        </p>
+
+        <div class="project-grid">
+          <div class="project-card" onclick="openModal('ai-agent')">
+            <div class="project-image">
+              <div class="play-overlay">
+                <div class="play-icon"></div>
+              </div>
+              <div style="z-index: 1; color: #6b7280;">Project Visual</div>
+            </div>
+            <div class="project-content">
+              <div class="project-title">AI Research Agent</div>
+              <div class="project-desc">Autonomous research assistant powered by LLMs and RAG</div>
+              <div class="project-tags">
+                <span class="tag">AI/ML</span>
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="openModal('post-pal')">
+            <div class="project-image">
+              <div class="play-overlay">
+                <div class="play-icon"></div>
+              </div>
+              <div style="z-index: 1; color: #6b7280;">Project Visual</div>
+            </div>
+            <div class="project-content">
+              <div class="project-title">Post Pal</div>
+              <div class="project-desc">AI-powered social media content generator</div>
+              <div class="project-tags">
+                <span class="tag">AI/ML</span>
+                <span class="tag">Next.js</span>
+                <span class="tag">OpenAI</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="openModal('before-launcher')">
+            <div class="project-image">
+              <div class="play-overlay">
+                <div class="play-icon"></div>
+              </div>
+              <div style="z-index: 1; color: #6b7280;">Project Visual</div>
+            </div>
+            <div class="project-content">
+              <div class="project-title">Before Launcher</div>
+              <div class="project-desc">Minimalist Android launcher for focus and productivity</div>
+              <div class="project-tags">
+                <span class="tag">Mobile</span>
+                <span class="tag">Android</span>
+                <span class="tag">Kotlin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-title">AI Research Agent</div>
+          <button class="close-button" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="video-player">
+            <div class="video-placeholder">
+              <div style="font-size: 48px; margin-bottom: 12px;">▶</div>
+              <div>Video auto-plays on open</div>
+              <div style="font-size: 13px; margin-top: 8px;">2:30 walkthrough</div>
+            </div>
+          </div>
+
+          <div class="demo-tabs">
+            <button class="demo-tab active">Video Walkthrough</button>
+            <button class="demo-tab">Live Demo</button>
+            <button class="demo-tab">View Code</button>
+          </div>
+
+          <div style="color: #9ca3af; font-size: 14px; line-height: 1.6;">
+            <p style="margin-bottom: 16px;">
+              <strong style="color: #fafafa;">Autonomous research assistant</strong> that gathers, synthesizes, and presents information from multiple sources using advanced language models.
+            </p>
+            <p>
+              Built with OpenAI GPT-4, vector embeddings for semantic search, and a React frontend. Demonstrates RAG (Retrieval Augmented Generation) architecture and agentic workflows.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE 2: Case Study - Split-Screen Journey -->
+    <section class="feature-section">
+      <div class="demo-container">
+        <div class="demo-label">Feature 2: Case Study Format ↓</div>
+        <h2 class="feature-title">Split-Screen Scroll Journey</h2>
+        <p class="feature-desc">
+          Left side: Fixed visuals that change as you scroll. Right side: Story narrative. Creates cinematic parallax effect and visual engagement. Images relate directly to the section you're reading.
+        </p>
+
+        <div class="case-study-container">
+          <div class="split-screen">
+            <div class="split-left">
+              <div class="split-visual" data-section="Section 1" id="visual">
+                Hero Visual<br>
+                <span style="font-size: 12px;">(Changes with scroll)</span>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="case-section active" data-visual="Hero Visual">
+                <div class="section-number">01</div>
+                <h3 class="section-title">Project Overview</h3>
+                <div class="section-content">
+                  <p style="margin-bottom: 16px;">
+                    <strong style="color: #fafafa;">Virgin America Digital Transformation</strong> — The challenge was to create the airline industry's first fully responsive website at a time when mobile booking was considered impossible.
+                  </p>
+                  <p style="margin-bottom: 16px;">
+                    Working with Virgin America's in-house team, I led the UX strategy and interaction design for a groundbreaking responsive booking experience.
+                  </p>
+                  <p>
+                    <strong style="color: #C680FF;">Impact:</strong> 15% increase in mobile conversions, industry awards, and became the blueprint for airline digital experiences.
+                  </p>
+                </div>
+              </div>
+
+              <div class="case-section" data-visual="Problem Context">
+                <div class="section-number">02</div>
+                <h3 class="section-title">The Problem</h3>
+                <div class="section-content">
+                  <p style="margin-bottom: 16px;">
+                    In 2013, mobile traffic was surging but airline booking flows were still desktop-only. Users had to pinch, zoom, and struggle through tiny forms on mobile devices.
+                  </p>
+                  <p style="margin-bottom: 16px;">
+                    <strong style="color: #fafafa;">Key Challenges:</strong>
+                  </p>
+                  <ul style="list-style: none; padding-left: 0;">
+                    <li style="padding-left: 24px; position: relative; margin-bottom: 8px;">
+                      <span style="position: absolute; left: 0; color: #C680FF;">•</span>
+                      Complex multi-step booking flow with 7+ screens
+                    </li>
+                    <li style="padding-left: 24px; position: relative; margin-bottom: 8px;">
+                      <span style="position: absolute; left: 0; color: #C680FF;">•</span>
+                      Seat selection interface with 150+ interactive elements
+                    </li>
+                    <li style="padding-left: 24px; position: relative; margin-bottom: 8px;">
+                      <span style="position: absolute; left: 0; color: #C680FF;">•</span>
+                      Payment security concerns on mobile browsers
+                    </li>
+                    <li style="padding-left: 24px; position: relative; margin-bottom: 8px;">
+                      <span style="position: absolute; left: 0; color: #C680FF;">•</span>
+                      Stakeholder skepticism about mobile booking viability
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="case-section" data-visual="Design Process">
+                <div class="section-number">03</div>
+                <h3 class="section-title">Design Approach</h3>
+                <div class="section-content">
+                  <p style="margin-bottom: 16px;">
+                    We started with mobile-first wireframes, iterating on touch-friendly interactions and progressive disclosure patterns. Every tap target was tested to ensure ergonomic comfort.
+                  </p>
+                  <p style="margin-bottom: 16px;">
+                    The seat selection interface was completely reimagined — instead of a miniature desktop grid, we created a scrollable, zoomable seat map with clear visual hierarchy.
+                  </p>
+                  <p>
+                    <strong style="color: #fafafa;">Design Principles:</strong> Touch-first interactions, progressive disclosure, clear visual feedback, forgiving error handling.
+                  </p>
+                </div>
+              </div>
+
+              <div class="case-section" data-visual="Technical Implementation">
+                <div class="section-number">04</div>
+                <h3 class="section-title">Technical Execution</h3>
+                <div class="section-content">
+                  <p style="margin-bottom: 16px;">
+                    Built with responsive CSS Grid (pioneering for 2013), optimized JavaScript for touch events, and progressive enhancement for older mobile browsers.
+                  </p>
+                  <p style="margin-bottom: 16px;">
+                    The seat map used SVG for sharp rendering at any zoom level, with touch gesture support for pan and zoom. Payment integration used device-native keyboards for optimal data entry.
+                  </p>
+                  <p>
+                    <strong style="color: #C680FF;">Performance:</strong> Page load under 2 seconds on 3G, 60fps interactions, graceful degradation for older devices.
+                  </p>
+                </div>
+              </div>
+
+              <div class="case-section" data-visual="Results & Impact">
+                <div class="section-number">05</div>
+                <h3 class="section-title">Results</h3>
+                <div class="section-content">
+                  <p style="margin-bottom: 16px;">
+                    <strong style="color: #fafafa;">15% increase</strong> in mobile conversion rate within first quarter. Mobile bookings went from <5% to 23% of total revenue in 12 months.
+                  </p>
+                  <p style="margin-bottom: 16px;">
+                    Won Webby Award for Best Travel Website and was featured in multiple design publications as a case study in mobile-first design.
+                  </p>
+                  <p>
+                    The responsive booking flow became Virgin America's competitive advantage and influenced the entire airline industry's approach to mobile.
+                  </p>
+                </div>
+              </div>
+
+              <div class="case-section" data-visual="Client Testimonial">
+                <div class="section-number">06</div>
+                <h3 class="section-title">Testimonial</h3>
+                <div class="section-content">
+                  <div style="background: rgba(198, 128, 255, 0.1); border-left: 3px solid #C680FF; padding: 20px; border-radius: 8px; font-style: italic; color: #fafafa;">
+                    "Michael's mobile-first approach transformed our digital strategy. The responsive booking flow didn't just improve metrics — it changed how our entire organization thinks about digital product development."
+                  </div>
+                  <p style="margin-top: 16px; font-size: 14px; color: #9ca3af;">
+                    — Sarah Johnson, VP Digital Experience, Virgin America
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 3: Project Filtering - Sidebar Faceted Search -->
+    <section class="feature-section">
+      <div class="demo-container">
+        <div class="demo-label">Feature 3: Project Filtering ↓</div>
+        <h2 class="feature-title">Sidebar Faceted Search</h2>
+        <p class="feature-desc">
+          Comprehensive filtering with multiple facets (technology, category, year). Sticky sidebar stays visible while scrolling. Great for power users who want precise control over what they see.
+        </p>
+
+        <div class="filter-layout">
+          <aside class="filter-sidebar">
+            <div class="filter-header">
+              <div class="filter-title">Filters</div>
+              <div class="clear-filters">Clear all</div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Technology</div>
+              <div class="filter-option">
+                <div class="checkbox checked"></div>
+                <div class="filter-label">AI/ML</div>
+                <div class="filter-count">5</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">React</div>
+                <div class="filter-count">8</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">TypeScript</div>
+                <div class="filter-count">12</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">Mobile</div>
+                <div class="filter-count">4</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">Python</div>
+                <div class="filter-count">6</div>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Project Type</div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">Web App</div>
+                <div class="filter-count">10</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">Mobile App</div>
+                <div class="filter-count">4</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">API/Backend</div>
+                <div class="filter-count">3</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">Design System</div>
+                <div class="filter-count">2</div>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Year</div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">2025</div>
+                <div class="filter-count">3</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">2024</div>
+                <div class="filter-count">7</div>
+              </div>
+              <div class="filter-option">
+                <div class="checkbox"></div>
+                <div class="filter-label">2023</div>
+                <div class="filter-count">5</div>
+              </div>
+            </div>
+          </aside>
+
+          <div>
+            <div class="result-count">Showing 5 of 15 projects</div>
+            <div class="projects-grid">
+              <div class="project-card">
+                <div class="project-image">
+                  <div style="z-index: 1; color: #6b7280;">AI Project</div>
+                </div>
+                <div class="project-content">
+                  <div class="project-title">AI Research Agent</div>
+                  <div class="project-desc">Autonomous research assistant</div>
+                  <div class="project-tags">
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">React</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <div class="project-image">
+                  <div style="z-index: 1; color: #6b7280;">AI Project</div>
+                </div>
+                <div class="project-content">
+                  <div class="project-title">Post Pal</div>
+                  <div class="project-desc">Social media AI generator</div>
+                  <div class="project-tags">
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">Next.js</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <div class="project-image">
+                  <div style="z-index: 1; color: #6b7280;">AI Project</div>
+                </div>
+                <div class="project-content">
+                  <div class="project-title">Karuna Gatton</div>
+                  <div class="project-desc">AI music website generator</div>
+                  <div class="project-tags">
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">GPT-4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analysis -->
+    <div class="analysis">
+      <h2>Concept Analysis</h2>
+
+      <h3>Strategic Approach</h3>
+      <p>
+        This concept prioritizes <strong>visual impact and emotional engagement</strong>. Every interaction is designed to feel cinematic and memorable. The full-screen overlay creates a "wow moment," the split-screen case study feels like reading a magazine, and the sidebar filters feel sophisticated.
+      </p>
+
+      <h3 class="pros">Strengths</h3>
+      <ul class="pros">
+        <li><strong>Maximum Engagement:</strong> Immersive full-screen demos create memorable first impressions</li>
+        <li><strong>Shows Personality:</strong> Design thinking and process shine through visual storytelling</li>
+        <li><strong>Visually Impressive:</strong> Parallax effects, animations, cinematic feel stands out</li>
+        <li><strong>Flexible Content:</strong> Works even with partial demos — video can be placeholder</li>
+        <li><strong>Great Storytelling:</strong> Split-screen connects visuals to narrative seamlessly</li>
+        <li><strong>Comprehensive Filtering:</strong> Sidebar accommodates many filter options</li>
+      </ul>
+
+      <h3 class="cons">Tradeoffs</h3>
+      <ul class="cons">
+        <li><strong>Higher Friction:</strong> Requires click to see demos (not immediate like tabs)</li>
+        <li><strong>More Complex:</strong> Modals, scroll effects, and state management are technically demanding</li>
+        <li><strong>Longer to Scan:</strong> Immersive means more time per project (not ideal for recruiters)</li>
+        <li><strong>Requires Visuals:</strong> Needs high-quality images/videos to look good</li>
+        <li><strong>Mobile Challenges:</strong> Full-screen modals and split-screen less optimal on mobile</li>
+      </ul>
+
+      <h3>Best Use Cases</h3>
+      <ul>
+        <li><strong>Agency Partners:</strong> Creative collaborators who value design process and personality</li>
+        <li><strong>Design-Forward Clients:</strong> Companies that care about visual sophistication</li>
+        <li><strong>Memorable Impression:</strong> When you want to be the portfolio they remember</li>
+        <li><strong>High-Quality Visuals:</strong> When you have great project photography and videos</li>
+      </ul>
+
+      <h3>Implementation Notes</h3>
+      <ul>
+        <li>Use React Portal for modal overlay to avoid z-index conflicts</li>
+        <li>Implement Intersection Observer for split-screen visual changes</li>
+        <li>Add ESC key handler and click-outside-to-close for modal</li>
+        <li>Optimize video loading (lazy load, compressed formats)</li>
+        <li>Consider reducing complexity on mobile (tabs instead of modal)</li>
+        <li>Use Framer Motion for modal entrance/exit animations</li>
+        <li>Sticky sidebar needs careful scroll handling on mobile</li>
+      </ul>
+
+      <div class="note">
+        <strong>Design Principle: Motion with Purpose</strong><br>
+        This concept uses animation and scroll effects to guide attention and create delight. The full-screen modal feels cinematic, the split-screen parallax creates depth, and the sidebar filters feel responsive. Every motion serves the story you're telling about your work.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(projectId) {
+      const modal = document.getElementById('modal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'unset';
+    }
+
+    // Simulate split-screen scroll effect
+    const sections = document.querySelectorAll('.case-section');
+    const visual = document.getElementById('visual');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Remove active class from all sections
+          sections.forEach(s => s.classList.remove('active'));
+          // Add to current section
+          entry.target.classList.add('active');
+          // Update visual
+          const visualText = entry.target.dataset.visual;
+          visual.textContent = visualText;
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '-40% 0px -40% 0px'
+    });
+
+    sections.forEach(section => observer.observe(section));
+
+    // ESC key to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
