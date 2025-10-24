@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refined Concept: Purple Modal - Michael Evans Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Your existing color palette */
+      --background: hsl(240 10% 3%);
+      --foreground: hsl(0 0% 98%);
+      --purple-accent: hsl(280 60% 60%);
+      --purple-light: hsl(280 100% 80%);
+      --card-bg: hsl(280 25% 12%);
+      --border: hsl(280 25% 20%);
+      --muted: hsl(215 15% 70%);
+      --gray-dark: hsl(240 10% 10%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', -apple-system, sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 80px;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--purple-light) 0%, var(--foreground) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-subtitle {
+      font-size: 20px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Section Headers */
+    h2 {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--foreground);
+      position: relative;
+      padding-bottom: 16px;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      border-radius: 2px;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      margin-bottom: 100px;
+    }
+
+    /* AI Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      opacity: 0;
+      transition: opacity 300ms;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--purple-accent);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-number {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .project-card h3 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 12px;
+    }
+
+    .project-card p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--purple-accent);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--purple-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .explore-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      border: none;
+      border-radius: 10px;
+      color: hsl(240 10% 3%);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 200ms;
+      margin-top: 8px;
+    }
+
+    .explore-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+    }
+
+    /* Full Screen Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 400ms;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: var(--gray-dark);
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      max-width: 900px;
+      max-height: 90vh;
+      width: 90%;
+      overflow-y: auto;
+      transform: scale(0.9) translateY(40px);
+      transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      padding: 40px 40px 30px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--gray-dark);
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-title {
+      font-size: 40px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .modal-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(168, 85, 247, 0.1);
+      border: 2px solid transparent;
+      color: var(--purple-light);
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 200ms;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 300;
+    }
+
+    .close-modal:hover {
+      background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      color: var(--background);
+      border-color: var(--purple-accent);
+    }
+
+    .modal-body {
+      padding: 40px;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .modal-section h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--purple-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .modal-section p {
+      color: var(--foreground);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tech-tag {
+      padding: 8px 16px;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--purple-light);
+      font-weight: 600;
+    }
+
+    .cta-modal {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      border: none;
+      border-radius: 12px;
+      color: var(--background);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 200ms;
+      margin-top: 20px;
+    }
+
+    .cta-modal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(168, 85, 247, 0.4);
+    }
+
+    /* Scroll-Snapped Case Study Sections */
+    .case-study-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      height: 700px;
+      position: relative;
+    }
+
+    .scroll-sections {
+      height: 100%;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .scroll-section {
+      height: 100%;
+      scroll-snap-align: start;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .scroll-section:nth-child(even) {
+      background: var(--gray-dark);
+    }
+
+    .section-number {
+      font-size: 140px;
+      font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--border);
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      line-height: 1;
+      opacity: 0.5;
+    }
+
+    .scroll-section h3 {
+      font-size: 52px;
+      font-weight: 800;
+      margin-bottom: 28px;
+      background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      max-width: 700px;
+      line-height: 1.2;
+    }
+
+    .scroll-section p {
+      font-size: 18px;
+      color: var(--foreground);
+      line-height: 1.8;
+      max-width: 650px;
+      margin-bottom: 18px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+      max-width: 750px;
+    }
+
+    .result-stat {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid var(--purple-accent);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 52px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--purple-accent);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--purple-light);
+      font-weight: 600;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* Annotation badges */
+    .annotation {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid var(--purple-accent);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--purple-light);
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 60px 24px;
+      }
+
+      .page-title {
+        font-size: 40px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scroll-section {
+        padding: 40px 30px;
+      }
+
+      .scroll-section h3 {
+        font-size: 36px;
+      }
+
+      .section-number {
+        font-size: 80px;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Refined Concept</h1>
+      <p class="page-subtitle">Modal Deep Dive + Scroll Journey with Your Purple Palette</p>
+    </div>
+
+    <!-- AI Projects Section -->
+    <div class="demo-section">
+      <h2>AI Projects</h2>
+      <p class="section-intro">
+        Clean, minimal cards. Click to open full-screen modal with complete project details.
+        <span class="annotation">Immersive focus mode</span>
+      </p>
+
+      <div class="projects-grid">
+        <!-- Project 1: Post Pal -->
+        <div class="project-card" data-project="postpal">
+          <div class="project-number">01</div>
+          <h3>Post Pal</h3>
+          <p>AI-powered social media content assistant for multi-platform scheduling and optimization.</p>
+          <div class="status-badge">Live</div>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Project 2: AI Research Agent -->
+        <div class="project-card" data-project="research">
+          <div class="project-number">02</div>
+          <h3>AI Research Agent</h3>
+          <p>Intelligent research automation with parallel execution and semantic filtering.</p>
+          <div class="status-badge" style="background: rgba(59, 130, 246, 0.15); border-color: #3b82f6; color: #93c5fd;">In Progress</div>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Project 3: Karuna Gatton -->
+        <div class="project-card" data-project="karuna">
+          <div class="project-number">03</div>
+          <h3>KarunaGatton.com</h3>
+          <p>Modern mystical website for spiritual healing services and shamanic practices.</p>
+          <div class="status-badge">Live</div>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Project 4: Department of Art -->
+        <div class="project-card" data-project="doa">
+          <div class="project-number">04</div>
+          <h3>DepartmentOfArt.com</h3>
+          <p>Lead generation site for production company using rapid AI development.</p>
+          <div class="status-badge" style="background: rgba(251, 191, 36, 0.15); border-color: #fbbf24; color: #fde047;">Coming Soon</div>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <p style="margin-top: 32px; color: var(--muted); font-size: 14px;">
+        <span class="annotation">Design Decision</span> Full-screen modal creates immersive focus. Users get complete context without navigation friction. Purple gradient highlights CTAs and key elements.
+      </p>
+    </div>
+
+    <!-- Case Study Section -->
+    <div class="demo-section">
+      <h2>Case Study Journey</h2>
+      <p class="section-intro">
+        Scroll-snapped sections create a presentation-like experience. Each section is a full-screen moment.
+        <span class="annotation">Cinematic narrative control</span>
+      </p>
+
+      <div class="case-study-container">
+        <div class="scroll-sections">
+          <!-- Section 1: Overview -->
+          <div class="scroll-section">
+            <span class="section-number">01</span>
+            <h3>Virgin America Responsive Redesign</h3>
+            <p>
+              In 2013, I led the UX design and front-end architecture for Virgin America's groundbreaking responsive website redesign.
+            </p>
+            <p>
+              No major airline had successfully implemented a mobile-first booking experience. We changed that.
+            </p>
+            <div class="scroll-hint">↓ Scroll to continue</div>
+          </div>
+
+          <!-- Section 2: Challenge -->
+          <div class="scroll-section">
+            <span class="section-number">02</span>
+            <h3>The Challenge</h3>
+            <p>
+              Airlines were notoriously slow to adopt modern web standards. Most booking flows required desktop computers and frustrated mobile users.
+            </p>
+            <p>
+              Conversion rates hovered below 2%, while mobile traffic grew 40% year-over-year with no mobile solution.
+            </p>
+            <p>
+              Virgin America needed to break industry patterns and create a delightful mobile experience.
+            </p>
+            <div class="scroll-hint">↓ Scroll to continue</div>
+          </div>
+
+          <!-- Section 3: Solution -->
+          <div class="scroll-section">
+            <span class="section-number">03</span>
+            <h3>The Solution</h3>
+            <p>
+              We designed a mobile-first responsive system that adapted seamlessly from 320px phones to 2560px desktops.
+            </p>
+            <p>
+              Key innovations: progressive disclosure for complex forms, gesture-based seat selection, real-time price updates that worked offline.
+            </p>
+            <p>
+              The entire booking flow could be completed on a smartphone with zero friction.
+            </p>
+            <div class="scroll-hint">↓ Scroll to results</div>
+          </div>
+
+          <!-- Section 4: Results -->
+          <div class="scroll-section">
+            <span class="section-number">04</span>
+            <h3>The Results</h3>
+            <div class="results-grid">
+              <div class="result-stat">
+                <div class="stat-number">+15%</div>
+                <div class="stat-label">Conversion Lift</div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-number">3x</div>
+                <div class="stat-label">Mobile Bookings</div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-number">40%</div>
+                <div class="stat-label">Mobile Traffic</div>
+              </div>
+            </div>
+            <p style="margin-top: 32px;">
+              The redesign won multiple industry awards including Webby Awards and became a case study taught at Stanford and MIT.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 32px; color: var(--muted); font-size: 14px;">
+        <span class="annotation">Design Decision</span> Scroll-snapped sections control pacing and create presentation-like narrative. Each section is a complete moment that gets full user attention.
+      </p>
+    </div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Post Pal</div>
+        <div class="modal-subtitle" id="modal-subtitle">AI-Powered Social Media Assistant</div>
+        <button class="close-modal" id="close-modal">×</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projectData = {
+      postpal: {
+        title: "Post Pal",
+        subtitle: "AI-Powered Social Media Assistant",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "An AI-powered social media content assistant that helps create, schedule, and optimize posts across multiple platforms with intelligent suggestions and real-time analytics. Built to reduce content creation time by 60% while maintaining brand voice consistency."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Next.js 15", "OpenAI GPT-4", "Tailwind CSS", "Vercel", "PostgreSQL", "Stripe"]
+          },
+          {
+            title: "Key Features",
+            content: "Multi-platform scheduling, AI content generation, performance analytics, brand voice consistency, automated hashtag suggestions, competitive analysis, and team collaboration tools."
+          },
+          {
+            title: "Impact & Results",
+            content: "Reduced content creation time by 60% for users. 500+ active users within first 3 months of launch. 4.8/5 average rating. Featured on Product Hunt and TechCrunch."
+          }
+        ]
+      },
+      research: {
+        title: "AI Research Agent",
+        subtitle: "Intelligent Research Automation",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "An intelligent research agent that scrapes websites, pursues multiple research questions simultaneously, and filters results for relevance using advanced AI capabilities. Designed for researchers, journalists, and analysts."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Python", "LangChain", "ChromaDB", "Claude API", "FastAPI", "React"]
+          },
+          {
+            title: "Key Features",
+            content: "Parallel research execution, intelligent source filtering, citation tracking, semantic search, automated report generation with citations, and export to multiple formats."
+          },
+          {
+            title: "Development Status",
+            content: "Core agent architecture complete. Currently building UI and refining research quality algorithms. Expected launch Q1 2025."
+          }
+        ]
+      },
+      karuna: {
+        title: "KarunaGatton.com",
+        subtitle: "Spiritual Healing & Shamanic Services",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "A modern mystical website for Karuna Gatton, a shaman offering spiritual healing services. The site balances clean, modern design with mystical and unique elements that reflect Karuna's brand."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Next.js", "Sanity CMS", "Tailwind CSS", "Framer Motion"]
+          },
+          {
+            title: "Key Features",
+            content: "Service bookings, blog with spiritual content, testimonials, meditation resources, and contact forms with email integration."
+          },
+          {
+            title: "Results",
+            content: "Live site with 200+ monthly visitors. Client reports 30% increase in booking inquiries since launch."
+          }
+        ]
+      },
+      doa: {
+        title: "DepartmentOfArt.com",
+        subtitle: "Production Company Lead Generation",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "A new website for the Department of Art production company based in Portland. Built rapidly using AI-assisted development to demonstrate modern web capabilities while staying on tight timeline and budget."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Next.js 15", "Sanity CMS", "Tailwind CSS", "Vercel"]
+          },
+          {
+            title: "Key Features",
+            content: "Portfolio showcase, project case studies, team profiles, contact and inquiry forms, blog for industry insights."
+          },
+          {
+            title: "Development Status",
+            content: "In development. Using AI tools to accelerate build time while maintaining high quality standards. Expected launch Q1 2025."
+          }
+        ]
+      }
+    };
+
+    // Modal functionality
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalTitle = document.getElementById('modal-title');
+    const modalSubtitle = document.getElementById('modal-subtitle');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function openModal(projectKey) {
+      const project = projectData[projectKey];
+      if (!project) return;
+
+      modalTitle.textContent = project.title;
+      modalSubtitle.textContent = project.subtitle;
+
+      let contentHTML = '<div class="modal-grid">';
+
+      project.sections.forEach((section, index) => {
+        if (index % 2 === 0 && index !== 0) {
+          contentHTML += '</div><div class="modal-grid">';
+        }
+
+        contentHTML += '<div class="modal-section">';
+        contentHTML += `<h4>${section.title}</h4>`;
+
+        if (section.content) {
+          contentHTML += `<p>${section.content}</p>`;
+        }
+
+        if (section.tech) {
+          contentHTML += '<div class="tech-tags">';
+          section.tech.forEach(tech => {
+            contentHTML += `<span class="tech-tag">${tech}</span>`;
+          });
+          contentHTML += '</div>';
+        }
+
+        contentHTML += '</div>';
+      });
+
+      contentHTML += '</div>';
+      contentHTML += '<button class="cta-modal">View Live Project →</button>';
+
+      modalBody.innerHTML = contentHTML;
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Add click handlers
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const projectKey = card.getAttribute('data-project');
+        openModal(projectKey);
+      });
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // Prevent modal content clicks from closing
+    document.querySelector('.modal-content').addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

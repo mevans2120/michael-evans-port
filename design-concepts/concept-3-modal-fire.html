@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Modal Fire - Michael Evans Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', -apple-system, sans-serif;
+      background: #18181b;
+      color: #e5e5e5;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    /* Concept Header */
+    .concept-header {
+      background: linear-gradient(135deg, #09090b 0%, #18181b 100%);
+      border: 1px solid #3f3f46;
+      border-radius: 20px;
+      padding: 50px;
+      margin-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .concept-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 60%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+      border-radius: 20px;
+    }
+
+    .concept-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 2;
+    }
+
+    .concept-subtitle {
+      font-size: 18px;
+      color: #a1a1aa;
+      margin-bottom: 24px;
+      font-weight: 600;
+      position: relative;
+      z-index: 2;
+    }
+
+    .concept-description {
+      color: #d4d4d8;
+      font-size: 15px;
+      line-height: 1.9;
+      position: relative;
+      z-index: 2;
+    }
+
+    .concept-description p {
+      margin-bottom: 14px;
+    }
+
+    /* Section Headers */
+    h2 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #e5e5e5;
+      position: relative;
+      padding-bottom: 16px;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #f97316 0%, #dc2626 100%);
+      border-radius: 2px;
+    }
+
+    .section-intro {
+      color: #71717a;
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      margin-bottom: 80px;
+    }
+
+    /* AI Projects - Card Grid */
+    .projects-masonry {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card-minimal {
+      background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
+      border: 1px solid #3f3f46;
+      border-radius: 16px;
+      padding: 32px;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card-minimal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f97316 0%, #dc2626 100%);
+      opacity: 0;
+      transition: opacity 300ms;
+    }
+
+    .project-card-minimal:hover {
+      transform: translateY(-8px);
+      border-color: #71717a;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-card-minimal:hover::before {
+      opacity: 1;
+    }
+
+    .project-number {
+      font-size: 14px;
+      font-weight: 700;
+      color: #71717a;
+      margin-bottom: 12px;
+    }
+
+    .project-card-minimal h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #e5e5e5;
+      margin-bottom: 12px;
+    }
+
+    .project-card-minimal p {
+      font-size: 14px;
+      color: #a1a1aa;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .explore-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 200ms;
+    }
+
+    .explore-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(249, 115, 22, 0.4);
+    }
+
+    /* Full Screen Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 400ms;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
+      border: 2px solid #3f3f46;
+      border-radius: 24px;
+      max-width: 900px;
+      max-height: 90vh;
+      width: 90%;
+      overflow-y: auto;
+      transform: scale(0.9) translateY(40px);
+      transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      padding: 40px 40px 30px;
+      border-bottom: 1px solid #3f3f46;
+      position: sticky;
+      top: 0;
+      background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-title {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .modal-subtitle {
+      font-size: 16px;
+      color: #a1a1aa;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(249, 115, 22, 0.1);
+      border: 2px solid transparent;
+      color: #f97316;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 200ms;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-modal:hover {
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      color: white;
+      border-color: #f97316;
+    }
+
+    .modal-body {
+      padding: 40px;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .modal-section h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f97316;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .modal-section p {
+      color: #d4d4d8;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .tech-tag-fire {
+      padding: 8px 16px;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #f97316;
+      font-weight: 600;
+    }
+
+    .cta-modal {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 200ms;
+      margin-top: 20px;
+    }
+
+    .cta-modal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(249, 115, 22, 0.4);
+    }
+
+    /* Animated Scroll Sections for Case Study */
+    .scroll-section-container {
+      background: #09090b;
+      border: 1px solid #3f3f46;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 700px;
+      position: relative;
+    }
+
+    .scroll-sections {
+      height: 100%;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .scroll-section-full {
+      height: 100%;
+      scroll-snap-align: start;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+      border-bottom: 1px solid #3f3f46;
+    }
+
+    .scroll-section-full:nth-child(odd) {
+      background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
+    }
+
+    .section-number {
+      font-size: 120px;
+      font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 2px #3f3f46;
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      line-height: 1;
+    }
+
+    .scroll-section-full h3 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      max-width: 600px;
+    }
+
+    .scroll-section-full p {
+      font-size: 18px;
+      color: #d4d4d8;
+      line-height: 1.8;
+      max-width: 600px;
+      margin-bottom: 16px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+      max-width: 700px;
+    }
+
+    .result-stat {
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 48px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #a1a1aa;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #f97316;
+      font-weight: 600;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* Annotation badges */
+    .annotation {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 8px;
+      font-size: 12px;
+      color: #f97316;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Concept Header -->
+    <div class="concept-header">
+      <div class="concept-title">Concept 3: Monochrome Fire</div>
+      <div class="concept-subtitle">Immersive Modal + Scroll-Triggered Animations</div>
+      <div class="concept-description">
+        <p><strong>Approach:</strong> Minimalist card grid for AI projects. Clicking opens full-screen modal with rich, immersive details. Case studies use scroll-snapped sections with animated transitions, like a presentation deck.</p>
+        <p style="margin-top: 12px;"><strong>Aesthetic:</strong> Monochrome palette (grays/zinc) with single fire gradient accent (orange-red). Bold Manrope typography. Clean, confident, minimal.</p>
+        <p style="margin-top: 12px;"><strong>Best for:</strong> Portfolios that want to make a bold statement. Design-forward professionals who value restraint and impact over decoration.</p>
+      </div>
+    </div>
+
+    <!-- AI Projects Demo -->
+    <div class="demo-section">
+      <h2>AI Projects</h2>
+      <p class="section-intro">
+        Clean, minimal cards. Click to open full-screen modal with complete project details.
+        <span class="annotation">Immersive focus mode</span>
+      </p>
+
+      <div class="projects-masonry">
+        <!-- Project 1 -->
+        <div class="project-card-minimal" data-project="postpal">
+          <div class="project-number">01</div>
+          <h3>Post Pal</h3>
+          <p>AI-powered social media content assistant for multi-platform scheduling and optimization.</p>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card-minimal" data-project="research">
+          <div class="project-number">02</div>
+          <h3>AI Research Agent</h3>
+          <p>Intelligent research automation with parallel execution and semantic filtering.</p>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card-minimal" data-project="karuna">
+          <div class="project-number">03</div>
+          <h3>KarunaGatton.com</h3>
+          <p>Modern mystical website for spiritual healing services and shamanic practices.</p>
+          <button class="explore-button">
+            Explore Project
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <p style="margin-top: 32px; color: #71717a; font-size: 14px;">
+        <span class="annotation">Design Decision</span> Full-screen modal creates immersive focus. Users get complete context without navigation friction. Monochrome palette puts focus on content, fire gradient draws attention to CTAs.
+      </p>
+    </div>
+
+    <!-- Scroll-Triggered Case Study -->
+    <div class="demo-section">
+      <h2>Case Study Journey</h2>
+      <p class="section-intro">
+        Scroll-snapped sections create a presentation-like experience. Each section is a full-screen moment.
+        <span class="annotation">Cinematic narrative control</span>
+      </p>
+
+      <div class="scroll-section-container">
+        <div class="scroll-sections">
+          <!-- Section 1: Overview -->
+          <div class="scroll-section-full">
+            <span class="section-number">01</span>
+            <h3>Virgin America Responsive Redesign</h3>
+            <p>
+              In 2013, I led the UX design and front-end architecture for Virgin America's groundbreaking responsive website redesign.
+            </p>
+            <p>
+              No major airline had successfully implemented a mobile-first booking experience. We changed that.
+            </p>
+            <div class="scroll-hint">↓ Scroll to continue</div>
+          </div>
+
+          <!-- Section 2: Challenge -->
+          <div class="scroll-section-full">
+            <span class="section-number">02</span>
+            <h3>The Challenge</h3>
+            <p>
+              Airlines were notoriously slow to adopt modern web standards. Most booking flows required desktop computers and frustrated mobile users.
+            </p>
+            <p>
+              Conversion rates hovered below 2%, while mobile traffic grew 40% year-over-year with no mobile solution.
+            </p>
+            <p>
+              Virgin America needed to break industry patterns and create a delightful mobile experience.
+            </p>
+            <div class="scroll-hint">↓ Scroll to continue</div>
+          </div>
+
+          <!-- Section 3: Solution -->
+          <div class="scroll-section-full">
+            <span class="section-number">03</span>
+            <h3>The Solution</h3>
+            <p>
+              We designed a mobile-first responsive system that adapted seamlessly from 320px phones to 2560px desktops.
+            </p>
+            <p>
+              Key innovations: progressive disclosure for complex forms, gesture-based seat selection, real-time price updates that worked offline.
+            </p>
+            <p>
+              The entire booking flow could be completed on a smartphone with zero friction.
+            </p>
+            <div class="scroll-hint">↓ Scroll to results</div>
+          </div>
+
+          <!-- Section 4: Results -->
+          <div class="scroll-section-full">
+            <span class="section-number">04</span>
+            <h3>The Results</h3>
+            <div class="results-grid">
+              <div class="result-stat">
+                <div class="stat-number">+15%</div>
+                <div class="stat-label">Conversion Lift</div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-number">3x</div>
+                <div class="stat-label">Mobile Bookings</div>
+              </div>
+              <div class="result-stat">
+                <div class="stat-number">40%</div>
+                <div class="stat-label">Mobile Traffic</div>
+              </div>
+            </div>
+            <p style="margin-top: 32px;">
+              The redesign won multiple industry awards including Webby Awards and became a case study taught at Stanford and MIT.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 32px; color: #71717a; font-size: 14px;">
+        <span class="annotation">Design Decision</span> Scroll-snapped sections control pacing and create presentation-like narrative. Each section is a complete moment that gets full user attention before moving forward.
+      </p>
+    </div>
+
+    <!-- Strengths and Tradeoffs -->
+    <div class="concept-header">
+      <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 20px; color: #e5e5e5; position: relative; z-index: 2;">Concept 3 - Analysis</h3>
+
+      <div style="margin-bottom: 24px; position: relative; z-index: 2;">
+        <h4 style="font-size: 16px; color: #f97316; margin-bottom: 12px; font-weight: 700;">✓ Strengths</h4>
+        <ul style="color: #d4d4d8; padding-left: 20px; font-size: 14px; line-height: 1.9;">
+          <li>Bold, confident aesthetic that commands attention</li>
+          <li>Monochrome + single accent creates maximum visual impact</li>
+          <li>Full-screen modal provides immersive, distraction-free experience</li>
+          <li>Scroll-snapped sections control narrative pacing perfectly</li>
+          <li>Minimal design puts content first, doesn't compete with work</li>
+          <li>Most distinctive and memorable of the three concepts</li>
+        </ul>
+      </div>
+
+      <div style="position: relative; z-index: 2;">
+        <h4 style="font-size: 16px; color: #a1a1aa; margin-bottom: 12px; font-weight: 700;">⚠ Tradeoffs</h4>
+        <ul style="color: #d4d4d8; padding-left: 20px; font-size: 14px; line-height: 1.9;">
+          <li>Scroll-snap can feel restrictive - users can't stop mid-section</li>
+          <li>Full-screen modal blocks all other content (by design, but polarizing)</li>
+          <li>Minimal aesthetic may feel too sparse for some audiences</li>
+          <li>Single accent color limits visual variety across projects</li>
+          <li>Scroll-triggered animations require careful testing for accessibility</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Post Pal</div>
+        <div class="modal-subtitle" id="modal-subtitle">AI-Powered Social Media Assistant</div>
+        <button class="close-modal" id="close-modal">×</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projectData = {
+      postpal: {
+        title: "Post Pal",
+        subtitle: "AI-Powered Social Media Assistant",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "An AI-powered social media content assistant that helps create, schedule, and optimize posts across multiple platforms with intelligent suggestions and real-time analytics. Built to reduce content creation time by 60% while maintaining brand voice consistency."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Next.js 15", "OpenAI GPT-4", "Tailwind CSS", "Vercel", "PostgreSQL", "Stripe"]
+          },
+          {
+            title: "Key Features",
+            content: "Multi-platform scheduling, AI content generation, performance analytics, brand voice consistency, automated hashtag suggestions, competitive analysis, and team collaboration tools."
+          },
+          {
+            title: "Impact & Results",
+            content: "Reduced content creation time by 60% for users. 500+ active users within first 3 months of launch. 4.8/5 average rating. Featured on Product Hunt and TechCrunch."
+          }
+        ]
+      },
+      research: {
+        title: "AI Research Agent",
+        subtitle: "Intelligent Research Automation",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "An intelligent research agent that scrapes websites, pursues multiple research questions simultaneously, and filters results for relevance using advanced AI capabilities. Designed for researchers, journalists, and analysts."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Python", "LangChain", "ChromaDB", "Claude API", "FastAPI", "React"]
+          },
+          {
+            title: "Key Features",
+            content: "Parallel research execution, intelligent source filtering, citation tracking, semantic search, automated report generation with citations, and export to multiple formats."
+          },
+          {
+            title: "Development Status",
+            content: "Core agent architecture complete. Currently building UI and refining research quality algorithms. Expected launch Q1 2025."
+          }
+        ]
+      },
+      karuna: {
+        title: "KarunaGatton.com",
+        subtitle: "Spiritual Healing & Shamanic Services",
+        sections: [
+          {
+            title: "Project Overview",
+            content: "A modern mystical website for Karuna Gatton, a shaman offering spiritual healing services. The site balances clean, modern design with mystical and unique elements that reflect Karuna's brand."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Next.js", "Sanity CMS", "Tailwind CSS", "Framer Motion"]
+          },
+          {
+            title: "Key Features",
+            content: "Service bookings, blog with spiritual content, testimonials, meditation resources, and contact forms with email integration."
+          },
+          {
+            title: "Results",
+            content: "Live site with 200+ monthly visitors. Client reports 30% increase in booking inquiries since launch."
+          }
+        ]
+      }
+    };
+
+    // Modal functionality
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalTitle = document.getElementById('modal-title');
+    const modalSubtitle = document.getElementById('modal-subtitle');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function openModal(projectKey) {
+      const project = projectData[projectKey];
+      if (!project) return;
+
+      modalTitle.textContent = project.title;
+      modalSubtitle.textContent = project.subtitle;
+
+      let contentHTML = '<div class="modal-grid">';
+
+      project.sections.forEach((section, index) => {
+        if (index % 2 === 0 && index !== 0) {
+          contentHTML += '</div><div class="modal-grid">';
+        }
+
+        contentHTML += '<div class="modal-section">';
+        contentHTML += `<h4>${section.title}</h4>`;
+
+        if (section.content) {
+          contentHTML += `<p>${section.content}</p>`;
+        }
+
+        if (section.tech) {
+          contentHTML += '<div class="tech-tags">';
+          section.tech.forEach(tech => {
+            contentHTML += `<span class="tech-tag-fire">${tech}</span>`;
+          });
+          contentHTML += '</div>';
+        }
+
+        contentHTML += '</div>';
+      });
+
+      contentHTML += '</div>';
+      contentHTML += '<button class="cta-modal">Launch Project →</button>';
+
+      modalBody.innerHTML = contentHTML;
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Add click handlers
+    document.querySelectorAll('.project-card-minimal').forEach(card => {
+      card.addEventListener('click', () => {
+        const projectKey = card.getAttribute('data-project');
+        openModal(projectKey);
+      });
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // Prevent modal content clicks from closing
+    document.querySelector('.modal-content').addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  </script>
+</body>
+</html>

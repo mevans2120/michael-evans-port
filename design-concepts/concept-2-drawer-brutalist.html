@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Drawer Brutalist - Michael Evans Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #1a1a1a;
+      color: #e5e5e5;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    /* Concept Header */
+    .concept-header {
+      background: #0a0a0a;
+      border: 2px solid #10b981;
+      padding: 40px;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .concept-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+    }
+
+    .concept-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+
+    .concept-subtitle {
+      font-size: 16px;
+      color: #06b6d4;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .concept-description {
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .concept-description p {
+      margin-bottom: 12px;
+    }
+
+    /* Section Headers */
+    h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #10b981;
+      text-transform: uppercase;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    h2::before {
+      content: '//';
+      position: absolute;
+      left: 0;
+      color: #06b6d4;
+    }
+
+    .section-intro {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 40px;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .demo-section {
+      margin-bottom: 80px;
+    }
+
+    /* AI Projects - Compact Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .project-tile {
+      background: #0a0a0a;
+      border: 2px solid #2a2a2a;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #10b981;
+      transform: scaleX(0);
+      transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-tile:hover {
+      border-color: #10b981;
+      transform: translateX(4px);
+    }
+
+    .project-tile:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-tile h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 600;
+      color: #e5e5e5;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .project-tile .description {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .tile-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .status-indicator {
+      padding: 4px 12px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #10b981;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .view-link {
+      color: #06b6d4;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 200ms;
+    }
+
+    .view-link:hover {
+      color: #10b981;
+      transform: translateX(4px);
+      display: inline-block;
+    }
+
+    /* Drawer Panel */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 300ms;
+      z-index: 100;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 600px;
+      max-width: 90vw;
+      background: #0a0a0a;
+      border-left: 3px solid #10b981;
+      transform: translateX(100%);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 101;
+      overflow-y: auto;
+    }
+
+    .drawer-panel.active {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 32px;
+      background: #1a1a1a;
+      border-bottom: 2px solid #2a2a2a;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .drawer-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #10b981;
+      text-transform: uppercase;
+    }
+
+    .close-button {
+      background: none;
+      border: 2px solid #10b981;
+      color: #10b981;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: all 200ms;
+    }
+
+    .close-button:hover {
+      background: #10b981;
+      color: #0a0a0a;
+    }
+
+    .drawer-content {
+      padding: 32px;
+    }
+
+    .drawer-section {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .drawer-section:last-child {
+      border-bottom: none;
+    }
+
+    .drawer-section h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #06b6d4;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .drawer-section p {
+      font-family: 'Manrope', sans-serif;
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tech-item {
+      padding: 8px 12px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-size: 12px;
+      color: #10b981;
+      text-align: center;
+    }
+
+    .cta-drawer-button {
+      width: 100%;
+      padding: 16px;
+      background: #10b981;
+      border: none;
+      color: #0a0a0a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 200ms;
+      margin-top: 24px;
+    }
+
+    .cta-drawer-button:hover {
+      background: #06b6d4;
+    }
+
+    /* Horizontal Scroll Case Study */
+    .horizontal-container {
+      background: #0a0a0a;
+      border: 2px solid #2a2a2a;
+      padding: 40px;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .horizontal-scroll {
+      display: flex;
+      gap: 40px;
+      width: max-content;
+      padding-bottom: 20px;
+    }
+
+    .scroll-section {
+      width: 600px;
+      flex-shrink: 0;
+      padding: 32px;
+      background: #1a1a1a;
+      border-left: 3px solid #06b6d4;
+    }
+
+    .scroll-section:first-child {
+      border-left-color: #10b981;
+    }
+
+    .scroll-section h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      font-weight: 600;
+      color: #10b981;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .scroll-section p {
+      font-family: 'Manrope', sans-serif;
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .metrics-horizontal {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .metric-box {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid #10b981;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .metric-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      font-weight: 700;
+      color: #10b981;
+    }
+
+    .metric-text {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .scroll-indicator {
+      margin-top: 20px;
+      padding: 12px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid #06b6d4;
+      text-align: center;
+      font-size: 12px;
+      color: #06b6d4;
+    }
+
+    /* Annotation badges */
+    .annotation {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid #06b6d4;
+      font-size: 11px;
+      color: #06b6d4;
+      margin-top: 16px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Concept Header -->
+    <div class="concept-header">
+      <div class="concept-title">Concept 2: Neon Brutalist</div>
+      <div class="concept-subtitle">Drawer Panel Reveal + Horizontal Scroll Journey</div>
+      <div class="concept-description">
+        <p><strong>Approach:</strong> Compact grid of AI projects. Clicking opens a slide-in drawer panel from the right with full project details. Case studies use horizontal scrolling timeline for a cinematic, progressive reveal.</p>
+        <p style="margin-top: 12px;"><strong>Aesthetic:</strong> Technical brutalist design with neon green/cyan accents, JetBrains Mono monospace font, sharp edges, and high contrast.</p>
+        <p style="margin-top: 12px;"><strong>Best for:</strong> Developer-focused portfolios, creative technologists, anyone wanting a bold, modern aesthetic that stands out.</p>
+      </div>
+    </div>
+
+    <!-- AI Projects Demo -->
+    <div class="demo-section">
+      <h2>AI Projects Grid</h2>
+      <p class="section-intro">
+        Compact grid view. Click any project to open detailed drawer panel that slides in from the right.
+        <span class="annotation">Non-blocking UI pattern</span>
+      </p>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-tile" data-project="postpal">
+          <h3>Post Pal</h3>
+          <p class="description">AI-powered social media content assistant for multi-platform scheduling</p>
+          <div class="tile-footer">
+            <span class="status-indicator">Live</span>
+            <span class="view-link">View Details →</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-tile" data-project="research">
+          <h3>AI Research Agent</h3>
+          <p class="description">Agentic app for automated web research with intelligent filtering</p>
+          <div class="tile-footer">
+            <span class="status-indicator" style="background: rgba(59, 130, 246, 0.15); border-color: #3b82f6; color: #3b82f6;">In Progress</span>
+            <span class="view-link">View Details →</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-tile" data-project="karuna">
+          <h3>KarunaGatton.com</h3>
+          <p class="description">Modern mystical website for spiritual healing and shamanic services</p>
+          <div class="tile-footer">
+            <span class="status-indicator">Live</span>
+            <span class="view-link">View Details →</span>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-tile" data-project="doa">
+          <h3>DepartmentOfArt.com</h3>
+          <p class="description">Lead generation site for production company using rapid AI development</p>
+          <div class="tile-footer">
+            <span class="status-indicator" style="background: rgba(251, 191, 36, 0.15); border-color: #fbbf24; color: #fbbf24;">Coming Soon</span>
+            <span class="view-link">View Details →</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 24px; color: #6b7280; font-size: 13px; font-family: 'Manrope', sans-serif;">
+        <span class="annotation">Design Decision</span> Grid keeps homepage compact and scannable. Drawer pattern preserves context while showing rich details without navigation overhead.
+      </p>
+    </div>
+
+    <!-- Horizontal Scroll Case Study -->
+    <div class="demo-section">
+      <h2>Case Study Journey</h2>
+      <p class="section-intro">
+        Horizontal scroll creates a timeline narrative. Each section is a distinct chapter in the story.
+        <span class="annotation">Cinematic storytelling pattern</span>
+      </p>
+
+      <div class="horizontal-container">
+        <div class="horizontal-scroll">
+          <!-- Section 1: Overview -->
+          <div class="scroll-section">
+            <h3>01 // Overview</h3>
+            <p>
+              <strong>Virgin America: First Responsive Airline Website</strong>
+            </p>
+            <p>
+              In 2013, I led the UX design and front-end architecture for Virgin America's groundbreaking responsive website redesign.
+            </p>
+            <p>
+              At the time, no major airline had successfully implemented a mobile-first booking experience. We changed that.
+            </p>
+          </div>
+
+          <!-- Section 2: Challenge -->
+          <div class="scroll-section">
+            <h3>02 // Challenge</h3>
+            <p>
+              Airlines were notoriously slow to adopt modern web standards. Most booking flows required desktop computers and frustrated mobile users.
+            </p>
+            <p>
+              Conversion rates hovered below 2%, and mobile traffic was growing 40% year-over-year with no mobile solution in sight.
+            </p>
+            <p>
+              Virgin America wanted to break industry patterns and create a delightful mobile booking experience.
+            </p>
+          </div>
+
+          <!-- Section 3: Solution -->
+          <div class="scroll-section">
+            <h3>03 // Solution</h3>
+            <p>
+              We designed a mobile-first responsive system that adapted seamlessly from 320px phones to 2560px desktops.
+            </p>
+            <p>
+              Key innovations included progressive disclosure for complex forms, gesture-based seat selection, and real-time price updates that worked offline.
+            </p>
+            <p>
+              The entire booking flow could be completed on a smartphone with zero friction.
+            </p>
+          </div>
+
+          <!-- Section 4: Results -->
+          <div class="scroll-section">
+            <h3>04 // Results</h3>
+            <div class="metrics-horizontal">
+              <div class="metric-box">
+                <div class="metric-number">+15%</div>
+                <div class="metric-text">Conversion Lift</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-number">3x</div>
+                <div class="metric-text">Mobile Bookings</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-number">40%</div>
+                <div class="metric-text">Mobile Traffic</div>
+              </div>
+            </div>
+            <p style="margin-top: 24px;">
+              The redesign won multiple industry awards including Webby Awards and became a case study taught at Stanford and MIT.
+            </p>
+          </div>
+
+          <!-- Section 5: Learnings -->
+          <div class="scroll-section">
+            <h3>05 // Learnings</h3>
+            <p>
+              <strong>Mobile-first isn't just smaller desktop.</strong> It requires rethinking information architecture from the ground up.
+            </p>
+            <p>
+              <strong>Progressive disclosure works.</strong> Breaking complex flows into manageable steps dramatically improved completion rates.
+            </p>
+            <p>
+              <strong>Test early, test often.</strong> We ran usability tests every two weeks with real travelers at SFO airport.
+            </p>
+          </div>
+        </div>
+
+        <div class="scroll-indicator">
+          ← Scroll horizontally to explore the full case study →
+        </div>
+      </div>
+
+      <p style="margin-top: 24px; color: #6b7280; font-size: 13px; font-family: 'Manrope', sans-serif;">
+        <span class="annotation">Design Decision</span> Horizontal scroll creates a spatial narrative. Each section feels like a distinct chapter. Works beautifully on trackpad/touchscreen devices.
+      </p>
+    </div>
+
+    <!-- Strengths and Tradeoffs -->
+    <div class="concept-header" style="background: #1a1a1a;">
+      <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; margin-bottom: 20px; color: #10b981; text-transform: uppercase;">Concept 2 Analysis</h3>
+
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 14px; color: #10b981; margin-bottom: 10px; text-transform: uppercase;">✓ Strengths</h4>
+        <ul style="color: #9ca3af; padding-left: 20px; font-size: 13px; line-height: 1.8; font-family: 'Manrope', sans-serif;">
+          <li>Bold, distinctive aesthetic that stands out from typical portfolios</li>
+          <li>Drawer panel is non-blocking - users can dismiss easily to keep browsing</li>
+          <li>Horizontal scroll creates immersive, cinematic storytelling experience</li>
+          <li>Compact grid shows more projects above the fold</li>
+          <li>Technical aesthetic resonates with developer/engineer audiences</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="font-size: 14px; color: #06b6d4; margin-bottom: 10px; text-transform: uppercase;">⚠ Tradeoffs</h4>
+        <ul style="color: #9ca3af; padding-left: 20px; font-size: 13px; line-height: 1.8; font-family: 'Manrope', sans-serif;">
+          <li>Brutalist aesthetic may feel too aggressive for some audiences</li>
+          <li>Horizontal scroll is less intuitive than vertical (requires user education)</li>
+          <li>Drawer can feel disconnected from main flow if users don't realize it overlays</li>
+          <li>Monospace fonts sacrifice some readability for aesthetic</li>
+          <li>Not accessible for users who rely on standard scroll patterns</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer Overlay and Panel -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="drawer-panel" id="drawer-panel">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title" id="drawer-title">Post Pal</div>
+      </div>
+      <button class="close-button" id="close-drawer">×</button>
+    </div>
+    <div class="drawer-content" id="drawer-content">
+      <!-- Content will be injected dynamically -->
+    </div>
+  </div>
+
+  <script>
+    const projectData = {
+      postpal: {
+        title: "Post Pal",
+        sections: [
+          {
+            title: "Overview",
+            content: "An AI-powered social media content assistant that helps create, schedule, and optimize posts across multiple platforms with intelligent suggestions and real-time analytics. Built to reduce content creation time by 60%."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Next.js 15", "OpenAI GPT-4", "Tailwind CSS", "Vercel", "PostgreSQL", "Stripe"]
+          },
+          {
+            title: "Key Features",
+            content: "Multi-platform scheduling, AI content generation, performance analytics, brand voice consistency, automated hashtag suggestions, and competitive analysis."
+          },
+          {
+            title: "Impact",
+            content: "Reduced content creation time by 60% for users. 500+ active users within first 3 months of launch. 4.8/5 average rating."
+          }
+        ]
+      },
+      research: {
+        title: "AI Research Agent",
+        sections: [
+          {
+            title: "Overview",
+            content: "An intelligent research agent that scrapes websites, pursues multiple research questions simultaneously, and filters results for relevance using advanced AI capabilities."
+          },
+          {
+            title: "Tech Stack",
+            tech: ["Python", "LangChain", "ChromaDB", "Claude API", "FastAPI", "React"]
+          },
+          {
+            title: "Key Features",
+            content: "Parallel research execution, intelligent source filtering, citation tracking, semantic search, and automated report generation with citations."
+          },
+          {
+            title: "Status",
+            content: "Core agent architecture complete. Currently building UI and refining research quality algorithms. Expected launch Q1 2025."
+          }
+        ]
+      }
+    };
+
+    // Drawer functionality
+    const overlay = document.getElementById('drawer-overlay');
+    const panel = document.getElementById('drawer-panel');
+    const drawerTitle = document.getElementById('drawer-title');
+    const drawerContent = document.getElementById('drawer-content');
+    const closeButton = document.getElementById('close-drawer');
+
+    function openDrawer(projectKey) {
+      const project = projectData[projectKey];
+      if (!project) return;
+
+      drawerTitle.textContent = project.title;
+
+      let contentHTML = '';
+      project.sections.forEach(section => {
+        contentHTML += `<div class="drawer-section">`;
+        contentHTML += `<h4>${section.title}</h4>`;
+
+        if (section.content) {
+          contentHTML += `<p>${section.content}</p>`;
+        }
+
+        if (section.tech) {
+          contentHTML += `<div class="tech-grid">`;
+          section.tech.forEach(tech => {
+            contentHTML += `<div class="tech-item">${tech}</div>`;
+          });
+          contentHTML += `</div>`;
+        }
+
+        contentHTML += `</div>`;
+      });
+
+      contentHTML += `<button class="cta-drawer-button">Launch Project →</button>`;
+
+      drawerContent.innerHTML = contentHTML;
+
+      overlay.classList.add('active');
+      panel.classList.add('active');
+    }
+
+    function closeDrawer() {
+      overlay.classList.remove('active');
+      panel.classList.remove('active');
+    }
+
+    // Add click handlers to project tiles
+    document.querySelectorAll('.project-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const projectKey = tile.getAttribute('data-project');
+        openDrawer(projectKey);
+      });
+    });
+
+    // Close drawer handlers
+    closeButton.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // Prevent panel clicks from closing drawer
+    panel.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  </script>
+</body>
+</html>
