@@ -30,6 +30,7 @@ All colors MUST be HSL.
 
     --accent: 276 100% 75%;
     --accent-foreground: 215 28% 4%;
+    --accent-light: 280 100% 80%;  /* Lighter purple for gradients */
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -39,6 +40,7 @@ All colors MUST be HSL.
     --ring: 220 90% 56%;
 
     --gradient-primary: linear-gradient(135deg, hsl(280 60% 60%), hsl(0 0% 98%));
+    --gradient-purple: linear-gradient(135deg, hsl(276 100% 75%), hsl(280 100% 80%));  /* Unified purple gradient */
     --gradient-subtle: linear-gradient(180deg, hsl(215 28% 4%), hsl(215 25% 8%));
     --shadow-elegant: 0 10px 30px -10px hsl(220 90% 56% / 0.2);
     --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);

@@ -1,9 +1,16 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import { CaseStudySlideshow } from "@/components/CaseStudySlideshow";
+import {
+  CaseStudyHero,
+  CaseStudyProblem,
+  CaseStudySolution,
+  CaseStudyMetrics,
+  CaseStudyOutcomes,
+  CaseStudyGallery
+} from "@/components/CaseStudySections";
 import { client } from "@/lib/sanity/client";
 import { logger } from "@/lib/logger";
 
@@ -12,11 +19,32 @@ interface CaseStudyData {
   subtitle: string;
   description: string;
   category: string;
+  heroImage?: {
+    asset: {
+      url: string;
+    };
+  };
   metrics: {
     label: string;
     value: string;
+    description?: string;
   }[];
   achievements: string[];
+  technologies?: string[];
+  overview?: {
+    problem?: string;
+    solution?: string;
+    role?: string;
+    timeline?: string;
+  };
+  images?: {
+    image: {
+      asset: {
+        url: string;
+      };
+    };
+    caption?: string;
+  }[];
 }
 
 const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
@@ -24,21 +52,41 @@ const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
   "subtitle": summary,
   description,
   category,
+  heroImage {
+    asset-> {
+      url
+    }
+  },
   metrics[] {
     label,
-    value
+    value,
+    description
   },
-  achievements
+  achievements,
+  technologies,
+  overview,
+  images[] {
+    image {
+      asset-> {
+        url
+      }
+    },
+    caption
+  }
 }`;
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default function CaseStudyPage({ params }: PageProps) {
-  const { slug } = params;
+  const [slug, setSlug] = useState<string>('');
+
+  useEffect(() => {
+    params.then(p => setSlug(p.slug));
+  }, [params]);
   const [project, setProject] = useState<CaseStudyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -107,67 +155,79 @@ export default function CaseStudyPage({ params }: PageProps) {
     );
   }
 
+  // Build slides array
+  const slides = [];
+
+  // Slide 1: Hero
+  slides.push(
+    <CaseStudyHero
+      title={project.title}
+      subtitle={project.subtitle}
+      category={project.category}
+      heroImage={project.heroImage?.asset?.url}
+      tags={project.technologies}
+    />
+  );
+
+  // Slide 2: Problem (if exists)
+  if (project.overview?.problem) {
+    slides.push(
+      <CaseStudyProblem
+        problem={project.overview.problem}
+        context={project.description}
+      />
+    );
+  }
+
+  // Slide 3: Solution (if exists)
+  if (project.overview?.solution) {
+    slides.push(
+      <CaseStudySolution
+        solution={project.overview.solution}
+        approach={project.description}
+      />
+    );
+  }
+
+  // Slide 4: Metrics (if exists)
+  if (project.metrics && project.metrics.length > 0) {
+    slides.push(
+      <CaseStudyMetrics metrics={project.metrics} />
+    );
+  }
+
+  // Slide 5: Outcomes (if exists)
+  if (project.achievements && project.achievements.length > 0) {
+    slides.push(
+      <CaseStudyOutcomes
+        achievements={project.achievements}
+        impact={project.subtitle}
+      />
+    );
+  }
+
+  // Slide 6: Gallery (if exists)
+  if (project.images && project.images.length > 0) {
+    const galleryImages = project.images.map(img => ({
+      url: img.image.asset.url,
+      caption: img.caption
+    }));
+    slides.push(
+      <CaseStudyGallery images={galleryImages} />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      {/* Fixed Navigation */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <Navigation />
+      </div>
 
-      <main id="main-content" role="main" className="pt-32 pb-12 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <div className="mb-8">
-            <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
-              ← Back to Portfolio
-            </Link>
-          </div>
-
-          <div className="animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-light mb-4 text-foreground">
-              {project.title}
-            </h1>
-            <p className="text-xl text-muted-foreground font-light mb-8">
-              {project.subtitle}
-            </p>
-
-            <div className="bg-secondary/30 rounded-2xl p-8 mb-8">
-              <h2 className="text-2xl font-medium mb-4">Project Overview</h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                {project.description}
-              </p>
-
-              {project.metrics && project.metrics.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                  {project.metrics.map((metric, index) => (
-                    <div key={index}>
-                      <h3 className="font-medium text-foreground mb-2">{metric.label}</h3>
-                      <p className="text-2xl font-light text-primary">{metric.value}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {project.achievements && project.achievements.length > 0 && (
-                <>
-                  <h3 className="font-medium text-foreground mb-4">Key Achievements</h3>
-                  <ul className="text-muted-foreground space-y-2">
-                    {project.achievements.map((achievement, index) => (
-                      <li key={index}>• {achievement}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-
-            <div className="text-center">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
-              >
-                View More Projects
-                <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </main>
+      {/* Slideshow */}
+      <CaseStudySlideshow showProgress fullHeight>
+        {slides}
+      </CaseStudySlideshow>
     </div>
   );
 }

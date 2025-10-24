@@ -9,12 +9,14 @@ import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import BentoImageBehind from "@/components/ai-showcase-variations/BentoImageBehind";
+import { AIProjectsGrid } from "@/components/AIProjectsGrid";
+import { AIProjectModal } from "@/components/AIProjectModal";
 import { client } from "@/lib/sanity/client";
 import { heroOptionsQuery } from "@/lib/sanity/queries";
 import { transformHeroOptions } from "@/lib/sanity/transforms";
-import type { HeroOption } from "@/types/sanity";
+import type { HeroOption, AIProjectData } from "@/types/sanity";
 import { logger } from "@/lib/logger";
+import { useAllAIProjects } from "@/hooks/useAIProject";
 
 // Fallback hero options if Sanity data fails to load
 const FALLBACK_HERO_OPTIONS: HeroOption[] = [
@@ -68,10 +70,15 @@ export default function HomePage() {
   const [imageLoaded, setImageLoaded] = useState<{ [key: number]: boolean }>({});
   const [sanityHeroOptions, setSanityHeroOptions] = useState<HeroOption[] | null>(null);
   const [isLoadingHeroOptions, setIsLoadingHeroOptions] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<AIProjectData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   // Site is always dark - no light mode
   const isDarkMode = true;
+
+  // Fetch AI projects from Sanity
+  const { data: aiProjects, loading: aiProjectsLoading, error: aiProjectsError } = useAllAIProjects();
 
   // Fetch hero options from Sanity
   useEffect(() => {
@@ -141,6 +148,18 @@ export default function HomePage() {
     }, 300);
   };
 
+  const handleProjectClick = (project: AIProjectData) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => {
+      setSelectedProject(null);
+    }, 300);
+  };
+
   const caseStudies = [
     {
       title: "Virgin America",
@@ -184,7 +203,7 @@ export default function HomePage() {
       <section className="px-6 relative min-h-[85vh] flex items-center">
         {/* Subtle decorative accent */}
         <div className={`absolute top-20 right-10 w-32 h-32 rounded-full blur-3xl ${
-          isDarkMode ? 'bg-purple-500/20' : 'bg-purple-100 opacity-30'
+          isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-30'
         }`} />
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="max-w-5xl -mx-6 md:mx-0">
@@ -208,7 +227,7 @@ export default function HomePage() {
                   className="inline-flex items-baseline gap-1 group"
                 >
                   <span className={`underline underline-offset-4 decoration-2 transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'} ${
-                    isDarkMode ? 'text-purple-400' : 'text-purple-600'
+                    isDarkMode ? 'text-accent' : 'text-purple-600'
                   }`}>
                     {currentOption.dropdown}
                   </span>
@@ -232,7 +251,7 @@ export default function HomePage() {
                 <div className={`w-full h-full rounded-2xl overflow-hidden border ${
                   isDarkMode ? 'border-gray-800' : 'border-gray-200'
                 }`}>
-                  <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-indigo-500/30 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-accent/20 to-indigo-500/30 flex items-center justify-center">
                     <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Photo</span>
                   </div>
                 </div>
@@ -245,7 +264,7 @@ export default function HomePage() {
                 }`}>
                   Product Strategist & Creative Technologist
                   <span className={`w-12 h-px bg-gradient-to-r ${
-                    isDarkMode ? 'from-purple-400/50 to-transparent' : 'from-purple-400 to-transparent'
+                    isDarkMode ? 'from-accent/50 to-transparent' : 'from-accent to-transparent'
                   }`}></span>
                 </h2>
               </div>
@@ -260,7 +279,7 @@ export default function HomePage() {
                 href="/about"
                 className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
                   isDarkMode
-                    ? 'text-purple-400 hover:text-purple-300'
+                    ? 'text-accent hover:text-purple-300'
                     : 'text-purple-600 hover:text-purple-700'
                 }`}
               >
@@ -277,7 +296,7 @@ export default function HomePage() {
       {/* Featured Work Section */}
       <section className="py-20 px-6 relative">
         <div className={`absolute left-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
-          isDarkMode ? 'bg-purple-500/20' : 'bg-purple-100 opacity-20'
+          isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
         }`} />
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="mb-12 -mx-6 md:mx-0">
@@ -286,7 +305,7 @@ export default function HomePage() {
             }`}>
               Selected Work
               <span className={`w-12 h-px bg-gradient-to-r ${
-                isDarkMode ? 'from-purple-400/50 to-transparent' : 'from-purple-400 to-transparent'
+                isDarkMode ? 'from-accent/50 to-transparent' : 'from-accent to-transparent'
               }`}></span>
             </h2>
             <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
@@ -301,20 +320,20 @@ export default function HomePage() {
               >
                 <Card className={`transition-all duration-300 backdrop-blur-sm ${
                   isDarkMode
-                    ? 'border-gray-800 hover:border-purple-500/50 bg-gray-900/60 hover:shadow-purple-500/10 hover:shadow-lg'
+                    ? 'border-gray-800 hover:border-accent/50 bg-gray-900/60 hover:shadow-accent/10 hover:shadow-lg'
                     : 'border-gray-200 hover:border-purple-300 hover:shadow-lg bg-white/80'
                 }`}>
                   <CardHeader className="pb-4">
                     <Badge variant="outline" className={`w-fit mb-3 text-xs ${
                       isDarkMode
-                        ? 'border-purple-500/50 text-purple-400 bg-purple-500/10'
+                        ? 'border-accent/50 text-accent bg-accent/10'
                         : 'border-purple-200 text-purple-700 bg-purple-50'
                     }`}>
                       {study.tag}
                     </Badge>
                     <CardTitle className={`text-lg font-normal transition-colors ${
                       isDarkMode
-                        ? 'text-gray-100 group-hover:text-purple-400'
+                        ? 'text-gray-100 group-hover:text-accent'
                         : 'text-gray-900 group-hover:text-purple-600'
                     }`}>
                       {study.title}
@@ -330,7 +349,7 @@ export default function HomePage() {
                       </span>
                       <ArrowRight className={`w-4 h-4 transition-colors ${
                         isDarkMode
-                          ? 'text-gray-600 group-hover:text-purple-400'
+                          ? 'text-gray-600 group-hover:text-accent'
                           : 'text-gray-400 group-hover:text-purple-600'
                       }`} />
                     </div>
@@ -342,8 +361,70 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI Showcase Section */}
-      <BentoImageBehind isDarkMode={isDarkMode} />
+      {/* AI Projects Section */}
+      <section className="py-20 px-6 relative">
+        <div className={`absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
+          isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
+        }`} />
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="mb-12 -mx-6 md:mx-0">
+            <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>
+              AI Projects
+              <span className={`w-12 h-px bg-gradient-to-r ${
+                isDarkMode ? 'from-accent/50 to-transparent' : 'from-accent to-transparent'
+              }`}></span>
+            </h2>
+            <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Production-ready AI applications</p>
+          </div>
+
+          {aiProjectsLoading ? (
+            <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Loading AI projects...
+            </div>
+          ) : aiProjectsError ? (
+            <div className={`text-center py-12 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
+              Error loading projects: {aiProjectsError}
+            </div>
+          ) : aiProjects.length > 0 ? (
+            <div className="-mx-6 md:mx-0">
+              <AIProjectsGrid
+                projects={aiProjects}
+                onProjectClick={handleProjectClick}
+                limit={6}
+              />
+            </div>
+          ) : (
+            <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              No AI projects found
+            </div>
+          )}
+
+          {aiProjects.length > 6 && (
+            <div className="mt-10 text-center">
+              <Link
+                href="/ai-showcase"
+                className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                  isDarkMode
+                    ? 'text-accent hover:text-purple-300'
+                    : 'text-purple-600 hover:text-purple-700'
+                }`}
+              >
+                View all AI projects
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* AI Project Modal */}
+      <AIProjectModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
 
       {/* Visual Grid Overlay Modal */}
       <AnimatePresence>
@@ -373,7 +454,7 @@ export default function HomePage() {
                 {/* Header */}
                 <div className={`px-6 py-4 border-b flex items-center justify-between ${
                   isDarkMode
-                    ? 'border-gray-800/30 bg-gradient-to-r from-purple-500/5 to-purple-500/10'
+                    ? 'border-gray-800/30 bg-gradient-to-r from-accent/5 to-accent/10'
                     : 'border-border/30 bg-gradient-to-r from-accent/5 to-accent/10'
                 }`}>
                   <div className="flex items-center gap-2">
@@ -402,10 +483,10 @@ export default function HomePage() {
                       className={`group relative rounded-xl overflow-hidden border transition-all duration-300 ${
                         index === currentIndex
                           ? isDarkMode
-                            ? 'border-purple-500 shadow-lg shadow-purple-500/20 ring-2 ring-purple-500/20'
+                            ? 'border-accent shadow-lg shadow-accent/20 ring-2 ring-accent/20'
                             : 'border-primary shadow-lg shadow-primary/20 ring-2 ring-primary/20'
                           : isDarkMode
-                            ? 'border-gray-800/50 hover:border-purple-500/50'
+                            ? 'border-gray-800/50 hover:border-accent/50'
                             : 'border-border/50 hover:border-accent/50'
                       } ${isDarkMode ? 'bg-gray-800' : 'bg-card'}`}
                       initial={{ opacity: 0, y: 20 }}
@@ -416,11 +497,11 @@ export default function HomePage() {
                     >
                       {/* Image container */}
                       <div className={`relative h-40 overflow-hidden ${
-                        isDarkMode ? 'bg-gradient-to-br from-purple-500/10 to-purple-500/5' : 'bg-gradient-to-br from-accent/10 to-accent/5'
+                        isDarkMode ? 'bg-gradient-to-br from-accent/10 to-accent/5' : 'bg-gradient-to-br from-accent/10 to-accent/5'
                       }`}>
                         {!imageLoaded[index] && (
                           <div className={`absolute inset-0 animate-pulse ${
-                            isDarkMode ? 'bg-gradient-to-br from-purple-500/20 to-purple-500/10' : 'bg-gradient-to-br from-accent/20 to-accent/10'
+                            isDarkMode ? 'bg-gradient-to-br from-accent/20 to-accent/10' : 'bg-gradient-to-br from-accent/20 to-accent/10'
                           }`} />
                         )}
                         <img
@@ -462,7 +543,7 @@ export default function HomePage() {
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                           >
                             <span className={`px-2 py-1 text-xs font-bold rounded-full shadow-lg flex items-center gap-1 ${
-                              isDarkMode ? 'bg-purple-500 text-white' : 'bg-primary text-primary-foreground'
+                              isDarkMode ? 'bg-accent text-white' : 'bg-primary text-primary-foreground'
                             }`}>
                               <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
                               Active
@@ -489,7 +570,7 @@ export default function HomePage() {
                               key={tagIndex}
                               className={`px-2 py-0.5 text-[10px] font-medium rounded-full ${
                                 isDarkMode
-                                  ? 'bg-purple-500/20 text-purple-300'
+                                  ? 'bg-accent/20 text-purple-300'
                                   : 'bg-accent/20 text-accent-foreground'
                               }`}
                             >
@@ -505,7 +586,7 @@ export default function HomePage() {
                 {/* Footer hint */}
                 <div className={`px-6 py-3 border-t ${
                   isDarkMode
-                    ? 'border-gray-800/30 bg-gradient-to-r from-purple-500/5 to-purple-500/10'
+                    ? 'border-gray-800/30 bg-gradient-to-r from-accent/5 to-accent/10'
                     : 'border-border/30 bg-gradient-to-r from-accent/5 to-accent/10'
                 }`}>
                   <p className={`text-xs text-center ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>

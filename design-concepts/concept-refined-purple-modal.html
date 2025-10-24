@@ -151,41 +151,27 @@
       font-size: 15px;
       color: var(--muted);
       line-height: 1.7;
-      margin-bottom: 24px;
+      margin-bottom: 0;
     }
 
-    .status-badge {
-      display: inline-block;
-      padding: 6px 14px;
-      background: rgba(168, 85, 247, 0.15);
-      border: 1px solid var(--purple-accent);
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--purple-light);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .explore-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
+    /* Minimal visual CTA - corner indicator */
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 8px;
+      height: 8px;
       background: linear-gradient(135deg, var(--purple-accent) 0%, var(--purple-light) 100%);
-      border: none;
-      border-radius: 10px;
-      color: hsl(240 10% 3%);
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 200ms;
-      margin-top: 8px;
+      border-radius: 50%;
+      opacity: 0.3;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .explore-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+    .project-card:hover::after {
+      opacity: 1;
+      transform: scale(2);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
     }
 
     /* Full Screen Modal */
@@ -338,7 +324,7 @@
       box-shadow: 0 12px 24px rgba(168, 85, 247, 0.4);
     }
 
-    /* Scroll-Snapped Case Study Sections */
+    /* Horizontal Scroll Case Study - Slideshow Style */
     .case-study-container {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -349,13 +335,21 @@
     }
 
     .scroll-sections {
+      display: flex;
       height: 100%;
-      overflow-y: auto;
-      scroll-snap-type: y mandatory;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .scroll-sections::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
     }
 
     .scroll-section {
+      min-width: 100%;
       height: 100%;
       scroll-snap-align: start;
       padding: 60px;
@@ -364,7 +358,7 @@
       justify-content: center;
       position: relative;
       background: var(--background);
-      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
     }
 
     .scroll-section:nth-child(even) {
@@ -440,21 +434,17 @@
     .scroll-hint {
       position: absolute;
       bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
+      right: 40px;
+      width: 48px;
+      height: 48px;
       background: rgba(168, 85, 247, 0.15);
       border: 1px solid var(--purple-accent);
-      border-radius: 20px;
-      font-size: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
       color: var(--purple-light);
-      font-weight: 600;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-8px); }
     }
 
     /* Annotation badges */
@@ -515,7 +505,7 @@
     <!-- Page Header -->
     <div class="page-header">
       <h1 class="page-title">Refined Concept</h1>
-      <p class="page-subtitle">Modal Deep Dive + Scroll Journey with Your Purple Palette</p>
+      <p class="page-subtitle">Modal Deep Dive + Horizontal Slideshow Journey</p>
     </div>
 
     <!-- AI Projects Section -->
@@ -532,11 +522,6 @@
           <div class="project-number">01</div>
           <h3>Post Pal</h3>
           <p>AI-powered social media content assistant for multi-platform scheduling and optimization.</p>
-          <div class="status-badge">Live</div>
-          <button class="explore-button">
-            Explore Project
-            <span>→</span>
-          </button>
         </div>
 
         <!-- Project 2: AI Research Agent -->
@@ -544,11 +529,6 @@
           <div class="project-number">02</div>
           <h3>AI Research Agent</h3>
           <p>Intelligent research automation with parallel execution and semantic filtering.</p>
-          <div class="status-badge" style="background: rgba(59, 130, 246, 0.15); border-color: #3b82f6; color: #93c5fd;">In Progress</div>
-          <button class="explore-button">
-            Explore Project
-            <span>→</span>
-          </button>
         </div>
 
         <!-- Project 3: Karuna Gatton -->
@@ -556,11 +536,6 @@
           <div class="project-number">03</div>
           <h3>KarunaGatton.com</h3>
           <p>Modern mystical website for spiritual healing services and shamanic practices.</p>
-          <div class="status-badge">Live</div>
-          <button class="explore-button">
-            Explore Project
-            <span>→</span>
-          </button>
         </div>
 
         <!-- Project 4: Department of Art -->
@@ -568,16 +543,11 @@
           <div class="project-number">04</div>
           <h3>DepartmentOfArt.com</h3>
           <p>Lead generation site for production company using rapid AI development.</p>
-          <div class="status-badge" style="background: rgba(251, 191, 36, 0.15); border-color: #fbbf24; color: #fde047;">Coming Soon</div>
-          <button class="explore-button">
-            Explore Project
-            <span>→</span>
-          </button>
         </div>
       </div>
 
       <p style="margin-top: 32px; color: var(--muted); font-size: 14px;">
-        <span class="annotation">Design Decision</span> Full-screen modal creates immersive focus. Users get complete context without navigation friction. Purple gradient highlights CTAs and key elements.
+        <span class="annotation">Design Decision</span> Minimal purple dot in corner serves as subtle visual CTA - no text, no button, just a hint to click. Full-screen modal creates immersive focus without navigation friction.
       </p>
     </div>
 
@@ -585,8 +555,8 @@
     <div class="demo-section">
       <h2>Case Study Journey</h2>
       <p class="section-intro">
-        Scroll-snapped sections create a presentation-like experience. Each section is a full-screen moment.
-        <span class="annotation">Cinematic narrative control</span>
+        Horizontal slideshow with scroll-snap. Swipe or scroll to navigate through the story.
+        <span class="annotation">Slideshow narrative</span>
       </p>
 
       <div class="case-study-container">
@@ -601,7 +571,7 @@
             <p>
               No major airline had successfully implemented a mobile-first booking experience. We changed that.
             </p>
-            <div class="scroll-hint">↓ Scroll to continue</div>
+            <div class="scroll-hint">→</div>
           </div>
 
           <!-- Section 2: Challenge -->
@@ -617,7 +587,7 @@
             <p>
               Virgin America needed to break industry patterns and create a delightful mobile experience.
             </p>
-            <div class="scroll-hint">↓ Scroll to continue</div>
+            <div class="scroll-hint">→</div>
           </div>
 
           <!-- Section 3: Solution -->
@@ -633,7 +603,7 @@
             <p>
               The entire booking flow could be completed on a smartphone with zero friction.
             </p>
-            <div class="scroll-hint">↓ Scroll to results</div>
+            <div class="scroll-hint">→</div>
           </div>
 
           <!-- Section 4: Results -->
@@ -662,7 +632,7 @@
       </div>
 
       <p style="margin-top: 32px; color: var(--muted); font-size: 14px;">
-        <span class="annotation">Design Decision</span> Scroll-snapped sections control pacing and create presentation-like narrative. Each section is a complete moment that gets full user attention.
+        <span class="annotation">Design Decision</span> Horizontal scroll-snap creates slideshow-style narrative. Each slide is a complete moment. Swipe or scroll to navigate through the case study story.
       </p>
     </div>
   </div>

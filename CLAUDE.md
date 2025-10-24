@@ -71,6 +71,43 @@ npm run migrate          # Run Sanity migration script
 - `/vite.config.ts` - Vite build configuration (port 8080)
 - `/src/lib/sanity/client.ts` - Sanity API client setup
 
+## Skills and Specialized Agents
+
+**IMPORTANT: Prefer skills over direct implementation when appropriate:**
+
+- **Always consider if a skill matches the task** before doing work directly
+- If a task aligns with a skill's description, **use that skill** instead of working manually
+- Available skills include: `project-planner`, `project-manager`, `project-analyzer`, `design-research`, `design-concepts`, `design-production`, `design-qa`, `product-research`, `quality-engineering`, `software-development`, `technical-architecture`
+- When in doubt, use a skill - they provide specialized expertise and better results
+
+**Examples of when to use skills:**
+- Planning features/roadmaps → `project-planner` skill
+- Design concepts/mockups → `design-concepts` skill
+- Research/analysis → `product-research` or `design-research` skill
+- Testing strategy → `quality-engineering` skill
+- Architecture decisions → `technical-architecture` skill
+
+## Planning vs Implementation
+
+**CRITICAL: Follow these rules to avoid unwanted implementation:**
+
+- When asked to "plan", "create a plan", "put together a plan", or "design an approach" → **ONLY create the plan**
+- Do **NOT** implement unless explicitly asked to "implement", "build", "code", "create", or "start building"
+- After presenting a plan, **ALWAYS wait for explicit approval** to proceed with implementation
+- If a session is resumed and the last action was planning, **ask the user before implementing**
+- When in doubt, ask: "Would you like me to proceed with implementation?"
+
+**Preferred Planning Tools:**
+- Use `project-planner` skill for feature planning and roadmap generation
+- Use `planning` agent for breaking down complex tasks into actionable steps
+- Use `ExitPlanMode` tool only when planning implementation steps for coding tasks
+
+**Clear Implementation Signals:**
+- "Proceed with implementation"
+- "Start building this"
+- "Implement the plan"
+- "Let's code this"
+
 ## Current Implementation Status
 
 The portfolio site is fully functional with:

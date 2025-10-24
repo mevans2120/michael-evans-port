@@ -1,15 +1,33 @@
 'use client'
 
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import Contact from "@/components/Contact";
 import { Button } from "@/components/ui/button";
+import { AIProjectsGrid } from "@/components/AIProjectsGrid";
+import { AIProjectModal } from "@/components/AIProjectModal";
 import { useAllAIProjects } from "@/hooks/useAIProject";
+import type { AIProjectData } from "@/types/sanity";
 
 export default function AIShowcasePage() {
   const router = useRouter();
   const { data: projects = [], loading, error } = useAllAIProjects();
+  const [selectedProject, setSelectedProject] = useState<AIProjectData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleProjectClick = (project: AIProjectData) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => {
+      setSelectedProject(null);
+    }, 300);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,62 +64,11 @@ export default function AIShowcasePage() {
           )}
 
           {!loading && !error && projects.length > 0 && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {projects.map((project, index) => (
-                <div
-                  key={project.slug}
-                  className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-elegant transition-all duration-300 animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  {project.heroImage && (
-                    <div className="aspect-video bg-secondary/20 overflow-hidden">
-                      <img
-                        src={project.heroImage}
-                        alt={project.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  {!project.heroImage && (
-                    <div className="aspect-video bg-secondary/20 flex items-center justify-center">
-                      <div className="text-muted-foreground text-sm">Project Preview</div>
-                    </div>
-                  )}
-
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-medium text-foreground">{project.title}</h3>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          project.status === 'Live'
-                            ? 'bg-green-500/20 text-green-300'
-                            : project.status === 'In Progress'
-                            ? 'bg-blue-500/20 text-blue-300'
-                            : 'bg-yellow-500/20 text-yellow-300'
-                        }`}
-                      >
-                        {project.status}
-                      </span>
-                    </div>
-
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {project.status !== 'Coming Soon' && project.links?.live && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full group"
-                        onClick={() => window.open(project.links.live, '_blank')}
-                      >
-                        View Project
-                        <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              ))}
+            <div className="mb-16">
+              <AIProjectsGrid
+                projects={projects}
+                onProjectClick={handleProjectClick}
+              />
             </div>
           )}
 
@@ -120,6 +87,13 @@ export default function AIShowcasePage() {
       </main>
 
       <Contact />
+
+      {/* AI Project Modal */}
+      <AIProjectModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }
