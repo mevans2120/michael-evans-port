@@ -10,7 +10,7 @@ import { User, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ChatMessageProps {
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool';
   content: string;
   timestamp?: string;
   sources?: string[];

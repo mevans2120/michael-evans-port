@@ -73,11 +73,10 @@ export async function POST(req: Request) {
     ];
 
     // Stream the response
-    const result = streamText({
+    const result = await streamText({
       model: google('gemini-1.5-pro-002'),
       messages: enhancedMessages,
       temperature: 0.7,
-      maxTokens: 1000,
     });
 
     return result.toDataStreamResponse();
