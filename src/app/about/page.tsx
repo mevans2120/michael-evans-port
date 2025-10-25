@@ -21,7 +21,7 @@ interface ProfileData {
   };
 }
 
-const PROFILE_QUERY = `*[_type == "profile"][0] {
+const PROFILE_QUERY = `*[_type == "profile"] | order(_updatedAt desc)[0] {
   name,
   title,
   tagline,

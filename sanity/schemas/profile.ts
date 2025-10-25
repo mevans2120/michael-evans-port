@@ -4,6 +4,7 @@ export default defineType({
   name: 'profile',
   title: 'Profile',
   type: 'document',
+  __experimental_singleton: true,
   fields: [
     defineField({
       name: 'name',

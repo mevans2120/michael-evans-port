@@ -32,14 +32,13 @@ const Navigation = () => {
           </Link>
 
           <button
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-controls="navigation-menu"
             aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           >
             {isMenuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-            <span>Menu</span>
           </button>
         </div>
 

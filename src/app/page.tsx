@@ -72,6 +72,7 @@ export default function HomePage() {
   const [isLoadingHeroOptions, setIsLoadingHeroOptions] = useState(true);
   const [selectedProject, setSelectedProject] = useState<AIProjectData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const router = useRouter();
 
   // Site is always dark - no light mode
@@ -97,6 +98,23 @@ export default function HomePage() {
       }
     }
     fetchHeroOptions();
+  }, []);
+
+  // Fetch profile image from Sanity
+  useEffect(() => {
+    async function fetchProfileImage() {
+      try {
+        const data = await client.fetch(`*[_type == "profile"] | order(_updatedAt desc)[0] {
+          "profileImage": profileImage.asset->url
+        }`);
+        if (data?.profileImage) {
+          setProfileImage(data.profileImage);
+        }
+      } catch (error) {
+        logger.error('Failed to load profile image from Sanity:', error);
+      }
+    }
+    fetchProfileImage();
   }, []);
 
   // Use Sanity data if available, otherwise fallback
@@ -251,9 +269,17 @@ export default function HomePage() {
                 <div className={`w-full h-full rounded-2xl overflow-hidden border ${
                   isDarkMode ? 'border-gray-800' : 'border-gray-200'
                 }`}>
-                  <div className="w-full h-full bg-gradient-to-br from-accent/20 to-indigo-500/30 flex items-center justify-center">
-                    <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Photo</span>
-                  </div>
+                  {profileImage ? (
+                    <img
+                      src={profileImage}
+                      alt="Michael Evans"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-accent/20 to-indigo-500/30 flex items-center justify-center">
+                      <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Photo</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
