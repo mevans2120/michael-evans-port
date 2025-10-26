@@ -30,8 +30,9 @@ const SUGGESTED_QUESTIONS = [
 export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [input, setInput] = useState('');
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
+  const { messages, sendMessage, status, error } = useChat({
     api: '/api/chat',
     onFinish: () => {
       // Scroll to bottom when assistant responds
@@ -40,6 +41,8 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
       }, 100);
     },
   });
+
+  const isLoading = status === 'streaming';
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -56,17 +59,14 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   }, [isOpen]);
 
   const handleSuggestedQuestion = (question: string) => {
-    handleInputChange({ target: { value: question } } as any);
-    // Submit after a brief delay to ensure input is updated
-    setTimeout(() => {
-      handleSubmit(new Event('submit') as any);
-    }, 10);
+    sendMessage(question);
   };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-    handleSubmit(e);
+    sendMessage(input);
+    setInput('');
   };
 
   return (
@@ -178,7 +178,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                 <Input
                   ref={inputRef}
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question..."
                   disabled={isLoading}
                   className="flex-1"
