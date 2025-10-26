@@ -22,7 +22,7 @@ interface ChatInterfaceProps {
 
 const SUGGESTED_QUESTIONS = [
   "What's Michael's experience with AI/ML?",
-  'Tell me about the Kroger project',
+  'Tell me about the Casa Bonita project',
   'What technologies does Michael work with?',
   "What's Michael's background?",
 ];
