@@ -1,10 +1,10 @@
 /**
  * Chat API Route
- * Handles RAG-powered chat requests using Google Gemini and Supabase vector search
+ * Handles RAG-powered chat requests using Claude Haiku and Supabase vector search
  */
 
 import { streamText } from 'ai';
-import { google } from '@ai-sdk/google';
+import { anthropic } from '@ai-sdk/anthropic';
 import { generateEmbedding } from '@/lib/chatbot/embeddings';
 import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
 
@@ -72,15 +72,14 @@ export async function POST(req: Request) {
       ...messages,
     ];
 
-    // Stream the response
-    // Note: Using gemini-pro as gemini-1.5-pro-002 may not be available with all API keys
-    const result = await streamText({
-      model: google('gemini-pro'),
+    // Stream the response using Claude Haiku 3.5
+    const result = streamText({
+      model: anthropic('claude-3-5-haiku-20241022'),
       messages: enhancedMessages,
       temperature: 0.7,
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error('Error in chat API:', error);
 
