@@ -69,21 +69,16 @@ export async function POST(req: Request) {
           .join('\n\n---\n\n')
       : 'No specific context available. Provide a general helpful response about portfolio chatbots and suggest the user may want to add content.';
 
-    // Construct the enhanced prompt with context
-    const enhancedMessages = [
-      {
-        role: 'system' as const,
-        content: `${SYSTEM_PROMPT}\n\n**Context about Michael:**\n\n${context}`,
-      },
-      ...messages,
-    ];
+    // Build system prompt with context
+    const systemPrompt = `${SYSTEM_PROMPT}\n\n**Context about Michael:**\n\n${context}`;
 
     // Convert UIMessages to ModelMessages for Claude
-    const modelMessages = convertToModelMessages(enhancedMessages);
+    const modelMessages = convertToModelMessages(messages);
 
     // Stream the response using Claude Haiku 3.5
     const result = streamText({
       model: anthropic('claude-3-5-haiku-20241022'),
+      system: systemPrompt,
       messages: modelMessages,
       temperature: 0.7,
     });
