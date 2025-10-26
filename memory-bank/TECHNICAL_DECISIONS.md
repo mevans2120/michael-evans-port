@@ -198,6 +198,108 @@ Each decision follows the Architecture Decision Record (ADR) format:
 
 ---
 
+## ADR-012: RAG-Powered AI Chatbot with Google Gemini
+
+**Date**: 2025-10-26
+**Status**: Accepted
+**Context**: Portfolio site needs an interactive way for visitors to learn about Michael's background, projects, and expertise. Traditional static content doesn't provide personalized exploration or answer specific questions. Goal is to implement chatbot with $0/month cost using free tiers.
+**Decision**: Implement RAG (Retrieval Augmented Generation) architecture using Google Gemini 1.5 Pro for LLM, Google text-embedding-004 for embeddings, Supabase pgvector for vector search, and Vercel AI SDK for streaming.
+**Rationale**:
+- **Google Gemini free tier**: 15 RPM, 1,500 requests/day sufficient for portfolio traffic
+- **text-embedding-004**: Latest Google embedding model, 768 dimensions, free tier
+- **Supabase pgvector**: Free tier provides 500MB storage (only need ~3MB), 2GB bandwidth
+- **RAG over fine-tuning**: More flexible, easier to update content, no training costs
+- **Edge runtime**: Better performance, lower latency, streaming support
+- **Vercel AI SDK**: Excellent streaming support, React hooks, framework-agnostic
+**Architecture**:
+- Text chunking: 500 chars with 50 char overlap (balances context/precision)
+- Vector search: Top 5 results with 0.7 cosine similarity threshold
+- Context assembly: Source-tagged chunks for transparency
+- Streaming responses: Real-time output for better UX
+**Consequences**:
+- ✅ $0/month operational cost using free tiers
+- ✅ Personalized visitor experience with natural language Q&A
+- ✅ Easy content updates (re-run ingestion script)
+- ✅ Semantic search provides relevant context
+- ✅ Streaming responses feel fast and responsive
+- ✅ Edge runtime for low latency worldwide
+- ⚠️ Manual database setup required (Supabase REST API limitation)
+- ⚠️ Need to monitor API usage to stay within free tiers
+- ⚠️ Context limited to top 5 chunks (may miss some details)
+- ⚠️ Requires content preparation (transcripts created)
+- ⚠️ No chat history persistence (session-based only)
+
+---
+
+## ADR-013: Google Gemini over Claude for Chatbot LLM
+
+**Date**: 2025-10-26
+**Status**: Accepted
+**Context**: Need to choose LLM provider for portfolio chatbot. Options: Claude (Anthropic), GPT-4 (OpenAI), Gemini (Google).
+**Decision**: Use Google Gemini 1.5 Pro (gemini-1.5-pro-002) as the LLM.
+**Rationale**:
+- **Cost**: Gemini has generous free tier (15 RPM, 1,500/day), Claude API requires payment
+- **Performance**: Gemini 1.5 Pro comparable quality to Claude Sonnet for portfolio Q&A
+- **Ecosystem**: Google provides both LLM and embeddings (text-embedding-004) in one ecosystem
+- **Integration**: Vercel AI SDK has first-class support for Google models
+- **Portfolio traffic**: Low expected traffic fits well within free tier limits
+**Consequences**:
+- ✅ $0/month LLM costs
+- ✅ Consistent provider for both embeddings and generation
+- ✅ Good performance for conversational Q&A
+- ⚠️ Rate limits require monitoring (15 RPM)
+- ⚠️ Different system prompt tuning vs Claude
+- ⚠️ May need to switch to paid tier if traffic grows
+
+---
+
+## ADR-014: Supabase pgvector over Pinecone/Weaviate
+
+**Date**: 2025-10-26
+**Status**: Accepted
+**Context**: Need vector database for semantic search in RAG pipeline. Options: Pinecone (specialized vector DB), Weaviate (open-source vector DB), Supabase pgvector (PostgreSQL extension).
+**Decision**: Use Supabase with pgvector extension for vector storage and similarity search.
+**Rationale**:
+- **Cost**: Supabase free tier (500MB, 2GB bandwidth) sufficient for ~3MB of embeddings
+- **Familiarity**: PostgreSQL database, standard SQL queries
+- **Integration**: Supabase provides both database and auth in one platform
+- **Functionality**: pgvector provides cosine similarity, ivfflat indexing, RLS policies
+- **Scalability**: Can handle expected portfolio traffic within free tier
+**Consequences**:
+- ✅ $0/month vector database costs
+- ✅ Standard PostgreSQL with SQL familiarity
+- ✅ Built-in RLS for security
+- ✅ Same platform for potential future features (auth, storage)
+- ⚠️ Manual schema setup required (SQL execution)
+- ⚠️ Less specialized than Pinecone for vector operations
+- ⚠️ ivfflat index less efficient than HNSW for large datasets (not an issue at portfolio scale)
+
+---
+
+## ADR-015: Session-Based Chat vs Persistent History
+
+**Date**: 2025-10-26
+**Status**: Accepted (with future consideration)
+**Context**: Chat history can be stored in browser (localStorage), database, or not persisted at all.
+**Decision**: Use session-based chat history (localStorage only) without database persistence.
+**Rationale**:
+- **Simplicity**: No database writes, no user accounts needed
+- **Privacy**: User data stays in browser, not stored server-side
+- **Cost**: No storage costs for chat history
+- **Use case**: Portfolio visitors typically have short sessions, don't need long-term history
+- **Implementation speed**: Faster to implement, one less feature to build
+**Consequences**:
+- ✅ Simpler implementation
+- ✅ Better privacy (no user data collection)
+- ✅ Zero storage costs
+- ✅ No GDPR compliance complexity
+- ⚠️ Chat history lost on browser close/clear
+- ⚠️ Can't provide "continue conversation" feature
+- ⚠️ No analytics on common questions (would need separate implementation)
+**Future Consideration**: May add optional database persistence with user consent for "save conversation" feature
+
+---
+
 ## Future Considerations
 
 ### Pending Decisions

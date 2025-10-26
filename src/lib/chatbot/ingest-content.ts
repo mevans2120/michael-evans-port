@@ -7,14 +7,23 @@
  * 2. Created transcripts from your recordings
  * 3. Gathered supporting documents
  *
- * Usage: node --loader tsx src/lib/chatbot/ingest-content.ts
- * Or create a npm script in package.json
+ * Usage: npm run ingest
+ * Or with clear: npm run ingest:clear
  */
+
+// Load environment variables from .env.local
+import dotenv from 'dotenv';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, '../../../.env.local') });
 
 import { processDocuments } from './embeddings';
 import { insertDocuments, deleteAllDocuments } from './supabase';
 import * as fs from 'fs';
-import * as path from 'path';
 
 interface ContentFile {
   filePath: string;
@@ -43,7 +52,21 @@ async function loadContentFiles(baseDir: string): Promise<ContentFile[]> {
 
       // Infer source from filename
       let source = 'general';
-      if (file.includes('background')) source = 'background';
+      let category = undefined;
+
+      // Handle specific transcript files
+      if (file.includes('Answers_1')) {
+        source = 'background';
+        category = 'Professional Background & Career History';
+      } else if (file.includes('Answers_2')) {
+        source = 'projects';
+        category = 'Current Work, Projects & Example Q&A';
+      } else if (file.includes('ai-research')) {
+        source = 'research';
+        category = 'AI Research & Findings';
+      }
+      // Generic fallbacks
+      else if (file.includes('background')) source = 'background';
       else if (file.includes('skills')) source = 'skills';
       else if (file.includes('project')) source = 'project';
       else if (file.includes('philosophy')) source = 'philosophy';
@@ -55,6 +78,7 @@ async function loadContentFiles(baseDir: string): Promise<ContentFile[]> {
       contentFiles.push({
         filePath,
         source,
+        category,
         title: file.replace(/\.(md|txt)$/, ''),
       });
     }
@@ -163,9 +187,5 @@ async function ingestContent() {
   }
 }
 
-// Run if called directly
-if (require.main === module) {
-  ingestContent();
-}
-
-export { ingestContent };
+// Run ingestion
+ingestContent();

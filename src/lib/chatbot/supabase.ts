@@ -15,11 +15,25 @@ export const supabase = supabaseUrl && supabaseKey
   : null;
 
 // Service role client for admin operations (embedding insertion, etc.)
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+// Lazy initialization to ensure environment variables are loaded
+let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
 
-export const supabaseAdmin = supabaseServiceKey
-  ? createClient(supabaseUrl, supabaseServiceKey)
-  : null;
+export function getSupabaseAdmin() {
+  if (_supabaseAdmin) return _supabaseAdmin;
+
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  if (!supabaseServiceKey || !url) {
+    return null;
+  }
+
+  _supabaseAdmin = createClient(url, supabaseServiceKey);
+  return _supabaseAdmin;
+}
+
+// For backwards compatibility
+export const supabaseAdmin = getSupabaseAdmin();
 
 /**
  * Database Types
@@ -96,12 +110,13 @@ export async function insertDocument(
   embedding: number[],
   metadata: PortfolioDocument['metadata']
 ): Promise<PortfolioDocument | null> {
-  if (!supabaseAdmin) {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
     throw new Error('Supabase admin client not initialized. Service role key required.');
   }
 
   try {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await admin
       .from('documents')
       .insert({
         content,
@@ -130,12 +145,13 @@ export async function insertDocuments(
     metadata: PortfolioDocument['metadata'];
   }>
 ): Promise<PortfolioDocument[]> {
-  if (!supabaseAdmin) {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
     throw new Error('Supabase admin client not initialized. Service role key required.');
   }
 
   try {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await admin
       .from('documents')
       .insert(documents)
       .select();
@@ -153,12 +169,13 @@ export async function insertDocuments(
 }
 
 export async function deleteAllDocuments(): Promise<void> {
-  if (!supabaseAdmin) {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
     throw new Error('Supabase admin client not initialized. Service role key required.');
   }
 
   try {
-    const { error } = await supabaseAdmin.from('documents').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    const { error } = await admin.from('documents').delete().neq('id', '00000000-0000-0000-0000-000000000000');
 
     if (error) {
       console.error('Error deleting documents:', error);

@@ -7,7 +7,10 @@
     "dev": "next dev -p 3000 --turbopack",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "eslint"
+    "lint": "eslint",
+    "setup-db": "tsx src/lib/chatbot/setup-database.ts",
+    "ingest": "tsx src/lib/chatbot/ingest-content.ts",
+    "ingest:clear": "tsx src/lib/chatbot/ingest-content.ts --clear"
   },
   "dependencies": {
     "@ai-sdk/google": "^0.0.50",
@@ -80,10 +83,13 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "15.5.6",
+    "pg": "^8.16.3",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }

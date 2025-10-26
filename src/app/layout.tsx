@@ -5,6 +5,7 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import Navigation from "@/components/Navigation";
+import { Chatbot } from "@/components/chatbot/Chatbot";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
           <main id="main-content">{children}</main>
           <Toaster />
           <Sonner />
+          <Chatbot />
         </QueryProvider>
       </body>
     </html>
