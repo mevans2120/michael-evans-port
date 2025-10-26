@@ -140,14 +140,18 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                   </div>
                 ) : (
                   <>
-                    {messages.map((message) => (
-                      <ChatMessage
-                        key={message.id}
-                        role={message.role}
-                        content={message.content}
-                        timestamp={new Date().toISOString()}
-                      />
-                    ))}
+                    {messages.map((message) => {
+                      // Extract text from v5 message parts array
+                      const content = message.parts?.[0]?.text || message.content || '';
+                      return (
+                        <ChatMessage
+                          key={message.id}
+                          role={message.role}
+                          content={content}
+                          timestamp={new Date().toISOString()}
+                        />
+                      );
+                    })}
 
                     {/* Loading indicator */}
                     {isLoading && (
