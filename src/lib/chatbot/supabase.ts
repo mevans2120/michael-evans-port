@@ -6,14 +6,13 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables. Please check your .env.local file.');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Lazy initialization - only create client when needed
+export const supabase = supabaseUrl && supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : null;
 
 // Service role client for admin operations (embedding insertion, etc.)
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -66,7 +65,7 @@ export async function searchSimilarDocuments(
   matchThreshold: number = 0.7
 ): Promise<PortfolioDocument[]> {
   if (!supabase) {
-    throw new Error('Supabase client not initialized');
+    throw new Error('Supabase client not initialized. Missing environment variables: NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY');
   }
 
   try {
