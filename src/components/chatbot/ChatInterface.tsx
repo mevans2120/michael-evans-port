@@ -59,13 +59,13 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   }, [isOpen]);
 
   const handleSuggestedQuestion = (question: string) => {
-    sendMessage(question);
+    sendMessage({ text: question });
   };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-    sendMessage(input);
+    sendMessage({ text: input });
     setInput('');
   };
 
