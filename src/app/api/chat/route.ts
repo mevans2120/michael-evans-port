@@ -43,8 +43,14 @@ export async function POST(req: Request) {
       return new Response('Invalid request: no user message', { status: 400 });
     }
 
+    // Extract text from v5 message format (parts array) or fallback to content
+    const messageText = lastMessage.parts?.[0]?.text || lastMessage.content || '';
+    if (!messageText) {
+      return new Response('Invalid request: empty message', { status: 400 });
+    }
+
     // Generate embedding for the user's question
-    const queryEmbedding = await generateEmbedding(lastMessage.content);
+    const queryEmbedding = await generateEmbedding(messageText);
 
     // Search for relevant documents
     const relevantDocs = await searchSimilarDocuments(
