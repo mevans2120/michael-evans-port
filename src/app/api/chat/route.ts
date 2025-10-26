@@ -73,8 +73,9 @@ export async function POST(req: Request) {
     ];
 
     // Stream the response
+    // Note: Using gemini-pro as gemini-1.5-pro-002 may not be available with all API keys
     const result = await streamText({
-      model: google('gemini-1.5-pro-002'),
+      model: google('gemini-pro'),
       messages: enhancedMessages,
       temperature: 0.7,
     });
