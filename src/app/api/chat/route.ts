@@ -3,7 +3,7 @@
  * Handles RAG-powered chat requests using Claude Haiku and Supabase vector search
  */
 
-import { streamText } from 'ai';
+import { streamText, convertToModelMessages } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { generateEmbedding } from '@/lib/chatbot/embeddings';
 import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
@@ -78,10 +78,13 @@ export async function POST(req: Request) {
       ...messages,
     ];
 
+    // Convert UIMessages to ModelMessages for Claude
+    const modelMessages = convertToModelMessages(enhancedMessages);
+
     // Stream the response using Claude Haiku 3.5
     const result = streamText({
       model: anthropic('claude-3-5-haiku-20241022'),
-      messages: enhancedMessages,
+      messages: modelMessages,
       temperature: 0.7,
     });
 
