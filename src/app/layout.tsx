@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import Navigation from "@/components/Navigation";
 import { Chatbot } from "@/components/chatbot/Chatbot";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
           <Sonner />
           <Chatbot />
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );
