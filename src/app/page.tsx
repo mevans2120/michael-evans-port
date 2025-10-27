@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowRight, Code, Briefcase, User, Sparkles, ExternalLink, X } from 'lucide-react';
-import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -215,7 +214,14 @@ export default function HomePage() {
         ? 'bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100'
         : 'bg-gradient-to-b from-slate-50 to-white text-gray-900'
     }`}>
-      <Navigation />
+      {/* Logo Header */}
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-transparent pointer-events-none">
+        <div className="container mx-auto px-6 py-4">
+          <Link href="/" className="text-lg font-medium text-foreground inline-block pointer-events-auto">
+            M<span className="text-gradient">Evans</span>
+          </Link>
+        </div>
+      </nav>
 
       {/* Compact Hero Section */}
       <section className="px-6 relative min-h-[85vh] flex items-center">

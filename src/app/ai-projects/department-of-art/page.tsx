@@ -1,7 +1,6 @@
 'use client'
 import Link from "next/link";
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import Navigation from "@/components/Navigation";
 import { useAIProject } from "@/hooks/useAIProject";
 
 export default function DepartmentOfArtPage() {
@@ -10,7 +9,6 @@ export default function DepartmentOfArtPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
         <main className="pt-32 pb-12 px-6">
           <div className="container mx-auto max-w-4xl">
             <div className="flex items-center justify-center h-64">
@@ -25,7 +23,6 @@ export default function DepartmentOfArtPage() {
   if (error || !project) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
         <main className="pt-32 pb-12 px-6">
           <div className="container mx-auto max-w-4xl">
             <div className="mb-8">
@@ -44,7 +41,6 @@ export default function DepartmentOfArtPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       <main id="main-content" role="main" className="pt-32 pb-12 px-6">
         <div className="container mx-auto max-w-4xl">

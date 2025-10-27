@@ -4,8 +4,8 @@ import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import Navigation from "@/components/Navigation";
-import { Chatbot } from "@/components/chatbot/Chatbot";
+import { NavigationProvider } from "@/contexts/NavigationContext";
+import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
 import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="font-sans">
+      <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a
           href="#main-content"
@@ -39,11 +39,28 @@ export default function RootLayout({
         </a>
 
         <QueryProvider>
-          <Navigation />
-          <main id="main-content">{children}</main>
-          <Toaster />
-          <Sonner />
-          <Chatbot />
+          <NavigationProvider>
+            <div className="flex h-screen w-screen bg-neutral-950 overflow-hidden">
+              {/* Main Content Area */}
+              <main
+                id="main-content"
+                className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0"
+              >
+                {children}
+              </main>
+
+              {/* Navigation Panel */}
+              <NavigationPanel>
+                <div className="flex-1 flex flex-col bg-neutral-900 relative">
+                  <NavigationMenu />
+                  <ChatSection />
+                </div>
+              </NavigationPanel>
+            </div>
+
+            <Toaster />
+            <Sonner />
+          </NavigationProvider>
         </QueryProvider>
         <Analytics />
       </body>

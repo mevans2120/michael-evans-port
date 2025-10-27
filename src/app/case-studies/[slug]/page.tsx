@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import Navigation from "@/components/Navigation";
 import { CaseStudySlideshow } from "@/components/CaseStudySlideshow";
 import {
   CaseStudyHero,
@@ -123,7 +122,6 @@ export default function CaseStudyPage({ params }: PageProps) {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
         <main className="pt-32 pb-12 px-6">
           <div className="container mx-auto max-w-4xl">
             <div className="flex items-center justify-center h-64">
@@ -138,7 +136,6 @@ export default function CaseStudyPage({ params }: PageProps) {
   if (error || !project) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
         <main className="pt-32 pb-12 px-6">
           <div className="container mx-auto max-w-4xl">
             <div className="mb-8">
@@ -221,7 +218,6 @@ export default function CaseStudyPage({ params }: PageProps) {
     <div className="min-h-screen bg-background">
       {/* Fixed Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Navigation />
       </div>
 
       {/* Slideshow */}

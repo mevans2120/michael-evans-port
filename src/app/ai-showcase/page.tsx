@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Navigation from "@/components/Navigation";
 import Contact from "@/components/Contact";
 import { Button } from "@/components/ui/button";
 import { AIProjectsGrid } from "@/components/AIProjectsGrid";
@@ -31,7 +30,6 @@ export default function AIShowcasePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       <main id="main-content" role="main" className="pt-20 pb-12 px-6">
         <div className="container mx-auto max-w-7xl">

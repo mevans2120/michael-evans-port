@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import Navigation from "@/components/Navigation";
 import Contact from "@/components/Contact";
 import { client } from "@/lib/sanity/client";
 import { PortableText } from "@portabletext/react";
@@ -53,7 +52,6 @@ export default function AboutPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
         <main className="pt-32 pb-12 px-6">
           <div className="container mx-auto max-w-5xl">
             <div className="flex items-center justify-center h-64">
@@ -68,7 +66,6 @@ export default function AboutPage() {
   if (error || !profile) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
         <main className="pt-32 pb-12 px-6">
           <div className="container mx-auto max-w-5xl">
             <div className="bg-destructive/10 border border-destructive rounded-lg p-6">
@@ -82,7 +79,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       <main id="main-content" role="main" className="pt-20 pb-12 px-6">
         <div className="container mx-auto max-w-5xl">
