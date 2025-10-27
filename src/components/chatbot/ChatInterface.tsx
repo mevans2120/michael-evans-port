@@ -45,23 +45,6 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
     },
   });
 
-  // Debug: Log messages whenever they change
-  useEffect(() => {
-    console.log('Messages updated:', messages);
-    messages.forEach((msg, idx) => {
-      console.log(`Message ${idx}:`, {
-        id: msg.id,
-        role: msg.role,
-        content: msg.content,
-        parts: msg.parts,
-        hasContent: !!msg.content,
-        hasParts: !!msg.parts,
-        partsLength: msg.parts?.length,
-        firstPartText: msg.parts?.[0]?.text
-      });
-    });
-  }, [messages]);
-
   const isLoading = status === 'streaming';
 
   // Auto-scroll to bottom when messages change
@@ -162,13 +145,16 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                   <>
                     {messages.map((message) => {
                       // Extract text from v5 message parts array
-                      const content = message.parts?.[0]?.text || message.content || '';
+                      // Find the first part with type "text" (may not be parts[0] due to step-start, etc.)
+                      const textPart = message.parts?.find(part => part.type === 'text');
+                      const content = textPart?.text || message.content || '';
                       return (
                         <ChatMessage
                           key={message.id}
                           role={message.role}
                           content={content}
                           timestamp={new Date().toISOString()}
+                          onSuggestionClick={handleSuggestedQuestion}
                         />
                       );
                     })}
