@@ -33,7 +33,6 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const [input, setInput] = useState('');
 
   const { messages, sendMessage, status, error } = useChat({
-    api: '/api/chat',
     onFinish: () => {
       // Scroll to bottom when assistant responds
       setTimeout(() => {
@@ -147,7 +146,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                       // Extract text from v5 message parts array
                       // Find the first part with type "text" (may not be parts[0] due to step-start, etc.)
                       const textPart = message.parts?.find(part => part.type === 'text');
-                      const content = textPart?.text || message.content || '';
+                      const content = textPart?.text || '';
                       return (
                         <ChatMessage
                           key={message.id}

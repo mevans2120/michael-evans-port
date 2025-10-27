@@ -122,7 +122,7 @@ export async function insertDocument(
         content,
         embedding,
         metadata,
-      })
+      } as any)
       .select()
       .single();
 
@@ -153,7 +153,7 @@ export async function insertDocuments(
   try {
     const { data, error } = await admin
       .from('documents')
-      .insert(documents)
+      .insert(documents as any)
       .select();
 
     if (error) {
@@ -192,6 +192,10 @@ export async function deleteAllDocuments(): Promise<void> {
  */
 
 export async function createChatSession(): Promise<ChatSession> {
+  if (!supabase) {
+    throw new Error('Supabase client not initialized');
+  }
+
   try {
     const { data, error } = await supabase
       .from('chat_sessions')
@@ -214,6 +218,10 @@ export async function createChatSession(): Promise<ChatSession> {
 }
 
 export async function getChatSession(sessionId: string): Promise<ChatSession | null> {
+  if (!supabase) {
+    throw new Error('Supabase client not initialized');
+  }
+
   try {
     const { data, error } = await supabase
       .from('chat_sessions')
@@ -237,6 +245,10 @@ export async function updateChatSession(
   sessionId: string,
   messages: ChatMessage[]
 ): Promise<ChatSession | null> {
+  if (!supabase) {
+    throw new Error('Supabase client not initialized');
+  }
+
   try {
     const { data, error } = await supabase
       .from('chat_sessions')

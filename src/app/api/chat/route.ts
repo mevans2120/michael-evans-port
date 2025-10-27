@@ -119,7 +119,6 @@ export async function POST(req: Request) {
       system: systemPrompt,
       messages: modelMessages,
       temperature: 0.8, // Slightly higher for better synthesis
-      maxTokens: 4000, // Allow longer, more comprehensive responses
     });
 
     return result.toUIMessageStreamResponse();
