@@ -2,13 +2,14 @@ import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
 // Get Sanity config from environment or use defaults
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID === 'your-project-id'
-  ? '5n331bys'
-  : (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5n331bys');
+// Validate projectId - must be alphanumeric with dashes only
+const envProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const isValidProjectId = envProjectId &&
+  envProjectId !== 'your-project-id' &&
+  /^[a-z0-9-]+$/.test(envProjectId);
 
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET === 'production'
-  ? 'production'
-  : (process.env.NEXT_PUBLIC_SANITY_DATASET || 'production');
+const projectId = isValidProjectId ? envProjectId : '5n331bys';
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production';
 
 export const client = createClient({
   projectId,
