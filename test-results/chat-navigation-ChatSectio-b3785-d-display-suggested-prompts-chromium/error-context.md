@@ -1,0 +1,130 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - main [ref=e4]:
+      - generic [ref=e5]:
+        - navigation:
+          - link "MEvans" [ref=e6] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e9]:
+          - heading "Michael Evans builds products at the intersection of user empathy, technical possibility, and business value." [level=1] [ref=e10]
+          - link "Learn more about my background" [ref=e11] [cursor=pointer]:
+            - /url: /about
+            - text: Learn more about my background
+            - img [ref=e12]
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - heading "Selected Work" [level=2] [ref=e18]:
+              - text: Selected Work
+              - img [ref=e19]
+            - paragraph [ref=e20]: Case studies and product launches
+          - generic [ref=e21]:
+            - link "UX Design Virgin America First responsive airline website 15% conversion lift" [ref=e22] [cursor=pointer]:
+              - /url: /case-studies/virgin-america
+              - generic [ref=e23]:
+                - generic [ref=e24]:
+                  - generic [ref=e25]: UX Design
+                  - heading "Virgin America" [level=3] [ref=e26]
+                - generic [ref=e27]:
+                  - paragraph [ref=e28]: First responsive airline website
+                  - generic [ref=e29]:
+                    - generic [ref=e30]: 15% conversion lift
+                    - img [ref=e31]
+            - link "Experience Casa Bonita Restaurant with immersive entertainment Cultural icon revival" [ref=e33] [cursor=pointer]:
+              - /url: /case-studies/casa-bonita
+              - generic [ref=e34]:
+                - generic [ref=e35]:
+                  - generic [ref=e36]: Experience
+                  - heading "Casa Bonita" [level=3] [ref=e37]
+                - generic [ref=e38]:
+                  - paragraph [ref=e39]: Restaurant with immersive entertainment
+                  - generic [ref=e40]:
+                    - generic [ref=e41]: Cultural icon revival
+                    - img [ref=e42]
+            - link "Mobile Before Launcher Minimalist Android launcher 100K+ users" [ref=e44] [cursor=pointer]:
+              - /url: /case-studies/before-launcher
+              - generic [ref=e45]:
+                - generic [ref=e46]:
+                  - generic [ref=e47]: Mobile
+                  - heading "Before Launcher" [level=3] [ref=e48]
+                - generic [ref=e49]:
+                  - paragraph [ref=e50]: Minimalist Android launcher
+                  - generic [ref=e51]:
+                    - generic [ref=e52]: 100K+ users
+                    - img [ref=e53]
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - heading "AI Projects" [level=2] [ref=e59]:
+              - text: AI Projects
+              - img [ref=e60]
+            - paragraph [ref=e61]: Production-ready AI applications
+          - generic [ref=e63]:
+            - generic [ref=e64] [cursor=pointer]:
+              - generic [ref=e66]: "01"
+              - heading "Post Pal" [level=3] [ref=e67]
+              - paragraph [ref=e68]: An AI-powered social media content assistant that helps create, schedule, and optimize posts across multiple platforms with intelligent suggestions and analytics.
+            - generic [ref=e70] [cursor=pointer]:
+              - generic [ref=e72]: "02"
+              - heading "KarunaGatton.com" [level=3] [ref=e73]
+              - paragraph [ref=e74]: A modern, mystical website for a spiritual healer that uses AI to personalize user experiences and optimize lead generation through intelligent content recommendations.
+            - generic [ref=e76] [cursor=pointer]:
+              - generic [ref=e78]: "03"
+              - heading "AI Research Agent" [level=3] [ref=e79]
+              - paragraph [ref=e80]: An in-progress agentic application that autonomously scrapes websites, pursues multiple research questions simultaneously, and filters results for relevance using advanced AI reasoning.
+            - generic [ref=e82] [cursor=pointer]:
+              - generic [ref=e84]: "04"
+              - heading "DepartmentOfArt.com" [level=3] [ref=e85]
+              - paragraph [ref=e86]: A new project for DOA (Department of Art production company) based in Portland. An experiment to see how quickly an effective and excellent website can be built using AI-assisted development.
+    - generic [ref=e89]:
+      - navigation [ref=e91]:
+        - button "Close" [ref=e92] [cursor=pointer]:
+          - img [ref=e93]
+          - text: Close
+        - link "Home" [ref=e96] [cursor=pointer]:
+          - /url: /
+          - img [ref=e97]
+          - text: Home
+        - link "About" [ref=e100] [cursor=pointer]:
+          - /url: /about
+          - img [ref=e101]
+          - text: About
+        - link "Case Studies" [ref=e104] [cursor=pointer]:
+          - /url: /case-studies
+          - img [ref=e105]
+          - text: Case Studies
+        - link "AI Showcase" [ref=e108] [cursor=pointer]:
+          - /url: /ai-showcase
+          - img [ref=e109]
+          - text: AI Showcase
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - img [ref=e114]
+            - heading "AI Assistant" [level=2] [ref=e116]
+          - button "Collapse chat" [ref=e117] [cursor=pointer]:
+            - img [ref=e118]
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - img [ref=e123]
+            - paragraph [ref=e128]: Hi! I can help you explore Michael's portfolio. What would you like to know?
+          - generic [ref=e129]:
+            - paragraph [ref=e130]: "Suggested questions:"
+            - button "Tell me about the first responsive airline website" [ref=e131] [cursor=pointer]:
+              - generic [ref=e132]: Tell me about the first responsive airline website
+            - button "How did you help thousands of people focus?" [ref=e133] [cursor=pointer]:
+              - generic [ref=e134]: How did you help thousands of people focus?
+        - generic [ref=e135]:
+          - textbox "Ask about Michael's work..." [active] [ref=e136]
+          - button [disabled] [ref=e137]:
+            - img [ref=e138]
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e146] [cursor=pointer]:
+    - img [ref=e147]
+  - alert [ref=e150]
+```

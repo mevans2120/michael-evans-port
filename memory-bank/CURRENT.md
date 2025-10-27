@@ -1,95 +1,150 @@
 # Current Development Status
 
-## 📍 Active Sprint: AI Chatbot Implementation
-*Last Updated: 2025-10-26 18:55*
+## 📍 Active Sprint: Content Specifications & Vector Database Optimization
+*Last Updated: 2025-10-27*
 
 ## 🎯 Current Focus
-Implemented complete $0/month RAG-powered AI chatbot for portfolio using Google Gemini, Supabase pgvector, and Vercel AI SDK.
+Created comprehensive content specifications for all case studies and profile/about page based on vector database source material.
 
 ## ✅ Recent Accomplishments (This Session)
-- ✅ Built complete RAG chatbot infrastructure:
-  - Vector database integration with Supabase pgvector
-  - Text embeddings using Google text-embedding-004 (768 dimensions)
-  - Semantic search with cosine similarity
-  - Streaming LLM responses with Google Gemini 1.5 Pro
-- ✅ Created 8 chatbot modules:
-  - `/src/lib/chatbot/supabase.ts` - Database client & vector search
-  - `/src/lib/chatbot/embeddings.ts` - Text chunking & embedding generation
-  - `/src/lib/chatbot/database-schema.sql` - PostgreSQL schema with pgvector
-  - `/src/lib/chatbot/ingest-content.ts` - Content ingestion script
-  - `/src/components/chatbot/Chatbot.tsx` - Main component
-  - `/src/components/chatbot/ChatInterface.tsx` - Chat modal UI
-  - `/src/components/chatbot/ChatMessage.tsx` - Message bubbles
-  - `/src/components/chatbot/ChatButton.tsx` - Floating button
-  - `/src/app/api/chat/route.ts` - RAG-powered Edge API
-- ✅ Prepared content from voice transcripts (~24,000 words)
-- ✅ Integrated chatbot into site layout (floating button, bottom-right)
-- ✅ Created comprehensive documentation (CHATBOT-QUICKSTART.md, CHATBOT-SETUP-GUIDE.md)
-- ✅ Added npm scripts: `npm run setup-db`, `npm run ingest`, `npm run ingest:clear`
 
-## 🔄 In Progress
-- [ ] Database schema setup (requires manual Supabase SQL execution)
-- [ ] Content ingestion (pending database setup)
-- [ ] Testing chatbot with sample questions
+### Vector Database Optimization
+- ✅ Increased chunk overlap from 50 to 150 characters in embeddings.ts
+- ✅ Added batch processing for embeddings (100 per batch for Google API limits)
+- ✅ Re-ingested content: 365 chunks (up from 287)
+- ✅ Improved project name association across chunks:
+  - Virgin America: 21→28 chunks (+33%)
+  - Before Launcher: 17→24 chunks (+41%)
+  - Target: 19→23 chunks (+21%)
+  - Casa Bonita: 7→10 chunks (+43%)
+- ✅ Created analysis scripts:
+  - `analyze-chunks.ts` - Overall chunk association analysis
+  - `analyze-project-chunks.ts` - Deep dive into project-specific chunks
 
-## 🚀 Next Steps (User Action Required)
-1. **Set up Supabase database schema** (2 minutes):
-   - Go to: https://supabase.com/dashboard/project/kbppccutslxshkmaaagf/sql/new
-   - Paste entire contents of: `src/lib/chatbot/database-schema.sql`
-   - Click Run
-2. **Ingest content** (3 minutes):
-   - Run: `npm run ingest`
-   - Verify ~80 chunks created
-3. **Test chatbot locally**:
-   - Visit http://localhost:3000
-   - Click floating chat button
-   - Ask test questions
-4. **Deploy to production**:
-   - Add environment variables to Vercel
-   - Push to GitHub
+### Content Specifications Created
+- ✅ **Virgin America Case Study** (`/docs/content-specs/virgin-america-case-study.md`)
+  - 8 detailed sections
+  - Flagship project: 15-20% conversion, Webbies/UX Awards/Cannes Lions
+  - Decision-based booking flow innovation
+
+- ✅ **Before Launcher Case Study** (`/docs/content-specs/before-launcher-case-study.md`)
+  - 9 detailed sections
+  - Product story: 30-40% phone reduction, Fast Company Best App 2019
+  - Notification filtering and ethical product development
+
+- ✅ **Casa Bonita Case Study** (`/docs/content-specs/casa-bonita-case-study.md`)
+  - 9 detailed sections
+  - Technical excellence: 40K queue, 100% capacity, 25% more covers
+  - Next.js/Supabase/Vercel architecture
+
+- ✅ **Target Case Study** (`/docs/content-specs/target-case-study.md`)
+  - 8 detailed sections
+  - Enterprise scale: 20+ work streams, Amazon → proprietary e-commerce
+  - Future of retail strategy (empower employees, not replace them)
+
+- ✅ **Pedal Case Study** (`/docs/content-specs/pedal-case-study.md`)
+  - 9 detailed sections
+  - Conversion optimization: 15% more cars, 5% homepage lift
+  - Data infrastructure with Snowflake/Snowplow
+
+- ✅ **Profile/About Content** (`/docs/content-specs/profile-about-content-spec.md`)
+  - 10 comprehensive sections
+  - Background, capabilities, philosophy, AI work
+  - Technologies, tools, availability
+
+- ✅ **Content Specs README** (`/docs/content-specs/README.md`)
+  - Overview and implementation guide
+  - Priority levels (P0, P1, P2)
+  - Source material references
+
+### TypeScript Build Fixes
+- ✅ Fixed ChatSection.tsx type errors for UIMessage handling
+- ✅ Build successfully completes with no errors
+
+## 📊 Content Spec Details
+
+Each specification includes:
+- **Structured Metadata** - Ready for Sanity CMS import
+- **Hero Sections** - Title, tagline, 2-3 sentence summary
+- **Key Metrics** - JSON format (4 metrics per project)
+- **Achievements Array** - JSON format (6-8 per project)
+- **8-10 Content Sections** - Full prose narratives with lessons learned
+- **Technologies Used** - JSON arrays
+- **SEO Metadata** - Titles, descriptions, keywords
+- **Images Needed** - Specific lists (6-7 per project)
+- **Related Projects** - Cross-linking
+- **Source References** - Traceability to transcript files
+
+## 🚀 Next Steps
+
+### Immediate (User Decision)
+1. **Review content specifications** - Read through specs, suggest changes
+2. **Source images** - Gather hero images, screenshots, awards for each project
+3. **Implement in Sanity** - Create project documents from specs
+4. **Build page templates** - Create case study detail page components
+5. **Launch enhanced portfolio** - Deploy with rich content
+
+### Priority Implementation Order
+**P0 (Immediate):**
+- Virgin America (flagship, most awards)
+- Before Launcher (unique product story)
+- Profile/About (essential for understanding who you are)
+
+**P1 (High):**
+- Casa Bonita (recent, technical excellence)
+- Target (enterprise credibility)
+
+**P2 (Standard):**
+- Pedal (strong metrics, good tech story)
 
 ## 📝 Quick Notes
-- **Portfolio Stack**: Next.js 15, React 19, TypeScript 5.8, Tailwind CSS 3.4
+- **Portfolio Stack**: Next.js 15, React 19, TypeScript 5.8, Tailwind CSS 3.4, Sanity CMS
 - **Chatbot Stack**: Google Gemini 1.5 Pro, Supabase pgvector, Vercel AI SDK
-- **Cost**: $0/month using free tiers (Gemini + Supabase + Vercel)
-- **Content**: ~24,000 words from voice transcripts (background, projects, AI research)
-- **RAG Pipeline**: Query → Embedding → Vector Search → Context Assembly → LLM → Stream
-- **Performance**: Edge runtime, streaming responses, semantic search with 0.7 threshold
+- **Vector DB**: 365 chunks with improved project name association
+- **Content Voice**: Written in your voice from transcript material
+- **Data-Driven**: Every spec includes specific metrics and outcomes
+- **Story-Focused**: Problem → Solution → Results → Learnings structure
 
 ## 🔗 Key Files
-- **Chatbot Documentation**:
-  - `/CHATBOT-QUICKSTART.md` - 3-step setup guide
-  - `/docs/research/research-batch-1-102525/CHATBOT-SETUP-GUIDE.md` - Full documentation
-  - `/docs/research/research-batch-1-102525/ai-chatbot-portfolio-research.md` - Research findings
-- **Chatbot Code**:
-  - `/src/lib/chatbot/` - Core logic (supabase, embeddings, ingestion)
-  - `/src/components/chatbot/` - UI components (button, interface, messages)
-  - `/src/app/api/chat/route.ts` - RAG-powered API endpoint
-  - `/src/lib/chatbot/database-schema.sql` - PostgreSQL schema
-- **Content**:
-  - `/docs/research/research-batch-1-102525/source-materials/transcripts/` - Voice transcripts
-- **Architecture**:
-  - `/src/app/layout.tsx` - Main layout with chatbot
-  - `/package.json` - New scripts: setup-db, ingest, ingest:clear
+
+### New This Session
+- **Content Specifications**:
+  - `/docs/content-specs/virgin-america-case-study.md`
+  - `/docs/content-specs/before-launcher-case-study.md`
+  - `/docs/content-specs/casa-bonita-case-study.md`
+  - `/docs/content-specs/target-case-study.md`
+  - `/docs/content-specs/pedal-case-study.md`
+  - `/docs/content-specs/profile-about-content-spec.md`
+  - `/docs/content-specs/README.md`
+
+- **Analysis Scripts**:
+  - `/analyze-chunks.ts` - Overall chunk analysis
+  - `/analyze-project-chunks.ts` - Project-specific chunk analysis
+
+### Modified This Session
+- `/src/lib/chatbot/embeddings.ts` - Increased overlap, added batch processing
+- `/src/components/navigation/ChatSection.tsx` - Fixed TypeScript type errors
+
+### Existing Key Files
+- **Chatbot Code**: `/src/lib/chatbot/`, `/src/components/chatbot/`, `/src/app/api/chat/route.ts`
+- **Sanity Schemas**: `/sanity/schemas/project.ts`, `/sanity/schemas/profile.ts`
+- **Source Material**: `/docs/research/research-batch-1-102525/source-materials/transcripts/`
 
 ## 🐛 Known Issues
-- Database schema requires manual setup in Supabase (automated approach not available via REST API)
-- Content ingestion pending database schema setup
+- None - build successful, all TypeScript errors resolved
 
 ## 💭 Considerations
-- Monitor Gemini API usage to stay within free tier limits (15 RPM, 1,500/day)
-- Consider adding chat history persistence (currently session-based only)
-- May want to add suggested questions UI for better UX
-- Could implement feedback mechanism to improve responses
-- Consider adding "typing" indicator during streaming
+- Content specs are comprehensive blueprints ready for Sanity implementation
+- Vector database now has much better project name association across chunks
+- May want to create additional case studies for PostPal and other AI projects
+- Consider adding visual design concepts to supplement written specs
 
 ## 📊 Project Health
-- **Code Quality**: Excellent - TypeScript throughout, proper error handling
-- **Documentation**: Excellent - comprehensive guides created
-- **Testing**: Not Set Up - chatbot needs manual testing
-- **Performance**: Good - Edge runtime, streaming responses, efficient vector search
-- **Security**: Good - RLS policies, environment variables, no exposed secrets
-- **Cost**: Optimal - $0/month using free tiers
+- **Code Quality**: Excellent - TypeScript throughout, build successful
+- **Documentation**: Excellent - comprehensive content specs created
+- **Vector DB**: Optimized - 365 chunks with improved project association
+- **Content**: Ready - 6 detailed specifications covering all major work
+- **Next Phase**: Implementation in Sanity CMS
 
 ---
 

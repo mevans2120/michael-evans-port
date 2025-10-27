@@ -8,6 +8,9 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "eslint",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:api": "node test-chatsection-integration.mjs",
     "setup-db": "tsx src/lib/chatbot/setup-database.ts",
     "ingest": "tsx src/lib/chatbot/ingest-content.ts",
     "ingest:clear": "tsx src/lib/chatbot/ingest-content.ts --clear"
@@ -83,6 +86,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.56.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
     "@types/pg": "^8.15.5",
@@ -93,6 +97,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.6",
     "pg": "^8.16.3",
+    "playwright": "^1.56.1",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.6",

@@ -1,9 +1,9 @@
 # AI Chatbot Test Report
 
-**Test Date:** 2025-10-26T22:36:24.721Z
+**Test Date:** 2025-10-27T22:30:19.602Z
 **Environment:** development
 **API Endpoint:** http://localhost:3000/api/chat
-**Total Duration:** 57.20s
+**Total Duration:** 18.80s
 
 ---
 
@@ -13,7 +13,7 @@
 - **Passed:** 1 ✓
 - **Failed:** 14 ✗
 - **Pass Rate:** 7%
-- **Average Response Time:** 1270ms
+- **Average Response Time:** 0ms
 
 ## Overall Assessment
 
@@ -32,130 +32,74 @@ The chatbot has significant problems that must be resolved. Low pass rate indica
 
 ❌ **Basic greeting test**
 - Question: "Hello, who are you?"
-- Response time: 3035ms
-- Response length: 0 characters
-- Chunks received: 58
-- Expected keywords: Michael, Evans, assistant
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 
 ### Professional Background
 
 ❌ **Early career history**
 - Question: "Tell me about Michael Evans early career"
-- Response time: 1126ms
-- Response length: 0 characters
-- Chunks received: 51
-- Expected keywords: Work & Co, Virgin America, designer, developer
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **AI/ML experience**
 - Question: "What is Michael's experience with AI and machine learning?"
-- Response time: 1049ms
-- Response length: 0 characters
-- Chunks received: 79
-- Expected keywords: AI, machine learning, research, Google
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 
 ### Project Coverage
 
 ❌ **Casa Bonita project details**
 - Question: "Tell me about the Casa Bonita project"
-- Response time: 1556ms
-- Response length: 0 characters
-- Chunks received: 56
-- Expected keywords: Casa Bonita, restaurant, Matt, Trey
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Virgin America project**
 - Question: "What did Michael work on at Virgin America?"
-- Response time: 1171ms
-- Response length: 0 characters
-- Chunks received: 39
-- Expected keywords: Virgin America, airline, app, website
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Before Launcher project**
 - Question: "Tell me about the Before Launcher"
-- Response time: 1003ms
-- Response length: 0 characters
-- Chunks received: 54
-- Expected keywords: Before Launcher, Android, launcher, app
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Peddle project**
 - Question: "What is Peddle?"
-- Response time: 2355ms
-- Response length: 0 characters
-- Chunks received: 51
-- Expected keywords: Peddle, car, selling, marketplace
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Target project**
 - Question: "Tell me about Michael's work with Target"
-- Response time: 969ms
-- Response length: 0 characters
-- Chunks received: 43
-- Expected keywords: Target, retail, e-commerce
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 
 ### Technical Skills
 
 ❌ **Programming languages**
 - Question: "What programming languages does Michael know?"
-- Response time: 903ms
-- Response length: 0 characters
-- Chunks received: 52
-- Expected keywords: JavaScript, TypeScript, Python, React
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Technical skills overview**
 - Question: "What are Michael's technical skills?"
-- Response time: 816ms
-- Response length: 0 characters
-- Chunks received: 65
-- Expected keywords: developer, designer, AI, machine learning
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 
 ### Current Status
 
 ❌ **Work availability**
 - Question: "Is Michael available for work?"
-- Response time: 891ms
-- Response length: 0 characters
-- Chunks received: 64
-- Expected keywords: contact, available, Michael
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 
 ### Edge Cases
 
 ❌ **Work history**
 - Question: "What companies has Michael worked for?"
-- Response time: 1112ms
-- Response length: 0 characters
-- Chunks received: 45
-- Expected keywords: Work & Co, Beforelab, Virgin America
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Off-topic question handling**
 - Question: "What's the weather like?"
-- Response time: 899ms
-- Response length: 0 characters
-- Chunks received: 35
-- Expected keywords: Michael, professional, portfolio
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 ❌ **Irrelevant request handling**
 - Question: "Can you write me a poem about cats?"
-- Response time: 901ms
-- Response length: 0 characters
-- Chunks received: 46
-- Expected keywords: Michael, professional, portfolio
-- Found keywords: 
+- Error: HTTP 500: Internal Server Error
 
 
 ---
@@ -166,15 +110,15 @@ The chatbot has significant problems that must be resolved. Low pass rate indica
 
 | Metric | Value |
 |--------|-------|
-| Average | 1270ms |
-| Minimum | 816ms |
-| Maximum | 3035ms |
-| Median | 1049ms |
+| Average | 0ms |
+| Minimum | 0ms |
+| Maximum | 0ms |
+| Median | 0ms |
 
 ### Streaming Performance
 
 - All successful requests used streaming responses
-- Chunks received per request: 52.7 average
+- Chunks received per request: 0 average
 - Streaming appears to be working correctly
 
 ---
@@ -185,98 +129,98 @@ The chatbot has significant problems that must be resolved. Low pass rate indica
 
 - **Question:** "Hello, who are you?"
 - **Expected:** Michael, Evans, assistant
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 2: Early career history
 
 - **Question:** "Tell me about Michael Evans early career"
 - **Expected:** Work & Co, Virgin America, designer, developer
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 3: Work history
 
 - **Question:** "What companies has Michael worked for?"
 - **Expected:** Work & Co, Beforelab, Virgin America
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 4: AI/ML experience
 
 - **Question:** "What is Michael's experience with AI and machine learning?"
 - **Expected:** AI, machine learning, research, Google
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 5: Casa Bonita project details
 
 - **Question:** "Tell me about the Casa Bonita project"
 - **Expected:** Casa Bonita, restaurant, Matt, Trey
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 6: Virgin America project
 
 - **Question:** "What did Michael work on at Virgin America?"
 - **Expected:** Virgin America, airline, app, website
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 7: Before Launcher project
 
 - **Question:** "Tell me about the Before Launcher"
 - **Expected:** Before Launcher, Android, launcher, app
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 8: Peddle project
 
 - **Question:** "What is Peddle?"
 - **Expected:** Peddle, car, selling, marketplace
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 9: Target project
 
 - **Question:** "Tell me about Michael's work with Target"
 - **Expected:** Target, retail, e-commerce
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 10: Programming languages
 
 - **Question:** "What programming languages does Michael know?"
 - **Expected:** JavaScript, TypeScript, Python, React
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 11: Technical skills overview
 
 - **Question:** "What are Michael's technical skills?"
 - **Expected:** developer, designer, AI, machine learning
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 12: Work availability
 
 - **Question:** "Is Michael available for work?"
 - **Expected:** contact, available, Michael
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 13: Off-topic question handling
 
 - **Question:** "What's the weather like?"
 - **Expected:** Michael, professional, portfolio
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 ### Issue 14: Irrelevant request handling
 
 - **Question:** "Can you write me a poem about cats?"
 - **Expected:** Michael, professional, portfolio
-- **Problem:** Response did not contain expected keywords or was too short
+- **Problem:** HTTP 500: Internal Server Error
 
 
 
@@ -329,5 +273,5 @@ The AI chatbot has issues that need to be addressed. Review the failed tests and
 
 ---
 
-*Test suite executed on 2025-10-26T22:36:24.722Z*
+*Test suite executed on 2025-10-27T22:30:19.602Z*
 *Report generated automatically by chatbot test script*

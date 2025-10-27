@@ -12,7 +12,7 @@ import { google } from '@ai-sdk/google';
 
 const EMBEDDING_MODEL = 'text-embedding-004';
 const CHUNK_SIZE = 500; // characters per chunk
-const CHUNK_OVERLAP = 50; // overlap between chunks
+const CHUNK_OVERLAP = 150; // overlap between chunks (increased to ensure project names appear in multiple chunks)
 
 /**
  * Text Chunking
@@ -64,16 +64,32 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 
 /**
  * Generate embeddings for multiple texts
+ * Batches requests to avoid API limits (max 100 per batch)
  */
 
 export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
-  try {
-    const { embeddings } = await embedMany({
-      model: google.textEmbeddingModel(EMBEDDING_MODEL),
-      values: texts,
-    });
+  const BATCH_SIZE = 100; // Google API limit
+  const allEmbeddings: number[][] = [];
 
-    return embeddings;
+  try {
+    // Process in batches
+    for (let i = 0; i < texts.length; i += BATCH_SIZE) {
+      const batch = texts.slice(i, i + BATCH_SIZE);
+
+      const { embeddings } = await embedMany({
+        model: google.textEmbeddingModel(EMBEDDING_MODEL),
+        values: batch,
+      });
+
+      allEmbeddings.push(...embeddings);
+
+      // Optional: Add small delay between batches to avoid rate limiting
+      if (i + BATCH_SIZE < texts.length) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+    }
+
+    return allEmbeddings;
   } catch (error) {
     console.error('Error generating embeddings:', error);
     throw new Error(`Failed to generate embeddings: ${error instanceof Error ? error.message : 'Unknown error'}`);
