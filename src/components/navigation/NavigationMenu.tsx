@@ -39,38 +39,34 @@ export function NavigationMenu() {
       <nav className="flex flex-row md:flex-col gap-2 md:gap-8 h-full overflow-x-auto md:overflow-y-auto justify-around md:justify-start px-2 md:px-0">
         {/* Close Button - Desktop Only */}
         {isDesktop && (
-          <button
-            onClick={togglePanel}
-            className="flex items-center gap-4 px-8 py-6 text-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
-          >
-            <ChevronRight
-              className="w-4 h-4 transition-transform duration-300"
-              style={{
-                transform: panelState === 'expanded' ? 'rotate(0deg)' : 'rotate(180deg)'
-              }}
-            />
-            {isExpanded && 'Close'}
-          </button>
+          <>
+            <button
+              onClick={togglePanel}
+              className="flex items-center gap-4 px-8 py-6 text-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
+            >
+              <ChevronRight
+                className="w-4 h-4 transition-transform duration-300"
+                style={{
+                  transform: panelState === 'expanded' ? 'rotate(0deg)' : 'rotate(180deg)'
+                }}
+              />
+              {isExpanded && 'Close'}
+            </button>
+            <div className="relative -my-4">
+              <div className="absolute inset-x-0 top-1/2 h-px bg-neutral-800" />
+            </div>
+          </>
         )}
 
         {/* Navigation Items */}
         {navigationItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href ||
-                          (item.href !== '/' && pathname?.startsWith(item.href));
 
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`
-                flex items-center gap-4 px-8 py-6 text-lg
-                transition-colors rounded-lg
-                ${isActive
-                  ? 'text-purple-400 bg-neutral-800'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
-                }
-              `}
+              className="flex items-center gap-4 px-8 py-6 text-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
             >
               <Icon className="w-4 h-4" />
               {isExpanded && isDesktop && item.label}

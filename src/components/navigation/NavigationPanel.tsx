@@ -42,8 +42,6 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         w-full md:w-auto
         h-auto md:h-full
         bg-neutral-900
-        border-t-2 md:border-t-0 md:border-l-2
-        border-purple-500
         flex
         transition-all duration-300 ease-out
         md:flex-shrink-0
@@ -52,7 +50,9 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
       style={{
         width: isDesktop ? getPanelWidth() : '100%',
         height: isDesktop ? '100%' : 'auto',
-        cursor: panelState === 'partial' ? 'pointer' : 'default'
+        cursor: panelState === 'partial' ? 'pointer' : 'default',
+        borderTop: isDesktop ? 'none' : '0.5px solid rgb(168, 85, 247)',
+        borderLeft: isDesktop ? '0.5px solid rgb(168, 85, 247)' : 'none'
       }}
       onClick={panelState === 'partial' ? handleClick : undefined}
     >

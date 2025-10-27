@@ -92,5 +92,66 @@ Implemented a collapsible navigation system with integrated AI chat interface, r
 - ✅ All TypeScript errors resolved
 - ✅ Static page generation successful for all routes
 
+## Phase 5: Homepage Hero and Navigation UI Refinements - Completed
+
+### Hero Section Updates
+**File Modified:** `/src/app/page.tsx`
+
+1. **Dynamic Tagline from CMS**:
+   - Replaced hardcoded text with Sanity CMS tagline
+   - Added state: `const [tagline, setTagline] = useState<string>('Building products...')`
+   - Fetches from profile document in useEffect
+   - Fallback text if CMS unavailable
+
+2. **Text Sizing and Layout**:
+   - Increased from `text-3xl md:text-4xl` to `text-4xl md:text-5xl lg:text-6xl`
+   - Changed from `leading-relaxed` to `leading-tight` for better density
+   - Added inline name with gradient: `<span className="text-gradient">Michael Evans</span> {tagline}`
+
+3. **Profile Image Removal**:
+   - Removed profile image container from homepage
+   - Image still displayed on About page
+   - Simplified hero to text-only design
+
+### Navigation Panel Styling
+**Files Modified:** `/src/components/navigation/NavigationPanel.tsx`, `/src/components/navigation/NavigationMenu.tsx`
+
+1. **Border Thickness Refinement** (NavigationPanel.tsx:54-55):
+   - Changed from `border-t-2 md:border-l-2` (2px) to 0.5px borders
+   - Used inline styles for sub-pixel rendering (Tailwind limitation):
+   ```typescript
+   borderTop: isDesktop ? 'none' : '0.5px solid rgb(168, 85, 247)',
+   borderLeft: isDesktop ? '0.5px solid rgb(168, 85, 247)' : 'none'
+   ```
+   - Much more subtle, refined appearance
+
+2. **Active State Removal** (NavigationMenu.tsx:66-73):
+   - Removed purple highlighting of current page
+   - Deleted `isActive` logic using `usePathname()` comparison
+   - All items now: `text-neutral-400 hover:text-white hover:bg-neutral-800`
+   - Consistent styling reduces visual distraction
+
+3. **Navigation Separator** (NavigationMenu.tsx:55-57):
+   - Added horizontal stroke between Close button and Home link
+   - Desktop only feature
+   - Implementation:
+   ```tsx
+   <div className="relative -my-4">
+     <div className="absolute inset-x-0 top-1/2 h-px bg-neutral-800" />
+   </div>
+   ```
+   - Negative margin (`-my-4`) positions in existing gap without adding height
+   - Absolute positioning with `top-1/2` centers perfectly
+
+### Technical Notes
+- **Sub-pixel rendering**: Used inline styles for 0.5px borders since Tailwind CSS doesn't support fractional border widths
+- **Layout preservation**: Separator uses negative margins and absolute positioning to avoid affecting container heights
+- **Consistency**: All navigation items now have identical hover states (no active state differentiation)
+
+### Build Status
+- ✅ Build passing (verified with `npm run build`)
+- ✅ All TypeScript errors resolved
+- ✅ Static page generation successful for all routes
+
 ## Next Phase
-Ready to proceed with Phase 5: Backend AI integration (OpenAI/Anthropic API connection).
+Ready to proceed with Phase 6: Backend AI integration (OpenAI/Anthropic API connection).

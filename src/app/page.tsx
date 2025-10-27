@@ -17,6 +17,7 @@ export default function HomePage() {
   const [selectedProject, setSelectedProject] = useState<AIProjectData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [tagline, setTagline] = useState<string>('Building products at the intersection of user empathy, technical possibility, and business value');
 
   // Site is always dark - no light mode
   const isDarkMode = true;
@@ -24,21 +25,25 @@ export default function HomePage() {
   // Fetch AI projects from Sanity
   const { data: aiProjects, loading: aiProjectsLoading, error: aiProjectsError } = useAllAIProjects();
 
-  // Fetch profile image from Sanity
+  // Fetch profile data from Sanity
   useEffect(() => {
-    async function fetchProfileImage() {
+    async function fetchProfileData() {
       try {
         const data = await client.fetch(`*[_type == "profile"] | order(_updatedAt desc)[0] {
-          "profileImage": profileImage.asset->url
+          "profileImage": profileImage.asset->url,
+          tagline
         }`);
         if (data?.profileImage) {
           setProfileImage(data.profileImage);
         }
+        if (data?.tagline) {
+          setTagline(data.tagline);
+        }
       } catch (error) {
-        logger.error('Failed to load profile image from Sanity:', error);
+        logger.error('Failed to load profile data from Sanity:', error);
       }
     }
-    fetchProfileImage();
+    fetchProfileData();
   }, []);
 
   const handleProjectClick = (project: AIProjectData) => {
@@ -93,61 +98,27 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero Section - Product Strategist & Creative Technologist */}
+      {/* Hero Section */}
       <section className="px-6 relative min-h-[85vh] flex items-center pt-20">
         <div className="container mx-auto max-w-6xl">
-          <div className="md:max-w-4xl -mx-6 md:mx-0">
-            {/* Image and Heading */}
-            <div className="flex gap-6 md:gap-8 items-center mb-4">
-              {/* Image */}
-              <div className="w-40 h-40 md:w-44 md:h-44 flex-shrink-0">
-                <div className={`w-full h-full rounded-2xl overflow-hidden border ${
-                  isDarkMode ? 'border-gray-800' : 'border-gray-200'
-                }`}>
-                  {profileImage ? (
-                    <img
-                      src={profileImage}
-                      alt="Michael Evans"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-accent/20 to-indigo-500/30 flex items-center justify-center">
-                      <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Photo</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Heading */}
-              <div className="flex-1 min-w-0">
-                <h2 className={`text-2xl font-light flex items-center gap-3 ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                }`}>
-                  Product Strategist & Creative Technologist
-                  <span className={`w-12 h-px bg-gradient-to-r ${
-                    isDarkMode ? 'from-accent/50 to-transparent' : 'from-accent to-transparent'
-                  }`}></span>
-                </h2>
-              </div>
-            </div>
-
-            {/* Body Text - Full Width */}
-            <div>
-              <p className={`text-base mb-6 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                I help companies design and build products that blend strategic thinking with technical execution. With two decades of experience across product strategy, UX design, and full-stack development, I specialize in translating complex challenges into elegant, AI-powered solutions.
-              </p>
-              <Link
-                href="/about"
-                className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
-                  isDarkMode
-                    ? 'text-accent hover:text-purple-300'
-                    : 'text-purple-600 hover:text-purple-700'
-                }`}
-              >
-                Learn more about my background
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+          <div className="max-w-5xl -mx-6 md:mx-0">
+            {/* Main Text */}
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-8 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>
+              <span className="text-gradient">Michael Evans</span> {tagline}
+            </h1>
+            <Link
+              href="/about"
+              className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                isDarkMode
+                  ? 'text-accent hover:text-purple-300'
+                  : 'text-purple-600 hover:text-purple-700'
+              }`}
+            >
+              Learn more about my background
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -165,9 +136,16 @@ export default function HomePage() {
               isDarkMode ? 'text-gray-100' : 'text-gray-900'
             }`}>
               Selected Work
-              <span className={`w-12 h-px bg-gradient-to-r ${
-                isDarkMode ? 'from-accent/50 to-transparent' : 'from-accent to-transparent'
-              }`}></span>
+              <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
+                    <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
+              </svg>
             </h2>
             <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
           </div>
@@ -233,9 +211,16 @@ export default function HomePage() {
               isDarkMode ? 'text-gray-100' : 'text-gray-900'
             }`}>
               AI Projects
-              <span className={`w-12 h-px bg-gradient-to-r ${
-                isDarkMode ? 'from-accent/50 to-transparent' : 'from-accent to-transparent'
-              }`}></span>
+              <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
+                    <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
+              </svg>
             </h2>
             <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Production-ready AI applications</p>
           </div>
