@@ -31,8 +31,20 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState('');
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   const { messages, sendMessage, status, error } = useChat({
+    body: {
+      sessionId, // Send session ID with each request
+    },
+    onResponse: (response) => {
+      // Extract session ID from response headers on first message
+      const newSessionId = response.headers.get('X-Session-ID');
+      if (newSessionId && !sessionId) {
+        setSessionId(newSessionId);
+        console.log('Session ID established:', newSessionId);
+      }
+    },
     onFinish: () => {
       // Scroll to bottom when assistant responds
       setTimeout(() => {
