@@ -7,6 +7,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -34,24 +35,23 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   const { messages, sendMessage, status, error } = useChat({
-    body: {
-      sessionId, // Send session ID with each request
-    },
-    onResponse: (response) => {
-      // Extract session ID from response headers on first message
-      const newSessionId = response.headers.get('X-Session-ID');
-      if (newSessionId && !sessionId) {
-        setSessionId(newSessionId);
-        console.log('Session ID established:', newSessionId);
-      }
-    },
+    transport: new DefaultChatTransport({
+      prepareSendMessagesRequest: ({ messages }) => {
+        return {
+          body: {
+            messages,
+            sessionId, // Include session ID in request body
+          },
+        };
+      },
+    }),
     onFinish: () => {
       // Scroll to bottom when assistant responds
       setTimeout(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 100);
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error('Chat error:', error);
     },
   });

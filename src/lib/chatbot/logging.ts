@@ -109,7 +109,12 @@ export async function logConversationStart(
 
     const { data, error } = await supabase
       .from('chat_logs')
-      .insert(chatLog)
+      .insert({
+        session_id: chatLog.session_id,
+        messages: chatLog.messages as any,
+        metadata: chatLog.metadata as any,
+        metrics: chatLog.metrics as any,
+      })
       .select()
       .single();
 
@@ -118,7 +123,12 @@ export async function logConversationStart(
       return null;
     }
 
-    return data;
+    return {
+      ...data,
+      messages: data.messages as unknown as ChatLogMessage[],
+      metadata: data.metadata as unknown as ChatLogMetadata,
+      metrics: data.metrics as unknown as ChatLogMetrics,
+    };
   } catch (error) {
     console.error('Error in logConversationStart:', error);
     return null;
@@ -153,26 +163,27 @@ export async function logMessage(
     }
 
     // Append message
-    const updatedMessages = [...existing.messages, message];
+    const existingLog = existing as any;
+    const updatedMessages = [...existingLog.messages, message];
 
     // Update metrics
     const updatedMetrics = {
-      ...existing.metrics,
+      ...existingLog.metrics,
       total_messages: updatedMessages.length,
       user_messages_count:
-        existing.metrics.user_messages_count + (message.role === 'user' ? 1 : 0),
+        existingLog.metrics.user_messages_count + (message.role === 'user' ? 1 : 0),
       assistant_messages_count:
-        existing.metrics.assistant_messages_count + (message.role === 'assistant' ? 1 : 0),
+        existingLog.metrics.assistant_messages_count + (message.role === 'assistant' ? 1 : 0),
       off_topic_redirects_count:
-        (existing.metrics.off_topic_redirects_count || 0) + (isOffTopicRedirect ? 1 : 0),
+        (existingLog.metrics.off_topic_redirects_count || 0) + (isOffTopicRedirect ? 1 : 0),
     };
 
     // Update log
     const { error: updateError } = await supabase
       .from('chat_logs')
       .update({
-        messages: updatedMessages,
-        metrics: updatedMetrics,
+        messages: updatedMessages as any,
+        metrics: updatedMetrics as any,
       })
       .eq('session_id', sessionId);
 
@@ -211,13 +222,14 @@ export async function logConversationEnd(sessionId: string): Promise<boolean> {
       return false;
     }
 
+    const existingLog = existing as any;
     const endTime = new Date();
-    const startTime = new Date(existing.metadata.start_time);
+    const startTime = new Date(existingLog.metadata.start_time);
     const durationSeconds = Math.floor((endTime.getTime() - startTime.getTime()) / 1000);
 
     // Update metadata with end time and duration
     const updatedMetadata = {
-      ...existing.metadata,
+      ...existingLog.metadata,
       end_time: endTime.toISOString(),
       duration_seconds: durationSeconds,
     };
@@ -225,7 +237,7 @@ export async function logConversationEnd(sessionId: string): Promise<boolean> {
     const { error: updateError } = await supabase
       .from('chat_logs')
       .update({
-        metadata: updatedMetadata,
+        metadata: updatedMetadata as any,
       })
       .eq('session_id', sessionId);
 
@@ -263,7 +275,12 @@ export async function getAllChatLogs(limit: number = 100): Promise<ChatLog[]> {
       return [];
     }
 
-    return data || [];
+    return (data || []).map(row => ({
+      ...row,
+      messages: row.messages as unknown as ChatLogMessage[],
+      metadata: row.metadata as unknown as ChatLogMetadata,
+      metrics: row.metrics as unknown as ChatLogMetrics,
+    }));
   } catch (error) {
     console.error('Error in getAllChatLogs:', error);
     return [];
@@ -296,7 +313,12 @@ export async function getChatLogsByDateRange(
       return [];
     }
 
-    return data || [];
+    return (data || []).map(row => ({
+      ...row,
+      messages: row.messages as unknown as ChatLogMessage[],
+      metadata: row.metadata as unknown as ChatLogMetadata,
+      metrics: row.metrics as unknown as ChatLogMetrics,
+    }));
   } catch (error) {
     console.error('Error in getChatLogsByDateRange:', error);
     return [];

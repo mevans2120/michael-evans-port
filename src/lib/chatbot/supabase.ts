@@ -3,7 +3,11 @@
  * Handles vector database operations for RAG (Retrieval Augmented Generation)
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '@/lib/supabase/database.types';
+
+// Type for our typed Supabase client
+export type TypedSupabaseClient = SupabaseClient<Database>;
 
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -11,14 +15,14 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 // Lazy initialization - only create client when needed
 export const supabase = supabaseUrl && supabaseKey
-  ? createClient(supabaseUrl, supabaseKey)
+  ? createClient<Database>(supabaseUrl, supabaseKey)
   : null;
 
 // Service role client for admin operations (embedding insertion, etc.)
 // Lazy initialization to ensure environment variables are loaded
-let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
+let _supabaseAdmin: TypedSupabaseClient | null = null;
 
-export function getSupabaseAdmin() {
+export function getSupabaseAdmin(): TypedSupabaseClient | null {
   if (_supabaseAdmin) return _supabaseAdmin;
 
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -28,7 +32,7 @@ export function getSupabaseAdmin() {
     return null;
   }
 
-  _supabaseAdmin = createClient(url, supabaseServiceKey);
+  _supabaseAdmin = createClient<Database>(url, supabaseServiceKey);
   return _supabaseAdmin;
 }
 
@@ -94,7 +98,10 @@ export async function searchSimilarDocuments(
       throw error;
     }
 
-    return data || [];
+    return (data || []).map(doc => ({
+      ...doc,
+      metadata: doc.metadata as unknown as PortfolioDocument['metadata'],
+    }));
   } catch (error) {
     console.error('Error in searchSimilarDocuments:', error);
     throw error;
@@ -131,7 +138,10 @@ export async function insertDocument(
       throw error;
     }
 
-    return data;
+    return {
+      ...data,
+      metadata: data.metadata as unknown as PortfolioDocument['metadata'],
+    };
   } catch (error) {
     console.error('Error in insertDocument:', error);
     throw error;
@@ -161,7 +171,10 @@ export async function insertDocuments(
       throw error;
     }
 
-    return data || [];
+    return (data || []).map(doc => ({
+      ...doc,
+      metadata: doc.metadata as unknown as PortfolioDocument['metadata'],
+    }));
   } catch (error) {
     console.error('Error in insertDocuments:', error);
     throw error;
@@ -210,7 +223,10 @@ export async function createChatSession(): Promise<ChatSession> {
       throw error;
     }
 
-    return data;
+    return {
+      ...data,
+      messages: data.messages as unknown as ChatMessage[],
+    };
   } catch (error) {
     console.error('Error in createChatSession:', error);
     throw error;
@@ -234,7 +250,10 @@ export async function getChatSession(sessionId: string): Promise<ChatSession | n
       return null;
     }
 
-    return data;
+    return data ? {
+      ...data,
+      messages: data.messages as unknown as ChatMessage[],
+    } : null;
   } catch (error) {
     console.error('Error in getChatSession:', error);
     return null;
@@ -252,7 +271,7 @@ export async function updateChatSession(
   try {
     const { data, error } = await supabase
       .from('chat_sessions')
-      .update({ messages, updated_at: new Date().toISOString() })
+      .update({ messages: messages as any, updated_at: new Date().toISOString() })
       .eq('id', sessionId)
       .select()
       .single();
@@ -262,7 +281,10 @@ export async function updateChatSession(
       throw error;
     }
 
-    return data;
+    return {
+      ...data,
+      messages: data.messages as unknown as ChatMessage[],
+    };
   } catch (error) {
     console.error('Error in updateChatSession:', error);
     throw error;
