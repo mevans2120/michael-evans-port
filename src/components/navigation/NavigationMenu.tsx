@@ -36,7 +36,7 @@ export function NavigationMenu() {
       className="py-4 md:border-b border-neutral-800"
       style={{ height: isDesktop ? '66%' : 'auto' }}
     >
-      <nav className="flex flex-row md:flex-col gap-2 md:gap-8 h-full overflow-x-auto md:overflow-y-auto justify-around md:justify-start px-2 md:px-0">
+      <nav className="flex flex-row md:flex-col gap-2 md:gap-8 h-full overflow-x-auto md:overflow-hidden justify-around md:justify-start px-2 md:px-0">
         {/* Close Button - Desktop Only */}
         {isDesktop && (
           <>
