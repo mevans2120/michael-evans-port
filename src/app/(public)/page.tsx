@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { AIProjectsGrid } from "@/components/AIProjectsGrid";
 import { AIProjectModal } from "@/components/AIProjectModal";
+import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { client } from "@/lib/sanity/client";
 import type { AIProjectData } from "@/types/sanity";
 import { logger } from "@/lib/logger";
@@ -58,28 +57,37 @@ export default function HomePage() {
     }, 300);
   };
 
-  const caseStudies = [
+  const featuredCaseStudies = [
     {
+      id: "virgin-america",
+      number: "01",
+      category: "UX Design",
       title: "Virgin America",
-      description: "First responsive airline website",
       metric: "15% conversion lift",
-      link: "/case-studies/virgin-america",
-      tag: "UX Design"
+      description: "Created the first responsive airline website, reimagining booking flows by focusing on decisions rather than clicks — achieving industry recognition and measurable business impact.",
+      slug: "virgin-america",
+      order: 1
     },
     {
+      id: "casa-bonita",
+      number: "02",
+      category: "Experience Design",
       title: "Casa Bonita",
-      description: "Restaurant with immersive entertainment",
       metric: "Cultural icon revival",
-      link: "/case-studies/casa-bonita",
-      tag: "Experience"
+      description: "Revived a beloved Colorado landmark by reimagining the customer experience, balancing nostalgia with modern hospitality design — from reservation flows to in-venue wayfinding.",
+      slug: "casa-bonita",
+      order: 2
     },
     {
+      id: "before-launcher",
+      number: "03",
+      category: "Mobile Product",
       title: "Before Launcher",
-      description: "Minimalist Android launcher",
       metric: "100K+ users",
-      link: "/case-studies/before-launcher",
-      tag: "Mobile"
-    },
+      description: "Built a minimalist Android launcher focused on intentionality over distraction, reducing phone time through thoughtful UX and becoming a finalist for App of the Year.",
+      slug: "before-launcher",
+      order: 3
+    }
   ];
 
 
@@ -133,7 +141,7 @@ export default function HomePage() {
           isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
         }`} />
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="mb-12 -mx-6 md:mx-0">
+          <div className="mb-20 -mx-6 md:mx-0">
             <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
               isDarkMode ? 'text-gray-100' : 'text-gray-900'
             }`}>
@@ -152,52 +160,8 @@ export default function HomePage() {
             <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 -mx-6 md:mx-0">
-            {caseStudies.map((study, index) => (
-              <Link
-                key={index}
-                href={study.link}
-                className="group block"
-              >
-                <Card className={`transition-all duration-300 backdrop-blur-sm ${
-                  isDarkMode
-                    ? 'border-gray-800 hover:border-accent/50 bg-gray-900/60 hover:shadow-accent/10 hover:shadow-lg'
-                    : 'border-gray-200 hover:border-purple-300 hover:shadow-lg bg-white/80'
-                }`}>
-                  <CardHeader className="pb-4">
-                    <Badge variant="outline" className={`w-fit mb-3 text-xs ${
-                      isDarkMode
-                        ? 'border-accent/50 text-accent bg-accent/10'
-                        : 'border-purple-200 text-purple-700 bg-purple-50'
-                    }`}>
-                      {study.tag}
-                    </Badge>
-                    <CardTitle className={`text-lg font-normal transition-colors ${
-                      isDarkMode
-                        ? 'text-gray-100 group-hover:text-accent'
-                        : 'text-gray-900 group-hover:text-purple-600'
-                    }`}>
-                      {study.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      {study.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
-                        {study.metric}
-                      </span>
-                      <ArrowRight className={`w-4 h-4 transition-colors ${
-                        isDarkMode
-                          ? 'text-gray-600 group-hover:text-accent'
-                          : 'text-gray-400 group-hover:text-purple-600'
-                      }`} />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+          <div className="-mx-6 md:mx-0">
+            <FeaturedCaseStudies studies={featuredCaseStudies} />
           </div>
         </div>
       </section>
