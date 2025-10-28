@@ -84,17 +84,19 @@ export default function HomePage() {
 
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`min-h-screen relative transition-colors duration-300 ${
       isDarkMode
         ? 'bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100'
         : 'bg-gradient-to-b from-slate-50 to-white text-gray-900'
     }`}>
       {/* Logo Header */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-transparent pointer-events-none">
-        <div className="container mx-auto px-6 py-4">
-          <Link href="/" className="text-lg font-medium text-foreground inline-block pointer-events-auto">
-            M<span className="text-gradient">Evans</span>
-          </Link>
+      <nav className="absolute top-0 left-0 right-0 z-40 bg-transparent pointer-events-none px-6">
+        <div className="container mx-auto max-w-6xl py-4">
+          <div className="max-w-5xl -mx-6 md:mx-0">
+            <Link href="/" className="text-lg font-medium text-foreground inline-block pointer-events-auto">
+              M<span className="text-gradient">Evans</span>
+            </Link>
+          </div>
         </div>
       </nav>
 
