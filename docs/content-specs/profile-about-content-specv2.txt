@@ -279,7 +279,7 @@ If someone doesn't understand it, or you need many paragraphs to explain what it
 Solve a problem. Research. Get to know your customers. Put your product in front of your customers.
 
 You will learn so much. However you can do it:
-- Online with usabilitytesting.com
+- Online with usabilitytesting.com or userlytics or whatehaveyou
 - Going to Starbucks and asking people to use your app
 - Getting friends and family to use it
 

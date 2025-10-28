@@ -7,8 +7,14 @@ import { streamText, convertToModelMessages } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { generateEmbedding } from '@/lib/chatbot/embeddings';
 import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
+import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
 
 export const runtime = 'edge';
+
+// Generate UUID compatible with edge runtime
+function generateUUID(): string {
+  return crypto.randomUUID();
+}
 
 // System prompt for the AI assistant
 const SYSTEM_PROMPT = `You are an AI assistant representing Michael Evans, an AI/ML expert and creative technologist.
@@ -105,7 +111,10 @@ export async function POST(req: Request) {
     console.log(Object.keys(body));
     console.log('=== END DEBUG ===');
 
-    const { messages } = body;
+    const { messages, sessionId: clientSessionId } = body;
+
+    // Generate or use existing session ID
+    const sessionId = clientSessionId || generateUUID();
 
     if (!messages || !Array.isArray(messages)) {
       console.error('Invalid messages:', messages);
@@ -124,6 +133,18 @@ export async function POST(req: Request) {
     if (!messageText) {
       return new Response('Invalid request: empty message', { status: 400 });
     }
+
+    // Log conversation start if this is the first message
+    if (messages.length === 1 && !clientSessionId) {
+      await logConversationStart(sessionId, req);
+    }
+
+    // Log user message
+    await logMessage(sessionId, {
+      role: 'user',
+      content: messageText,
+      timestamp: new Date().toISOString(),
+    });
 
     // Generate embedding for the user's question
     const queryEmbedding = await generateEmbedding(messageText);
@@ -160,9 +181,21 @@ export async function POST(req: Request) {
       system: systemPrompt,
       messages: modelMessages,
       temperature: 0.8, // Slightly higher for better synthesis
+      async onFinish({ text }) {
+        // Log assistant response after completion
+        const isOffTopicRedirect = text.includes("I'm here specifically to discuss Michael's professional background");
+        await logMessage(sessionId, {
+          role: 'assistant',
+          content: text,
+          timestamp: new Date().toISOString(),
+        }, isOffTopicRedirect);
+      },
     });
 
-    return result.toUIMessageStreamResponse();
+    // Return response with session ID in headers
+    const response = result.toUIMessageStreamResponse();
+    response.headers.set('X-Session-ID', sessionId);
+    return response;
   } catch (error) {
     console.error('Error in chat API:', error);
 
