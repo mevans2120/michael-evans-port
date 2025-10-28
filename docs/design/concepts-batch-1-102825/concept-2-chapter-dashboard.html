@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Chapter Dashboard - Virgin America Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Satoshi', -apple-system, sans-serif;
+      background: #000000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* Grid pattern background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(0, 255, 204, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Side Navigation */
+    .side-nav {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 280px;
+      background: #0a0a0a;
+      border-right: 2px solid #1a1a1a;
+      padding: 3rem 2rem;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .side-nav::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .side-nav::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    .side-nav::-webkit-scrollbar-thumb {
+      background: #00ffcc;
+      border-radius: 2px;
+    }
+
+    .nav-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #00ffcc;
+      margin-bottom: 2rem;
+    }
+
+    .nav-chapter {
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0.75rem 1rem;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-chapter:hover {
+      background: rgba(0, 255, 204, 0.05);
+      border-left-color: #00ffcc;
+    }
+
+    .nav-chapter.active {
+      background: rgba(0, 255, 204, 0.1);
+      border-left-color: #00ffcc;
+    }
+
+    .chapter-number {
+      font-size: 0.75rem;
+      color: #00ffcc;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .chapter-title {
+      font-size: 0.875rem;
+      color: #ffffff;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: 280px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section {
+      min-height: 100vh;
+      padding: 4rem 4rem 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Terminal-style header */
+    .terminal-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #00ffcc;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 255, 204, 0.05);
+      border-left: 3px solid #00ffcc;
+    }
+
+    .terminal-header::before {
+      content: '> ';
+      color: #00ffcc;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: #00ffcc;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .section-text {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: #b0b0b0;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+
+    .highlight-text {
+      color: #ffffff;
+      font-weight: 600;
+      background: linear-gradient(90deg, #00ffcc, #00cc99);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Stats Grid - Dashboard style */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+      max-width: 1000px;
+    }
+
+    .stat-card {
+      background: #0a0a0a;
+      border: 2px solid #1a1a1a;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #00ffcc, #00cc99);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .stat-card:hover {
+      border-color: #00ffcc;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px rgba(0, 255, 204, 0.2);
+    }
+
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #707070;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #00ffcc;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-description {
+      font-size: 0.875rem;
+      color: #808080;
+      line-height: 1.5;
+    }
+
+    /* Numbered list - technical style */
+    .tech-list {
+      list-style: none;
+      counter-reset: item-counter;
+      margin-top: 2rem;
+      max-width: 900px;
+    }
+
+    .tech-list li {
+      counter-increment: item-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(0, 255, 204, 0.03);
+      border-left: 3px solid #00ffcc;
+      transition: all 0.2s ease;
+    }
+
+    .tech-list li:hover {
+      background: rgba(0, 255, 204, 0.08);
+      transform: translateX(8px);
+    }
+
+    .tech-list li::before {
+      content: '0' counter(item-counter);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #00ffcc;
+      min-width: 3rem;
+    }
+
+    .tech-list li strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Badge container */
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .badge {
+      padding: 0.5rem 1.25rem;
+      background: rgba(0, 255, 204, 0.1);
+      border: 1px solid rgba(0, 255, 204, 0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #00ffcc;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Code block style annotation */
+    .code-annotation {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-left: 4px solid #00ffcc;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      line-height: 1.8;
+      color: #909090;
+    }
+
+    .code-annotation .comment {
+      color: #00ffcc;
+    }
+
+    /* Neon glow effect */
+    .neon-accent {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 204, 0.15), transparent);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .neon-accent-1 {
+      top: 20%;
+      right: 10%;
+    }
+
+    .neon-accent-2 {
+      bottom: 10%;
+      left: 50%;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .side-nav {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 2px solid #1a1a1a;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .section {
+        padding: 3rem 1.5rem;
+      }
+    }
+
+    /* Scrollbar for main content */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #00ffcc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Neon glow accents -->
+  <div class="neon-accent neon-accent-1"></div>
+  <div class="neon-accent neon-accent-2"></div>
+
+  <!-- Side Navigation -->
+  <nav class="side-nav">
+    <div class="nav-title">// CHAPTERS</div>
+
+    <div class="nav-chapter active" onclick="scrollToSection('hero')">
+      <div class="chapter-number">00</div>
+      <div class="chapter-title">Project Overview</div>
+    </div>
+
+    <div class="nav-chapter" onclick="scrollToSection('challenge')">
+      <div class="chapter-number">01</div>
+      <div class="chapter-title">The Challenge</div>
+    </div>
+
+    <div class="nav-chapter" onclick="scrollToSection('insight')">
+      <div class="chapter-number">02</div>
+      <div class="chapter-title">Research Insights</div>
+    </div>
+
+    <div class="nav-chapter" onclick="scrollToSection('solution')">
+      <div class="chapter-number">03</div>
+      <div class="chapter-title">The Solution</div>
+    </div>
+
+    <div class="nav-chapter" onclick="scrollToSection('metrics')">
+      <div class="chapter-number">04</div>
+      <div class="chapter-title">Key Metrics</div>
+    </div>
+
+    <div class="nav-chapter" onclick="scrollToSection('outcomes')">
+      <div class="chapter-number">05</div>
+      <div class="chapter-title">Outcomes & Impact</div>
+    </div>
+
+    <div class="nav-chapter" onclick="scrollToSection('concept')">
+      <div class="chapter-number">06</div>
+      <div class="chapter-title">Design Concept</div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Hero Section -->
+    <section class="section" id="hero">
+      <div class="terminal-header">CASE_STUDY.init()</div>
+      <h1>Virgin America</h1>
+      <h2>First Responsive Airline Website</h2>
+      <p class="section-text">
+        Reimagining airline booking by focusing on <span class="highlight-text">decisions, not clicks</span> — achieving a <span class="highlight-text">15-20% conversion improvement</span>.
+      </p>
+
+      <div class="badge-container">
+        <span class="badge">Angular</span>
+        <span class="badge">Sabre API</span>
+        <span class="badge">Responsive Design</span>
+        <span class="badge">SPA</span>
+        <span class="badge">RESTful APIs</span>
+      </div>
+    </section>
+
+    <!-- Challenge Section -->
+    <section class="section" id="challenge">
+      <div class="terminal-header">CHAPTER_01: Understanding the Problem</div>
+      <h2>The Challenge</h2>
+      <p class="section-text">
+        Most of Virgin America's revenue came from <span class="highlight-text">business travelers</span>—frequent flyers who pay premium prices and book last-minute. They'll figure out how to use any booking system.
+      </p>
+      <p class="section-text">
+        But leisure travelers, who book 2-3 times per year, were <span class="highlight-text">struggling</span>. An airline ticket is one of the most complex consumer products to purchase.
+      </p>
+      <p class="section-text">
+        Leisure travelers were failing to convert at alarming rates.
+      </p>
+      <p class="section-text" style="color: #00ffcc; font-weight: 600; font-size: 1.25rem;">
+        → The brief: make it simpler for leisure travelers without compromising the experience for business travelers.
+      </p>
+    </section>
+
+    <!-- Insight Section -->
+    <section class="section" id="insight">
+      <div class="terminal-header">CHAPTER_02: Key Insight</div>
+      <h2>Clicks vs. Decisions</h2>
+      <p class="section-text">
+        In 2014-2015, the industry was obsessed with <span class="highlight-text">reducing clicks</span> to improve conversion. We discovered something more fundamental:
+      </p>
+      <p class="section-text" style="color: #ffffff; font-size: 1.5rem; font-weight: 600; margin: 2rem 0;">
+        It's not about the number of clicks—<br>it's about the number of decisions.
+      </p>
+      <p class="section-text">
+        Combining multiple decisions into one screen to reduce clicks actually makes the experience more complicated and overwhelming. Each decision needs space to breathe.
+      </p>
+
+      <div class="code-annotation">
+        <span class="comment">// Design Rationale:</span><br>
+        This chapter-based navigation creates a dashboard-like experience<br>
+        that feels technical and precise. The monospace typography and<br>
+        neon cyan accents evoke developer tools and command-line interfaces,<br>
+        giving the case study a more technical, data-driven aesthetic.
+      </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="section" id="solution">
+      <div class="terminal-header">CHAPTER_03: Implementation</div>
+      <h2>A Step-by-Step Booking Flow</h2>
+      <p class="section-text">
+        We redesigned the entire booking flow around <span class="highlight-text">individual decisions</span>, with each step optimized independently.
+      </p>
+
+      <ul class="tech-list">
+        <li><strong>Who's going</strong> — Clear passenger selection</li>
+        <li><strong>Dates and times</strong> — Focused date picker without distractions</li>
+        <li><strong>Flights</strong> — Present options with clear differentiation</li>
+        <li><strong>Seats</strong> — Visual seat selection</li>
+        <li><strong>Traveler information</strong> — Simplified form entry</li>
+        <li><strong>Confirmation</strong> — Clear summary and payment</li>
+      </ul>
+
+      <p class="section-text" style="margin-top: 2rem;">
+        This pattern became widely adopted in e-commerce and is now considered <span class="highlight-text">standard practice</span> for complex purchase flows.
+      </p>
+    </section>
+
+    <!-- Metrics Section -->
+    <section class="section" id="metrics">
+      <div class="terminal-header">CHAPTER_04: Quantifiable Impact</div>
+      <h2>Key Metrics</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Conversion Rate</div>
+          <div class="stat-value">+15-20%</div>
+          <div class="stat-description">Improvement in booking conversion</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Industry Position</div>
+          <div class="stat-value">1st</div>
+          <div class="stat-description">Responsive airline website</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Awards Won</div>
+          <div class="stat-value">3</div>
+          <div class="stat-description">Webbies, UX Awards, Cannes Lions</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Project Scale</div>
+          <div class="stat-value">MAX</div>
+          <div class="stat-description">Largest Angular project at the time</div>
+        </div>
+      </div>
+
+      <div class="code-annotation" style="margin-top: 3rem;">
+        <span class="comment">// Typography & Color Strategy:</span><br>
+        JetBrains Mono (monospace) for headers creates technical authority<br>
+        Satoshi (geometric sans) for body provides clean readability<br>
+        Cyan (#00ffcc) replaces purple for a fresh, tech-forward feel<br>
+        Grid background pattern reinforces the dashboard aesthetic
+      </div>
+    </section>
+
+    <!-- Outcomes Section -->
+    <section class="section" id="outcomes">
+      <div class="terminal-header">CHAPTER_05: Results & Recognition</div>
+      <h2>Outcomes & Impact</h2>
+
+      <ul class="tech-list">
+        <li>Created the <strong>first responsive airline website</strong></li>
+        <li>Improved conversion rates by <strong>15-20%</strong></li>
+        <li>Won <strong>Webbies, UX Awards, and Cannes Lions</strong></li>
+        <li>Pioneered the <strong>step-by-step, decision-by-decision</strong> e-commerce pattern</li>
+        <li>Built the <strong>largest Angular project</strong> at the time</li>
+        <li>Addressed complex <strong>data science issues</strong> with modern dashboards</li>
+      </ul>
+    </section>
+
+    <!-- Concept Overview -->
+    <section class="section" id="concept">
+      <div class="terminal-header">CHAPTER_06: Design Concept Analysis</div>
+      <h2>Concept 2: Chapter Dashboard</h2>
+
+      <p class="section-text">
+        <span class="highlight-text">Strategy:</span> Transform case studies into a dashboard-like experience with persistent side navigation and chapter-based structure.
+      </p>
+
+      <p class="section-text">
+        <span class="highlight-text">Strengths:</span> Easy to jump between sections, feels more technical and data-driven, side navigation provides constant context, works well for users who want to explore non-linearly.
+      </p>
+
+      <p class="section-text">
+        <span class="highlight-text">Tradeoffs:</span> Requires more screen real estate (less mobile-friendly), may feel too technical for non-technical case studies, side nav takes up valuable horizontal space.
+      </p>
+
+      <div class="code-annotation">
+        <span class="comment">// Visual Language Choices:</span><br>
+        - Grid pattern background: Evokes data visualization and technical precision<br>
+        - Neon cyan accents: Fresh alternative to purple, references terminal UIs<br>
+        - Monospace typography: Creates authority, references code editors<br>
+        - Dashboard-style stats: Makes metrics feel more analytical<br>
+        - Terminal-style headers: Reinforces technical, developer-focused aesthetic
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
+      section.scrollIntoView({ behavior: 'smooth' });
+
+      // Update active state
+      document.querySelectorAll('.nav-chapter').forEach(ch => ch.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    // Update active chapter on scroll
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = document.querySelectorAll('.section');
+          const navChapters = document.querySelectorAll('.nav-chapter');
+
+          sections.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 150 && rect.bottom >= 150) {
+              navChapters.forEach(ch => ch.classList.remove('active'));
+              navChapters[index].classList.add('active');
+            }
+          });
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
+</body>
+</html>

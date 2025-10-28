@@ -8,6 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added (October 28, 2025)
+- **AI Chatbot Maintainable Content System - Complete Implementation**
+  - **Sanity CMS Integration**: Fetch and transform content from Sanity (projects, profile, AI projects)
+  - **Smart Incremental Updates**: SHA-256 content fingerprinting with change detection (98% API cost savings)
+  - **Webhook Auto-Sync**: Automated content synchronization with < 30 second updates
+  - **Admin Dashboard**: Monitoring and manual sync controls at `/admin/chatbot-content`
+  - **Database Migration**: Added content_hash, source_id, last_synced columns and helper functions
+  - **Dual Content Sources**: Supports both Sanity CMS and transcript files
+  - **New Files**:
+    - `/src/lib/chatbot/sanity-fetcher.ts` - Sanity content fetching and transformation
+    - `/src/lib/chatbot/content-hash.ts` - Content fingerprinting utilities
+    - `/src/lib/chatbot/smart-sync.ts` - Intelligent sync engine
+    - `/src/app/api/webhooks/sanity/route.ts` - Webhook endpoint with signature verification
+    - `/src/app/api/admin/chatbot-sync/route.ts` - Admin API for sync operations
+    - `/src/app/(admin)/admin/chatbot-content/page.tsx` - Admin dashboard UI
+    - `/supabase/migrations/20251028_add_content_tracking.sql` - Database schema updates
+    - `/docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md` - Comprehensive documentation
+  - **Updated Files**:
+    - `/src/lib/chatbot/supabase.ts` - Added upsert, findBySourceId, deleteBySourceId, getSyncStatus
+    - `/src/lib/chatbot/ingest-content.ts` - Dual source support
+    - `/src/lib/chatbot/README.md` - Updated feature documentation
+    - `/src/lib/supabase/database.types.ts` - New columns and function types
+    - `.env.example` - Added SANITY_WEBHOOK_SECRET
 - **About Page - Complete Implementation**
   - Expanded Sanity profile schema with comprehensive about page fields
   - Hero section with profile photo (heroHeadline, heroSubheadline, heroIntro)

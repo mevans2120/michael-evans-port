@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 1: Narrative Scroll - Virgin America Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Crimson+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: linear-gradient(to bottom, #0a0a14, #050510);
+      color: #fafafa;
+      overflow-x: hidden;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Atmospheric blur orbs */
+    .blur-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blur-orb-1 {
+      top: 10%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: hsl(280, 100%, 70%);
+    }
+
+    .blur-orb-2 {
+      bottom: 20%;
+      right: 10%;
+      width: 500px;
+      height: 500px;
+      background: hsl(276, 100%, 75%);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: rgba(199, 128, 245, 0.1);
+      border: 1px solid rgba(199, 128, 245, 0.3);
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: hsl(280, 100%, 80%);
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      background: linear-gradient(135deg, hsl(280, 100%, 80%), hsl(0, 0%, 98%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      color: #a0a0a0;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      font-weight: 300;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+
+    .tech-tag {
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Section Styles */
+    section {
+      position: relative;
+      padding: 8rem 0;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: hsl(280, 100%, 80%);
+      margin-bottom: 2rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 4rem;
+      height: 1px;
+      background: linear-gradient(to right, hsl(280, 100%, 80%), transparent);
+    }
+
+    .section-text {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      color: #d0d0d0;
+      max-width: 900px;
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, hsl(276, 100%, 75%), hsl(280, 100%, 80%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .metric-label {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: #fafafa;
+      margin-bottom: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .metric-description {
+      font-size: 0.875rem;
+      color: #a0a0a0;
+    }
+
+    /* Achievements List */
+    .achievements-list {
+      margin-top: 3rem;
+      max-width: 900px;
+    }
+
+    .achievement-item {
+      margin-bottom: 1.75rem;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .achievement-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6rem;
+      width: 6px;
+      height: 6px;
+      background: hsl(280, 100%, 80%);
+      border-radius: 50%;
+    }
+
+    .achievement-text {
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: #fafafa;
+    }
+
+    /* Alternating sections for visual rhythm */
+    section:nth-child(even) {
+      background: rgba(199, 128, 245, 0.03);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.875rem;
+      color: #707070;
+      text-align: center;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-10px); }
+    }
+
+    .scroll-indicator::after {
+      content: '↓';
+      display: block;
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Annotations */
+    .annotation {
+      margin-top: 4rem;
+      padding: 2rem;
+      background: rgba(199, 128, 245, 0.05);
+      border-left: 3px solid hsl(280, 100%, 80%);
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      color: #c0c0c0;
+      font-style: italic;
+    }
+
+    .annotation strong {
+      color: hsl(280, 100%, 80%);
+      font-style: normal;
+    }
+
+    /* Screenshot Sections */
+    .screenshot-section {
+      margin-top: 4rem;
+    }
+
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .screenshot-container {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .screenshot-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(199, 128, 245, 0.1), rgba(199, 128, 245, 0.05));
+      color: #707070;
+      font-size: 0.875rem;
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .screenshot-caption {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: #a0a0a0;
+      text-align: center;
+    }
+
+    /* Single large screenshot */
+    .screenshot-large {
+      max-width: 1100px;
+      margin: 4rem auto 0;
+    }
+
+    .screenshot-large .screenshot-container {
+      aspect-ratio: 16 / 9;
+    }
+  </style>
+</head>
+<body>
+  <!-- Atmospheric blur orbs -->
+  <div class="blur-orb blur-orb-1"></div>
+  <div class="blur-orb blur-orb-2"></div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="category-badge">Case Study</div>
+      <h1>Virgin America:<br>First Responsive Airline Website</h1>
+      <p class="hero-subtitle">
+        Reimagining airline booking by focusing on decisions, not clicks — achieving 15-20% conversion improvement
+      </p>
+      <div class="tech-tags">
+        <span class="tech-tag">Angular</span>
+        <span class="tech-tag">Sabre API</span>
+        <span class="tech-tag">Responsive Design</span>
+        <span class="tech-tag">Single-Page Application</span>
+      </div>
+    </div>
+    <div class="scroll-indicator">Scroll to explore</div>
+  </section>
+
+  <!-- Challenge Section -->
+  <section>
+    <div class="container">
+      <div class="section-label">The Challenge</div>
+      <h2 class="section-heading">Understanding the Real Problem</h2>
+      <p class="section-text">
+        Most of Virgin America's revenue came from business travelers—frequent flyers who pay premium prices and book last-minute. They'll figure out how to use any booking system.
+      </p>
+      <p class="section-text" style="margin-top: 1.5rem;">
+        But leisure travelers, who book 2-3 times per year, were struggling. An airline ticket is one of the most complex consumer products to purchase. Leisure travelers were failing to convert at alarming rates.
+      </p>
+      <p class="section-text" style="margin-top: 1.5rem; font-weight: 500; color: hsl(280, 100%, 80%);">
+        The brief: make it simpler for leisure travelers without compromising the experience for business travelers.
+      </p>
+    </div>
+  </section>
+
+  <!-- Research Insight Section -->
+  <section>
+    <div class="container">
+      <div class="section-label">Research Insights</div>
+      <h2 class="section-heading">Clicks vs. Decisions:<br>The Key Insight</h2>
+      <p class="section-text">
+        In 2014-2015, the industry was obsessed with reducing clicks to improve conversion. We discovered something more fundamental: it's not about the number of clicks—it's about the number of decisions.
+      </p>
+      <p class="section-text" style="margin-top: 1.5rem;">
+        Combining multiple decisions into one screen to reduce clicks actually makes the experience more complicated and overwhelming. Each decision needs space to breathe.
+      </p>
+      <p class="section-text" style="margin-top: 1.5rem; font-weight: 500; color: #fafafa;">
+        Our insight: Separate every major decision into its own step. Give users cognitive breathing room.
+      </p>
+
+      <div class="annotation">
+        <strong>Design Decision:</strong> This long-form scrolling approach mirrors the insight itself—giving each section space to breathe. Instead of cramming information into slides, we let the narrative unfold naturally as users scroll. The parallax blur orbs create depth and atmosphere without overwhelming the content.
+      </div>
+
+      <!-- Screenshot: The Problem -->
+      <div class="screenshot-section">
+        <div class="screenshot-large">
+          <div class="screenshot-container">
+            <div class="screenshot-placeholder">
+              Screenshot: Virgin America's old booking flow<br>
+              Showing the complex, multi-decision screen that confused users
+            </div>
+          </div>
+          <div class="screenshot-caption">
+            Before: Complex booking screens combined multiple decisions, overwhelming leisure travelers
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section -->
+  <section>
+    <div class="container">
+      <div class="section-label">The Solution</div>
+      <h2 class="section-heading">A Step-by-Step Booking Flow</h2>
+      <p class="section-text">
+        We redesigned the entire booking flow around individual decisions, with each step optimized independently and clear progress indicators.
+      </p>
+
+      <p class="section-text" style="margin-top: 1.5rem;">
+        The new flow began with a simple question: <strong style="color: hsl(280, 100%, 80%);">who's going?</strong> Clear passenger selection without distractions. Once that decision was made, users moved to <strong style="color: hsl(280, 100%, 80%);">dates and times</strong>—a focused date picker that didn't compete for attention with flight options or pricing.
+      </p>
+
+      <p class="section-text" style="margin-top: 1.5rem;">
+        Only after those foundational decisions were locked in did we present <strong style="color: hsl(280, 100%, 80%);">flight options</strong>, with clear differentiation between choices. Then came <strong style="color: hsl(280, 100%, 80%);">seat selection</strong>—a visual, interactive seat map that made the decision tangible. <strong style="color: hsl(280, 100%, 80%);">Traveler information</strong> was simplified into digestible form fields. Finally, a clear <strong style="color: hsl(280, 100%, 80%);">confirmation</strong> screen summarized everything before payment.
+      </p>
+
+      <p class="section-text" style="margin-top: 1.5rem; font-style: italic;">
+        This pattern became widely adopted in e-commerce and is now considered standard practice for complex purchase flows.
+      </p>
+
+      <!-- Screenshots: Booking Flow -->
+      <div class="screenshot-section">
+        <div class="screenshot-grid">
+          <div>
+            <div class="screenshot-container">
+              <div class="screenshot-placeholder">
+                Screenshot: Step 1<br>
+                Who's going?
+              </div>
+            </div>
+            <div class="screenshot-caption">
+              Passenger selection with clear, focused UI
+            </div>
+          </div>
+          <div>
+            <div class="screenshot-container">
+              <div class="screenshot-placeholder">
+                Screenshot: Step 2<br>
+                Dates & times
+              </div>
+            </div>
+            <div class="screenshot-caption">
+              Date picker without distractions
+            </div>
+          </div>
+          <div>
+            <div class="screenshot-container">
+              <div class="screenshot-placeholder">
+                Screenshot: Step 3<br>
+                Flight selection
+              </div>
+            </div>
+            <div class="screenshot-caption">
+              Clear differentiation between flight options
+            </div>
+          </div>
+          <div>
+            <div class="screenshot-container">
+              <div class="screenshot-placeholder">
+                Screenshot: Step 4<br>
+                Seat selection
+              </div>
+            </div>
+            <div class="screenshot-caption">
+              Visual, interactive seat map
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics Section -->
+  <section>
+    <div class="container">
+      <div class="section-label">Key Metrics</div>
+      <h2 class="section-heading">Quantifiable Impact</h2>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value">15-20%</div>
+          <div class="metric-label">Conversion Improvement</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">Industry First</div>
+          <div class="metric-label">Responsive Airline Website</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">3</div>
+          <div class="metric-label">Major Awards Won</div>
+          <div class="metric-description">Webbies, UX Awards, Cannes Lions</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">Largest</div>
+          <div class="metric-label">Angular Project</div>
+          <div class="metric-description">At the time of launch</div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        <strong>Typography & Spacing:</strong> Notice how we use the existing site fonts (DM Sans for headers, Crimson Pro for body) to maintain brand consistency. Large metrics use gradient text for visual hierarchy. Generous whitespace and larger font sizes make this feel premium and easy to read.
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes Section -->
+  <section>
+    <div class="container">
+      <div class="section-label">Outcomes & Impact</div>
+      <h2 class="section-heading">Industry-Defining Success</h2>
+
+      <div class="achievements-list">
+        <div class="achievement-item">
+          <div class="achievement-text">Created the first responsive airline website</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-text">Improved conversion rates by 15-20%</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-text">Won Webbies, UX Awards, and Cannes Lions</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-text">Pioneered the step-by-step, decision-by-decision e-commerce pattern</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-text">Built the largest Angular project at the time</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-text">Addressed complex data science issues with modern dashboards</div>
+        </div>
+      </div>
+
+      <!-- Screenshots: Desktop & Mobile -->
+      <div class="screenshot-section">
+        <div class="screenshot-grid">
+          <div>
+            <div class="screenshot-container">
+              <div class="screenshot-placeholder">
+                Screenshot: Desktop experience<br>
+                Full responsive layout
+              </div>
+            </div>
+            <div class="screenshot-caption">
+              Desktop: Spacious layout with sidebar navigation
+            </div>
+          </div>
+          <div>
+            <div class="screenshot-container">
+              <div class="screenshot-placeholder">
+                Screenshot: Mobile experience<br>
+                Touch-optimized interface
+              </div>
+            </div>
+            <div class="screenshot-caption">
+              Mobile: First responsive airline booking experience
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Large Screenshot: Final Product -->
+      <div class="screenshot-section">
+        <div class="screenshot-large">
+          <div class="screenshot-container">
+            <div class="screenshot-placeholder">
+              Screenshot: Virgin America homepage hero<br>
+              Showing the final responsive design across multiple devices
+            </div>
+          </div>
+          <div class="screenshot-caption">
+            The final product: Industry's first responsive airline website, winner of Webbies, UX Awards, and Cannes Lions
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final thoughts -->
+  <section style="min-height: 60vh; display: flex; align-items: center;">
+    <div class="container">
+      <div class="section-label">Concept 1: Narrative Scroll</div>
+      <h2 class="section-heading">Design Approach</h2>
+      <p class="section-text">
+        <strong>Strategy:</strong> Replace the horizontal slideshow with a long-form vertical scroll experience similar to Apple product pages or Medium articles.
+      </p>
+      <p class="section-text" style="margin-top: 1.5rem;">
+        <strong>Strengths:</strong> Familiar scrolling interaction, works beautifully on mobile, allows for more content flexibility, easier to skim and navigate back to specific sections.
+      </p>
+      <p class="section-text" style="margin-top: 1.5rem;">
+        <strong>Tradeoffs:</strong> Less cinematic than slideshow, requires users to scroll more, may feel like a blog post rather than a presentation.
+      </p>
+    </div>
+  </section>
+</body>
+</html>

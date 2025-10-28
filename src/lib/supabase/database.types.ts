@@ -50,6 +50,9 @@ export interface Database {
           content: string
           embedding: number[]
           metadata: Json
+          content_hash: string | null
+          source_id: string | null
+          last_synced: string | null
           created_at: string
           updated_at: string
         }
@@ -58,6 +61,9 @@ export interface Database {
           content: string
           embedding: number[]
           metadata: Json
+          content_hash?: string | null
+          source_id?: string | null
+          last_synced?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -66,6 +72,9 @@ export interface Database {
           content?: string
           embedding?: number[]
           metadata?: Json
+          content_hash?: string | null
+          source_id?: string | null
+          last_synced?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -112,6 +121,47 @@ export interface Database {
           updated_at: string
           similarity?: number
         }>
+      }
+      get_sync_status: {
+        Args: Record<string, never>
+        Returns: Array<{
+          totalDocuments: number
+          totalChunks: number
+          lastSync: string | null
+          sourcesCount: number
+          sanityDocuments: number
+          transcriptDocuments: number
+        }>
+      }
+      get_document_stats: {
+        Args: Record<string, never>
+        Returns: Array<{
+          source: string
+          chunk_count: number
+          total_characters: number
+          last_updated: string | null
+          unique_source_ids: number
+        }>
+      }
+      find_documents_by_source_id: {
+        Args: {
+          p_source_id: string
+        }
+        Returns: Array<{
+          id: string
+          content: string
+          content_hash: string | null
+          metadata: Json
+          created_at: string
+          updated_at: string
+          last_synced: string | null
+        }>
+      }
+      delete_documents_by_source_id: {
+        Args: {
+          p_source_id: string
+        }
+        Returns: number
       }
     }
     Enums: {

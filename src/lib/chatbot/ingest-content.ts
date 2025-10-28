@@ -23,6 +23,7 @@ dotenv.config({ path: path.join(__dirname, '../../../.env.local') });
 
 import { processDocuments } from './embeddings';
 import { insertDocuments, deleteAllDocuments } from './supabase';
+import { fetchAllSanityContent, SanityContentDocument } from './sanity-fetcher';
 import * as fs from 'fs';
 
 interface ContentFile {
@@ -105,27 +106,39 @@ async function ingestContent() {
       console.log('✅ Cleared existing documents\n');
     }
 
-    // Step 2: Load content files
-    console.log('📂 Loading content files...');
-    const contentFiles = await loadContentFiles(baseDir);
+    // Step 2: Load content from both Sanity and transcript files
+    console.log('📂 Loading content from sources...\n');
 
-    if (contentFiles.length === 0) {
-      console.error('❌ No content files found!');
-      console.log('\nPlease add transcript files to:');
-      console.log(`  ${baseDir}/transcripts/\n`);
-      console.log('Expected files:');
-      console.log('  - chatbot-content-background.md');
-      console.log('  - chatbot-content-skills.md');
-      console.log('  - chatbot-content-project-*.md');
-      console.log('  - etc.\n');
+    // Load transcript files
+    console.log('  📄 Loading transcript files...');
+    const contentFiles = await loadContentFiles(baseDir);
+    console.log(`  ✅ Found ${contentFiles.length} transcript files`);
+
+    // Load Sanity content
+    console.log('  🗄️  Loading Sanity CMS content...');
+    let sanityDocuments: SanityContentDocument[] = [];
+    try {
+      sanityDocuments = await fetchAllSanityContent();
+      console.log(`  ✅ Loaded ${sanityDocuments.length} Sanity documents\n`);
+    } catch (error) {
+      console.warn('  ⚠️  Warning: Could not fetch Sanity content:', error instanceof Error ? error.message : 'Unknown error');
+      console.log('  → Continuing with transcript files only\n');
+    }
+
+    if (contentFiles.length === 0 && sanityDocuments.length === 0) {
+      console.error('❌ No content found from any source!');
+      console.log('\nPlease either:');
+      console.log('  1. Add transcript files to:');
+      console.log(`     ${baseDir}/transcripts/\n`);
+      console.log('  2. Ensure Sanity CMS has content and credentials are set\n');
       process.exit(1);
     }
 
-    console.log(`✅ Found ${contentFiles.length} content files\n`);
+    // Step 3: Read and combine all content
+    console.log('📖 Processing content...');
 
-    // Step 3: Read file contents
-    console.log('📖 Reading file contents...');
-    const documents = contentFiles.map(file => {
+    // Process transcript files
+    const transcriptDocuments = contentFiles.map(file => {
       const content = fs.readFileSync(file.filePath, 'utf-8');
       return {
         content,
@@ -136,7 +149,19 @@ async function ingestContent() {
         },
       };
     });
-    console.log(`✅ Read ${documents.length} documents\n`);
+
+    // Combine all documents
+    const documents = [
+      ...transcriptDocuments,
+      ...sanityDocuments.map(doc => ({
+        content: doc.content,
+        metadata: doc.metadata,
+      })),
+    ];
+
+    console.log(`✅ Total documents to process: ${documents.length}`);
+    console.log(`   - Transcript files: ${transcriptDocuments.length}`);
+    console.log(`   - Sanity CMS: ${sanityDocuments.length}\n`);
 
     // Step 4: Process documents (chunk + embed)
     console.log('🔄 Processing documents (chunking and generating embeddings)...');
@@ -157,10 +182,12 @@ async function ingestContent() {
 
     // Step 6: Summary
     console.log('📊 Ingestion Summary:');
-    console.log(`   Files processed: ${documents.length}`);
+    console.log(`   Documents processed: ${documents.length}`);
+    console.log(`     - Transcript files: ${transcriptDocuments.length}`);
+    console.log(`     - Sanity CMS documents: ${sanityDocuments.length}`);
     console.log(`   Chunks created: ${chunks.length}`);
     console.log(`   Database records: ${inserted.length}`);
-    console.log(`   Avg chunks per file: ${(chunks.length / documents.length).toFixed(1)}`);
+    console.log(`   Avg chunks per document: ${(chunks.length / documents.length).toFixed(1)}`);
 
     // Group by source
     const bySource = chunks.reduce((acc, chunk) => {
@@ -177,7 +204,10 @@ async function ingestContent() {
       });
 
     console.log('\n✅ Content ingestion complete!');
-    console.log('\n🎉 Your chatbot is now trained and ready to use.\n');
+    console.log('\n🎉 Your chatbot now has access to:');
+    console.log('   ✓ Transcript content (background, projects, experience)');
+    console.log('   ✓ Sanity CMS content (case studies, profile, AI projects)');
+    console.log('   ✓ Total knowledge base ready for questions!\n');
   } catch (error) {
     console.error('\n❌ Error during ingestion:', error);
     if (error instanceof Error) {

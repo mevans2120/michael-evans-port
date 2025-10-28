@@ -54,6 +54,9 @@ export interface PortfolioDocument {
     date?: string;
     [key: string]: any;
   };
+  content_hash: string | null;
+  source_id: string | null;
+  last_synced: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -101,6 +104,9 @@ export async function searchSimilarDocuments(
     return (data || []).map(doc => ({
       ...doc,
       metadata: doc.metadata as unknown as PortfolioDocument['metadata'],
+      content_hash: null,
+      source_id: null,
+      last_synced: null,
     }));
   } catch (error) {
     console.error('Error in searchSimilarDocuments:', error);
@@ -115,7 +121,9 @@ export async function searchSimilarDocuments(
 export async function insertDocument(
   content: string,
   embedding: number[],
-  metadata: PortfolioDocument['metadata']
+  metadata: PortfolioDocument['metadata'],
+  contentHash?: string,
+  sourceId?: string
 ): Promise<PortfolioDocument | null> {
   const admin = getSupabaseAdmin();
   if (!admin) {
@@ -123,12 +131,15 @@ export async function insertDocument(
   }
 
   try {
-    const { data, error } = await admin
+    const { data, error} = await admin
       .from('documents')
       .insert({
         content,
         embedding,
         metadata,
+        content_hash: contentHash,
+        source_id: sourceId,
+        last_synced: new Date().toISOString(),
       } as any)
       .select()
       .single();
@@ -153,6 +164,8 @@ export async function insertDocuments(
     content: string;
     embedding: number[];
     metadata: PortfolioDocument['metadata'];
+    content_hash?: string;
+    source_id?: string;
   }>
 ): Promise<PortfolioDocument[]> {
   const admin = getSupabaseAdmin();
@@ -161,9 +174,14 @@ export async function insertDocuments(
   }
 
   try {
+    const docsToInsert = documents.map(doc => ({
+      ...doc,
+      last_synced: new Date().toISOString(),
+    }));
+
     const { data, error } = await admin
       .from('documents')
-      .insert(documents as any)
+      .insert(docsToInsert as any)
       .select();
 
     if (error) {
@@ -178,6 +196,139 @@ export async function insertDocuments(
   } catch (error) {
     console.error('Error in insertDocuments:', error);
     throw error;
+  }
+}
+
+/**
+ * Upsert a single document (update if exists by source_id, insert if new)
+ */
+export async function upsertDocument(
+  content: string,
+  embedding: number[],
+  metadata: PortfolioDocument['metadata'],
+  contentHash: string,
+  sourceId: string
+): Promise<PortfolioDocument | null> {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
+    throw new Error('Supabase admin client not initialized. Service role key required.');
+  }
+
+  try {
+    // First, check if document with this source_id exists
+    const { data: existing } = await admin
+      .from('documents')
+      .select('*')
+      .eq('source_id', sourceId)
+      .single();
+
+    if (existing) {
+      // Update existing document
+      const { data, error } = await admin
+        .from('documents')
+        .update({
+          content,
+          embedding,
+          metadata,
+          content_hash: contentHash,
+          last_synced: new Date().toISOString(),
+        } as any)
+        .eq('source_id', sourceId)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return {
+        ...data,
+        metadata: data.metadata as unknown as PortfolioDocument['metadata'],
+      };
+    } else {
+      // Insert new document
+      return await insertDocument(content, embedding, metadata, contentHash, sourceId);
+    }
+  } catch (error) {
+    console.error('Error in upsertDocument:', error);
+    throw error;
+  }
+}
+
+/**
+ * Find documents by source_id
+ */
+export async function findDocumentsBySourceId(sourceId: string): Promise<PortfolioDocument[]> {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
+    throw new Error('Supabase admin client not initialized. Service role key required.');
+  }
+
+  try {
+    const { data, error } = await admin
+      .from('documents')
+      .select('*')
+      .eq('source_id', sourceId);
+
+    if (error) throw error;
+
+    return (data || []).map(doc => ({
+      ...doc,
+      metadata: doc.metadata as unknown as PortfolioDocument['metadata'],
+    }));
+  } catch (error) {
+    console.error('Error in findDocumentsBySourceId:', error);
+    throw error;
+  }
+}
+
+/**
+ * Delete documents by source_id
+ */
+export async function deleteDocumentsBySourceId(sourceId: string): Promise<number> {
+  const admin = getSupabaseAdmin();
+  if (!admin) {
+    throw new Error('Supabase admin client not initialized. Service role key required.');
+  }
+
+  try {
+    const { data, error } = await admin
+      .from('documents')
+      .delete()
+      .eq('source_id', sourceId)
+      .select();
+
+    if (error) throw error;
+
+    return data?.length || 0;
+  } catch (error) {
+    console.error('Error in deleteDocumentsBySourceId:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get sync status summary
+ */
+export async function getSyncStatus(): Promise<{
+  totalDocuments: number;
+  totalChunks: number;
+  lastSync: string | null;
+  sourcesCount: number;
+  sanityDocuments: number;
+  transcriptDocuments: number;
+} | null> {
+  if (!supabase) {
+    throw new Error('Supabase client not initialized');
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('get_sync_status');
+
+    if (error) throw error;
+
+    return data && data.length > 0 ? data[0] : null;
+  } catch (error) {
+    console.error('Error in getSyncStatus:', error);
+    return null;
   }
 }
 

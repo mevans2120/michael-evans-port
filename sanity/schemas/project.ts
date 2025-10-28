@@ -121,6 +121,139 @@ export default defineType({
       title: 'Display Order',
       type: 'number',
     }),
+    defineField({
+      name: 'overview',
+      title: 'Project Overview',
+      type: 'object',
+      fields: [
+        {
+          name: 'role',
+          title: 'Your Role',
+          type: 'string',
+          description: 'e.g., "Lead Product Manager & Client Lead"',
+        },
+        {
+          name: 'company',
+          title: 'Company',
+          type: 'string',
+          description: 'e.g., "Work & Co"',
+        },
+        {
+          name: 'timeline',
+          title: 'Timeline',
+          type: 'string',
+          description: 'e.g., "~1 year (2014-2015)"',
+        },
+      ],
+    }),
+    defineField({
+      name: 'sections',
+      title: 'Case Study Sections',
+      type: 'array',
+      description: 'Detailed narrative sections for the case study',
+      of: [
+        {
+          type: 'object',
+          name: 'caseStudySection',
+          title: 'Section',
+          fields: [
+            {
+              name: 'sectionLabel',
+              title: 'Section Label',
+              type: 'string',
+              description: 'e.g., "The Challenge", "Research Insights", "The Solution"',
+            },
+            {
+              name: 'heading',
+              title: 'Heading',
+              type: 'string',
+              description: 'Main heading for this section',
+            },
+            {
+              name: 'content',
+              title: 'Content',
+              type: 'array',
+              of: [
+                { type: 'block' },
+                {
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'screenshots',
+              title: 'Screenshots',
+              description: 'Screenshots or images for this section',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  name: 'screenshot',
+                  fields: [
+                    {
+                      name: 'image',
+                      type: 'image',
+                      title: 'Screenshot',
+                      options: { hotspot: true },
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                    },
+                    {
+                      name: 'layout',
+                      type: 'string',
+                      title: 'Layout',
+                      description: 'How to display this screenshot',
+                      options: {
+                        list: [
+                          { title: 'Grid (with other screenshots)', value: 'grid' },
+                          { title: 'Large (full width)', value: 'large' },
+                        ],
+                      },
+                      initialValue: 'grid',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      media: 'image',
+                      caption: 'caption',
+                    },
+                    prepare({ media, caption }) {
+                      return {
+                        title: caption || 'Screenshot',
+                        media,
+                      }
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'heading',
+              label: 'sectionLabel',
+            },
+            prepare({ title, label }) {
+              return {
+                title: title || 'Untitled Section',
+                subtitle: label,
+              }
+            },
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
