@@ -1,17 +1,28 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { CaseStudySlideshow } from "@/components/CaseStudySlideshow";
-import {
-  CaseStudyHero,
-  CaseStudyProblem,
-  CaseStudySolution,
-  CaseStudyMetrics,
-  CaseStudyOutcomes,
-  CaseStudyGallery
-} from "@/components/CaseStudySections";
+import { CaseStudyNarrative } from "@/components/CaseStudyNarrative";
 import { client } from "@/lib/sanity/client";
 import { logger } from "@/lib/logger";
+
+interface Screenshot {
+  image: {
+    asset: {
+      _ref: string;
+      url?: string;
+    };
+  };
+  caption?: string;
+  layout: 'grid' | 'large';
+}
+
+interface Section {
+  _key: string;
+  sectionLabel?: string;
+  heading: string;
+  content: any; // Portable Text content
+  screenshots?: Screenshot[];
+}
 
 interface CaseStudyData {
   title: string;
@@ -34,8 +45,10 @@ interface CaseStudyData {
     problem?: string;
     solution?: string;
     role?: string;
+    company?: string;
     timeline?: string;
   };
+  sections?: Section[];
   images?: {
     image: {
       asset: {
@@ -63,7 +76,29 @@ const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
   },
   achievements,
   technologies,
-  overview,
+  overview {
+    role,
+    company,
+    timeline,
+    problem,
+    solution
+  },
+  sections[] {
+    _key,
+    sectionLabel,
+    heading,
+    content,
+    screenshots[] {
+      image {
+        asset-> {
+          _ref,
+          url
+        }
+      },
+      caption,
+      layout
+    }
+  },
   images[] {
     image {
       asset-> {
@@ -152,78 +187,17 @@ export default function CaseStudyPage({ params }: PageProps) {
     );
   }
 
-  // Build slides array
-  const slides = [];
-
-  // Slide 1: Hero
-  slides.push(
-    <CaseStudyHero
+  return (
+    <CaseStudyNarrative
       title={project.title}
       subtitle={project.subtitle}
       category={project.category}
       heroImage={project.heroImage?.asset?.url}
-      tags={project.technologies}
+      metrics={project.metrics}
+      achievements={project.achievements}
+      overview={project.overview}
+      sections={project.sections}
+      technologies={project.technologies}
     />
-  );
-
-  // Slide 2: Problem (if exists)
-  if (project.overview?.problem) {
-    slides.push(
-      <CaseStudyProblem
-        problem={project.overview.problem}
-        context={project.description}
-      />
-    );
-  }
-
-  // Slide 3: Solution (if exists)
-  if (project.overview?.solution) {
-    slides.push(
-      <CaseStudySolution
-        solution={project.overview.solution}
-        approach={project.description}
-      />
-    );
-  }
-
-  // Slide 4: Metrics (if exists)
-  if (project.metrics && project.metrics.length > 0) {
-    slides.push(
-      <CaseStudyMetrics metrics={project.metrics} />
-    );
-  }
-
-  // Slide 5: Outcomes (if exists)
-  if (project.achievements && project.achievements.length > 0) {
-    slides.push(
-      <CaseStudyOutcomes
-        achievements={project.achievements}
-        impact={project.subtitle}
-      />
-    );
-  }
-
-  // Slide 6: Gallery (if exists)
-  if (project.images && project.images.length > 0) {
-    const galleryImages = project.images.map(img => ({
-      url: img.image.asset.url,
-      caption: img.caption
-    }));
-    slides.push(
-      <CaseStudyGallery images={galleryImages} />
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Fixed Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-50">
-      </div>
-
-      {/* Slideshow */}
-      <CaseStudySlideshow showProgress fullHeight>
-        {slides}
-      </CaseStudySlideshow>
-    </div>
   );
 }

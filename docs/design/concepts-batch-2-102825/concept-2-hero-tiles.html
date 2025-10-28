@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Hero Image Tiles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Crimson+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: linear-gradient(to bottom, #0a0a14, #050510);
+      color: #fafafa;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Section Header */
+    .section-header {
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-size: 48px;
+      font-weight: 300;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, hsl(280, 100%, 80%), #fafafa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 20px;
+      color: #a0a0a0;
+    }
+
+    /* Tiles Grid */
+    .tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      grid-auto-rows: 400px;
+    }
+
+    /* Featured tile takes 2/3 width */
+    .tile-featured {
+      grid-column: span 8;
+      grid-row: span 1;
+    }
+
+    /* Secondary tiles take 1/3 width */
+    .tile-secondary {
+      grid-column: span 4;
+      grid-row: span 1;
+    }
+
+    /* Tile Base */
+    .case-tile {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .case-tile:hover {
+      transform: scale(1.02);
+    }
+
+    /* Image/Visual Area */
+    .tile-visual {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(199, 128, 245, 0.2), rgba(199, 128, 245, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Gradient overlay */
+    .tile-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10, 10, 20, 0) 0%,
+        rgba(10, 10, 20, 0.6) 50%,
+        rgba(10, 10, 20, 0.95) 100%
+      );
+      transition: opacity 400ms;
+    }
+
+    .case-tile:hover .tile-visual::after {
+      opacity: 0.8;
+    }
+
+    /* Visual placeholder (would be replaced with actual images) */
+    .visual-placeholder {
+      font-size: 120px;
+      opacity: 0.15;
+      filter: blur(2px);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      color: hsl(280, 100%, 80%);
+      user-select: none;
+    }
+
+    .tile-secondary .visual-placeholder {
+      font-size: 80px;
+    }
+
+    /* Atmospheric blur orb in visual */
+    .tile-orb {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: hsl(280, 100%, 70%);
+      filter: blur(120px);
+      opacity: 0.2;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, -30px); }
+    }
+
+    /* Content Overlay */
+    .tile-content {
+      position: absolute;
+      inset: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      z-index: 1;
+    }
+
+    .tile-secondary .tile-content {
+      padding: 32px;
+    }
+
+    /* Tag */
+    .tile-tag {
+      display: inline-block;
+      width: fit-content;
+      padding: 8px 16px;
+      background: rgba(199, 128, 245, 0.2);
+      border: 1px solid rgba(199, 128, 245, 0.4);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: hsl(280, 100%, 85%);
+      font-family: 'DM Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Title */
+    .tile-title {
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      transition: all 300ms;
+    }
+
+    .tile-secondary .tile-title {
+      font-size: 32px;
+    }
+
+    .case-tile:hover .tile-title {
+      transform: translateY(-4px);
+    }
+
+    /* Description */
+    .tile-description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #d0d0d0;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      margin-bottom: 20px;
+    }
+
+    .tile-secondary .tile-description {
+      font-size: 16px;
+    }
+
+    .case-tile:hover .tile-description {
+      max-height: 120px;
+      opacity: 1;
+    }
+
+    /* Metrics and CTA */
+    .tile-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .tile-metric {
+      font-size: 16px;
+      font-weight: 600;
+      color: hsl(280, 100%, 85%);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .tile-arrow {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms;
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    .case-tile:hover .tile-arrow {
+      opacity: 1;
+      transform: translateX(0);
+      border-color: hsl(280, 100%, 80%);
+      background: rgba(199, 128, 245, 0.2);
+    }
+
+    .arrow-icon {
+      width: 16px;
+      height: 16px;
+      stroke: hsl(280, 100%, 80%);
+      stroke-width: 2;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .tiles-grid {
+        grid-auto-rows: 350px;
+      }
+
+      .tile-featured {
+        grid-column: span 12;
+      }
+
+      .tile-secondary {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 40px 24px;
+      }
+
+      .tiles-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 400px;
+      }
+
+      .tile-featured,
+      .tile-secondary {
+        grid-column: span 1;
+      }
+
+      .section-title {
+        font-size: 36px;
+      }
+
+      .tile-title {
+        font-size: 36px;
+      }
+
+      .tile-secondary .tile-title {
+        font-size: 28px;
+      }
+    }
+
+    /* Annotation */
+    .annotation {
+      margin-top: 100px;
+      padding: 40px;
+      background: rgba(199, 128, 245, 0.05);
+      border-left: 3px solid hsl(280, 100%, 80%);
+      border-radius: 8px;
+      font-size: 18px;
+      color: #c0c0c0;
+      font-style: italic;
+    }
+
+    .annotation strong {
+      color: hsl(280, 100%, 80%);
+      font-style: normal;
+    }
+
+    .annotation-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #fafafa;
+      font-style: normal;
+      font-family: 'DM Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title">Selected Work</h2>
+      <p class="section-subtitle">Case studies and product launches</p>
+    </div>
+
+    <!-- Tiles Grid -->
+    <div class="tiles-grid">
+      <!-- Featured Tile - Virgin America -->
+      <article class="case-tile tile-featured">
+        <div class="tile-visual">
+          <div class="tile-orb" style="top: 10%; left: 20%;"></div>
+          <div class="visual-placeholder">VA</div>
+        </div>
+        <div class="tile-content">
+          <span class="tile-tag">UX Design</span>
+          <h3 class="tile-title">Virgin America</h3>
+          <p class="tile-description">
+            Created the first responsive airline website, reimagining booking flows by focusing on decisions rather than clicks — achieving industry recognition and measurable business impact.
+          </p>
+          <div class="tile-footer">
+            <span class="tile-metric">15% conversion lift</span>
+            <div class="tile-arrow">
+              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Secondary Tile - Casa Bonita -->
+      <article class="case-tile tile-secondary">
+        <div class="tile-visual">
+          <div class="tile-orb" style="top: 20%; right: 20%;"></div>
+          <div class="visual-placeholder">CB</div>
+        </div>
+        <div class="tile-content">
+          <span class="tile-tag">Experience</span>
+          <h3 class="tile-title">Casa Bonita</h3>
+          <p class="tile-description">
+            Revived a beloved Colorado landmark by reimagining the customer experience with modern hospitality design.
+          </p>
+          <div class="tile-footer">
+            <span class="tile-metric">Cultural icon</span>
+            <div class="tile-arrow">
+              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Secondary Tile - Before Launcher (Bottom Left) -->
+      <article class="case-tile tile-secondary">
+        <div class="tile-visual">
+          <div class="tile-orb" style="bottom: 20%; left: 20%;"></div>
+          <div class="visual-placeholder">BL</div>
+        </div>
+        <div class="tile-content">
+          <span class="tile-tag">Mobile</span>
+          <h3 class="tile-title">Before Launcher</h3>
+          <p class="tile-description">
+            Built a minimalist Android launcher focused on intentionality, reducing phone time through thoughtful UX.
+          </p>
+          <div class="tile-footer">
+            <span class="tile-metric">100K+ users</span>
+            <div class="tile-arrow">
+              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Fourth Tile could go here if needed - grid handles any number -->
+    </div>
+
+    <!-- Annotation -->
+    <div class="annotation">
+      <div class="annotation-title">Concept 2: Hero Image Tiles</div>
+      <p style="margin-bottom: 20px;">
+        <strong>Strategy:</strong> Visual-first approach with large image areas for each case study. Featured tile takes 2/3 width to establish hierarchy. Grid system scales elegantly to any number of case studies.
+      </p>
+      <p style="margin-bottom: 20px;">
+        <strong>Strengths:</strong> Cinematic, portfolio-quality presentation. Large visual areas perfect for showing actual product screenshots or brand imagery. Asymmetric grid creates visual interest. Text overlays keep information accessible while prioritizing visuals. Immediately shows breadth of work.
+      </p>
+      <p style="margin-bottom: 20px;">
+        <strong>Visual Treatment:</strong> In production, each tile would feature actual project screenshots, brand colors, or product visuals. Gradient overlays ensure text readability. Floating blur orbs add depth and atmosphere. Scale effect on hover creates tactile feedback.
+      </p>
+      <p>
+        <strong>Tradeoffs:</strong> Requires high-quality images for each case study. Less text information visible at a glance. Grid layout may not work as well for fewer than 3 case studies. More complex responsive behavior.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
