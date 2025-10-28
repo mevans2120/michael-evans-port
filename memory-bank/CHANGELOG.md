@@ -7,22 +7,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### Added (October 28, 2025)
+- **About Page - Complete Implementation**
+  - Expanded Sanity profile schema with comprehensive about page fields
+  - Hero section with profile photo (heroHeadline, heroSubheadline, heroIntro)
+  - Quick facts grid (6 configurable label/value pairs)
+  - Capabilities list (7 items with "new" badge support)
+  - Dynamic content sections with subsections and visibility toggles
+  - Selected projects showcase (4 projects with metrics)
+  - Technologies taxonomy (8 categories)
+  - Availability and CTA fields
+- **Content Migration System**
+  - Automated migration script (`scripts/migrate-about-content.ts`)
+  - Dotenv integration for environment variable loading
+  - `npm run migrate:about` command
+  - Migration documentation in `scripts/README.md`
+- **Design Concepts**
+  - Five design concept explorations in `/docs/design/concepts-batch-1-102825/`
+  - Mood board, minimal, bold, current, and dark-refined variations
+  - Design comparison and recommendations
+- **Documentation**
+  - About page implementation plan (`docs/implementation-plans/about-page-implementation-plan.md`)
+  - Migration script documentation
+
+### Added (October 27, 2025)
+- **Content Specifications**
+  - Virgin America case study content spec
+  - Before Launcher case study content spec
+  - Casa Bonita case study content spec
+  - Target case study content spec
+  - Pedal case study content spec
+  - Profile/About content specification
+  - Content specs README with implementation guide
 - Comprehensive ARCHITECTURE.md documentation
 - Memory Bank system for development continuity
 - Detailed coding standards and guidelines
 - Session management workflow
 
-### Changed
+### Changed (October 28, 2025)
+- Logo typography now uses DM Sans (`font-serif` class)
+- Profile schema significantly expanded with about page fields
+- Package.json scripts include `migrate:about`
+
+### Changed (Previous)
 - Enhanced project documentation structure
+- Layout simplified (NavigationProvider removed by user)
 
 ### Planned
+- Case study page templates implementation
 - Performance monitoring integration
 - Testing framework setup
 - CI/CD pipeline configuration
 - SEO optimization
-- Analytics integration
-- Dark mode support
+- Additional about page sections (AI work, philosophy)
 
 ## [1.0.0] - 2025-09-15
 

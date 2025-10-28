@@ -13,7 +13,8 @@
     "test:api": "node test-chatsection-integration.mjs",
     "setup-db": "tsx src/lib/chatbot/setup-database.ts",
     "ingest": "tsx src/lib/chatbot/ingest-content.ts",
-    "ingest:clear": "tsx src/lib/chatbot/ingest-content.ts --clear"
+    "ingest:clear": "tsx src/lib/chatbot/ingest-content.ts --clear",
+    "migrate:about": "tsx scripts/migrate-about-content.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.37",

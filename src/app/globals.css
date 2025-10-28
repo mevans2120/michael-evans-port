@@ -69,9 +69,15 @@ All colors MUST be HSL.
   }
 
   body {
+    @apply font-sans;
     background-color: #050510;
     color: #fafafa;
     font-weight: 300;
+  }
+
+  /* Global heading styles - automatically apply Crimson Pro to all headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 

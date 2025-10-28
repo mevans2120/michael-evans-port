@@ -1,16 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Crimson_Pro, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { NavigationProvider } from "@/contexts/NavigationContext";
-import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
 import { Analytics } from "@vercel/analytics/next";
 
-const inter = Inter({
+// DM Sans for headings (sans-serif)
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+// Crimson Pro for body text (serif)
+const crimsonPro = Crimson_Pro({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${dmSans.variable} ${crimsonPro.variable}`} suppressHydrationWarning>
       <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a
@@ -39,28 +48,9 @@ export default function RootLayout({
         </a>
 
         <QueryProvider>
-          <NavigationProvider>
-            <div className="flex h-screen w-screen bg-neutral-950 overflow-hidden">
-              {/* Main Content Area */}
-              <main
-                id="main-content"
-                className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0 hide-scrollbar"
-              >
-                {children}
-              </main>
-
-              {/* Navigation Panel */}
-              <NavigationPanel>
-                <div className="flex-1 flex flex-col bg-neutral-900 relative">
-                  <NavigationMenu />
-                  <ChatSection />
-                </div>
-              </NavigationPanel>
-            </div>
-
-            <Toaster />
-            <Sonner />
-          </NavigationProvider>
+          {children}
+          <Toaster />
+          <Sonner />
         </QueryProvider>
         <Analytics />
       </body>

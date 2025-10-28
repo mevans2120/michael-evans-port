@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Michael Evans - Bold Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #000000;
+      color: #ffffff;
+      line-height: 1.8;
+      font-size: 14px;
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    .ascii-art {
+      font-size: 10px;
+      color: #00ff41;
+      line-height: 1.2;
+      margin-bottom: 60px;
+      overflow-x: auto;
+    }
+
+    .glitch {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: #00ff41;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .intro {
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 80px;
+      color: #cccccc;
+      max-width: 800px;
+    }
+
+    .terminal-prompt {
+      color: #00ff41;
+      margin-right: 8px;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ff0080;
+      margin: 80px 0 32px 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    h2::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: #00ff41;
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: #cccccc;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2px;
+      margin: 60px 0;
+      background: #00ff41;
+    }
+
+    .stat {
+      background: #000;
+      padding: 32px;
+      border: 2px solid #00ff41;
+      transition: all 200ms;
+    }
+
+    .stat:hover {
+      background: #00ff41;
+      color: #000;
+      transform: translate(-4px, -4px);
+      box-shadow: 4px 4px 0 #ff0080;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .stat:hover .stat-label {
+      color: #000;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .stat:hover .stat-value {
+      color: #000;
+    }
+
+    .capabilities {
+      list-style: none;
+      margin: 32px 0;
+    }
+
+    .capabilities li {
+      padding: 16px 0;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: baseline;
+      transition: all 200ms;
+    }
+
+    .capabilities li:hover {
+      border-color: #00ff41;
+      padding-left: 16px;
+    }
+
+    .capabilities li::before {
+      content: '└─';
+      color: #00ff41;
+      margin-right: 16px;
+    }
+
+    .capabilities strong {
+      color: #ffffff;
+      margin-right: 8px;
+    }
+
+    .box {
+      border: 2px solid #222;
+      padding: 40px;
+      margin: 60px 0;
+      position: relative;
+    }
+
+    .box::before {
+      content: attr(data-title);
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: #000;
+      padding: 0 12px;
+      color: #00ff41;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .project {
+      padding: 32px;
+      margin: 20px 0;
+      border-left: 4px solid #00ff41;
+      background: #0a0a0a;
+      transition: all 200ms;
+    }
+
+    .project:hover {
+      border-left-color: #ff0080;
+      transform: translateX(8px);
+    }
+
+    .project-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .project-metric {
+      color: #00ff41;
+      font-size: 12px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .project-desc {
+      color: #888;
+      font-size: 13px;
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 20px 40px;
+      background: #ff0080;
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 60px;
+      position: relative;
+      transition: all 200ms;
+    }
+
+    .cta:hover {
+      background: #00ff41;
+      transform: translate(-4px, -4px);
+      box-shadow: 4px 4px 0 #ff0080;
+    }
+
+    .section-number {
+      color: #333;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 40px 20px;
+      }
+
+      .glitch {
+        font-size: 32px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ascii-art {
+        font-size: 8px;
+      }
+
+      h2 {
+        font-size: 20px;
+        margin: 60px 0 24px 0;
+      }
+
+      .box {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <div class="container">
+    <!-- ASCII Art Header -->
+    <div class="ascii-art">
+ __  __ ___ ____ _  _   _   _____ _        _____     ___   _  _ ___
+|  \/  |_ _/ ___| || | /_\ | ____| |      | __\ \   / /_\ | \| / __|
+| |\/| || | |   | || |/ _ \|  _| | |__    | _| \ \ / / _ \| .` \__ \
+|_|  |_|___\___|_||_/_/ \_\_____||____| |_____|  \_/_/ \_\_|\_|___/
+    </div>
+
+    <!-- Hero -->
+    <div class="glitch">MICHAEL_EVANS</div>
+    <div class="tagline">&gt; PRODUCT_MANAGER • UX_DESIGNER • AI_BUILDER</div>
+    <div class="intro">
+      <span class="terminal-prompt">$</span>20 years solving complex problems. Now building with AI.
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-label">LOCATION</div>
+        <div class="stat-value">Portland, Oregon</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">EXPERIENCE</div>
+        <div class="stat-value">20 Years</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">APPROACH</div>
+        <div class="stat-value">0-to-1 Army of One</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">FOCUS</div>
+        <div class="stat-value">AI/ML Products</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">WORK_STYLE</div>
+        <div class="stat-value">Remote + On-site</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">STATUS</div>
+        <div class="stat-value">Available</div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-number">[01]</div>
+    <h2>The 50,000-Foot View</h2>
+    <p><span class="terminal-prompt">&gt;</span> I'm a product manager who lives in Portland, Oregon. Technology enthusiast, AI enthusiast, father of two boys, lifelong learner, and kind of an "army of one" when it comes to capabilities across software.</p>
+
+    <p><strong style="color: #00ff41;">WHAT_MAKES_ME_DIFFERENT:</strong></p>
+
+    <p>Compared to a typical product manager, I can do:</p>
+
+    <ul class="capabilities">
+      <li><strong>STRATEGY</strong> Define what to build and why</li>
+      <li><strong>UX_DESIGN</strong> Create the interface and experience</li>
+      <li><strong>RESEARCH</strong> Understand users and validate ideas</li>
+      <li><strong>ANALYSIS</strong> Make sense of data and metrics</li>
+      <li><strong>PROJECT_MGMT</strong> Ship things on time</li>
+      <li><strong>PRIORITIZATION</strong> Backlogs, roadmaps, feature lists</li>
+      <li><strong>DEVELOPMENT</strong> Build and test with Claude Code <span style="color: #00ff41;">[NEW!]</span></li>
+    </ul>
+
+    <!-- Section 2 -->
+    <div class="section-number" style="margin-top: 80px;">[02]</div>
+    <h2>From Yurts to Gigahertz</h2>
+    <div class="box" data-title="ORIGIN_STORY">
+      <p><span class="terminal-prompt">&gt;</span> Raised by hippies in a purple house in Eugene, Oregon. Fell in love with computers as a kid, learned to program at 11, but also loved reading and writing... So I studied English at the University of Colorado.</p>
+
+      <p style="margin-top: 20px;"><strong style="color: #00ff41;">20_YEARS_IN_SOFTWARE:</strong></p>
+
+      <p>I've been doing product management for much of my career, even though sometimes my role was called "project manager" or "solutions architect" or "business analyst." The titles changed, but the work remained consistent: understand the problem, design the solution, ship the product, measure the results, iterate.</p>
+
+      <p>Whether it was helping leisure travelers book airline tickets, helping people focus by filtering notifications, or managing 40,000 people in a queue for a restaurant, the work has always been about making complex things simple and delightful.</p>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-number">[03]</div>
+    <h2>What I Bring</h2>
+
+    <p style="color: #00ff41; margin-top: 32px;">[1] DEEP_TECHNICAL_KNOWLEDGE</p>
+    <p>I'm as technical as you can get without being much of a coder. I understand how software applications are architected. I can go deep technically in any stripe of software—whether it's Salesforce, NetSuite, SaaS products, or complete custom builds.</p>
+
+    <p style="color: #00ff41; margin-top: 32px;">[2] BIG_PICTURE_BUSINESS_VIEW</p>
+    <p>I'm really good at seeing what's important for a business and their customers at the 50,000-foot level. I understand that technology exists to serve business goals, and business goals exist to serve customers.</p>
+
+    <p style="color: #00ff41; margin-top: 32px;">[3] RANGE</p>
+    <p>I can go from true 50,000 feet all the way down to deep in the weeds—wherever is needed for the project. One day I'm defining product strategy with executives. The next I'm reviewing button padding with designers. This range is rare and valuable.</p>
+
+    <!-- Projects -->
+    <div class="section-number" style="margin-top: 80px;">[04]</div>
+    <h2>Projects I'm Proud Of</h2>
+
+    <div class="project">
+      <div class="project-title">VIRGIN_AMERICA</div>
+      <div class="project-metric">15-20% conversion lift • Multiple awards</div>
+      <div class="project-desc">First responsive airline website. Webbies, UX Awards, Cannes Lions. Pioneered decision-based booking flows.</div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">BEFORE_LAUNCHER</div>
+      <div class="project-metric">30-40% reduction in phone opens • Fast Company Best App 2019</div>
+      <div class="project-desc">Minimalist Android launcher. Helped thousands focus. Founder, Before Labs.</div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">CASA_BONITA</div>
+      <div class="project-metric">40,000-person queue • 25% increase in covers</div>
+      <div class="project-desc">Restaurant with immersive entertainment. Managed massive queues, 100% capacity consistently.</div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">TARGET</div>
+      <div class="project-metric">20+ work streams • Amazon to proprietary e-commerce</div>
+      <div class="project-desc">Led multiple simultaneous initiatives for largest client. Future of retail conceptual work.</div>
+    </div>
+
+    <!-- CTA -->
+    <a href="/contact" class="cta">Let's_Work_Together</a>
+
+    <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #222; color: #333; font-size: 12px;">
+      <span class="terminal-prompt" style="color: #333;">$</span> EOF
+    </div>
+  </div>
+</body>
+</html>

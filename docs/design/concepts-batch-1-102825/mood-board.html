@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Page Mood Board - Michael Evans Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #f3f4f6;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #c084fc, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 60px 0 30px 0;
+      color: #ffffff;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin: 30px 0 16px 0;
+      color: #c084fc;
+    }
+
+    p {
+      color: #9ca3af;
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+
+    .direction-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin: 40px 0;
+    }
+
+    .direction-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 30px;
+      transition: all 300ms;
+    }
+
+    .direction-card:hover {
+      border-color: #c084fc;
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(192, 132, 252, 0.1);
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .color-swatch {
+      height: 140px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      transition: transform 200ms;
+      cursor: pointer;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .color-label {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .color-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    .type-sample {
+      margin: 20px 0;
+      padding: 30px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      border: 1px solid #2a2a2a;
+    }
+
+    .type-sample h4 {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .specimen {
+      margin-top: 8px;
+    }
+
+    .specimen-meta {
+      font-size: 13px;
+      color: #4b5563;
+      margin-top: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .component-example {
+      margin: 30px 0;
+      padding: 40px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+    }
+
+    .button-demo {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #c084fc;
+      color: #000;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .button-demo:hover {
+      background: #a855f7;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
+    }
+
+    .button-outline {
+      display: inline-block;
+      padding: 16px 32px;
+      background: transparent;
+      color: #c084fc;
+      border: 2px solid #c084fc;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 200ms;
+      cursor: pointer;
+      margin-left: 16px;
+    }
+
+    .button-outline:hover {
+      background: #c084fc;
+      color: #000;
+    }
+
+    .spacing-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 30px 0;
+    }
+
+    .spacing-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .spacing-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #c084fc, #3b82f6);
+      border-radius: 2px;
+      transition: all 200ms;
+    }
+
+    .spacing-item:hover .spacing-bar {
+      background: linear-gradient(90deg, #a855f7, #2563eb);
+    }
+
+    .spacing-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #9ca3af;
+      min-width: 60px;
+    }
+  </style>
+</head>
+<body>
+  <h1>About Page Design Mood Board</h1>
+  <p>Three distinct visual directions for Michael Evans' About page, each exploring a different aesthetic approach while maintaining professional credibility and personal warmth.</p>
+
+  <h2>Design Directions Overview</h2>
+
+  <div class="direction-grid">
+    <div class="direction-card">
+      <h3>Direction 1: Minimal Elegance</h3>
+      <p>Refined serif typography, generous whitespace, subtle animations. Feels like a well-designed book or upscale magazine.</p>
+      <ul style="color: #9ca3af; line-height: 2; margin-top: 20px;">
+        <li>Serif headings (Crimson Pro)</li>
+        <li>90% whitespace, 10% content</li>
+        <li>Cream/ivory backgrounds</li>
+        <li>Subtle fade-in animations</li>
+        <li>Professional, approachable, timeless</li>
+      </ul>
+    </div>
+
+    <div class="direction-card">
+      <h3>Direction 2: Bold Brutalist</h3>
+      <p>Dark, unconventional layout, monospace typography, high contrast. Feels like a developer's personal site or indie game UI.</p>
+      <ul style="color: #9ca3af; line-height: 2; margin-top: 20px;">
+        <li>Monospace fonts (JetBrains Mono)</li>
+        <li>Asymmetric grid layout</li>
+        <li>Neon accents on black</li>
+        <li>Sharp edges, no rounded corners</li>
+        <li>Technical, distinctive, memorable</li>
+      </ul>
+    </div>
+
+    <div class="direction-card">
+      <h3>Direction 3: Current Site Evolution</h3>
+      <p>Dark theme with purple gradients, refined typography, familiar patterns. Natural evolution of existing brand.</p>
+      <ul style="color: #9ca3af; line-height: 2; margin-top: 20px;">
+        <li>Sans-serif (DM Sans, not Inter)</li>
+        <li>Purple gradient accents</li>
+        <li>Dark backgrounds (#050510)</li>
+        <li>Smooth transitions</li>
+        <li>Cohesive with existing portfolio</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Direction 1: Minimal Elegance</h2>
+
+  <h3>Color Palette</h3>
+  <div class="color-palette">
+    <div class="color-swatch" style="background: #fafaf9; color: #000;">
+      <div class="color-label">Background</div>
+      <div class="color-hex">#fafaf9</div>
+    </div>
+    <div class="color-swatch" style="background: #171717; color: #fff;">
+      <div class="color-label">Headings</div>
+      <div class="color-hex">#171717</div>
+    </div>
+    <div class="color-swatch" style="background: #525252; color: #fff;">
+      <div class="color-label">Body Text</div>
+      <div class="color-hex">#525252</div>
+    </div>
+    <div class="color-swatch" style="background: #2563eb; color: #fff;">
+      <div class="color-label">Accent</div>
+      <div class="color-hex">#2563eb</div>
+    </div>
+  </div>
+
+  <h3>Typography</h3>
+  <div class="type-sample">
+    <h4>Crimson Pro - Display</h4>
+    <div class="specimen" style="font-family: 'Crimson Pro', serif; font-size: 56px; font-weight: 600; color: #171717; line-height: 1.1;">
+      Michael Evans
+    </div>
+    <div class="specimen-meta">font: Crimson Pro | size: 56px | weight: 600 | line-height: 1.1</div>
+  </div>
+
+  <div class="type-sample">
+    <h4>Crimson Pro - Section Heading</h4>
+    <div class="specimen" style="font-family: 'Crimson Pro', serif; font-size: 32px; font-weight: 400; color: #171717;">
+      The 50,000-Foot View
+    </div>
+    <div class="specimen-meta">font: Crimson Pro | size: 32px | weight: 400</div>
+  </div>
+
+  <div class="type-sample">
+    <h4>DM Sans - Body Text</h4>
+    <div class="specimen" style="font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 400; color: #525252; line-height: 1.8;">
+      I'm a product manager who lives in Portland, Oregon. Technology enthusiast, AI enthusiast, father of two boys, lifelong learner, and kind of an "army of one" when it comes to capabilities across software.
+    </div>
+    <div class="specimen-meta">font: DM Sans | size: 18px | weight: 400 | line-height: 1.8</div>
+  </div>
+
+  <h2>Direction 2: Bold Brutalist</h2>
+
+  <h3>Color Palette</h3>
+  <div class="color-palette">
+    <div class="color-swatch" style="background: #000000; color: #fff;">
+      <div class="color-label">Background</div>
+      <div class="color-hex">#000000</div>
+    </div>
+    <div class="color-swatch" style="background: #ffffff; color: #000;">
+      <div class="color-label">Primary Text</div>
+      <div class="color-hex">#ffffff</div>
+    </div>
+    <div class="color-swatch" style="background: #00ff41; color: #000;">
+      <div class="color-label">Neon Green</div>
+      <div class="color-hex">#00ff41</div>
+    </div>
+    <div class="color-swatch" style="background: #ff0080; color: #fff;">
+      <div class="color-label">Neon Pink</div>
+      <div class="color-hex">#ff0080</div>
+    </div>
+  </div>
+
+  <h3>Typography</h3>
+  <div class="type-sample">
+    <h4>JetBrains Mono - All Text</h4>
+    <div class="specimen" style="font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: 700; color: #00ff41; line-height: 1.2;">
+      MICHAEL_EVANS
+    </div>
+    <div class="specimen-meta">font: JetBrains Mono | size: 48px | weight: 700 | line-height: 1.2</div>
+  </div>
+
+  <div class="type-sample">
+    <h4>JetBrains Mono - Body</h4>
+    <div class="specimen" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 400; color: #ffffff; line-height: 1.8;">
+      > I'm a product manager who lives in Portland, Oregon.<br>
+      > Technology enthusiast, AI enthusiast, father of two boys.<br>
+      > Kind of an "army of one" when it comes to software.
+    </div>
+    <div class="specimen-meta">font: JetBrains Mono | size: 14px | weight: 400 | line-height: 1.8</div>
+  </div>
+
+  <h2>Direction 3: Current Site Evolution</h2>
+
+  <h3>Color Palette</h3>
+  <div class="color-palette">
+    <div class="color-swatch" style="background: #050510; color: #fff;">
+      <div class="color-label">Background</div>
+      <div class="color-hex">#050510</div>
+    </div>
+    <div class="color-swatch" style="background: #fafafa; color: #000;">
+      <div class="color-label">Text</div>
+      <div class="color-hex">#fafafa</div>
+    </div>
+    <div class="color-swatch" style="background: linear-gradient(135deg, #c084fc, #a855f7); color: #fff;">
+      <div class="color-label">Purple Gradient</div>
+      <div class="color-hex">c084fc→a855f7</div>
+    </div>
+    <div class="color-swatch" style="background: #1a1a2e; color: #fff;">
+      <div class="color-label">Card BG</div>
+      <div class="color-hex">#1a1a2e</div>
+    </div>
+  </div>
+
+  <h3>Typography</h3>
+  <div class="type-sample">
+    <h4>DM Sans - Display</h4>
+    <div class="specimen" style="font-family: 'DM Sans', sans-serif; font-size: 56px; font-weight: 700; color: #fafafa; line-height: 1.1;">
+      Michael Evans
+    </div>
+    <div class="specimen-meta">font: DM Sans | size: 56px | weight: 700 | line-height: 1.1</div>
+  </div>
+
+  <div class="type-sample">
+    <h4>DM Sans - Body</h4>
+    <div class="specimen" style="font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 400; color: #9ca3af; line-height: 1.8;">
+      I'm a product manager who lives in Portland, Oregon. Technology enthusiast, AI enthusiast, father of two boys, lifelong learner, and kind of an "army of one" when it comes to capabilities across software.
+    </div>
+    <div class="specimen-meta">font: DM Sans | size: 18px | weight: 400 | line-height: 1.8</div>
+  </div>
+
+  <h2>Component Examples</h2>
+
+  <div class="component-example">
+    <h3 style="margin-top: 0;">Button States</h3>
+    <a class="button-demo">Primary Action</a>
+    <a class="button-outline">Secondary Action</a>
+  </div>
+
+  <h2>Spacing Scale</h2>
+  <div class="spacing-scale">
+    <div class="spacing-item">
+      <div class="spacing-label">4px</div>
+      <div class="spacing-bar" style="width: 4px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">8px</div>
+      <div class="spacing-bar" style="width: 8px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">16px</div>
+      <div class="spacing-bar" style="width: 16px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">24px</div>
+      <div class="spacing-bar" style="width: 24px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">32px</div>
+      <div class="spacing-bar" style="width: 32px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">48px</div>
+      <div class="spacing-bar" style="width: 48px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">64px</div>
+      <div class="spacing-bar" style="width: 64px;"></div>
+    </div>
+    <div class="spacing-item">
+      <div class="spacing-label">96px</div>
+      <div class="spacing-bar" style="width: 96px;"></div>
+    </div>
+  </div>
+
+  <h2>Design Rationale</h2>
+
+  <div class="direction-card" style="margin-top: 30px;">
+    <h3>Why Three Directions?</h3>
+    <p>Each concept explores a fundamentally different approach to presenting Michael's story:</p>
+    <ul style="color: #9ca3af; line-height: 2; margin-top: 20px;">
+      <li><strong>Minimal Elegance</strong>: Appeals to executive/enterprise clients who value sophistication and clarity</li>
+      <li><strong>Bold Brutalist</strong>: Stands out in portfolio reviews, appeals to startups and creative teams</li>
+      <li><strong>Current Evolution</strong>: Maintains brand consistency while elevating the existing aesthetic</li>
+    </ul>
+  </div>
+</body>
+</html>

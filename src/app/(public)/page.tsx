@@ -93,7 +93,7 @@ export default function HomePage() {
       <nav className="absolute top-0 left-0 right-0 z-40 bg-transparent pointer-events-none px-6">
         <div className="container mx-auto max-w-6xl py-4">
           <div className="max-w-5xl -mx-6 md:mx-0">
-            <Link href="/" className="text-lg font-medium text-foreground inline-block pointer-events-auto">
+            <Link href="/" className="text-lg font-medium font-serif text-foreground inline-block pointer-events-auto">
               M<span className="text-gradient">Evans</span>
             </Link>
           </div>
