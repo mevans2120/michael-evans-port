@@ -50,7 +50,7 @@ I'm a product manager based in Portland, Oregon, who specializes in taking produ
     },
     {
       "label": "Availability",
-      "value": "Open for Consulting"
+      "value": "Open to Opportunities"
     }
   ]
 }
@@ -85,21 +85,21 @@ That last one is new. Working with AI has transformed how I work—I can now tak
 
 ### Section 2: Background & Journey
 
-**Heading:** From Eugene to Software
+**Heading:** From Yurts to Gigahertz
 
 **Content:**
 
-Grew up in a purple house in Eugene, Oregon. Got a degree in English—not computer science, not design, but English. After college, I wound up working in software and never left.
+I was raised by hippies in a purple house in Eugene, Oregon. I fell in love with computers and software as a kid, learned to program a bit when I was 11, but I also love to read and write... So I studied English at the University of Colorado
 
 **20 Years in Software:**
 
-I've been doing product management for what feels like most of my life, even though sometimes my role was called "project manager" or "UX lead" or "client lead." The titles changed, but the work remained consistent: understand the problem, design the solution, ship the product, measure the results, iterate.
+I've been doing product management for much of my career, even though sometimes my role was called "project manager" or "solutions architect" or "business analyst" The titles changed, but the work remained consistent: understand the problem, design the solution, ship the product, measure the results, iterate.
 
 **Career Highlights:**
 - Work & Co (Virgin America, Alaska Airlines)
 - Huge (Target, multiple enterprise clients)
-- Beforelab (Founder, Before Launcher)
-- Independent Consulting (Casa Bonita, Pedal, PostPal)
+- Before Labs (Founder, Before Launcher)
+- Independent Consulting & Raw Materials (Casa Bonita, Peddle, PostPal)
 - Current: AI-powered product development
 
 **The Thread:**
@@ -146,94 +146,18 @@ I think the details are what separate great products from good products—the li
 
 ---
 
-### Section 4: AI & The New Way of Building
+### Section 4: About My Work
 
-**Heading:** Why AI Changes Everything
-
-**Content:**
-
-**My Take on AI (October 2025):**
-
-People are talking about an AI bubble. Maybe they're right about the valuations. But I think they're underselling how useful AI is *right now*—not in some hypothetical future, but today.
-
-**What I Believe:**
-
-- Every software project should either be powered by AI or use ML in some way
-- Even in its current non-AGI state, it's fantastically useful
-- AI speeds up work, reduces costs, and improves quality
-- For people who love to learn, it's going to be a boon
-- For people who don't like to learn, there might be unfortunate consequences
-
-**The 0-to-1 Army of One:**
-
-I'm really interested in the 0-to-1 "army of one" approach, where I do product strategy, design, and development working with the client and with AI.
-
-**What I've Built with AI:**
-- **PostPal** - Medical procedure recovery app (React Native + Next.js)
-- **Marketing Websites** - DOA, Opal Creek, Coronagaten, and others (React + Sanity)
-- **Claude Tools** - Custom memory bank, 3 skill suites (Design, Project, Dev)
-- **1,000+ GitHub Commits** - Since switching to Claude Code
-
-**What I've Learned:**
-
-Working with Claude Code and processes I learned from agentic engineering/vibe coding folks has taught me a lot about building full-stack applications with AI. The mobile app and web app architecture, the iteration speed, the ability to explore ideas quickly—it's fundamentally changed how I work.
-
-**Why My Skill Set Works with AI:**
-
-You treat Claude as a team member. Giving Claude context, keeping things organized, and making it clear why you're doing things really helps the output. My 20 years of product management—defining requirements, breaking down problems, communicating clearly—translates perfectly to working with AI.
-
----
-
-### Section 5: What Interests Me
-
-**Heading:** The Work I Want
+**Heading:** What I Do & How I Do It
 
 **Content:**
 
-**Challenging Problems:**
+**The 0-to-1 Army of One Approach:**
 
-I'm interested in challenging work—challenging opportunities and problems to solve. I love working with amazing teams and people. I really enjoy meeting goals and solving problems.
+I specialize in taking products from 0 to 1, doing product strategy, design, and development—now powered by AI. This "army of one" approach means I can move fast, stay aligned from strategy through to code, and deliver high-quality work at a fraction of traditional team costs.
 
-Whether it's:
-- Helping people buy an airline ticket more easily
-- Showing what kind of work a company does
-- Making a brand better on the internet
-- Building tools that help people focus
-- Managing massive queues for restaurants
-
-If it's challenging and helps people, I'm interested.
-
-**Industries I'm Drawn To:**
-- Aviation (clearly—Virgin America was my biggest project)
-- Hospitality (Casa Bonita, reservation systems)
-- New Technology (AI/ML, emerging platforms)
-- Media (streaming, content delivery)
-
-I'm a lifelong learner. I always love learning about what makes a company special.
-
-**Company Size:**
-
-I don't have a strong preference, but I really do enjoy having agency and being able to get work done. That probably leads me a little bit toward smaller companies, but I know there are plenty of enterprises that are good at getting work done (I worked with Target for years).
-
-**What I'm NOT Interested In:**
-- Probably not military
-- Probably not soda
-- Otherwise, I genuinely want whoever is trying to solve a problem to get their problem solved in the best possible way—even if that means I'm not the right person for it
-
----
-
-### Section 6: How I Work
-
-**Heading:** The Process
-
-**Content:**
-
-**My Approach:**
-
-I love product strategy, research, and testing. One thing I've learned about myself is that the process for building, testing, shipping, and taking products to market is one that I enjoy. It's completely changing now with AI, but I still enjoy it.
-
-**The Full Spectrum:**
-- **Strategy** - What should we build?
+**My Process:**
+- **Strategy** - What should we build and why?
 - **Research** - What do users actually need?
 - **Design** - How should it work?
 - **Development** - Build it with Claude Code
@@ -242,25 +166,42 @@ I love product strategy, research, and testing. One thing I've learned about mys
 - **Measuring** - What happened? What should we do next?
 - **Iterating** - Make it better
 
+**What I've Built with AI:**
+- **PostPal** - Medical procedure recovery app (React Native + Next.js)
+- **Marketing Websites** - DOA, Opal Creek, Coronagaten, and others (React + Sanity)
+- **Claude Tools** - Custom memory bank, 3 skill suites (Design, Project, Dev)
+- **1,000+ GitHub Commits** - Since switching to Claude Code
+
+**Industries & Problems I Love:**
+- **Aviation** - Virgin America was my biggest project, love the complexity
+- **Hospitality** - Casa Bonita, reservation systems, high-volume challenges
+- **New Technology** - AI/ML, emerging platforms, bleeding edge
+- **Media** - Streaming, content delivery, user engagement
+
+If it's challenging and helps people, I'm interested.
+
 **Technologies I Work With:**
 
-Typically front-end and back-ends that support user interfaces for consumer and B2B apps. I'm fairly technology agnostic and can work across a variety of technologies:
-- React, Next.js, Vite
+Front-end and back-ends supporting user interfaces for consumer and B2B apps. Technology agnostic and comfortable with:
+- React, Next.js, Vite, TypeScript
 - Sanity CMS (used extensively)
 - Supabase, Firebase
-- Salesforce, NetSuite
-- SaaS products
-- Complete custom builds
 - React Native for mobile
-- AI/ML integration (Claude, OpenAI, Google)
+- AI/ML integration (Claude, OpenAI, Google Gemini)
+- Salesforce, NetSuite, various SaaS platforms
 
-**Work Location:**
+**Work Style:**
 
-Based in Portland, Oregon. I work remotely most of the time, but I love working on-site when it makes sense. I traveled to Minneapolis weekly for Target—when the work requires it, I'm there.
+Based in Portland, Oregon. Work remotely most of the time, but love working on-site when it makes sense. I traveled to Minneapolis weekly for Target—when the work requires it, I'm there.
+
+**What I'm NOT Interested In:**
+- Probably not military
+- Probably not soda
+- Otherwise, I genuinely want whoever is trying to solve a problem to get their problem solved in the best possible way—even if that means I'm not the right person for it
 
 ---
 
-### Section 7: Philosophy & Principles
+### Section 5: Philosophy & Principles
 
 **Heading:** How I Think About Products
 
@@ -301,7 +242,7 @@ Technology should make people more capable, not replace them. From Target's empl
 
 ---
 
-### Section 8: Selected Work
+### Section 6: Selected Work
 
 **Heading:** Projects I'm Proud Of
 
@@ -342,7 +283,7 @@ Technology should make people more capable, not replace them. From Target's empl
 
 ---
 
-### Section 9: Current Work & Availability
+### Section 7: Current Work & Availability
 
 **Heading:** Let's Work Together
 
@@ -375,7 +316,7 @@ Highly likely—let's talk about it. Get in touch.
 
 ---
 
-### Section 10: Personal
+### Section 8: Personal
 
 **Heading:** Beyond Work
 
