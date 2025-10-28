@@ -142,7 +142,7 @@ export function ChatSection() {
 
       {/* Chat Messages - Always render when there are messages, but hide with CSS when collapsed */}
       <div
-        className={`flex-1 overflow-y-auto px-4 py-4 bg-neutral-900 transition-all duration-300 ease-in-out ${
+        className={`flex-1 overflow-y-auto px-4 py-4 bg-neutral-900 transition-all duration-300 ease-in-out hide-scrollbar ${
           !showChatContent && !chatExpanded ? 'hidden' : ''
         } ${
           chatExpanded ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'

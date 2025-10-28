@@ -44,7 +44,7 @@ export default function RootLayout({
               {/* Main Content Area */}
               <main
                 id="main-content"
-                className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0"
+                className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0 hide-scrollbar"
               >
                 {children}
               </main>
