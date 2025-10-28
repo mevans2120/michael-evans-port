@@ -11,7 +11,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Lock } from 'lucide-react';
 
+// Debug: Log what password is being used (remove after testing)
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'changeme';
+if (typeof window !== 'undefined') {
+  console.log('Environment variable loaded:', process.env.NEXT_PUBLIC_ADMIN_PASSWORD ? 'YES' : 'NO');
+  console.log('Password length:', ADMIN_PASSWORD.length);
+  console.log('First 3 chars:', ADMIN_PASSWORD.substring(0, 3));
+  console.log('Last 3 chars:', ADMIN_PASSWORD.substring(ADMIN_PASSWORD.length - 3));
+}
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
