@@ -117,19 +117,18 @@ interface PageProps {
 
 export default function CaseStudyPage({ params }: PageProps) {
   const [slug, setSlug] = useState<string>('');
-
-  useEffect(() => {
-    params.then(p => setSlug(p.slug));
-  }, [params]);
   const [project, setProject] = useState<CaseStudyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    params.then(p => setSlug(p.slug));
+  }, [params]);
+
+  useEffect(() => {
     async function fetchProject() {
       if (!slug) {
-        setError('No project slug provided');
-        setLoading(false);
+        // Don't show error if slug is still loading
         return;
       }
 

@@ -73,10 +73,12 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
           <article
             key={study.id}
             className={`
-              group relative py-14 border-b border-white/8 last:border-b-0
+              group relative py-14 md:py-14 border-b border-white/8 last:border-b-0
               cursor-pointer transition-all duration-[400ms] ease-out
-              hover:pl-8
-              ${isExpanded ? 'pl-8' : ''}
+              md:hover:pl-8
+              ${isExpanded ? 'pl-4 md:pl-8' : ''}
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] focus-visible:rounded-lg
+              active:scale-[0.99] md:active:scale-100
             `}
             onClick={() => handleClick(study.id, study.slug)}
             onKeyDown={(e) => handleKeyDown(e, study.id, study.slug)}
@@ -88,30 +90,30 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             {/* Purple accent bar */}
             <div
               className={`
-                absolute -left-10 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
+                absolute -left-6 md:-left-10 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
                 from-purple-400 to-purple-300 rounded-full transition-all duration-[400ms]
-                ${isExpanded ? 'h-30' : 'h-0 group-hover:h-30'}
+                ${isExpanded ? 'h-20 md:h-30' : 'h-0 md:group-hover:h-30'}
               `}
             />
 
             {/* Header */}
-            <div className="flex justify-between items-center mb-6 gap-10">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 md:gap-10">
               <div className="flex-1">
-                <div className="text-sm font-semibold text-purple-400 tracking-wider uppercase mb-5 font-sans">
+                <div className="text-xs md:text-sm font-semibold text-purple-400 tracking-wider uppercase mb-3 md:mb-5 font-sans">
                   {study.number} — {study.category}
                 </div>
                 <h3 className={`
-                  text-5xl md:text-6xl font-semibold leading-tight mb-4
+                  text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight
                   transition-all duration-300 font-sans
-                  ${isExpanded ? 'bg-gradient-to-br from-purple-400 to-white bg-clip-text text-transparent' : 'group-hover:bg-gradient-to-br group-hover:from-purple-400 group-hover:to-white group-hover:bg-clip-text group-hover:text-transparent'}
+                  ${isExpanded ? 'bg-gradient-to-br from-purple-400 to-white bg-clip-text text-transparent' : 'md:group-hover:bg-gradient-to-br md:group-hover:from-purple-400 md:group-hover:to-white md:group-hover:bg-clip-text md:group-hover:text-transparent'}
                 `}>
                   {study.title}
                 </h3>
               </div>
               <div className={`
-                text-xl font-semibold font-sans whitespace-nowrap
+                text-lg md:text-xl font-semibold font-sans whitespace-nowrap
                 transition-opacity duration-300
-                ${isExpanded ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'}
+                ${isExpanded ? 'opacity-100' : 'opacity-60 md:group-hover:opacity-100'}
               `}>
                 {study.metric}
               </div>
@@ -119,9 +121,9 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
 
             {/* Description - Expands on hover (desktop) or tap (mobile) */}
             <p className={`
-              text-xl leading-relaxed text-gray-300 max-w-3xl
+              text-lg md:text-xl leading-relaxed text-gray-300 max-w-3xl
               transition-all duration-[400ms] ease-out overflow-hidden
-              ${isExpanded ? 'max-h-48 opacity-100 mt-6' : 'max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-6'}
+              ${isExpanded ? 'max-h-48 opacity-100 mt-6' : 'max-h-0 opacity-0 md:group-hover:max-h-48 md:group-hover:opacity-100 md:group-hover:mt-6'}
             `}>
               {study.description}
             </p>

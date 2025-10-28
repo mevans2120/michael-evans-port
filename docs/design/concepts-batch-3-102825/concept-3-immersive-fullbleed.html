@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Immersive Full-Bleed Hero - Case Study Landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #050510 100%);
+      color: #f3f4f6;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Annotation badge */
+    .annotation {
+      position: relative;
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 3px solid #a855f7;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #e9d5ff;
+      border-radius: 4px;
+    }
+
+    .annotation::before {
+      content: "💡 Design Decision";
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #c084fc;
+    }
+
+    /* Hero Section - Full-Bleed Immersive */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Background visual layer */
+    .hero-background {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* Animated gradient mesh background */
+    .gradient-mesh {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(192, 132, 252, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
+      animation: meshMove 20s ease-in-out infinite;
+    }
+
+    @keyframes meshMove {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      50% {
+        transform: scale(1.1) rotate(5deg);
+      }
+    }
+
+    /* Grid pattern overlay */
+    .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(192, 132, 252, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(192, 132, 252, 0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(circle at 50% 40%, black 20%, transparent 80%);
+    }
+
+    /* Dark gradient overlay for text readability */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(5, 5, 16, 0.4) 0%,
+        rgba(5, 5, 16, 0.8) 100%
+      );
+    }
+
+    /* Hero content */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c084fc;
+      margin-bottom: 32px;
+      padding: 10px 20px;
+      background: rgba(192, 132, 252, 0.15);
+      border-radius: 24px;
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      backdrop-filter: blur(20px);
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-metrics-row {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .metric-value {
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1;
+      background: linear-gradient(135deg, #c084fc, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .metric-label {
+      font-size: 14px;
+      color: #d1d5db;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-description {
+      font-size: 22px;
+      line-height: 1.8;
+      color: #e5e7eb;
+      max-width: 800px;
+      margin: 0 auto 56px;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 40px;
+      background: linear-gradient(135deg, #a855f7, #c084fc);
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 17px;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+    }
+
+    .hero-cta-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(168, 85, 247, 0.5);
+    }
+
+    .hero-cta-primary svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 300ms;
+    }
+
+    .hero-cta-primary:hover svg {
+      transform: translateX(4px);
+    }
+
+    .hero-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 32px;
+      color: #c084fc;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 17px;
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      backdrop-filter: blur(20px);
+      background: rgba(192, 132, 252, 0.05);
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-cta-secondary:hover {
+      background: rgba(192, 132, 252, 0.15);
+      border-color: rgba(192, 132, 252, 0.5);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: #9ca3af;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(10px);
+      }
+    }
+
+    /* Section separator */
+    .section-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+      margin: 80px 0;
+    }
+
+    /* Featured case studies grid (reusing existing component style) */
+    .case-studies-section {
+      background: linear-gradient(180deg, rgba(5, 5, 16, 0) 0%, #050510 10%);
+      padding-top: 80px;
+    }
+
+    .case-studies-header {
+      margin-bottom: 60px;
+    }
+
+    .case-studies-title {
+      font-size: 32px;
+      font-weight: 300;
+      color: #f3f4f6;
+      margin-bottom: 8px;
+    }
+
+    .case-studies-subtitle {
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    .case-study-card {
+      padding: 56px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 400ms ease-out;
+      position: relative;
+    }
+
+    .case-study-card:hover {
+      padding-left: 32px;
+    }
+
+    .case-study-accent {
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      background: linear-gradient(180deg, #c084fc, #a855f7);
+      border-radius: 4px;
+      height: 0;
+      transition: height 400ms ease-out;
+    }
+
+    .case-study-card:hover .case-study-accent {
+      height: 120px;
+    }
+
+    .case-study-number {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c084fc;
+      margin-bottom: 20px;
+    }
+
+    .case-study-title {
+      font-size: clamp(40px, 5vw, 60px);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      transition: all 300ms;
+    }
+
+    .case-study-card:hover .case-study-title {
+      background: linear-gradient(135deg, #c084fc, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .case-study-metric {
+      font-size: 20px;
+      font-weight: 600;
+      color: #d1d5db;
+      opacity: 0.6;
+      transition: opacity 300ms;
+    }
+
+    .case-study-card:hover .case-study-metric {
+      opacity: 1;
+    }
+
+    .case-study-description {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #d1d5db;
+      max-width: 800px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 400ms ease-out;
+      margin-top: 0;
+    }
+
+    .case-study-card:hover .case-study-description {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 100vh;
+        padding: 80px 0;
+      }
+
+      .hero-title {
+        font-size: 48px;
+      }
+
+      .hero-description {
+        font-size: 18px;
+      }
+
+      .hero-metrics-row {
+        gap: 40px;
+      }
+
+      .metric-value {
+        font-size: 36px;
+      }
+
+      .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hero-cta-primary,
+      .hero-cta-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .case-study-title {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="annotation container">
+    <strong>Concept 3: Immersive Full-Bleed Hero</strong><br>
+    Strategy: Bold, dramatic approach that creates maximum impact through full-viewport immersive experience. Animated gradient mesh and grid pattern create depth and motion, while centered content with prominent metrics commands attention. The full-bleed design feels premium and confident.
+    <br><br>
+    <strong>Strengths:</strong> Most visually striking, creates strong first impression, feels premium/high-end, good for portfolio differentiation, centered layout works well on all screen sizes
+    <br><strong>Tradeoffs:</strong> Potentially overwhelming, requires careful balance to maintain readability, may distract from content if not executed carefully, uses more visual real estate before showing other work
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <!-- Background layers -->
+    <div class="hero-background">
+      <div class="gradient-mesh"></div>
+      <div class="grid-pattern"></div>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <div class="hero-label">Featured Case Study</div>
+
+      <h1 class="hero-title">
+        Virgin America<br>
+        First Responsive<br>
+        Airline Website
+      </h1>
+
+      <div class="hero-metrics-row">
+        <div class="metric-item">
+          <div class="metric-value">15-20%</div>
+          <div class="metric-label">Conversion Lift</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">3</div>
+          <div class="metric-label">Major Awards</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">2014</div>
+          <div class="metric-label">Launched</div>
+        </div>
+      </div>
+
+      <p class="hero-description">
+        Led product strategy for Virgin America's groundbreaking responsive website redesign. By rethinking the booking flow around individual decisions rather than minimizing clicks, we created the first responsive airline website that won Webbies, UX Awards, and Cannes Lions.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#" class="hero-cta-primary">
+          View Full Case Study
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a href="#all-work" class="hero-cta-secondary">
+          See All Work
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </div>
+  </section>
+
+  <div class="annotation container">
+    The full-bleed hero creates an immersive experience that fills the entire viewport. The animated gradient mesh (slowly scaling and rotating) creates subtle motion and depth, while the grid pattern adds technical sophistication. The dark overlay ensures text remains readable against the animated background. Centered content with large typography creates a bold statement, and the scroll indicator invites exploration. Multiple metrics displayed prominently establish credibility.
+  </div>
+
+  <!-- All Case Studies Section -->
+  <section class="case-studies-section">
+    <div class="container" style="padding-bottom: 120px;" id="all-work">
+      <div class="case-studies-header">
+        <h2 class="case-studies-title">All Case Studies</h2>
+        <p class="case-studies-subtitle">Product launches and transformational projects</p>
+      </div>
+
+      <div class="annotation">
+        The transition from the immersive full-bleed hero to the case study grid is softened by a gradient background that fades from transparent to solid. This creates a natural visual flow. The FeaturedCaseStudies component maintains the same interaction patterns (purple accents, hover reveals, gradient titles) ensuring design consistency despite the dramatically different hero treatment.
+      </div>
+
+      <!-- Reusing existing FeaturedCaseStudies component pattern -->
+      <div>
+        <!-- Target -->
+        <article class="case-study-card">
+          <div class="case-study-accent"></div>
+          <div class="case-study-number">02 — Enterprise E-commerce</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px;">
+            <h3 class="case-study-title">Target</h3>
+            <div class="case-study-metric">20+ work streams</div>
+          </div>
+          <p class="case-study-description">
+            Managed Target's massive e-commerce transformation, coordinating 20+ concurrent work streams as they transitioned from Amazon's platform to their own proprietary system.
+          </p>
+        </article>
+
+        <!-- Pedal -->
+        <article class="case-study-card">
+          <div class="case-study-accent"></div>
+          <div class="case-study-number">03 — Fitness Platform</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px;">
+            <h3 class="case-study-title">Pedal</h3>
+            <div class="case-study-metric">$10M+ raised</div>
+          </div>
+          <p class="case-study-description">
+            Built a Peloton competitor connecting boutique fitness studios with at-home audiences, securing significant investment and building a loyal community.
+          </p>
+        </article>
+
+        <!-- Casa Bonita -->
+        <article class="case-study-card" style="border-bottom: none;">
+          <div class="case-study-accent"></div>
+          <div class="case-study-number">04 — Restaurant Revival</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px;">
+            <h3 class="case-study-title">Casa Bonita</h3>
+            <div class="case-study-metric">Cultural icon</div>
+          </div>
+          <p class="case-study-description">
+            Modernized reservations and operations for Trey Parker & Matt Stone's legendary Colorado restaurant, migrating from problematic legacy systems.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

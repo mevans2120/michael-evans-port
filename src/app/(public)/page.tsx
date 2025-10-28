@@ -45,6 +45,46 @@ export default function HomePage() {
     fetchProfileData();
   }, []);
 
+  // Fetch featured case studies from Sanity
+  const [featuredCaseStudies, setFeaturedCaseStudies] = useState<any[]>([]);
+  useEffect(() => {
+    async function fetchFeaturedCaseStudies() {
+      try {
+        const data = await client.fetch(`
+          *[_type == "project" && featured == true] | order(order asc) {
+            _id,
+            title,
+            "slug": slug.current,
+            featuredCategory,
+            featuredMetric,
+            featuredDescription,
+            order
+          }
+        `);
+
+        if (data && data.length > 0) {
+          // Map Sanity data to component format
+          const mapped = data.map((project: any, index: number) => ({
+            id: project._id,
+            number: String(index + 1).padStart(2, '0'),
+            category: project.featuredCategory || 'Case Study',
+            title: project.title,
+            metric: project.featuredMetric || '',
+            description: project.featuredDescription || '',
+            slug: project.slug,
+            order: project.order || index + 1
+          }));
+          setFeaturedCaseStudies(mapped);
+        }
+      } catch (error) {
+        logger.error('Failed to load featured case studies from Sanity:', error);
+        // Fall back to hardcoded data if Sanity fails
+        setFeaturedCaseStudies(defaultFeaturedCaseStudies);
+      }
+    }
+    fetchFeaturedCaseStudies();
+  }, []);
+
   const handleProjectClick = (project: AIProjectData) => {
     setSelectedProject(project);
     setIsModalOpen(true);
@@ -57,7 +97,8 @@ export default function HomePage() {
     }, 300);
   };
 
-  const featuredCaseStudies = [
+  // Default fallback data if Sanity is unavailable
+  const defaultFeaturedCaseStudies = [
     {
       id: "virgin-america",
       number: "01",

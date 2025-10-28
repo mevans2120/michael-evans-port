@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Split Visual Hero - Case Study Landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #050510 100%);
+      color: #f3f4f6;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Annotation badge */
+    .annotation {
+      position: relative;
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 3px solid #a855f7;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #e9d5ff;
+      border-radius: 4px;
+    }
+
+    .annotation::before {
+      content: "💡 Design Decision";
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #c084fc;
+    }
+
+    /* Hero Section - Split Layout */
+    .hero {
+      min-height: 85vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      padding: 120px 0;
+      position: relative;
+    }
+
+    /* Left side - Content */
+    .hero-content {
+      padding-right: 40px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c084fc;
+      margin-bottom: 20px;
+      padding: 8px 16px;
+      background: rgba(192, 132, 252, 0.1);
+      border-radius: 20px;
+      border: 1px solid rgba(192, 132, 252, 0.2);
+    }
+
+    .hero-title {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      color: #ffffff;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #d1d5db;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 40px;
+      padding: 24px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: #c084fc;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #a855f7, #c084fc);
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+    }
+
+    .hero-cta svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 300ms;
+    }
+
+    .hero-cta:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Right side - Visual */
+    .hero-visual {
+      position: relative;
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mockup container with perspective */
+    .mockup-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 1200px;
+    }
+
+    .mockup-frame {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(192, 132, 252, 0.1));
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      border-radius: 16px;
+      backdrop-filter: blur(40px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #c084fc;
+      font-weight: 500;
+    }
+
+    /* Three stacked mockup frames with depth */
+    .mockup-frame:nth-child(1) {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 120px;
+      transform: rotateY(-8deg) rotateX(5deg);
+      z-index: 3;
+    }
+
+    .mockup-frame:nth-child(2) {
+      top: 60px;
+      left: 40px;
+      right: -40px;
+      bottom: 60px;
+      transform: rotateY(-4deg) rotateX(3deg);
+      z-index: 2;
+      opacity: 0.7;
+    }
+
+    .mockup-frame:nth-child(3) {
+      top: 120px;
+      left: 80px;
+      right: -80px;
+      bottom: 0;
+      transform: rotateY(0deg) rotateX(1deg);
+      z-index: 1;
+      opacity: 0.4;
+    }
+
+    /* Animated blur orbs */
+    .blur-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .blur-orb-1 {
+      top: 10%;
+      right: 10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(168, 85, 247, 0.2);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .blur-orb-2 {
+      bottom: 20%;
+      left: 5%;
+      width: 300px;
+      height: 300px;
+      background: rgba(192, 132, 252, 0.15);
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+      }
+      50% {
+        transform: translateY(-30px) scale(1.1);
+      }
+    }
+
+    /* Section separator */
+    .section-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+      margin: 80px 0;
+    }
+
+    /* Featured case studies grid (reusing existing component style) */
+    .case-studies-header {
+      margin-bottom: 60px;
+    }
+
+    .case-studies-title {
+      font-size: 32px;
+      font-weight: 300;
+      color: #f3f4f6;
+      margin-bottom: 8px;
+    }
+
+    .case-studies-subtitle {
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    .case-study-card {
+      padding: 56px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 400ms ease-out;
+      position: relative;
+    }
+
+    .case-study-card:hover {
+      padding-left: 32px;
+    }
+
+    .case-study-accent {
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      background: linear-gradient(180deg, #c084fc, #a855f7);
+      border-radius: 4px;
+      height: 0;
+      transition: height 400ms ease-out;
+    }
+
+    .case-study-card:hover .case-study-accent {
+      height: 120px;
+    }
+
+    .case-study-number {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c084fc;
+      margin-bottom: 20px;
+    }
+
+    .case-study-title {
+      font-size: clamp(40px, 5vw, 60px);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      transition: all 300ms;
+    }
+
+    .case-study-card:hover .case-study-title {
+      background: linear-gradient(135deg, #c084fc, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .case-study-metric {
+      font-size: 20px;
+      font-weight: 600;
+      color: #d1d5db;
+      opacity: 0.6;
+      transition: opacity 300ms;
+    }
+
+    .case-study-card:hover .case-study-metric {
+      opacity: 1;
+    }
+
+    .case-study-description {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #d1d5db;
+      max-width: 800px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 400ms ease-out;
+      margin-top: 0;
+    }
+
+    .case-study-card:hover .case-study-description {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        min-height: auto;
+        padding: 80px 0 60px;
+      }
+
+      .hero-content {
+        padding-right: 0;
+      }
+
+      .hero-visual {
+        height: 400px;
+      }
+
+      .hero-stats {
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 40px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .mockup-frame:nth-child(2),
+      .mockup-frame:nth-child(3) {
+        display: none;
+      }
+
+      .mockup-frame:nth-child(1) {
+        transform: rotateY(0deg) rotateX(0deg);
+        bottom: 0;
+      }
+
+      .case-study-title {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="annotation container">
+    <strong>Concept 2: Split Visual Hero</strong><br>
+    Strategy: Balanced approach dividing screen real estate 50/50 between compelling copy and striking visual treatment. The left side presents clear value proposition with quantifiable metrics, while the right side creates depth and dimension through layered mockup frames suggesting multi-device responsive design.
+    <br><br>
+    <strong>Strengths:</strong> Eye-catching, creates visual intrigue, separates information clearly, suggests product quality through 3D depth
+    <br><strong>Tradeoffs:</strong> More complex layout, relies on mockup placeholder (needs actual screenshots), may feel too "designed" vs authentic
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero container">
+    <div class="blur-orb blur-orb-1"></div>
+    <div class="blur-orb blur-orb-2"></div>
+
+    <!-- Left: Content -->
+    <div class="hero-content">
+      <div class="hero-label">Featured Case Study</div>
+      <h1 class="hero-title">Virgin America - First Responsive Airline Website</h1>
+      <p class="hero-description">
+        Led product strategy for Virgin America's groundbreaking responsive website redesign. By rethinking the booking flow around individual decisions rather than minimizing clicks, we created an industry-first experience that won multiple awards.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value">15-20%</div>
+          <div class="stat-label">Conversion Lift</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Major Awards</div>
+        </div>
+      </div>
+
+      <a href="#" class="hero-cta">
+        View Full Case Study
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Right: Visual -->
+    <div class="hero-visual">
+      <div class="mockup-container">
+        <div class="mockup-frame">
+          [Desktop View Mockup]<br>
+          Responsive Design
+        </div>
+        <div class="mockup-frame">
+          [Tablet View]
+        </div>
+        <div class="mockup-frame">
+          [Mobile View]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="annotation container">
+    The split layout creates a strong visual hierarchy: the left side guides the reader through label → title → description → stats → CTA, while the right side showcases the work through layered mockup frames that suggest responsive design (desktop, tablet, mobile). The 3D transforms create depth and make the visual more engaging than a flat screenshot. Animated blur orbs add atmosphere without distraction.
+  </div>
+
+  <!-- Section Separator -->
+  <div class="section-separator container"></div>
+
+  <!-- All Case Studies Section -->
+  <section class="container" style="padding-bottom: 120px;">
+    <div class="case-studies-header">
+      <h2 class="case-studies-title">All Case Studies</h2>
+      <p class="case-studies-subtitle">Product launches and transformational projects</p>
+    </div>
+
+    <div class="annotation">
+      After the split hero, we transition to the existing FeaturedCaseStudies component pattern. The visual consistency is maintained through purple accents, same typography, and identical hover interactions. The split hero provides strong differentiation at the top, then the vertical stack creates a browsable catalog below.
+    </div>
+
+    <!-- Reusing existing FeaturedCaseStudies component pattern -->
+    <div>
+      <!-- Target -->
+      <article class="case-study-card">
+        <div class="case-study-accent"></div>
+        <div class="case-study-number">02 — Enterprise E-commerce</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px;">
+          <h3 class="case-study-title">Target</h3>
+          <div class="case-study-metric">20+ work streams</div>
+        </div>
+        <p class="case-study-description">
+          Managed Target's massive e-commerce transformation, coordinating 20+ concurrent work streams as they transitioned from Amazon's platform to their own proprietary system.
+        </p>
+      </article>
+
+      <!-- Pedal -->
+      <article class="case-study-card">
+        <div class="case-study-accent"></div>
+        <div class="case-study-number">03 — Fitness Platform</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px;">
+          <h3 class="case-study-title">Pedal</h3>
+          <div class="case-study-metric">$10M+ raised</div>
+        </div>
+        <p class="case-study-description">
+          Built a Peloton competitor connecting boutique fitness studios with at-home audiences, securing significant investment and building a loyal community.
+        </p>
+      </article>
+
+      <!-- Casa Bonita -->
+      <article class="case-study-card" style="border-bottom: none;">
+        <div class="case-study-accent"></div>
+        <div class="case-study-number">04 — Restaurant Revival</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px;">
+          <h3 class="case-study-title">Casa Bonita</h3>
+          <div class="case-study-metric">Cultural icon</div>
+        </div>
+        <p class="case-study-description">
+          Modernized reservations and operations for Trey Parker & Matt Stone's legendary Colorado restaurant, migrating from problematic legacy systems.
+        </p>
+      </article>
+    </div>
+  </section>
+</body>
+</html>
