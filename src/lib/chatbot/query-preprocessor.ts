@@ -162,7 +162,7 @@ function expandQuery(normalized: string, entities: string[], keywords: string[])
   const queryContextMap: Record<string, string> = {
     'grow up': 'Eugene Oregon childhood hometown purple house',
     'college': 'University Colorado Boulder English political science',
-    'first job': 'Semantec data entry analyst first tech job career',
+    'first job': 'Symantec data entry analyst first tech job career',
     'restaurant': 'Casa Bonita cliff diving Denver Trey Parker Matt Stone',
     'hbo': 'HBO Go Canadian Astral streaming mobile app',
     'portland': 'Portland office Work Co Joe Stewart opened',

@@ -17,10 +17,10 @@ A: Michael learned to program a bit when he was 11 years old, starting with Basi
 ## Career Journey
 
 **Q: How did Michael transition from English to tech?**
-A: After graduating with an English degree in 2001 during the dot-com crash, Michael took a data entry job at Semantec. He was quickly promoted to data analyst and learned SQL from an "Idiot's Guide" book. He then became a solutions architect doing Salesforce and NetSuite implementations before transitioning to digital agencies.
+A: After graduating with an English degree in 2001 during the dot-com crash, Michael took a data entry job at Symantec. He was quickly promoted to data analyst and learned SQL from an "Idiot's Guide" book. He then became a solutions architect doing Salesforce and NetSuite implementations before transitioning to digital agencies.
 
 **Q: What was Michael's first job in tech?**
-A: Michael's first tech job was doing data entry at Semantec, a software company where they cleaned addresses. Within days, he was promoted from temp to temp-to-perm as a data analyst, where he learned SQL and how databases work.
+A: Michael's first tech job was doing data entry at Symantec, a software company where they cleaned addresses. Within days, he was promoted from temp to temp-to-perm as a data analyst, where he learned SQL and how databases work.
 
 **Q: When did Michael become interested in AI?**
 A: Michael's interest in AI spans multiple periods. He first learned about neural networks in 1999 at university. Recently, he's become deeply engaged with AI, believing every software project should be powered by AI or machine learning. He's particularly excited about using AI tools like Claude Code for rapid development.
