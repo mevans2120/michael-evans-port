@@ -290,9 +290,40 @@ Michael demonstrates technical leadership through:
 - **Documentation**: Clear READMEs, inline documentation, architecture guides
 - **Open Source**: Contributing tools and skills back to the developer community
 
+### 6. AI Research Presentation - Interactive Research Findings Platform
+
+**Overview**: Interactive web-based presentation showcasing comprehensive AI research, including user interviews, concepts, and the evolution of "vibe coding" (agentic engineering).
+
+**Technical Stack**:
+- Framework: React 18.3 with React Router v6
+- Build Tool: Create React App (React Scripts 5.0)
+- Content Rendering: React Markdown for dynamic content
+- Syntax Highlighting: react-syntax-highlighter with VSCode Dark+ theme
+- Analytics: Google Analytics 4 + Vercel Analytics
+- Deployment: Vercel (live at https://ai-research-presentation.vercel.app)
+
+**Key Features**:
+- **Interactive Navigation**: Hierarchical menu with sections and subsections
+- **Keyboard Controls**: Arrow keys, space bar navigation
+- **Multiple Slide Layouts**: Text, projects, findings, methodology, section covers
+- **Data-Driven Architecture**: Central presentationData object for all content
+- **Responsive Design**: Optimized for different screen sizes
+
+**Research Content**:
+- **User Research**: 13 interviews with colleagues about AI usage
+- **Concepts & Content**: "Chatphone" thought experiment and curated AI resources
+- **Vibe Coding**: Workflow documentation for AI-assisted development
+- **Summary & Future**: Predictions and insights about AI's trajectory
+
+**Technical Innovations**:
+- Single-page application with dynamic routing
+- Markdown support for rich content formatting
+- Project showcase with live demo links
+- Clean separation of content and presentation logic
+
 ## Additional Projects & Technical Exploration
 
-### 6. Opal Creek - NetSuite ERP Consulting Website
+### 7. Opal Creek - NetSuite ERP Consulting Website
 
 **Overview**: Professional consulting website for NetSuite ERP services, built with modern web technologies and headless CMS.
 
@@ -310,7 +341,7 @@ Michael demonstrates technical leadership through:
 - Token rotation procedures
 - Pre-commit hooks for secret protection
 
-### 7. DungeonTracker - D&D Campaign Management
+### 8. DungeonTracker - D&D Campaign Management
 
 **Overview**: Full-stack application for managing Dungeons & Dragons campaigns with character tracking and game management.
 
@@ -320,7 +351,7 @@ Michael demonstrates technical leadership through:
 - Frontend: Vite build system
 - Deployment: Vercel serverless functions
 
-### 8. PostOp PDF Collector - Medical Document Analysis
+### 9. PostOp PDF Collector - Medical Document Analysis
 
 **Overview**: Python package for automated collection and analysis of post-operative instruction PDFs from medical sources.
 
@@ -332,7 +363,7 @@ Michael demonstrates technical leadership through:
 - Medication instruction parsing
 - Docker containerization for deployment
 
-### 9. Karunagatton.com - Business Website
+### 10. Karunagatton.com - Business Website
 
 **Overview**: Professional website built with Next.js for business services.
 
@@ -342,7 +373,7 @@ Michael demonstrates technical leadership through:
 - Security auditing and optimization
 - Performance optimizations for Core Web Vitals
 
-### 10. DOA Set Construction - Film Industry Website
+### 11. DOA Set Construction - Film Industry Website
 
 **Overview**: High-performance website for film and TV set construction company.
 
@@ -353,7 +384,7 @@ Michael demonstrates technical leadership through:
 - Custom image loading optimization
 - Component consolidation architecture
 
-### 11. Hybrid Memory Bank Plugin - Claude Code Extension
+### 12. Hybrid Memory Bank Plugin - Claude Code Extension
 
 **Overview**: Plugin for Claude Code that implements a hybrid memory system combining automated JSON storage with human documentation.
 
