@@ -1,28 +1,28 @@
 {
-  "timestamp": "2025-10-29T15:34:10.801Z",
+  "timestamp": "2025-10-29T19:47:40.544Z",
   "summary": {
     "totalQuestions": 55,
     "accuracy": {
-      "accurate": 1,
+      "accurate": 2,
       "partial": 2,
-      "incorrect": 1,
+      "incorrect": 0,
       "unknown": 51
     },
     "relevance": {
-      "high": 55,
+      "high": 54,
       "medium": 0,
-      "low": 0
+      "low": 1
     },
     "metrics": {
-      "withFollowUps": 55,
-      "withLinks": 36,
-      "avgResponseTime": 5710.709090909091,
-      "avgParagraphs": 1.4181818181818182
+      "withFollowUps": 54,
+      "withLinks": 30,
+      "avgResponseTime": 4903.872727272727,
+      "avgParagraphs": 1.4363636363636363
     },
     "paragraphDistribution": {
-      "one": 32,
-      "two": 23,
-      "moreThanTwo": 0
+      "one": 33,
+      "two": 21,
+      "moreThanTwo": 1
     }
   },
   "results": [
@@ -30,21 +30,21 @@
       "id": "Q1",
       "question": "Where did Michael Evans grow up?",
       "category": "Background",
-      "response": "I don't have specific information about where Michael grew up in the context provided. What I do know is that he went to the University of Colorado, Boulder for college, spent a year abroad at the Uni...",
+      "response": "Michael grew up in the Eugene, Oregon area. He had an International Baccalaureate degree from South Eugene High School before heading to the University of Colorado in Boulder, where he studied English...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Michael's first job or early career experience?",
+          "text": "What was Michael's first job in tech?",
           "hasLink": false
         },
         {
-          "text": "How did Michael get interested in AI and machine learning?",
+          "text": "How did Michael transition from studying English and political science to working in software?",
           "hasLink": false
         }
       ],
-      "accuracy": "partial",
+      "accuracy": "accurate",
       "relevance": "high",
-      "responseTime": 3653,
+      "responseTime": 4566,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -53,45 +53,44 @@
       "id": "Q2",
       "question": "What did Michael study in college?",
       "category": "Background",
-      "response": "I don't have information about Michael's college education or academic background in the context provided. The materials focus primarily on his professional work and projects rather than his education...",
-      "responseLength": 2,
+      "response": "Michael got a degree in English in college. It's a fun contrast to his career path—he went from studying literature to spending the last 20 years working in software across a variety of roles. He's of...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What are Michael's main areas of expertise?",
+          "text": "What's Michael's background before he started working in software?",
           "hasLink": false
         },
         {
-          "text": "Tell me about Michael's most significant projects",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "What are the three things that make Michael special in his work?",
+          "hasLink": false
         }
       ],
-      "accuracy": "incorrect",
+      "accuracy": "partial",
       "relevance": "high",
-      "responseTime": 2731,
+      "responseTime": 3826,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q3",
       "question": "How did Michael get into technology?",
       "category": "Background",
-      "response": "I don't have specific information about Michael's early entry into technology—where he studied, what inspired him initially, or how he first got started in the field. The context I have focuses on his...",
-      "responseLength": 2,
+      "response": "Michael's path into tech started with curiosity and opportunity rather than a straight line. He began learning about databases early on and was fortunate to work with good mentors who helped him devel...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What are Michael's core technical skills and areas of expertise?",
+          "text": "What was Michael's experience like at Huge and the early digital design agencies?",
           "hasLink": false
         },
         {
-          "text": "What are some of Michael's most notable projects and accomplishments?",
+          "text": "How did Michael transition from design agencies into product management?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3804,
+      "responseTime": 5118,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -100,21 +99,21 @@
       "id": "Q4",
       "question": "Tell me about Michael's early exposure to computers",
       "category": "Background",
-      "response": "Michael's early fascination with computers started when he was just a kid growing up in Eugene, Oregon in that iconic purple house—he learned to program a bit when he was 11 years old. Though he studi...",
+      "response": "Michael's early exposure to computers started in middle school, where he actually coded—giving him foundational programming knowledge that's stayed with him throughout his career. He grew up in Eugene...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What programming languages or technologies did Michael learn early on?",
+          "text": "What's Michael's current approach to building software with AI?",
           "hasLink": false
         },
         {
-          "text": "How has Michael's technical background influenced his approach to product management?",
+          "text": "How did Michael transition from an English degree into a 20-year software career?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4007,
+      "responseTime": 5084,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -123,21 +122,21 @@
       "id": "Q5",
       "question": "What was Michael's first programming experience?",
       "category": "Background",
-      "response": "Michael's first programming experience was learning to code in middle school. He's also picked up HTML and CSS along the way, which gives him a solid foundation in web technologies. While he's not pri...",
+      "response": "Michael's first programming experience came through learning databases early in his career. He started exploring database systems and was fortunate to work with really good bosses who mentored him thr...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What technologies has Michael worked with throughout his career?",
+          "text": "What drew Michael from enterprise systems work into digital product design?",
           "hasLink": false
         },
         {
-          "text": "How does Michael's technical background influence his approach to product management?",
+          "text": "How did Michael transition from consulting into creative technology and product management?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3667,
+      "responseTime": 4918,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -146,21 +145,21 @@
       "id": "Q6",
       "question": "How did Michael transition from English to tech?",
       "category": "Career",
-      "response": "Michael grew up in a purple house in Eugene, Oregon, raised by hippies, and fell in love with computers as a kid—he even learned to program a bit when he was 11. But he also loved to read and write, s...",
+      "response": "Michael grew up in Eugene, Oregon in a creative, unconventional household (his mom's a shaman, his house was purple), and got a degree in English—but after college he wound up working in software in a...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What are the three things Michael says make him special or unique in his work?",
+          "text": "What are the major projects Michael has led in his 20-year software career?",
           "hasLink": false
         },
         {
-          "text": "What was Michael's experience like at Virgin America, his biggest project?",
+          "text": "How does Michael's English background influence his approach to product management today?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5058,
+      "responseTime": 5453,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -169,78 +168,79 @@
       "id": "Q7",
       "question": "What was Michael's first job in tech?",
       "category": "Career",
-      "response": "I don't have information about Michael's first tech job in the context provided. The materials focus primarily on his startup work with the Before Launcher and his more recent creative technology proj...",
-      "responseLength": 2,
+      "response": "I don't have specific details about Michael's first job in tech in the context provided. What I do know is that after graduating from college with a degree in English, Michael wound up working in soft...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What major projects has Michael worked on in his career?",
+          "text": "What are some of Michael's most notable projects?",
           "hasLink": false
         },
         {
-          "text": "Tell me about the Before Launcher",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "How did Michael transition from a degree in English to a career in software?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4348,
+      "responseTime": 4227,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q8",
       "question": "Describe Michael's career progression",
       "category": "Career",
-      "response": "Michael's career has been defined by evolving from early web development work into product strategy and leadership, all while maintaining hands-on technical capabilities. He started coding at 11 years...",
-      "responseLength": 2,
+      "response": "Michael's career spans 20 years in software, evolving from early web development through product management into AI-powered product building. He started working in various software roles right after c...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Michael's role on the [Virgin America website redesign](/case-studies/virgin-america)?",
-          "hasLink": false
+          "text": "What were Michael's biggest projects and what made them significant?",
+          "url": "/case-studies/virgin-america",
+          "hasLink": true
         },
         {
-          "text": "What drew Michael to work across so many different industries?",
+          "text": "What specific technologies and tools has Michael worked with throughout his career?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 8413,
+      "responseTime": 5780,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q9",
       "question": "What companies has Michael worked for?",
       "category": "Career",
-      "response": "Michael's worked with a really impressive range of companies across different scales and industries. He was one of the first employees at Work & Co, the digital agency he helped open with Joe Stewart,...",
+      "response": "Michael's worked across some really impressive companies throughout his 20-year career. He started at Target, where he did major digital transformation work—everything from pioneering QR code integrat...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Michael's role on the Virgin America website project?",
+          "text": "What was the Virgin America website project like?",
           "url": "/case-studies/virgin-america",
           "hasLink": true
         },
         {
-          "text": "What AI/ML projects has Michael built?",
-          "hasLink": false
+          "text": "Tell me about Michael's work on Target's digital transformation",
+          "url": "/case-studies/target",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5510,
+      "responseTime": 5052,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 2,
       "notes": ""
     },
     {
       "id": "Q10",
       "question": "When did Michael become interested in AI?",
       "category": "Career",
-      "response": "Based on the context provided, I don't have specific information about when Michael first became interested in AI or what sparked that interest. The materials focus more on his AI projects and applica...",
+      "response": "I don't have specific information about when Michael first became interested in AI or what sparked that initial interest. However, I can see that his AI work is a significant part of his current focus...",
       "responseLength": 2,
       "followUps": [
         {
@@ -249,13 +249,13 @@
           "hasLink": true
         },
         {
-          "text": "What programming languages and frameworks does Michael specialize in?",
+          "text": "What's Michael's background in technology and design before AI?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3723,
+      "responseTime": 3363,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -264,23 +264,23 @@
       "id": "Q11",
       "question": "What was special about the Virgin America website?",
       "category": "Projects",
-      "response": "The Virgin America website was groundbreaking for several reasons. It was the first responsive airline website, which was a massive technical achievement at the time—airlines typically had clunky, des...",
-      "responseLength": 1,
+      "response": "The Virgin America website redesign was an award-winning transformation that modernized the airline's entire digital presence. Michael led this project at Work & Co, completely reimagining how custome...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What technical challenges did Michael face building the Virgin America website?",
+          "text": "What specific challenges did Michael face on the Virgin America project?",
           "url": "/case-studies/virgin-america",
           "hasLink": true
         },
         {
-          "text": "How did the Virgin America mobile app compare to the website?",
+          "text": "How does the Virgin America project compare to Michael's other work at Work & Co?",
           "url": "/case-studies/virgin-america",
           "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4624,
+      "responseTime": 4462,
       "hasFollowUps": true,
       "followUpLinkCount": 2,
       "notes": ""
@@ -289,71 +289,71 @@
       "id": "Q12",
       "question": "Tell me about the restaurant with cliff diving",
       "category": "Projects",
-      "response": "Casa Bonita is the legendary Denver restaurant co-owned by Trey Parker and Matt Stone, and it's famous for its cliff diving show—divers perform dramatic cliff dives into a pool right in the middle of ...",
-      "responseLength": 2,
+      "response": "Casa Bonita is this amazing restaurant in Denver co-founded by Trey Parker and Matt Stone (the South Park creators), and it's genuinely one of the most unique dining experiences out there—it's famous ...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What was the design approach for Casa Bonita's online presence?",
+          "text": "What was the biggest challenge Michael faced at Casa Bonita?",
           "url": "/case-studies/casa-bonita",
           "hasLink": true
         },
         {
-          "text": "What other restaurant or hospitality projects has Michael worked on?",
-          "hasLink": false
+          "text": "Tell me more about the Founders Club membership system",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
         }
       ],
       "accuracy": "accurate",
       "relevance": "high",
-      "responseTime": 5554,
+      "responseTime": 5564,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 2,
       "notes": ""
     },
     {
       "id": "Q13",
       "question": "What work did Michael do for Target?",
       "category": "Projects",
-      "response": "Michael worked on several Target projects early in his career, which actually became foundational to how he connected with the future founders of Work & Co. His work at Target impressed Felipe Memoria...",
+      "response": "Michael led significant digital transformation work at Target, focusing on empowering store employees with better information and tools. One of his major strategic initiatives involved building system...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What was Michael's role at Work & Co after joining as one of the first employees?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "What was Michael's role at Work & Co after leaving Target?",
+          "hasLink": false
         },
         {
-          "text": "Tell me about the Virgin America website project that Work & Co won",
+          "text": "Tell me about the Virgin America project that came after Target",
           "url": "/case-studies/virgin-america",
           "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5582,
+      "responseTime": 5604,
       "hasFollowUps": true,
-      "followUpLinkCount": 2,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q14",
       "question": "Explain the Before Launcher project",
       "category": "Projects",
-      "response": "The Before Launcher was an Android home screen replacement Michael created after founding Beforelab, designed to solve a problem he experienced firsthand—the constant distraction of smartphone notific...",
+      "response": "Before Launcher was an AI-first Android home screen replacement that Michael built to solve a very real problem: smartphone distraction. The core insight was that we all open our phones intending to d...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What was the biggest challenge Michael faced building the Before Launcher?",
+          "text": "What inspired Michael to start Beforelab and create Before Launcher?",
           "hasLink": false
         },
         {
-          "text": "How did the Before Launcher's AI features work?",
-          "url": "/case-studies/before-launcher",
+          "text": "View Michael's other AI projects",
+          "url": "/ai-showcase",
           "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6627,
+      "responseTime": 4981,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -362,21 +362,21 @@
       "id": "Q15",
       "question": "What was Broadway.com about?",
       "category": "Projects",
-      "response": "Broadway.com was a ticketing and information platform for Broadway shows that Michael built early in his career. The project looked beautiful and shipped successfully, but it had a fundamentally flawe...",
+      "response": "Broadway.com was Michael's first at-scale project at Huge, and it was a ticketing and information platform for Broadway theater. It had beautiful designs that really showcased what the platform could ...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What lessons did Michael apply from Broadway.com to his later projects?",
+          "text": "What did Michael learn from the Broadway.com failure that he applied to later projects?",
           "hasLink": false
         },
         {
-          "text": "What other early projects shaped Michael's approach to technical architecture?",
+          "text": "How did Michael's role evolve at Huge after the Broadway.com project?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 20437,
+      "responseTime": 4652,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -385,22 +385,22 @@
       "id": "Q16",
       "question": "Tell me about Michael's work with Alaska Airlines",
       "category": "Projects",
-      "response": "Michael worked with Alaska Airlines after they acquired Virgin America. Following the acquisition, he and the team did a bunch of website conceptual designs for Alaska Airlines, continuing the relatio...",
+      "response": "Michael's work with Alaska Airlines came about after Virgin America was acquired by Alaska Airlines. Following the acquisition, Michael collaborated with Alaska Airlines on a series of website concept...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Michael's biggest project at Virgin America?",
+          "text": "What made Virgin America's website redesign so successful?",
           "url": "/case-studies/virgin-america",
           "hasLink": true
         },
         {
-          "text": "What other airlines or aviation companies has Michael worked with?",
+          "text": "What other major projects has Michael led at Work & Co?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3507,
+      "responseTime": 4222,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -409,21 +409,21 @@
       "id": "Q17",
       "question": "What did Michael build for HBO?",
       "category": "Projects",
-      "response": "I don't have specific information about a project Michael built for HBO in the context provided. However, I can see he's worked on various digital projects at agencies like Huge and Odapod with major ...",
+      "response": "I don't have any information about Michael building something specifically for HBO in the context provided. While Michael's portfolio includes major media and entertainment projects like Virgin Americ...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What major clients has Michael worked with at his agencies?",
+          "text": "What other major brands or companies has Michael worked with?",
           "hasLink": false
         },
         {
-          "text": "Tell me about Michael's project management experience at Huge",
+          "text": "Tell me about Michael's work in the media and entertainment industry",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3661,
+      "responseTime": 3618,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -432,117 +432,115 @@
       "id": "Q18",
       "question": "Describe the Lyft project Michael worked on",
       "category": "Projects",
-      "response": "I don't have specific information about a Lyft project in Michael's portfolio at the moment. It's possible this project exists but isn't fully documented in the current context, or it might be part of...",
-      "responseLength": 2,
+      "response": "I know Michael worked on Lyft while at Work & Co in Portland, but I don't have the specific project details in the context available. What I can tell you is that Work & Co was founded by colleagues Mi...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What mobile and app projects has Michael worked on?",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "What other major projects did Michael work on at Work & Co?",
+          "hasLink": false
         },
         {
-          "text": "What specific aspect of a Lyft project are you curious about (design, engineering, AI features)?",
+          "text": "Tell me about Michael's experience at Work & Co in Portland",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3485,
+      "responseTime": 3904,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q19",
       "question": "What programming languages does Michael know?",
       "category": "Technical",
-      "response": "Michael's coding knowledge is pretty practical and focused rather than deep—he learned to program a bit as a kid (around age 11) and coded in middle school, but he's not primarily a coder. He knows HT...",
+      "response": "Michael's approach to technical skills is more about architectural understanding than deep programming expertise. He coded in middle school and knows HTML and CSS well enough to understand how web app...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "How has Claude Code changed Michael's approach to product development?",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "What's Michael's approach to working with Claude Code for development?",
+          "hasLink": false
         },
         {
-          "text": "What's Michael's typical tech stack when building new products?",
+          "text": "How does Michael's technical knowledge inform his product strategy work?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5846,
+      "responseTime": 4023,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q20",
       "question": "What is Michael's approach to technical architecture?",
       "category": "Technical",
-      "response": "Michael's approach to technical architecture is deeply informed by hard-won experience—he's learned that architecture decisions can make or break a product, and that UX design and technical feasibilit...",
-      "responseLength": 1,
+      "response": "Michael approaches technical architecture by starting with the business problem and user needs first, then designing the system to solve those specific challenges. He's learned from extensive experien...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What specific technical challenges has Michael solved in his case study projects?",
+          "text": "What specific technologies or platforms has Michael preferred working with?",
           "hasLink": false
         },
         {
-          "text": "How has Michael's approach to building products changed with AI tools?",
-          "hasLink": false
+          "text": "How does Michael use AI in his development process today?",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5461,
+      "responseTime": 6283,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q21",
       "question": "How does Michael work with AI tools?",
       "category": "Technical",
-      "response": "Michael's approach to working with AI is deeply integrated into his product development process—he uses AI as a collaborative partner rather than just a tool. Drawing from his background as a business...",
-      "responseLength": 1,
+      "response": "Michael's evolved into what he calls \"working closely with Claude\"—it's become a fundamental part of how he operates as a product manager. His skill set actually aligns incredibly well with AI collabo...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What AI projects has Michael built?",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "What specific AI projects has Michael built with Claude?",
+          "hasLink": false
         },
         {
-          "text": "What specific technologies does Michael use in his development work?",
+          "text": "How has working with AI changed Michael's approach to product development?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5090,
+      "responseTime": 5839,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q22",
       "question": "What frameworks has Michael used?",
       "category": "Technical",
-      "response": "Michael's worked across a pretty wide range of frameworks and technologies throughout his 20-year career. He's seen the web evolve from the IE6 days—when you had to cut special PNGs just for browser s...",
+      "response": "Michael's worked across a pretty diverse set of frameworks throughout his 20 years in software. He's mentioned building frameworks from scratch—most notably, he built a framework ahead of React for a ...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What challenges did Michael face building a custom framework at Virgin America?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "What was the biggest technical challenge Michael faced on the Virgin America project?",
+          "hasLink": false
         },
         {
-          "text": "What's Michael's approach to choosing technologies for new projects?",
-          "hasLink": false
+          "text": "Tell me about Michael's current AI/ML projects",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6372,
+      "responseTime": 4621,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -551,46 +549,45 @@
       "id": "Q23",
       "question": "Describe Michael's full-stack capabilities",
       "category": "Technical",
-      "response": "Michael's a true generalist who can operate at any level of the software stack. He's got deep technical knowledge—he coded in middle school, knows HTML and CSS, and understands how software apps are a...",
+      "response": "Michael's full-stack capabilities span the entire product lifecycle—he's genuinely an \"army of one\" across strategy, design, and now development. On the strategic side, he can define what to build and...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What technologies does Michael currently work with most frequently?",
+          "text": "What specific projects has Michael built end-to-end with these capabilities?",
           "hasLink": false
         },
         {
-          "text": "How has Michael's technical approach evolved over his 20-year career?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "How does Michael approach working with Claude Code to build software?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6278,
+      "responseTime": 6246,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q24",
       "question": "What AI projects has Michael built recently?",
       "category": "AI",
-      "response": "I don't have specific details about Michael's recent AI projects in the context available to me right now. However, Michael is an AI/ML expert and creative technologist, so he's definitely worked on i...",
-      "responseLength": 2,
+      "response": "Michael's been actively building with AI since his \"oh shit moment\" in March 2025 when he realized how quickly you could prototype with tools like Replit. He built a D&D app with his son in just an ho...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "View Michael's AI projects",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "What's Michael's approach to building products with AI versus traditional engineering?",
+          "hasLink": false
         },
         {
-          "text": "What specific types of AI problems is Michael interested in solving?",
-          "hasLink": false
+          "text": "What did Michael learn from his AI research in Spring 2024?",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3036,
+      "responseTime": 4740,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -599,46 +596,45 @@
       "id": "Q25",
       "question": "How does Michael use AI in his workflow?",
       "category": "AI",
-      "response": "Based on the context I have, Michael's primary experience with AI comes through his work on PostPal, a mobile app built with React Native for iOS and Android that helps people manage post-procedure ca...",
+      "response": "Michael's evolved into a full-stack product builder by integrating AI—specifically Claude—directly into his workflow, transforming how he works end-to-end. His background as a business analyst, projec...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What AI technologies does Michael specialize in?",
+          "text": "What specific projects has Michael built using Claude Code?",
           "hasLink": false
         },
         {
-          "text": "Tell me more about the PostPal app and how it works",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
+          "text": "How does Michael's AI-powered workflow compare to his traditional product development approach?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4553,
+      "responseTime": 4974,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q26",
       "question": "What's Michael's philosophy on AI and creativity?",
       "category": "AI",
-      "response": "Michael sees AI as a fundamentally transformative tool for creativity and product development, not as a replacement for human thinking. His philosophy is rooted in the idea that AI dramatically accele...",
+      "response": "Michael sees AI as fundamentally transformational for building software and creative work, but he's thoughtfully balanced about it—not a zealot. His philosophy centers on AI being incredibly useful ri...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What specific AI tools and techniques does Michael use in his development process?",
-          "hasLink": false
+          "text": "What did Michael discover in his AI research interviews?",
+          "url": "/ai-showcase",
+          "hasLink": true
         },
         {
-          "text": "How has Michael's approach to product development changed with AI?",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
+          "text": "What specific AI tools and workflows does Michael use when building projects?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5320,
+      "responseTime": 5714,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -647,68 +643,68 @@
       "id": "Q27",
       "question": "Tell me about Michael's AI research",
       "category": "AI",
-      "response": "Michael conducted user research exploring the implications of AI's rapid advancement on product development and the tech industry. He interviewed 13 colleagues across various seniority levels—includin...",
+      "response": "Michael conducted extensive AI research in Spring 2024 after wrapping up the Casa Bonita project and being laid off in March. The research was driven by a simple question: \"Using AI, could I design, d...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What insights has Michael discovered about AI's impact on product development?",
-          "hasLink": false
+          "text": "What specific AI tools and workflows did Michael use for building applications?",
+          "url": "/ai-showcase",
+          "hasLink": true
         },
         {
-          "text": "How is Michael currently building with AI, and what's his approach to AI integration?",
+          "text": "What were Michael's main concerns about AI's impact on the tech industry?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5361,
+      "responseTime": 6594,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q28",
       "question": "What makes Michael effective at working with AI?",
       "category": "AI",
-      "response": "Michael's effectiveness with AI comes from his unique background as an \"army of one\"—he's done product strategy, design, and development himself, which gives him soup-to-nuts knowledge across the enti...",
-      "responseLength": 2,
+      "response": "Michael's effectiveness with AI stems from his unique background spanning strategy, design, and technical architecture—skills that translate remarkably well to collaborating with Claude. He treats Cla...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What specific projects has Michael built using AI?",
+          "text": "What specific AI projects has Michael built with Claude?",
           "hasLink": false
         },
         {
-          "text": "How has AI changed Michael's approach to product development?",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
+          "text": "How has Michael's approach to working with AI evolved over time?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5813,
+      "responseTime": 4818,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q29",
       "question": "Tell me about Michael opening the Portland office",
       "category": "Leadership",
-      "response": "I don't have specific information about Michael opening a Portland office in the context provided. The details I have focus on his project work—like the Before Launcher, Virgin America, Casa Bonita, a...",
+      "response": "I don't have specific details about Michael opening a Portland office in the context available to me. To give you accurate information about this chapter of his career—when it happened, what the offic...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What are Michael's major professional projects and case studies?",
+          "text": "What was Michael's role at Work & Co in Portland?",
           "hasLink": false
         },
         {
-          "text": "What's Michael's background in AI and machine learning?",
+          "text": "Tell me about Michael's major agency projects and clients",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3305,
+      "responseTime": 3669,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -717,21 +713,21 @@
       "id": "Q30",
       "question": "What's Michael's approach to product strategy?",
       "category": "Leadership",
-      "response": "Michael's approach to product strategy is fundamentally rooted in user empathy and deep research—he believes the best products emerge from truly understanding customer needs rather than just executing...",
+      "response": "Michael's approach to product strategy is rooted in defining what to build and why before diving into execution. He's drawn to the entire process of building, testing, and shipping products to market—...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What does Michael look for when evaluating whether a product is solving the right problem?",
+          "text": "What specific projects showcase Michael's product strategy work?",
           "hasLink": false
         },
         {
-          "text": "How has Michael's product development process changed with AI?",
+          "text": "How does Michael approach research and testing when developing product strategy?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 7567,
+      "responseTime": 5150,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -740,93 +736,92 @@
       "id": "Q31",
       "question": "How does Michael handle challenging projects?",
       "category": "Leadership",
-      "response": "Michael thrives on challenging problems—it's actually what drives him. He tackles complex projects by going deep across multiple disciplines: research strategy, design, UX, technical architecture, and...",
-      "responseLength": 1,
+      "response": "Michael's approach to challenging projects is grounded in learning from past mistakes and staying adaptable across different levels of complexity. Early in his career, he learned a hard lesson on Broa...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What specific projects has Michael led that demonstrate this approach?",
+          "text": "What specific projects taught Michael the most valuable lessons?",
           "hasLink": false
         },
         {
-          "text": "How does Michael approach product strategy and research when starting a new challenge?",
-          "hasLink": false
+          "text": "How did Michael approach the Before Launcher's performance challenges?",
+          "url": "/case-studies/before-launcher",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 17590,
+      "responseTime": 5596,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q32",
       "question": "What leadership roles has Michael held?",
       "category": "Leadership",
-      "response": "Michael's held several key leadership positions throughout his career. He was one of the first employees at Work & Co, the agency he co-founded, where he helped establish the product management team f...",
+      "response": "Michael has held several key leadership roles throughout his 20-year career. He was a startup CEO where he wore every hat—doing everything from business operations to design—which gave him comprehensi...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Michael's role at Virgin America and what did he accomplish there?",
+          "text": "What major projects did Michael lead at Work & Co?",
           "hasLink": false
         },
         {
-          "text": "What major projects has Michael led throughout his career?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "How has Michael's leadership approach evolved with AI and Claude?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5706,
+      "responseTime": 4262,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q33",
       "question": "Describe Michael's team collaboration style",
       "category": "Leadership",
-      "response": "Michael's collaboration style is rooted in authenticity and empowerment—he believes that great leadership comes down to showing up genuinely for your team and creating space for people to do their bes...",
+      "response": "Michael operates as an \"army of one\" across multiple disciplines—he can do strategy, UX design, research, analysis, project management, and now build software directly with Claude—but he's genuinely c...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What leadership principles guide how Michael approaches team dynamics?",
+          "text": "How does Michael work with Claude as a team member?",
           "hasLink": false
         },
         {
-          "text": "What was Michael's role on the Target e-commerce project?",
-          "url": "/case-studies/target",
-          "hasLink": true
+          "text": "What's Michael's experience managing and leading teams?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6198,
+      "responseTime": 5020,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": ""
     },
     {
       "id": "Q34",
       "question": "What was the hardest technical challenge Michael faced?",
       "category": "Challenges",
-      "response": "The Virgin America website project was Michael's most technically challenging work overall. The core challenge revolved around architecting the front-end and API interaction intelligently—the team del...",
+      "response": "The Before Launcher's performance issue when it first shipped was probably the toughest technical challenge Michael tackled. The app launched really slow, and since he was working with a tiny team—jus...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What made Virgin America the most technically challenging project?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "How did Michael optimize the Before Launcher's performance after launch?",
+          "hasLink": false
         },
         {
-          "text": "What other technical decisions did Michael make to solve architecture problems?",
-          "hasLink": false
+          "text": "What was the Before Launcher and what problem did it solve?",
+          "url": "/case-studies/before-launcher",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5185,
+      "responseTime": 4090,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -835,46 +830,47 @@
       "id": "Q35",
       "question": "How did Michael solve the Casa Bonita queuing problem?",
       "category": "Challenges",
-      "response": "The Casa Bonita project tackled the queuing problem by implementing a sophisticated reservation and wait management system. Michael built a full-stack solution that replaced the chaotic first-come, fi...",
+      "response": "The Casa Bonita queuing problem was solved using **Qit**, a specialized queuing system that Michael implemented to manage the massive surge in reservation demand when the restaurant first opened. When...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was the full scope of the Casa Bonita project?",
+          "text": "What other systems did Michael build for Casa Bonita?",
           "url": "/case-studies/casa-bonita",
           "hasLink": true
         },
         {
-          "text": "What technologies did Michael use to build the Casa Bonita system?",
-          "hasLink": false
+          "text": "Tell me about the Casa Bonita restaurant project",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4329,
+      "responseTime": 3696,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 2,
       "notes": ""
     },
     {
       "id": "Q36",
       "question": "What challenges did Virgin America present?",
       "category": "Challenges",
-      "response": "[Virgin America](/case-studies/virgin-america) presented some unique challenges around brand translation and organizational culture. Virgin had this fun, almost rebellious airline brand—they explicitl...",
-      "responseLength": 1,
+      "response": "Virgin America presented a fascinating mix of technical and business challenges. The airline industry itself is notoriously difficult—you have minimal control over your profitability since you can't c...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "How did Virgin America's approach differ from Alaska Airlines after the acquisition?",
+          "text": "How did Michael solve the technical integration between modern Angular and legacy IBM mainframes?",
           "url": "/case-studies/virgin-america",
           "hasLink": true
         },
         {
-          "text": "What specific design decisions did Michael make to capture Virgin's brand personality?",
+          "text": "What was the scale and performance requirements for the Virgin America booking platform?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5282,
+      "responseTime": 6657,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -883,45 +879,46 @@
       "id": "Q37",
       "question": "Why did the Before Launcher fail as a business?",
       "category": "Challenges",
-      "response": "The Before Launcher faced market challenges that ultimately limited its commercial viability, despite being a solid technical product. The Android home screen replacement market proved to be extremely...",
+      "response": "Before Launcher was an innovative AI-powered Android home screen replacement that used machine learning to predict and surface the apps you'd want to use at any given moment. While it was a technicall...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What technical innovations did the Before Launcher include that set it apart?",
+          "text": "What machine learning techniques powered Before Launcher's app prediction?",
           "hasLink": false
         },
         {
-          "text": "What other mobile app projects has Michael worked on since Before Launcher?",
-          "hasLink": false
+          "text": "What other AI projects has Michael worked on?",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4473,
+      "responseTime": 4665,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q38",
       "question": "What lessons did Michael learn from failed projects?",
       "category": "Challenges",
-      "response": "Michael learned critical lessons from a catastrophic Django/Python project that became a cautionary tale in the developer community. The project had significant architectural flaws that a junior Pytho...",
-      "responseLength": 2,
+      "response": "Michael learned some critical lessons from his early projects that shaped how he approaches work today. On Broadway.com, he discovered that beautiful design and solid UX specifications don't guarantee...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What made the Before Launcher successful from a product perspective?",
+          "text": "What did Michael learn about product-market fit from his early work?",
           "hasLink": false
         },
         {
-          "text": "Tell me about Michael's work on the Virgin America airline website",
-          "url": "/case-studies/virgin-america",
+          "text": "What challenges did Michael face when building Before Launcher?",
+          "url": "/ai-showcase",
           "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6136,
+      "responseTime": 4991,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": ""
@@ -930,44 +927,45 @@
       "id": "Q39",
       "question": "How does Michael approach problem-solving?",
       "category": "Challenges",
-      "response": "Michael approaches problem-solving by operating across multiple levels simultaneously—he calls it going from the \"50,000-foot level all the way down to deep, deep, deep in the weeds.\" He starts with t...",
+      "response": "Michael's approach to problem-solving is grounded in real-world validation and customer empathy. He starts by solving actual problems rather than building solutions in a vacuum—his advice is straightf...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What's Michael's approach to working with AI tools in his problem-solving process?",
+          "text": "What specific projects has Michael used this customer-first approach on?",
           "hasLink": false
         },
         {
-          "text": "Can you share an example of how Michael applied this multi-level thinking to a specific project?",
-          "hasLink": false
+          "text": "How did Michael apply this research methodology to his AI work?",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 8954,
+      "responseTime": 5828,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": ""
     },
     {
       "id": "Q40",
       "question": "What was challenging about the pandemic for Michael?",
       "category": "Challenges",
-      "response": "Michael found the pandemic particularly challenging when it came to understanding what parents, especially moms, were going through. He recognized how demanding it was to be responsible for young chil...",
+      "response": "The pandemic hit Michael hard on a personal level—he became a primary parent for a significant chunk of time, which meant stepping back from his career to care for young children learning from home. H...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What did Michael do professionally after the pandemic period?",
+          "text": "How did Michael's experience as a primary parent influence his later work and perspectives?",
           "hasLink": false
         },
         {
-          "text": "How has Michael's approach to work-life balance evolved over his career?",
+          "text": "What consulting work did Michael do after the pandemic period?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3463,
+      "responseTime": 5184,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": ""
@@ -976,47 +974,46 @@
       "id": "SA-0",
       "question": "Tell me about the restaurant project",
       "category": "Scenario",
-      "response": "The Casa Bonita restaurant project was a comprehensive redesign and optimization of the reservation and operational systems for the iconic Denver restaurant. Michael worked on switching their reservat...",
+      "response": "Casa Bonita was an incredible project that really showcased what thoughtful product design can do for a business. Michael served as the project and product lead, handling UX design, project management...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What were the specific challenges Michael faced migrating the reservation system?",
+          "text": "What technical challenges did Michael face managing 40,000 people in a queue?",
           "url": "/case-studies/casa-bonita",
           "hasLink": true
         },
         {
-          "text": "How did the design system balance modern and mystical aesthetics?",
-          "url": "/case-studies/casa-bonita",
-          "hasLink": true
+          "text": "What's the Founders Club membership system and how does it work?",
+          "hasLink": false
         }
       ],
       "accuracy": "partial",
       "relevance": "high",
-      "responseTime": 5110,
+      "responseTime": 5304,
       "hasFollowUps": true,
-      "followUpLinkCount": 2,
+      "followUpLinkCount": 1,
       "notes": "Scenario A initial"
     },
     {
       "id": "SA-1",
       "question": "What specific technology stack was used?",
       "category": "Follow-up",
-      "response": "Based on the context available, I can see Michael worked with several tech stacks across different projects, though the specific details vary by project. For the Virgin America airline website, he bui...",
-      "responseLength": 2,
+      "response": "Michael's tech stack varies by project, but for his recent AI-focused work, he's using **Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Sanity CMS, Claude Code, and GitHub Copilot**. On the Targ...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What was the architecture approach for the Virgin America mobile app?",
-          "hasLink": false
-        },
-        {
-          "text": "Tell me more about Michael's AI technology stack",
+          "text": "What AI tools does Michael use in his development process?",
           "url": "/ai-showcase",
           "hasLink": true
+        },
+        {
+          "text": "How has Michael's technology choices evolved throughout his career?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5699,
+      "responseTime": 4590,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": "Scenario A follow-up 1"
@@ -1025,45 +1022,46 @@
       "id": "SA-2",
       "question": "How many people could the membership system handle?",
       "category": "Follow-up",
-      "response": "I don't have specific information about a membership system in the context provided. Could you clarify which project you're asking about? Michael's worked on several different systems—are you referrin...",
+      "response": "I don't have the specific capacity details for the membership system you're referring to. To give you an accurate answer about scalability and user capacity, could you clarify which project you're ask...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What project or product are you curious about?",
-          "hasLink": false
+          "text": "Tell me about the Casa Bonita restaurant project",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
         },
         {
-          "text": "[View Michael's case studies](/case-studies/virgin-america) to see which projects might interest you",
+          "text": "What other membership or subscription systems has Michael built?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3055,
+      "responseTime": 3077,
       "hasFollowUps": true,
-      "followUpLinkCount": 0,
+      "followUpLinkCount": 1,
       "notes": "Scenario A follow-up 2"
     },
     {
       "id": "SB-0",
       "question": "What AI work has Michael done?",
       "category": "Scenario",
-      "response": "Michael's been diving deep into AI development and building products directly with Claude Code. He started by continuing to build with AI and realized he had a real knack for it—his background as a bu...",
+      "response": "Michael's been diving deep into AI development recently, building real products with Claude Code. He's built PostPal, a cross-platform mobile app (iOS/Android in React Native) designed for people deal...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "What AI projects has Michael built?",
+          "text": "What AI projects has Michael shipped?",
           "url": "/ai-showcase",
           "hasLink": true
         },
         {
-          "text": "What specific challenges has Michael solved using AI?",
+          "text": "What's Michael's approach to working with Claude Code on product development?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6383,
+      "responseTime": 6074,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": "Scenario B initial"
@@ -1072,22 +1070,22 @@
       "id": "SB-1",
       "question": "Can you show me examples of these AI projects?",
       "category": "Follow-up",
-      "response": "Michael's built some really interesting AI projects across different domains. The Before Launcher was an AI-first Android launcher that predicted what users wanted before they asked—it used context-aw...",
-      "responseLength": 1,
+      "response": "I'd love to show you Michael's AI work! He's built some really impressive projects that showcase practical applications of AI and machine learning. You can explore his complete AI portfolio at [/ai-sh...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "View Michael's AI projects",
-          "url": "/ai-showcase",
+          "text": "What was Before Launcher and how did it use AI?",
+          "url": "/case-studies/before-launcher",
           "hasLink": true
         },
         {
-          "text": "What's the story behind Before Launcher and how it got acquired by Microsoft?",
+          "text": "What AI technologies does Michael prefer working with?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 5413,
+      "responseTime": 5023,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": "Scenario B follow-up 1"
@@ -1096,93 +1094,92 @@
       "id": "SB-2",
       "question": "Which AI project was most innovative?",
       "category": "Follow-up",
-      "response": "Before Launcher was definitely the most innovative—it was an AI-first Android launcher that predicted what users wanted before they even asked, exploring context-aware mobile interfaces years before t...",
-      "responseLength": 1,
+      "response": "Before Launcher was probably Michael's most innovative AI project—it pioneered \"anticipatory computing\" by building an AI-first Android launcher that predicted what users wanted before they even asked...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What was the technical approach behind Before Launcher's predictive capabilities?",
+          "text": "What was the Before Launcher and how did it work?",
           "url": "/case-studies/before-launcher",
           "hasLink": true
         },
         {
-          "text": "How did Before Launcher's AI compare to other mobile AI projects Michael has worked on?",
-          "hasLink": false
+          "text": "What other AI projects has Michael built?",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4518,
+      "responseTime": 5376,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 2,
       "notes": "Scenario B follow-up 2"
     },
     {
       "id": "SC-0",
       "question": "Explain Michael's career journey",
       "category": "Scenario",
-      "response": "Michael's career has been a fascinating evolution across nearly 20 years in software, starting from learning to program as a kid in Eugene, Oregon and moving through product management roles (even whe...",
+      "response": "Michael's career spans 20 years of solving complex problems across multiple industries, starting from an unexpected place—he studied English in college, but after graduating he pivoted into software a...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Virgin America and why was it significant for Michael's career?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "What major projects has Michael led in his career?",
+          "hasLink": false
         },
         {
-          "text": "What industries and company types does Michael prefer to work with?",
+          "text": "How does Michael approach building products from 0 to 1?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 6187,
+      "responseTime": 6001,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": "Scenario C initial"
     },
     {
       "id": "SC-1",
       "question": "What motivated the transition from Huge to Work & Co?",
       "category": "Follow-up",
-      "response": "After Virgin America shipped successfully and proved that SPAs could scale at enterprise level, Michael had an opportunity to move to Portland to be closer to family. That personal milestone coincided...",
-      "responseLength": 1,
+      "response": "I don't have specific details about Michael's motivations for moving from Huge to Work & Co in my current context. However, I can tell you that both agencies represent significant stops in his career ...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What was the Virgin America project and why was it so technically challenging?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
+          "text": "What major projects did Michael work on at Work & Co?",
+          "hasLink": false
         },
         {
-          "text": "What did Michael focus on when building the product management team at Work & Co?",
+          "text": "What was Michael's role and focus at Huge?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4562,
+      "responseTime": 3550,
       "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "followUpLinkCount": 0,
       "notes": "Scenario C follow-up 1"
     },
     {
       "id": "SC-2",
       "question": "Why did Michael start his own company?",
       "category": "Follow-up",
-      "response": "Michael started his own company driven by a combination of entrepreneurial ambition and a desire to build something meaningful from the ground up. His background as a business analyst, project manager...",
+      "response": "Michael hasn't started his own company in the traditional sense. However, after being laid off in March 2024, he embarked on what you might call a solo venture into AI exploration. He set out to answe...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What was Michael's startup focused on building?",
+          "text": "What did Michael learn from his AI research project?",
           "hasLink": false
         },
         {
-          "text": "How did his startup experience influence his approach to working with AI later?",
+          "text": "What applications has Michael built using AI tools?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4372,
+      "responseTime": 5131,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": "Scenario C follow-up 2"
@@ -1191,21 +1188,21 @@
       "id": "SD-0",
       "question": "What was Michael's biggest challenge?",
       "category": "Scenario",
-      "response": "Michael's biggest challenge was tackling technical debt that had accumulated over more than a year on his plate—work that felt shameful to leave unfinished. What's telling is how he solved it: he gave...",
-      "responseLength": 1,
+      "response": "Michael's biggest challenge came from the complexity ceiling he hit while building products with AI—specifically, getting past that 80% completion point where optimization becomes exponentially harder...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "How does Michael typically approach technical debt in his projects?",
+          "text": "How did Michael overcome the AI context retention problem when building these projects?",
           "hasLink": false
         },
         {
-          "text": "What AI tools does Michael use most frequently in his workflow?",
+          "text": "What specific prompt engineering techniques did Michael use to achieve 92% accuracy on Post Pal?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3949,
+      "responseTime": 5619,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
       "notes": "Scenario D initial"
@@ -1214,46 +1211,36 @@
       "id": "SD-1",
       "question": "How long did it take to solve?",
       "category": "Follow-up",
-      "response": "I don't have enough context about which specific project or problem you're referring to. Michael has worked on several significant projects—from the Before Launcher AI app to major e-commerce transfor...",
-      "responseLength": 2,
-      "followUps": [
-        {
-          "text": "What are Michael's major projects?",
-          "hasLink": false
-        },
-        {
-          "text": "Tell me about the Before Launcher project",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
-        }
-      ],
+      "response": "I don't have enough context to answer your question about how long something took to solve. You've asked about a specific project or problem, but I'm not sure which one you're referring to.\n\nCould you...",
+      "responseLength": 4,
+      "followUps": [],
       "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 2942,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
+      "relevance": "low",
+      "responseTime": 3124,
+      "hasFollowUps": false,
+      "followUpLinkCount": 0,
       "notes": "Scenario D follow-up 1"
     },
     {
       "id": "SD-2",
       "question": "What was the impact of the solution?",
       "category": "Follow-up",
-      "response": "I'd need a bit more context to give you the most complete answer—you're asking about \"the solution,\" but I've worked on several projects with different solutions and impacts. Could you let me know whi...",
+      "response": "I don't have specific impact metrics from the DOA project yet—it's listed as \"Coming Soon\" in the context, so it hasn't launched publicly. However, what's really interesting is that this project was d...",
       "responseLength": 2,
       "followUps": [
         {
-          "text": "Which specific project would you like to know more about—the medical recovery app, Karuna's website, or another one?",
+          "text": "What other AI projects has Michael built to test development velocity?",
           "hasLink": false
         },
         {
-          "text": "What were the outcomes from the Virgin America project?",
-          "url": "/case-studies/virgin-america",
+          "text": "Tell me about Michael's research on how AI is changing software development",
+          "url": "/ai-showcase",
           "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4346,
+      "responseTime": 4320,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": "Scenario D follow-up 2"
@@ -1262,22 +1249,22 @@
       "id": "SE-0",
       "question": "What is Michael working on now?",
       "category": "Scenario",
-      "response": "I don't have current information about what Michael is actively working on right now. The context I have focuses on his past projects like the Before Launcher, case studies with brands like Virgin Ame...",
-      "responseLength": 2,
+      "response": "Michael's currently focused on AI/ML work and exploring how AI can unlock new product possibilities. After being laid off in March 2024, he dove deep into understanding what's actually possible when y...",
+      "responseLength": 1,
       "followUps": [
         {
-          "text": "What AI projects has Michael worked on?",
-          "url": "/ai-showcase",
-          "hasLink": true
+          "text": "What AI projects has Michael actually built and shipped?",
+          "hasLink": false
         },
         {
-          "text": "What was Michael's experience like building the Before Launcher?",
-          "hasLink": false
+          "text": "What does Michael think about the future of AI in product development?",
+          "url": "/ai-showcase",
+          "hasLink": true
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 19205,
+      "responseTime": 5719,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": "Scenario E initial"
@@ -1286,47 +1273,46 @@
       "id": "SE-1",
       "question": "How can I see Michael's recent projects?",
       "category": "Follow-up",
-      "response": "You can explore Michael's work through the case studies and AI showcase on the site. He's got several notable projects documented, including [Virgin America](/case-studies/virgin-america), where he wo...",
-      "responseLength": 1,
+      "response": "You've got a few great ways to explore Michael's recent work! The best starting point is his [AI projects showcase](/ai-showcase), which features his latest AI-powered applications and research. This ...",
+      "responseLength": 2,
       "followUps": [
         {
-          "text": "What was the Target e-commerce project about?",
-          "url": "/case-studies/target",
+          "text": "What's Michael's approach to building products with AI?",
+          "url": "/ai-showcase",
           "hasLink": true
         },
         {
-          "text": "Tell me about the Before Launcher AI project",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
+          "text": "What does Michael want to work on next?",
+          "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 4777,
+      "responseTime": 5537,
       "hasFollowUps": true,
-      "followUpLinkCount": 2,
+      "followUpLinkCount": 1,
       "notes": "Scenario E follow-up 1"
     },
     {
       "id": "SE-2",
       "question": "Where can I learn more about his AI work?",
       "category": "Follow-up",
-      "response": "Michael's AI work spans multiple projects and approaches—you can explore all of his AI projects and case studies on his [AI Showcase](/ai-showcase), which highlights his experiments with AI-assisted d...",
+      "response": "Michael's AI work spans several exciting projects that showcase his approach to building with Claude. You can explore his complete AI portfolio on the dedicated showcase page, which highlights his rec...",
       "responseLength": 1,
       "followUps": [
         {
-          "text": "What specific AI projects has Michael completed?",
+          "text": "View Michael's AI projects",
           "url": "/ai-showcase",
           "hasLink": true
         },
         {
-          "text": "What's Michael's approach to using AI in the development process?",
+          "text": "What specific AI technologies does Michael work with?",
           "hasLink": false
         }
       ],
       "accuracy": "unknown",
       "relevance": "high",
-      "responseTime": 3862,
+      "responseTime": 4214,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
       "notes": "Scenario E follow-up 2"

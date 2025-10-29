@@ -26,7 +26,7 @@ A: Michael's first tech job was as a customer data analyst at Symantec, where he
 A: Michael's interest in AI spans multiple periods. He first learned about neural networks in 1999 at university. Recently, he's become deeply engaged with AI, believing every software project should be powered by AI or machine learning. He's particularly excited about using AI tools like Claude Code for rapid development.
 
 **Q: What companies has Michael worked for?**
-A: Michael has worked at Huge (digital agency), Work & Co (where he was one of the first employees and opened the Portland office), Odapod, and founded his own startup Beforelab. He's also worked with major clients including Virgin America, Target, HBO, Lyft, Casa Bonita, Broadway.com, National Association of Realtors, and Alaska Airlines.
+A: Michael has worked at Symantec (first tech job), Huge (digital agency), Work & Co (where he was one of the first employees and opened the Portland office), Odopod, and founded his own startup Beforelab. At these companies, he worked WITH major clients including Virgin America, Target, HBO, Lyft, Casa Bonita, Broadway.com, National Association of Realtors, and Alaska Airlines - these were clients, not employers.
 
 ## Major Projects
 
