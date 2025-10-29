@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (October 29, 2025)
+- **Chatbot Content Enhancement**
+  - Fixed critical misinformation (Target, Before Launcher, company names)
+  - Created comprehensive technical architecture document
+  - Added 3 new transcripts (agentic engineering, case studies, leadership)
+  - Documented 12 projects with full technical details
+  - Improved test evaluation scripts for partial answers
+  - Enhanced system prompt for better partial information handling
+  - Test success rate improved from 7.3% to 30%
+  - Ingested 215 chunks into vector database
+
 ### Added (October 28, 2025)
 - **AI Chatbot Maintainable Content System - Complete Implementation**
   - **Sanity CMS Integration**: Fetch and transform content from Sanity (projects, profile, AI projects)
