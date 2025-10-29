@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Variant C: Inline Image Break</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #050510 100%);
+      color: #f3f4f6;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Annotation badge */
+    .annotation {
+      position: relative;
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 3px solid #a855f7;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #e9d5ff;
+      border-radius: 4px;
+    }
+
+    .annotation::before {
+      content: "💡 Design Decision";
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #c084fc;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 100px;
+      position: relative;
+    }
+
+    /* Subtle blur orb */
+    .blur-orb {
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(168, 85, 247, 0.15);
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c084fc;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 7vw, 80px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      background: linear-gradient(135deg, #c084fc 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-metric {
+      font-size: 24px;
+      color: #c084fc;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-metric::before {
+      content: '';
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #c084fc, transparent);
+    }
+
+    .hero-description {
+      font-size: 20px;
+      line-height: 1.7;
+      color: #d1d5db;
+      max-width: 700px;
+      margin-bottom: 48px;
+    }
+
+    /* Inline preview image - integrated into content flow */
+    .hero-preview {
+      margin: 56px 0;
+      position: relative;
+    }
+
+    .hero-preview-image {
+      width: 100%;
+      max-width: 680px;
+      aspect-ratio: 16 / 10;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(192, 132, 252, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.6;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: all 400ms ease-out;
+    }
+
+    .hero-preview-image:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(192, 132, 252, 0.2);
+    }
+
+    /* Very subtle accent line */
+    .hero-preview::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, rgba(192, 132, 252, 0.4), transparent);
+    }
+
+    /* Subtle glow */
+    .hero-preview-image::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(192, 132, 252, 0.08));
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #a855f7, #c084fc);
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+    }
+
+    .hero-cta svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 300ms;
+    }
+
+    .hero-cta:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Section separator */
+    .section-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+      margin: 80px 0;
+    }
+
+    /* Case studies section */
+    .case-studies-header {
+      margin-bottom: 60px;
+    }
+
+    .case-studies-title {
+      font-size: 32px;
+      font-weight: 300;
+      color: #f3f4f6;
+      margin-bottom: 8px;
+    }
+
+    .case-studies-subtitle {
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: auto;
+        padding: 80px 0 60px;
+      }
+
+      .hero-title {
+        font-size: 48px;
+      }
+
+      .hero-description {
+        font-size: 18px;
+      }
+
+      .hero-preview {
+        margin: 40px 0;
+      }
+
+      .hero-preview-image {
+        aspect-ratio: 4 / 3;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="annotation container">
+    <strong>Minimal Variant C: Inline Image Break</strong><br>
+    Strategy: Integrates the image directly into the content flow as a "break" element between description and CTA. The image acts as a visual pause that provides proof of the work while maintaining the vertical narrative rhythm. Slightly smaller and more contained than a full hero image, it feels like a natural part of the story rather than an add-on.
+    <br><br>
+    <strong>Strengths:</strong> Image feels naturally integrated into content flow, creates visual rhythm and pause, maintains strong narrative progression (label → title → metric → description → preview → CTA), image size is modest and doesn't overpower, very clean single-column layout
+    <br><strong>Best for:</strong> When you want imagery to feel like part of the narrative journey, not a separate element
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="blur-orb"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label">Featured Case Study</div>
+        <h1 class="hero-title">Virgin America - First Responsive Airline Website</h1>
+        <div class="hero-metric">15-20% Conversion Improvement</div>
+        <p class="hero-description">
+          Led product strategy for Virgin America's groundbreaking responsive website redesign. By rethinking the booking flow around individual decisions rather than minimizing clicks, we created the first responsive airline website that improved conversion by 15-20% and won multiple industry awards including Webbies, UX Awards, and Cannes Lions.
+        </p>
+
+        <!-- Inline preview image -->
+        <div class="hero-preview">
+          <div class="hero-preview-image">
+            Preview Screenshot<br>
+            <small>16:10 aspect ratio (680×425px)</small><br><br>
+            [Virgin America Booking Flow]<br>
+            Key interface moment
+          </div>
+        </div>
+
+        <a href="#" class="hero-cta">
+          View Full Case Study
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="annotation container">
+    The image sits between description and CTA at 680px max-width (narrower than the content column), using 16:10 aspect ratio which feels more intimate than full 16:9. The subtle purple accent line on the left connects it visually to the design system. The image has hover interaction (lifts 4px) suggesting it's clickable to view larger. The 56px margins above/below create breathing room while maintaining content flow.
+  </div>
+
+  <!-- Section Separator -->
+  <div class="section-separator container"></div>
+
+  <!-- Case Studies Section -->
+  <section class="container" style="padding-bottom: 120px;">
+    <div class="case-studies-header">
+      <h2 class="case-studies-title">All Case Studies</h2>
+      <p class="case-studies-subtitle">Product launches and transformational projects</p>
+    </div>
+
+    <div class="annotation">
+      Below the hero, we transition to the existing FeaturedCaseStudies component with consistent design language.
+    </div>
+  </section>
+</body>
+</html>

@@ -8,6 +8,8 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { generateEmbedding } from '@/lib/chatbot/embeddings';
 import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
 import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
+import { preprocessQuery } from '@/lib/chatbot/query-preprocessor';
+import { hybridSearch, rerankResults } from '@/lib/chatbot/hybrid-search';
 
 export const runtime = 'edge';
 
@@ -157,15 +159,34 @@ export async function POST(req: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    // Generate embedding for the user's question
-    const queryEmbedding = await generateEmbedding(messageText);
+    // Preprocess query for better retrieval
+    const processedQuery = preprocessQuery(messageText);
+    console.log('Query preprocessing:', {
+      original: processedQuery.original,
+      normalized: processedQuery.normalized,
+      entities: processedQuery.entities,
+      keywords: processedQuery.keywords,
+      expanded: processedQuery.expanded.substring(0, 100) + '...',
+    });
 
-    // Search for relevant documents
-    // Optimized for maximum quality - retrieve extensive context
-    const relevantDocs = await searchSimilarDocuments(
+    // Generate embedding for the preprocessed and expanded query
+    const queryEmbedding = await generateEmbedding(processedQuery.expanded);
+
+    // Use hybrid search for better retrieval
+    console.log('Using hybrid search with keywords:', processedQuery.keywords);
+    const searchResults = await hybridSearch(
       queryEmbedding,
-      20, // top 20 results - get comprehensive context
-      0.3 // low similarity threshold - capture all potentially relevant docs
+      processedQuery.normalized,
+      processedQuery.keywords,
+      30, // Get top 30 results
+      0.25 // Similarity threshold
+    );
+
+    // Re-rank results based on relevance to original query
+    const relevantDocs = rerankResults(
+      searchResults,
+      messageText,
+      processedQuery.entities
     );
 
     // Build context from relevant documents
@@ -191,7 +212,7 @@ export async function POST(req: Request) {
       model: anthropic('claude-haiku-4-5-20251001'),
       system: systemPrompt,
       messages: modelMessages,
-      temperature: 0.8, // Slightly higher for better synthesis
+      temperature: 0.8, // Higher for better synthesis of multiple sources
       async onFinish({ text }) {
         // Log assistant response after completion
         const isOffTopicRedirect = text.includes("I'm here specifically to discuss Michael's professional background");

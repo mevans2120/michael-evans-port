@@ -67,6 +67,15 @@
       z-index: 0;
     }
 
+    /* Background image layer (optional - can be replaced with actual screenshot) */
+    .hero-bg-image {
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23111827" width="1200" height="800"/><text x="50%25" y="50%25" text-anchor="middle" fill="%234b5563" font-size="24" font-family="sans-serif">Background Screenshot Here</text></svg>') center/cover;
+      opacity: 0.15;
+      filter: blur(20px);
+    }
+
     /* Animated gradient mesh background */
     .gradient-mesh {
       position: absolute;
@@ -279,6 +288,136 @@
       }
     }
 
+    /* Floating device mockups */
+    .floating-mockups {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .mockup-frame {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(192, 132, 252, 0.2);
+      border-radius: 12px;
+      backdrop-filter: blur(20px);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 30px 100px rgba(168, 85, 247, 0.2);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 13px;
+      padding: 20px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Desktop mockup - top right */
+    .mockup-desktop {
+      top: 15%;
+      right: 8%;
+      width: 400px;
+      height: 250px;
+      animation: float-desktop 12s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes float-desktop {
+      0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(1deg);
+      }
+    }
+
+    /* Tablet mockup - middle left */
+    .mockup-tablet {
+      top: 35%;
+      left: 5%;
+      width: 280px;
+      height: 200px;
+      animation: float-tablet 10s ease-in-out infinite 2s;
+      transform-origin: center;
+    }
+
+    @keyframes float-tablet {
+      0%, 100% {
+        transform: translateY(0) rotate(2deg);
+      }
+      50% {
+        transform: translateY(-15px) rotate(-1deg);
+      }
+    }
+
+    /* Mobile mockup - bottom right */
+    .mockup-mobile {
+      bottom: 18%;
+      right: 12%;
+      width: 160px;
+      height: 280px;
+      animation: float-mobile 14s ease-in-out infinite 4s;
+      transform-origin: center;
+    }
+
+    @keyframes float-mobile {
+      0%, 100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+      50% {
+        transform: translateY(-25px) rotate(2deg);
+      }
+    }
+
+    /* Mockup accent glow */
+    .mockup-frame::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(192, 132, 252, 0.1));
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 600ms;
+    }
+
+    .mockup-frame:hover::before {
+      opacity: 1;
+    }
+
+    /* Browser chrome simulation */
+    .mockup-chrome {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 6px;
+    }
+
+    .mockup-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(192, 132, 252, 0.3);
+    }
+
+    .mockup-content {
+      margin-top: 30px;
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
     /* Section separator */
     .section-separator {
       height: 1px;
@@ -426,25 +565,97 @@
       .case-study-title {
         font-size: 36px;
       }
+
+      /* Hide floating mockups on mobile for performance and clarity */
+      .floating-mockups {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      /* Scale down mockups on tablets */
+      .mockup-desktop {
+        width: 300px;
+        height: 180px;
+        right: 2%;
+      }
+
+      .mockup-tablet {
+        width: 220px;
+        height: 160px;
+        left: 2%;
+      }
+
+      .mockup-mobile {
+        width: 140px;
+        height: 240px;
+        right: 5%;
+      }
     }
   </style>
 </head>
 <body>
   <div class="annotation container">
-    <strong>Concept 3: Immersive Full-Bleed Hero</strong><br>
-    Strategy: Bold, dramatic approach that creates maximum impact through full-viewport immersive experience. Animated gradient mesh and grid pattern create depth and motion, while centered content with prominent metrics commands attention. The full-bleed design feels premium and confident.
+    <strong>Concept 3: Immersive Full-Bleed Hero (with Floating Mockups)</strong><br>
+    Strategy: Bold, dramatic approach that creates maximum impact through full-viewport immersive experience. Now enhanced with floating device mockups that showcase the responsive design work. Animated gradient mesh, grid pattern, and floating UI frames create depth and visual interest. The centered content with prominent metrics commands attention while the mockups provide tangible proof of the work.
     <br><br>
-    <strong>Strengths:</strong> Most visually striking, creates strong first impression, feels premium/high-end, good for portfolio differentiation, centered layout works well on all screen sizes
-    <br><strong>Tradeoffs:</strong> Potentially overwhelming, requires careful balance to maintain readability, may distract from content if not executed carefully, uses more visual real estate before showing other work
+    <strong>Strengths:</strong> Most visually striking, creates strong first impression, shows actual work through mockups, feels premium/high-end, demonstrates responsive design expertise, good for portfolio differentiation
+    <br><strong>Tradeoffs:</strong> Potentially overwhelming, requires actual screenshots for mockups, uses more visual real estate before showing other work, more complex to maintain
   </div>
 
   <!-- Hero Section -->
   <section class="hero">
     <!-- Background layers -->
     <div class="hero-background">
+      <div class="hero-bg-image"></div>
       <div class="gradient-mesh"></div>
       <div class="grid-pattern"></div>
       <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Floating device mockups -->
+    <div class="floating-mockups">
+      <!-- Desktop mockup -->
+      <div class="mockup-frame mockup-desktop">
+        <div class="mockup-chrome">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+        </div>
+        <div class="mockup-content">
+          Desktop View<br>
+          <small>1440px × 900px</small><br><br>
+          [Virgin America<br>Booking Flow Screenshot]
+        </div>
+      </div>
+
+      <!-- Tablet mockup -->
+      <div class="mockup-frame mockup-tablet">
+        <div class="mockup-chrome">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+        </div>
+        <div class="mockup-content">
+          Tablet View<br>
+          <small>768px × 1024px</small><br><br>
+          [Responsive Layout<br>Screenshot]
+        </div>
+      </div>
+
+      <!-- Mobile mockup -->
+      <div class="mockup-frame mockup-mobile">
+        <div class="mockup-chrome">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+        </div>
+        <div class="mockup-content">
+          Mobile View<br>
+          <small>375px × 667px</small><br><br>
+          [Mobile UI<br>Screenshot]
+        </div>
+      </div>
     </div>
 
     <!-- Content -->
@@ -499,7 +710,11 @@
   </section>
 
   <div class="annotation container">
-    The full-bleed hero creates an immersive experience that fills the entire viewport. The animated gradient mesh (slowly scaling and rotating) creates subtle motion and depth, while the grid pattern adds technical sophistication. The dark overlay ensures text remains readable against the animated background. Centered content with large typography creates a bold statement, and the scroll indicator invites exploration. Multiple metrics displayed prominently establish credibility.
+    The full-bleed hero creates an immersive experience that fills the entire viewport. The layered background includes: (1) optional screenshot background (blurred at 15% opacity), (2) animated gradient mesh (slowly scaling and rotating), (3) grid pattern for technical sophistication, and (4) dark overlay for text readability.
+    <br><br>
+    <strong>Floating Mockups:</strong> Three device frames (desktop, tablet, mobile) float around the hero with independent animations, showcasing the responsive design work. Each has a simulated browser chrome, glass-morphism styling, and subtle purple glow. The mockups include placeholders for actual Virgin America screenshots. On mobile devices, the mockups are hidden to maintain performance and focus. The frames use GPU-accelerated transforms for smooth 60fps animations.
+    <br><br>
+    This combination creates maximum visual impact while demonstrating the responsive design expertise through tangible UI previews. The centered content remains the focal point while the floating mockups add depth and proof of work.
   </div>
 
   <!-- All Case Studies Section -->

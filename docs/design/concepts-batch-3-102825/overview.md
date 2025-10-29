@@ -8,34 +8,37 @@
 
 Three hero concepts were developed to feature Virgin America as the primary case study while transitioning to the existing `FeaturedCaseStudies` component. Each concept takes a different strategic approach to visual hierarchy, content presentation, and emotional impact.
 
-**Quick Recommendation**: Concept 1 (Minimal Text) is recommended for immediate implementation due to its balance of elegance, accessibility, and ease of maintenance. Concept 3 (Immersive Full-Bleed) is a strong alternative if you want maximum visual impact and differentiation.
+**Quick Recommendation**: Concept 1 (Minimal Text with Featured Image) is recommended for immediate implementation due to its perfect balance of elegance, visual proof, accessibility, and ease of maintenance. It shows actual work through a single hero image while maintaining a clean, professional aesthetic. Concept 3 (Immersive Full-Bleed with Floating Mockups) is a strong alternative if you want maximum visual impact and differentiation.
 
 ---
 
-## Concept 1: Minimal Text Hero
+## Concept 1: Minimal Text Hero (with Featured Image)
 
 ### Strategic Approach
-Typography-first design that lets content breathe through generous whitespace and refined hierarchy. The featured case study gets maximum prominence through scale and gradient treatment.
+Typography-first design that lets content breathe through generous whitespace and refined hierarchy. The featured case study gets maximum prominence through scale and gradient treatment. Enhanced with a single, elegantly presented hero image that provides visual proof without overwhelming the minimal aesthetic.
 
 ### Visual Characteristics
-- **Hero Layout**: Vertical flow with clear hierarchy (label → title → metric → description → CTA)
-- **Visual Treatment**: Purple gradient on title text, single subtle blur orb
-- **Whitespace**: Generous, ~40% of viewport is empty space
+- **Hero Layout**: Vertical flow with clear hierarchy (label → title → metric → description → CTA → featured image)
+- **Visual Treatment**: Purple gradient on title text, single subtle blur orb, featured screenshot with purple accent glow
+- **Image Presentation**: Single 16:9 hero image, rounded corners, elevated with shadow and subtle purple border glow
+- **Whitespace**: Generous, ~30% of viewport is empty space
 - **Typography Scale**: Very large (80px max title size)
-- **Visual Complexity**: Low - relies on typography and color
+- **Visual Complexity**: Low-Medium - relies on typography, color, and single image
 
 ### Strengths
 ✅ **Clean and professional** - Projects confidence without being flashy
 ✅ **Highly accessible** - Excellent contrast, clear reading order
 ✅ **Mobile-friendly** - Scales beautifully on all screen sizes
-✅ **Fast to implement** - No image dependencies, pure CSS
-✅ **Emphasizes the work** - Content is hero, not decoration
+✅ **Shows actual work** - Single hero image provides visual proof
+✅ **Balanced** - Perfect ratio of text to visual content
+✅ **Fast to implement** - Only requires one screenshot per featured case study
+✅ **Emphasizes the work** - Content remains primary focus, image supports narrative
 ✅ **Matches existing design system** - Natural evolution of homepage style
 
 ### Tradeoffs
-⚠️ **Less visually dramatic** - Won't create a "wow" moment
-⚠️ **Relies heavily on typography quality** - Design lives or dies by type choices
-⚠️ **May feel understated** - Could be perceived as too minimal for some audiences
+⚠️ **Requires one screenshot** - Need quality hero image for featured case study
+⚠️ **Less visually dramatic than Concept 3** - More restrained than full immersive approach
+⚠️ **Relies on typography quality** - Design lives or dies by type choices
 
 ### Best For
 - Portfolios emphasizing professionalism and clarity
@@ -44,7 +47,7 @@ Typography-first design that lets content breathe through generous whitespace an
 - Teams prioritizing accessibility and performance
 
 ### Implementation Complexity
-**Low** - Can be built with existing components and Tailwind utilities. No external dependencies.
+**Low** - Can be built with existing components and Tailwind utilities. Requires one quality screenshot (16:9 aspect ratio, ~1600×900px recommended) per featured case study. Upload to Sanity and reference via heroImage field.
 
 ---
 
@@ -84,58 +87,73 @@ Balanced 50/50 layout dividing screen real estate between compelling copy and st
 
 ---
 
-## Concept 3: Immersive Full-Bleed Hero
+## Concept 3: Immersive Full-Bleed Hero (with Floating Mockups)
 
 ### Strategic Approach
-Bold, dramatic full-viewport experience creating maximum impact through animated gradient mesh, grid patterns, and centered content. Commands attention and creates a premium feel.
+Bold, dramatic full-viewport experience creating maximum impact through animated gradient mesh, grid patterns, floating device mockups, and centered content. Commands attention, creates a premium feel, and showcases actual responsive design work through floating UI frames.
 
 ### Visual Characteristics
-- **Hero Layout**: Full viewport height, centered content
-- **Visual Treatment**: Animated gradient mesh + grid pattern + multiple blur orbs
-- **Whitespace**: Minimal - viewport is filled with atmospheric effects
+- **Hero Layout**: Full viewport height, centered content with floating device mockups
+- **Visual Treatment**: Background screenshot (optional, blurred) + animated gradient mesh + grid pattern + 3 floating mockup frames (desktop, tablet, mobile)
+- **Mockup Animation**: Independent float animations with rotation, purple glow on hover, glass-morphism styling
+- **Whitespace**: Minimal - viewport is filled with atmospheric effects and UI previews
 - **Typography Scale**: Massive (96px max title size)
-- **Visual Complexity**: High - multiple animated layers
+- **Visual Complexity**: High - multiple animated layers + floating mockups with simulated browser chrome
 
 ### Strengths
-✅ **Most visually striking** - Creates strong first impression
+✅ **Most visually striking** - Creates strong first impression with layered animations and mockups
+✅ **Shows actual work** - Floating mockups provide tangible UI previews
+✅ **Demonstrates expertise** - Responsive design clearly communicated through device frames
 ✅ **Memorable** - Stands out from typical portfolio sites
 ✅ **Premium feel** - Suggests high-end work and attention to craft
 ✅ **Good for differentiation** - Helps portfolio stand apart
 ✅ **Centered layout** - Works well on all screen sizes
 ✅ **Multiple CTAs** - Primary and secondary actions for better conversion
+✅ **Performance optimized** - Mockups hidden on mobile, GPU-accelerated animations
 
 ### Tradeoffs
-⚠️ **Potentially overwhelming** - High visual intensity may distract
+⚠️ **Potentially overwhelming** - High visual intensity may distract from content
+⚠️ **Requires screenshot assets** - Need quality screenshots for all three mockup frames
 ⚠️ **Uses more real estate** - Takes full viewport before showing other work
-⚠️ **Performance considerations** - Multiple animations and effects
-⚠️ **Requires careful balance** - Easy to over-design and reduce readability
+⚠️ **More complex to maintain** - Screenshots need updating when work changes
+⚠️ **Higher implementation complexity** - Multiple layers and animations need careful execution
 ⚠️ **May not age well** - Bold styles can feel dated faster than minimal designs
 
 ### Best For
 - Portfolios wanting maximum differentiation
-- Creative/design-forward professionals
-- Projects where first impression is critical
+- Creative/design-forward professionals showcasing UI/UX work
+- Projects where showing actual work is as important as describing it
+- Demonstrating responsive design expertise
+- First impression is critical
 - Audiences who value bold, confident design
 
 ### Implementation Complexity
-**Medium-High** - Requires careful CSS for layered animations, gradient mesh, performance optimization, and ensuring readability across all lighting conditions.
+**High** - Requires:
+- Layered CSS animations with GPU acceleration
+- Sourcing/preparing 3 device mockup screenshots per featured case study
+- Gradient mesh and grid pattern optimization
+- Glass-morphism and backdrop-filter effects
+- Performance optimization (especially for animations)
+- Responsive behavior (hiding mockups on mobile)
+- Careful z-index and overlay management for readability
 
 ---
 
 ## Side-by-Side Comparison
 
-| Dimension | Concept 1: Minimal | Concept 2: Split Visual | Concept 3: Immersive |
+| Dimension | Concept 1: Minimal (w/ Image) | Concept 2: Split Visual | Concept 3: Immersive (w/ Mockups) |
 |-----------|-------------------|------------------------|---------------------|
 | **Visual Impact** | Medium | High | Very High |
+| **Shows Actual Work** | Yes (1 hero image) | Yes (1 visual) | Yes (3 device mockups) |
 | **Accessibility** | Excellent | Good | Good |
-| **Mobile Experience** | Excellent | Good | Good |
-| **Implementation Speed** | Fast (1-2 hours) | Medium (3-4 hours) | Medium (3-5 hours) |
-| **Maintenance** | Very Low | Medium | Low-Medium |
-| **Asset Dependencies** | None | Screenshots needed | None |
-| **Performance** | Excellent | Good | Good (with optimization) |
+| **Mobile Experience** | Excellent | Good | Good (mockups hidden) |
+| **Implementation Speed** | Fast (2-3 hours) | Medium (3-4 hours) | Slow (5-7 hours) |
+| **Maintenance** | Low | Medium | Medium-High |
+| **Asset Dependencies** | 1 screenshot per case study | 1 screenshot per case study | 3 screenshots per case study |
+| **Performance** | Excellent | Good | Good (GPU-optimized) |
 | **Readability** | Excellent | Very Good | Good |
-| **Differentiation** | Low | Medium | High |
-| **Risk of Over-design** | Very Low | Low | Medium |
+| **Differentiation** | Low-Medium | Medium | Very High |
+| **Risk of Over-design** | Very Low | Low | Medium-High |
 
 ---
 
@@ -154,32 +172,41 @@ The key difference is **how prominently** each concept uses these elements, not 
 
 ## Recommendations
 
-### Primary Recommendation: **Concept 1 (Minimal Text Hero)**
+### Primary Recommendation: **Concept 1 (Minimal Text Hero with Featured Image)**
 
 **Why this concept wins for immediate implementation:**
 
-1. **Fastest to implement** - No external dependencies, can be built in 1-2 hours
+1. **Fast to implement** - Can be built in 2-3 hours, only needs one screenshot
 2. **Lowest risk** - Clean, professional design that will age well
 3. **Best accessibility** - Excellent contrast, clear hierarchy, semantic HTML
 4. **Best performance** - Minimal CSS, no animations required
-5. **Easiest to maintain** - Pure content-driven, no image asset management
-6. **Natural evolution** - Feels like a natural extension of the existing homepage
+5. **Shows actual work** - Single hero image provides visual proof without overwhelming
+6. **Easy to maintain** - Content-driven with single image asset per featured case study
+7. **Natural evolution** - Feels like a natural extension of the existing homepage
+8. **Perfect balance** - Combines clean typography with visual proof of work
 
 **This concept is ideal if you want to:**
 - Ship quickly and iterate based on feedback
-- Emphasize content and professionalism
+- Show actual work while emphasizing content and professionalism
 - Maintain a cohesive design language with the existing homepage
 - Minimize ongoing maintenance burden
+- Balance text and visuals without going overboard
 
-### Alternative Recommendation: **Concept 3 (Immersive Full-Bleed Hero)**
+### Alternative Recommendation: **Concept 3 (Immersive Full-Bleed Hero with Floating Mockups)**
 
 **Consider this concept if you want:**
 - Maximum differentiation from other portfolio sites
-- A bold, memorable first impression
-- To signal high-end creative work
+- To showcase actual responsive design work through device previews
+- A bold, memorable first impression with tangible proof of work
+- To signal high-end creative work and technical expertise
 - To create a distinct "landing page" feel vs the homepage
+- Have (or can create) quality screenshots for desktop, tablet, and mobile views
 
-**Caution**: This concept requires more careful execution to avoid feeling overwhelming. Test with representative users to ensure the visual intensity enhances rather than distracts from the content.
+**Caution**: This concept requires:
+- More careful execution to avoid feeling overwhelming
+- 3 screenshots per featured case study (desktop, tablet, mobile views)
+- Performance optimization for smooth animations
+- Test with representative users to ensure the visual intensity enhances rather than distracts from the content
 
 ### When to Choose Concept 2:
 
@@ -196,18 +223,34 @@ Choose the split visual concept if:
 ## Implementation Notes
 
 ### For Concept 1 (Recommended):
-1. Create new route at `/src/app/(public)/case-studies/page.tsx`
-2. Build hero section with Tailwind utilities (no custom components needed)
-3. Import and render `<FeaturedCaseStudies />` below hero
-4. Fetch featured case study from Sanity (query projects where `featured = true`, order by `order`)
-5. Add dynamic content: title, metric, description from Sanity
+1. **Prepare hero screenshot**:
+   - Select best screenshot of featured case study (desktop view recommended)
+   - Dimensions: 1600×900px (16:9 aspect ratio) or 2x for retina (3200×1800px)
+   - Export as optimized PNG or WebP
+   - Upload to Sanity via heroImage field on project
+2. Create new route at `/src/app/(public)/case-studies/page.tsx`
+3. Build hero section with Tailwind utilities (no custom components needed)
+4. Import and render `<FeaturedCaseStudies />` below hero
+5. Fetch featured case study from Sanity (query projects where `featured = true`, order by `order`)
+6. Add dynamic content: title, metric, description, heroImage from Sanity
+7. Render hero image with proper aspect ratio and styling
 
 ### For Concept 3 (Alternative):
 1. Same route structure as Concept 1
-2. Create reusable `<GradientMesh />` component for background
-3. Optimize animations with `will-change` and `transform` for GPU acceleration
-4. Test readability across different monitor brightness levels
-5. Consider reduced motion preferences (`prefers-reduced-motion`)
+2. **Prepare screenshot assets**:
+   - Desktop view: 1440×900px (or 2x for retina)
+   - Tablet view: 768×1024px
+   - Mobile view: 375×667px
+   - Export as optimized PNGs or WebP
+   - Upload to Sanity and link to project
+3. Create reusable components:
+   - `<GradientMesh />` for animated background
+   - `<FloatingMockup />` for device frames with props for screenshot, size, animation
+4. Optimize animations with `will-change` and `transform` for GPU acceleration
+5. Add `prefers-reduced-motion` media query to disable animations for accessibility
+6. Test readability across different monitor brightness levels
+7. Lazy-load mockup screenshots for performance
+8. Consider placeholder images during development (as shown in concept file)
 
 ### For All Concepts:
 - Ensure smooth scroll transition from hero to case study grid

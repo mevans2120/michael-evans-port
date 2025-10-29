@@ -11,8 +11,8 @@ import { google } from '@ai-sdk/google';
  */
 
 const EMBEDDING_MODEL = 'text-embedding-004';
-const CHUNK_SIZE = 500; // characters per chunk
-const CHUNK_OVERLAP = 150; // overlap between chunks (increased to ensure project names appear in multiple chunks)
+const CHUNK_SIZE = 800; // characters per chunk (increased for more context)
+const CHUNK_OVERLAP = 200; // overlap between chunks (increased to ensure better continuity)
 
 /**
  * Text Chunking

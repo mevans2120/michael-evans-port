@@ -53,15 +53,57 @@
 
     /* Hero Section - Minimal & Text-Focused */
     .hero {
-      min-height: 60vh;
-      display: flex;
-      align-items: center;
       padding: 120px 0 80px;
       position: relative;
     }
 
+    .hero .container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 80px;
+    }
+
     .hero-content {
       max-width: 900px;
+    }
+
+    /* Featured image - elegant, restrained */
+    .hero-image-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(192, 132, 252, 0.1);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Subtle accent glow */
+    .hero-image::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(192, 132, 252, 0.1));
+      border-radius: 16px;
+      z-index: -1;
+      opacity: 0.5;
     }
 
     .hero-label {
@@ -264,8 +306,11 @@
 
     @media (max-width: 768px) {
       .hero {
-        min-height: auto;
         padding: 80px 0 60px;
+      }
+
+      .hero .container {
+        gap: 48px;
       }
 
       .hero-title {
@@ -276,6 +321,10 @@
         font-size: 18px;
       }
 
+      .hero-image {
+        border-radius: 12px;
+      }
+
       .case-study-title {
         font-size: 36px;
       }
@@ -284,11 +333,11 @@
 </head>
 <body>
   <div class="annotation container">
-    <strong>Concept 1: Minimal Text Hero</strong><br>
-    Strategy: Elegant, refined approach that lets content breathe. The featured case study gets maximum prominence through typography hierarchy and generous whitespace. Purple gradient treatment on title creates visual interest without overwhelming the message.
+    <strong>Concept 1: Minimal Text Hero (with Featured Image)</strong><br>
+    Strategy: Elegant, refined approach that lets content breathe. The featured case study gets maximum prominence through typography hierarchy and generous whitespace. Purple gradient treatment on title creates visual interest. Now enhanced with a single, tastefully presented hero image that provides visual proof of the work without overwhelming the minimal aesthetic.
     <br><br>
-    <strong>Strengths:</strong> Clean, professional, accessible, mobile-friendly, emphasizes the work itself
-    <br><strong>Tradeoffs:</strong> Less visually dramatic, relies heavily on typography quality
+    <strong>Strengths:</strong> Clean, professional, accessible, mobile-friendly, emphasizes the work itself, shows actual work through featured image, balanced text-to-visual ratio
+    <br><strong>Tradeoffs:</strong> Requires one quality screenshot per featured case study, slightly more visual weight than pure text
   </div>
 
   <!-- Hero Section -->
@@ -309,11 +358,21 @@
           </svg>
         </a>
       </div>
+
+      <!-- Featured Image -->
+      <div class="hero-image-container">
+        <div class="hero-image">
+          Hero Screenshot<br>
+          <small>1600px × 900px (16:9)</small><br><br>
+          [Virgin America Booking Flow]<br>
+          Desktop or key interaction screenshot
+        </div>
+      </div>
     </div>
   </section>
 
   <div class="annotation container">
-    The hero uses a clear typographic hierarchy: small label → large gradient title → prominent metric → detailed description → CTA. The purple gradient on the title creates a focal point without needing imagery. Single blur orb adds subtle atmospheric depth.
+    The hero uses a clear typographic hierarchy: small label → large gradient title → prominent metric → detailed description → CTA → featured image. The purple gradient on the title creates a focal point, and the single hero image below provides visual proof without overwhelming the clean layout. The image has a subtle purple glow matching the design system. Single blur orb adds subtle atmospheric depth to the upper section.
   </div>
 
   <!-- Section Separator -->

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Variant A: Subtle Background Image</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #050510 100%);
+      color: #f3f4f6;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Annotation badge */
+    .annotation {
+      position: relative;
+      background: rgba(168, 85, 247, 0.1);
+      border-left: 3px solid #a855f7;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #e9d5ff;
+      border-radius: 4px;
+    }
+
+    .annotation::before {
+      content: "💡 Design Decision";
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #c084fc;
+    }
+
+    /* Hero Section with Background Image */
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background image layer - visible but still decorative */
+    .hero-bg-image {
+      position: absolute;
+      inset: 0;
+      background:
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23111827" width="1200" height="800"/><text x="50%25" y="50%25" text-anchor="middle" fill="%234b5563" font-size="20" font-family="sans-serif">Virgin America Screenshot</text></svg>')
+        center/cover no-repeat;
+      opacity: 0.25;
+      filter: blur(4px) grayscale(20%);
+    }
+
+    /* Gradient overlay for readability */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(5, 5, 16, 0.75) 0%,
+        rgba(15, 23, 42, 0.80) 50%,
+        rgba(5, 5, 16, 0.75) 100%
+      );
+    }
+
+    /* Subtle blur orb */
+    .blur-orb {
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(168, 85, 247, 0.15);
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c084fc;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 7vw, 80px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      background: linear-gradient(135deg, #c084fc 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-metric {
+      font-size: 24px;
+      color: #c084fc;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-metric::before {
+      content: '';
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #c084fc, transparent);
+    }
+
+    .hero-description {
+      font-size: 20px;
+      line-height: 1.7;
+      color: #e5e7eb;
+      max-width: 700px;
+      margin-bottom: 48px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #a855f7, #c084fc);
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+    }
+
+    .hero-cta svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 300ms;
+    }
+
+    .hero-cta:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Section separator */
+    .section-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+      margin: 80px 0;
+    }
+
+    /* Case studies section */
+    .case-studies-header {
+      margin-bottom: 60px;
+    }
+
+    .case-studies-title {
+      font-size: 32px;
+      font-weight: 300;
+      color: #f3f4f6;
+      margin-bottom: 8px;
+    }
+
+    .case-studies-subtitle {
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: auto;
+        padding: 80px 0 60px;
+      }
+
+      .hero-title {
+        font-size: 48px;
+      }
+
+      .hero-description {
+        font-size: 18px;
+      }
+
+      .hero-bg-image {
+        opacity: 0.18;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="annotation container">
+    <strong>Minimal Variant A: Visible Background Image</strong><br>
+    Strategy: Integrates imagery as a visible background element that adds context and atmosphere while remaining secondary to content. The hero screenshot sits behind the content at 25% opacity with subtle blur and slight grayscale, creating depth and showing the work without competing with typography. The gradient overlay ensures perfect text readability.
+    <br><br>
+    <strong>Strengths:</strong> Shows actual work as atmospheric backdrop, maintains minimal aesthetic, image visible but non-competing, content remains perfectly readable, no layout complexity, works with any image
+    <br><strong>Best for:</strong> When you want to show the work subtly while maintaining focus on copy, creating atmosphere with recognizable imagery
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg-image"></div>
+    <div class="hero-overlay"></div>
+    <div class="blur-orb"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label">Featured Case Study</div>
+        <h1 class="hero-title">Virgin America - First Responsive Airline Website</h1>
+        <div class="hero-metric">15-20% Conversion Improvement</div>
+        <p class="hero-description">
+          Led product strategy for Virgin America's groundbreaking responsive website redesign. By rethinking the booking flow around individual decisions rather than minimizing clicks, we created the first responsive airline website that improved conversion by 15-20% and won multiple industry awards including Webbies, UX Awards, and Cannes Lions.
+        </p>
+        <a href="#" class="hero-cta">
+          View Case Study
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="annotation container">
+    The background image is set to 25% opacity with 4px blur and 20% grayscale, making it clearly visible as atmospheric decoration while remaining secondary to the content. The multi-directional gradient overlay (135deg, 75-80% opacity) ensures text remains crisp and readable across all screen sizes. The image provides context and shows the work without competing for primary attention.
+  </div>
+
+  <!-- Section Separator -->
+  <div class="section-separator container"></div>
+
+  <!-- Case Studies Section -->
+  <section class="container" style="padding-bottom: 120px;">
+    <div class="case-studies-header">
+      <h2 class="case-studies-title">All Case Studies</h2>
+      <p class="case-studies-subtitle">Product launches and transformational projects</p>
+    </div>
+
+    <div class="annotation">
+      Below the hero, we transition to the existing FeaturedCaseStudies component with consistent design language.
+    </div>
+  </section>
+</body>
+</html>
