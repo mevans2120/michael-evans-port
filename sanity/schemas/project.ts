@@ -64,6 +64,12 @@ export default defineType({
           fields: [
             { name: 'label', type: 'string', title: 'Label' },
             { name: 'value', type: 'string', title: 'Value' },
+            {
+              name: 'description',
+              type: 'string',
+              title: 'Description',
+              description: 'Optional additional context for this metric'
+            },
           ],
         },
       ],
@@ -261,6 +267,26 @@ export default defineType({
                       }
                     },
                   },
+                },
+              ],
+            },
+            {
+              name: 'annotation',
+              title: 'Design Annotation',
+              description: 'Optional annotation or design decision callout for this section',
+              type: 'object',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'string',
+                  title: 'Annotation Title',
+                  description: 'e.g., "Design Decision", "Technical Note"',
+                },
+                {
+                  name: 'content',
+                  type: 'text',
+                  title: 'Annotation Content',
+                  rows: 3,
                 },
               ],
             },

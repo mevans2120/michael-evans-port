@@ -48,6 +48,12 @@ async function loadContentFiles(baseDir: string): Promise<ContentFile[]> {
   const files = fs.readdirSync(transcriptsDir);
 
   for (const file of files) {
+    // Skip raw transcript files - we have cleaned versions
+    if (file.includes('_Raw')) {
+      console.log(`  ⏭️  Skipping raw transcript: ${file}`);
+      continue;
+    }
+
     if (file.endsWith('.md') || file.endsWith('.txt')) {
       const filePath = path.join(transcriptsDir, file);
 
@@ -96,7 +102,7 @@ async function ingestContent() {
 
   try {
     // Configuration
-    const baseDir = path.join(process.cwd(), 'docs/research/research-batch-1-102525/source-materials');
+    const baseDir = path.join(process.cwd(), 'public/chatbot-content');
     const clearExisting = process.argv.includes('--clear');
 
     // Step 1: Clear existing documents if requested
