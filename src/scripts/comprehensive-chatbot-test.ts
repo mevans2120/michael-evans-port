@@ -38,7 +38,7 @@ interface ConversationScenario {
 }
 
 // Color codes for terminal output
-const colors = {
+const terminalColors = {
   reset: '\x1b[0m',
   bright: '\x1b[1m',
   green: '\x1b[32m',
@@ -307,7 +307,7 @@ function evaluateRelevance(followUps: any[], response: string): 'high' | 'medium
 }
 
 async function testSingleQuestion(question: TestQuestion, sessionId: string): Promise<TestResult> {
-  console.log(`  Testing ${question.id}: ${colors.cyan}${question.question}${colors.reset}`);
+  console.log(`  Testing ${question.id}: ${terminalColors.cyan}${question.question}${terminalColors.reset}`);
 
   const response = await sendChatQuery(question.question, sessionId);
 
@@ -353,12 +353,12 @@ async function testConversationScenario(
   scenario: ConversationScenario,
   sessionId: string
 ): Promise<TestResult[]> {
-  console.log(`\n${colors.magenta}Testing Scenario ${scenario.id}: ${scenario.name}${colors.reset}`);
+  console.log(`\n${terminalColors.magenta}Testing Scenario ${scenario.id}: ${scenario.name}${terminalColors.reset}`);
 
   const results: TestResult[] = [];
 
   // Send initial question
-  console.log(`  Initial: ${colors.cyan}${scenario.initial}${colors.reset}`);
+  console.log(`  Initial: ${terminalColors.cyan}${scenario.initial}${terminalColors.reset}`);
   const initialResponse = await sendChatQuery(scenario.initial, sessionId);
 
   if (initialResponse) {
@@ -381,7 +381,7 @@ async function testConversationScenario(
   // Send follow-up questions
   for (let i = 0; i < scenario.followUps.length; i++) {
     const followUp = scenario.followUps[i];
-    console.log(`  Follow-up ${i + 1}: ${colors.cyan}${followUp}${colors.reset}`);
+    console.log(`  Follow-up ${i + 1}: ${terminalColors.cyan}${followUp}${terminalColors.reset}`);
 
     await new Promise(resolve => setTimeout(resolve, 2000)); // Delay between requests
 
@@ -409,7 +409,7 @@ async function testConversationScenario(
 }
 
 async function runComprehensiveTest() {
-  console.log(`${colors.bright}${colors.blue}🚀 Starting Comprehensive Chatbot Test${colors.reset}`);
+  console.log(`${terminalColors.bright}${terminalColors.blue}🚀 Starting Comprehensive Chatbot Test${terminalColors.reset}`);
   console.log(`Testing ${testQuestions.length} questions + ${conversationScenarios.length} conversation scenarios`);
   console.log('=' .repeat(70));
 
@@ -417,13 +417,13 @@ async function runComprehensiveTest() {
   const sessionId = crypto.randomUUID();
 
   // Phase 1: Test individual questions
-  console.log(`\n${colors.bright}Phase 1: Testing Individual Questions${colors.reset}`);
+  console.log(`\n${terminalColors.bright}Phase 1: Testing Individual Questions${terminalColors.reset}`);
   console.log('-' .repeat(50));
 
   const categories = [...new Set(testQuestions.map(q => q.category))];
 
   for (const category of categories) {
-    console.log(`\n${colors.yellow}Category: ${category}${colors.reset}`);
+    console.log(`\n${terminalColors.yellow}Category: ${category}${terminalColors.reset}`);
     const categoryQuestions = testQuestions.filter(q => q.category === category);
 
     for (const question of categoryQuestions) {
@@ -442,7 +442,7 @@ async function runComprehensiveTest() {
   }
 
   // Phase 2: Test conversation scenarios
-  console.log(`\n${colors.bright}Phase 2: Testing Conversation Scenarios${colors.reset}`);
+  console.log(`\n${terminalColors.bright}Phase 2: Testing Conversation Scenarios${terminalColors.reset}`);
   console.log('-' .repeat(50));
 
   for (const scenario of conversationScenarios) {
@@ -453,7 +453,7 @@ async function runComprehensiveTest() {
 
   // Generate comprehensive report
   console.log('\n' + '=' .repeat(70));
-  console.log(`${colors.bright}${colors.blue}📊 Test Results Summary${colors.reset}\n`);
+  console.log(`${terminalColors.bright}${terminalColors.blue}📊 Test Results Summary${terminalColors.reset}\n`);
 
   // Calculate metrics
   const totalQuestions = allResults.length;
@@ -477,30 +477,30 @@ async function runComprehensiveTest() {
   const moreParagraphs = allResults.filter(r => r.responseLength > 2).length;
 
   // Display summary
-  console.log(`${colors.bright}Accuracy:${colors.reset}`);
-  console.log(`  Accurate:  ${colors.green}${accurateResponses}/${totalQuestions} (${((accurateResponses/totalQuestions)*100).toFixed(1)}%)${colors.reset}`);
-  console.log(`  Partial:   ${colors.yellow}${partialResponses}/${totalQuestions} (${((partialResponses/totalQuestions)*100).toFixed(1)}%)${colors.reset}`);
-  console.log(`  Incorrect: ${colors.red}${incorrectResponses}/${totalQuestions} (${((incorrectResponses/totalQuestions)*100).toFixed(1)}%)${colors.reset}`);
+  console.log(`${terminalColors.bright}Accuracy:${terminalColors.reset}`);
+  console.log(`  Accurate:  ${terminalColors.green}${accurateResponses}/${totalQuestions} (${((accurateResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
+  console.log(`  Partial:   ${terminalColors.yellow}${partialResponses}/${totalQuestions} (${((partialResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
+  console.log(`  Incorrect: ${terminalColors.red}${incorrectResponses}/${totalQuestions} (${((incorrectResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
   console.log(`  Unknown:   ${unknownResponses}/${totalQuestions} (${((unknownResponses/totalQuestions)*100).toFixed(1)}%)`);
 
-  console.log(`\n${colors.bright}Follow-up Relevance:${colors.reset}`);
-  console.log(`  High:   ${colors.green}${highRelevance}/${totalQuestions} (${((highRelevance/totalQuestions)*100).toFixed(1)}%)${colors.reset}`);
-  console.log(`  Medium: ${colors.yellow}${mediumRelevance}/${totalQuestions} (${((mediumRelevance/totalQuestions)*100).toFixed(1)}%)${colors.reset}`);
-  console.log(`  Low:    ${colors.red}${lowRelevance}/${totalQuestions} (${((lowRelevance/totalQuestions)*100).toFixed(1)}%)${colors.reset}`);
+  console.log(`\n${terminalColors.bright}Follow-up Relevance:${terminalColors.reset}`);
+  console.log(`  High:   ${terminalColors.green}${highRelevance}/${totalQuestions} (${((highRelevance/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
+  console.log(`  Medium: ${terminalColors.yellow}${mediumRelevance}/${totalQuestions} (${((mediumRelevance/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
+  console.log(`  Low:    ${terminalColors.red}${lowRelevance}/${totalQuestions} (${((lowRelevance/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
 
-  console.log(`\n${colors.bright}Response Characteristics:${colors.reset}`);
+  console.log(`\n${terminalColors.bright}Response Characteristics:${terminalColors.reset}`);
   console.log(`  With Follow-ups: ${withFollowUps}/${totalQuestions} (${((withFollowUps/totalQuestions)*100).toFixed(1)}%)`);
   console.log(`  With Links:      ${withLinks}/${totalQuestions} (${((withLinks/totalQuestions)*100).toFixed(1)}%)`);
   console.log(`  Avg Response:    ${avgResponseTime.toFixed(0)}ms`);
   console.log(`  Avg Paragraphs:  ${avgParagraphs.toFixed(1)}`);
 
-  console.log(`\n${colors.bright}Paragraph Distribution:${colors.reset}`);
+  console.log(`\n${terminalColors.bright}Paragraph Distribution:${terminalColors.reset}`);
   console.log(`  1 paragraph:  ${oneParagraph}/${totalQuestions} (${((oneParagraph/totalQuestions)*100).toFixed(1)}%)`);
   console.log(`  2 paragraphs: ${twoParagraphs}/${totalQuestions} (${((twoParagraphs/totalQuestions)*100).toFixed(1)}%)`);
   console.log(`  3+ paragraphs: ${moreParagraphs}/${totalQuestions} (${((moreParagraphs/totalQuestions)*100).toFixed(1)}%)`);
 
   // Category breakdown
-  console.log(`\n${colors.bright}Performance by Category:${colors.reset}`);
+  console.log(`\n${terminalColors.bright}Performance by Category:${terminalColors.reset}`);
   for (const category of [...categories, 'Scenario', 'Follow-up']) {
     const categoryResults = allResults.filter(r => r.category === category);
     if (categoryResults.length === 0) continue;
@@ -547,17 +547,17 @@ async function runComprehensiveTest() {
   const reportPath = '/Users/michaelevans/michael-evans-port-main/docs/chatbot-comprehensive-results.json';
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 
-  console.log(`\n${colors.bright}${colors.green}✅ Comprehensive test complete!${colors.reset}`);
+  console.log(`\n${terminalColors.bright}${terminalColors.green}✅ Comprehensive test complete!${terminalColors.reset}`);
   console.log(`Detailed results saved to: ${reportPath}`);
 
   // Final verdict
   const successRate = (accurateResponses + partialResponses) / totalQuestions;
-  const verdict = successRate >= 0.9 ? `${colors.green}EXCELLENT` :
-                  successRate >= 0.8 ? `${colors.green}GOOD` :
-                  successRate >= 0.7 ? `${colors.yellow}FAIR` :
-                  `${colors.red}NEEDS IMPROVEMENT`;
+  const verdict = successRate >= 0.9 ? `${terminalColors.green}EXCELLENT` :
+                  successRate >= 0.8 ? `${terminalColors.green}GOOD` :
+                  successRate >= 0.7 ? `${terminalColors.yellow}FAIR` :
+                  `${terminalColors.red}NEEDS IMPROVEMENT`;
 
-  console.log(`\n${colors.bright}Final Verdict: ${verdict}${colors.reset} (${(successRate * 100).toFixed(1)}% success rate)`);
+  console.log(`\n${terminalColors.bright}Final Verdict: ${verdict}${terminalColors.reset} (${(successRate * 100).toFixed(1)}% success rate)`);
 }
 
 // Run the comprehensive test

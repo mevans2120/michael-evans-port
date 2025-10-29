@@ -1,6 +1,6 @@
 {
-  "timestamp": "2025-10-29T20:19:31.719Z",
-  "summary": {
+  "timestamp": "2025-10-29T20:20:04.514Z",
+  "originalResults": {
     "totalQuestions": 55,
     "accuracy": {
       "accurate": 3,
@@ -25,7 +25,15 @@
       "moreThanTwo": 2
     }
   },
-  "results": [
+  "reevaluatedSummary": {
+    "accurate": 7,
+    "partial": 5,
+    "incorrect": 2,
+    "unknown": 26,
+    "successRate": 0.3,
+    "improvedCount": 11
+  },
+  "details": [
     {
       "id": "Q1",
       "question": "Where did Michael Evans grow up?",
@@ -47,7 +55,11 @@
       "responseTime": 3854,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "accurate",
+      "newAccuracy": "accurate",
+      "score": 1,
+      "evaluationNotes": "✓ Contains required term(s): Eugene, Oregon\n✓ Contains bonus terms: purple house, hippies"
     },
     {
       "id": "Q2",
@@ -70,7 +82,11 @@
       "responseTime": 3875,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "accurate",
+      "newAccuracy": "accurate",
+      "score": 1,
+      "evaluationNotes": "✓ Contains required term(s): University of Colorado, Boulder\n✓ Contains bonus terms: English, political science"
     },
     {
       "id": "Q3",
@@ -94,7 +110,11 @@
       "responseTime": 6605,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q4",
@@ -117,7 +137,11 @@
       "responseTime": 4917,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q5",
@@ -140,7 +164,11 @@
       "responseTime": 4558,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "accurate",
+      "score": 1,
+      "evaluationNotes": "✓ Contains required term(s): Mac Plus, Basic, Pascal, middle school"
     },
     {
       "id": "Q6",
@@ -163,7 +191,11 @@
       "responseTime": 6755,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q7",
@@ -186,7 +218,11 @@
       "responseTime": 5525,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "accurate",
+      "score": 0.8,
+      "evaluationNotes": "✓ Contains required term(s): Symantec\n✓ Contains bonus terms: customer data analyst, data entry"
     },
     {
       "id": "Q8",
@@ -210,7 +246,11 @@
       "responseTime": 10341,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q9",
@@ -233,7 +273,11 @@
       "responseTime": 5125,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "partial",
+      "score": 0.125,
+      "evaluationNotes": "⚠ Missing some required terms. Found: Symantec"
     },
     {
       "id": "Q10",
@@ -257,7 +301,11 @@
       "responseTime": 4901,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q11",
@@ -281,7 +329,11 @@
       "responseTime": 5109,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "partial",
+      "score": 0.6,
+      "evaluationNotes": "✓ Contains required term(s): airline, website, responsive\n✓ Contains bonus terms: booking"
     },
     {
       "id": "Q12",
@@ -305,7 +357,11 @@
       "responseTime": 7104,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "partial",
+      "newAccuracy": "partial",
+      "score": 0.5714285714285714,
+      "evaluationNotes": "✓ Contains required term(s): Casa Bonita\n✓ Contains bonus terms: Denver, cliff diving"
     },
     {
       "id": "Q13",
@@ -329,7 +385,11 @@
       "responseTime": 6368,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "accurate",
+      "score": 1,
+      "evaluationNotes": "✓ Contains required term(s): Target"
     },
     {
       "id": "Q14",
@@ -352,7 +412,11 @@
       "responseTime": 6916,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "incorrect",
+      "score": 0.16666666666666666,
+      "evaluationNotes": "✓ Contains required term(s): Android, launcher, home screen\n✓ Contains bonus terms: distraction\n✗ Contains incorrect information: AI"
     },
     {
       "id": "Q15",
@@ -375,7 +439,11 @@
       "responseTime": 5572,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q16",
@@ -399,7 +467,11 @@
       "responseTime": 5806,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q17",
@@ -423,7 +495,11 @@
       "responseTime": 3924,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "accurate",
+      "score": 0.8571428571428571,
+      "evaluationNotes": "✓ Contains required term(s): HBO\n✓ Contains bonus terms: HBO Go, streaming, Astral, Canadian"
     },
     {
       "id": "Q18",
@@ -447,7 +523,11 @@
       "responseTime": 4620,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "accurate",
+      "score": 1,
+      "evaluationNotes": "✓ Contains required term(s): Lyft"
     },
     {
       "id": "Q19",
@@ -470,7 +550,11 @@
       "responseTime": 6120,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q20",
@@ -494,7 +578,11 @@
       "responseTime": 8157,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q21",
@@ -518,7 +606,11 @@
       "responseTime": 6169,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q22",
@@ -542,7 +634,11 @@
       "responseTime": 5327,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q23",
@@ -566,7 +662,11 @@
       "responseTime": 5911,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q24",
@@ -590,7 +690,11 @@
       "responseTime": 5663,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "partial",
+      "score": 0.6,
+      "evaluationNotes": "✓ Contains required term(s): PostPal, AI\n✓ Contains bonus terms: medical"
     },
     {
       "id": "Q25",
@@ -614,7 +718,11 @@
       "responseTime": 5911,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q26",
@@ -637,7 +745,11 @@
       "responseTime": 5197,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q27",
@@ -661,7 +773,11 @@
       "responseTime": 6923,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q28",
@@ -685,7 +801,11 @@
       "responseTime": 5419,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q29",
@@ -708,7 +828,11 @@
       "responseTime": 4769,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q30",
@@ -732,7 +856,11 @@
       "responseTime": 6445,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q31",
@@ -756,7 +884,11 @@
       "responseTime": 6384,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q32",
@@ -779,7 +911,11 @@
       "responseTime": 4840,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q33",
@@ -802,7 +938,11 @@
       "responseTime": 6089,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q34",
@@ -826,7 +966,11 @@
       "responseTime": 6481,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q35",
@@ -850,7 +994,11 @@
       "responseTime": 5629,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "partial",
+      "score": 0.2857142857142857,
+      "evaluationNotes": "✓ Contains required term(s): Casa Bonita"
     },
     {
       "id": "Q36",
@@ -874,7 +1022,11 @@
       "responseTime": 7736,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0,
+      "evaluationNotes": "✗ Missing required terms: airline OR website OR responsive"
     },
     {
       "id": "Q37",
@@ -898,7 +1050,11 @@
       "responseTime": 6628,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "incorrect",
+      "score": 0,
+      "evaluationNotes": "✓ Contains required term(s): Android, launcher\n✗ Contains incorrect information: AI"
     },
     {
       "id": "Q38",
@@ -921,7 +1077,11 @@
       "responseTime": 6333,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0,
+      "evaluationNotes": "✗ Missing required terms: PostPal OR AI OR chatbot"
     },
     {
       "id": "Q39",
@@ -945,7 +1105,11 @@
       "responseTime": 6861,
       "hasFollowUps": true,
       "followUpLinkCount": 1,
-      "notes": ""
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     },
     {
       "id": "Q40",
@@ -968,358 +1132,11 @@
       "responseTime": 4820,
       "hasFollowUps": true,
       "followUpLinkCount": 0,
-      "notes": ""
-    },
-    {
-      "id": "SA-0",
-      "question": "Tell me about the restaurant project",
-      "category": "Scenario",
-      "response": "The Casa Bonita project was a complete digital transformation for the legendary Denver restaurant co-owned by Trey Parker and Matt Stone. Michael built a sophisticated reservation and wait management ...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What were the key technical decisions Michael made for Casa Bonita?",
-          "url": "/case-studies/casa-bonita",
-          "hasLink": true
-        },
-        {
-          "text": "How did Michael handle the transition from OpenTable to SevenRooms?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "accurate",
-      "relevance": "high",
-      "responseTime": 7539,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario A initial"
-    },
-    {
-      "id": "SA-1",
-      "question": "What specific technology stack was used?",
-      "category": "Follow-up",
-      "response": "That's a pretty broad question since Michael's worked across many different projects with varying tech stacks. Could you let me know which project you're curious about? He's used everything from Angul...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What technologies did Michael use on Virgin America?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
-        },
-        {
-          "text": "Tell me about the Casa Bonita tech stack",
-          "url": "/case-studies/casa-bonita",
-          "hasLink": true
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 4600,
-      "hasFollowUps": true,
-      "followUpLinkCount": 2,
-      "notes": "Scenario A follow-up 1"
-    },
-    {
-      "id": "SA-2",
-      "question": "How many people could the membership system handle?",
-      "category": "Follow-up",
-      "response": "I don't have the specific capacity numbers for the Casa Bonita Founders Club membership system. What I can tell you is that the system was built to handle massive scale from day one—when Casa Bonita f...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What technical challenges did Michael face building Casa Bonita's systems?",
-          "url": "/case-studies/casa-bonita",
-          "hasLink": true
-        },
-        {
-          "text": "What was the overall impact of the Casa Bonita project on the restaurant's business?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 4811,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario A follow-up 2"
-    },
-    {
-      "id": "SB-0",
-      "question": "What AI work has Michael done?",
-      "category": "Scenario",
-      "response": "Michael's AI work spans research, tool-building, and production applications. He conducted extensive research in Spring 2024 on AI-powered development, interviewing 13 professional colleagues and expe...",
-      "responseLength": 2,
-      "followUps": [
-        {
-          "text": "What did Michael learn from his AI research at mevans212.com?",
-          "url": "https://mevans212.com",
-          "hasLink": true
-        },
-        {
-          "text": "What's the \"oh shit\" moment that sparked Michael's deep dive into AI?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 7022,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario B initial"
-    },
-    {
-      "id": "SB-1",
-      "question": "Can you show me examples of these AI projects?",
-      "category": "Follow-up",
-      "response": "Michael's built quite a range of AI projects across different domains. On the marketing website side, he created several sites using React + Sanity CMS for companies like DOA (Department of Art, a Por...",
-      "responseLength": 2,
-      "followUps": [
-        {
-          "text": "Tell me more about PostPal and how it works",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
-        },
-        {
-          "text": "What's the AI Research Agent project and how does it work?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 6840,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario B follow-up 1"
-    },
-    {
-      "id": "SB-2",
-      "question": "Which AI project was most innovative?",
-      "category": "Follow-up",
-      "response": "The AI Research Agent stands out as Michael's most innovative project—it's an autonomous multi-query research system that breaks down complex research questions into sub-questions, scrapes websites in...",
-      "responseLength": 2,
-      "followUps": [
-        {
-          "text": "How did Michael build the AI Research Agent's web scraping system?",
-          "url": "/ai-showcase",
-          "hasLink": true
-        },
-        {
-          "text": "What technical challenges did Michael face building PostPal with React Native?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 6287,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario B follow-up 2"
-    },
-    {
-      "id": "SC-0",
-      "question": "Explain Michael's career journey",
-      "category": "Scenario",
-      "response": "Michael's career journey is a fascinating arc from English major to AI-powered product builder. After graduating with an English degree in 2001 right as the dot-com crash hit, he landed at Symantec do...",
-      "responseLength": 2,
-      "followUps": [
-        {
-          "text": "What was the most technically challenging project Michael worked on?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
-        },
-        {
-          "text": "What draws Michael to the \"army of one\" approach with AI?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 8752,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario C initial"
-    },
-    {
-      "id": "SC-1",
-      "question": "What motivated the transition from Huge to Work & Co?",
-      "category": "Follow-up",
-      "response": "Michael transitioned to Work & Co early in the agency's founding because of an opportunity that aligned perfectly with both his career and personal goals. When the Work & Co founders—who knew him from...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What were the major technical challenges on the Virgin America project?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
-        },
-        {
-          "text": "What was it like being one of the first employees at Work & Co?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 5647,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario C follow-up 1"
-    },
-    {
-      "id": "SC-2",
-      "question": "Why did Michael start his own company?",
-      "category": "Follow-up",
-      "response": "Michael started Before Labs to pursue a problem he was deeply experiencing himself—his phone was constantly distracting him with notifications and alerts, pulling his attention away from what he actua...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What happened to the Before Launcher after launch?",
-          "url": "/case-studies/before-launcher",
-          "hasLink": true
-        },
-        {
-          "text": "What did Michael learn from the Before Labs experience that shaped his approach to future projects?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 5466,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario C follow-up 2"
-    },
-    {
-      "id": "SD-0",
-      "question": "What was Michael's biggest challenge?",
-      "category": "Scenario",
-      "response": "The Virgin America website was Michael's most technically challenging project. The core challenge was architecting the front-end and API interaction intelligently—they built a custom framework before ...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What technical decisions did Michael make on the Virgin America project?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
-        },
-        {
-          "text": "How has Michael's approach to technical architecture evolved since then?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 5035,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario D initial"
-    },
-    {
-      "id": "SD-1",
-      "question": "How long did it take to solve?",
-      "category": "Follow-up",
-      "response": "I'd be happy to help, but I need a bit more context! You're asking about how long it took to solve something, but I'm not sure which project or challenge you're referring to. \n\nAre you asking about:\n-...",
-      "responseLength": 3,
-      "followUps": [],
-      "accuracy": "unknown",
-      "relevance": "low",
-      "responseTime": 4234,
-      "hasFollowUps": false,
-      "followUpLinkCount": 0,
-      "notes": "Scenario D follow-up 1"
-    },
-    {
-      "id": "SD-2",
-      "question": "What was the impact of the solution?",
-      "category": "Follow-up",
-      "response": "I'd be happy to help, but I need a bit more context! You're asking about \"the solution,\" but we haven't discussed a specific project yet. Michael has worked on several solutions across different proje...",
-      "responseLength": 4,
-      "followUps": [
-        {
-          "text": "What challenges did Michael face on Virgin America?",
-          "url": "/case-studies/virgin-america",
-          "hasLink": true
-        },
-        {
-          "text": "Tell me about the Casa Bonita restaurant project",
-          "url": "/case-studies/casa-bonita",
-          "hasLink": true
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 6621,
-      "hasFollowUps": true,
-      "followUpLinkCount": 2,
-      "notes": "Scenario D follow-up 2"
-    },
-    {
-      "id": "SE-0",
-      "question": "What is Michael working on now?",
-      "category": "Scenario",
-      "response": "Michael is currently consulting while maintaining an active interest in PostPal, an AI-powered startup building mobile apps for people recovering from medical procedures. PostPal replaces the standard...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What AI projects has Michael built recently?",
-          "hasLink": false
-        },
-        {
-          "text": "What type of work is Michael looking for?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 5402,
-      "hasFollowUps": true,
-      "followUpLinkCount": 0,
-      "notes": "Scenario E initial"
-    },
-    {
-      "id": "SE-1",
-      "question": "How can I see Michael's recent projects?",
-      "category": "Follow-up",
-      "response": "You can explore Michael's recent work through a couple of great resources. His **AI projects showcase** displays the applications he's built recently with AI, including PostPal (an AI-powered post-pro...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "View Michael's AI projects",
-          "url": "/ai-showcase",
-          "hasLink": true
-        },
-        {
-          "text": "What specific type of project are you most interested in learning about?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 5195,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario E follow-up 1"
-    },
-    {
-      "id": "SE-2",
-      "question": "Where can I learn more about his AI work?",
-      "category": "Follow-up",
-      "response": "You can explore Michael's AI work through the [AI Showcase](/ai-showcase), which showcases his various AI projects and innovations. He's been actively building with AI across multiple domains—from the...",
-      "responseLength": 1,
-      "followUps": [
-        {
-          "text": "What specific AI projects has Michael built?",
-          "url": "/ai-showcase",
-          "hasLink": true
-        },
-        {
-          "text": "What technologies does Michael use for AI development?",
-          "hasLink": false
-        }
-      ],
-      "accuracy": "unknown",
-      "relevance": "high",
-      "responseTime": 4861,
-      "hasFollowUps": true,
-      "followUpLinkCount": 1,
-      "notes": "Scenario E follow-up 2"
+      "notes": "",
+      "oldAccuracy": "unknown",
+      "newAccuracy": "unknown",
+      "score": 0.5,
+      "evaluationNotes": "No specific criteria, but answer seems substantive"
     }
   ]
 }
