@@ -199,39 +199,6 @@ After wrapping up the Casa Bonita digital product launch in early 2024, Michael 
 
 ---
 
-## "Vibe Coding" Workflow
-
-**IMPORTANT NOTE:** Michael's AI coding process has evolved significantly and improved greatly since this research was conducted in Spring 2024. The "vibe coding" approach described here represents his early exploration and should be considered outdated.
-
-### Original Workflow (Spring 2024):
-
-**Tools Used:**
-- **Cursor IDE** (often with Claude as the model)
-- **Claude App** (for starting projects and getting unstuck)
-- **ChatGPT App** (for grammar, clarity, icon creation)
-- **Replit** (for quick starts)
-
-**Process:**
-1. **Elevator Pitch** - Write product's elevator pitch first
-2. **High-Level Requirements** - Top-level requirements and AI interview questions
-3. **Technical Architecture** - Work with AI on code structure
-4. **Iterative Development** - Build features incrementally
-
-**Observations from Building (Spring 2024):**
-- Fun and magical watching Claude code incredibly fast
-- Taking a product past 80% with just AI gets tough
-- AI doesn't retain context like humans do
-- Hitting "complexity walls" where optimization gets harder
-- Too much back-and-forth on final design optimizations
-
-### Projects Built:
-- **This Presentation App** (mevans212.com)
-- **Karuna's Website** (karuna-chi.vercel.app) - Shaman/spiritual healing site
-- **Dungeon Tracker** - D&D campaign management (mentioned in initial "oh shit" moment)
-- Various other single-use applications
-
----
-
 ## Research Implications & Conclusions
 
 ### What Michael Learned:
@@ -246,9 +213,6 @@ After wrapping up the Casa Bonita digital product launch in early 2024, Michael 
 - If AI advances at current pace, tools will arrive faster than society can adapt
 - They'll be adopted quickly enough that we'll feel repercussions
 - Training new models remains extremely costly (though usage must become efficient)
-
-**Reality Check on "Vibe Coding":**
-- **"I don't think a team of vibe coders will be developing new production apps in at least the next year or two. Engineering expertise in the front-end, back-end and dev ops is still needed to ensure quality across the stack. But AI will be a fast growing contributor to the stack."**
 
 ### AI Future Beliefs:
 
@@ -303,17 +267,9 @@ When answering questions about Michael's AI research:
 2. **Involved 13 professional interviews** + hands-on experimentation
 3. **"Oh shit" moment** was building D&D app in an hour with his son
 4. **Key finding:** AI is transformational but comes with workforce concerns
-5. **"Vibe coding" process has evolved significantly** since this research - his current approach is much more refined
-6. **Not a "vibe coder" zealot** - He explicitly stated production apps still need engineering expertise
-7. **Balanced perspective** - Excited about potential, concerned about societal impact, especially on children's learning
-8. **Timeline expectations** - Believed specialized AI (1-2 years) would come before general cross-functional AI
-9. **Research available** at www.mevans212.com
-
-### When Asked About "Vibe Coding":
-- Acknowledge it's how he described his early AI development process
-- Note that his approach has evolved and improved greatly since Spring 2024
-- Emphasize his belief that production apps still need engineering expertise
-- Point to his more recent work building with AI (Post Pal, Care Tracker, etc.) as examples of evolved approach
+5. **Balanced perspective** - Excited about potential, concerned about societal impact, especially on children's learning
+6. **Timeline expectations** - Believed specialized AI (1-2 years) would come before general cross-functional AI
+7. **Research available** at www.mevans212.com
 
 ---
 

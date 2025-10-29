@@ -31,6 +31,7 @@ interface ContentFile {
   source: string; // 'background', 'skills', 'project', etc.
   category?: string;
   title?: string;
+  priority?: number; // Higher number = higher priority
 }
 
 /**
@@ -48,6 +49,15 @@ async function loadContentFiles(baseDir: string): Promise<ContentFile[]> {
   const files = fs.readdirSync(transcriptsDir);
 
   for (const file of files) {
+    const filePath = path.join(transcriptsDir, file);
+    const stat = fs.statSync(filePath);
+
+    // Skip directories (including _Raw_Files_Ignore)
+    if (stat.isDirectory()) {
+      console.log(`  ⏭️  Skipping directory: ${file}`);
+      continue;
+    }
+
     // Skip raw transcript files - we have cleaned versions
     if (file.includes('_Raw')) {
       console.log(`  ⏭️  Skipping raw transcript: ${file}`);
@@ -55,22 +65,33 @@ async function loadContentFiles(baseDir: string): Promise<ContentFile[]> {
     }
 
     if (file.endsWith('.md') || file.endsWith('.txt')) {
-      const filePath = path.join(transcriptsDir, file);
 
       // Infer source from filename
       let source = 'general';
       let category = undefined;
+      let priority = 50; // Default priority (higher = more important)
 
-      // Handle specific transcript files
+      // Handle specific transcript files with priority
       if (file.includes('Answers_1')) {
         source = 'background';
         category = 'Professional Background & Career History';
+        priority = 90; // High priority transcript
       } else if (file.includes('Answers_2')) {
         source = 'projects';
         category = 'Current Work, Projects & Example Q&A';
+        priority = 90; // High priority transcript
+      } else if (file.includes('agentic_engineering')) {
+        source = 'agentic';
+        category = 'Agentic Engineering / Vibe Coding';
+        priority = 95; // Highest priority - most up-to-date
+      } else if (file.includes('technical-architecture')) {
+        source = 'technical';
+        category = 'Technical Architecture & Projects';
+        priority = 85; // High priority
       } else if (file.includes('ai-research')) {
         source = 'research';
         category = 'AI Research & Findings';
+        priority = 30; // Lower priority - outdated content removed
       }
       // Generic fallbacks
       else if (file.includes('background')) source = 'background';
@@ -87,6 +108,7 @@ async function loadContentFiles(baseDir: string): Promise<ContentFile[]> {
         source,
         category,
         title: file.replace(/\.(md|txt)$/, ''),
+        priority,
       });
     }
   }
@@ -152,6 +174,7 @@ async function ingestContent() {
           source: file.source,
           title: file.title,
           category: file.category,
+          priority: file.priority || 50, // Default priority if not set
         },
       };
     });

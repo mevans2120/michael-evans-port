@@ -67,13 +67,13 @@ const testQuestions: TestQuestion[] = [
 
   // Major Projects (8)
   { id: 'Q11', question: "What was special about the Virgin America website?", category: 'Projects' },
-  { id: 'Q12', question: "Tell me about the restaurant with cliff diving", category: 'Projects' },
+  { id: 'Q12', question: "Tell me about the Casa Bonita restaurant project", category: 'Projects' },
   { id: 'Q13', question: "What work did Michael do for Target?", category: 'Projects' },
   { id: 'Q14', question: "Explain the Before Launcher project", category: 'Projects' },
-  { id: 'Q15', question: "What was Broadway.com about?", category: 'Projects' },
-  { id: 'Q16', question: "Tell me about Michael's work with Alaska Airlines", category: 'Projects' },
-  { id: 'Q17', question: "What did Michael build for HBO?", category: 'Projects' },
-  { id: 'Q18', question: "Describe the Lyft project Michael worked on", category: 'Projects' },
+  { id: 'Q15', question: "What improvement did Michael achieve for Lyft?", category: 'Projects' },
+  { id: 'Q16', question: "What was the Aesop case study result?", category: 'Projects' },
+  { id: 'Q17', question: "Tell me about Post Pal", category: 'Projects' },
+  { id: 'Q18', question: "Describe the AI Research Agent project", category: 'Projects' },
 
   // Technical Skills (5)
   { id: 'Q19', question: "What programming languages does Michael know?", category: 'Technical' },
@@ -84,26 +84,26 @@ const testQuestions: TestQuestion[] = [
 
   // AI & Innovation (5)
   { id: 'Q24', question: "What AI projects has Michael built recently?", category: 'AI' },
-  { id: 'Q25', question: "How does Michael use AI in his workflow?", category: 'AI' },
-  { id: 'Q26', question: "What's Michael's philosophy on AI and creativity?", category: 'AI' },
-  { id: 'Q27', question: "Tell me about Michael's AI research", category: 'AI' },
-  { id: 'Q28', question: "What makes Michael effective at working with AI?", category: 'AI' },
+  { id: 'Q25', question: "What is agentic engineering or vibe coding?", category: 'AI' },
+  { id: 'Q26', question: "What's Michael's 'oh shit' moment with AI?", category: 'AI' },
+  { id: 'Q27', question: "How many people did Michael interview for his AI research?", category: 'AI' },
+  { id: 'Q28', question: "What is the AI Builders Collective?", category: 'AI' },
 
   // Leadership & Strategy (5)
   { id: 'Q29', question: "Tell me about Michael opening the Portland office", category: 'Leadership' },
-  { id: 'Q30', question: "What's Michael's approach to product strategy?", category: 'Leadership' },
-  { id: 'Q31', question: "How does Michael handle challenging projects?", category: 'Leadership' },
+  { id: 'Q30', question: "What leadership lessons did Michael learn at Work & Co?", category: 'Leadership' },
+  { id: 'Q31', question: "What's important for working with younger generations?", category: 'Leadership' },
   { id: 'Q32', question: "What leadership roles has Michael held?", category: 'Leadership' },
-  { id: 'Q33', question: "Describe Michael's team collaboration style", category: 'Leadership' },
+  { id: 'Q33', question: "Why did Michael move from San Francisco to Portland?", category: 'Leadership' },
 
   // Challenges & Solutions (7)
   { id: 'Q34', question: "What was the hardest technical challenge Michael faced?", category: 'Challenges' },
   { id: 'Q35', question: "How did Michael solve the Casa Bonita queuing problem?", category: 'Challenges' },
   { id: 'Q36', question: "What challenges did Virgin America present?", category: 'Challenges' },
   { id: 'Q37', question: "Why did the Before Launcher fail as a business?", category: 'Challenges' },
-  { id: 'Q38', question: "What lessons did Michael learn from failed projects?", category: 'Challenges' },
-  { id: 'Q39', question: "How does Michael approach problem-solving?", category: 'Challenges' },
-  { id: 'Q40', question: "What was challenging about the pandemic for Michael?", category: 'Challenges' },
+  { id: 'Q38', question: "How does Michael handle multi-source research synthesis?", category: 'Challenges' },
+  { id: 'Q39', question: "What's Michael's approach to offline-first mobile architecture?", category: 'Challenges' },
+  { id: 'Q40', question: "How does Michael verify features in production?", category: 'Challenges' },
 ];
 
 // Conversation scenarios with follow-ups
@@ -111,7 +111,7 @@ const conversationScenarios: ConversationScenario[] = [
   {
     id: 'A',
     name: 'Project Deep Dive',
-    initial: 'Tell me about the restaurant project',
+    initial: 'Tell me about the Casa Bonita project',
     followUps: [
       'What specific technology stack was used?',
       'How many people could the membership system handle?'
@@ -120,10 +120,10 @@ const conversationScenarios: ConversationScenario[] = [
   {
     id: 'B',
     name: 'Technical Details',
-    initial: 'What AI work has Michael done?',
+    initial: 'What AI projects has Michael built?',
     followUps: [
-      'Can you show me examples of these AI projects?',
-      'Which AI project was most innovative?'
+      'Tell me more about the AI Research Agent',
+      'What makes Post Pal innovative?'
     ]
   },
   {
@@ -147,10 +147,10 @@ const conversationScenarios: ConversationScenario[] = [
   {
     id: 'E',
     name: 'Current Work',
-    initial: 'What is Michael working on now?',
+    initial: 'What is agentic engineering?',
     followUps: [
-      "How can I see Michael's recent projects?",
-      'Where can I learn more about his AI work?'
+      "How is this different from traditional development?",
+      'What tools does Michael use for this?'
     ]
   }
 ];
@@ -262,11 +262,17 @@ function evaluateAccuracy(question: string, response: string): 'accurate' | 'par
   const accuracyChecks: { [key: string]: string[] } = {
     'grow up': ['Eugene', 'Oregon'],
     'college': ['University of Colorado', 'Boulder', 'English'],
-    'restaurant': ['Casa Bonita', 'Trey Parker', 'Matt Stone'],
+    'Casa Bonita': ['Casa Bonita', 'Trey Parker', 'Matt Stone'],
     'Virgin America': ['airline', 'responsive', 'website'],
     'Before Launcher': ['Android', 'launcher', 'distraction'],
-    'Target': ['retail', 'strategy'],
+    'Target': ['Huge', 'client'],
     'AI': ['machine learning', 'AI'],
+    'Lyft': ['8%', 'improvement'],
+    'Aesop': ['12%', 'improvement'],
+    'Post Pal': ['recovery', 'procedure'],
+    'Portland office': ['Work & Co', 'Portland'],
+    'agentic': ['vibe coding', 'AI'],
+    'interview': ['13', 'colleagues'],
   };
 
   const lowerQuestion = question.toLowerCase();
