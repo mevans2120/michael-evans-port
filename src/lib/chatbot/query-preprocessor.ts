@@ -81,7 +81,7 @@ function extractEntities(query: string): string[] {
     'hbo': ['HBO', 'HBO Go'],
     'lyft': ['Lyft'],
     'portland': ['Portland', 'Work & Co'],
-    'before launcher': ['Before Launcher', 'Beforelab'],
+    'before launcher': ['Before Launcher', 'Before Labs'],
     'huge': ['Huge'],
     'work & co': ['Work & Co'],
     'work and co': ['Work & Co'],

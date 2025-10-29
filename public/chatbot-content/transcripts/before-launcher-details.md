@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Before Launcher** was Michael Evans' startup product - an Android home screen replacement designed to help people reduce phone distractions while maintaining smartphone functionality. The app was created by Beforelab, a company Michael founded after leaving Work & Co.
+**Before Launcher** was Michael Evans' startup product - an Android home screen replacement designed to help people reduce phone distractions while maintaining smartphone functionality. The app was created by Before Labs, a company Michael founded after leaving Work & Co.
 
 ## The Core Problem
 
