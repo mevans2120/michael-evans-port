@@ -80,6 +80,76 @@ npm run lint             # Run ESLint
 - **Schemas**: profile (singleton), project, aiProject, heroOption, capability, contact, siteSettings, homepageIntro
 - **Client**: Configured in `/src/lib/sanity/client.ts`
 
+## Content Architecture & AI Chatbot
+
+**CRITICAL**: Understanding the content flow is essential for maintaining the AI chatbot and website content.
+
+### Content Sources & Flow
+
+```
+PRIMARY SOURCE: Interview Transcripts
+  └─ Location: docs/research/research-batch-1-102525/source-materials/transcripts/
+      ↓
+      ├──→ [Manual Path] Website Content
+      │      1. Create migration scripts from transcripts
+      │      2. Run scripts → Sanity CMS
+      │      3. Sanity → Website pages (case studies, profile, etc.)
+      │      4. [Automatic] Sanity webhook → Vector Database
+      │
+      └──→ [Manual Path] Chatbot Direct Content
+             1. Copy transcripts to: public/chatbot-content/transcripts/
+             2. Run: npm run ingest
+             3. Transcripts → Vector Database
+
+RESULT: Vector Database (unified search layer)
+  ├─ Source 1: Sanity CMS content (auto-synced via webhooks)
+  └─ Source 2: Transcript files (manually synced)
+      ↓
+   AI Chatbot (answers from vector DB)
+```
+
+### Key Principles
+
+1. **Transcripts are the PRIMARY source of truth**
+   - Original recordings and interviews with Michael
+   - Located in `docs/research/.../transcripts/`
+   - ALL content derives from these
+
+2. **Two parallel content systems**:
+   - **Website**: Transcripts → Migration scripts → Sanity CMS → Website pages
+   - **Chatbot**: Transcripts → `public/chatbot-content/transcripts/` → Vector DB
+
+3. **Vector Database is the unified search layer**
+   - Contains content from BOTH Sanity CMS and transcript files
+   - Sanity content auto-syncs via webhooks (see `/docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md`)
+   - Transcript content manually syncs via `npm run ingest`
+   - Chatbot searches this unified database to answer questions
+
+4. **Content updates**:
+   - **Website content**: Edit in Sanity Studio → Auto-syncs to vector DB (< 30 seconds)
+   - **Transcript content**: Add/edit files in `public/chatbot-content/transcripts/` → Run `npm run ingest`
+
+### Chatbot Content Sync Commands
+
+```bash
+# Sync all content (Sanity + transcripts) to vector database
+npm run ingest
+
+# Clear and re-sync everything (use if content seems stale)
+npm run ingest -- --clear
+
+# Check sync status (admin dashboard)
+open http://localhost:3000/admin/chatbot-content
+```
+
+### Important Notes
+
+- **Never** edit vector database directly - always update source content (Sanity or transcripts)
+- **Always** run `npm run ingest` after adding/editing transcript files
+- **Check** admin dashboard to verify sync status
+- **Sanity webhooks** handle auto-sync in production (configured in Vercel environment)
+- See `/docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md` for complete chatbot documentation
+
 ## Development Workflow
 
 ### Adding New Features

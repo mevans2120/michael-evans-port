@@ -6,7 +6,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { User, Sparkles } from 'lucide-react';
+import { User, Sparkles, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -23,7 +23,13 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
   const isUser = role === 'user';
 
   // Parse follow-up questions from assistant messages
-  const parseFollowUpQuestions = (text: string): { mainContent: string; questions: string[] } => {
+  interface ParsedQuestion {
+    text: string;
+    url?: string;
+    hasLink: boolean;
+  }
+
+  const parseFollowUpQuestions = (text: string): { mainContent: string; questions: ParsedQuestion[] } => {
     const followUpPattern = /\*\*Follow-up questions:\*\*\n((?:- .+\n?)+)/i;
     const match = text.match(followUpPattern);
 
@@ -36,7 +42,25 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
     const questions = questionsText
       .split('\n')
       .filter(line => line.trim().startsWith('-'))
-      .map(line => line.trim().substring(1).trim());
+      .map(line => {
+        const questionLine = line.trim().substring(1).trim();
+        // Check for markdown link format [text](url)
+        const linkPattern = /^\[([^\]]+)\]\(([^)]+)\)$/;
+        const linkMatch = questionLine.match(linkPattern);
+
+        if (linkMatch) {
+          return {
+            text: linkMatch[1],
+            url: linkMatch[2],
+            hasLink: true
+          };
+        }
+
+        return {
+          text: questionLine,
+          hasLink: false
+        };
+      });
 
     return { mainContent, questions };
   };
@@ -108,17 +132,35 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
         </div>
 
         {/* Follow-up question suggestions */}
-        {questions.length > 0 && onSuggestionClick && (
+        {questions.length > 0 && (
           <div className="flex flex-col gap-2 mt-3">
-            {questions.map((question, index) => (
-              <button
-                key={index}
-                onClick={() => onSuggestionClick(question)}
-                className="text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border"
-              >
-                {question}
-              </button>
-            ))}
+            {questions.map((question, index) => {
+              if (question.hasLink && question.url) {
+                // Render as a link with arrow icon
+                return (
+                  <a
+                    key={index}
+                    href={question.url}
+                    className="flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border group"
+                  >
+                    <span>{question.text}</span>
+                    <ArrowRight className="h-4 w-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                );
+              } else if (onSuggestionClick) {
+                // Render as a button for plain text questions
+                return (
+                  <button
+                    key={index}
+                    onClick={() => onSuggestionClick(question.text)}
+                    className="text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border"
+                  >
+                    {question.text}
+                  </button>
+                );
+              }
+              return null;
+            })}
           </div>
         )}
 

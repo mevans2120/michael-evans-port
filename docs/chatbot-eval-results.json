@@ -1,0 +1,188 @@
+{
+  "timestamp": "2025-10-29T00:38:36.340Z",
+  "summary": {
+    "totalTests": 9,
+    "passed": 8,
+    "failed": 1,
+    "percentage": "89"
+  },
+  "results": [
+    {
+      "id": "1.1",
+      "query": "What is Michael Evans known for?",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael is known for being an AI/ML expert and creative technologist who builds innovative digital products at the intersection of design and technology. He's particularly recognized for pioneering wo...",
+      "followUps": [
+        {
+          "text": "What major projects has Michael worked on?",
+          "url": "/case-studies/virgin-america",
+          "hasLink": true
+        },
+        {
+          "text": "What AI projects has Michael created?",
+          "url": "/ai-showcase",
+          "hasLink": true
+        }
+      ],
+      "paragraphCount": 1
+    },
+    {
+      "id": "1.2",
+      "query": "Explain Michael's entire career journey from college to now",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael's career is a fascinating arc that started with an unconventional foundation—he studied English at the University of Colorado despite growing up around computers in Eugene, Oregon, but pivoted...",
+      "followUps": [
+        {
+          "text": "What was Michael's role on the Virgin America project?",
+          "url": "/case-studies/virgin-america",
+          "hasLink": true
+        },
+        {
+          "text": "What specific AI projects is Michael building now?",
+          "hasLink": false
+        }
+      ],
+      "paragraphCount": 2
+    },
+    {
+      "id": "1.3",
+      "query": "Tell me about Virgin America",
+      "passed": false,
+      "details": "Expected max 1 paragraphs, got 2. ",
+      "response": "Virgin America was Michael's biggest project, where he built both the website and mobile app for the airline. The initial focus was the website, which involved deep research into how Virgin America's ...",
+      "followUps": [
+        {
+          "text": "What specific challenges did Michael face building Virgin America's products?",
+          "url": "/case-studies/virgin-america",
+          "hasLink": true
+        },
+        {
+          "text": "How did the research on business vs. leisure travelers influence the design?",
+          "url": "/case-studies/virgin-america",
+          "hasLink": true
+        }
+      ],
+      "paragraphCount": 2
+    },
+    {
+      "id": "2.1",
+      "query": "Tell me about the restaurant project",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "The Casa Bonita project was a comprehensive digital transformation for the iconic Denver restaurant co-owned by Trey Parker and Matt Stone. Michael worked on switching their reservation system from Op...",
+      "followUps": [
+        {
+          "text": "What specific challenges did Michael face migrating the Casa Bonita reservation system?",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
+        },
+        {
+          "text": "How did Michael approach building the design system for Casa Bonita?",
+          "hasLink": false
+        }
+      ],
+      "paragraphCount": 2
+    },
+    {
+      "id": "2.2",
+      "query": "What restaurant work has Michael done?",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael worked on Casa Bonita, a restaurant project with Trey Parker and Matt Stone (the South Park creators). He led a significant digital transformation that included switching their reservation sys...",
+      "followUps": [
+        {
+          "text": "What specific challenges did Michael face migrating Casa Bonita's reservation system?",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
+        },
+        {
+          "text": "Tell me more about the Casa Bonita project",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
+        }
+      ],
+      "paragraphCount": 1
+    },
+    {
+      "id": "2.3",
+      "query": "What technology did Michael build for Casa Bonita?",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael built Casa Bonita's restaurant reservation software, queuing system, and membership club platform—which grew to hundreds of thousands of members. The tech stack included React, Next.js, and Sa...",
+      "followUps": [
+        {
+          "text": "What was Michael's role and approach on the Casa Bonita project?",
+          "url": "/case-studies/casa-bonita",
+          "hasLink": true
+        },
+        {
+          "text": "Tell me about Michael's other recent projects",
+          "url": "/ai-showcase",
+          "hasLink": true
+        }
+      ],
+      "paragraphCount": 1
+    },
+    {
+      "id": "3.1",
+      "query": "What are Michael's major projects?",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael's major projects span a diverse range of industries and scales. At **Huge**, he worked on **Broadway.com**, a major entertainment ticketing platform, where he transitioned from analyst to proj...",
+      "followUps": [
+        {
+          "text": "What was Michael's role on the Target project and what made it significant?",
+          "url": "/case-studies/target",
+          "hasLink": true
+        },
+        {
+          "text": "What technologies and platforms has Michael worked with across these projects?",
+          "hasLink": false
+        }
+      ],
+      "paragraphCount": 2
+    },
+    {
+      "id": "3.2",
+      "query": "What AI work has Michael done?",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael's moved into AI development pretty naturally from his background as a product manager and startup founder who wore every hat. He built the Before Launcher, an AI-powered Android mobile app, an...",
+      "followUps": [
+        {
+          "text": "What is the Before Launcher and how does it work?",
+          "url": "/case-studies/before-launcher",
+          "hasLink": true
+        },
+        {
+          "text": "View all of Michael's AI projects",
+          "url": "/ai-showcase",
+          "hasLink": true
+        }
+      ],
+      "paragraphCount": 1
+    },
+    {
+      "id": "3.3",
+      "query": "Tell me about Michael's experience",
+      "passed": true,
+      "details": "All checks passed",
+      "response": "Michael is an AI/ML expert and creative technologist with a diverse background spanning mobile development, web design, and innovative product creation. His career demonstrates a strong blend of techn...",
+      "followUps": [
+        {
+          "text": "What was the Before Launcher and what made it special?",
+          "url": "/case-studies/before-launcher",
+          "hasLink": true
+        },
+        {
+          "text": "What are Michael's key AI and machine learning projects?",
+          "url": "/ai-showcase",
+          "hasLink": true
+        }
+      ],
+      "paragraphCount": 3
+    }
+  ]
+}
