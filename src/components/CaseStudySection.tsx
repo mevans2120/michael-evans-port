@@ -29,20 +29,20 @@ interface CaseStudySectionProps {
 const portableTextComponents = {
   block: {
     normal: ({ children }: any) => (
-      <p className="text-lg text-gray-300 leading-relaxed mb-6">{children}</p>
+      <p className="text-xl text-foreground/80 leading-relaxed mb-6 font-sans font-light">{children}</p>
     ),
     h2: ({ children }: any) => (
-      <h2 className="text-2xl md:text-3xl font-normal text-purple-400 mb-4 mt-8">
+      <h2 className="text-2xl md:text-3xl font-serif font-normal text-[hsl(var(--name-purple))] mb-4 mt-8">
         {children}
       </h2>
     ),
     h3: ({ children }: any) => (
-      <h3 className="text-xl md:text-2xl font-normal text-gray-200 mb-3 mt-6">
+      <h3 className="text-xl md:text-2xl font-serif font-normal text-foreground mb-3 mt-6">
         {children}
       </h3>
     ),
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 border-purple-400 pl-6 py-2 my-6 italic text-gray-400">
+      <blockquote className="border-l-4 border-[hsl(var(--name-purple))] pl-6 py-2 my-6 italic text-muted-foreground">
         {children}
       </blockquote>
     ),
@@ -57,24 +57,24 @@ const portableTextComponents = {
   },
   listItem: {
     bullet: ({ children }: any) => (
-      <li className="text-lg text-gray-300 leading-relaxed relative pl-6">
-        <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-purple-400" />
+      <li className="text-lg text-foreground/80 leading-relaxed relative pl-6 font-sans">
+        <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-[hsl(var(--name-purple))]" />
         {children}
       </li>
     ),
     number: ({ children }: any) => (
-      <li className="text-lg text-gray-300 leading-relaxed">{children}</li>
+      <li className="text-lg text-foreground/80 leading-relaxed font-sans">{children}</li>
     ),
   },
   marks: {
     strong: ({ children }: any) => (
-      <strong className="font-semibold text-purple-400">{children}</strong>
+      <strong className="font-semibold text-[hsl(var(--name-purple))]">{children}</strong>
     ),
     em: ({ children }: any) => (
-      <em className="italic text-gray-200">{children}</em>
+      <em className="italic text-foreground">{children}</em>
     ),
     code: ({ children }: any) => (
-      <code className="px-2 py-1 bg-gray-800 rounded text-sm text-purple-300 font-mono">
+      <code className="px-2 py-1 bg-background/50 rounded text-sm text-[hsl(var(--accent-light))] font-mono">
         {children}
       </code>
     ),
@@ -124,21 +124,21 @@ export function CaseStudySection({
   index,
 }: CaseStudySectionProps) {
   // Alternating background colors for visual rhythm
-  const bgClass = index % 2 === 0 ? 'bg-transparent' : 'bg-gray-900/30'
+  const bgClass = index % 2 === 0 ? 'bg-transparent' : 'bg-[hsl(var(--name-purple)/0.03)]'
 
   return (
-    <section className={`mb-20 md:mb-32 py-12 md:py-16 ${bgClass} rounded-2xl px-0 md:px-8`}>
+    <section className={`mb-24 md:mb-40 py-20 md:py-32 ${bgClass} rounded-2xl px-0 md:px-8`}>
       {/* Section Label */}
       {sectionLabel && (
-        <div className="text-xs uppercase tracking-wider text-purple-400 mb-4">
+        <div className="text-xs font-bold uppercase tracking-[0.15em] text-[hsl(var(--name-purple))] mb-8 font-serif">
           {sectionLabel}
         </div>
       )}
 
       {/* Section Heading */}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-10 text-gray-50 relative pb-4">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light leading-tight mb-8 text-foreground relative pb-4">
         {heading}
-        <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-purple-400 to-transparent" />
+        <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-[hsl(var(--name-purple))] to-transparent" />
       </h2>
 
       {/* Portable Text Content */}

@@ -1,11 +1,15 @@
 import { createClient } from '@sanity/client'
 
+// Load env file
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.local' })
+
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5n331bys',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
   useCdn: false,
-  token: process.env.SANITY_AUTH_TOKEN,
+  token: process.env.SANITY_AUTH_TOKEN || 'skcJf38Eo8KBxDUqBh7B7M1QJHLNpBBqLAVfpEmiSVsTrZvonnudlIRxrWzYoawixXe4IUz5cKKBEXTL0',
 })
 
 const virginAmericaData = {
