@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatMessage } from './ChatMessage';
 import { cn } from '@/lib/utils';
+import './chatbot.css';
 
 interface ChatInterfaceProps {
   isOpen: boolean;
@@ -103,7 +104,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
             exit={{ opacity: 0, y: 100, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              'fixed z-50 flex flex-col bg-background border shadow-2xl',
+              'fixed z-50 flex flex-col bg-background border shadow-2xl chatbot-interface',
               // Mobile: full screen
               'inset-0 rounded-none md:inset-auto',
               // Desktop: bottom-right corner
@@ -114,7 +115,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
             <div className="flex items-center justify-between border-b px-4 py-3">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-green-500" />
-                <h2 className="font-semibold">Ask about Michael</h2>
+                <h2 className="font-semibold chatbot-header">Ask about Michael</h2>
               </div>
               <Button
                 variant="ghost"
@@ -132,7 +133,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
               <div className="space-y-4">
                 {messages.length === 0 ? (
                   // Empty state with suggested questions
-                  <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                  <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center chatbot-empty-state">
                     <div className="mb-4 text-muted-foreground">
                       <p className="mb-2">Hi! I'm an AI assistant trained on Michael's portfolio.</p>
                       <p className="text-sm">Ask me anything about his experience, projects, or skills.</p>
@@ -145,7 +146,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                           variant="outline"
                           size="sm"
                           onClick={() => handleSuggestedQuestion(question)}
-                          className="w-full text-left justify-start text-sm h-auto py-2 px-3"
+                          className="w-full text-left justify-start text-sm h-auto py-2 px-3 chatbot-suggestion"
                         >
                           {question}
                         </Button>
@@ -172,7 +173,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
 
                     {/* Loading indicator */}
                     {isLoading && (
-                      <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2 text-muted-foreground chatbot-loading">
                         <Loader2 className="h-4 w-4 animate-spin" />
                         <span className="text-sm">Thinking...</span>
                       </div>
@@ -202,7 +203,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question..."
                   disabled={isLoading}
-                  className="flex-1"
+                  className="flex-1 chatbot-input"
                   autoComplete="off"
                 />
                 <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>

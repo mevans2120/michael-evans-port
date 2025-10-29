@@ -90,7 +90,7 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
       <div className={cn('flex flex-col gap-1 max-w-[80%]', isUser && 'items-end')}>
         <div
           className={cn(
-            'rounded-lg px-4 py-2 text-sm',
+            'rounded-lg px-4 py-2 text-sm chatbot-message',
             isUser
               ? 'bg-primary text-primary-foreground'
               : 'bg-muted'
@@ -141,7 +141,7 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
                   <a
                     key={index}
                     href={question.url}
-                    className="flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border group"
+                    className="flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border group chatbot-followup"
                   >
                     <span>{question.text}</span>
                     <ArrowRight className="h-4 w-4 opacity-60 group-hover:opacity-100 transition-opacity" />
@@ -153,7 +153,7 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
                   <button
                     key={index}
                     onClick={() => onSuggestionClick(question.text)}
-                    className="text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border"
+                    className="text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-border/50 hover:border-border chatbot-followup"
                   >
                     {question.text}
                   </button>

@@ -1,0 +1,77 @@
+/* Chatbot Custom Styles - JetBrains Mono Font */
+
+/* Import JetBrains Mono font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+/* Apply JetBrains Mono to all chatbot components */
+.chatbot-interface {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace !important;
+}
+
+/* Increase base font size for messages */
+.chatbot-message {
+  font-size: 16px !important; /* Increased from 14px (text-sm) */
+  line-height: 1.6 !important;
+}
+
+/* User input field */
+.chatbot-input {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 16px !important;
+}
+
+/* Suggested questions */
+.chatbot-suggestion {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 15px !important;
+}
+
+/* Header title */
+.chatbot-header {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+/* Code blocks within messages */
+.chatbot-message code {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 14px !important;
+}
+
+/* Follow-up questions */
+.chatbot-followup {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 15px !important;
+}
+
+/* Empty state text */
+.chatbot-empty-state {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+.chatbot-empty-state p {
+  font-size: 16px !important;
+}
+
+.chatbot-empty-state p.text-sm {
+  font-size: 15px !important;
+}
+
+/* Loading indicator */
+.chatbot-loading {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 15px !important;
+}
+
+/* Error messages */
+.chatbot-error {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 15px !important;
+}
+
+/* Footer text */
+.chatbot-footer {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 13px !important;
+}

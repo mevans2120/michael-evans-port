@@ -10,6 +10,7 @@ import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
 import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
 import { preprocessQuery } from '@/lib/chatbot/query-preprocessor';
 import { hybridSearch, rerankResults } from '@/lib/chatbot/hybrid-search';
+import { detectPraise, getRandomAsciiArt } from '@/lib/chatbot/ascii-art';
 
 export const runtime = 'edge';
 
@@ -120,7 +121,22 @@ Examples:
 • Collection page: "[View Michael's AI projects](/ai-showcase)"
 
 - Make questions natural, conversational, and specific to the context you just discussed
-- Questions should help users discover related information you know about Michael's work`;
+- Questions should help users discover related information you know about Michael's work
+
+Special Response for Praise:
+- If the user's message contains praise, thanks, or positive feedback (like "thank you", "great job", "awesome", "helpful", etc.)
+- Include a fun ASCII art appreciation at the end of your response
+- Add the ASCII art in a code block after your main response
+- Use one of these ASCII art designs randomly:
+  * Heart pattern with <3 symbols
+  * Star pattern with asterisks
+  * Robot saying THX
+  * Dog saying "Woof! Thanks!"
+  * Cat saying "Purrfect feedback!"
+  * Trophy with "You're the best!"
+  * Smiley face
+  * Flower made with @ symbols
+- Keep the ASCII art simple and pure text (no emojis)`;
 
 export async function POST(req: Request) {
   try {
@@ -165,6 +181,12 @@ export async function POST(req: Request) {
       content: messageText,
       timestamp: new Date().toISOString(),
     });
+
+    // Check if message contains praise
+    const containsPraise = detectPraise(messageText);
+    if (containsPraise) {
+      console.log('Praise detected in message! Will include ASCII art in response.');
+    }
 
     // Preprocess query for better retrieval
     const processedQuery = preprocessQuery(messageText);
