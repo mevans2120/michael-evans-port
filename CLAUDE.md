@@ -163,6 +163,42 @@ open http://localhost:3000/admin/chatbot-content
 - Tailwind for styling (avoid inline styles)
 - Use existing UI components from `/src/components/ui/` when possible
 
+### Git Commit Guidelines
+
+**CRITICAL: Always ask before committing**
+
+Before making any commits:
+1. **Always run `git status`** to review all modified and untracked files
+2. **Ask the user which files should be committed** - don't assume
+3. **Ask about files you're unsure about**, especially:
+   - Documentation files (docs/)
+   - Configuration files (.env.example, etc.)
+   - Test files and test results
+   - Generated files or build artifacts
+   - Any files not directly related to the current task
+4. **Commit related changes together** - all files needed for a feature should go in one atomic commit
+5. **Run `npm run build`** before committing to catch type errors and build issues
+6. **Never commit in pieces** - if files depend on each other, commit them together
+
+**Example workflow:**
+```bash
+# 1. Check what changed
+git status
+
+# 2. Ask user: "I see these files changed: [list]. Should I commit all of them, or only specific ones?"
+
+# 3. Build to verify
+npm run build
+
+# 4. Commit related files together
+git add [files] && git commit -m "message" && git push
+```
+
+**Why this matters:**
+- Incomplete commits cause production deployment failures
+- Missing dependent files break the build
+- Unrelated files in commits make history unclear
+
 ### Important Files
 - `/src/app/layout.tsx` - Root layout with providers
 - `/src/app/page.tsx` - Homepage
