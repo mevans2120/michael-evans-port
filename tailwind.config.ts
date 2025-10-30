@@ -19,8 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['var(--font-body)', 'system-ui', 'sans-serif'],
-				serif: ['var(--font-heading)', 'Georgia', 'serif'],
+				sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+				serif: ['var(--font-serif)', 'Georgia', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

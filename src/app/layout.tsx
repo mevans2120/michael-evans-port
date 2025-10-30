@@ -6,19 +6,19 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 
-// DM Sans for headings (sans-serif)
+// DM Sans is a sans-serif font
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  variable: "--font-heading",
+  variable: "--font-sans",
   display: "swap",
 });
 
-// Crimson Pro for body text (serif)
+// Crimson Pro is a serif font
 const crimsonPro = Crimson_Pro({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  variable: "--font-body",
+  variable: "--font-serif",
   display: "swap",
 });
 
