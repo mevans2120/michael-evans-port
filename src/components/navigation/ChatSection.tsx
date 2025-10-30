@@ -138,16 +138,9 @@ export function ChatSection() {
         <div className="flex items-center gap-4">
           {!chatExpanded && <Sparkles className="w-4 h-4 text-purple-400" />}
           {(!isDesktop || isExpanded) && !chatExpanded && (
-            <motion.h2
-              layoutId="ai-assistant-text"
-              className="text-lg font-medium text-white font-serif"
-              transition={{
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1],
-              }}
-            >
+            <h2 className="text-lg font-medium text-white font-serif">
               AI Assistant
-            </motion.h2>
+            </h2>
           )}
         </div>
         {chatExpanded && (

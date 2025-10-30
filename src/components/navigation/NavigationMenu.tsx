@@ -47,16 +47,9 @@ export function NavigationMenu() {
                   M<span className="text-gradient">Evans</span>
                 </span>
                 {chatExpanded && (
-                  <motion.span
-                    layoutId="ai-assistant-text"
-                    className="text-lg font-medium text-white font-serif pointer-events-auto"
-                    transition={{
-                      duration: 0.3,
-                      ease: [0.4, 0, 0.2, 1],
-                    }}
-                  >
+                  <span className="text-lg font-medium text-white font-serif pointer-events-auto">
                     AI Assistant
-                  </motion.span>
+                  </span>
                 )}
               </>
             ) : (
