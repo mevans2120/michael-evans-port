@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
@@ -16,12 +16,35 @@ export default function HomePage() {
   const [selectedProject, setSelectedProject] = useState<AIProjectData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [tagline, setTagline] = useState<string>('Building products at the intersection of user empathy, technical possibility, and business value');
+  const [tagline, setTagline] = useState<string>('');
+  const [shouldLoadAIProjects, setShouldLoadAIProjects] = useState(false);
+  const aiProjectsRef = useRef<HTMLDivElement>(null);
 
   // Site is always dark - no light mode
   const isDarkMode = true;
 
-  // Fetch AI projects from Sanity
+  // Intersection observer for lazy loading AI projects
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoadAIProjects(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px' } // Start loading 200px before section is visible
+    );
+
+    if (aiProjectsRef.current) {
+      observer.observe(aiProjectsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Fetch AI projects from Sanity - only when shouldLoadAIProjects is true
   const { data: aiProjects, loading: aiProjectsLoading, error: aiProjectsError } = useAllAIProjects();
 
   // Fetch profile data from Sanity
@@ -78,8 +101,6 @@ export default function HomePage() {
         }
       } catch (error) {
         logger.error('Failed to load featured case studies from Sanity:', error);
-        // Fall back to hardcoded data if Sanity fails
-        setFeaturedCaseStudies(defaultFeaturedCaseStudies);
       }
     }
     fetchFeaturedCaseStudies();
@@ -97,40 +118,6 @@ export default function HomePage() {
     }, 300);
   };
 
-  // Default fallback data if Sanity is unavailable
-  const defaultFeaturedCaseStudies = [
-    {
-      id: "virgin-america",
-      number: "01",
-      category: "UX Design",
-      title: "Virgin America",
-      metric: "15% conversion lift",
-      description: "Created the first responsive airline website, reimagining booking flows by focusing on decisions rather than clicks — achieving industry recognition and measurable business impact.",
-      slug: "virgin-america",
-      order: 1
-    },
-    {
-      id: "casa-bonita",
-      number: "02",
-      category: "Experience Design",
-      title: "Casa Bonita",
-      metric: "Cultural icon revival",
-      description: "Revived a beloved Colorado landmark by reimagining the customer experience, balancing nostalgia with modern hospitality design — from reservation flows to in-venue wayfinding.",
-      slug: "casa-bonita",
-      order: 2
-    },
-    {
-      id: "before-launcher",
-      number: "03",
-      category: "Mobile Product",
-      title: "Before Launcher",
-      metric: "100K+ users",
-      description: "Built a minimalist Android launcher focused on intentionality over distraction, reducing phone time through thoughtful UX and becoming a finalist for App of the Year.",
-      slug: "before-launcher",
-      order: 3
-    }
-  ];
-
 
   return (
     <div className={`min-h-screen relative transition-colors duration-300 ${
@@ -142,23 +129,27 @@ export default function HomePage() {
       <section className="px-6 relative min-h-[85vh] flex items-center pt-20">
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-5xl -mx-6 md:mx-0">
-            {/* Main Text */}
-            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-8 ${
-              isDarkMode ? 'text-gray-100' : 'text-gray-900'
-            }`}>
-              <span className="text-gradient">Michael Evans</span> {tagline}
-            </h1>
-            <Link
-              href="/about"
-              className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
-                isDarkMode
-                  ? 'text-accent hover:text-purple-300'
-                  : 'text-purple-600 hover:text-purple-700'
-              }`}
-            >
-              Learn more about my background
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {tagline && (
+              <div className="animate-in fade-in duration-700">
+                {/* Main Text */}
+                <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-8 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}>
+                  <span className="text-gradient">Michael Evans</span> {tagline}
+                </h1>
+                <Link
+                  href="/about"
+                  className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                    isDarkMode
+                      ? 'text-accent hover:text-purple-300'
+                      : 'text-purple-600 hover:text-purple-700'
+                  }`}
+                >
+                  Learn more about my background
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -166,38 +157,40 @@ export default function HomePage() {
       <Separator className={`mx-auto max-w-6xl ${isDarkMode ? 'bg-gray-800' : ''}`} />
 
       {/* Featured Work Section */}
-      <section className="py-20 px-6 relative">
-        <div className={`absolute left-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
-          isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
-        }`} />
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="mb-20 -mx-6 md:mx-0">
-            <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
-              isDarkMode ? 'text-gray-100' : 'text-gray-900'
-            }`}>
-              Selected Work
-              <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
-                    <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
-              </svg>
-            </h2>
-            <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
-          </div>
+      {tagline && featuredCaseStudies.length > 0 && (
+        <section className="py-20 px-6 relative">
+          <div className={`absolute left-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
+            isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
+          }`} />
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="mb-20 -mx-6 md:mx-0">
+              <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-900'
+              }`}>
+                Selected Work
+                <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
+                      <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
+                </svg>
+              </h2>
+              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
+            </div>
 
-          <div className="-mx-6 md:mx-0">
-            <FeaturedCaseStudies studies={featuredCaseStudies} />
+            <div className="-mx-6 md:mx-0">
+              <FeaturedCaseStudies studies={featuredCaseStudies} />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* AI Projects Section */}
-      <section className="py-20 px-6 relative">
+      <section ref={aiProjectsRef} className="py-20 px-6 relative">
         <div className={`absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
           isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
         }`} />
@@ -221,41 +214,49 @@ export default function HomePage() {
             <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Production-ready AI applications</p>
           </div>
 
-          {aiProjectsLoading ? (
-            <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Loading AI projects...
-            </div>
-          ) : aiProjectsError ? (
-            <div className={`text-center py-12 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-              Error loading projects: {aiProjectsError}
-            </div>
-          ) : aiProjects.length > 0 ? (
-            <div className="-mx-6 md:mx-0">
-              <AIProjectsGrid
-                projects={aiProjects}
-                onProjectClick={handleProjectClick}
-                limit={6}
-              />
-            </div>
+          {shouldLoadAIProjects ? (
+            <>
+              {aiProjectsLoading ? (
+                <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Loading AI projects...
+                </div>
+              ) : aiProjectsError ? (
+                <div className={`text-center py-12 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
+                  Error loading projects: {aiProjectsError}
+                </div>
+              ) : aiProjects.length > 0 ? (
+                <div className="-mx-6 md:mx-0">
+                  <AIProjectsGrid
+                    projects={aiProjects}
+                    onProjectClick={handleProjectClick}
+                    limit={6}
+                  />
+                </div>
+              ) : (
+                <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  No AI projects found
+                </div>
+              )}
+
+              {aiProjects.length > 6 && (
+                <div className="mt-10 text-center">
+                  <Link
+                    href="/ai-showcase"
+                    className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                      isDarkMode
+                        ? 'text-accent hover:text-purple-300'
+                        : 'text-purple-600 hover:text-purple-700'
+                    }`}
+                  >
+                    View all AI projects
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              )}
+            </>
           ) : (
             <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              No AI projects found
-            </div>
-          )}
-
-          {aiProjects.length > 6 && (
-            <div className="mt-10 text-center">
-              <Link
-                href="/ai-showcase"
-                className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
-                  isDarkMode
-                    ? 'text-accent hover:text-purple-300'
-                    : 'text-purple-600 hover:text-purple-700'
-                }`}
-              >
-                View all AI projects
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              Loading...
             </div>
           )}
         </div>

@@ -1,12 +1,10 @@
 'use client';
 
-import React, { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { PANEL_ANIMATION } from '@/lib/animation-constants';
 
 interface NavigationPanelProps {
   children: ReactNode;
@@ -15,6 +13,14 @@ interface NavigationPanelProps {
 export function NavigationPanel({ children }: NavigationPanelProps) {
   const { panelState, setPanelState, chatInputFocused, chatExpanded, chatCloseAnimationComplete } = useNavigation();
   const isDesktop = useIsDesktop();
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Enable transitions only after user interaction
+  useEffect(() => {
+    if (chatInputFocused || chatExpanded) {
+      setHasInteracted(true);
+    }
+  }, [chatInputFocused, chatExpanded]);
 
   // Calculate panel width based on state and device
   const getPanelWidth = () => {
@@ -66,10 +72,12 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         "bg-neutral-900",
         "flex md:flex-shrink-0",
         "z-50",
-        "border-t md:border-t-0"
+        "border-t md:border-t-0",
+        "animate-in fade-in duration-500",
       )}
       style={{
         width: isDesktop ? getPanelWidth() : '100%',
+        transition: hasInteracted ? 'width 300ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
       }}
       onClick={panelState === 'partial' ? handleClick : undefined}
     >

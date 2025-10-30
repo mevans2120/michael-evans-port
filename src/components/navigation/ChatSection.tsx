@@ -5,11 +5,9 @@ import { useChat } from '@ai-sdk/react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { Sparkles, ChevronDown, Send, User, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
-import { CHAT_ANIMATION, MESSAGE_ANIMATION } from '@/lib/animation-constants';
 import '../chatbot/chatbot.css';
 
 export function ChatSection() {
@@ -128,9 +126,26 @@ export function ChatSection() {
         <div className="flex items-center gap-4">
           {!chatExpanded && <Sparkles className="w-4 h-4 text-purple-400" />}
           {(!isDesktop || isExpanded) && !chatExpanded && (
-            <h2 className="text-lg font-medium text-white font-serif">
-              AI Assistant
-            </h2>
+            <div className="flex items-center gap-1">
+              {!isDesktop && (
+                <span className="text-lg font-medium font-serif">
+                  M<span className="text-gradient">Evans</span>
+                </span>
+              )}
+              <h2 className="text-lg font-medium text-white font-serif">
+                AI Assistant
+              </h2>
+            </div>
+          )}
+          {!isDesktop && chatExpanded && (
+            <div className="flex items-center gap-1">
+              <span className="text-lg font-medium font-serif">
+                M<span className="text-gradient">Evans</span>
+              </span>
+              <h2 className="text-lg font-medium text-white font-serif">
+                AI Assistant
+              </h2>
+            </div>
           )}
         </div>
         {chatExpanded && (
@@ -167,53 +182,33 @@ export function ChatSection() {
             const isCollapsedWithChat = panelState === 'partial' && chatExpanded;
 
             return (
-              <motion.div
+              <div
                 key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: MESSAGE_ANIMATION.duration,
-                  ease: MESSAGE_ANIMATION.ease,
-                }}
                 className={`flex gap-3 mb-4 ${isUser ? 'flex-row-reverse' : ''} ${isCollapsedWithChat ? 'justify-center' : ''}`}
               >
                 {/* Avatar - Only show for assistant when chat is expanded */}
                 {(isUser || chatExpanded) && !isCollapsedWithChat && (
-                  <motion.div
-                    initial={!isUser && chatExpanded ? { opacity: 0, scale: 0.8 } : false}
-                    animate={!isUser && chatExpanded ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                  <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
                       isUser ? 'bg-purple-600 text-white' : 'bg-neutral-800'
                     }`}
                   >
                     {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-purple-400" />}
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* Show only sparkle icon when collapsed */}
                 {isCollapsedWithChat && !isUser && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                  <div
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-800"
                   >
                     <Sparkles className="h-4 w-4 text-purple-400" />
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* Message Content - Hidden when collapsed */}
-                <AnimatePresence mode="wait">
                 {!isCollapsedWithChat && (
-                  <motion.div
-                    key="message-content"
-                    initial={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      duration: MESSAGE_ANIMATION.duration,
-                      ease: MESSAGE_ANIMATION.ease,
-                    }}
+                  <div
                     className={`flex flex-col gap-1 max-w-[80%] ${isUser ? 'items-end' : ''}`}>
                   <div
                     className={`rounded-lg px-4 py-2 chatbot-message ${
@@ -263,10 +258,9 @@ export function ChatSection() {
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
                 )}
-                </AnimatePresence>
-              </motion.div>
+              </div>
             );
           })}
 
