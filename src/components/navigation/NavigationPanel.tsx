@@ -93,7 +93,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
               "transition-colors duration-200"
             )}
             style={{
-              backgroundColor: showBorder ? 'rgb(168, 85, 247)' : 'rgba(168, 85, 247, 0.05)',
+              backgroundColor: showBorder ? 'rgb(168, 85, 247)' : 'rgba(168, 85, 247, 0.4)',
             }}
           />
         )}
