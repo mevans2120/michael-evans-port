@@ -9,6 +9,12 @@ interface NavigationContextType {
   setPanelState: (state: PanelState) => void;
   chatExpanded: boolean;
   setChatExpanded: (expanded: boolean) => void;
+  chatInputFocused: boolean;
+  setChatInputFocused: (focused: boolean) => void;
+  // Animation orchestration
+  chatCloseAnimationComplete: boolean;
+  signalChatCloseComplete: () => void;
+  resetChatAnimationFlag: () => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -16,6 +22,32 @@ const NavigationContext = createContext<NavigationContextType | undefined>(undef
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const [panelState, setPanelState] = useState<PanelState>('expanded');
   const [chatExpanded, setChatExpanded] = useState(false);
+  const [chatInputFocused, setChatInputFocused] = useState(false);
+  const [chatCloseAnimationComplete, setChatCloseAnimationComplete] = useState(false);
+
+  const handleSetChatExpanded = (expanded: boolean) => {
+    setChatExpanded(expanded);
+    // Reset animation flag when opening chat
+    if (expanded) {
+      setChatCloseAnimationComplete(false);
+    }
+  };
+
+  const handleSetChatInputFocused = (focused: boolean) => {
+    setChatInputFocused(focused);
+    // Reset animation flag when chat becomes active
+    if (focused) {
+      setChatCloseAnimationComplete(false);
+    }
+  };
+
+  const signalChatCloseComplete = () => {
+    setChatCloseAnimationComplete(true);
+  };
+
+  const resetChatAnimationFlag = () => {
+    setChatCloseAnimationComplete(false);
+  };
 
   return (
     <NavigationContext.Provider
@@ -23,7 +55,12 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         panelState,
         setPanelState,
         chatExpanded,
-        setChatExpanded
+        setChatExpanded: handleSetChatExpanded,
+        chatInputFocused,
+        setChatInputFocused: handleSetChatInputFocused,
+        chatCloseAnimationComplete,
+        signalChatCloseComplete,
+        resetChatAnimationFlag,
       }}
     >
       {children}
