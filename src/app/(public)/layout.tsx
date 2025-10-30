@@ -11,7 +11,7 @@ export default function PublicLayout({
       <div className="flex h-screen w-screen bg-neutral-950 overflow-hidden">
         {/* Navigation Panel - Now on the left for desktop */}
         <NavigationPanel>
-          <div className="flex-1 flex flex-col bg-neutral-900 relative">
+          <div className="flex-1 flex flex-col bg-neutral-900">
             <NavigationMenu />
             <ChatSection />
           </div>

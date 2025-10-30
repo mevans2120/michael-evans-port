@@ -41,20 +41,28 @@ export function NavigationMenu() {
         {/* MEvans Logo - Desktop Only */}
         {isDesktop && (
           <div className="px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 pointer-events-none">
-            <span className="text-lg font-medium font-serif pointer-events-auto">
-              M<span className="text-gradient">Evans</span>
-            </span>
-            {chatExpanded && (
-              <motion.span
-                layoutId="ai-assistant-text"
-                className="text-lg font-medium text-white font-serif pointer-events-auto"
-                transition={{
-                  duration: 0.3,
-                  ease: [0.4, 0, 0.2, 1],
-                }}
-              >
-                AI Assistant
-              </motion.span>
+            {panelState === 'expanded' ? (
+              <>
+                <span className="text-lg font-medium font-serif pointer-events-auto">
+                  M<span className="text-gradient">Evans</span>
+                </span>
+                {chatExpanded && (
+                  <motion.span
+                    layoutId="ai-assistant-text"
+                    className="text-lg font-medium text-white font-serif pointer-events-auto"
+                    transition={{
+                      duration: 0.3,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                  >
+                    AI Assistant
+                  </motion.span>
+                )}
+              </>
+            ) : (
+              <span className="text-lg font-medium font-serif pointer-events-auto">
+                M<span className="text-gradient">E</span>
+              </span>
             )}
           </div>
         )}

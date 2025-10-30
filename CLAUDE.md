@@ -160,7 +160,9 @@ open http://localhost:3000/admin/chatbot-content
 ### Code Style
 - TypeScript with strict type checking
 - Functional components with React.FC type
-- Tailwind for styling (avoid inline styles)
+- **IMPORTANT: Always use Tailwind CSS for styling** - avoid custom CSS and inline styles unless there's a strong engineering reason (e.g., dynamic values that can't be expressed in Tailwind)
+- When styling is needed, use Tailwind utility classes first, only fall back to CSS if technically necessary
+- Use the `cn()` utility from `/src/lib/utils.ts` for combining conditional Tailwind classes
 - Use existing UI components from `/src/components/ui/` when possible
 
 ### Git Commit Guidelines
@@ -262,6 +264,14 @@ The portfolio site is fully functional with:
 - See `/docs/` folder for detailed documentation and audit reports
 
 ## Recent Updates
+
+**October 29, 2025:**
+- Implemented dynamic purple border on navigation panel with interactive features
+- Added collapsible navigation states (56px → 320px → 455px width transitions)
+- Created clickable border area with chevron toggle
+- Added exit animations for chat content in collapsed state
+- Optimized chat layout with reduced padding and centered messages
+- Documentation: `/docs/architecture/navigation-border-css-rebuild-plan-2025-10-29.md`
 
 **October 25, 2025:**
 - Fixed profile photo not displaying on homepage

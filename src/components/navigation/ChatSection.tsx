@@ -5,7 +5,7 @@ import { useChat } from '@ai-sdk/react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { Sparkles, ChevronDown, Send, User, Loader2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
@@ -183,16 +183,18 @@ export function ChatSection() {
               ? parseFollowUpQuestions(content)
               : { mainContent: content, questions: [] };
 
+            const isCollapsedWithChat = panelState === 'partial' && chatExpanded;
+
             return (
               <motion.div
                 key={message.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className={`flex gap-3 mb-4 ${isUser ? 'flex-row-reverse' : ''}`}
+                className={`flex gap-3 mb-4 ${isUser ? 'flex-row-reverse' : ''} ${isCollapsedWithChat ? 'justify-center' : ''}`}
               >
                 {/* Avatar - Only show for assistant when chat is expanded */}
-                {(isUser || chatExpanded) && (
+                {(isUser || chatExpanded) && !isCollapsedWithChat && (
                   <motion.div
                     initial={!isUser && chatExpanded ? { opacity: 0, scale: 0.8 } : false}
                     animate={!isUser && chatExpanded ? { opacity: 1, scale: 1 } : {}}
@@ -205,8 +207,27 @@ export function ChatSection() {
                   </motion.div>
                 )}
 
-                {/* Message Content */}
-                <div className={`flex flex-col gap-1 max-w-[80%] ${isUser ? 'items-end' : ''}`}>
+                {/* Show only sparkle icon when collapsed */}
+                {isCollapsedWithChat && !isUser && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-800"
+                  >
+                    <Sparkles className="h-4 w-4 text-purple-400" />
+                  </motion.div>
+                )}
+
+                {/* Message Content - Hidden when collapsed */}
+                <AnimatePresence mode="wait">
+                {!isCollapsedWithChat && (
+                  <motion.div
+                    key="message-content"
+                    initial={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className={`flex flex-col gap-1 max-w-[80%] ${isUser ? 'items-end' : ''}`}>
                   <div
                     className={`rounded-lg px-4 py-2 chatbot-message ${
                       isUser
@@ -255,7 +276,9 @@ export function ChatSection() {
                       ))}
                     </div>
                   )}
-                </div>
+                </motion.div>
+                )}
+                </AnimatePresence>
               </motion.div>
             );
           })}
@@ -279,9 +302,18 @@ export function ChatSection() {
           )}
 
           {/* Suggested Prompts - Show below welcome message when expanded */}
-          {messages.length === 1 && chatExpanded && (
-            <SuggestedPrompts onPromptClick={handlePromptClick} />
+          <AnimatePresence mode="wait">
+          {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && (
+            <motion.div
+              key="suggested-prompts"
+              initial={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <SuggestedPrompts onPromptClick={handlePromptClick} />
+            </motion.div>
           )}
+          </AnimatePresence>
 
           <div ref={scrollRef} />
       </div>
@@ -296,6 +328,8 @@ export function ChatSection() {
         }}
         className={`px-4 py-3 border-t border-neutral-800 flex gap-2 flex-shrink-0 transition-none ${
           !showChatContent ? 'hidden' : ''
+        } ${
+          panelState === 'partial' && chatExpanded ? 'hidden' : ''
         }`}
       >
         <input
