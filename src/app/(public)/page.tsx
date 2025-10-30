@@ -154,16 +154,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Separator className={`mx-auto max-w-6xl ${isDarkMode ? 'bg-gray-800' : ''}`} />
+      {/* Separator - positioned to peek above viewport */}
+      <div className="relative -mt-8">
+        <Separator className={`mx-auto max-w-6xl ${isDarkMode ? 'bg-gray-800' : ''}`} />
+      </div>
 
       {/* Featured Work Section */}
       {tagline && featuredCaseStudies.length > 0 && (
-        <section className="py-20 px-6 relative">
+        <section className="py-20 px-6 relative mt-8">
           <div className={`absolute left-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
             isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
           }`} />
           <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="mb-20 -mx-6 md:mx-0">
+            <div className="mb-20 -mx-6 md:mx-0 opacity-0">
               <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
                 isDarkMode ? 'text-gray-100' : 'text-gray-900'
               }`}>

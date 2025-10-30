@@ -40,24 +40,24 @@ export function NavigationMenu() {
       >
         {/* MEvans Logo - Desktop Only */}
         {isDesktop && (
-          <div className="px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 pointer-events-none">
+          <Link href="/" className="px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer">
             {panelState === 'expanded' ? (
               <>
-                <span className="text-lg font-medium font-serif pointer-events-auto">
+                <span className="text-lg font-medium font-serif">
                   M<span className="text-gradient">Evans</span>
                 </span>
                 {chatExpanded && (
-                  <span className="text-lg font-medium text-white font-serif pointer-events-auto">
+                  <span className="text-lg font-medium text-white font-serif">
                     AI Assistant
                   </span>
                 )}
               </>
             ) : (
-              <span className="text-lg font-medium font-serif pointer-events-auto">
+              <span className="text-lg font-medium font-serif">
                 M<span className="text-gradient">E</span>
               </span>
             )}
-          </div>
+          </Link>
         )}
 
         {/* Navigation Items */}
