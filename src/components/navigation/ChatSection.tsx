@@ -9,9 +9,10 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
+import '../chatbot/chatbot.css';
 
 export function ChatSection() {
-  const { panelState, chatExpanded, setChatExpanded } = useNavigation();
+  const { panelState, chatExpanded, setChatExpanded, setChatInputFocused, signalChatCloseComplete } = useNavigation();
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -62,20 +63,22 @@ export function ChatSection() {
     // Expand chat when input is focused
     setChatExpanded(true);
     setHasInteracted(true);
+    setChatInputFocused(true);
   };
 
   const handlePromptClick = (prompt: string) => {
     if (!isDesktop) {
       setChatExpanded(true);
     }
+    setChatInputFocused(true); // Expand width when using chat
     sendMessage({ text: prompt });
   };
 
   const handleHeaderClick = () => {
-    if (!chatExpanded) {
-      setChatExpanded(true);
-      setHasInteracted(true);
-    }
+    // Always allow expanding when clicking the header
+    setChatExpanded(true);
+    setHasInteracted(true);
+    setChatInputFocused(true); // Expand width when chat opens
   };
 
   // Parse follow-up questions from assistant messages
@@ -100,37 +103,60 @@ export function ChatSection() {
   };
 
   return (
-    <div
-      className={`flex flex-col border-t md:border-t-0 border-neutral-800 ${
+    <motion.div
+      className={`chat-section flex flex-col border-t md:border-t-0 border-neutral-800 bg-neutral-900 ${
         isDesktop && chatExpanded
-          ? 'absolute inset-0 z-10 bg-neutral-900'
+          ? 'absolute inset-0 z-10'
           : !isDesktop && chatExpanded
-          ? 'absolute bottom-0 left-0 right-0 z-10 bg-neutral-900'
+          ? 'absolute bottom-0 left-0 right-0 z-10'
           : ''
       }`}
-      style={{
+      layout
+      animate={{
         height: isDesktop
           ? (chatExpanded ? '100%' : '34%')
-          : (chatExpanded ? '50vh' : 'auto')
+          : (chatExpanded ? '50vh' : 'auto'),
+      }}
+      transition={{
+        duration: 0.3,
+        ease: [0.4, 0, 0.2, 1],
+      }}
+      onAnimationComplete={() => {
+        if (!chatExpanded) {
+          setChatInputFocused(false);
+          signalChatCloseComplete(); // Signal that chat close animation is complete
+        }
       }}
     >
       {/* Chat Header */}
       <div
-        className="px-8 py-6 border-b border-neutral-800 flex items-center justify-between flex-shrink-0"
-        onClick={handleHeaderClick}
-        style={{ cursor: !chatExpanded ? 'pointer' : 'default' }}
+        className={`px-8 py-6 border-b border-neutral-800 flex items-center justify-between flex-shrink-0 ${
+          !chatExpanded ? 'cursor-pointer hover:bg-neutral-800/50 transition-colors' : ''
+        }`}
+        onClick={!chatExpanded ? handleHeaderClick : undefined}
       >
         <div className="flex items-center gap-4">
-          <Sparkles className="w-4 h-4 text-purple-400" />
-          {(!isDesktop || isExpanded || chatExpanded) && (
-            <h2 className="text-lg font-medium text-white">AI Assistant</h2>
+          {!chatExpanded && <Sparkles className="w-4 h-4 text-purple-400" />}
+          {(!isDesktop || isExpanded) && !chatExpanded && (
+            <motion.h2
+              layoutId="ai-assistant-text"
+              className="text-lg font-medium text-white font-serif"
+              transition={{
+                duration: 0.3,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+            >
+              AI Assistant
+            </motion.h2>
           )}
         </div>
         {chatExpanded && (
           <button
             onClick={(e) => {
               e.stopPropagation();
+              // Simply close - animations handled by Framer Motion
               setChatExpanded(false);
+              setChatInputFocused(false);
             }}
             className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-all"
             aria-label="Collapse chat"
@@ -165,41 +191,48 @@ export function ChatSection() {
                 transition={{ duration: 0.2 }}
                 className={`flex gap-3 mb-4 ${isUser ? 'flex-row-reverse' : ''}`}
               >
-                {/* Avatar */}
-                <div
-                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                    isUser ? 'bg-purple-600 text-white' : 'bg-neutral-800'
-                  }`}
-                >
-                  {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-purple-400" />}
-                </div>
+                {/* Avatar - Only show for assistant when chat is expanded */}
+                {(isUser || chatExpanded) && (
+                  <motion.div
+                    initial={!isUser && chatExpanded ? { opacity: 0, scale: 0.8 } : false}
+                    animate={!isUser && chatExpanded ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                      isUser ? 'bg-purple-600 text-white' : 'bg-neutral-800'
+                    }`}
+                  >
+                    {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-purple-400" />}
+                  </motion.div>
+                )}
 
                 {/* Message Content */}
                 <div className={`flex flex-col gap-1 max-w-[80%] ${isUser ? 'items-end' : ''}`}>
                   <div
-                    className={`rounded-lg px-4 py-2 text-sm ${
+                    className={`rounded-lg px-4 py-2 chatbot-message ${
                       isUser
-                        ? 'bg-purple-600 text-white'
+                        ? 'bg-purple-600 text-white text-sm'
                         : 'bg-neutral-800 text-white'
                     }`}
                   >
-                    <div className="prose prose-sm prose-invert max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0">
+                    <div className="prose prose-sm prose-invert max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0 prose-p:text-sm prose-li:text-sm [&>*]:text-sm">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
                           h1: ({ node, ...props }) => <h1 className="text-lg font-bold" {...props} />,
                           h2: ({ node, ...props }) => <h2 className="text-base font-bold" {...props} />,
                           h3: ({ node, ...props }) => <h3 className="text-sm font-semibold" {...props} />,
-                          ul: ({ node, ...props }) => <ul className="list-disc pl-4" {...props} />,
-                          ol: ({ node, ...props }) => <ol className="list-decimal pl-4" {...props} />,
+                          p: ({ node, ...props }) => <p className="text-sm" {...props} />,
+                          ul: ({ node, ...props }) => <ul className="list-disc pl-4 text-sm" {...props} />,
+                          ol: ({ node, ...props }) => <ol className="list-decimal pl-4 text-sm" {...props} />,
+                          li: ({ node, ...props }) => <li className="text-sm" {...props} />,
                           code: ({ node, inline, ...props }: any) =>
                             inline ? (
-                              <code className="px-1 py-0.5 rounded text-xs font-semibold bg-black/20" {...props} />
+                              <code className="px-1 py-0.5 rounded text-sm font-mono bg-black/20" {...props} />
                             ) : (
-                              <code className="block bg-black/20 p-2 rounded my-2 text-xs" {...props} />
+                              <code className="block bg-black/20 p-2 rounded my-2 text-sm font-mono" {...props} />
                             ),
                           a: ({ node, ...props }) => (
-                            <a className="underline hover:no-underline" {...props} />
+                            <a className="underline hover:no-underline text-sm" {...props} />
                           ),
                         }}
                       >
@@ -215,7 +248,7 @@ export function ChatSection() {
                         <button
                           key={index}
                           onClick={() => handlePromptClick(question)}
-                          className="text-left text-xs px-3 py-2 rounded-lg bg-neutral-800/50 hover:bg-neutral-800 transition-colors border border-neutral-700/50 hover:border-neutral-700 text-neutral-300"
+                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-neutral-800/50 hover:bg-neutral-800 transition-colors border border-neutral-700/50 hover:border-neutral-700 text-neutral-300"
                         >
                           {question}
                         </button>
@@ -253,40 +286,41 @@ export function ChatSection() {
           <div ref={scrollRef} />
       </div>
 
-      {/* Chat Input */}
-      {showChatContent && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!input.trim() || isLoading) return;
-            sendMessage({ text: input });
-            setInput('');
-          }}
-          className="px-4 py-3 border-t border-neutral-800 flex gap-2 flex-shrink-0"
+      {/* Chat Input - Always rendered but conditionally visible */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!input.trim() || isLoading) return;
+          sendMessage({ text: input });
+          setInput('');
+        }}
+        className={`px-4 py-3 border-t border-neutral-800 flex gap-2 flex-shrink-0 transition-none ${
+          !showChatContent ? 'hidden' : ''
+        }`}
+      >
+        <input
+          ref={inputRef}
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onFocus={handleInputFocus}
+          placeholder="Ask about Michael's work..."
+          disabled={isLoading}
+          className="flex-1 px-3 py-2 text-sm bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-none"
+          style={{ width: '100%', minWidth: 0 }}
+        />
+        <button
+          type="submit"
+          disabled={isLoading || !input?.trim()}
+          className="p-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onFocus={handleInputFocus}
-            placeholder="Ask about Michael's work..."
-            disabled={isLoading}
-            className="flex-1 px-3 py-2 text-sm bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-          <button
-            type="submit"
-            disabled={isLoading || !input?.trim()}
-            className="p-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 text-white animate-spin" />
-            ) : (
-              <Send className="w-4 h-4 text-white" />
-            )}
-          </button>
-        </form>
-      )}
-    </div>
+          {isLoading ? (
+            <Loader2 className="w-4 h-4 text-white animate-spin" />
+          ) : (
+            <Send className="w-4 h-4 text-white" />
+          )}
+        </button>
+      </form>
+    </motion.div>
   );
 }

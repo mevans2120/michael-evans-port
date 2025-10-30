@@ -4,25 +4,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
+import { motion } from 'framer-motion';
 import {
   Home,
   User,
   Briefcase,
-  Monitor,
-  ChevronRight
+  Monitor
 } from 'lucide-react';
 
 export function NavigationMenu() {
-  const { panelState, setPanelState } = useNavigation();
+  const { panelState, chatExpanded } = useNavigation();
   const isDesktop = useIsDesktop();
   const pathname = usePathname();
 
   const isExpanded = panelState === 'expanded';
-
-  const togglePanel = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setPanelState(isExpanded ? 'partial' : 'expanded');
-  };
 
   const navigationItems = [
     { href: '/', label: 'Home', icon: Home },
@@ -43,25 +38,25 @@ export function NavigationMenu() {
           msOverflowStyle: 'none', // IE/Edge
         }}
       >
-        {/* Close Button - Desktop Only */}
+        {/* MEvans Logo - Desktop Only */}
         {isDesktop && (
-          <>
-            <button
-              onClick={togglePanel}
-              className="flex items-center gap-4 px-8 py-6 text-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
-            >
-              <ChevronRight
-                className="w-4 h-4 transition-transform duration-300"
-                style={{
-                  transform: panelState === 'expanded' ? 'rotate(0deg)' : 'rotate(180deg)'
+          <div className="px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 pointer-events-none">
+            <span className="text-lg font-medium font-serif pointer-events-auto">
+              M<span className="text-gradient">Evans</span>
+            </span>
+            {chatExpanded && (
+              <motion.span
+                layoutId="ai-assistant-text"
+                className="text-lg font-medium text-white font-serif pointer-events-auto"
+                transition={{
+                  duration: 0.3,
+                  ease: [0.4, 0, 0.2, 1],
                 }}
-              />
-              {isExpanded && 'Close'}
-            </button>
-            <div className="relative -my-4">
-              <div className="absolute inset-x-0 top-1/2 h-px bg-neutral-800" />
-            </div>
-          </>
+              >
+                AI Assistant
+              </motion.span>
+            )}
+          </div>
         )}
 
         {/* Navigation Items */}
@@ -72,7 +67,7 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-4 px-8 py-6 text-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
+              className="flex items-center gap-4 px-8 py-6 text-lg font-sans text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
             >
               <Icon className="w-4 h-4" />
               {isExpanded && isDesktop && item.label}
