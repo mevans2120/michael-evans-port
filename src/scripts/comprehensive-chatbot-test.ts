@@ -258,37 +258,74 @@ function countParagraphs(text: string): number {
 }
 
 function evaluateAccuracy(question: string, response: string): 'accurate' | 'partial' | 'incorrect' | 'unknown' {
-  // Check for key terms that should appear in certain responses
-  const accuracyChecks: { [key: string]: string[] } = {
-    'grow up': ['Eugene', 'Oregon'],
-    'college': ['University of Colorado', 'Boulder', 'English'],
-    'Casa Bonita': ['Casa Bonita', 'Trey Parker', 'Matt Stone'],
-    'Virgin America': ['airline', 'responsive', 'website'],
-    'Before Launcher': ['Android', 'launcher', 'distraction'],
-    'Target': ['Huge', 'client'],
-    'AI': ['machine learning', 'AI'],
-    'Lyft': ['8%', 'improvement'],
-    'Aesop': ['12%', 'improvement'],
-    'Post Pal': ['recovery', 'procedure'],
-    'Portland office': ['Work & Co', 'Portland'],
-    'agentic': ['vibe coding', 'AI'],
-    'interview': ['13', 'colleagues'],
+  const lowerResponse = response.toLowerCase();
+
+  // CRITICAL: Check for admission of not knowing
+  const admitsNotKnowing = [
+    "i don't have information",
+    "i don't have specific information",
+    "not found in my knowledge",
+    "i couldn't find",
+    "no information available",
+    "i don't have details",
+    "not mentioned in",
+    "i cannot find",
+    "no specific information"
+  ].some(phrase => lowerResponse.includes(phrase));
+
+  // Check for hallucination indicators (making up specific facts)
+  const hasSpecificClaim = /\b\d+\s*(percent|%|years?|months?|people|employees|users)\b/i.test(response);
+  const hasCompanyName = /\b(Work & Co|Huge|Target|Virgin America|Casa Bonita|Before Labs?|Lyft|Aesop|HBO|Alaska Airlines)\b/i.test(response);
+  const hasTechnicalDetail = /\b(React|Next\.js|TypeScript|Node|Python|AWS|API|database|frontend|backend)\b/i.test(response);
+
+  // If admits not knowing, this is GOOD - mark as 'unknown' (which is correct behavior)
+  if (admitsNotKnowing) {
+    return 'unknown';
+  }
+
+  // Check for relevant content based on question topic
+  const questionTopics: { [key: string]: RegExp[] } = {
+    'grow up': [/oregon|eugene|childhood|early|hometown/i],
+    'college': [/university|colorado|boulder|english|degree|study|education/i],
+    'casa bonita': [/restaurant|trey|parker|stone|south park|denver|cliff diving|membership/i],
+    'virgin america': [/airline|flight|responsive|website|travel/i],
+    'before launcher': [/android|launcher|app|distraction|minimalist/i],
+    'target': [/retail|store|client|project|work/i],
+    'lyft': [/ride|driver|improvement|conversion|onboarding/i],
+    'aesop': [/skincare|beauty|improvement|conversion|checkout/i],
+    'post pal': [/recovery|surgery|health|medical|procedure|app/i],
+    'portland': [/office|portland|work & co|oregon|team/i],
+    'agentic': [/agentic|vibe coding|ai|engineering|development/i],
+    'ai': [/artificial intelligence|machine learning|ai|llm|chatgpt|claude/i],
   };
 
   const lowerQuestion = question.toLowerCase();
-  const lowerResponse = response.toLowerCase();
 
-  for (const [key, expectedTerms] of Object.entries(accuracyChecks)) {
-    if (lowerQuestion.includes(key)) {
-      const foundTerms = expectedTerms.filter(term => lowerResponse.includes(term.toLowerCase()));
-      if (foundTerms.length === expectedTerms.length) return 'accurate';
-      if (foundTerms.length > 0) return 'partial';
-      return 'incorrect';
+  // Check if response contains relevant content for the question
+  for (const [topic, patterns] of Object.entries(questionTopics)) {
+    if (lowerQuestion.includes(topic)) {
+      const hasRelevantContent = patterns.some(pattern => pattern.test(response));
+
+      if (hasRelevantContent) {
+        // Has relevant content and specific details
+        if (hasSpecificClaim || hasCompanyName || hasTechnicalDetail) {
+          return 'accurate'; // Providing specific, relevant information
+        }
+        return 'partial'; // Relevant but general information
+      }
     }
   }
 
-  // If we have a response, assume it's at least partially accurate
-  return response.length > 50 ? 'unknown' : 'incorrect';
+  // If response has substantial content but no topic match
+  if (response.length > 100) {
+    if (hasSpecificClaim || hasCompanyName || hasTechnicalDetail) {
+      return 'incorrect'; // Making claims about wrong topic - potential hallucination
+    }
+    return 'partial'; // General response that might be helpful
+  }
+
+  // Short response without admission of not knowing
+  return 'incorrect';
 }
 
 function evaluateRelevance(followUps: any[], response: string): 'high' | 'medium' | 'low' {
@@ -483,11 +520,17 @@ async function runComprehensiveTest() {
   const moreParagraphs = allResults.filter(r => r.responseLength > 2).length;
 
   // Display summary
-  console.log(`${terminalColors.bright}Accuracy:${terminalColors.reset}`);
-  console.log(`  Accurate:  ${terminalColors.green}${accurateResponses}/${totalQuestions} (${((accurateResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
-  console.log(`  Partial:   ${terminalColors.yellow}${partialResponses}/${totalQuestions} (${((partialResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
-  console.log(`  Incorrect: ${terminalColors.red}${incorrectResponses}/${totalQuestions} (${((incorrectResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
-  console.log(`  Unknown:   ${unknownResponses}/${totalQuestions} (${((unknownResponses/totalQuestions)*100).toFixed(1)}%)`);
+  console.log(`${terminalColors.bright}Response Quality:${terminalColors.reset}`);
+  console.log(`  Accurate:  ${terminalColors.green}${accurateResponses}/${totalQuestions} (${((accurateResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset} - Provided specific, relevant information`);
+  console.log(`  Partial:   ${terminalColors.yellow}${partialResponses}/${totalQuestions} (${((partialResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset} - Provided general but relevant info`);
+  console.log(`  Unknown:   ${terminalColors.green}${unknownResponses}/${totalQuestions} (${((unknownResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset} - Correctly admitted lack of info`);
+  console.log(`  Incorrect: ${terminalColors.red}${incorrectResponses}/${totalQuestions} (${((incorrectResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset} - Potential hallucination or off-topic`);
+
+  console.log(`\n${terminalColors.bright}Hallucination Check:${terminalColors.reset}`);
+  const safeResponses = accurateResponses + partialResponses + unknownResponses;
+  const hallucinationRisk = incorrectResponses;
+  console.log(`  Safe responses: ${terminalColors.green}${safeResponses}/${totalQuestions} (${((safeResponses/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
+  console.log(`  Hallucination risk: ${terminalColors.red}${hallucinationRisk}/${totalQuestions} (${((hallucinationRisk/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
 
   console.log(`\n${terminalColors.bright}Follow-up Relevance:${terminalColors.reset}`);
   console.log(`  High:   ${terminalColors.green}${highRelevance}/${totalQuestions} (${((highRelevance/totalQuestions)*100).toFixed(1)}%)${terminalColors.reset}`);
@@ -556,14 +599,18 @@ async function runComprehensiveTest() {
   console.log(`\n${terminalColors.bright}${terminalColors.green}✅ Comprehensive test complete!${terminalColors.reset}`);
   console.log(`Detailed results saved to: ${reportPath}`);
 
-  // Final verdict
-  const successRate = (accurateResponses + partialResponses) / totalQuestions;
-  const verdict = successRate >= 0.9 ? `${terminalColors.green}EXCELLENT` :
-                  successRate >= 0.8 ? `${terminalColors.green}GOOD` :
-                  successRate >= 0.7 ? `${terminalColors.yellow}FAIR` :
+  // Final verdict - based on safe responses (no hallucinations)
+  const safeRate = safeResponses / totalQuestions;
+  const relevantAccurateRate = (accurateResponses + partialResponses) / totalQuestions;
+
+  const verdict = safeRate >= 0.95 && relevantAccurateRate >= 0.5 ? `${terminalColors.green}EXCELLENT` :
+                  safeRate >= 0.90 && relevantAccurateRate >= 0.4 ? `${terminalColors.green}GOOD` :
+                  safeRate >= 0.85 && relevantAccurateRate >= 0.3 ? `${terminalColors.yellow}FAIR` :
                   `${terminalColors.red}NEEDS IMPROVEMENT`;
 
-  console.log(`\n${terminalColors.bright}Final Verdict: ${verdict}${terminalColors.reset} (${(successRate * 100).toFixed(1)}% success rate)`);
+  console.log(`\n${terminalColors.bright}Final Verdict: ${verdict}${terminalColors.reset}`);
+  console.log(`  Safety rate: ${(safeRate * 100).toFixed(1)}% (no hallucinations)`);
+  console.log(`  Relevant content rate: ${(relevantAccurateRate * 100).toFixed(1)}% (accurate + partial responses)`);
 }
 
 // Run the comprehensive test

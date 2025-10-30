@@ -142,15 +142,22 @@ async function ingestContent() {
     const contentFiles = await loadContentFiles(baseDir);
     console.log(`  ✅ Found ${contentFiles.length} transcript files`);
 
-    // Load Sanity content
-    console.log('  🗄️  Loading Sanity CMS content...');
+    // Load Sanity content (only if feature flag is enabled)
     let sanityDocuments: SanityContentDocument[] = [];
-    try {
-      sanityDocuments = await fetchAllSanityContent();
-      console.log(`  ✅ Loaded ${sanityDocuments.length} Sanity documents\n`);
-    } catch (error) {
-      console.warn('  ⚠️  Warning: Could not fetch Sanity content:', error instanceof Error ? error.message : 'Unknown error');
-      console.log('  → Continuing with transcript files only\n');
+    const ingestSanityContent = process.env.INGEST_SANITY_CONTENT === 'true';
+
+    if (ingestSanityContent) {
+      console.log('  🗄️  Loading Sanity CMS content...');
+      try {
+        sanityDocuments = await fetchAllSanityContent();
+        console.log(`  ✅ Loaded ${sanityDocuments.length} Sanity documents\n`);
+      } catch (error) {
+        console.warn('  ⚠️  Warning: Could not fetch Sanity content:', error instanceof Error ? error.message : 'Unknown error');
+        console.log('  → Continuing with transcript files only\n');
+      }
+    } else {
+      console.log('  ⏭️  Skipping Sanity CMS content (INGEST_SANITY_CONTENT flag is disabled)');
+      console.log('  → To enable: Set INGEST_SANITY_CONTENT=true in .env.local\n');
     }
 
     if (contentFiles.length === 0 && sanityDocuments.length === 0) {

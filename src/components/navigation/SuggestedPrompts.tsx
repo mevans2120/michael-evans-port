@@ -28,7 +28,7 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
       transition={{ duration: 0.3 }}
       className="px-4 py-4 flex flex-col gap-2"
     >
-      <p className="text-xs text-neutral-500 mb-2">Suggested questions:</p>
+      <p className="text-sm text-neutral-500 mb-2 chatbot-suggestion">Suggested questions:</p>
       {prompts.map((prompt, index) => (
         <motion.button
           key={index}
@@ -58,7 +58,7 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
             cursor-pointer
           "
         >
-          <span className="text-neutral-200 group-hover:text-white font-medium">
+          <span className="text-sm text-neutral-200 group-hover:text-white chatbot-suggestion">
             {prompt}
           </span>
         </motion.button>
