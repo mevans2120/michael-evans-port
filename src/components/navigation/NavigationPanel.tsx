@@ -6,6 +6,7 @@ import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PANEL_ANIMATION } from '@/lib/animation-constants';
 
 interface NavigationPanelProps {
   children: ReactNode;
@@ -55,7 +56,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
   const showBorder = panelState === 'partial' || isBorderHovered || isAnimating;
 
   return (
-    <motion.div
+    <div
       className={cn(
         "fixed md:relative",
         "bottom-0 md:bottom-auto",
@@ -67,16 +68,9 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         "z-50",
         "border-t md:border-t-0"
       )}
-      initial={{ width: isDesktop ? getPanelWidth() : '100%' }}
-      animate={{
+      style={{
         width: isDesktop ? getPanelWidth() : '100%',
       }}
-      transition={{
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
-      }}
-      onAnimationStart={() => setIsAnimating(true)}
-      onAnimationComplete={() => setIsAnimating(false)}
       onClick={panelState === 'partial' ? handleClick : undefined}
     >
       <div className="relative flex-1 flex">
@@ -133,6 +127,6 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
           </button>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }

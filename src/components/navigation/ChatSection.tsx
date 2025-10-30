@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
+import { CHAT_ANIMATION, MESSAGE_ANIMATION } from '@/lib/animation-constants';
 import '../chatbot/chatbot.css';
 
 export function ChatSection() {
@@ -103,29 +104,18 @@ export function ChatSection() {
   };
 
   return (
-    <motion.div
-      className={`chat-section flex flex-col border-t md:border-t-0 border-neutral-800 bg-neutral-900 ${
+    <div
+      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t md:border-t-0 border-neutral-800 bg-neutral-900 ${
         isDesktop && chatExpanded
           ? 'absolute inset-0 z-10'
           : !isDesktop && chatExpanded
           ? 'absolute bottom-0 left-0 right-0 z-10'
           : ''
       }`}
-      layout
-      animate={{
+      style={{
         height: isDesktop
           ? (chatExpanded ? '100%' : '34%')
           : (chatExpanded ? '50vh' : 'auto'),
-      }}
-      transition={{
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
-      }}
-      onAnimationComplete={() => {
-        if (!chatExpanded) {
-          setChatInputFocused(false);
-          signalChatCloseComplete(); // Signal that chat close animation is complete
-        }
       }}
     >
       {/* Chat Header */}
@@ -161,10 +151,8 @@ export function ChatSection() {
 
       {/* Chat Messages - Always render when there are messages, but hide with CSS when collapsed */}
       <div
-        className={`flex-1 overflow-y-auto px-4 py-4 bg-neutral-900 transition-all duration-300 ease-in-out hide-scrollbar ${
+        className={`overflow-y-auto px-4 py-4 bg-neutral-900 hide-scrollbar ${
           !showChatContent && !chatExpanded ? 'hidden' : ''
-        } ${
-          chatExpanded ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'
         }`}
       >
           {messages.map((message) => {
@@ -183,7 +171,10 @@ export function ChatSection() {
                 key={message.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{
+                  duration: MESSAGE_ANIMATION.duration,
+                  ease: MESSAGE_ANIMATION.ease,
+                }}
                 className={`flex gap-3 mb-4 ${isUser ? 'flex-row-reverse' : ''} ${isCollapsedWithChat ? 'justify-center' : ''}`}
               >
                 {/* Avatar - Only show for assistant when chat is expanded */}
@@ -219,7 +210,10 @@ export function ChatSection() {
                     key="message-content"
                     initial={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{
+                      duration: MESSAGE_ANIMATION.duration,
+                      ease: MESSAGE_ANIMATION.ease,
+                    }}
                     className={`flex flex-col gap-1 max-w-[80%] ${isUser ? 'items-end' : ''}`}>
                   <div
                     className={`rounded-lg px-4 py-2 chatbot-message ${
@@ -295,23 +289,14 @@ export function ChatSection() {
           )}
 
           {/* Suggested Prompts - Show below welcome message when expanded */}
-          <AnimatePresence mode="wait">
           {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && (
-            <motion.div
-              key="suggested-prompts"
-              initial={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              <SuggestedPrompts onPromptClick={handlePromptClick} />
-            </motion.div>
+            <SuggestedPrompts onPromptClick={handlePromptClick} />
           )}
-          </AnimatePresence>
 
           <div ref={scrollRef} />
       </div>
 
-      {/* Chat Input - Always rendered but conditionally visible */}
+      {/* Chat Input - Grid row with auto height to stay fixed during animations */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -319,7 +304,7 @@ export function ChatSection() {
           sendMessage({ text: input });
           setInput('');
         }}
-        className={`px-4 py-3 border-t border-neutral-800 flex gap-2 flex-shrink-0 transition-none ${
+        className={`px-4 py-3 border-t border-neutral-800 flex gap-2 flex-shrink-0 ${
           !showChatContent ? 'hidden' : ''
         } ${
           panelState === 'partial' && chatExpanded ? 'hidden' : ''
@@ -348,6 +333,6 @@ export function ChatSection() {
           )}
         </button>
       </form>
-    </motion.div>
+    </div>
   );
 }
