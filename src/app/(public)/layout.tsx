@@ -9,6 +9,14 @@ export default function PublicLayout({
   return (
     <NavigationProvider>
       <div className="flex h-screen w-screen bg-neutral-950 overflow-hidden">
+        {/* Navigation Panel - Now on the left for desktop */}
+        <NavigationPanel>
+          <div className="flex-1 flex flex-col bg-neutral-900 relative">
+            <NavigationMenu />
+            <ChatSection />
+          </div>
+        </NavigationPanel>
+
         {/* Main Content Area */}
         <main
           id="main-content"
@@ -16,14 +24,6 @@ export default function PublicLayout({
         >
           {children}
         </main>
-
-        {/* Navigation Panel */}
-        <NavigationPanel>
-          <div className="flex-1 flex flex-col bg-neutral-900 relative">
-            <NavigationMenu />
-            <ChatSection />
-          </div>
-        </NavigationPanel>
       </div>
     </NavigationProvider>
   );
