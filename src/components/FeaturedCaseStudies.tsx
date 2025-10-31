@@ -90,7 +90,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             {/* Purple accent bar */}
             <div
               className={`
-                absolute -left-6 md:-left-10 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
+                absolute left-0 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
                 from-purple-400 to-purple-300 rounded-full transition-all duration-400
                 ${isExpanded ? 'h-20 md:h-30' : 'h-0 md:group-hover:h-30'}
               `}

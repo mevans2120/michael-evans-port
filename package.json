@@ -18,7 +18,8 @@
     "import:showcases": "tsx scripts/import-showcases/import-all.ts",
     "import:ai-workflow": "tsx scripts/import-showcases/import-ai-workflow.ts",
     "import:postpal": "tsx scripts/import-showcases/import-postpal.ts",
-    "import:marketing-sites": "tsx scripts/import-showcases/import-marketing-sites.ts"
+    "import:marketing-sites": "tsx scripts/import-showcases/import-marketing-sites.ts",
+    "update:featured-fields": "tsx scripts/update-featured-fields.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.37",

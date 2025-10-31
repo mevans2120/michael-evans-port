@@ -42,8 +42,8 @@ export default defineType({
       name: 'internalLink',
       title: 'Internal Link',
       type: 'reference',
-      to: [{ type: 'project' }, { type: 'aiProject' }],
-      description: 'Select a project or AI project page',
+      to: [{ type: 'project' }, { type: 'aiShowcase' }],
+      description: 'Select a project or AI showcase page',
       hidden: ({ parent }) => parent?.linkType !== 'internal',
     }),
     defineField({

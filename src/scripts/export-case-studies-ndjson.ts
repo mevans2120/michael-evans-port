@@ -307,6 +307,8 @@ async function exportToNDJSON(caseStudySlugs?: string[]) {
     'casa-bonita',
     'target',
     'peddle',
+    'lyft',
+    'aesop',
   ];
 
   const toExport = caseStudySlugs || allCaseStudies;

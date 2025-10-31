@@ -1,11 +1,10 @@
-'use client'
-
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { client } from '@/lib/sanity/client'
 import { PortableText } from '@portabletext/react'
-import { logger } from '@/lib/logger'
+import { Metadata } from 'next'
 
 // TypeScript interfaces
 interface QuickFact {
@@ -55,62 +54,38 @@ interface AboutData {
   ctaButtonText: string
 }
 
-export default function AboutPage() {
-  const [data, setData] = useState<AboutData | null>(null)
-  const [loading, setLoading] = useState(true)
+export const metadata: Metadata = {
+  title: 'About | Michael Evans',
+  description: 'Product Manager, UX Strategist, and AI Builder with 20 years of experience solving complex problems.',
+}
 
-  useEffect(() => {
-    async function fetchAboutData() {
-      try {
-        const result = await client.fetch(`
-          *[_type == "profile"] | order(_updatedAt desc)[0] {
-            name,
-            "profileImage": profileImage.asset->url,
-            heroHeadline,
-            heroSubheadline,
-            heroIntro,
-            quickFacts,
-            capabilities,
-            sections[] {
-              heading,
-              slug,
-              content,
-              subsections,
-              visible
-            },
-            selectedProjects[] | order(order asc),
-            availability,
-            availabilityText,
-            ctaText,
-            ctaButtonText
-          }
-        `)
-
-        setData(result)
-      } catch (error) {
-        logger.error('Failed to fetch about page data:', error)
-      } finally {
-        setLoading(false)
-      }
+export default async function AboutPage() {
+  const data: AboutData = await client.fetch(`
+    *[_type == "profile"] | order(_updatedAt desc)[0] {
+      name,
+      "profileImage": profileImage.asset->url,
+      heroHeadline,
+      heroSubheadline,
+      heroIntro,
+      quickFacts,
+      capabilities,
+      sections[] {
+        heading,
+        slug,
+        content,
+        subsections,
+        visible
+      },
+      selectedProjects[] | order(order asc),
+      availability,
+      availabilityText,
+      ctaText,
+      ctaButtonText
     }
-
-    fetchAboutData()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 flex items-center justify-center">
-        <div className="text-gray-400 text-lg">Loading...</div>
-      </div>
-    )
-  }
+  `)
 
   if (!data) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 flex items-center justify-center">
-        <div className="text-gray-400 text-lg">Content not found</div>
-      </div>
-    )
+    notFound()
   }
 
   return (

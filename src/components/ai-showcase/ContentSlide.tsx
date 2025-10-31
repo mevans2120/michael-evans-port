@@ -9,18 +9,21 @@ interface ContentSlideProps {
   children: React.ReactNode
   className?: string
   variant?: 'default' | 'dark' | 'darker'
+  columns?: 1 | 2
 }
 
 /**
  * General-purpose content slide
  * Supports section label, heading, and flexible content children
+ * Can display content in 1 or 2 columns
  */
 export function ContentSlide({
   sectionLabel,
   heading,
   children,
   className,
-  variant = 'default'
+  variant = 'default',
+  columns = 1
 }: ContentSlideProps) {
   const backgroundClasses = {
     default: 'bg-gradient-to-br from-[#0a0a14] via-purple-950/10 to-[#0a0a14]',
@@ -31,21 +34,18 @@ export function ContentSlide({
   return (
     <section
       className={cn(
-        // Full viewport slide
-        "h-screen w-full",
-        "snap-start snap-always",
-        // Flexbox layout
-        "flex flex-col items-center justify-center",
+        // Regular section
+        "w-full",
         // Background gradient
         backgroundClasses[variant],
         // Padding
-        "px-8 md:px-16 lg:px-24 py-16",
+        "px-8 md:px-16 lg:px-24 py-20 md:py-24",
         className
       )}
     >
-      <div className="w-full max-w-6xl mx-auto space-y-12">
+      <div className="w-full max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <header className="text-center space-y-4">
+        <header className="space-y-4 mb-12">
           {/* Section Label */}
           {sectionLabel && (
             <div className="text-xs md:text-sm uppercase tracking-widest text-purple-400 font-medium">
@@ -60,7 +60,11 @@ export function ContentSlide({
         </header>
 
         {/* Content */}
-        <div className="space-y-8">
+        <div className={cn(
+          columns === 2
+            ? "lg:columns-2 lg:gap-x-12 space-y-0"
+            : "space-y-8"
+        )}>
           {children}
         </div>
       </div>

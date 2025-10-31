@@ -70,78 +70,110 @@ const aiWorkflowShowcase = {
   },
 
   slides: [
+    // Section 1: The "Oh Shit" Moment
     {
       _type: 'contentSlide',
-      sectionLabel: 'Phase 01 — Discovery',
-      heading: 'When Everything Changed',
+      heading: 'The "Oh Shit" Moment',
       content: [
         {
           _type: 'block',
-          children: [
-            {
-              _type: 'span',
-              text: 'Traditional software development timelines were fundamentally changing, and I almost missed it. For years, I\'d said it took about a year to build anything complex for clients—research, strategy, design, prototyping, and full development. That timeline felt immutable, grounded in reality from dozens of projects. But in early 2024, something shifted.',
-            },
-          ],
+          children: [{
+            _type: 'span',
+            text: 'Traditional software development timelines were fundamentally changing, and I almost missed it. For years, I\'d said it took about a year to build anything complex for clients—research, strategy, design, prototyping, and full development. That timeline felt immutable, grounded in reality from dozens of projects. But in early 2024, something shifted.'
+          }]
         },
         {
           _type: 'block',
-          children: [
-            {
-              _type: 'span',
-              text: 'The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I could actually use in our games. This was my "oh shit" moment.',
-            },
-          ],
+          children: [{
+            _type: 'span',
+            text: 'The catalyst was deceptively simple: I wanted to build a voice-activated kitchen timer that didn\'t connect to the internet. I built a prototype in Replit in about an hour. It wasn\'t quite usable—it needed more work—but it was surprisingly close to functional. That got my attention, but I didn\'t fully grasp the implications yet.'
+          }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I could actually use in our games. It\'s called Dungeon Tracker and is available on my GitHub.'
+          }]
         },
       ],
       quoteBox: {
-        quote: 'Could a product manager without deep coding expertise build world-class software? The evidence was right in front of me. It seemed not just possible, but inevitable.',
+        quote: 'This was my "oh shit" moment. Seeing how fast AI could produce not just a prototype but actually usable software made me realize that the year-long timeline I\'d always quoted was about to change dramatically.',
         attribution: '— On building Dungeon Tracker',
       },
     },
+
+    // Section 3: The Methodology
     {
       _type: 'contentSlide',
-      sectionLabel: 'Phase 02 — Methodology',
       heading: 'How AI-Assisted Development Actually Works',
       content: [
         {
           _type: 'block',
-          children: [
-            {
-              _type: 'span',
-              text: 'The foundation of reliable AI-assisted development starts with technology choices. TypeScript has become essential—not optional, but fundamental. The forced typing prevents an entire category of AI-generated errors.',
-            },
-          ],
+          style: 'h3',
+          children: [{ _type: 'span', text: 'Tech Stack Optimization' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'The foundation of reliable AI-assisted development starts with technology choices. TypeScript has become essential—not optional, but fundamental. The forced typing prevents an entire category of AI-generated errors. When AI doesn\'t keep everything in memory, it might use incorrect variable names. Without types, these mistakes only surface when production builds fail.'
+          }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'Single-page applications work better for AI development because they\'re easier for AI to maintain context. Next.js and React have proven ideal—they\'re modern, well-documented frameworks that AI understands deeply because they\'re widely used in training data.'
+          }]
         },
       ],
       comparisonBoxes: [
         {
           label: 'Traditional Development',
-          text: 'Complex projects: 1 year timeline. Multiple developers required. Manual implementation of every feature.',
+          text: 'Complex projects: 1 year timeline. Multiple developers required. Manual implementation of every feature. Weeks to months for testing and QA.',
           stat: '1 Year',
           icon: '🐌',
         },
         {
           label: 'AI-Assisted Development',
-          text: 'Complex projects: 6 weeks timeline. Single developer with AI assistance. Automated implementation with human oversight.',
+          text: 'Complex projects: 6 weeks timeline. Single developer with AI assistance. Automated implementation with human oversight. Continuous testing integrated.',
           stat: '6 Weeks',
           icon: '🚀',
         },
       ],
     },
+
+    // Section 4: The Tools
     {
       _type: 'contentSlide',
-      sectionLabel: 'Phase 03 — Tools',
       heading: 'Claude Code and the Skills Ecosystem',
       content: [
         {
           _type: 'block',
-          children: [
-            {
-              _type: 'span',
-              text: 'Claude Code emerged as the most powerful, fastest, and most reliable AI coding assistant after extensive testing. It runs in the terminal, providing access to all files and CLI tools.',
-            },
-          ],
+          children: [{
+            _type: 'span',
+            text: 'Claude Code emerged as the most powerful, fastest, and most reliable AI coding assistant after extensive testing. It runs in the terminal, providing access to all files and CLI tools, which proves faster than VS Code plugins and more flexible than browser-based solutions.'
+          }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'What sets Claude Code apart isn\'t just raw capability—it\'s autonomous reliability. Claude Code makes fewer mistakes than alternatives and works best when given complex, multi-step tasks to complete independently.'
+          }]
+        },
+        {
+          _type: 'block',
+          style: 'h3',
+          children: [{ _type: 'span', text: 'Custom Skills Built' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'Over months of development, I\'ve built comprehensive skill suites: Project Analyzer (scans TODOs with 90%+ confidence), Project Manager (GitHub integration with screenshots), Project Planner (discovers features from code), plus complete Design and Development suites.'
+          }]
         },
       ],
       techPills: [
@@ -153,21 +185,83 @@ const aiWorkflowShowcase = {
         'Playwright',
         'VS Code',
         'Terminal',
+        'Custom Skills',
+        'Memory Bank',
       ],
     },
+
+    // Section 5: Quantifiable Impact
     {
       _type: 'contentSlide',
-      sectionLabel: 'Phase 04 — Impact',
-      heading: 'The Philosophy',
+      heading: 'The Numbers Behind the Transformation',
       content: [
         {
           _type: 'block',
-          children: [
-            {
-              _type: 'span',
-              text: 'Every software project should leverage AI to enhance capabilities—not as an afterthought, but as a core architectural decision from day one. This philosophy shapes every decision.',
-            },
-          ],
+          style: 'h3',
+          children: [{ _type: 'span', text: 'Development Speed' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'The speed improvements are difficult to overstate. Implementing Sanity CMS—a task that previously took a month with multiple developers—now takes less than a week. A reasonable prototype of a functional app now takes less than an hour. Full production applications still take weeks, but what took a year now takes six weeks.'
+          }]
+        },
+        {
+          _type: 'block',
+          style: 'h3',
+          children: [{ _type: 'span', text: 'Productivity Metrics' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'Since March 2024, I\'ve generated over 1,000 GitHub commits across 30+ projects. The variety is remarkable: AI-powered specialized agents, autonomous analyzers, RAG-powered retrieval systems, full-stack applications, mobile apps, marketing websites, and developer tools.'
+          }]
+        },
+      ],
+    },
+
+    // Section 6: The Philosophy
+    {
+      _type: 'contentSlide',
+      heading: 'Principles That Guide the Work',
+      content: [
+        {
+          _type: 'block',
+          style: 'h3',
+          children: [{ _type: 'span', text: 'AI-First Design' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'Every software project should leverage AI to enhance capabilities—not as an afterthought, but as a core architectural decision from day one. This means choosing TypeScript for better AI error detection, favoring single-page applications for easier AI context management, and building skills that encode best practices.'
+          }]
+        },
+        {
+          _type: 'block',
+          style: 'h3',
+          children: [{ _type: 'span', text: 'Verification is Essential' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'AI can work autonomously for extended periods, but human verification remains absolutely necessary. I read every significant change AI makes, scrolling through code to understand what it did and catch mistakes before they compound. This verification isn\'t busywork—it\'s where human judgment adds irreplaceable value.'
+          }]
+        },
+        {
+          _type: 'block',
+          style: 'h3',
+          children: [{ _type: 'span', text: 'The English Major Advantage' }]
+        },
+        {
+          _type: 'block',
+          children: [{
+            _type: 'span',
+            text: 'Surprisingly, my English degree pays dividends in AI-assisted development. Specificity in language matters enormously—the ability to choose precise words, understand context, and communicate clearly makes AI dramatically more effective. Technical knowledge is learnable; clarity of communication is harder to develop but more valuable when working with AI.'
+          }]
         },
       ],
     },

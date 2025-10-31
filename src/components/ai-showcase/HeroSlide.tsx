@@ -25,15 +25,14 @@ export function HeroSlide({
   return (
     <section
       className={cn(
-        // Full viewport slide
-        "h-screen w-full",
-        "snap-start snap-always",
+        // Regular hero section
+        "w-full min-h-[70vh]",
         // Flexbox centering
         "flex items-center justify-center",
         // Purple gradient background
         "bg-gradient-to-br from-[#0a0a14] via-purple-950/20 to-[#0a0a14]",
         // Padding
-        "px-8 md:px-16 lg:px-24",
+        "px-8 md:px-16 lg:px-24 py-20 md:py-32",
         className
       )}
     >
@@ -65,24 +64,6 @@ export function HeroSlide({
             {summary}
           </p>
         )}
-
-        {/* Scroll indicator */}
-        <div className="pt-12 flex flex-col items-center gap-2 text-purple-300/60 animate-bounce">
-          <span className="text-sm uppercase tracking-wider">Scroll to explore</span>
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </div>
       </div>
     </section>
   )

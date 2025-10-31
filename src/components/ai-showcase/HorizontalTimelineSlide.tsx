@@ -23,15 +23,14 @@ export function HorizontalTimelineSlide({
   return (
     <section
       className={cn(
-        // Full viewport slide
-        "h-screen w-full",
-        "snap-start snap-always",
+        // Regular section
+        "w-full",
         // Flexbox layout
         "flex flex-col",
         // Background
         "bg-gradient-to-br from-[#050510] via-purple-950/15 to-[#0a0a14]",
         // Padding
-        "py-16",
+        "py-20 md:py-24",
         className
       )}
     >
@@ -64,24 +63,6 @@ export function HorizontalTimelineSlide({
         <div className="flex gap-8 h-full pb-8">
           {children}
         </div>
-      </div>
-
-      {/* Scroll Hint */}
-      <div className="px-8 md:px-16 lg:px-24 pt-4 flex items-center gap-2 text-purple-300/60">
-        <span className="text-sm">Scroll horizontally</span>
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M14 5l7 7m0 0l-7 7m7-7H3"
-          />
-        </svg>
       </div>
     </section>
   )

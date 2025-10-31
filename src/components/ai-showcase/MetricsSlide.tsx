@@ -27,15 +27,14 @@ export function MetricsSlide({
   return (
     <section
       className={cn(
-        // Full viewport slide
-        "h-screen w-full",
-        "snap-start snap-always",
+        // Regular section
+        "w-full",
         // Flexbox layout
         "flex flex-col items-center justify-center",
         // Background
         "bg-gradient-to-br from-[#0a0a14] via-purple-950/20 to-[#0a0a14]",
         // Padding
-        "px-8 md:px-16 lg:px-24 py-16",
+        "px-8 md:px-16 lg:px-24 py-20 md:py-24",
         className
       )}
     >

@@ -5,7 +5,6 @@ import { PortableText } from '@portabletext/react'
 import type { AIShowcase } from '@/types/aiShowcase'
 import {
   ScrollingSlidesLayout,
-  SlideNavigation,
   HeroSlide,
   ContentSlide,
   HorizontalTimelineSlide,
@@ -24,15 +23,8 @@ interface AIShowcasePageClientProps {
 }
 
 export function AIShowcasePageClient({ showcase }: AIShowcasePageClientProps) {
-  // Calculate total number of slides for navigation
-  const totalSlides = 1 + // hero
-    (showcase.slides?.length || 0) + // content slides
-    (showcase.timelinePhases || showcase.workflowSteps || showcase.projectCards ? 1 : 0) + // horizontal slide
-    (showcase.metrics ? 1 : 0) // metrics slide
-
   return (
-    <>
-      <ScrollingSlidesLayout>
+    <ScrollingSlidesLayout>
         {/* Hero Slide */}
         <HeroSlide
           badge={showcase.heroSection.badge}
@@ -42,19 +34,26 @@ export function AIShowcasePageClient({ showcase }: AIShowcasePageClientProps) {
         />
 
         {/* Content Slides */}
-        {showcase.slides?.map((slide, index) => (
-          <ContentSlide
-            key={index}
-            sectionLabel={slide.sectionLabel}
-            heading={slide.heading}
-            variant={index % 3 === 0 ? 'default' : index % 3 === 1 ? 'dark' : 'darker'}
-          >
-            {/* Portable Text Content */}
-            {slide.content && slide.content.length > 0 && (
-              <div className="prose prose-invert max-w-none">
-                <PortableText value={slide.content} />
-              </div>
-            )}
+        {showcase.slides?.map((slide, index) => {
+          // Use two columns if there's substantial text content and no other elements
+          const hasSubstantialText = slide.content && slide.content.length > 2
+          const hasOtherElements = slide.quoteBox || slide.comparisonBoxes || slide.visualCards || slide.techPills
+          const useTwoColumns = hasSubstantialText && !hasOtherElements
+
+          return (
+            <ContentSlide
+              key={index}
+              sectionLabel={slide.sectionLabel}
+              heading={slide.heading}
+              variant={index % 3 === 0 ? 'default' : index % 3 === 1 ? 'dark' : 'darker'}
+              columns={useTwoColumns ? 2 : 1}
+            >
+              {/* Portable Text Content */}
+              {slide.content && slide.content.length > 0 && (
+                <div className="prose prose-invert max-w-none prose-headings:text-purple-200 prose-p:text-gray-300 prose-h3:text-xl prose-h3:font-syne prose-h3:font-semibold prose-h3:mb-3">
+                  <PortableText value={slide.content} />
+                </div>
+              )}
 
             {/* Quote Box */}
             {slide.quoteBox && (
@@ -84,8 +83,9 @@ export function AIShowcasePageClient({ showcase }: AIShowcasePageClientProps) {
             {slide.techPills && slide.techPills.length > 0 && (
               <TechPills technologies={slide.techPills} />
             )}
-          </ContentSlide>
-        ))}
+            </ContentSlide>
+          )
+        })}
 
         {/* Horizontal Scrolling Slide */}
         {(showcase.timelinePhases || showcase.workflowSteps || showcase.projectCards) && (
@@ -135,10 +135,6 @@ export function AIShowcasePageClient({ showcase }: AIShowcasePageClientProps) {
             metrics={showcase.metrics}
           />
         )}
-      </ScrollingSlidesLayout>
-
-      {/* Slide Navigation */}
-      <SlideNavigation slideCount={totalSlides} />
-    </>
+    </ScrollingSlidesLayout>
   )
 }

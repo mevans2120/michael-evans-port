@@ -39,7 +39,7 @@ export function SlideNavigation({ slideCount, className }: SlideNavigationProps)
     <nav
       className={cn(
         "fixed right-8 top-1/2 -translate-y-1/2 z-50",
-        "flex flex-col gap-3",
+        "flex flex-col gap-4",
         className
       )}
       aria-label="Slide navigation"
@@ -49,11 +49,12 @@ export function SlideNavigation({ slideCount, className }: SlideNavigationProps)
           key={index}
           onClick={() => scrollToSlide(index)}
           className={cn(
-            "w-2 h-2 rounded-full transition-all duration-300",
-            "hover:scale-150",
+            "w-3 h-3 rounded-full transition-all duration-300",
+            "hover:scale-150 cursor-pointer",
+            "ring-1 ring-purple-500/20",
             activeSlide === index
-              ? "bg-purple-400 scale-125"
-              : "bg-white/30 hover:bg-white/50"
+              ? "bg-purple-400 scale-150 ring-purple-400/50 shadow-lg shadow-purple-500/50"
+              : "bg-white/20 hover:bg-purple-300/60 hover:ring-purple-300/40"
           )}
           aria-label={`Go to slide ${index + 1}`}
           aria-current={activeSlide === index ? 'true' : 'false'}

@@ -1,123 +1,62 @@
-'use client'
-
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
-import { AIProjectsGrid } from "@/components/AIProjectsGrid";
-import { AIProjectModal } from "@/components/AIProjectModal";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { client } from "@/lib/sanity/client";
-import type { AIProjectData } from "@/types/sanity";
-import { logger } from "@/lib/logger";
-import { useAllAIProjects } from "@/hooks/useAIProject";
+import { featuredAIShowcaseQuery } from "@/lib/sanity/queries";
+import { Metadata } from 'next';
 
-export default function HomePage() {
-  const [selectedProject, setSelectedProject] = useState<AIProjectData | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [tagline, setTagline] = useState<string>('');
-  const [shouldLoadAIProjects, setShouldLoadAIProjects] = useState(false);
-  const aiProjectsRef = useRef<HTMLDivElement>(null);
+export const metadata: Metadata = {
+  title: 'Michael Evans | AI/ML Portfolio',
+  description: 'Portfolio showcasing AI/ML expertise, creative technology solutions, and professional case studies.',
+}
 
+export default async function HomePage() {
   // Site is always dark - no light mode
   const isDarkMode = true;
 
-  // Intersection observer for lazy loading AI projects
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShouldLoadAIProjects(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { rootMargin: '200px' } // Start loading 200px before section is visible
-    );
+  // Fetch all data in parallel for performance
+  const [profileData, caseStudiesData, featuredShowcase] = await Promise.all([
+    // Fetch profile data
+    client.fetch(`*[_type == "profile"] | order(_updatedAt desc)[0] {
+      "profileImage": profileImage.asset->url,
+      tagline
+    }`),
 
-    if (aiProjectsRef.current) {
-      observer.observe(aiProjectsRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Fetch AI projects from Sanity - only when shouldLoadAIProjects is true
-  const { data: aiProjects, loading: aiProjectsLoading, error: aiProjectsError } = useAllAIProjects();
-
-  // Fetch profile data from Sanity
-  useEffect(() => {
-    async function fetchProfileData() {
-      try {
-        const data = await client.fetch(`*[_type == "profile"] | order(_updatedAt desc)[0] {
-          "profileImage": profileImage.asset->url,
-          tagline
-        }`);
-        if (data?.profileImage) {
-          setProfileImage(data.profileImage);
-        }
-        if (data?.tagline) {
-          setTagline(data.tagline);
-        }
-      } catch (error) {
-        logger.error('Failed to load profile data from Sanity:', error);
+    // Fetch featured case studies
+    client.fetch(`
+      *[_type == "project" && featured == true] | order(order asc) {
+        _id,
+        title,
+        "slug": slug.current,
+        featuredCategory,
+        featuredMetric,
+        featuredDescription,
+        order
       }
-    }
-    fetchProfileData();
-  }, []);
+    `),
 
-  // Fetch featured case studies from Sanity
-  const [featuredCaseStudies, setFeaturedCaseStudies] = useState<any[]>([]);
-  useEffect(() => {
-    async function fetchFeaturedCaseStudies() {
-      try {
-        const data = await client.fetch(`
-          *[_type == "project" && featured == true] | order(order asc) {
-            _id,
-            title,
-            "slug": slug.current,
-            featuredCategory,
-            featuredMetric,
-            featuredDescription,
-            order
-          }
-        `);
+    // Fetch featured AI showcase
+    client.fetch(featuredAIShowcaseQuery)
+  ])
 
-        if (data && data.length > 0) {
-          // Map Sanity data to component format
-          const mapped = data.map((project: any, index: number) => ({
-            id: project._id,
-            number: String(index + 1).padStart(2, '0'),
-            category: project.featuredCategory || 'Case Study',
-            title: project.title,
-            metric: project.featuredMetric || '',
-            description: project.featuredDescription || '',
-            slug: project.slug,
-            order: project.order || index + 1
-          }));
-          setFeaturedCaseStudies(mapped);
-        }
-      } catch (error) {
-        logger.error('Failed to load featured case studies from Sanity:', error);
-      }
-    }
-    fetchFeaturedCaseStudies();
-  }, []);
+  const profileImage = profileData?.profileImage || null
+  const tagline = profileData?.tagline || ''
 
-  const handleProjectClick = (project: AIProjectData) => {
-    setSelectedProject(project);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => {
-      setSelectedProject(null);
-    }, 300);
-  };
-
+  // Map case studies data to component format
+  const featuredCaseStudies = caseStudiesData && caseStudiesData.length > 0
+    ? caseStudiesData.map((project: any, index: number) => ({
+        id: project._id,
+        number: String(index + 1).padStart(2, '0'),
+        category: project.featuredCategory || 'Case Study',
+        title: project.title,
+        metric: project.featuredMetric || '',
+        description: project.featuredDescription || '',
+        slug: project.slug,
+        order: project.order || index + 1
+      }))
+    : []
 
   return (
     <div className={`min-h-screen relative transition-colors duration-300 ${
@@ -192,85 +131,73 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* AI Projects Section */}
-      <section ref={aiProjectsRef} className="py-20 px-6 relative">
-        <div className={`absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
-          isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
-        }`} />
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="mb-12 -mx-6 md:mx-0">
-            <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
-              isDarkMode ? 'text-gray-100' : 'text-gray-900'
-            }`}>
-              AI Projects
-              <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
-                    <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
-              </svg>
-            </h2>
-            <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Production-ready AI applications</p>
-          </div>
-
-          {shouldLoadAIProjects ? (
-            <>
-              {aiProjectsLoading ? (
-                <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Loading AI projects...
-                </div>
-              ) : aiProjectsError ? (
-                <div className={`text-center py-12 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-                  Error loading projects: {aiProjectsError}
-                </div>
-              ) : aiProjects.length > 0 ? (
-                <div className="-mx-6 md:mx-0">
-                  <AIProjectsGrid
-                    projects={aiProjects}
-                    onProjectClick={handleProjectClick}
-                    limit={6}
-                  />
-                </div>
-              ) : (
-                <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  No AI projects found
-                </div>
-              )}
-
-              {aiProjects.length > 6 && (
-                <div className="mt-10 text-center">
-                  <Link
-                    href="/ai-showcase"
-                    className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
-                      isDarkMode
-                        ? 'text-accent hover:text-purple-300'
-                        : 'text-purple-600 hover:text-purple-700'
-                    }`}
-                  >
-                    View all AI projects
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Loading...
+      {/* AI Showcase Section */}
+      {featuredShowcase && (
+        <section className="py-20 px-6 relative">
+          <div className={`absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
+            isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
+          }`} />
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="mb-12 -mx-6 md:mx-0">
+              <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-900'
+              }`}>
+                AI Showcase
+                <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
+                      <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient2)" strokeWidth="0.5" />
+                </svg>
+              </h2>
+              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>My journey with AI-assisted development</p>
             </div>
-          )}
-        </div>
-      </section>
 
-      {/* AI Project Modal */}
-      <AIProjectModal
-        project={selectedProject}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+            <div className="-mx-6 md:mx-0">
+              <Link href={`/ai-showcase/${featuredShowcase.slug}`} className="block group">
+                <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-900/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+                  {/* Title */}
+                  <h3 className="text-2xl md:text-3xl font-syne font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
+                    {featuredShowcase.heroSection.title}
+                  </h3>
+
+                  {/* Brief Description */}
+                  {featuredShowcase.heroSection.summary && (
+                    <p className="text-gray-300 mb-6 leading-relaxed line-clamp-2">
+                      {featuredShowcase.heroSection.summary}
+                    </p>
+                  )}
+
+                  {/* CTA */}
+                  <div className="flex items-center gap-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                    <span className="text-sm font-medium">Explore</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+
+              {/* View All Link */}
+              <div className="mt-10 text-center">
+                <Link
+                  href="/ai-showcase"
+                  className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
+                    isDarkMode
+                      ? 'text-accent hover:text-purple-300'
+                      : 'text-purple-600 hover:text-purple-700'
+                  }`}
+                >
+                  View all showcases
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

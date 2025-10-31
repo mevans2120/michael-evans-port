@@ -9,8 +9,8 @@ interface ScrollingSlidesLayoutProps {
 }
 
 /**
- * Main container for scrolling slides showcase
- * Provides full-viewport scrolling with snap behavior
+ * Main container for showcase page
+ * Provides smooth scrolling long-form page layout
  */
 export function ScrollingSlidesLayout({
   children,
@@ -19,13 +19,9 @@ export function ScrollingSlidesLayout({
   return (
     <div
       className={cn(
-        // Full viewport height with scroll
-        "h-screen w-full",
-        // Scroll snap behavior
-        "overflow-y-scroll scroll-smooth",
-        "snap-y snap-mandatory",
-        // Hide scrollbar
-        "scrollbar-hide",
+        // Regular page scroll
+        "min-h-screen w-full",
+        "scroll-smooth",
         className
       )}
     >

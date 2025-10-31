@@ -1,11 +1,9 @@
-'use client'
-
-import { useEffect, useState } from "react";
+import { notFound } from 'next/navigation';
 import { client } from "@/lib/sanity/client";
-import { logger } from "@/lib/logger";
 import { PortableText } from '@portabletext/react';
 import { urlFor } from '@/lib/sanity/client';
 import Image from 'next/image';
+import { Metadata } from 'next';
 
 interface Screenshot {
   image: {
@@ -111,6 +109,37 @@ interface PageProps {
   }>;
 }
 
+// Generate static params for all case studies at build time
+export async function generateStaticParams() {
+  const projects = await client.fetch<{ slug: string }[]>(
+    `*[_type == "project" && category == "case-study"]{ "slug": slug.current }`
+  );
+
+  return projects.map((project) => ({
+    slug: project.slug,
+  }));
+}
+
+// Revalidate every hour (ISR - Incremental Static Regeneration)
+export const revalidate = 3600;
+
+// Generate metadata for SEO
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await client.fetch<CaseStudyData>(PROJECT_QUERY, { slug });
+
+  if (!project) {
+    return {
+      title: 'Case Study Not Found',
+    };
+  }
+
+  return {
+    title: `${project.title} | Michael Evans`,
+    description: project.subtitle || project.description,
+  };
+}
+
 // Portable Text components for rich text rendering
 const portableTextComponents = {
   marks: {
@@ -120,66 +149,12 @@ const portableTextComponents = {
   },
 };
 
-export default function CaseStudyPage({ params }: PageProps) {
-  const [slug, setSlug] = useState<string>('');
-  const [project, setProject] = useState<CaseStudyData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default async function CaseStudyPage({ params }: PageProps) {
+  const { slug } = await params;
+  const project = await client.fetch<CaseStudyData>(PROJECT_QUERY, { slug });
 
-  useEffect(() => {
-    params.then(p => setSlug(p.slug));
-  }, [params]);
-
-  useEffect(() => {
-    async function fetchProject() {
-      if (!slug) {
-        return;
-      }
-
-      try {
-        logger.log(`📡 Fetching case study: ${slug}`);
-        const data = await client.fetch(PROJECT_QUERY, { slug });
-
-        if (!data) {
-          setError(`Project "${slug}" not found`);
-        } else {
-          setProject(data);
-          logger.log(`✅ Successfully loaded ${slug}`);
-        }
-      } catch (err) {
-        logger.error('Error fetching project:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load project');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchProject();
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#0a0a14] to-[#050510] text-white">
-        <div className="flex items-center justify-center min-h-screen">
-          <p className="text-gray-400">Loading project...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !project) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#0a0a14] to-[#050510] text-white">
-        <div className="container max-w-[1200px] mx-auto px-8 py-32">
-          <a href="/case-studies" className="text-gray-400 hover:text-white transition-colors mb-8 inline-block">
-            ← Back to Case Studies
-          </a>
-          <div className="bg-red-900/20 border border-red-900/50 rounded-lg p-6">
-            <p className="text-red-400">{error || 'Project not found'}</p>
-          </div>
-        </div>
-      </div>
-    );
+  if (!project) {
+    notFound();
   }
 
   return (

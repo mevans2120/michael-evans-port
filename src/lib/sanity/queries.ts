@@ -129,67 +129,65 @@ export const heroOptionsQuery = groq`
   }
 `
 
-// Get single AI project by slug
-export const aiProjectQuery = groq`
-  *[_type == "aiProject" && slug.current == $slug][0] {
+// Get all AI Showcases for landing page
+export const allAIShowcasesQuery = groq`
+  *[_type == "aiShowcase"] | order(order asc) {
     _id,
     title,
-    slug,
-    subtitle,
-    description,
+    "slug": slug.current,
     category,
-    status,
-    heroImage,
-    liveUrl,
-    githubUrl,
-    overview {
-      problem,
-      solution,
-      role,
-      timeline
-    },
-    metrics[] {
-      label,
-      value
-    },
-    techStack[],
-    aiComponents[] {
-      name,
-      description,
-      technology
-    },
-    developmentProcess[] {
-      phase,
-      description,
-      outcomes[]
-    },
-    learnings[],
-    achievements[],
-    images[] {
-      image,
-      caption,
-      alt
-    },
     featured,
     order,
-    publishedAt
+    heroSection {
+      badge,
+      title,
+      subtitle,
+      summary
+    }
   }
 `
 
-// Get all AI projects
-export const allAIProjectsQuery = groq`
-  *[_type == "aiProject"] | order(order asc, publishedAt desc) {
+// Get featured AI Showcase for homepage
+export const featuredAIShowcaseQuery = groq`
+  *[_type == "aiShowcase" && featured == true] | order(order asc)[0] {
+    _id,
+    title,
+    "slug": slug.current,
+    category,
+    heroSection {
+      badge,
+      title,
+      subtitle,
+      summary
+    }
+  }
+`
+
+// Get featured case study for case studies landing page
+export const featuredCaseStudyQuery = groq`
+  *[_type == "project" && category == "case-study" && featured == true] | order(order asc)[0] {
     _id,
     title,
     slug,
-    subtitle,
+    summary,
     description,
-    category,
-    status,
-    heroImage,
-    liveUrl,
-    githubUrl,
-    featured,
+    metrics[] {
+      label,
+      value,
+      description
+    },
+    heroImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption
+    },
     order
   }
 `
