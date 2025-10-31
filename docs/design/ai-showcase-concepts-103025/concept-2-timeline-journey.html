@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Timeline Journey - AI Workflow Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0a14;
+      color: #f0f0f0;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    /* Gradient background */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Sticky Progress Sidebar */
+    .progress-sidebar {
+      position: fixed;
+      left: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(147, 51, 234, 0.3);
+      border: 2px solid rgba(147, 51, 234, 0.5);
+      transition: all 300ms ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-dot.active {
+      background: rgba(147, 51, 234, 1);
+      border-color: rgba(147, 51, 234, 1);
+      box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+    }
+
+    .progress-dot::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      transition: opacity 300ms ease;
+      pointer-events: none;
+    }
+
+    .progress-dot:hover::before,
+    .progress-dot.active::before {
+      opacity: 1;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.4);
+      border-radius: 50px;
+      color: #c084f5;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #a855f7, #f0f0f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      color: #b0b0b0;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    /* Timeline Container */
+    .timeline-container {
+      position: relative;
+      padding: 4rem 0;
+    }
+
+    /* Timeline spine */
+    .timeline-spine {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom,
+        transparent,
+        rgba(147, 51, 234, 0.5) 20%,
+        rgba(147, 51, 234, 0.5) 80%,
+        transparent
+      );
+      transform: translateX(-50%);
+    }
+
+    /* Timeline item */
+    .timeline-item {
+      position: relative;
+      margin-bottom: 8rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      order: 2;
+    }
+
+    .timeline-item:nth-child(even) .timeline-visual {
+      order: 1;
+    }
+
+    /* Timeline node */
+    .timeline-node {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0a0a14;
+      border: 3px solid rgba(147, 51, 234, 0.8);
+      z-index: 10;
+      box-shadow: 0 0 0 8px rgba(147, 51, 234, 0.1);
+      transition: all 300ms ease;
+    }
+
+    .timeline-item:hover .timeline-node {
+      border-color: rgba(147, 51, 234, 1);
+      box-shadow: 0 0 0 12px rgba(147, 51, 234, 0.2),
+                  0 0 30px rgba(147, 51, 234, 0.5);
+    }
+
+    /* Timeline content card */
+    .timeline-content {
+      background: rgba(20, 20, 35, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(147, 51, 234, 0.2);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      transition: all 400ms ease;
+    }
+
+    .timeline-item:hover .timeline-content {
+      background: rgba(25, 25, 40, 0.85);
+      border-color: rgba(147, 51, 234, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .timeline-label {
+      font-size: 0.75rem;
+      color: #c084f5;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-heading {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: #f0f0f0;
+    }
+
+    .timeline-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #c0c0c0;
+    }
+
+    .timeline-text p {
+      margin-bottom: 1.25rem;
+    }
+
+    /* Timeline visual */
+    .timeline-visual {
+      position: relative;
+    }
+
+    .visual-card {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(168, 85, 247, 0.05));
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.5rem;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: #808080;
+      font-size: 0.95rem;
+      transition: all 300ms ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .visual-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 500ms ease;
+    }
+
+    .timeline-item:hover .visual-card::before {
+      opacity: 1;
+    }
+
+    /* Metrics showcase */
+    .metrics-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 6rem 0;
+      padding: 0 2rem;
+    }
+
+    .metric-box {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(147, 51, 234, 0.05));
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: all 300ms ease;
+    }
+
+    .metric-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
+      border-color: rgba(147, 51, 234, 0.5);
+    }
+
+    .metric-number {
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      background: linear-gradient(135deg, #a855f7, #c084f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+
+    .metric-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #d0d0d0;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-desc {
+      font-size: 0.85rem;
+      color: #909090;
+    }
+
+    /* Quote highlight */
+    .quote-highlight {
+      background: rgba(147, 51, 234, 0.08);
+      border-left: 4px solid #a855f7;
+      border-radius: 0.75rem;
+      padding: 2rem 2.5rem;
+      margin: 3rem 0;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: #d0d0d0;
+      line-height: 1.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .progress-sidebar {
+        display: none;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-visual {
+        order: unset;
+      }
+
+      .timeline-spine {
+        left: 2rem;
+      }
+
+      .timeline-node {
+        left: 2rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .visual-card {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background gradient -->
+  <div class="bg-gradient"></div>
+
+  <!-- Progress Sidebar -->
+  <div class="progress-sidebar">
+    <div class="progress-dot active" data-label="Intro"></div>
+    <div class="progress-dot" data-label="Discovery"></div>
+    <div class="progress-dot" data-label="Evolution"></div>
+    <div class="progress-dot" data-label="Methodology"></div>
+    <div class="progress-dot" data-label="Tools"></div>
+    <div class="progress-dot" data-label="Impact"></div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content fade-in-up">
+      <div class="hero-badge">AI Workflow Journey</div>
+      <h1>Building Production Software with AI</h1>
+      <p class="subtitle">A transformation story: from year-long timelines to week-long deliveries</p>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <div class="container">
+    <div class="timeline-container">
+      <div class="timeline-spine"></div>
+
+      <!-- Timeline Item 1: The Discovery -->
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-label">Phase 01 — Discovery</div>
+          <h2 class="timeline-heading">The "Oh Shit" Moment</h2>
+          <div class="timeline-text">
+            <p>Traditional software development timelines were fundamentally changing, and I almost missed it. For years, I'd said it took about a year to build anything complex for clients. That timeline felt immutable.</p>
+            <p>The catalyst was deceptively simple: a voice-activated kitchen timer built in under an hour. Then came the real revelation—working with my 11-year-old son to build a D&D tracker. We had something genuinely useful in under an hour.</p>
+          </div>
+        </div>
+        <div class="timeline-visual">
+          <div class="visual-card">
+            <p><strong>Dungeon Tracker App</strong><br>Built in under 1 hour<br>Actually usable in real games</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Item 2: Tool Discovery -->
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-label">Phase 02 — Experimentation</div>
+          <h2 class="timeline-heading">Tool Discovery & Evolution</h2>
+          <div class="timeline-text">
+            <p>Started with Replit for rapid prototyping, moved to Cursor for better file control, explored various AI coding assistants. Each tool taught lessons about what works and what doesn't.</p>
+            <p>The breakthrough came with Claude Code running in the terminal inside VS Code—giving access to all files and CLI tools while maintaining power and speed.</p>
+          </div>
+        </div>
+        <div class="timeline-visual">
+          <div class="visual-card">
+            <p><strong>Claude Code in Terminal</strong><br>Multiple windows, parallel agents<br>Complete file & CLI access</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Item 3: Methodology -->
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-label">Phase 03 — Refinement</div>
+          <h2 class="timeline-heading">The Methodology Emerges</h2>
+          <div class="timeline-text">
+            <p>TypeScript became non-negotiable—the forced typing prevents entire categories of AI-generated errors. Single-page applications work better because they're easier for AI to maintain context.</p>
+          </div>
+          <div class="quote-highlight">
+            "Research, Plan, Build, Test. When you have a problem, have the AI research first, then plan with clear success criteria, then execute in phases."
+          </div>
+        </div>
+        <div class="timeline-visual">
+          <div class="visual-card">
+            <p><strong>Development Timeline</strong><br>Traditional: 3-6 months<br>AI-Assisted: 2-4 weeks</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Item 4: Skills System -->
+      <div class="timeline-item">
+        <div class="timeline-node"></div>
+        <div class="timeline-content">
+          <div class="timeline-label">Phase 04 — Automation</div>
+          <h2 class="timeline-heading">Building the Skills Ecosystem</h2>
+          <div class="timeline-text">
+            <p>Created comprehensive skill suites transforming Claude Code into a specialized development environment: Project Analyzer, Project Manager, Project Planner.</p>
+            <p>Design suite, Development suite, Quality Engineering—specialized AI agents handling complex multi-step tasks autonomously while maintaining context and patterns.</p>
+          </div>
+        </div>
+        <div class="timeline-visual">
+          <div class="visual-card">
+            <p><strong>Skills Architecture</strong><br>3 complete suites<br>Autonomous multi-step tasks</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics Showcase -->
+  <section>
+    <div class="container">
+      <div class="metrics-showcase">
+        <div class="metric-box">
+          <div class="metric-number">1000+</div>
+          <div class="metric-title">GitHub Commits</div>
+          <div class="metric-desc">Since March 2024</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-number">30+</div>
+          <div class="metric-title">Projects Shipped</div>
+          <div class="metric-desc">Production code</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-number">< 1 Week</div>
+          <div class="metric-title">Sanity CMS</div>
+          <div class="metric-desc">Was 1 month</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-number">< 1 Hour</div>
+          <div class="metric-title">Prototypes</div>
+          <div class="metric-desc">Functional apps</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Simple scroll-based progress tracking
+    const progressDots = document.querySelectorAll('.progress-dot');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+      timelineItems.forEach((item, index) => {
+        const itemTop = item.offsetTop;
+        const itemBottom = itemTop + item.offsetHeight;
+
+        if (scrollPosition >= itemTop && scrollPosition <= itemBottom) {
+          progressDots.forEach(dot => dot.classList.remove('active'));
+          if (progressDots[index + 1]) {
+            progressDots[index + 1].classList.add('active');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

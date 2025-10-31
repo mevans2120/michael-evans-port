@@ -39,9 +39,10 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
             hover:border-purple-500/50
             rounded-lg
             cursor-pointer
+            transition-colors duration-200
           "
         >
-          <span className="text-sm text-neutral-200 group-hover:text-white chatbot-suggestion">
+          <span className="text-sm text-neutral-200 group-hover:text-white chatbot-suggestion transition-colors duration-200">
             {prompt}
           </span>
         </button>

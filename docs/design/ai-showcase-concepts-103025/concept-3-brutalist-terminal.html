@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Brutalist Terminal - AI Workflow Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #000000;
+      color: #00ff00;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scanline effect */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 0, 0.03),
+        rgba(0, 255, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 100;
+      animation: scanline 8s linear infinite;
+    }
+
+    @keyframes scanline {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(20px); }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Terminal header */
+    .terminal-header {
+      background: #1a1a1a;
+      border-bottom: 2px solid #00ff00;
+      padding: 1rem 2rem;
+      font-size: 0.85rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .terminal-prompt {
+      color: #00ff00;
+      font-weight: 600;
+    }
+
+    .terminal-path {
+      color: #00ffff;
+    }
+
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: #00ff00;
+      animation: blink 1s step-end infinite;
+      margin-left: 4px;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Hero section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .hero-badge::before {
+      content: '>';
+      position: absolute;
+      left: -20px;
+      color: #00ff00;
+      font-weight: 700;
+    }
+
+    .hero-badge::after {
+      content: '<';
+      position: absolute;
+      right: -20px;
+      color: #00ff00;
+      font-weight: 700;
+    }
+
+    .ascii-art {
+      font-size: 0.5rem;
+      line-height: 0.6rem;
+      color: #00ff00;
+      margin-bottom: 2rem;
+      white-space: pre;
+      font-weight: 400;
+      opacity: 0.7;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800;
+      color: #00ff00;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      line-height: 1.1;
+    }
+
+    .hero .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero .glitch::before,
+    .hero .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero .glitch::before {
+      animation: glitch-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+      color: #ff00ff;
+      z-index: -1;
+    }
+
+    .hero .glitch::after {
+      animation: glitch-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse infinite;
+      color: #00ffff;
+      z-index: -2;
+    }
+
+    @keyframes glitch-1 {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes glitch-2 {
+      0% { transform: translate(0); }
+      20% { transform: translate(2px, -2px); }
+      40% { transform: translate(2px, 2px); }
+      60% { transform: translate(-2px, -2px); }
+      80% { transform: translate(-2px, 2px); }
+      100% { transform: translate(0); }
+    }
+
+    .hero .tagline {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: #00ffff;
+      max-width: 800px;
+      margin: 0 auto;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    /* Code block sections */
+    .code-section {
+      margin: 6rem 0;
+      background: #0a0a0a;
+      border: 2px solid #00ff00;
+      position: relative;
+    }
+
+    .code-header {
+      background: #1a1a1a;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 2px solid #00ff00;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    .code-icon {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-icon.red { background: #ff5555; }
+    .code-icon.yellow { background: #ffff00; }
+    .code-icon.green { background: #00ff00; }
+
+    .code-title {
+      color: #00ffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .code-body {
+      padding: 3rem 2rem;
+    }
+
+    .code-label {
+      color: #ff00ff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+
+    .code-heading {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: #00ff00;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .code-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: #00ffff;
+      margin-bottom: 1.5rem;
+    }
+
+    .code-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Terminal output box */
+    .terminal-output {
+      background: #000000;
+      border: 2px solid #00ffff;
+      padding: 2rem;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #00ffff;
+      position: relative;
+    }
+
+    .terminal-output::before {
+      content: '$ ';
+      color: #00ff00;
+      font-weight: 700;
+    }
+
+    .terminal-comment {
+      color: #666666;
+      font-style: italic;
+    }
+
+    /* Data blocks */
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      margin: 4rem 0;
+    }
+
+    .data-cell {
+      background: #0a0a0a;
+      border: 1px solid #00ff00;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      transition: all 200ms ease;
+      position: relative;
+    }
+
+    .data-cell::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 255, 0, 0.05);
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    .data-cell:hover {
+      background: #000000;
+      z-index: 10;
+    }
+
+    .data-cell:hover::before {
+      opacity: 1;
+    }
+
+    .data-value {
+      font-size: 2.5rem;
+      color: #00ff00;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    .data-label {
+      font-size: 0.85rem;
+      color: #00ffff;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .data-desc {
+      font-size: 0.75rem;
+      color: #666666;
+    }
+
+    /* Image containers */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 0;
+      margin: 4rem 0;
+    }
+
+    .image-cell {
+      background: #000000;
+      border: 2px solid #00ff00;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: #666666;
+      font-size: 0.85rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-cell::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 0, 0.03) 2px,
+        rgba(0, 255, 0, 0.03) 4px
+      );
+      pointer-events: none;
+    }
+
+    .image-cell:hover {
+      border-color: #00ffff;
+      color: #00ffff;
+    }
+
+    /* Quote */
+    .terminal-quote {
+      margin: 4rem 0;
+      padding: 2rem 3rem;
+      background: #000000;
+      border-left: 4px solid #00ff00;
+      border-right: 4px solid #00ff00;
+      position: relative;
+    }
+
+    .terminal-quote::before {
+      content: '//';
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      color: #666666;
+      font-weight: 700;
+    }
+
+    .terminal-quote-text {
+      font-size: 1.1rem;
+      color: #00ffff;
+      line-height: 1.8;
+      font-weight: 400;
+      padding-left: 2rem;
+    }
+
+    .terminal-quote-author {
+      margin-top: 1rem;
+      color: #00ff00;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding-left: 2rem;
+    }
+
+    /* ASCII divider */
+    .ascii-divider {
+      text-align: center;
+      color: #00ff00;
+      opacity: 0.3;
+      margin: 6rem 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .image-grid,
+      .data-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Grid background -->
+  <div class="grid-bg"></div>
+  <div class="scanlines"></div>
+
+  <!-- Terminal header -->
+  <div class="terminal-header">
+    <span class="terminal-prompt">michael@portfolio</span>
+    <span class="terminal-path">~/ai-showcase/workflow</span>
+    <span class="terminal-cursor"></span>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="ascii-art">
+    ___    ____   _       __           __   _____
+   /   |  /  _/  | |     / /___  _____/ /__/ __(_)___ _      __
+  / /| |  / /    | | /| / / __ \/ ___/ //_/ /_/ / __ \ | /| / /
+ / ___ |_/ /     | |/ |/ / /_/ / /  / ,< / __/ / /_/ / |/ |/ /
+/_/  |_/___/     |__/|__/\____/_/  /_/|_/_/ /_/\____/|__/|__/
+      </div>
+
+      <div class="hero-badge">SYSTEM.AI_WORKFLOW.INIT()</div>
+
+      <h1>
+        <span class="glitch" data-text="AI-POWERED">AI-POWERED</span><br>
+        <span class="glitch" data-text="DEVELOPMENT">DEVELOPMENT</span>
+      </h1>
+
+      <p class="tagline">
+        > Transforming product managers into full-stack developers<br>
+        > Year-long timelines compressed to weeks<br>
+        > 1000+ commits · 30+ production projects · < 1 hour prototypes
+      </p>
+    </div>
+  </section>
+
+  <!-- Section: Discovery -->
+  <section class="code-section">
+    <div class="code-header">
+      <div class="code-icon red"></div>
+      <div class="code-icon yellow"></div>
+      <div class="code-icon green"></div>
+      <div class="code-title">01_DISCOVERY.md</div>
+    </div>
+    <div class="code-body">
+      <div class="code-label">// PHASE_01</div>
+      <h2 class="code-heading">THE "OH SHIT" MOMENT</h2>
+
+      <div class="code-text">
+        <p>Traditional software development timelines were fundamentally changing, and I almost missed it. For years, I'd quoted year-long timelines for complex client work. That assumption was about to shatter.</p>
+
+        <p>The catalyst: a voice-activated kitchen timer built in Replit in under an hour. Not quite production-ready, but surprisingly functional. Then came the real revelation.</p>
+      </div>
+
+      <div class="terminal-output">
+        <span class="terminal-comment"># Building Dungeon Tracker with my 11-year-old son</span><br>
+        $ claude --prompt "D&D initiative tracker"<br>
+        → Generating component structure...<br>
+        → Implementing state management...<br>
+        → Adding hit point tracking...<br>
+        ✓ Build complete: 47 minutes<br>
+        <span style="color: #00ff00;">STATUS: ACTUALLY USABLE IN REAL GAMES</span>
+      </div>
+
+      <div class="terminal-quote">
+        <div class="terminal-quote-text">
+          "Within an hour, we had something genuinely useful. This was my 'oh shit' moment. The year-long timeline I'd always quoted was about to change dramatically."
+        </div>
+        <div class="terminal-quote-author">
+          — discovery_log.txt
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASCII Divider -->
+  <div class="ascii-divider">
+    ═══════════════════════════════════════════════════════════
+  </div>
+
+  <!-- Section: Metrics -->
+  <section class="code-section">
+    <div class="code-header">
+      <div class="code-icon red"></div>
+      <div class="code-icon yellow"></div>
+      <div class="code-icon green"></div>
+      <div class="code-title">02_METRICS.json</div>
+    </div>
+    <div class="code-body">
+      <div class="code-label">// QUANTIFIABLE_IMPACT</div>
+      <h2 class="code-heading">SYSTEM PERFORMANCE</h2>
+
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-value">1000+</div>
+          <div class="data-label">Git Commits</div>
+          <div class="data-desc">Since March 2024</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-value">30+</div>
+          <div class="data-label">Projects</div>
+          <div class="data-desc">Production code</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-value">< 1 Week</div>
+          <div class="data-label">Sanity CMS</div>
+          <div class="data-desc">Was 1 month</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-value">< 1 Hour</div>
+          <div class="data-label">Prototype</div>
+          <div class="data-desc">Functional apps</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASCII Divider -->
+  <div class="ascii-divider">
+    ═══════════════════════════════════════════════════════════
+  </div>
+
+  <!-- Section: Methodology -->
+  <section class="code-section">
+    <div class="code-header">
+      <div class="code-icon red"></div>
+      <div class="code-icon yellow"></div>
+      <div class="code-icon green"></div>
+      <div class="code-title">03_METHODOLOGY.ts</div>
+    </div>
+    <div class="code-body">
+      <div class="code-label">// CORE_PROCESS</div>
+      <h2 class="code-heading">THE PROTOCOL</h2>
+
+      <div class="code-text">
+        <p>TypeScript: Non-negotiable. Forced typing prevents entire categories of AI-generated errors. Type errors force corrections before moving forward.</p>
+
+        <p>Single-page applications work better for AI development. Context maintenance. Fewer mistakes. Less guidance required.</p>
+      </div>
+
+      <div class="terminal-output">
+        function aiWorkflow(problem: Problem): Solution {<br>
+        &nbsp;&nbsp;const research = ai.research(problem);<br>
+        &nbsp;&nbsp;const plan = ai.createPlan(research, { phased: true });<br>
+        &nbsp;&nbsp;const build = ai.execute(plan, { testBetweenPhases: true });<br>
+        &nbsp;&nbsp;const test = ai.evaluate(build, { comprehensive: true });<br>
+        &nbsp;&nbsp;return ai.improve(test);<br>
+        }
+      </div>
+
+      <div class="terminal-quote">
+        <div class="terminal-quote-text">
+          Research. Plan. Build. Test. Repeat. Specificity wins every time. Consistency matters. Don't be afraid to ask AI for advice.
+        </div>
+        <div class="terminal-quote-author">
+          — prompt_engineering_principles.md
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASCII Divider -->
+  <div class="ascii-divider">
+    ═══════════════════════════════════════════════════════════
+  </div>
+
+  <!-- Section: Visual Assets -->
+  <section class="code-section">
+    <div class="code-header">
+      <div class="code-icon red"></div>
+      <div class="code-icon yellow"></div>
+      <div class="code-icon green"></div>
+      <div class="code-title">04_ASSETS.img</div>
+    </div>
+    <div class="code-body">
+      <div class="code-label">// VISUAL_DOCUMENTATION</div>
+      <h2 class="code-heading">SYSTEM SNAPSHOTS</h2>
+
+      <div class="image-grid">
+        <div class="image-cell">
+          <div>
+            [CLAUDE_CODE_TERMINAL.png]<br><br>
+            Multiple VS Code instances<br>
+            Parallel agent execution<br>
+            Full file & CLI access
+          </div>
+        </div>
+        <div class="image-cell">
+          <div>
+            [TIMELINE_COMPARISON.svg]<br><br>
+            Traditional: 3-6 months<br>
+            AI-Assisted: 2-4 weeks<br>
+            6x speed increase
+          </div>
+        </div>
+        <div class="image-cell">
+          <div>
+            [SKILLS_ARCHITECTURE.diagram]<br><br>
+            Project · Design · Dev suites<br>
+            Autonomous multi-step tasks<br>
+            Context-aware execution
+          </div>
+        </div>
+        <div class="image-cell">
+          <div>
+            [DUNGEON_TRACKER.app]<br><br>
+            Built in < 1 hour<br>
+            Actually usable<br>
+            The breakthrough moment
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASCII Divider -->
+  <div class="ascii-divider">
+    ═══════════════════════════════════════════════════════════
+  </div>
+
+  <!-- Section: Stack -->
+  <section class="code-section">
+    <div class="code-header">
+      <div class="code-icon red"></div>
+      <div class="code-icon yellow"></div>
+      <div class="code-icon green"></div>
+      <div class="code-title">05_TECH_STACK.config</div>
+    </div>
+    <div class="code-body">
+      <div class="code-label">// INFRASTRUCTURE</div>
+      <h2 class="code-heading">THE TOOLKIT</h2>
+
+      <div class="code-text">
+        <p>Claude Code: Terminal-based, full file access, autonomous reliability. The breakthrough tool after extensive testing. Makes fewer mistakes. Works best with complex multi-step tasks.</p>
+
+        <p>Custom Skills: Project Analyzer (TODO detection, production verification), Project Manager (GitHub automation, visual documentation), Project Planner (feature discovery, roadmap generation).</p>
+      </div>
+
+      <div class="terminal-output">
+        <span class="terminal-comment"># Primary development environment</span><br>
+        TOOL: Claude Code (terminal)<br>
+        ACCESS: All files + CLI tools<br>
+        SPEED: Fastest tested<br>
+        RELIABILITY: Highest tested<br>
+        SKILLS: 3 complete suites (Project, Design, Dev)<br>
+        <span style="color: #00ff00;">STATUS: PRODUCTION_READY</span>
+      </div>
+    </div>
+  </section>
+
+  <div style="height: 8rem;"></div>
+
+  <script>
+    // Matrix rain effect on hover
+    const imageCells = document.querySelectorAll('.image-cell');
+    imageCells.forEach(cell => {
+      cell.addEventListener('mouseenter', () => {
+        const colors = ['#00ff00', '#00ffff', '#ff00ff'];
+        cell.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
+      });
+      cell.addEventListener('mouseleave', () => {
+        cell.style.borderColor = '#00ff00';
+      });
+    });
+  </script>
+</body>
+</html>

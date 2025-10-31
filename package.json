@@ -14,7 +14,11 @@
     "setup-db": "tsx src/lib/chatbot/setup-database.ts",
     "ingest": "tsx src/lib/chatbot/ingest-content.ts",
     "ingest:clear": "tsx src/lib/chatbot/ingest-content.ts --clear",
-    "migrate:about": "tsx scripts/migrate-about-content.ts"
+    "migrate:about": "tsx scripts/migrate-about-content.ts",
+    "import:showcases": "tsx scripts/import-showcases/import-all.ts",
+    "import:ai-workflow": "tsx scripts/import-showcases/import-ai-workflow.ts",
+    "import:postpal": "tsx scripts/import-showcases/import-postpal.ts",
+    "import:marketing-sites": "tsx scripts/import-showcases/import-marketing-sites.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.37",

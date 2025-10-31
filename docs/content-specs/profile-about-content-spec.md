@@ -170,7 +170,7 @@ I'm really interested in the 0-to-1 "army of one" approach, where I do product s
 
 **What I've Built with AI:**
 - **PostPal** - Medical procedure recovery app (React Native + Next.js)
-- **Marketing Websites** - DOA, Opal Creek, Coronagaten, and others (React + Sanity)
+- **Marketing Websites** - DOA, Opal Creek, Karuna Gatton, and others (React + Sanity)
 - **Claude Tools** - Custom memory bank, 3 skill suites (Design, Project, Dev)
 - **1,000+ GitHub Commits** - Since switching to Claude Code
 

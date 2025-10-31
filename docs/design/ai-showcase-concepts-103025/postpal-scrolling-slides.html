@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PostPal: AI-Powered Recovery Guidance - Scrolling Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0a14;
+      color: #f0f0f0;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .slide {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      position: relative;
+      padding: 4rem 2rem;
+    }
+
+    .slide-1 {
+      background: radial-gradient(circle at 30% 40%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 60%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+                  #0a0a14;
+    }
+
+    .slide-2 {
+      background: linear-gradient(135deg, #0a0a14 0%, #12101d 100%);
+    }
+
+    .slide-3 {
+      background: #0a0a14;
+    }
+
+    .slide-4 {
+      background: linear-gradient(180deg, #0a0a14 0%, #0d0a18 100%);
+    }
+
+    .slide-5 {
+      background: radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.08) 0%, transparent 60%),
+                  #0a0a14;
+    }
+
+    .slide-6 {
+      background: linear-gradient(to bottom, #0a0a14, #050510);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .slide-number {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 100;
+    }
+
+    .slide-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(147, 51, 234, 0.3);
+      border: 2px solid rgba(147, 51, 234, 0.5);
+      cursor: pointer;
+      transition: all 300ms ease;
+    }
+
+    .slide-dot.active {
+      background: rgba(147, 51, 234, 1);
+      border-color: rgba(147, 51, 234, 1);
+      box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+      transform: scale(1.3);
+    }
+
+    /* Hero */
+    .hero-content {
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.4);
+      border-radius: 50px;
+      color: #c084f5;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #a855f7, #f0f0f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      color: #b0b0b0;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .hero-summary {
+      font-size: 1.125rem;
+      color: #909090;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* Content slides */
+    .slide-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .slide-label {
+      font-size: 0.75rem;
+      color: #c084f5;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slide-label::before {
+      content: '';
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(to right, #a855f7, transparent);
+    }
+
+    .slide-heading {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin-bottom: 2rem;
+      color: #f0f0f0;
+      line-height: 1.1;
+    }
+
+    .slide-text {
+      font-size: 1.125rem;
+      line-height: 1.9;
+      color: #c0c0c0;
+      margin-bottom: 2rem;
+    }
+
+    .slide-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Problem/Solution boxes */
+    .problem-solution {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .ps-box {
+      background: rgba(20, 20, 35, 0.6);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      transition: all 400ms ease;
+    }
+
+    .ps-box:hover {
+      background: rgba(25, 25, 40, 0.8);
+      border-color: rgba(147, 51, 234, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .ps-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ps-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #a855f7;
+      margin-bottom: 1rem;
+    }
+
+    .ps-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #b0b0b0;
+    }
+
+    /* Horizontal workflow timeline */
+    .timeline-slide {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .timeline-header {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+    }
+
+    .timeline-scroll-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 2rem 0 4rem;
+      position: relative;
+    }
+
+    .timeline-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .timeline-scroll-container::-webkit-scrollbar-track {
+      background: rgba(147, 51, 234, 0.1);
+      border-radius: 10px;
+      margin: 0 2rem;
+    }
+
+    .timeline-scroll-container::-webkit-scrollbar-thumb {
+      background: rgba(147, 51, 234, 0.5);
+      border-radius: 10px;
+    }
+
+    .timeline-track {
+      display: flex;
+      gap: 4rem;
+      padding: 0 10vw;
+      position: relative;
+    }
+
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(147, 51, 234, 0.5) 10%,
+        rgba(147, 51, 234, 0.5) 90%,
+        transparent
+      );
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .workflow-step {
+      min-width: 500px;
+      scroll-snap-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .workflow-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #0a0a14;
+      border: 4px solid rgba(147, 51, 234, 0.8);
+      margin-bottom: 3rem;
+      box-shadow: 0 0 0 12px rgba(147, 51, 234, 0.15);
+      transition: all 400ms ease;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #a855f7;
+    }
+
+    .workflow-step:hover .workflow-number {
+      border-color: rgba(147, 51, 234, 1);
+      box-shadow: 0 0 0 16px rgba(147, 51, 234, 0.25),
+                  0 0 30px rgba(147, 51, 234, 0.6);
+      transform: scale(1.15);
+    }
+
+    .workflow-card {
+      background: rgba(20, 20, 35, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      transition: all 400ms ease;
+    }
+
+    .workflow-step:hover .workflow-card {
+      background: rgba(25, 25, 40, 0.95);
+      border-color: rgba(147, 51, 234, 0.5);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .workflow-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #f0f0f0;
+      margin-bottom: 1.25rem;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .workflow-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #b0b0b0;
+    }
+
+    .timeline-scroll-hint {
+      text-align: center;
+      color: #808080;
+      font-size: 0.875rem;
+      padding: 0 2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .scroll-arrow {
+      animation: slideRight 2s ease-in-out infinite;
+    }
+
+    @keyframes slideRight {
+      0%, 100% { transform: translateX(0); opacity: 1; }
+      50% { transform: translateX(10px); opacity: 0.5; }
+    }
+
+    /* Metrics */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .metric-card {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.12), rgba(147, 51, 234, 0.05));
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 400ms ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(147, 51, 234, 0.25);
+      border-color: rgba(147, 51, 234, 0.6);
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.18), rgba(147, 51, 234, 0.08));
+    }
+
+    .metric-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      background: linear-gradient(135deg, #a855f7, #c084f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #d0d0d0;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-desc {
+      font-size: 0.875rem;
+      color: #808080;
+    }
+
+    /* Tech stack pills */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 3rem 0;
+      justify-content: center;
+    }
+
+    .tech-pill {
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.4);
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #c084f5;
+      transition: all 300ms ease;
+    }
+
+    .tech-pill:hover {
+      background: rgba(147, 51, 234, 0.25);
+      border-color: rgba(147, 51, 234, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Visual placeholders */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .visual-card {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(168, 85, 247, 0.05));
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: #808080;
+      font-size: 0.95rem;
+      transition: all 300ms ease;
+    }
+
+    .visual-card:hover {
+      border-color: rgba(147, 51, 234, 0.6);
+      transform: scale(1.02);
+      color: #a0a0a0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+    @media (max-width: 1024px) {
+      .slide-number { display: none; }
+      .workflow-step { min-width: 400px; }
+    }
+
+    @media (max-width: 768px) {
+      .workflow-step { min-width: 90vw; }
+      .metrics-grid, .visual-grid { grid-template-columns: 1fr; }
+      .problem-solution { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <div class="slide-number">
+    <div class="slide-dot active" data-slide="0"></div>
+    <div class="slide-dot" data-slide="1"></div>
+    <div class="slide-dot" data-slide="2"></div>
+    <div class="slide-dot" data-slide="3"></div>
+    <div class="slide-dot" data-slide="4"></div>
+    <div class="slide-dot" data-slide="5"></div>
+  </div>
+
+  <!-- Slide 1: Hero -->
+  <section class="slide slide-1">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge fade-in">Healthcare AI Showcase</div>
+        <h1 class="hero-title fade-in delay-1">PostPal</h1>
+        <p class="hero-subtitle fade-in delay-2">Transforming Post-Procedure Recovery with AI</p>
+        <p class="hero-summary fade-in delay-3">
+          From paper pamphlets to intelligent timelines: How AI is solving healthcare's discharge instruction problem through personalized recovery guidance that reduces readmissions and improves patient outcomes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2: The Problem -->
+  <section class="slide slide-2">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>The Challenge</span>
+        </div>
+        <h2 class="slide-heading">The Paper Pamphlet Problem</h2>
+        <div class="slide-text">
+          <p>After medical procedures—colonoscopies, surgeries, dental work—patients receive critical care instructions on paper pamphlets. "No shower for 72 hours." "Keep cast dry for 3 months." "Take medication X, avoid medication Y."</p>
+          <p>The reality: instructions are complex and time-bound, paper gets lost or water-damaged, patients struggle to remember which restrictions still apply, and providers have no visibility into compliance.</p>
+        </div>
+
+        <div class="problem-solution">
+          <div class="ps-box">
+            <div class="ps-icon">📄</div>
+            <div class="ps-title">The Human Cost</div>
+            <div class="ps-text">
+              Preventable readmissions from missed instructions. Extended recovery from uncertainty about activity restrictions. Endless provider phone calls asking "Can I shower yet?" Patient anxiety about recovery timeline.
+            </div>
+          </div>
+          <div class="ps-box">
+            <div class="ps-icon">✨</div>
+            <div class="ps-title">The Opportunity</div>
+            <div class="ps-text">
+              Transform static paper into intelligent, personalized timelines that actively guide patients through every stage of recovery—reducing readmissions, improving compliance, and giving providers real-time visibility.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Horizontal Workflow Timeline -->
+  <section class="slide timeline-slide slide-3">
+    <div class="timeline-header">
+      <div class="slide-label" style="justify-content: center;">
+        <span>AI-Powered Architecture</span>
+      </div>
+      <h2 class="slide-heading">From PDF to Personalized Timeline</h2>
+    </div>
+
+    <div class="timeline-scroll-container">
+      <div class="timeline-track">
+        <!-- Step 1 -->
+        <div class="workflow-step">
+          <div class="workflow-number">1</div>
+          <div class="workflow-card">
+            <h3 class="workflow-title">Provider Upload</h3>
+            <p class="workflow-text">
+              Provider uploads patient PDF discharge instructions. QR code or URL generated with pre-filled patient data. Patient scans/clicks to instantly access personalized timeline—zero manual data entry.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="workflow-step">
+          <div class="workflow-number">2</div>
+          <div class="workflow-card">
+            <h3 class="workflow-title">AI Content Extraction</h3>
+            <p class="workflow-text">
+              Hybrid OCR using Mistral AI extracts text from PDFs. Claude analyzes medical instructions for context. Converts unstructured documents into structured tasks—identifying medications, restrictions, milestones.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="workflow-step">
+          <div class="workflow-number">3</div>
+          <div class="workflow-card">
+            <h3 class="workflow-title">Smart Task Generation</h3>
+            <p class="workflow-text">
+              AI creates personalized recovery timeline organized by day, week, month. Automatic scheduling based on procedure date. Context-aware tasks that understand temporal restrictions.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="workflow-step">
+          <div class="workflow-number">4</div>
+          <div class="workflow-card">
+            <h3 class="workflow-title">Patient Engagement</h3>
+            <p class="workflow-text">
+              Mobile app delivers daily reminders. Patients check off completed tasks. Progress tracking with milestone achievements. Multi-channel notifications: in-app, email, SMS, push.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-scroll-hint">
+      <span>Scroll to explore the AI workflow</span>
+      <span class="scroll-arrow">→</span>
+    </div>
+  </section>
+
+  <!-- Slide 4: Technical Architecture -->
+  <section class="slide slide-4">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>Engineering</span>
+        </div>
+        <h2 class="slide-heading">Full-Stack Healthcare Platform</h2>
+        <div class="slide-text">
+          <p>Two-platform solution: web application for provider portal and patient dashboard, mobile application (React Native) for cross-platform patient engagement with biometric authentication and offline-first architecture.</p>
+          <p>Over 30 Prisma database models covering Users, Tasks, Procedures, Providers, Doctors—comprehensive audit logging, scheduled notifications, secure token-based authentication, and PDF processing with AI extraction.</p>
+        </div>
+
+        <div class="tech-stack">
+          <div class="tech-pill">Next.js 14.2</div>
+          <div class="tech-pill">React Native</div>
+          <div class="tech-pill">TypeScript</div>
+          <div class="tech-pill">PostgreSQL</div>
+          <div class="tech-pill">Prisma ORM</div>
+          <div class="tech-pill">Claude AI</div>
+          <div class="tech-pill">Mistral AI</div>
+          <div class="tech-pill">Supabase</div>
+          <div class="tech-pill">Firebase</div>
+          <div class="tech-pill">TanStack Query</div>
+          <div class="tech-pill">Zustand</div>
+          <div class="tech-pill">HIPAA Compliant</div>
+        </div>
+
+        <div class="visual-grid">
+          <div class="visual-card">
+            <div>
+              <strong>Before/After Patient Experience</strong><br><br>
+              Paper pamphlet vs. PostPal mobile timeline<br>
+              Confusion to clarity transformation
+            </div>
+          </div>
+          <div class="visual-card">
+            <div>
+              <strong>Mobile Timeline in Use</strong><br><br>
+              Daily recovery tasks being checked off<br>
+              Biometric authentication, progress tracking
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Innovation -->
+  <section class="slide slide-5">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>Key Innovations</span>
+        </div>
+        <h2 class="slide-heading">Technical Breakthroughs</h2>
+
+        <div class="problem-solution">
+          <div class="ps-box">
+            <div class="ps-icon">🔧</div>
+            <div class="ps-title">Offline-First Architecture</div>
+            <div class="ps-text">
+              MMKV for fast, encrypted local storage. Background synchronization when connectivity returns. Optimistic updates for instant UI feedback. Network monitoring with automatic retry logic.
+            </div>
+          </div>
+          <div class="ps-box">
+            <div class="ps-icon">🔐</div>
+            <div class="ps-title">Biometric Security</div>
+            <div class="ps-text">
+              Face ID/Touch ID authentication. Secure credential storage in system keychain. JWT token management with automatic refresh. HIPAA-compliant data handling throughout.
+            </div>
+          </div>
+          <div class="ps-box">
+            <div class="ps-icon">🤖</div>
+            <div class="ps-title">Hybrid AI Extraction</div>
+            <div class="ps-text">
+              Mistral handles OCR for variable-quality PDFs. Claude analyzes context and medical meaning. Procedure type classification. Fallback strategies for poor scans.
+            </div>
+          </div>
+          <div class="ps-box">
+            <div class="ps-icon">🎯</div>
+            <div class="ps-title">Provider-Initiated Onboarding</div>
+            <div class="ps-text">
+              QR code with pre-filled data eliminates patient friction. Secure token-based authentication. Instant access to personalized timeline. Zero manual setup for patients.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6: Impact -->
+  <section class="slide slide-6">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>Results & Impact</span>
+        </div>
+        <h2 class="slide-heading">Transforming Healthcare Communication</h2>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value">< 3 sec</div>
+            <div class="metric-label">Mobile Cold Start</div>
+            <div class="metric-desc">Fast, responsive UX</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">30+</div>
+            <div class="metric-label">Database Models</div>
+            <div class="metric-desc">Comprehensive architecture</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">30-50%</div>
+            <div class="metric-label">Call Reduction</div>
+            <div class="metric-desc">Projected impact</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">HIPAA</div>
+            <div class="metric-label">Compliant</div>
+            <div class="metric-desc">Security-first design</div>
+          </div>
+        </div>
+
+        <div class="visual-grid" style="margin-top: 4rem;">
+          <div class="visual-card">
+            <div>
+              <strong>Provider Portal AI Processing</strong><br><br>
+              PDF upload → AI extraction → Structured timeline<br>
+              The "magic moment" transformation
+            </div>
+          </div>
+          <div class="visual-card">
+            <div>
+              <strong>System Architecture</strong><br><br>
+              Web + Mobile + AI services<br>
+              Real-time sync, offline-first, HIPAA compliance
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const slideDots = document.querySelectorAll('.slide-dot');
+    const slides = document.querySelectorAll('.slide');
+
+    slideDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        slides[index].scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const observerOptions = {
+      threshold: 0.5,
+      rootMargin: '-100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Array.from(slides).indexOf(entry.target);
+          slideDots.forEach(dot => dot.classList.remove('active'));
+          if (slideDots[index]) {
+            slideDots[index].classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    slides.forEach(slide => observer.observe(slide));
+
+    const timelineContainer = document.querySelector('.timeline-scroll-container');
+    if (timelineContainer) {
+      setTimeout(() => {
+        timelineContainer.scrollLeft = 100;
+        setTimeout(() => {
+          timelineContainer.scrollTo({ left: 0, behavior: 'smooth' });
+        }, 1000);
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

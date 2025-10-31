@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Built Marketing Sites - Scrolling Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0a14;
+      color: #f0f0f0;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .slide {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      position: relative;
+      padding: 4rem 2rem;
+    }
+
+    .slide-1 {
+      background: radial-gradient(circle at 30% 40%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 60%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+                  #0a0a14;
+    }
+
+    .slide-2 {
+      background: linear-gradient(135deg, #0a0a14 0%, #12101d 100%);
+    }
+
+    .slide-3 {
+      background: #0a0a14;
+    }
+
+    .slide-4 {
+      background: linear-gradient(180deg, #0a0a14 0%, #0d0a18 100%);
+    }
+
+    .slide-5 {
+      background: radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.08) 0%, transparent 60%),
+                  #0a0a14;
+    }
+
+    .slide-6 {
+      background: linear-gradient(to bottom, #0a0a14, #050510);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .slide-number {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 100;
+    }
+
+    .slide-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(147, 51, 234, 0.3);
+      border: 2px solid rgba(147, 51, 234, 0.5);
+      cursor: pointer;
+      transition: all 300ms ease;
+    }
+
+    .slide-dot.active {
+      background: rgba(147, 51, 234, 1);
+      border-color: rgba(147, 51, 234, 1);
+      box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+      transform: scale(1.3);
+    }
+
+    /* Hero */
+    .hero-content {
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.4);
+      border-radius: 50px;
+      color: #c084f5;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #a855f7, #f0f0f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      color: #b0b0b0;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .hero-summary {
+      font-size: 1.125rem;
+      color: #909090;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* Content slides */
+    .slide-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .slide-label {
+      font-size: 0.75rem;
+      color: #c084f5;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slide-label::before {
+      content: '';
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(to right, #a855f7, transparent);
+    }
+
+    .slide-heading {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin-bottom: 2rem;
+      color: #f0f0f0;
+      line-height: 1.1;
+    }
+
+    .slide-text {
+      font-size: 1.125rem;
+      line-height: 1.9;
+      color: #c0c0c0;
+      margin-bottom: 2rem;
+    }
+
+    .slide-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Quote box */
+    .quote-box {
+      background: rgba(147, 51, 234, 0.08);
+      border-left: 4px solid #a855f7;
+      border-radius: 1rem;
+      padding: 2rem 2.5rem;
+      margin: 3rem 0;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: #d0d0d0;
+      line-height: 1.7;
+    }
+
+    .quote-author {
+      margin-top: 1rem;
+      font-style: normal;
+      font-size: 0.95rem;
+      color: #a855f7;
+      font-weight: 600;
+    }
+
+    /* Comparison boxes */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .comparison-box {
+      background: rgba(20, 20, 35, 0.6);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      transition: all 400ms ease;
+      position: relative;
+    }
+
+    .comparison-box::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -12px;
+      left: 1.5rem;
+      background: #0a0a14;
+      padding: 0.25rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #a855f7;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(147, 51, 234, 0.4);
+      border-radius: 20px;
+    }
+
+    .comparison-box:hover {
+      background: rgba(25, 25, 40, 0.8);
+      border-color: rgba(147, 51, 234, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .comparison-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin-bottom: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .comparison-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #b0b0b0;
+    }
+
+    .comparison-stat {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #a855f7;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Horizontal project showcase */
+    .timeline-slide {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .timeline-header {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+    }
+
+    .timeline-scroll-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 2rem 0 4rem;
+      position: relative;
+    }
+
+    .timeline-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .timeline-scroll-container::-webkit-scrollbar-track {
+      background: rgba(147, 51, 234, 0.1);
+      border-radius: 10px;
+      margin: 0 2rem;
+    }
+
+    .timeline-scroll-container::-webkit-scrollbar-thumb {
+      background: rgba(147, 51, 234, 0.5);
+      border-radius: 10px;
+    }
+
+    .timeline-track {
+      display: flex;
+      gap: 4rem;
+      padding: 0 10vw;
+      position: relative;
+    }
+
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(147, 51, 234, 0.5) 10%,
+        rgba(147, 51, 234, 0.5) 90%,
+        transparent
+      );
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .project-card {
+      min-width: 550px;
+      scroll-snap-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    .project-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #0a0a14;
+      border: 4px solid rgba(147, 51, 234, 0.8);
+      margin: 0 auto 3rem;
+      box-shadow: 0 0 0 12px rgba(147, 51, 234, 0.15);
+      transition: all 400ms ease;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+    }
+
+    .project-card:hover .project-icon {
+      border-color: rgba(147, 51, 234, 1);
+      box-shadow: 0 0 0 16px rgba(147, 51, 234, 0.25),
+                  0 0 30px rgba(147, 51, 234, 0.6);
+      transform: scale(1.15);
+    }
+
+    .project-content {
+      background: rgba(20, 20, 35, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      transition: all 400ms ease;
+    }
+
+    .project-card:hover .project-content {
+      background: rgba(25, 25, 40, 0.95);
+      border-color: rgba(147, 51, 234, 0.5);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-name {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f0f0f0;
+      margin-bottom: 0.5rem;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .project-type {
+      font-size: 0.85rem;
+      color: #a855f7;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-desc {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #b0b0b0;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-tag {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 20px;
+      color: #c084f5;
+    }
+
+    .timeline-scroll-hint {
+      text-align: center;
+      color: #808080;
+      font-size: 0.875rem;
+      padding: 0 2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .scroll-arrow {
+      animation: slideRight 2s ease-in-out infinite;
+    }
+
+    @keyframes slideRight {
+      0%, 100% { transform: translateX(0); opacity: 1; }
+      50% { transform: translateX(10px); opacity: 0.5; }
+    }
+
+    /* Metrics */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .metric-card {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.12), rgba(147, 51, 234, 0.05));
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 400ms ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(147, 51, 234, 0.25);
+      border-color: rgba(147, 51, 234, 0.6);
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.18), rgba(147, 51, 234, 0.08));
+    }
+
+    .metric-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      background: linear-gradient(135deg, #a855f7, #c084f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #d0d0d0;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-desc {
+      font-size: 0.875rem;
+      color: #808080;
+    }
+
+    /* Visual placeholders */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .visual-card {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(168, 85, 247, 0.05));
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 1.25rem;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: #808080;
+      font-size: 0.95rem;
+      transition: all 300ms ease;
+    }
+
+    .visual-card:hover {
+      border-color: rgba(147, 51, 234, 0.6);
+      transform: scale(1.02);
+      color: #a0a0a0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+    @media (max-width: 1024px) {
+      .slide-number { display: none; }
+      .project-card { min-width: 450px; }
+    }
+
+    @media (max-width: 768px) {
+      .project-card { min-width: 90vw; }
+      .metrics-grid, .visual-grid { grid-template-columns: 1fr; }
+      .comparison-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <div class="slide-number">
+    <div class="slide-dot active" data-slide="0"></div>
+    <div class="slide-dot" data-slide="1"></div>
+    <div class="slide-dot" data-slide="2"></div>
+    <div class="slide-dot" data-slide="3"></div>
+    <div class="slide-dot" data-slide="4"></div>
+    <div class="slide-dot" data-slide="5"></div>
+  </div>
+
+  <!-- Slide 1: Hero -->
+  <section class="slide slide-1">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge fade-in">Marketing Sites Showcase</div>
+        <h1 class="hero-title fade-in delay-1">Agency Quality at Startup Speed</h1>
+        <p class="hero-subtitle fade-in delay-2">Proving AI-assisted development delivers professional marketing sites faster and more affordably than traditional agencies</p>
+        <p class="hero-summary fade-in delay-3">
+          Three diverse clients—film production, enterprise consulting, shamanic healing—became test cases for a fundamental question: Could AI-powered development deliver agency-quality websites at freelancer prices with startup-level speed?
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2: The Hypothesis -->
+  <section class="slide slide-2">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>The Challenge</span>
+        </div>
+        <h2 class="slide-heading">The Business Reality</h2>
+        <div class="slide-text">
+          <p>Small businesses seeking professional websites face a harsh choice: cheap but generic DIY builders, expensive traditional agencies charging $20K-$50K with 3-6 month timelines, or variable-quality freelancers with uncertain communication and delivery.</p>
+          <p>What if AI-powered development could deliver agency-quality websites at freelancer prices with startup-level speed? Three projects would prove or disprove this hypothesis.</p>
+        </div>
+
+        <div class="comparison-grid">
+          <div class="comparison-box" data-label="DIY Builders">
+            <div class="comparison-title">Wix, Squarespace</div>
+            <div class="comparison-text">
+              Cheap but generic templates. Limited customization. Often unprofessional results that undermine brand credibility.
+            </div>
+          </div>
+          <div class="comparison-box" data-label="Traditional">
+            <div class="comparison-title">Agencies</div>
+            <div class="comparison-text">
+              <div class="comparison-stat">$20K-$50K</div>
+              Professional results but 3-6 month timelines. Resources most small businesses simply don't have.
+            </div>
+          </div>
+          <div class="comparison-box" data-label="AI-Assisted">
+            <div class="comparison-title">The Opportunity</div>
+            <div class="comparison-text">
+              <div class="comparison-stat">2-4 Weeks</div>
+              Agency quality at accessible prices. Professional results with startup speed.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Horizontal Project Showcase -->
+  <section class="slide timeline-slide slide-3">
+    <div class="timeline-header">
+      <div class="slide-label" style="justify-content: center;">
+        <span>Three Test Cases</span>
+      </div>
+      <h2 class="slide-heading">Diverse Industries, Proven Results</h2>
+    </div>
+
+    <div class="timeline-scroll-container">
+      <div class="timeline-track">
+        <!-- DOA -->
+        <div class="project-card">
+          <div class="project-icon">🎬</div>
+          <div class="project-content">
+            <h3 class="project-name">Department of Art</h3>
+            <div class="project-type">Film & TV Set Construction · Portland</div>
+            <p class="project-desc">
+              Visual storytelling challenge: showcase high-resolution portfolio work without destroying page performance. Solution: Next.js Image optimization, lazy loading, Sanity CDN. Filterable project showcase maintaining fast loading.
+            </p>
+            <div class="project-tech">
+              <div class="tech-tag">Next.js</div>
+              <div class="tech-tag">TypeScript</div>
+              <div class="tech-tag">Sanity CMS</div>
+              <div class="tech-tag">Tailwind</div>
+              <div class="tech-tag">Playwright E2E</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opal Creek -->
+        <div class="project-card">
+          <div class="project-icon">💼</div>
+          <div class="project-content">
+            <h3 class="project-name">Opal Creek</h3>
+            <div class="project-type">NetSuite ERP Consulting · Portland</div>
+            <p class="project-desc">
+              B2B credibility challenge: enterprise clients scrutinize vendor security. Solution: comprehensive CSP, HSTS, security headers, token rotation, pre-commit hooks. Professional design conveying competence without flashiness.
+            </p>
+            <div class="project-tech">
+              <div class="tech-tag">Vite</div>
+              <div class="tech-tag">React</div>
+              <div class="tech-tag">TypeScript</div>
+              <div class="tech-tag">Sanity CMS</div>
+              <div class="tech-tag">shadcn/ui</div>
+              <div class="tech-tag">HSTS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Karuna Gatton -->
+        <div class="project-card">
+          <div class="project-icon">✨</div>
+          <div class="project-content">
+            <h3 class="project-name">Karuna Gatton</h3>
+            <div class="project-type">Shamanic Healing · Eugene</div>
+            <p class="project-desc">
+              Authenticity challenge: convey trust and professionalism for alternative medicine without veering into unprofessional mysticism or sterile clinical presentation. Solution: soft color palette, personal storytelling, service booking integration.
+            </p>
+            <div class="project-tech">
+              <div class="tech-tag">Next.js</div>
+              <div class="tech-tag">TypeScript</div>
+              <div class="tech-tag">Tailwind</div>
+              <div class="tech-tag">Core Web Vitals</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-scroll-hint">
+      <span>Scroll to explore each project</span>
+      <span class="scroll-arrow">→</span>
+    </div>
+  </section>
+
+  <!-- Slide 4: The Process -->
+  <section class="slide slide-4">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>Development Methodology</span>
+        </div>
+        <h2 class="slide-heading">AI-Powered Workflow</h2>
+        <div class="slide-text">
+          <p>React combined with Sanity CMS emerged as optimal through real-world validation. Component-based architecture AI understands well. Server-side rendering for SEO. Fast page loads. Zero-config deployment to Vercel.</p>
+          <p>Sanity proved particularly valuable for client empowerment: non-technical clients editing content through intuitive interface, real-time collaboration, structured content preventing formatting mistakes, developer-friendly API integrating cleanly with React.</p>
+        </div>
+
+        <div class="quote-box">
+          "The apps aren't super technical, but getting the design right and the marketing right was the more challenging and fun thing to do."
+          <div class="quote-author">— On the true challenge</div>
+        </div>
+
+        <div class="visual-grid">
+          <div class="visual-card">
+            <div>
+              <strong>Three Sites Triptych</strong><br><br>
+              DOA, Opal Creek, Karuna Gatton side-by-side<br>
+              Visual diversity across industries
+            </div>
+          </div>
+          <div class="visual-card">
+            <div>
+              <strong>Sanity CMS Client Experience</strong><br><br>
+              Client editing content with real-time preview<br>
+              Confidence and ease in action
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: What AI Handles vs Human Expertise -->
+  <section class="slide slide-5">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>Human-AI Collaboration</span>
+        </div>
+        <h2 class="slide-heading">The Division of Labor</h2>
+
+        <div class="comparison-grid">
+          <div class="comparison-box" data-label="AI Excels">
+            <div class="comparison-title">What AI Handles Well</div>
+            <div class="comparison-text">
+              Component scaffolding and boilerplate. Tailwind CSS styling and responsive design. TypeScript type definitions. Sanity schema structure. SEO meta tags. Basic accessibility features (ARIA, semantic HTML).
+            </div>
+          </div>
+          <div class="comparison-box" data-label="Human Required">
+            <div class="comparison-title">Essential Human Expertise</div>
+            <div class="comparison-text">
+              Design decisions and brand alignment. Content strategy and messaging. Visual hierarchy and user flow. Photography selection and art direction. Client communication. Security architecture.
+            </div>
+          </div>
+          <div class="comparison-box" data-label="The Result">
+            <div class="comparison-title">Collaboration Model</div>
+            <div class="comparison-text">
+              Human: "Build hero section with bold headline, CTA button"<br>
+              AI: Generates structure and styling<br>
+              Human: Reviews, adjusts, refines<br>
+              AI: Implements refinements<br>
+              Human: Tests and verifies
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6: Impact -->
+  <section class="slide slide-6">
+    <div class="container">
+      <div class="slide-content">
+        <div class="slide-label">
+          <span>Results & Validation</span>
+        </div>
+        <h2 class="slide-heading">Proof of Concept</h2>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value">2-4 Weeks</div>
+            <div class="metric-label">Development Time</div>
+            <div class="metric-desc">vs. 3-6 months traditional</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">60-80%</div>
+            <div class="metric-label">Cost Reduction</div>
+            <div class="metric-desc">vs. traditional agencies</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">< 2 Sec</div>
+            <div class="metric-label">Page Loads</div>
+            <div class="metric-desc">Core Web Vitals optimized</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">90+</div>
+            <div class="metric-label">Lighthouse Scores</div>
+            <div class="metric-desc">Performance, A11y, SEO</div>
+          </div>
+        </div>
+
+        <div class="visual-grid" style="margin-top: 4rem;">
+          <div class="visual-card">
+            <div>
+              <strong>Development Timeline Comparison</strong><br><br>
+              Traditional vs AI-assisted timelines<br>
+              3-6x speed improvement visualized
+            </div>
+          </div>
+          <div class="visual-card">
+            <div>
+              <strong>Mobile Responsiveness</strong><br><br>
+              Same site across desktop, tablet, smartphone<br>
+              Flawless cross-device compatibility
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const slideDots = document.querySelectorAll('.slide-dot');
+    const slides = document.querySelectorAll('.slide');
+
+    slideDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        slides[index].scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const observerOptions = {
+      threshold: 0.5,
+      rootMargin: '-100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Array.from(slides).indexOf(entry.target);
+          slideDots.forEach(dot => dot.classList.remove('active'));
+          if (slideDots[index]) {
+            slideDots[index].classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    slides.forEach(slide => observer.observe(slide));
+
+    const timelineContainer = document.querySelector('.timeline-scroll-container');
+    if (timelineContainer) {
+      setTimeout(() => {
+        timelineContainer.scrollLeft = 100;
+        setTimeout(() => {
+          timelineContainer.scrollTo({ left: 0, behavior: 'smooth' });
+        }, 1000);
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

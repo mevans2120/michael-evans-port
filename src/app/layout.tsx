@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Crimson_Pro, DM_Sans } from "next/font/google";
+import { Crimson_Pro, DM_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -22,6 +22,14 @@ const crimsonPro = Crimson_Pro({
   display: "swap",
 });
 
+// Syne is used for AI Showcase headings
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Michael Evans | AI/ML Portfolio",
   description: "Portfolio showcasing AI/ML expertise, creative technology solutions, and professional case studies",
@@ -37,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${crimsonPro.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${dmSans.variable} ${crimsonPro.variable} ${syne.variable}`} suppressHydrationWarning>
       <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a

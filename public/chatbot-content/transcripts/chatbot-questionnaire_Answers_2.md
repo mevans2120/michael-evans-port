@@ -227,15 +227,15 @@ The business model was not sustainable. We had ideas for other apps around phone
 
 If I was going to start another startup, it would likely be B2B. Selling to businesses is often a more sustainable way to make money, whereas consumer software often has to be given away and you have to either sell data or do other unsavory things I wasn't interested in doing.
 
-## Pedal.com
+## Peddle.com
 
-### What Pedal Does
+### What Peddle Does
 
-Pedal buys junk cars from people and makes it very easy. If you have a car worth between $1,000 and a few thousand dollars, Pedal will cut you a check right there, pick up your car, and part it out. The owner grew up in a family that owned a junkyard in Connecticut, so he developed a really good business—one of the better businesses you just don't care about that much.
+Peddle buys junk cars from people and makes it very easy. If you have a car worth between $1,000 and a few thousand dollars, Peddle will cut you a check right there, pick up your car, and part it out. The owner grew up in a family that owned a junkyard in Connecticut, so he developed a really good business—one of the better businesses you just don't care about that much.
 
 ### My Role
 
-**Data Team:** I was initially in charge of the data team. We built out a dashboard using Snowflake, Snowplow, and Google Analytics—a big reporting system for Pedal.
+**Data Team:** I was initially in charge of the data team. We built out a dashboard using Snowflake, Snowplow, and Google Analytics—a big reporting system for Peddle.
 
 **UX for Buying Flow:** We also built out their buying system. Instead of booking a flight, you're trying to sell a car. We mapped out the decisions you'd have to make.
 
@@ -322,7 +322,7 @@ Built several marketing websites with React + Sanity (which works super well):
 
 - **DOA** - Department of Art, a production company in Portland
 - **Opal Creek** - Accounting consulting company in Portland
-- **Coronagaten** - Shaman website in Eugene
+- **Karuna Gatton** - Shamanic healing practitioner website in Eugene
 - Several others
 
 These projects were about proving the concept of this kind of consulting work. The apps aren't super technical, but getting the design right and the marketing right was the more challenging and fun thing to do.

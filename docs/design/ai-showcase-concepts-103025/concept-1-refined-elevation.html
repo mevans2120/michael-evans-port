@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 1: Refined Elevation - AI Workflow Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #050510;
+      color: #fafafa;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    /* Atmospheric background orbs */
+    .blur-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(100px);
+      opacity: 0.15;
+    }
+
+    .blur-orb-1 {
+      top: 10%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: hsl(280, 100%, 70%);
+    }
+
+    .blur-orb-2 {
+      bottom: 20%;
+      right: 10%;
+      width: 500px;
+      height: 500px;
+      background: hsl(276, 100%, 75%);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 9999px;
+      background: rgba(199, 128, 245, 0.1);
+      border: 1px solid rgba(199, 128, 245, 0.3);
+      color: hsl(280, 100%, 80%);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 600;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, hsl(280, 100%, 80%), hsl(0, 0%, 98%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .tagline {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      color: #a0a0a0;
+      font-weight: 300;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      line-height: 1.5;
+    }
+
+    .hero .summary {
+      font-size: 1.125rem;
+      color: #c0c0c0;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 8rem 0;
+      position: relative;
+    }
+
+    section.alt-bg {
+      background: rgba(199, 128, 245, 0.03);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: hsl(280, 100%, 80%);
+      margin-bottom: 2rem;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 64px;
+      height: 1px;
+      background: linear-gradient(to right, hsl(280, 100%, 80%), transparent);
+    }
+
+    .content-block {
+      max-width: 900px;
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: #e0e0e0;
+      margin-bottom: 2rem;
+    }
+
+    .content-block p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Pull Quote */
+    .pull-quote {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(199, 128, 245, 0.05);
+      border-left: 3px solid hsl(280, 100%, 80%);
+      border-radius: 0.75rem;
+      font-style: italic;
+      color: #c0c0c0;
+      font-size: 1.125rem;
+    }
+
+    .pull-quote-author {
+      margin-top: 1rem;
+      font-style: normal;
+      color: hsl(280, 100%, 80%);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    /* Photography Grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .photo-card {
+      position: relative;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      aspect-ratio: 16 / 10;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(199, 128, 245, 0.1), rgba(199, 128, 245, 0.05));
+      color: #707070;
+      font-size: 0.875rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .photo-caption {
+      margin-top: 1rem;
+      text-align: center;
+      color: #a0a0a0;
+      font-size: 0.875rem;
+    }
+
+    /* Metrics Cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 300ms ease;
+    }
+
+    .metric-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(199, 128, 245, 0.3);
+    }
+
+    .metric-value {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1;
+      background: linear-gradient(135deg, hsl(276, 100%, 75%), hsl(280, 100%, 80%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .metric-label {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-description {
+      font-size: 0.875rem;
+      color: #a0a0a0;
+    }
+
+    /* Annotation Box */
+    .annotation {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(199, 128, 245, 0.05);
+      border-left: 3px solid hsl(280, 100%, 80%);
+      border-radius: 0.75rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #c0c0c0;
+    }
+
+    .annotation-title {
+      color: hsl(280, 100%, 80%);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 5rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1.25rem 3rem;
+      background: linear-gradient(to right, hsl(276, 100%, 60%), hsl(280, 100%, 70%));
+      color: white;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      font-size: 1.125rem;
+      transition: all 300ms ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(199, 128, 245, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+    .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+    .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+  </style>
+</head>
+<body>
+  <!-- Atmospheric Background -->
+  <div class="blur-orb blur-orb-1"></div>
+  <div class="blur-orb blur-orb-2"></div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="category-badge animate-in">AI Showcase</div>
+      <h1 class="animate-in stagger-1">My AI Workflow: Building Production Software with Claude Code</h1>
+      <p class="tagline animate-in stagger-2">From product manager to full-stack developer: How AI-assisted development changed everything about building software</p>
+      <p class="summary animate-in stagger-3">
+        The "oh shit" moment came while building a D&D tracker with my 11-year-old son—we created a functional app in under an hour. That breakthrough crystallized a fundamental shift: what once took a year to build could now be accomplished in days or weeks with AI assistance.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 1: The Oh Shit Moment -->
+  <section>
+    <div class="container">
+      <div class="section-label">The Transformation</div>
+      <h2 class="section-heading">When Everything Changed</h2>
+
+      <div class="content-block">
+        <p>Traditional software development timelines were fundamentally changing, and I almost missed it. For years, I'd said it took about a year to build anything complex for clients—research, strategy, design, prototyping, and full development. That timeline felt immutable, grounded in reality from dozens of projects.</p>
+
+        <p>The catalyst was deceptively simple: I wanted to build a voice-activated kitchen timer that didn't connect to the internet. I built a prototype in Replit in about an hour. It wasn't quite usable—it needed more work—but it was surprisingly close to functional.</p>
+      </div>
+
+      <div class="pull-quote">
+        "Within an hour, we had something genuinely useful—something I could actually use in our games. This was my 'oh shit' moment."
+        <div class="pull-quote-author">— On building Dungeon Tracker</div>
+      </div>
+
+      <div class="content-block">
+        <p>The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I could actually use in our games. Seeing how fast AI could produce not just a prototype but actually usable software made me realize that the year-long timeline I'd always quoted was about to change dramatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics Section -->
+  <section class="alt-bg">
+    <div class="container">
+      <div class="section-label">Impact & Scale</div>
+      <h2 class="section-heading">Quantifiable Transformation</h2>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value">1000+</div>
+          <div class="metric-label">GitHub Commits</div>
+          <div class="metric-description">Since March 2024</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">30+</div>
+          <div class="metric-label">Projects Shipped</div>
+          <div class="metric-description">Production code</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">< 1 Week</div>
+          <div class="metric-label">Sanity CMS</div>
+          <div class="metric-description">Previously 1 month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">< 1 Hour</div>
+          <div class="metric-label">Functional Prototype</div>
+          <div class="metric-description">Usable applications</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: The Methodology -->
+  <section>
+    <div class="container">
+      <div class="section-label">Process & Practice</div>
+      <h2 class="section-heading">How AI-Assisted Development Actually Works</h2>
+
+      <div class="content-block">
+        <p>The foundation of reliable AI-assisted development starts with technology choices. TypeScript has become essential in my workflow—not optional, but fundamental. The forced typing prevents an entire category of AI-generated errors.</p>
+
+        <p>Single-page applications work better for AI development because they're easier for AI to maintain context. When everything lives in one coherent structure rather than scattered across multiple pages with different contexts, AI makes fewer mistakes and requires less guidance.</p>
+      </div>
+
+      <div class="annotation">
+        <div class="annotation-title">Key Insight:</div>
+        When you have a problem, have the AI research the problem first, then plan the execution with clear success criteria and a phased approach, then have it execute the phases one at a time. Research, Plan, Build, Test.
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-card">
+          <div class="photo-placeholder">Claude Code in Action<br>Multiple VS Code windows showing parallel development</div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-placeholder">Development Timeline Comparison<br>Traditional vs AI-assisted timelines</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: The Tools -->
+  <section class="alt-bg">
+    <div class="container">
+      <div class="section-label">Technology Stack</div>
+      <h2 class="section-heading">Claude Code and the Skills Ecosystem</h2>
+
+      <div class="content-block">
+        <p>Claude Code emerged as the most powerful, fastest, and most reliable AI coding assistant after extensive testing. It runs in the terminal, providing access to all files and CLI tools, which proves faster than VS Code plugins and more flexible than browser-based solutions.</p>
+
+        <p>Over months of development, I've built comprehensive skill suites that transform Claude Code into a specialized development environment. The Project Analyzer, Project Manager, and Project Planner skills handle everything from TODO tracking to GitHub issue creation with visual documentation.</p>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-card">
+          <div class="photo-placeholder">Skills Ecosystem Overview<br>Complete skills suite architecture</div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-placeholder">Dungeon Tracker App<br>The breakthrough project</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container cta-section">
+      <a href="#" class="cta-button">View More AI Projects</a>
+    </div>
+  </section>
+
+  <script>
+    // Simple scroll animation trigger
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.content-block, .photo-grid, .metrics-grid').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

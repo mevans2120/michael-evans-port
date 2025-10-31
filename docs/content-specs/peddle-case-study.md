@@ -1,9 +1,9 @@
-# Pedal Case Study - Content Specification
+# Peddle Case Study - Content Specification
 
 ## Metadata
 
-**Title:** Pedal - 15% More Cars Bought Through Conversion Optimization
-**Slug:** `pedal`
+**Title:** Peddle - 15% More Cars Bought Through Conversion Optimization
+**Slug:** `peddle`
 **Category:** Case Study
 **Featured:** Yes
 **Order:** 5
@@ -17,13 +17,13 @@
 ## Hero Section
 
 ### Title
-Pedal - Making Junk Car Sales Simple
+Peddle - Making Junk Car Sales Simple
 
 ### Tagline
 Applying booking flow expertise to car buying, achieving 15% more cars purchased and 5% homepage conversion lift
 
 ### Summary (2-3 sentences)
-Led data team and UX design for Pedal, a company that buys junk cars and makes the process remarkably easy. Applied lessons from airline booking flows to create a decision-based car selling experience, building comprehensive dashboards with Snowflake and Snowplow, and achieving a 15% increase in cars purchased plus 5% homepage conversion improvement.
+Led data team and UX design for Peddle, a company that buys junk cars and makes the process remarkably easy. Applied lessons from airline booking flows to create a decision-based car selling experience, building comprehensive dashboards with Snowflake and Snowplow, and achieving a 15% increase in cars purchased plus 5% homepage conversion improvement.
 
 ---
 
@@ -92,13 +92,13 @@ Led data team and UX design for Pedal, a company that buys junk cars and makes t
 
 ## Content Sections
 
-### Section 1: Understanding Pedal
+### Section 1: Understanding Peddle
 
 **Heading:** A Better Business You Don't Think About
 
 **Content:**
 
-Pedal buys junk cars from people and makes it remarkably easy. If you have a car worth between $1,000 and a few thousand dollars that you want to get rid of, Pedal will:
+Peddle buys junk cars from people and makes it remarkably easy. If you have a car worth between $1,000 and a few thousand dollars that you want to get rid of, Peddle will:
 - Cut you a check right there
 - Pick up your car
 - Part it out efficiently
@@ -107,7 +107,7 @@ Pedal buys junk cars from people and makes it remarkably easy. If you have a car
 The owner grew up in a family that owned a junkyard in Connecticut. He took this traditional, often unpleasant business and transformed it into something genuinely user-friendly. As he put it: "One of the better businesses you just don't care about that much."
 
 **Why This Matters:**
-Most people only sell a junk car once or twice in their lifetime. The traditional process is painful—negotiating with sketchy buyers, dealing with towing, uncertain payment. Pedal made it simple, transparent, and fast.
+Most people only sell a junk car once or twice in their lifetime. The traditional process is painful—negotiating with sketchy buyers, dealing with towing, uncertain payment. Peddle made it simple, transparent, and fast.
 
 **The Challenge:**
 How do you optimize conversion for an infrequent, high-friction transaction? How do you build trust quickly? How do you make data-driven decisions when you're still scaling?
@@ -120,11 +120,11 @@ How do you optimize conversion for an infrequent, high-friction transaction? How
 
 **Content:**
 
-I joined Pedal to lead two critical areas:
+I joined Peddle to lead two critical areas:
 
 **1. Data Team Leadership**
 
-Built out Pedal's entire data infrastructure and reporting system:
+Built out Peddle's entire data infrastructure and reporting system:
 - **Snowflake** for data warehousing
 - **Snowplow** for event tracking
 - **Google Analytics** for web analytics
@@ -156,7 +156,7 @@ The data infrastructure told us WHERE to improve. The UX work showed us HOW to i
 
 **Content:**
 
-The Virgin America project taught me that complex transactions should be broken into individual decisions. I applied that same principle to Pedal.
+The Virgin America project taught me that complex transactions should be broken into individual decisions. I applied that same principle to Peddle.
 
 **The Decisions a Seller Makes:**
 
@@ -199,7 +199,7 @@ Selling a junk car is already stressful (your car died, you need to deal with it
 
 **Content:**
 
-Pedal needed a sophisticated data infrastructure to make smart business decisions.
+Peddle needed a sophisticated data infrastructure to make smart business decisions.
 
 **What We Built:**
 
@@ -229,7 +229,7 @@ Pedal needed a sophisticated data infrastructure to make smart business decision
 - Marketing ROI by channel
 
 **The Impact:**
-For the first time, Pedal could make data-driven decisions about where to invest, what to optimize, and how to grow. The dashboard became the operational heartbeat of the business.
+For the first time, Peddle could make data-driven decisions about where to invest, what to optimize, and how to grow. The dashboard became the operational heartbeat of the business.
 
 ---
 
@@ -243,7 +243,7 @@ For the first time, Pedal could make data-driven decisions about where to invest
 - **React** for component-based UI
 - **Next.js** for server-side rendering and SEO
 - **Sanity CMS** for content management (my first Sanity project!)
-- Custom API integration with Pedal's backend systems
+- Custom API integration with Peddle's backend systems
 
 **Why Next.js:**
 - SEO was critical (people searching "sell my junk car")
@@ -261,7 +261,7 @@ This was my first time working with Sanity CMS. I was immediately impressed by:
 This project started my appreciation for Sanity that led to using it on many subsequent projects, including Casa Bonita, PostPal, and numerous marketing websites.
 
 **API Integration:**
-Worked closely with Pedal's team to design API endpoints that:
+Worked closely with Peddle's team to design API endpoints that:
 - Handled car information submission
 - Generated instant quotes based on condition and market data
 - Scheduled pick-ups and integrated with operations
@@ -296,7 +296,7 @@ Worked closely with Pedal's team to design API endpoints that:
    Fast, reliable, mobile-responsive experience that worked for users in any context (often stressed, often on mobile).
 
 **The Ongoing Impact:**
-The data infrastructure and UX improvements we built continue to benefit Pedal, enabling ongoing optimization and business growth.
+The data infrastructure and UX improvements we built continue to benefit Peddle, enabling ongoing optimization and business growth.
 
 ---
 
@@ -306,7 +306,7 @@ The data infrastructure and UX improvements we built continue to benefit Pedal, 
 
 **Content:**
 
-I joined the Pedal project halfway through, and looking back, there's one thing I'd change:
+I joined the Peddle project halfway through, and looking back, there's one thing I'd change:
 
 **The Issue:**
 We wanted to wait until the new booking flow was perfect before shipping. There seemed to be value left in development because we kept refining and polishing.
@@ -360,7 +360,7 @@ The biggest learning: ship faster, learn from real users, iterate based on data.
 
 **Content:**
 
-Pedal represents an interesting category of business: "one of the better businesses you just don't care about that much."
+Peddle represents an interesting category of business: "one of the better businesses you just don't care about that much."
 
 It's not sexy. It's not going to be featured on TechCrunch. Most people will use it once in their lifetime.
 
@@ -377,7 +377,7 @@ Some of the most satisfying work is applying sophisticated techniques to unglamo
 - Virgin America: Making complex transactions simpler
 - Casa Bonita: Handling massive demand gracefully
 - Target: Enterprise-scale optimization
-- Pedal: Conversion optimization for infrequent, high-friction transactions
+- Peddle: Conversion optimization for infrequent, high-friction transactions
 
 The principles are the same: understand your users, reduce friction, make decisions easy, build trust, measure everything, iterate constantly.
 
@@ -385,9 +385,9 @@ The principles are the same: understand your users, reduce friction, make decisi
 
 ## SEO Metadata
 
-**Meta Title:** Pedal Case Study - 15% Conversion Increase Through UX & Data | Car Buying Flow
+**Meta Title:** Peddle Case Study - 15% Conversion Increase Through UX & Data | Car Buying Flow
 
-**Meta Description:** How data infrastructure and booking flow UX principles increased Pedal's car purchases by 15% and homepage conversion by 5%. React, Next.js, and Sanity case study.
+**Meta Description:** How data infrastructure and booking flow UX principles increased Peddle's car purchases by 15% and homepage conversion by 5%. React, Next.js, and Sanity case study.
 
 **Keywords:** conversion optimization, UX design, data analytics, Snowflake, Snowplow, Next.js case study, Sanity CMS, booking flow optimization, decision-based design
 
@@ -395,7 +395,7 @@ The principles are the same: understand your users, reduce friction, make decisi
 
 ## Images Needed
 
-1. **Hero Image:** Pedal homepage or car selling interface
+1. **Hero Image:** Peddle homepage or car selling interface
 2. **Booking Flow:** Step-by-step screenshots of the selling process
 3. **Data Dashboard:** Snowflake/Snowplow dashboard (if shareable)
 4. **Before/After:** Comparison of old vs. new flow
@@ -423,4 +423,4 @@ Need help optimizing conversion for complex transactions or building data infras
 
 **Primary:** `/docs/research/research-batch-1-102525/source-materials/transcripts/chatbot-questionnaire_Answers_2.md` (lines 230-253 in original, lines 7-30 in updated)
 
-**Vector DB Chunks:** Chunks with "Pedal" tag
+**Vector DB Chunks:** Chunks with "Peddle" tag
