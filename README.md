@@ -192,7 +192,7 @@ This project is proprietary and confidential. All rights reserved.
 
 **Michael Evans**
 - GitHub: [@mevans2120](https://github.com/mevans2120)
-- Email: evans@beforelabs.com
+- Email: mevans212@gmail.com
 - Website: [https://michael-evans-port.vercel.app](https://michael-evans-port.vercel.app)
 
 ## 🙏 Acknowledgments
