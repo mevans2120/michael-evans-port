@@ -119,7 +119,7 @@ export function ChatSection() {
         className="chat-section border-t-0 bg-chat flex items-center justify-center py-4"
         style={{ height: '34%' }}
       >
-        <Sparkles className="w-4 h-4 text-purple-400" />
+        <Sparkles className="w-4 h-4 text-accent" />
       </div>
     );
   }
@@ -151,7 +151,7 @@ export function ChatSection() {
         }}
       >
         <div className="flex items-center gap-4 pointer-events-none">
-          {!chatExpanded && <Sparkles className="w-4 h-4 text-purple-400" />}
+          {!chatExpanded && <Sparkles className="w-4 h-4 text-accent" />}
           <h2 className={`text-lg font-medium text-chat-foreground font-serif ${chatExpanded ? 'ml-16' : ''}`}>
             AI Assistant
           </h2>
@@ -175,7 +175,7 @@ export function ChatSection() {
           className={`p-1.5 rounded-lg transition-all relative z-50 ${
             chatExpanded
               ? 'text-chat-foreground hover:bg-chat-suggestion/30'
-              : 'text-purple-400/60 hover:text-purple-400'
+              : 'text-accent/60 hover:text-accent'
           }`}
           aria-label={chatExpanded ? "Collapse chat" : "Expand chat"}
         >
@@ -209,10 +209,10 @@ export function ChatSection() {
                 {(isUser || chatExpanded) && !isCollapsedWithChat && (
                   <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                      isUser ? 'bg-purple-600 text-white' : 'bg-chat-message'
+                      isUser ? 'bg-button-primary text-white' : 'bg-chat-message'
                     }`}
                   >
-                    {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-purple-400" />}
+                    {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-accent" />}
                   </div>
                 )}
 
@@ -232,7 +232,7 @@ export function ChatSection() {
                   <div
                     className={`rounded-lg px-4 py-2 chatbot-message ${
                       isUser
-                        ? 'bg-purple-600 text-white text-sm'
+                        ? 'bg-button-primary text-white text-sm'
                         : 'bg-chat-message dark:text-foreground text-white'
                     }`}
                   >
@@ -249,9 +249,9 @@ export function ChatSection() {
                           li: ({ node, ...props }) => <li className="text-sm" {...props} />,
                           code: ({ node, inline, ...props }: any) =>
                             inline ? (
-                              <code className="px-1 py-0.5 rounded text-sm font-mono bg-black/20" {...props} />
+                              <code className="px-1 py-0.5 rounded text-sm font-mono bg-code-block" {...props} />
                             ) : (
-                              <code className="block bg-black/20 p-2 rounded my-2 text-sm font-mono" {...props} />
+                              <code className="block bg-code-block p-2 rounded my-2 text-sm font-mono" {...props} />
                             ),
                           a: ({ node, ...props }) => (
                             <a className="underline hover:no-underline text-sm" {...props} />
@@ -293,7 +293,7 @@ export function ChatSection() {
 
           {/* Error message */}
           {error && (
-            <div className="rounded-lg bg-red-900/20 border border-red-900/50 p-3 text-sm text-red-400 mb-4">
+            <div className="rounded-lg bg-error border border-error-border p-3 text-sm text-error-text mb-4">
               <p className="font-medium">Error</p>
               <p className="text-xs mt-1">
                 {error.message || 'Something went wrong. Please try again.'}

@@ -56,6 +56,11 @@ All colors MUST be HSL.
     --accent-foreground: 0 0% 98%;
     --accent-light: 280 80% 65%;
 
+    --code-block-bg: 0 0% 0% / 0.2;        /* Black with 20% opacity */
+    --error-bg: 0 60% 35% / 0.2;           /* Red background with 20% opacity */
+    --error-border: 0 60% 35% / 0.5;       /* Red border with 50% opacity */
+    --error-text: 0 84% 60%;               /* Red text color */
+
     --destructive: 0 84% 45%;
     --destructive-foreground: 0 0% 98%;
 
@@ -129,6 +134,11 @@ All colors MUST be HSL.
     --accent: var(--color-accent);
     --accent-foreground: 215 28% 4%;
     --accent-light: 280 100% 80%;
+
+    --code-block-bg: 0 0% 0% / 0.2;        /* Black with 20% opacity */
+    --error-bg: 0 60% 35% / 0.2;           /* Red background with 20% opacity */
+    --error-border: 0 60% 35% / 0.5;       /* Red border with 50% opacity */
+    --error-text: 0 84% 60%;               /* Red text color */
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
