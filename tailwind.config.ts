@@ -29,9 +29,30 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				navigation: {
+					DEFAULT: 'hsl(var(--navigation-background))',
+					foreground: 'hsl(var(--navigation-foreground))',
+					border: 'hsl(var(--navigation-border))',
+					link: 'hsl(var(--navigation-link))',
+					'link-hover': 'hsl(var(--navigation-link-hover))',
+					'link-hover-bg': 'hsl(var(--navigation-link-hover-bg))'
+				},
+				chat: {
+					DEFAULT: 'hsl(var(--chat-background))',
+					foreground: 'hsl(var(--chat-foreground))',
+					border: 'hsl(var(--chat-border))',
+					message: 'hsl(var(--chat-message-bg))',
+					input: 'hsl(var(--chat-input-bg))',
+					'input-border': 'hsl(var(--chat-input-border))',
+					suggestion: 'hsl(var(--chat-suggestion-bg))',
+					'suggestion-hover': 'hsl(var(--chat-suggestion-hover))'
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
+				},
+				button: {
+					primary: 'hsl(var(--color-button-primary))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',

@@ -28,7 +28,7 @@ export function NavigationMenu() {
 
   return (
     <div
-      className="py-4 md:border-b border-neutral-800"
+      className="py-4 md:border-b border-navigation-border"
       style={{ height: isDesktop ? '66%' : 'auto' }}
     >
       <nav
@@ -40,18 +40,16 @@ export function NavigationMenu() {
       >
         {/* MEvans Logo - Desktop Only */}
         {isDesktop && (
-          <Link href="/" className="px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer">
+          <Link
+            href="/"
+            className={`px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer ${
+              chatExpanded ? 'pointer-events-none' : ''
+            }`}
+          >
             {panelState === 'expanded' ? (
-              <>
-                <span className="text-lg font-medium font-serif">
-                  M<span className="text-gradient">Evans</span>
-                </span>
-                {chatExpanded && (
-                  <span className="text-lg font-medium text-white font-serif">
-                    AI Assistant
-                  </span>
-                )}
-              </>
+              <span className={`text-lg font-medium font-serif ${chatExpanded ? 'text-chat-foreground' : ''}`}>
+                M<span className={chatExpanded ? 'text-purple-600' : 'text-gradient'}>Evans</span>
+              </span>
             ) : (
               <span className="text-lg font-medium font-serif">
                 M<span className="text-gradient">E</span>
@@ -68,7 +66,7 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-4 px-8 py-6 text-lg font-sans text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors rounded-lg"
+              className="flex items-center gap-4 px-8 py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg"
             >
               <Icon className="w-4 h-4" />
               {isExpanded && isDesktop && item.label}

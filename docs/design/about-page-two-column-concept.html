@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Michael Evans - Two Column Layout Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Crimson+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: linear-gradient(to bottom, #0a0a14, #050510);
+      color: #fafafa;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-weight: 600;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    /* Grid Layout */
+    .two-column-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      max-width: 720px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 80px;
+      grid-column: 1 / -1;
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, hsl(280, 100%, 80%), #fafafa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .tagline {
+      font-size: 24px;
+      color: #a0a0a0;
+      margin-bottom: 24px;
+    }
+
+    .hero .intro {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #d0d0d0;
+      max-width: 720px;
+    }
+
+    /* Quick Facts */
+    .quick-facts {
+      background: rgba(168, 85, 247, 0.05);
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .quick-facts h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: hsl(280, 100%, 80%);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .quick-fact {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .quick-fact:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .quick-fact-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #808080;
+      margin-bottom: 4px;
+    }
+
+    .quick-fact-value {
+      font-size: 15px;
+      color: #fafafa;
+      font-weight: 500;
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: rgba(168, 85, 247, 0.03);
+      border: 1px solid rgba(168, 85, 247, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .toc h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: hsl(280, 100%, 80%);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .toc-list {
+      list-style: none;
+    }
+
+    .toc-item {
+      margin-bottom: 8px;
+    }
+
+    .toc-link {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .toc-link:hover {
+      color: hsl(280, 100%, 80%);
+      background: rgba(168, 85, 247, 0.1);
+    }
+
+    .toc-link.active {
+      color: hsl(280, 100%, 80%);
+      background: rgba(168, 85, 247, 0.15);
+      font-weight: 500;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, hsl(280, 100%, 75%), hsl(280, 100%, 65%));
+      color: #000;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+    }
+
+    /* Sections */
+    .content-section {
+      margin-bottom: 80px;
+      scroll-margin-top: 100px;
+    }
+
+    .section-heading {
+      font-size: 40px;
+      margin-bottom: 32px;
+      color: #fafafa;
+      position: relative;
+      padding-bottom: 16px;
+    }
+
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(to right, hsl(280, 100%, 80%), transparent);
+    }
+
+    .section-content p {
+      font-size: 19px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      color: #d0d0d0;
+    }
+
+    .section-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Subsections */
+    .subsection {
+      margin-top: 40px;
+    }
+
+    .subsection-heading {
+      font-size: 24px;
+      color: hsl(280, 100%, 80%);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    .project-card {
+      border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+      padding-bottom: 32px;
+      transition: all 0.3s;
+    }
+
+    .project-card:hover {
+      border-bottom-color: rgba(168, 85, 247, 0.4);
+    }
+
+    .project-title {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #fafafa;
+    }
+
+    .project-metric {
+      color: hsl(280, 100%, 80%);
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .project-description {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #b0b0b0;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .two-column-grid {
+        grid-template-columns: 1fr 280px;
+        gap: 60px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 60px 24px;
+      }
+
+      .two-column-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .sidebar {
+        position: static;
+        order: -1;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+      }
+
+      .section-heading {
+        font-size: 32px;
+      }
+
+      .main-content {
+        max-width: 100%;
+      }
+    }
+
+    /* Annotation */
+    .annotation {
+      margin-top: 80px;
+      padding: 32px;
+      background: rgba(199, 128, 245, 0.05);
+      border-left: 3px solid hsl(280, 100%, 80%);
+      border-radius: 8px;
+      font-size: 16px;
+      color: #c0c0c0;
+      font-style: italic;
+      grid-column: 1 / -1;
+    }
+
+    .annotation strong {
+      color: hsl(280, 100%, 80%);
+      font-style: normal;
+    }
+
+    .annotation-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #fafafa;
+      font-style: normal;
+      font-family: 'DM Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="two-column-grid">
+      <!-- Hero Section -->
+      <div class="hero">
+        <h1>Michael Evans</h1>
+        <p class="tagline">Product Manager • UX Strategist • AI Builder</p>
+        <p class="intro">I'm a product manager based in Portland, Oregon, who specializes in taking products from 0 to 1. From leading Virgin America's award-winning website redesign to building AI-powered healthcare apps, I combine deep technical knowledge with big-picture business thinking—and now build software directly with Claude Code.</p>
+      </div>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Section 1 -->
+        <section id="who-i-am" class="content-section">
+          <h2 class="section-heading">The 50,000-Foot View</h2>
+          <div class="section-content">
+            <p>I'm a product manager who lives in Portland, Oregon—technology enthusiast, AI enthusiast, father of two boys, lifelong learner, and kind of an "army of one" when it comes to capabilities across software.</p>
+
+            <p>What makes me different from a typical product manager is the breadth of what I can do. I can define strategy and determine what to build and why. I can create the interface and user experience through UX design. I can conduct research to understand users and validate ideas, then make sense of data and metrics through analysis. I handle project management to ship things on time, tackle prioritization for backlogs and roadmaps, and manage feature lists. And here's the new part: I can build and test the software with Claude Code.</p>
+
+            <p>That last capability is transformative. Working with AI has changed how I operate—I can now take projects from strategy through to working code, all while maintaining the product thinking that's been at the core of my career for 20 years.</p>
+          </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="background" class="content-section">
+          <h2 class="section-heading">From Yurts to Gigahertz</h2>
+          <div class="section-content">
+            <p>I was raised by hippies in a purple house in Eugene, Oregon. I fell in love with computers and software as a kid and learned to program a bit when I was 11. But I also loved to read and write, so I studied English at the University of Colorado—proof that you don't need a CS degree to have a successful career in software.</p>
+
+            <p>I've been doing product management for much of my career, though sometimes my role was called "project manager" or "solutions architect" or "business analyst." The titles changed, but the work remained consistent: understand the problem, design the solution, ship the product, measure the results, iterate.</p>
+
+            <p>My career has taken me from Work & Co, where I led the Virgin America and Alaska Airlines redesigns, to Huge, where I managed Target's massive e-commerce transformation across 20+ concurrent work streams. I founded Before Labs and created Before Launcher, a focus app that helped thousands of people reduce their phone time. More recently, I've been doing independent consulting through Raw Materials, working on projects like Casa Bonita's queue management system, Peddle's car marketplace, and PostPal's healthcare recovery app.</p>
+
+            <p>Whether it was helping leisure travelers book airline tickets, helping people focus by filtering notifications, or managing 40,000 people in a queue for a restaurant, the work has always been about making complex things simple and delightful.</p>
+          </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="what-i-bring" class="content-section">
+          <h2 class="section-heading">What I Bring</h2>
+
+          <div class="subsection">
+            <h3 class="subsection-heading">Deep Technical Knowledge</h3>
+            <div class="section-content">
+              <p>I'm as technical as you can get without being much of a coder. I coded in middle school, know HTML and CSS, and understand how software applications are architected. I can go deep technically in any stripe of software—whether it's Salesforce, NetSuite, SaaS products, or complete custom builds.</p>
+
+              <p>This technical depth means I can have meaningful conversations with engineers about architecture decisions, understand constraints and trade-offs, design solutions that are technically feasible, and work effectively with Claude Code to build production software. When I'm in a meeting with developers, I'm not just nodding along—I genuinely understand what they're talking about and can contribute meaningfully to technical discussions.</p>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3 class="subsection-heading">Big Picture Business View</h3>
+            <div class="section-content">
+              <p>I'm really good at seeing what's important for a business and their customers at the 50,000-foot level. I understand that technology exists to serve business goals, and business goals exist to serve customers. This strategic perspective allows me to align product decisions with business objectives, prioritize ruthlessly based on impact, and communicate value to stakeholders.</p>
+
+              <p>I think beyond features to outcomes. Before asking "how do we build this?" I ask "should we build this?" This business mindset, combined with technical capability, is rare—I can sit in the boardroom discussing strategy with executives and then sit in a technical sprint planning session reviewing API contracts with engineers.</p>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3 class="subsection-heading">Range</h3>
+            <div class="section-content">
+              <p>I can go from true 50,000 feet all the way down to deep in the weeds—wherever is needed for the project. One day I'm defining product strategy with executives. The next I'm reviewing button padding with designers. Then I'm debugging API responses with engineers. This range is rare and valuable.</p>
+
+              <p>The details matter. I think the details are what separate great products from good products—the little things. There are plenty of good ideas, but not as many great executions. Being able to zoom in and obsess over those details while maintaining the big picture is what makes products truly exceptional.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="content-section">
+          <h2 class="section-heading">Projects I'm Proud Of</h2>
+          <div class="projects-grid">
+            <div class="project-card">
+              <h3 class="project-title">Virgin America</h3>
+              <div class="project-metric">15-20% conversion improvement, multiple awards</div>
+              <p class="project-description">We created the first responsive airline website and pioneered decision-based booking flows that reduced the cognitive load on customers. The result was a 15-20% conversion improvement and a shelf full of awards including Webbies, UX Awards, and Cannes Lions.</p>
+            </div>
+
+            <div class="project-card">
+              <h3 class="project-title">Before Launcher</h3>
+              <div class="project-metric">Fast Company Best App 2019</div>
+              <p class="project-description">The app filtered notifications intelligently, helping people achieve a 30-40% reduction in phone opens. Fast Company named it one of the Best Apps of 2019, and it helped thousands of people focus on what mattered.</p>
+            </div>
+
+            <div class="project-card">
+              <h3 class="project-title">Casa Bonita</h3>
+              <div class="project-metric">Managed 40,000-person queue, 25% more covers</div>
+              <p class="project-description">We needed to manage a 40,000-person queue for a restaurant that had been closed for years and reopened with massive pent-up demand. The system we built handled that queue, increased covers by 25%, and helped the restaurant operate at 100% capacity consistently.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <!-- Quick Facts -->
+        <div class="quick-facts">
+          <h3>Quick Facts</h3>
+          <div class="quick-fact">
+            <div class="quick-fact-label">Location</div>
+            <div class="quick-fact-value">Portland, Oregon</div>
+          </div>
+          <div class="quick-fact">
+            <div class="quick-fact-label">Experience</div>
+            <div class="quick-fact-value">20 Years in Software</div>
+          </div>
+          <div class="quick-fact">
+            <div class="quick-fact-label">Approach</div>
+            <div class="quick-fact-value">0-to-1 'Army of One'</div>
+          </div>
+          <div class="quick-fact">
+            <div class="quick-fact-label">Current Focus</div>
+            <div class="quick-fact-value">AI/ML-Powered Products</div>
+          </div>
+          <div class="quick-fact">
+            <div class="quick-fact-label">Work Style</div>
+            <div class="quick-fact-value">Remote (love on-site too)</div>
+          </div>
+          <div class="quick-fact">
+            <div class="quick-fact-label">Availability</div>
+            <div class="quick-fact-value">Open to Opportunities</div>
+          </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <nav class="toc">
+          <h3>On This Page</h3>
+          <ul class="toc-list">
+            <li class="toc-item"><a href="#who-i-am" class="toc-link active">The 50,000-Foot View</a></li>
+            <li class="toc-item"><a href="#background" class="toc-link">From Yurts to Gigahertz</a></li>
+            <li class="toc-item"><a href="#what-i-bring" class="toc-link">What I Bring</a></li>
+            <li class="toc-item"><a href="#projects" class="toc-link">Projects I'm Proud Of</a></li>
+          </ul>
+        </nav>
+
+        <!-- CTA -->
+        <a href="/contact" class="cta-button">Let's Work Together</a>
+      </aside>
+
+      <!-- Annotation -->
+      <div class="annotation">
+        <div class="annotation-title">Two-Column Layout Concept</div>
+        <p style="margin-bottom: 16px;">
+          <strong>Layout Strategy:</strong> Main content takes 8-column width on desktop (wider), sidebar takes 4 columns (narrower). Sidebar is sticky and follows scroll. Mobile collapses to single column with sidebar content at top.
+        </p>
+        <p style="margin-bottom: 16px;">
+          <strong>Sidebar Elements:</strong> Quick Facts (at-a-glance info), Table of Contents (with scroll-aware active states), and persistent CTA button. All designed to provide quick navigation and context while reading long-form content.
+        </p>
+        <p style="margin-bottom: 16px;">
+          <strong>Content Style:</strong> Narrative paragraphs instead of bullets create a more engaging reading experience. Large, readable type (19px body) with generous line-height (1.7) makes long-form content comfortable to read.
+        </p>
+        <p>
+          <strong>Visual Hierarchy:</strong> Section headings (40px) with subtle purple gradient underlines. Subsection headings (24px) in purple accent color. Project cards with hover states for interactive feel.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Scroll-aware table of contents
+    const sections = document.querySelectorAll('.content-section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -66%',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    // Smooth scroll
+    tocLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

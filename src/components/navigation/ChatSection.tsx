@@ -11,7 +11,7 @@ import { SuggestedPrompts } from './SuggestedPrompts';
 import '../chatbot/chatbot.css';
 
 export function ChatSection() {
-  const { panelState, chatExpanded, setChatExpanded, setChatInputFocused, signalChatCloseComplete } = useNavigation();
+  const { panelState, chatExpanded, setChatExpanded, chatInputFocused, setChatInputFocused, signalChatCloseComplete } = useNavigation();
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -44,6 +44,10 @@ export function ChatSection() {
   const isExpanded = panelState === 'expanded';
   const showChatContent = isDesktop ? isExpanded : chatExpanded;
 
+  const heightStyle = isDesktop
+    ? (chatExpanded ? '100%' : '34%')
+    : (chatExpanded ? '50vh' : 'auto');
+
   // Auto-scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
@@ -51,10 +55,15 @@ export function ChatSection() {
     }
   }, [messages]);
 
-  // Auto-focus input when chat expands
+  // Auto-focus input when chat expands (but not when it collapses)
   useEffect(() => {
-    if (chatExpanded && inputRef.current) {
-      inputRef.current.focus();
+    if (chatExpanded && inputRef.current && document.activeElement !== inputRef.current) {
+      // Small delay to avoid conflicts with blur
+      setTimeout(() => {
+        if (chatExpanded) {
+          inputRef.current?.focus();
+        }
+      }, 100);
     }
   }, [chatExpanded]);
 
@@ -103,70 +112,65 @@ export function ChatSection() {
 
   return (
     <div
-      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t md:border-t-0 border-neutral-800 bg-neutral-900 ${
+      key={`chat-${chatExpanded}`}
+      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${
         isDesktop && chatExpanded
           ? 'absolute inset-0 z-10'
           : !isDesktop && chatExpanded
-          ? 'absolute bottom-0 left-0 right-0 z-10'
+          ? 'absolute bottom-0 left-0 right-0 z-10 border-t border-chat-border'
           : ''
       }`}
       style={{
-        height: isDesktop
-          ? (chatExpanded ? '100%' : '34%')
-          : (chatExpanded ? '50vh' : 'auto'),
+        height: heightStyle,
       }}
     >
       {/* Chat Header */}
       <div
-        className={`px-8 py-6 border-b border-neutral-800 flex items-center justify-between flex-shrink-0 ${
-          !chatExpanded ? 'cursor-pointer hover:bg-neutral-800/50 transition-colors' : ''
+        className={`px-8 py-6 border-b border-chat-border flex items-center justify-between flex-shrink-0 ${
+          !chatExpanded ? 'cursor-pointer hover:bg-chat-suggestion/50 transition-colors' : ''
         }`}
-        onClick={!chatExpanded ? handleHeaderClick : undefined}
+        onClick={(e) => {
+          if (!chatExpanded) {
+            handleHeaderClick();
+          }
+        }}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 pointer-events-none">
           {!chatExpanded && <Sparkles className="w-4 h-4 text-purple-400" />}
-          {(!isDesktop || isExpanded) && !chatExpanded && (
-            <div className="flex items-center gap-1">
-              {!isDesktop && (
-                <span className="text-lg font-medium font-serif">
-                  M<span className="text-gradient">Evans</span>
-                </span>
-              )}
-              <h2 className="text-lg font-medium text-white font-serif">
-                AI Assistant
-              </h2>
-            </div>
-          )}
-          {!isDesktop && chatExpanded && (
-            <div className="flex items-center gap-1">
-              <span className="text-lg font-medium font-serif">
-                M<span className="text-gradient">Evans</span>
-              </span>
-              <h2 className="text-lg font-medium text-white font-serif">
-                AI Assistant
-              </h2>
-            </div>
-          )}
+          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${chatExpanded ? 'ml-16' : ''}`}>
+            AI Assistant
+          </h2>
         </div>
-        {chatExpanded && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              // Simply close - animations handled by Framer Motion
+        <button
+          onClick={(e) => {
+            console.log('🔥 BUTTON CLICKED!', chatExpanded);
+            e.stopPropagation();
+
+            if (chatExpanded) {
+              console.log('Closing...');
               setChatExpanded(false);
               setChatInputFocused(false);
-            }}
-            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-all"
-            aria-label="Collapse chat"
-          >
-            <ChevronDown className="w-4 h-4" />
-          </button>
-        )}
+            } else {
+              console.log('Opening...');
+              setChatExpanded(true);
+              setHasInteracted(true);
+              setChatInputFocused(true);
+            }
+          }}
+          className={`p-1.5 rounded-lg transition-all relative z-50 ${
+            chatExpanded
+              ? 'text-chat-foreground hover:bg-chat-suggestion/30'
+              : 'text-purple-400/60 hover:text-purple-400'
+          }`}
+          aria-label={chatExpanded ? "Collapse chat" : "Expand chat"}
+        >
+          <ChevronDown className={`w-4 h-4 transition-transform ${!chatExpanded ? 'rotate-180' : ''}`} />
+        </button>
       </div>
 
       {/* Chat Messages - Always render when there are messages, but hide with CSS when collapsed */}
       <div
-        className={`overflow-y-auto px-4 py-4 bg-neutral-900 hide-scrollbar ${
+        className={`overflow-y-auto px-4 py-4 bg-chat hide-scrollbar ${
           !showChatContent && !chatExpanded ? 'hidden' : ''
         }`}
       >
@@ -190,7 +194,7 @@ export function ChatSection() {
                 {(isUser || chatExpanded) && !isCollapsedWithChat && (
                   <div
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                      isUser ? 'bg-purple-600 text-white' : 'bg-neutral-800'
+                      isUser ? 'bg-purple-600 text-white' : 'bg-chat-message'
                     }`}
                   >
                     {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-purple-400" />}
@@ -200,7 +204,7 @@ export function ChatSection() {
                 {/* Show only sparkle icon when collapsed */}
                 {isCollapsedWithChat && !isUser && (
                   <div
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-800"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chat-message"
                   >
                     <Sparkles className="h-4 w-4 text-purple-400" />
                   </div>
@@ -214,10 +218,10 @@ export function ChatSection() {
                     className={`rounded-lg px-4 py-2 chatbot-message ${
                       isUser
                         ? 'bg-purple-600 text-white text-sm'
-                        : 'bg-neutral-800 text-white'
+                        : 'bg-chat-message dark:text-foreground text-white'
                     }`}
                   >
-                    <div className="prose prose-sm prose-invert max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0 prose-p:text-sm prose-li:text-sm [&>*]:text-sm">
+                    <div className="prose prose-sm max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0 prose-p:text-sm prose-li:text-sm [&>*]:text-sm dark:[&>*]:text-foreground [&>*]:text-white">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -251,7 +255,7 @@ export function ChatSection() {
                         <button
                           key={index}
                           onClick={() => handlePromptClick(question)}
-                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-neutral-800/50 hover:bg-neutral-800 transition-colors border border-neutral-700/50 hover:border-neutral-700 text-neutral-300"
+                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80"
                         >
                           {question}
                         </button>
@@ -266,7 +270,7 @@ export function ChatSection() {
 
           {/* Loading indicator */}
           {isLoading && (
-            <div className="flex items-center gap-2 text-neutral-400 mb-4">
+            <div className="flex items-center gap-2 text-chat-foreground/60 mb-4">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span className="text-sm">Thinking...</span>
             </div>
@@ -298,7 +302,7 @@ export function ChatSection() {
           sendMessage({ text: input });
           setInput('');
         }}
-        className={`px-4 py-3 border-t border-neutral-800 flex gap-2 flex-shrink-0 ${
+        className={`px-4 py-3 border-t border-chat-border flex gap-2 flex-shrink-0 ${
           !showChatContent ? 'hidden' : ''
         } ${
           panelState === 'partial' && chatExpanded ? 'hidden' : ''
@@ -312,13 +316,13 @@ export function ChatSection() {
           onFocus={handleInputFocus}
           placeholder="Ask about Michael's work..."
           disabled={isLoading}
-          className="flex-1 px-3 py-2 text-base font-sans bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-none"
+          className="flex-1 px-3 py-2 text-base font-sans bg-chat-input border border-chat-input-border text-chat-foreground placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-none"
           style={{ width: '100%', minWidth: 0 }}
         />
         <button
           type="submit"
           disabled={isLoading || !input?.trim()}
-          className="p-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 bg-button-primary hover:bg-button-primary/90 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <Loader2 className="w-4 h-4 text-white animate-spin" />

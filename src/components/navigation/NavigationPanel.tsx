@@ -69,7 +69,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         "left-0 md:left-auto",
         "w-full",
         "h-auto md:h-full",
-        "bg-neutral-900",
+        "bg-navigation",
         "flex md:flex-shrink-0",
         "z-50",
         "border-t md:border-t-0",

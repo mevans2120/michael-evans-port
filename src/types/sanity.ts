@@ -30,62 +30,13 @@ export interface SanitySlug {
 }
 
 /**
- * Hero Option from Sanity CMS
- * Used for rotating hero text options on homepage
+ * Homepage Hero from Sanity CMS (Singleton)
+ * Used for the main hero section on homepage
  */
-export interface SanityHeroOption {
+export interface SanityHomepageHero {
   _id: string;
-  _type: 'heroOption';
-  prefix: string;
-  dropdown: string;
-  linkType: 'internal' | 'external';
-  internalLink?: {
-    _type: string;
-    slug: SanitySlug;
-  };
-  externalLink?: string;
-  label: string;
+  _type: 'homepageHero';
+  tagline: string;
   description: string;
-  image: SanityImage;
-  tags: string[];
-  colorGradient?: string;
-  active: boolean;
-  order: number;
-  publishedAt?: string;
-}
-
-/**
- * Transformed Hero Option Query Result
- * This is what we get back from the GROQ query
- */
-export interface SanityHeroOptionQueryResult {
-  _id: string;
-  prefix: string;
-  dropdown: string;
-  linkType: 'internal' | 'external';
-  internalSlug?: string;
-  internalType?: string;
-  externalLink?: string;
-  label: string;
-  description: string;
-  imageUrl: string;
-  tags: string[];
-  colorGradient?: string;
-  order: number;
-}
-
-/**
- * Hero Option for Component Use
- * Matches the structure expected by HomeMinimal component
- */
-export interface HeroOption {
-  prefix: string;
-  dropdown: string;
-  link: string;
-  label: string;
-  description: string;
-  image: string;
-  tags: string[];
-  color: string;
 }
 

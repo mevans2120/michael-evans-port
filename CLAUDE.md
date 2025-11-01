@@ -77,7 +77,7 @@ npm run lint             # Run ESLint
 - **Project ID**: 5n331bys
 - **Dataset**: production
 - **Studio Path**: http://localhost:3000/studio
-- **Schemas**: profile (singleton), project, aiProject, heroOption, capability, contact, siteSettings, homepageIntro
+- **Schemas**: profile (singleton), homepageHero (singleton), project, aiShowcase, timelinePhase, workflowStep, projectCard
 - **Client**: Configured in `/src/lib/sanity/client.ts`
 
 ## Content Architecture & AI Chatbot

@@ -8,53 +8,149 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Always dark theme - no light mode */
-    --background: 240 10% 3%;
-    --foreground: 0 0% 98%;
-    --name-purple: 280 100% 80%;
+    /* 🎨 CORE COLOR SOURCES - Change these to update entire site */
+    --color-text: 0 0% 3.1%;           /* Vampire black #080808 - ALL text */
+    --color-bg: 0 0% 98%;              /* Off-white #FAFAFA - ALL backgrounds */
+    --color-border: 280 15% 85%;       /* Light gray - ALL borders/strokes */
+    --color-accent: 276 70% 45%;       /* Darker purple for light mode */
+    --color-button-primary: 276 70% 47%;  /* Darker purple for buttons in light mode (purple-700 equivalent) */
+
+    /* Semantic tokens - reference core colors above */
+    --background: var(--color-bg);
+    --foreground: var(--color-text);
+
+    --card: 280 10% 96%;
+    --card-foreground: var(--color-text);
+
+    /* Navigation - uses core colors */
+    --navigation-background: 280 11% 90%;  /* Darker with reduced purple tint */
+    --navigation-foreground: var(--color-text);
+    --navigation-border: var(--color-border);
+    --navigation-link: var(--color-text);           /* Vampire black */
+    --navigation-link-hover: var(--color-text);     /* No color change on hover */
+    --navigation-link-hover-bg: 280 11% 85%;
+
+    /* Chat - INVERTED (dark in light mode, light in dark mode) */
+    --chat-background: 240 6% 10%;        /* Dark gray in light mode */
+    --chat-foreground: 0 0% 98%;          /* White text in light mode */
+    --chat-border: 240 5% 20%;            /* Dark borders in light mode */
+    --chat-message-bg: 280 15% 18%;       /* Darker purple-gray message bubbles (reduced saturation) */
+    --chat-input-bg: 0 0% 100%;           /* White input field */
+    --chat-input-border: 240 5% 26%;      /* Lighter border for white input */
+    --chat-suggestion-bg: 280 11% 20%;
+    --chat-suggestion-hover: 280 11% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--color-text);
+
+    --primary: var(--color-accent);
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 280 15% 92%;
+    --secondary-foreground: var(--color-text);
+
+    --muted: 280 10% 95%;
+    --muted-foreground: var(--color-text);
+
+    --accent: var(--color-accent);
+    --accent-foreground: 0 0% 98%;
+    --accent-light: 280 80% 65%;
+
+    --destructive: 0 84% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: var(--color-border);
+    --input: var(--color-border);
+    --ring: var(--color-accent);
+
+    --gradient-primary: linear-gradient(135deg, hsl(276 70% 55%), hsl(280 90% 25%));  /* Purple gradient for heroes */
+    --gradient-purple: linear-gradient(135deg, hsl(276 70% 55%), hsl(280 80% 65%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(0 0% 95%));
+    --shadow-elegant: 0 10px 30px -10px hsl(240 20% 12% / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(240 20% 12% / 0.08);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 96%;
+    --sidebar-foreground: var(--color-text);
+    --sidebar-primary: var(--color-accent);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 280 15% 92%;
+    --sidebar-accent-foreground: var(--color-text);
+    --sidebar-border: var(--color-border);
+    --sidebar-ring: var(--color-accent);
+  }
+
+  .dark {
+    /* 🎨 CORE COLOR SOURCES - Change these to update entire site */
+    --color-text: 0 0% 98%;              /* White text - ALL text in dark mode */
+    --color-bg: 240 10% 3%;              /* Very dark bg - ALL backgrounds */
+    --color-border: 240 5% 20%;          /* Dark borders - ALL borders/strokes */
+    --color-accent: 276 100% 75%;        /* Bright purple for dark mode */
+    --color-button-primary: 276 80% 65%;  /* Lighter purple for buttons in dark mode (purple-600 equivalent) */
+
+    /* Semantic tokens - reference core colors above */
+    --background: var(--color-bg);
+    --foreground: var(--color-text);
 
     --card: 280 25% 12%;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: var(--color-text);
+
+    /* Navigation - uses core colors */
+    --navigation-background: 240 6% 10%;
+    --navigation-foreground: var(--color-text);
+    --navigation-border: var(--color-border);
+    --navigation-link: 0 0% 60%;
+    --navigation-link-hover: 0 0% 100%;
+    --navigation-link-hover-bg: var(--color-border);
+
+    /* Chat - INVERTED (light in dark mode, dark in light mode) */
+    --chat-background: 280 11% 90%;       /* Purple-tinted off-white (matches light mode nav) */
+    --chat-foreground: 0 0% 3.1%;         /* Dark text in dark mode */
+    --chat-border: 280 15% 85%;           /* Light borders in dark mode */
+    --chat-message-bg: 280 10% 25%;       /* Very dark gray message bubbles */
+    --chat-input-bg: 0 0% 100%;           /* White input field (same as light mode) */
+    --chat-input-border: 280 15% 85%;     /* Light border for white input */
+    --chat-suggestion-bg: 280 10% 30%;
+    --chat-suggestion-hover: 280 10% 25%;
 
     --popover: 215 28% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover-foreground: var(--color-text);
 
-    --primary: 0 0% 98%;
+    --primary: var(--color-text);
     --primary-foreground: 280 25% 8%;
 
     --secondary: 280 25% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: var(--color-text);
 
     --muted: 215 25% 12%;
     --muted-foreground: 215 15% 70%;
 
-    --accent: 276 100% 75%;
+    --accent: var(--color-accent);
     --accent-foreground: 215 28% 4%;
-    --accent-light: 280 100% 80%;  /* Lighter purple for gradients */
+    --accent-light: 280 100% 80%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 280 25% 20%;
-    --input: 280 25% 20%;
-    --ring: 220 90% 56%;
+    --border: var(--color-border);
+    --input: var(--color-border);
+    --ring: var(--color-accent);
 
     --gradient-primary: linear-gradient(135deg, hsl(280 60% 60%), hsl(0 0% 98%));
-    --gradient-purple: linear-gradient(135deg, hsl(276 100% 75%), hsl(280 100% 80%));  /* Unified purple gradient */
+    --gradient-purple: linear-gradient(135deg, hsl(276 100% 75%), hsl(280 100% 80%));
     --gradient-subtle: linear-gradient(180deg, hsl(215 28% 4%), hsl(215 25% 8%));
     --shadow-elegant: 0 10px 30px -10px hsl(220 90% 56% / 0.2);
     --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
 
-    --radius: 0.75rem;
-
     --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-foreground: var(--color-text);
+    --sidebar-primary: var(--color-accent);
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent-foreground: var(--color-text);
+    --sidebar-border: var(--color-border);
+    --sidebar-ring: var(--color-accent);
   }
 }
 
@@ -64,14 +160,12 @@ All colors MUST be HSL.
   }
 
   html {
-    background-color: #050510;
+    @apply bg-background;
     scroll-behavior: smooth;
   }
 
   body {
-    @apply font-sans;
-    background-color: #050510;
-    color: #fafafa;
+    @apply font-sans bg-background text-foreground;
     font-weight: 300;
   }
 

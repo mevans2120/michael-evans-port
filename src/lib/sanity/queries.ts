@@ -110,22 +110,27 @@ export const capabilitiesByCategoryQuery = groq`
   }
 `
 
-// Get active hero options for homepage rotation
-export const heroOptionsQuery = groq`
-  *[_type == "heroOption" && active == true] | order(order asc) {
+// Get homepage content (singleton)
+export const homepageHeroQuery = groq`
+  *[_type == "homepageHero"][0] {
     _id,
-    prefix,
-    dropdown,
-    linkType,
-    "internalSlug": internalLink->slug.current,
-    "internalType": internalLink->_type,
-    externalLink,
-    label,
+    tagline,
     description,
-    "imageUrl": image.asset->url,
-    tags,
-    colorGradient,
-    order
+    heroCta {
+      text,
+      linkType,
+      internalLink,
+      externalLink
+    },
+    selectedWorkSection,
+    aiShowcaseSection {
+      heading,
+      description,
+      viewAllText,
+      viewAllLinkType,
+      viewAllInternalLink,
+      viewAllExternalLink
+    }
   }
 `
 

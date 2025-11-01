@@ -123,7 +123,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             <p className={`
               text-lg md:text-xl leading-relaxed text-gray-300 max-w-3xl
               transition-all duration-400 ease-out overflow-hidden
-              ${isExpanded ? 'max-h-48 opacity-100 mt-6' : 'max-h-0 opacity-0 md:group-hover:max-h-48 md:group-hover:opacity-100 md:group-hover:mt-6'}
+              ${isExpanded ? 'max-h-48 opacity-100 mt-10' : 'max-h-0 opacity-0 md:group-hover:max-h-48 md:group-hover:opacity-100 md:group-hover:mt-10'}
             `}>
               {study.description}
             </p>

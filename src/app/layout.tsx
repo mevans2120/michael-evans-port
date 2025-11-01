@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, DM_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
@@ -55,11 +56,19 @@ export default function RootLayout({
           Skip to main content
         </a>
 
-        <QueryProvider>
-          {children}
-          <Toaster />
-          <Sonner />
-        </QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={true}
+          disableTransitionOnChange={false}
+          storageKey="michael-evans-portfolio-theme"
+        >
+          <QueryProvider>
+            {children}
+            <Toaster />
+            <Sonner />
+          </QueryProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

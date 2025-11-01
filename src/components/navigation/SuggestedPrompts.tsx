@@ -33,9 +33,9 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
             px-4 py-3
             text-left
             text-sm
-            bg-neutral-800
-            hover:bg-neutral-750
-            border border-neutral-700
+            bg-chat-suggestion
+            hover:bg-chat-suggestion-hover
+            border border-chat-input-border
             hover:border-purple-500/50
             rounded-lg
             cursor-pointer

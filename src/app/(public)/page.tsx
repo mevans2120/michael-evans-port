@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { client } from "@/lib/sanity/client";
-import { featuredAIShowcaseQuery } from "@/lib/sanity/queries";
+import { featuredAIShowcaseQuery, homepageHeroQuery } from "@/lib/sanity/queries";
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,16 +13,10 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  // Site is always dark - no light mode
-  const isDarkMode = true;
-
   // Fetch all data in parallel for performance
-  const [profileData, caseStudiesData, featuredShowcase] = await Promise.all([
-    // Fetch profile data
-    client.fetch(`*[_type == "profile"] | order(_updatedAt desc)[0] {
-      "profileImage": profileImage.asset->url,
-      tagline
-    }`),
+  const [homepage, caseStudiesData, featuredShowcase] = await Promise.all([
+    // Fetch homepage content
+    client.fetch(homepageHeroQuery),
 
     // Fetch featured case studies
     client.fetch(`
@@ -41,8 +35,31 @@ export default async function HomePage() {
     client.fetch(featuredAIShowcaseQuery)
   ])
 
-  const profileImage = profileData?.profileImage || null
-  const tagline = profileData?.tagline || ''
+  // Hero section with fallbacks
+  const tagline = homepage?.tagline || 'builds products'
+  const description = homepage?.description || 'Shipping innovative digital products since 2007, across a variety of industries and technologies.'
+  const heroCta = {
+    text: homepage?.heroCta?.text || 'Learn more about my background',
+    link: homepage?.heroCta?.linkType === 'external'
+      ? homepage?.heroCta?.externalLink
+      : homepage?.heroCta?.internalLink || '/about'
+  }
+
+  // Selected Work section with fallbacks
+  const selectedWork = {
+    heading: homepage?.selectedWorkSection?.heading || 'Selected Work',
+    description: homepage?.selectedWorkSection?.description || 'Case studies and product launches'
+  }
+
+  // AI Showcase section with fallbacks
+  const aiShowcase = {
+    heading: homepage?.aiShowcaseSection?.heading || 'AI Showcase',
+    description: homepage?.aiShowcaseSection?.description || 'My journey with AI-assisted development',
+    viewAllText: homepage?.aiShowcaseSection?.viewAllText || 'View all showcases',
+    viewAllLink: homepage?.aiShowcaseSection?.viewAllLinkType === 'external'
+      ? homepage?.aiShowcaseSection?.viewAllExternalLink
+      : homepage?.aiShowcaseSection?.viewAllInternalLink || '/ai-showcase'
+  }
 
   // Map case studies data to component format
   const featuredCaseStudies = caseStudiesData && caseStudiesData.length > 0
@@ -59,57 +76,47 @@ export default async function HomePage() {
     : []
 
   return (
-    <div className={`min-h-screen relative transition-colors duration-300 ${
-      isDarkMode
-        ? 'bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100'
-        : 'bg-gradient-to-b from-slate-50 to-white text-gray-900'
-    }`}>
+    <div className="min-h-screen relative bg-background text-foreground transition-colors duration-300">
       {/* Hero Section */}
       <section className="px-6 relative min-h-[85vh] flex items-center pt-20">
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-5xl -mx-6 md:mx-0">
-            {tagline && (
-              <div className="animate-in fade-in duration-700">
-                {/* Main Text */}
-                <h1 className={`text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-8 ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                }`}>
-                  <span className="text-gradient">Michael Evans</span> {tagline}
-                </h1>
-                <Link
-                  href="/about"
-                  className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
-                    isDarkMode
-                      ? 'text-accent hover:text-purple-300'
-                      : 'text-purple-600 hover:text-purple-700'
-                  }`}
-                >
-                  Learn more about my background
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            )}
+            <div className="animate-in fade-in duration-700">
+              {/* Main Text */}
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-sans font-light leading-tight mb-6 text-foreground">
+                <span className="text-gradient">Michael Evans</span> {tagline}
+              </h1>
+
+              {/* Description */}
+              <p className="text-xl md:text-2xl font-serif mb-8 text-muted-foreground">
+                {description}
+              </p>
+
+              <Link
+                href={heroCta.link}
+                className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-accent hover:text-purple-300"
+              >
+                {heroCta.text}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Separator - positioned to peek above viewport */}
       <div className="relative -mt-8">
-        <Separator className={`mx-auto max-w-6xl ${isDarkMode ? 'bg-gray-800' : ''}`} />
+        <Separator className="mx-auto max-w-6xl" />
       </div>
 
       {/* Featured Work Section */}
-      {tagline && featuredCaseStudies.length > 0 && (
+      {featuredCaseStudies.length > 0 && (
         <section className="py-20 px-6 relative mt-8">
-          <div className={`absolute left-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
-            isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
-          }`} />
+          <div className="absolute left-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl bg-accent/20" />
           <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="mb-20 -mx-6 md:mx-0 opacity-0">
-              <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
-                isDarkMode ? 'text-gray-100' : 'text-gray-900'
-              }`}>
-                Selected Work
+            <div className="mb-20 -mx-6 md:mx-0">
+              <h2 className="text-2xl font-light mb-2 flex items-center gap-3 text-foreground">
+                {selectedWork.heading}
                 <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -121,7 +128,7 @@ export default async function HomePage() {
                   <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
                 </svg>
               </h2>
-              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Case studies and product launches</p>
+              <p className="text-muted-foreground">{selectedWork.description}</p>
             </div>
 
             <div className="-mx-6 md:mx-0">
@@ -134,15 +141,11 @@ export default async function HomePage() {
       {/* AI Showcase Section */}
       {featuredShowcase && (
         <section className="py-20 px-6 relative">
-          <div className={`absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl ${
-            isDarkMode ? 'bg-accent/20' : 'bg-purple-100 opacity-20'
-          }`} />
+          <div className="absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl bg-accent/20" />
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="mb-12 -mx-6 md:mx-0">
-              <h2 className={`text-2xl font-light mb-2 flex items-center gap-3 ${
-                isDarkMode ? 'text-gray-100' : 'text-gray-900'
-              }`}>
-                AI Showcase
+              <h2 className="text-2xl font-light mb-2 flex items-center gap-3 text-foreground">
+                {aiShowcase.heading}
                 <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -154,43 +157,37 @@ export default async function HomePage() {
                   <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient2)" strokeWidth="0.5" />
                 </svg>
               </h2>
-              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>My journey with AI-assisted development</p>
+              <p className="text-muted-foreground">{aiShowcase.description}</p>
             </div>
 
             <div className="-mx-6 md:mx-0">
-              <Link href={`/ai-showcase/${featuredShowcase.slug}`} className="block group">
-                <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-900/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
-                  {/* Title */}
-                  <h3 className="text-2xl md:text-3xl font-syne font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
-                    {featuredShowcase.heroSection.title}
-                  </h3>
+              <Link href={`/ai-showcase/${featuredShowcase.slug}`} className="block group mb-8">
+                {/* Title */}
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-light leading-tight mb-6 text-foreground group-hover:text-purple-300 transition-colors">
+                  {featuredShowcase.heroSection.title}
+                </h3>
 
-                  {/* Brief Description */}
-                  {featuredShowcase.heroSection.summary && (
-                    <p className="text-gray-300 mb-6 leading-relaxed line-clamp-2">
-                      {featuredShowcase.heroSection.summary}
-                    </p>
-                  )}
+                {/* Brief Description */}
+                {featuredShowcase.heroSection.summary && (
+                  <p className="text-lg md:text-xl font-serif mb-6 leading-relaxed text-muted-foreground">
+                    {featuredShowcase.heroSection.summary}
+                  </p>
+                )}
 
-                  {/* CTA */}
-                  <div className="flex items-center gap-2 text-purple-300 group-hover:text-purple-200 transition-colors">
-                    <span className="text-sm font-medium">Explore</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                {/* CTA */}
+                <div className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-purple-300 transition-colors">
+                  <span>Explore</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
 
               {/* View All Link */}
-              <div className="mt-10 text-center">
+              <div className="mt-10">
                 <Link
-                  href="/ai-showcase"
-                  className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${
-                    isDarkMode
-                      ? 'text-accent hover:text-purple-300'
-                      : 'text-purple-600 hover:text-purple-700'
-                  }`}
+                  href={aiShowcase.viewAllLink}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-purple-300 transition-colors"
                 >
-                  View all showcases
+                  {aiShowcase.viewAllText}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
