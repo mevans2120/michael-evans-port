@@ -263,7 +263,67 @@ The portfolio site is fully functional with:
 - Use the `cn()` utility for combining Tailwind classes with conditional logic
 - See `/docs/` folder for detailed documentation and audit reports
 
+## CSS Refactoring & Testing
+
+**IMPORTANT: Visual regression testing infrastructure is now in place**
+
+The site has brittle CSS with hardcoded colors, inline styles, and `!important` declarations. A comprehensive refactoring plan exists with safety measures.
+
+### Testing Commands
+
+```bash
+# Visual regression tests (screenshot comparison)
+npm run test:visual          # Run screenshot tests
+npm run test:visual:update   # Update baselines after refactoring
+
+# Computed styles tests (CSS property validation)
+npm run test:styles          # Compare against baseline
+npm run test:styles:baseline # Capture new baseline
+
+# Full test suite for CSS refactoring
+npm run test:refactor        # Runs: build + visual + styles + e2e
+```
+
+### Refactoring Workflow
+
+**CRITICAL: Always validate changes with tests**
+
+1. **Make CSS changes** to ONE component at a time
+2. **Run tests**: `npm run test:refactor`
+3. **Review diffs**: If visual tests fail, check `test-results/**/*-diff.png`
+4. **Fix or accept**: Either fix the issue or update baselines if change is intentional
+5. **Commit**: Only commit when all tests pass
+
+### Baselines Captured
+
+- **24 screenshot baselines**: Desktop, tablet, mobile viewports
+- **Light mode AND dark mode** for all components
+- **Interactive states**: Hover, focus, expanded/collapsed
+- **Components tagged**: NavigationPanel, ChatSection, Hero (with `data-testid`)
+
+### Documentation
+
+- **Full safety plan**: `/docs/css-refactor-safety-plan.md`
+- **Quick start guide**: `/docs/css-refactor-quickstart.md`
+- **CSS analysis**: `/docs/css-architecture-analysis-2025-11-01.md`
+
+### Refactoring Priority
+
+1. Remove `!important` from chatbot.css (2-4h, HIGH impact, LOW risk)
+2. Extract hardcoded colors to CSS variables (2-3 days, HIGH impact)
+3. Replace inline styles with CSS variables (1-2 days, HIGH impact)
+4. Add dark mode variants consistently (2-3 days, HIGH impact)
+5. Standardize animations/transitions (4-6h, MEDIUM impact)
+
 ## Recent Updates
+
+**November 1, 2025:**
+- Created visual regression testing infrastructure for CSS refactor
+- Captured 24 screenshot baselines (3 viewports × light/dark modes)
+- Added computed styles snapshot testing for CSS property validation
+- Added `data-testid` attributes to critical components
+- Fixed interactive state tests for navigation and chat
+- Documentation: CSS refactor safety plan, quick start guide, architecture analysis
 
 **October 29, 2025:**
 - Implemented dynamic purple border on navigation panel with interactive features
