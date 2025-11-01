@@ -91,11 +91,9 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
             className={cn(
               "absolute right-0 top-0 bottom-0 w-[2px] z-[100]",
               "pointer-events-none",
-              "transition-colors duration-200"
+              "transition-colors duration-200",
+              showBorder ? "bg-accent" : "bg-accent/40"
             )}
-            style={{
-              backgroundColor: showBorder ? 'rgb(168, 85, 247)' : 'rgba(168, 85, 247, 0.4)',
-            }}
           />
         )}
 

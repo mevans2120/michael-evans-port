@@ -323,6 +323,9 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 - Added computed styles snapshot testing for CSS property validation
 - Added `data-testid` attributes to critical components
 - Fixed interactive state tests for navigation and chat
+- Completed Phase 1 CSS refactor: Removed all 24 `!important` declarations from chatbot.css
+- Started Phase 2: Replaced hardcoded purple border color with Tailwind `bg-accent` classes
+- Fixed collapsed navigation to show minimal chat with sparkle emoji for context preservation
 - Documentation: CSS refactor safety plan, quick start guide, architecture analysis
 
 **October 29, 2025:**

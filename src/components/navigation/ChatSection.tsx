@@ -43,6 +43,7 @@ export function ChatSection() {
 
   const isExpanded = panelState === 'expanded';
   const showChatContent = isDesktop ? isExpanded : chatExpanded;
+  const isCollapsed = panelState === 'partial';
 
   const heightStyle = isDesktop
     ? (chatExpanded ? '100%' : '34%')
@@ -109,6 +110,19 @@ export function ChatSection() {
 
     return { mainContent, questions };
   };
+
+  // Render minimal chat header when collapsed
+  if (isCollapsed && isDesktop) {
+    return (
+      <div
+        data-testid="chat-section"
+        className="chat-section border-t-0 bg-chat flex items-center justify-center py-4"
+        style={{ height: '34%' }}
+      >
+        <Sparkles className="w-4 h-4 text-purple-400" />
+      </div>
+    );
+  }
 
   return (
     <div

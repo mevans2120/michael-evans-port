@@ -18,6 +18,7 @@ export function NavigationMenu() {
   const pathname = usePathname();
 
   const isExpanded = panelState === 'expanded';
+  const isCollapsed = panelState === 'partial';
 
   const navigationItems = [
     { href: '/', label: 'Home', icon: Home },
@@ -42,7 +43,7 @@ export function NavigationMenu() {
         {isDesktop && (
           <Link
             href="/"
-            className={`px-8 pt-2 pb-6 flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer ${
+            className={`${isCollapsed ? 'px-4' : 'px-8'} pt-2 pb-6 flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer ${
               chatExpanded ? 'pointer-events-none' : ''
             }`}
           >
@@ -66,7 +67,7 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-4 px-8 py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg"
+              className={`flex items-center gap-4 ${isCollapsed ? 'px-4' : 'px-8'} py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg`}
             >
               <Icon className="w-4 h-4" />
               {isExpanded && isDesktop && item.label}
