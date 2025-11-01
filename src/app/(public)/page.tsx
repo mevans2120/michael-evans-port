@@ -78,7 +78,7 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen relative bg-background text-foreground transition-colors duration-300">
       {/* Hero Section */}
-      <section className="px-6 relative min-h-[85vh] flex items-center pt-20">
+      <section data-testid="hero" className="px-6 relative min-h-[85vh] flex items-center pt-20">
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-5xl -mx-6 md:mx-0">
             <div className="animate-in fade-in duration-700">

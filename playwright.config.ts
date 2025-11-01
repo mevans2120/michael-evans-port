@@ -12,6 +12,17 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
+  // Visual regression testing configuration
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixels: 100,  // Allow minor rendering differences (fonts, anti-aliasing)
+      threshold: 0.2,       // 20% threshold for pixel color difference
+    },
+  },
+
+  // Store screenshots in organized folders
+  snapshotDir: './e2e/snapshots',
+
   projects: [
     {
       name: 'chromium',
@@ -22,7 +33,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,  // Always reuse existing server
     timeout: 120000,
   },
 });

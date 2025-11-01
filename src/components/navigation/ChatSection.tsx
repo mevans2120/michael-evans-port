@@ -112,6 +112,7 @@ export function ChatSection() {
 
   return (
     <div
+      data-testid="chat-section"
       key={`chat-${chatExpanded}`}
       className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${
         isDesktop && chatExpanded

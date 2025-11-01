@@ -63,6 +63,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
 
   return (
     <div
+      data-testid="navigation-panel"
       className={cn(
         "fixed md:relative",
         "bottom-0 md:bottom-auto",
