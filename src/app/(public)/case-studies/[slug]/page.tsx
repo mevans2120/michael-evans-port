@@ -169,32 +169,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a14] to-[#050510] text-white overflow-x-hidden">
       {/* Atmospheric blur orbs */}
-      <div
-        className="blur-orb-1 fixed pointer-events-none -z-10"
-        style={{
-          top: '10%',
-          left: '10%',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'hsl(280, 100%, 70%)',
-          opacity: 0.15,
-          filter: 'blur(100px)',
-        }}
-      />
-      <div
-        className="blur-orb-2 fixed pointer-events-none -z-10"
-        style={{
-          bottom: '20%',
-          right: '10%',
-          width: '500px',
-          height: '500px',
-          borderRadius: '50%',
-          background: 'hsl(276, 100%, 75%)',
-          opacity: 0.15,
-          filter: 'blur(100px)',
-        }}
-      />
+      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-purple-400/15 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-purple-300/15 blur-[100px] pointer-events-none -z-10" />
 
       {/* Hero Section - REFACTORED into component */}
       <CaseStudyHero
@@ -238,22 +214,22 @@ export default async function CaseStudyPage({ params }: PageProps) {
             <div className="mt-16">
               {/* Grid screenshots */}
               {section.screenshots.filter(s => s.layout === 'grid').length > 0 && (
-                <div className="grid gap-8 mb-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))' }}>
+                <div className="grid gap-8 mb-8 grid-cols-[repeat(auto-fit,minmax(400px,1fr))]">
                   {section.screenshots.filter(s => s.layout === 'grid').map((screenshot, idx) => {
                     const imageUrl = screenshot.image.asset.url || urlFor(screenshot.image.asset).url();
                     return (
                       <div key={idx}>
-                        <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '16 / 10', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                        <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                           {imageUrl ? (
                             <Image src={imageUrl} alt={screenshot.caption || ''} fill className="object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm" style={{ background: 'linear-gradient(135deg, rgba(199, 128, 245, 0.1), rgba(199, 128, 245, 0.05))', color: '#707070' }}>
+                            <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-purple-400/10 to-purple-400/5 text-gray-500">
                               Screenshot placeholder
                             </div>
                           )}
                         </div>
                         {screenshot.caption && (
-                          <div className="mt-4 text-sm text-center" style={{ color: '#a0a0a0' }}>
+                          <div className="mt-4 text-sm text-center text-gray-400">
                             {screenshot.caption}
                           </div>
                         )}
@@ -268,17 +244,17 @@ export default async function CaseStudyPage({ params }: PageProps) {
                 const imageUrl = screenshot.image.asset.url || urlFor(screenshot.image.asset).url();
                 return (
                   <div key={`large-${idx}`} className="max-w-[1100px] mx-auto mb-8">
-                    <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '16 / 9', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                    <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                       {imageUrl ? (
                         <Image src={imageUrl} alt={screenshot.caption || ''} fill className="object-cover" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm" style={{ background: 'linear-gradient(135deg, rgba(199, 128, 245, 0.1), rgba(199, 128, 245, 0.05))', color: '#707070' }}>
+                        <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-purple-400/10 to-purple-400/5 text-gray-500">
                           Large screenshot placeholder
                         </div>
                       )}
                     </div>
                     {screenshot.caption && (
-                      <div className="mt-4 text-sm text-center" style={{ color: '#a0a0a0' }}>
+                      <div className="mt-4 text-sm text-center text-gray-400">
                         {screenshot.caption}
                       </div>
                     )}

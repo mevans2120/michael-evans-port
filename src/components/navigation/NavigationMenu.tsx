@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useNavigation } from '@/contexts/NavigationContext';
-import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { motion } from 'framer-motion';
 import {
   Home,
@@ -14,7 +13,6 @@ import {
 
 export function NavigationMenu() {
   const { panelState, chatExpanded } = useNavigation();
-  const isDesktop = useIsDesktop();
   const pathname = usePathname();
 
   const isExpanded = panelState === 'expanded';
@@ -29,19 +27,18 @@ export function NavigationMenu() {
 
   return (
     <div
-      className={`py-4 md:border-b border-navigation-border ${isDesktop ? 'h-[66%]' : 'h-auto'}`}
+      className="py-4 md:border-b border-navigation-border h-auto md:h-[66%]"
     >
       <nav
         className="flex flex-row md:flex-col gap-2 md:gap-8 h-full overflow-x-auto md:overflow-y-auto justify-around md:justify-start px-2 md:px-0 hide-scrollbar"
       >
         {/* MEvans Logo - Desktop Only */}
-        {isDesktop && (
-          <Link
-            href="/"
-            className={`${isCollapsed ? 'px-4' : 'px-8'} pt-2 pb-6 flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer ${
-              chatExpanded ? 'pointer-events-none' : ''
-            }`}
-          >
+        <Link
+          href="/"
+          className={`${isCollapsed ? 'px-4' : 'px-8'} pt-2 pb-6 hidden md:flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer ${
+            chatExpanded ? 'pointer-events-none' : ''
+          }`}
+        >
             {panelState === 'expanded' ? (
               <span className={`text-lg font-medium font-serif ${chatExpanded ? 'text-chat-foreground' : ''}`}>
                 M<span className={chatExpanded ? 'text-purple-600 dark:text-purple-400' : 'text-gradient'}>Evans</span>
@@ -51,8 +48,7 @@ export function NavigationMenu() {
                 M<span className="text-gradient">E</span>
               </span>
             )}
-          </Link>
-        )}
+        </Link>
 
         {/* Navigation Items */}
         {navigationItems.map((item) => {
@@ -65,7 +61,7 @@ export function NavigationMenu() {
               className={`flex items-center gap-4 ${isCollapsed ? 'px-4' : 'px-8'} py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg`}
             >
               <Icon className="w-4 h-4" />
-              {isExpanded && isDesktop && item.label}
+              {isExpanded && <span className="hidden md:inline">{item.label}</span>}
             </Link>
           );
         })}
