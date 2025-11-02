@@ -11,6 +11,7 @@ import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
 import { preprocessQuery } from '@/lib/chatbot/query-preprocessor';
 import { hybridSearch, rerankResults } from '@/lib/chatbot/hybrid-search';
 import { detectPraise, getRandomAsciiArt } from '@/lib/chatbot/ascii-art';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'edge';
 
@@ -141,20 +142,14 @@ Special Response for Praise:
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log('=== FULL REQUEST BODY ===');
-    console.log(JSON.stringify(body, null, 2));
-    console.log('=== BODY KEYS ===');
-    console.log(Object.keys(body));
-    console.log('=== END DEBUG ===');
-
     const { messages, sessionId: clientSessionId } = body;
 
     // Generate or use existing session ID
     const sessionId = clientSessionId || generateUUID();
 
     if (!messages || !Array.isArray(messages)) {
-      console.error('Invalid messages:', messages);
-      console.error('Full body received:', body);
+      logger.error('Invalid messages:', messages);
+      logger.error('Full body received:', body);
       return new Response('Invalid request: messages must be an array', { status: 400 });
     }
 
@@ -185,12 +180,12 @@ export async function POST(req: Request) {
     // Check if message contains praise
     const containsPraise = detectPraise(messageText);
     if (containsPraise) {
-      console.log('Praise detected in message! Will include ASCII art in response.');
+      logger.log('Praise detected in message! Will include ASCII art in response.');
     }
 
     // Preprocess query for better retrieval
     const processedQuery = preprocessQuery(messageText);
-    console.log('Query preprocessing:', {
+    logger.log('Query preprocessing:', {
       original: processedQuery.original,
       normalized: processedQuery.normalized,
       entities: processedQuery.entities,
@@ -202,7 +197,7 @@ export async function POST(req: Request) {
     const queryEmbedding = await generateEmbedding(processedQuery.expanded);
 
     // Use hybrid search for better retrieval
-    console.log('Using hybrid search with keywords:', processedQuery.keywords);
+    logger.log('Using hybrid search with keywords:', processedQuery.keywords);
     const searchResults = await hybridSearch(
       queryEmbedding,
       processedQuery.normalized,
@@ -258,7 +253,7 @@ export async function POST(req: Request) {
     response.headers.set('X-Session-ID', sessionId);
     return response;
   } catch (error) {
-    console.error('Error in chat API:', error);
+    logger.error('Error in chat API:', error);
 
     return new Response(
       JSON.stringify({

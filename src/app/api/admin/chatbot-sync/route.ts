@@ -1,16 +1,25 @@
 /**
  * Chatbot Sync Admin API
  * Provides endpoints for managing chatbot content synchronization
+ *
+ * Requires authentication via Bearer token in Authorization header
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSyncStatus } from '@/lib/chatbot/supabase';
 import { smartSyncSanityContent, printSyncSummary } from '@/lib/chatbot/smart-sync';
+import { verifyAdminAuth, createUnauthorizedResponse } from '@/lib/auth/admin-auth';
+import { logger } from '@/lib/logger';
 
 /**
  * GET - Get sync status and statistics
  */
 export async function GET(request: NextRequest) {
+  // Verify authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
+
   try {
     const status = await getSyncStatus();
 
@@ -32,7 +41,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error getting sync status:', error);
+    logger.error('Error getting sync status:', error);
 
     return NextResponse.json({
       error: 'Failed to get sync status',
@@ -45,14 +54,19 @@ export async function GET(request: NextRequest) {
  * POST - Trigger manual sync
  */
 export async function POST(request: NextRequest) {
+  // Verify authentication
+  if (!verifyAdminAuth(request)) {
+    return createUnauthorizedResponse();
+  }
+
   try {
-    console.log('\n🔄 Manual sync triggered via admin dashboard...\n');
+    logger.log('\n🔄 Manual sync triggered via admin dashboard...\n');
 
     const result = await smartSyncSanityContent();
 
-    console.log('\n');
+    logger.log('\n');
     printSyncSummary(result);
-    console.log('');
+    logger.log('');
 
     return NextResponse.json({
       success: true,
@@ -66,7 +80,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('❌ Error during manual sync:', error);
+    logger.error('❌ Error during manual sync:', error);
 
     return NextResponse.json({
       error: 'Failed to sync content',

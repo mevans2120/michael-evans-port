@@ -14,6 +14,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { syncSingleDocument, deleteSanityDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
+import { logger } from '@/lib/logger';
 
 /**
  * Verify Sanity webhook signature
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
     const webhookSecret = process.env.SANITY_WEBHOOK_SECRET;
 
     if (!webhookSecret) {
-      console.error('SANITY_WEBHOOK_SECRET not configured');
+      logger.error('SANITY_WEBHOOK_SECRET not configured');
       return NextResponse.json(
         { error: 'Webhook not configured' },
         { status: 500 }
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Verify signature
     if (!verifySignature(body, signature, webhookSecret)) {
-      console.error('Invalid webhook signature');
+      logger.error('Invalid webhook signature');
       return NextResponse.json(
         { error: 'Invalid signature' },
         { status: 401 }
@@ -77,9 +78,9 @@ export async function POST(request: NextRequest) {
 
     const payload: SanityWebhookPayload = JSON.parse(body);
 
-    console.log(`\n📨 Webhook received for: ${payload._type} (${payload._id})`);
-    console.log(`   Title: ${payload.title || 'N/A'}`);
-    console.log(`   Slug: ${payload.slug?.current || 'N/A'}\n`);
+    logger.log(`\n📨 Webhook received for: ${payload._type} (${payload._id})`);
+    logger.log(`   Title: ${payload.title || 'N/A'}`);
+    logger.log(`   Slug: ${payload.slug?.current || 'N/A'}\n`);
 
     // Step 4: Determine action based on document type and event
     // Note: Sanity webhooks don't explicitly send the event type in the payload,
@@ -91,8 +92,8 @@ export async function POST(request: NextRequest) {
     const supportedTypes = ['project', 'profile', 'aiProject'];
 
     if (!supportedTypes.includes(documentType)) {
-      console.log(`   ⚠️  Document type '${documentType}' not supported for chatbot sync`);
-      console.log('   → Supported types: project, profile, aiProject\n');
+      logger.log(`   ⚠️  Document type '${documentType}' not supported for chatbot sync`);
+      logger.log('   → Supported types: project, profile, aiProject\n');
 
       return NextResponse.json({
         success: true,
@@ -101,13 +102,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Step 5: Sync the document
-    console.log(`   🔄 Syncing ${documentType}...`);
+    logger.log(`   🔄 Syncing ${documentType}...`);
 
     const result = await syncSingleDocument(documentId);
 
-    console.log('\n');
+    logger.log('\n');
     printSyncSummary(result);
-    console.log('');
+    logger.log('');
 
     // Step 6: Return success response
     return NextResponse.json({
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('❌ Error processing webhook:', error);
+    logger.error('❌ Error processing webhook:', error);
 
     return NextResponse.json(
       {

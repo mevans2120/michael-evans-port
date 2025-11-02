@@ -317,6 +317,20 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 
 ## Recent Updates
 
+**November 2, 2025:**
+- Completed Phase 1 of tech debt cleanup (security & production fixes)
+- **SECURITY**: Removed password debug logging from admin layout
+- **SECURITY**: Added Bearer token authentication to all admin API routes
+  - Created `/src/lib/auth/admin-auth.ts` utility
+  - Protected `/api/admin/chat-logs` and `/api/admin/chatbot-sync` endpoints
+  - Added client-side Authorization headers
+- Replaced all console.log/error with logger utility in API routes
+  - Chat route, webhooks route, chatbot-sync route cleaned
+  - Development-only logging via logger.log (production-safe)
+- Cleaned up dependencies: removed 6 unused packages, added uuid
+- Deleted 7 unused shadcn/ui components (~1,400 lines removed)
+- Documentation: `/docs/implementation-plans/tech-debt-cleanup-plan-2025-11-01.md`
+
 **November 1, 2025:**
 - Created visual regression testing infrastructure for CSS refactor
 - Captured 24 screenshot baselines (3 viewports × light/dark modes)

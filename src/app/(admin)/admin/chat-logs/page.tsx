@@ -49,7 +49,11 @@ export default function ChatLogsPage() {
   const fetchLogs = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/chat-logs');
+      const response = await fetch('/api/admin/chat-logs', {
+        headers: {
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_ADMIN_API_TOKEN}`
+        }
+      });
       if (!response.ok) throw new Error('Failed to fetch logs');
       const data = await response.json();
       setLogs(data.logs || []);

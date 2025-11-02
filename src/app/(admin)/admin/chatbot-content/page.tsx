@@ -46,7 +46,11 @@ export default function ChatbotContentPage() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/admin/chatbot-sync');
+      const response = await fetch('/api/admin/chatbot-sync', {
+        headers: {
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_ADMIN_API_TOKEN}`
+        }
+      });
       const data = await response.json();
 
       if (data.success) {
@@ -70,6 +74,9 @@ export default function ChatbotContentPage() {
 
       const response = await fetch('/api/admin/chatbot-sync', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_ADMIN_API_TOKEN}`
+        }
       });
 
       const data = await response.json();
