@@ -504,6 +504,12 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Updated Homepage Hero Gradient to Only "Evans"**
+  - Changed hero title gradient to apply only to "Evans" instead of full name
+  - "Michael" and "builds products" now display in normal foreground color
+  - "Evans" displays with time-based gradient (coral during day, purple during evening)
+  - File updated: `/src/app/(public)/page.tsx` (line 91)
+  - Result: More subtle and focused gradient effect on hero title
 - **Prevented Multiple Simultaneous AI Assistant Messages**
   - Added `isLoading` check to prevent sending multiple messages at once
   - Updated `handlePromptClick` to return early if message is already being processed

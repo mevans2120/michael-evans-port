@@ -88,7 +88,7 @@ export default async function HomePage() {
             <div className="animate-in fade-in duration-700">
               {/* Main Text */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-sans font-light leading-tight mb-6 text-foreground">
-                <span className="text-gradient">Michael Evans</span> {tagline}
+                Michael <span className="text-gradient">Evans</span> {tagline}
               </h1>
 
               {/* Description */}
