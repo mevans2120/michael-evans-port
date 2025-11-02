@@ -14,12 +14,10 @@ test.describe('ChatSection Navigation UI', () => {
 
     if (isDesktop) {
       // On desktop, need to expand the panel first
-      // Look for the AI Assistant header
-      const aiHeader = page.locator('text=AI Assistant');
-      await expect(aiHeader).toBeVisible({ timeout: 10000 });
-
-      // Click to expand chat if needed
-      await aiHeader.click();
+      // Click the chevron button to expand chat
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expect(expandButton).toBeVisible({ timeout: 10000 });
+      await expandButton.click();
     }
 
     // Wait for welcome message to appear
@@ -41,8 +39,8 @@ test.describe('ChatSection Navigation UI', () => {
     const isDesktop = viewport && viewport.width >= 768;
 
     if (isDesktop) {
-      const aiHeader = page.locator('text=AI Assistant');
-      await aiHeader.click();
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expandButton.click();
     }
 
     // Wait for suggested prompts to appear
@@ -60,8 +58,8 @@ test.describe('ChatSection Navigation UI', () => {
     const isDesktop = viewport && viewport.width >= 768;
 
     if (isDesktop) {
-      const aiHeader = page.locator('text=AI Assistant');
-      await aiHeader.click();
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expandButton.click();
     }
 
     // Wait for input to be visible
@@ -107,8 +105,8 @@ test.describe('ChatSection Navigation UI', () => {
     const isDesktop = viewport && viewport.width >= 768;
 
     if (isDesktop) {
-      const aiHeader = page.locator('text=AI Assistant');
-      await aiHeader.click();
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expandButton.click();
     }
 
     // Wait for suggested prompts
@@ -139,8 +137,8 @@ test.describe('ChatSection Navigation UI', () => {
     const isDesktop = viewport && viewport.width >= 768;
 
     if (isDesktop) {
-      const aiHeader = page.locator('text=AI Assistant');
-      await aiHeader.click();
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expandButton.click();
     }
 
     const input = page.locator('input[placeholder*="Ask about Michael"]');
@@ -197,8 +195,8 @@ test.describe('ChatSection Navigation UI', () => {
     const isDesktop = viewport && viewport.width >= 768;
 
     if (isDesktop) {
-      const aiHeader = page.locator('text=AI Assistant');
-      await aiHeader.click();
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expandButton.click();
     }
 
     const input = page.locator('input[placeholder*="Ask about Michael"]');
@@ -217,8 +215,8 @@ test.describe('ChatSection Navigation UI', () => {
     const isDesktop = viewport && viewport.width >= 768;
 
     if (isDesktop) {
-      const aiHeader = page.locator('text=AI Assistant');
-      await aiHeader.click();
+      const expandButton = page.locator('button[aria-label*="Expand"]').first();
+      await expandButton.click();
     }
 
     const input = page.locator('input[placeholder*="Ask about Michael"]');

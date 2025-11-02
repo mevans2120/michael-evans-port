@@ -318,18 +318,28 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
-- Completed Phase 1 of tech debt cleanup (security & production fixes)
-- **SECURITY**: Removed password debug logging from admin layout
-- **SECURITY**: Added Bearer token authentication to all admin API routes
-  - Created `/src/lib/auth/admin-auth.ts` utility
-  - Protected `/api/admin/chat-logs` and `/api/admin/chatbot-sync` endpoints
-  - Added client-side Authorization headers
-- Replaced all console.log/error with logger utility in API routes
-  - Chat route, webhooks route, chatbot-sync route cleaned
-  - Development-only logging via logger.log (production-safe)
-- Cleaned up dependencies: removed 6 unused packages, added uuid
-- Deleted 7 unused shadcn/ui components (~1,400 lines removed)
-- Documentation: `/docs/implementation-plans/tech-debt-cleanup-plan-2025-11-01.md`
+- **Completed Tech Debt Cleanup Phase 1 & 2** (18 changes total)
+- **Phase 1 - Security & Cleanup:**
+  - SECURITY: Removed password debug logging from admin layout
+  - SECURITY: Added Bearer token authentication to all admin API routes
+    - Created `/src/lib/auth/admin-auth.ts` utility
+    - Protected `/api/admin/chat-logs` and `/api/admin/chatbot-sync` endpoints
+    - Added client-side Authorization headers
+  - Replaced console.log/error with logger utility in API routes
+  - Cleaned up dependencies: removed 6 unused packages, added uuid
+  - Deleted 7 unused shadcn/ui components (~1,400 lines removed)
+- **Phase 2 - Code Quality & Consistency:**
+  - Consolidated mobile detection hooks (deleted duplicate `use-mobile.tsx`)
+  - Removed toast hook duplication (canonical: `hooks/use-toast.ts`)
+  - Improved TypeScript types (replaced critical `any` usages):
+    - Sanity: `any[]` → `PortableTextBlock[]` for content/bio
+    - Supabase: `any` → `unknown` or `Json` types
+    - ReactMarkdown components: proper type definitions (2 files)
+  - Standardized error handling (20+ `console.error` → `logger.error`)
+    - embeddings.ts, supabase.ts, ChatSection.tsx cleaned
+- Updated e2e tests to work with new ChatSection structure (click chevron button)
+- Documentation: `/docs/tech-debt-phase1-2-testing-plan.md`
+- Implementation plan: `/docs/implementation-plans/tech-debt-cleanup-plan-2025-11-01.md`
 
 **November 1, 2025:**
 - Created visual regression testing infrastructure for CSS refactor
