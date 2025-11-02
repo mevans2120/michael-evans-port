@@ -74,7 +74,7 @@ const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
       <div className={`max-w-[85%] ${message.isUser ? 'order-2' : 'order-1'}`}>
         <div className={`px-4 py-2.5 rounded-lg ${
           message.isUser
-            ? 'bg-purple-600 text-white'
+            ? 'bg-accent text-white'
             : 'bg-neutral-800 text-neutral-200'
         }`}>
           <p className="text-sm leading-relaxed">{message.content}</p>
@@ -170,7 +170,7 @@ export default function TestNavigationPage() {
             }}
           >
             <div className="text-base font-medium">
-              M<span className="text-purple-400">Evans</span>
+              M<span className="text-accent">Evans</span>
             </div>
           </motion.div>
         </div>
@@ -188,7 +188,7 @@ export default function TestNavigationPage() {
               </h1>
               <p className="text-xl md:text-2xl font-light text-neutral-400 leading-relaxed">
                 shipped the first responsive{' '}
-                <span className="text-purple-400 underline decoration-2 underline-offset-4">
+                <span className="text-accent underline decoration-2 underline-offset-4">
                   airline website
                 </span>
               </p>
@@ -229,7 +229,7 @@ export default function TestNavigationPage() {
           )}
 
           <motion.div
-            className="absolute left-0 top-0 w-0.5 bg-purple-500"
+            className="absolute left-0 top-0 w-0.5 bg-accent"
             animate={{
               height: panelState === 'expanded' ? '100%' : '0%'
             }}
@@ -285,7 +285,7 @@ export default function TestNavigationPage() {
                         <div className="px-6 pb-6">
                           <button
                             onClick={() => setShowChat(true)}
-                            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-all"
+                            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-accent hover:bg-accent/90 text-white transition-all"
                           >
                             <Sparkles className="w-4 h-4" />
                             <span className="text-sm font-medium">Ask AI Assistant</span>
@@ -303,7 +303,7 @@ export default function TestNavigationPage() {
                   <div className="px-6 py-4 border-b border-neutral-800">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-purple-400" />
+                        <Sparkles className="w-4 h-4 text-accent" />
                         <h2 className="text-sm font-medium text-white">
                           AI Assistant
                         </h2>
@@ -328,9 +328,9 @@ export default function TestNavigationPage() {
                       <input
                         type="text"
                         placeholder="Ask about Michael's work..."
-                        className="flex-1 px-3 py-2 text-sm bg-neutral-800 border border-neutral-700 text-white placeholder:text-neutral-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="flex-1 px-3 py-2 text-sm bg-neutral-800 border border-neutral-700 text-white placeholder:text-neutral-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                       />
-                      <button className="p-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors">
+                      <button className="p-2 bg-accent hover:bg-accent/90 rounded-lg transition-colors">
                         <Send className="w-4 h-4 text-white" />
                       </button>
                     </div>

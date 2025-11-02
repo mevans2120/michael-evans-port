@@ -36,9 +36,9 @@ export function WorkflowStep({
       <div
         className={cn(
           "flex-1 p-8 rounded-2xl",
-          "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
-          "border border-purple-500/20 dark:border-purple-400/20",
-          "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-smooth",
+          "bg-gradient-to-br from-accent/10 to-accent/5",
+          "border border-accent/20",
+          "hover:border-accent/40 transition-smooth",
           "hover:scale-[1.02]",
           "space-y-6"
         )}
@@ -49,9 +49,9 @@ export function WorkflowStep({
             {/* Step Number */}
             <div className={cn(
               "w-12 h-12 rounded-full",
-              "bg-purple-500/20 dark:bg-purple-400/20 border-2 border-purple-400 dark:border-purple-300",
+              "bg-accent/20 border-2 border-accent",
               "flex items-center justify-center",
-              "font-syne text-xl font-bold text-purple-300 dark:text-purple-200"
+              "font-syne text-xl font-bold text-accent-light"
             )}>
               {stepNumber}
             </div>

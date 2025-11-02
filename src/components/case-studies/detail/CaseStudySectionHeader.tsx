@@ -25,7 +25,7 @@ export function CaseStudySectionHeader({
       {/* Section Label */}
       {label && (
         <div
-          className="text-xs font-bold uppercase mb-8 text-purple-300 dark:text-purple-200"
+          className="text-xs font-bold uppercase mb-8 text-accent-light"
           style={{ letterSpacing: '0.15em' }}
         >
           {label}
@@ -42,7 +42,7 @@ export function CaseStudySectionHeader({
       >
         {heading}
         <span
-          className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-purple-400 dark:from-purple-300 to-transparent"
+          className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-accent to-transparent"
         />
       </h2>
     </header>

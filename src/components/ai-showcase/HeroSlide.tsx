@@ -29,8 +29,8 @@ export function HeroSlide({
         "w-full min-h-[70vh]",
         // Flexbox centering
         "flex items-center justify-center",
-        // Purple gradient background
-        "bg-gradient-to-br from-[#0a0a14] via-purple-950/20 dark:via-purple-900/20 to-[#0a0a14]",
+        // Gradient background
+        "bg-gradient-to-br from-[#0a0a14] via-accent/5 to-[#0a0a14]",
         // Padding
         "px-8 md:px-16 lg:px-24 py-20 md:py-32",
         className
@@ -40,7 +40,7 @@ export function HeroSlide({
         {/* Badge */}
         {badge && (
           <div className="inline-block">
-            <span className="inline-block px-4 py-2 rounded-full bg-purple-500/10 dark:bg-purple-400/10 border border-purple-500/20 dark:border-purple-400/20 text-purple-300 dark:text-purple-200 text-sm font-medium tracking-wide uppercase">
+            <span className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent-light text-sm font-medium tracking-wide uppercase">
               {badge}
             </span>
           </div>
@@ -53,7 +53,7 @@ export function HeroSlide({
 
         {/* Subtitle */}
         {subtitle && (
-          <p className="text-xl md:text-2xl text-purple-200 dark:text-purple-100 font-light max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-accent-light font-light max-w-3xl mx-auto">
             {subtitle}
           </p>
         )}

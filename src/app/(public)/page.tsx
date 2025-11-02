@@ -94,7 +94,7 @@ export default async function HomePage() {
 
               <Link
                 href={heroCta.link}
-                className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-accent hover:text-purple-300 dark:hover:text-purple-200"
+                className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-accent hover:text-accent-light"
               >
                 {heroCta.text}
                 <ArrowRight className="w-4 h-4" />
@@ -117,12 +117,12 @@ export default async function HomePage() {
             <div className="mb-20 -mx-6 md:mx-0">
               <h2 className="text-2xl font-light mb-2 flex items-center gap-3 text-foreground">
                 {selectedWork.heading}
-                <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
+                <svg width="48" height="8" viewBox="0 0 48 8" className="w-12 [&_stop:nth-child(1)]:text-accent [&_stop:nth-child(2)]:text-foreground [&_stop:nth-child(3)]:text-foreground" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
-                      <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                      <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="1" />
+                      <stop offset="50%" stopColor="hsl(var(--foreground))" stopOpacity="1" />
+                      <stop offset="100%" stopColor="hsl(var(--foreground))" stopOpacity="0" />
                     </linearGradient>
                   </defs>
                   <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient)" strokeWidth="0.5" />
@@ -149,9 +149,9 @@ export default async function HomePage() {
                 <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
-                      <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                      <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="1" />
+                      <stop offset="50%" stopColor="hsl(var(--foreground))" stopOpacity="1" />
+                      <stop offset="100%" stopColor="hsl(var(--foreground))" stopOpacity="0" />
                     </linearGradient>
                   </defs>
                   <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient2)" strokeWidth="0.5" />
@@ -163,7 +163,7 @@ export default async function HomePage() {
             <div className="-mx-6 md:mx-0">
               <Link href={`/ai-showcase/${featuredShowcase.slug}`} className="block group mb-8">
                 {/* Title */}
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-light leading-tight mb-6 text-foreground group-hover:text-purple-300 dark:group-hover:text-purple-200 transition-colors">
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-light leading-tight mb-6 text-foreground group-hover:text-accent-light transition-colors">
                   {featuredShowcase.heroSection.title}
                 </h3>
 
@@ -171,7 +171,7 @@ export default async function HomePage() {
                 {featuredShowcase.heroSection.summary && (
                   <p className="text-lg md:text-xl font-serif mb-6 leading-relaxed text-muted-foreground">
                     {featuredShowcase.heroSection.summary}{' '}
-                    <span className="text-lg md:text-xl font-medium text-accent hover:text-purple-300 dark:hover:text-purple-200 transition-colors underline whitespace-nowrap">
+                    <span className="text-lg md:text-xl font-medium text-accent hover:text-accent-light transition-colors underline whitespace-nowrap">
                       Learn more
                     </span>
                   </p>
@@ -182,7 +182,7 @@ export default async function HomePage() {
               <div className="mt-10">
                 <Link
                   href={aiShowcase.viewAllLink}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-purple-300 dark:hover:text-purple-200 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors"
                 >
                   {aiShowcase.viewAllText}
                   <ArrowRight className="w-4 h-4" />

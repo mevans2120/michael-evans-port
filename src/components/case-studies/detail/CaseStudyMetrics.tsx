@@ -55,7 +55,7 @@ export function CaseStudyMetrics({
             >
               {/* Metric Value with Gradient */}
               <div
-                className="font-bold mb-4 leading-none bg-gradient-to-br from-purple-400 dark:from-purple-300 to-purple-300 dark:to-purple-200 bg-clip-text text-transparent"
+                className="font-bold mb-4 leading-none bg-gradient-to-br from-accent to-accent-light bg-clip-text text-transparent"
                 style={{ fontSize: '3.5rem' }}
               >
                 {metric.value}

@@ -25,8 +25,8 @@ export function CaseStudyAnnotation({
     <div
       className={cn(
         "mt-16 p-8 rounded-lg italic leading-relaxed",
-        "bg-purple-500/[0.05] dark:bg-purple-400/[0.05]",
-        "border-l-[3px] border-purple-300 dark:border-purple-200",
+        "bg-accent/[0.05]",
+        "border-l-[3px] border-accent-light",
         className
       )}
       style={{
@@ -36,7 +36,7 @@ export function CaseStudyAnnotation({
       }}
     >
       {title && (
-        <strong className="not-italic text-purple-300 dark:text-purple-200">
+        <strong className="not-italic text-accent-light">
           {title}:
         </strong>
       )}{' '}

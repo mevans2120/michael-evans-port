@@ -149,11 +149,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Portable Text components for rich text rendering - FIXED: purple color now has dark mode variant
+// Portable Text components for rich text rendering
 const portableTextComponents = {
   marks: {
     strong: ({ children }: any) => (
-      <strong className="text-purple-300 dark:text-purple-200">{children}</strong>
+      <strong className="text-accent-light">{children}</strong>
     ),
   },
 };
@@ -169,8 +169,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a14] to-[#050510] text-white overflow-x-hidden">
       {/* Atmospheric blur orbs */}
-      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-purple-400/15 blur-[100px] pointer-events-none -z-10" />
-      <div className="fixed bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-purple-300/15 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent/15 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-accent-light/15 blur-[100px] pointer-events-none -z-10" />
 
       {/* Hero Section - REFACTORED into component */}
       <CaseStudyHero
@@ -223,7 +223,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
                           {imageUrl ? (
                             <Image src={imageUrl} alt={screenshot.caption || ''} fill className="object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-purple-400/10 to-purple-400/5 text-gray-500">
+                            <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-accent/10 to-accent/5 text-gray-500">
                               Screenshot placeholder
                             </div>
                           )}
@@ -248,7 +248,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
                       {imageUrl ? (
                         <Image src={imageUrl} alt={screenshot.caption || ''} fill className="object-cover" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-purple-400/10 to-purple-400/5 text-gray-500">
+                        <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-accent/10 to-accent/5 text-gray-500">
                           Large screenshot placeholder
                         </div>
                       )}

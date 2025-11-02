@@ -75,7 +75,7 @@ export function CaseStudyNarrative({
         {/* Back Link */}
         <a
           href="/case-studies"
-          className="inline-block text-muted-foreground hover:text-[hsl(var(--name-purple))] transition-colors mb-12"
+          className="inline-block text-muted-foreground hover:text-accent transition-colors mb-12"
         >
           ← Back to Case Studies
         </a>
@@ -83,11 +83,11 @@ export function CaseStudyNarrative({
         {/* Hero Section */}
         <header className="mb-20 md:mb-32">
           {category && (
-            <div className="inline-block px-6 py-2 bg-[hsl(var(--name-purple)/0.1)] border border-[hsl(var(--name-purple)/0.3)] rounded-full text-xs font-semibold uppercase tracking-wider text-[hsl(var(--name-purple))] mb-8">
+            <div className="inline-block px-6 py-2 bg-accent/10 border border-accent/30 rounded-full text-xs font-semibold uppercase tracking-wider text-accent mb-8">
               {category}
             </div>
           )}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 bg-gradient-to-r from-[hsl(var(--name-purple))] to-foreground bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 bg-gradient-to-r from-accent to-foreground bg-clip-text text-transparent">
             {title}
           </h1>
           {subtitle && (
@@ -98,7 +98,7 @@ export function CaseStudyNarrative({
 
           {/* Hero Image */}
           {heroImage && (
-            <div className="mt-12 relative aspect-[16/9] rounded-2xl overflow-hidden border border-purple-400/10">
+            <div className="mt-12 relative aspect-[16/9] rounded-2xl overflow-hidden border border-accent/10">
               <Image
                 src={heroImage}
                 alt={title}
@@ -111,7 +111,7 @@ export function CaseStudyNarrative({
 
           {/* Overview Metadata */}
           {overview && (overview.role || overview.company || overview.timeline) && (
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 py-8 border-t border-b border-purple-400/10">
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 py-8 border-t border-b border-accent/10">
               {overview.role && (
                 <div>
                   <div className="text-xs uppercase tracking-wider text-gray-500 mb-2">
@@ -155,7 +155,7 @@ export function CaseStudyNarrative({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {metrics.map((metric, index) => (
                 <div key={index} className="bg-white/[0.03] border border-white/10 rounded-3xl p-12 text-center">
-                  <div className="text-6xl md:text-7xl font-bold font-serif bg-gradient-to-r from-[hsl(276,100%,75%)] to-[hsl(var(--name-purple))] bg-clip-text text-transparent mb-4">
+                  <div className="text-6xl md:text-7xl font-bold font-serif bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent mb-4">
                     {metric.value}
                   </div>
                   <div className="text-lg font-medium text-foreground mb-2 font-serif">
@@ -177,7 +177,7 @@ export function CaseStudyNarrative({
           <section className="mb-20 md:mb-32">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-10 text-foreground relative pb-4">
               Key Achievements
-              <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-[hsl(var(--name-purple))] to-transparent" />
+              <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-accent to-transparent" />
             </h2>
             <div className="space-y-6">
               {achievements.map((achievement, index) => (
@@ -185,7 +185,7 @@ export function CaseStudyNarrative({
                   key={index}
                   className="relative pl-8 text-lg text-foreground/90 leading-relaxed font-sans"
                 >
-                  <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-[hsl(var(--name-purple))]" />
+                  <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-accent" />
                   {achievement}
                 </div>
               ))}
@@ -210,13 +210,13 @@ export function CaseStudyNarrative({
           <section className="mb-20 md:mb-32">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-10 text-foreground relative pb-4">
               Technologies Used
-              <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-[hsl(var(--name-purple))] to-transparent" />
+              <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-accent to-transparent" />
             </h2>
             <div className="flex flex-wrap gap-3">
               {technologies.map((tech, index) => (
                 <span
                   key={index}
-                  className="px-4 py-2 bg-[hsl(var(--name-purple)/0.1)] border border-[hsl(var(--name-purple)/0.2)] rounded-full text-sm text-[hsl(var(--accent-light))] font-serif"
+                  className="px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-sm text-accent-light font-serif"
                 >
                   {tech}
                 </span>
@@ -229,7 +229,7 @@ export function CaseStudyNarrative({
         <div className="text-center pt-20 border-t border-white/10">
           <a
             href="/case-studies"
-            className="inline-block px-12 py-5 bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--name-purple))] text-background font-semibold rounded-lg text-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(199,128,245,0.4)]"
+            className="inline-block px-12 py-5 bg-gradient-to-r from-accent to-accent-light text-background font-semibold rounded-lg text-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(199,128,245,0.4)]"
           >
             View More Case Studies
           </a>

@@ -38,28 +38,21 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
       <div className="container relative z-10 max-w-5xl">
         <div className="max-w-[900px]">
           {/* Label */}
-          <div className="inline-block text-sm font-semibold tracking-widest uppercase text-purple-300 dark:text-purple-200 mb-6">
+          <div className="inline-block text-sm font-semibold tracking-widest uppercase text-accent-light mb-6">
             Featured Case Study
           </div>
 
           {/* Title */}
           <h1
-            className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8"
-            style={{
-              fontFamily: 'var(--font-crimson-pro)',
-              background: 'linear-gradient(135deg, #c084fc 0%, #ffffff 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
+            className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8 text-gradient"
           >
             {caseStudy.title}
           </h1>
 
           {/* Primary Metric */}
           {primaryMetric && (
-            <div className="flex items-center gap-4 text-2xl font-semibold text-purple-300 dark:text-purple-200 mb-6">
-              <div className="w-10 h-0.5 bg-gradient-to-r from-purple-400 dark:from-purple-300 to-transparent" />
+            <div className="flex items-center gap-4 text-2xl font-semibold text-accent-light mb-6">
+              <div className="w-10 h-0.5 bg-gradient-to-r from-accent to-transparent" />
               {primaryMetric.value}
             </div>
           )}
@@ -72,7 +65,7 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
           {/* CTA */}
           <Link
             href={`/case-studies/${caseStudy.slug.current}`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-black bg-gradient-to-br from-purple-500 to-purple-400 dark:from-purple-400 dark:to-purple-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/40 transition-smooth"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-accent-foreground bg-gradient-to-br from-accent to-accent-light hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/40 transition-smooth"
           >
             View Case Study
             <ArrowRight className="w-5 h-5 transition-transform duration-normal group-hover:translate-x-1" />

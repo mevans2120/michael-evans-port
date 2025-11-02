@@ -35,7 +35,7 @@ export function CaseStudyAchievements({
             <div key={index} className="mb-7 pl-8 relative">
               {/* Purple bullet */}
               <span
-                className="absolute rounded-full bg-purple-300 dark:bg-purple-200"
+                className="absolute rounded-full bg-accent-light"
                 style={{
                   left: 0,
                   top: '0.6rem',

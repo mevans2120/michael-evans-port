@@ -117,14 +117,14 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
               "w-6 h-10",
               "flex items-center justify-center",
               "z-[102]",
-              "bg-purple-500/20 hover:bg-purple-500/30 dark:bg-purple-400/20 dark:hover:bg-purple-400/30",
+              "bg-accent/20 hover:bg-accent/30",
               "rounded transition-all"
             )}
             aria-label={panelState === 'expanded' ? 'Collapse navigation' : 'Expand navigation'}
           >
             <ChevronLeft
               className={cn(
-                "w-4 h-4 text-purple-400 dark:text-purple-300 transition-transform",
+                "w-4 h-4 text-accent transition-transform",
                 panelState === 'partial' && "rotate-180"
               )}
             />

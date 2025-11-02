@@ -32,7 +32,7 @@ const portableTextComponents = {
       <p className="text-xl text-foreground/80 leading-relaxed mb-6 font-sans font-light">{children}</p>
     ),
     h2: ({ children }: any) => (
-      <h2 className="text-2xl md:text-3xl font-serif font-normal text-[hsl(var(--name-purple))] mb-4 mt-8">
+      <h2 className="text-2xl md:text-3xl font-serif font-normal text-accent mb-4 mt-8">
         {children}
       </h2>
     ),
@@ -42,7 +42,7 @@ const portableTextComponents = {
       </h3>
     ),
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 border-[hsl(var(--name-purple))] pl-6 py-2 my-6 italic text-muted-foreground">
+      <blockquote className="border-l-4 border-accent pl-6 py-2 my-6 italic text-muted-foreground">
         {children}
       </blockquote>
     ),
@@ -58,7 +58,7 @@ const portableTextComponents = {
   listItem: {
     bullet: ({ children }: any) => (
       <li className="text-lg text-foreground/80 leading-relaxed relative pl-6 font-sans">
-        <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-[hsl(var(--name-purple))]" />
+        <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-accent" />
         {children}
       </li>
     ),
@@ -68,7 +68,7 @@ const portableTextComponents = {
   },
   marks: {
     strong: ({ children }: any) => (
-      <strong className="font-semibold text-[hsl(var(--name-purple))]">{children}</strong>
+      <strong className="font-semibold text-accent">{children}</strong>
     ),
     em: ({ children }: any) => (
       <em className="italic text-foreground">{children}</em>
@@ -83,7 +83,7 @@ const portableTextComponents = {
         href={value.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-purple-400 hover:text-purple-300 underline transition-colors"
+        className="text-accent hover:text-accent-light underline transition-colors"
       >
         {children}
       </a>
@@ -97,7 +97,7 @@ const portableTextComponents = {
 
       return (
         <figure className="my-8">
-          <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-purple-400/10">
+          <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-accent/10">
             <Image
               src={imageUrl}
               alt={value.caption || ''}
@@ -124,13 +124,13 @@ export function CaseStudySection({
   index,
 }: CaseStudySectionProps) {
   // Alternating background colors for visual rhythm
-  const bgClass = index % 2 === 0 ? 'bg-transparent' : 'bg-[hsl(var(--name-purple)/0.03)]'
+  const bgClass = index % 2 === 0 ? 'bg-transparent' : 'bg-accent/[0.03]'
 
   return (
     <section className={`mb-24 md:mb-40 py-20 md:py-32 ${bgClass} rounded-2xl px-0 md:px-8`}>
       {/* Section Label */}
       {sectionLabel && (
-        <div className="text-xs font-bold uppercase tracking-[0.15em] text-[hsl(var(--name-purple))] mb-8 font-serif">
+        <div className="text-xs font-bold uppercase tracking-[0.15em] text-accent mb-8 font-serif">
           {sectionLabel}
         </div>
       )}
@@ -138,7 +138,7 @@ export function CaseStudySection({
       {/* Section Heading */}
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light leading-tight mb-8 text-foreground relative pb-4">
         {heading}
-        <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-[hsl(var(--name-purple))] to-transparent" />
+        <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-accent to-transparent" />
       </h2>
 
       {/* Portable Text Content */}

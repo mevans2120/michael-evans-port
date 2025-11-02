@@ -51,10 +51,10 @@ export function SlideNavigation({ slideCount, className }: SlideNavigationProps)
           className={cn(
             "w-3 h-3 rounded-full transition-smooth",
             "hover:scale-150 cursor-pointer",
-            "ring-1 ring-purple-500/20",
+            "ring-1 ring-accent/20",
             activeSlide === index
-              ? "bg-purple-400 scale-150 ring-purple-400/50 shadow-lg shadow-purple-500/50"
-              : "bg-white/20 hover:bg-purple-300/60 hover:ring-purple-300/40"
+              ? "bg-accent scale-150 ring-accent/50 shadow-lg shadow-accent/50"
+              : "bg-white/20 hover:bg-accent-light/60 hover:ring-accent-light/40"
           )}
           aria-label={`Go to slide ${index + 1}`}
           aria-current={activeSlide === index ? 'true' : 'false'}

@@ -25,7 +25,7 @@ export function CaseStudyCTA({
       <div className="text-center pt-20 border-t border-white/10">
         <Link
           href={href}
-          className="inline-block px-12 py-5 bg-gradient-to-r from-purple-600 dark:from-purple-500 to-purple-400 dark:to-purple-300 text-white font-semibold rounded-lg text-lg transition-smooth hover:-translate-y-1"
+          className="inline-block px-12 py-5 bg-gradient-to-r from-accent to-accent-light text-white font-semibold rounded-lg text-lg transition-smooth hover:-translate-y-1"
         >
           {children}
         </Link>
