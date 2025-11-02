@@ -37,7 +37,7 @@ export function CaseStudyScreenshots({ screenshots }: CaseStudyScreenshotsProps)
 
             return (
               <figure key={index} className="group">
-                <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-purple-400/10 bg-gray-800/30 transition-all duration-300 group-hover:border-purple-400/30">
+                <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-purple-400/10 dark:border-purple-300/10 bg-card/50 transition-all duration-300 group-hover:border-purple-400/30 dark:group-hover:border-purple-300/30">
                   {imageUrl ? (
                     <Image
                       src={imageUrl}
@@ -69,7 +69,7 @@ export function CaseStudyScreenshots({ screenshots }: CaseStudyScreenshotsProps)
 
         return (
           <figure key={`large-${index}`} className="group">
-            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-purple-400/10 bg-gray-800/30 transition-all duration-300 group-hover:border-purple-400/30">
+            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-purple-400/10 dark:border-purple-300/10 bg-card/50 transition-all duration-300 group-hover:border-purple-400/30 dark:group-hover:border-purple-300/30">
               {imageUrl ? (
                 <Image
                   src={imageUrl}

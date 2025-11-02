@@ -28,7 +28,7 @@ export function HorizontalTimelineSlide({
         // Flexbox layout
         "flex flex-col",
         // Background
-        "bg-gradient-to-br from-[#050510] via-purple-950/15 to-[#0a0a14]",
+        "bg-gradient-to-br from-[#050510] via-purple-950/15 dark:via-purple-900/15 to-[#0a0a14]",
         // Padding
         "py-20 md:py-24",
         className
@@ -38,7 +38,7 @@ export function HorizontalTimelineSlide({
       <header className="px-8 md:px-16 lg:px-24 mb-12 space-y-4">
         {/* Section Label */}
         {sectionLabel && (
-          <div className="text-xs md:text-sm uppercase tracking-widest text-purple-400 font-medium">
+          <div className="text-xs md:text-sm uppercase tracking-widest text-purple-400 dark:text-purple-300 font-medium">
             {sectionLabel}
           </div>
         )}

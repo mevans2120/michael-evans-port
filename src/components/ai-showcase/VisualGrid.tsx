@@ -40,14 +40,14 @@ export function VisualGrid({
           key={index}
           className={cn(
             "rounded-2xl overflow-hidden",
-            "bg-gradient-to-br from-purple-500/10 to-purple-900/5",
-            "border border-purple-500/20",
-            "hover:border-purple-500/40 transition-all duration-300",
+            "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
+            "border border-purple-500/20 dark:border-purple-400/20",
+            "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-all duration-300",
             "group"
           )}
         >
           {/* Image or Placeholder */}
-          <div className="relative aspect-video bg-purple-950/20">
+          <div className="relative aspect-video bg-purple-950/20 dark:bg-purple-900/20">
             {card.image ? (
               <Image
                 src={card.image.url}
@@ -57,7 +57,7 @@ export function VisualGrid({
               />
             ) : card.placeholderText ? (
               <div className="absolute inset-0 flex items-center justify-center p-8">
-                <p className="text-center text-lg text-purple-300/60 font-medium">
+                <p className="text-center text-lg text-purple-300/60 dark:text-purple-200/60 font-medium">
                   {card.placeholderText}
                 </p>
               </div>

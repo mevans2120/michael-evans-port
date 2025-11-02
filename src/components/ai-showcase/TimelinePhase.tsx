@@ -32,23 +32,23 @@ export function TimelinePhase({
     >
       {/* Timeline Node */}
       <div className="flex items-center mb-6">
-        <div className="w-4 h-4 rounded-full bg-purple-400 ring-4 ring-purple-400/20" />
-        <div className="flex-1 h-px bg-purple-500/30 ml-4" />
+        <div className="w-4 h-4 rounded-full bg-purple-400 dark:bg-purple-300 ring-4 ring-purple-400/20 dark:ring-purple-300/20" />
+        <div className="flex-1 h-px bg-purple-500/30 dark:bg-purple-400/30 ml-4" />
       </div>
 
       {/* Card */}
       <div
         className={cn(
           "flex-1 p-8 rounded-2xl",
-          "bg-gradient-to-br from-purple-500/10 to-purple-900/5",
-          "border border-purple-500/20",
-          "hover:border-purple-500/40 transition-all duration-300",
+          "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
+          "border border-purple-500/20 dark:border-purple-400/20",
+          "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-all duration-300",
           "hover:scale-[1.02]",
           "space-y-4"
         )}
       >
         {/* Phase Label */}
-        <div className="text-xs uppercase tracking-widest text-purple-400 font-medium">
+        <div className="text-xs uppercase tracking-widest text-purple-400 dark:text-purple-300 font-medium">
           {phase}
         </div>
 

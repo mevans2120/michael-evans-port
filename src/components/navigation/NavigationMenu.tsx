@@ -29,15 +29,10 @@ export function NavigationMenu() {
 
   return (
     <div
-      className="py-4 md:border-b border-navigation-border"
-      style={{ height: isDesktop ? '66%' : 'auto' }}
+      className={`py-4 md:border-b border-navigation-border ${isDesktop ? 'h-[66%]' : 'h-auto'}`}
     >
       <nav
         className="flex flex-row md:flex-col gap-2 md:gap-8 h-full overflow-x-auto md:overflow-y-auto justify-around md:justify-start px-2 md:px-0 hide-scrollbar"
-        style={{
-          scrollbarWidth: 'none', // Firefox
-          msOverflowStyle: 'none', // IE/Edge
-        }}
       >
         {/* MEvans Logo - Desktop Only */}
         {isDesktop && (
@@ -49,7 +44,7 @@ export function NavigationMenu() {
           >
             {panelState === 'expanded' ? (
               <span className={`text-lg font-medium font-serif ${chatExpanded ? 'text-chat-foreground' : ''}`}>
-                M<span className={chatExpanded ? 'text-purple-600' : 'text-gradient'}>Evans</span>
+                M<span className={chatExpanded ? 'text-purple-600 dark:text-purple-400' : 'text-gradient'}>Evans</span>
               </span>
             ) : (
               <span className="text-lg font-medium font-serif">

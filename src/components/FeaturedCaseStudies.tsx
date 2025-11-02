@@ -77,7 +77,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
               cursor-pointer transition-all duration-400 ease-out
               md:hover:pl-8
               ${isExpanded ? 'pl-4 md:pl-8' : ''}
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] focus-visible:rounded-lg
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 dark:focus-visible:ring-purple-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] focus-visible:rounded-lg
               active:scale-[0.99] md:active:scale-100
             `}
             onClick={() => handleClick(study.id, study.slug)}
@@ -91,7 +91,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             <div
               className={`
                 absolute left-0 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
-                from-purple-400 to-purple-300 rounded-full transition-all duration-400
+                from-purple-400 dark:from-purple-300 to-purple-300 dark:to-purple-200 rounded-full transition-all duration-400
                 ${isExpanded ? 'h-20 md:h-30' : 'h-0 md:group-hover:h-30'}
               `}
             />
@@ -99,13 +99,13 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 md:gap-10">
               <div className="flex-1">
-                <div className="text-xs md:text-sm font-semibold text-purple-400 tracking-wider uppercase mb-3 md:mb-5 font-sans">
+                <div className="text-xs md:text-sm font-semibold text-purple-400 dark:text-purple-300 tracking-wider uppercase mb-3 md:mb-5 font-sans">
                   {study.number} — {study.category}
                 </div>
                 <h3 className={`
                   text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight
                   transition-all duration-300 font-sans
-                  ${isExpanded ? 'bg-gradient-to-br from-purple-400 to-white bg-clip-text text-transparent' : 'md:group-hover:bg-gradient-to-br md:group-hover:from-purple-400 md:group-hover:to-white md:group-hover:bg-clip-text md:group-hover:text-transparent'}
+                  ${isExpanded ? 'bg-gradient-to-br from-purple-400 dark:from-purple-300 to-white bg-clip-text text-transparent' : 'md:group-hover:bg-gradient-to-br md:group-hover:from-purple-400 md:dark:group-hover:from-purple-300 md:group-hover:to-white md:group-hover:bg-clip-text md:group-hover:text-transparent'}
                 `}>
                   {study.title}
                 </h3>

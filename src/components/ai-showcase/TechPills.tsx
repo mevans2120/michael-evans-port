@@ -20,9 +20,9 @@ export function TechPills({ technologies, className }: TechPillsProps) {
           key={index}
           className={cn(
             "px-4 py-2 rounded-full text-sm",
-            "bg-purple-500/10 border border-purple-500/30",
-            "text-purple-200 font-medium",
-            "hover:bg-purple-500/20 hover:border-purple-500/50",
+            "bg-purple-500/10 dark:bg-purple-400/10 border border-purple-500/30 dark:border-purple-400/30",
+            "text-purple-200 dark:text-purple-100 font-medium",
+            "hover:bg-purple-500/20 dark:hover:bg-purple-400/20 hover:border-purple-500/50 dark:hover:border-purple-400/50",
             "transition-colors duration-200"
           )}
         >

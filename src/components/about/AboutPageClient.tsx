@@ -48,10 +48,10 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Blur orbs for atmosphere */}
-      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-purple-500 opacity-20 blur-[100px] pointer-events-none -z-10" />
-      <div className="fixed bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-purple-600 opacity-20 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-purple-500 dark:bg-purple-400 opacity-20 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-purple-600 dark:bg-purple-500 opacity-20 blur-[100px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-32">
         {/* Hero Section with Photo */}
@@ -76,7 +76,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
                   src={data.profileImage}
                   alt={data.name}
                   fill
-                  className="rounded-full object-cover border-2 border-purple-400/20"
+                  className="rounded-full object-cover border-2 border-purple-400/20 dark:border-purple-300/20"
                   priority
                 />
               </div>
@@ -86,7 +86,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
 
         {/* Quick Facts Grid */}
         {data.quickFacts && data.quickFacts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 my-20 md:my-32 py-16 border-t border-b border-purple-400/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 my-20 md:my-32 py-16 border-t border-b border-purple-400/10 dark:border-purple-300/10">
             {data.quickFacts.map((fact, index) => (
               <div
                 key={index}
@@ -116,7 +116,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
             >
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-10 text-gray-50 relative pb-4">
                 {section.heading}
-                <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-purple-400 to-transparent" />
+                <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-purple-400 dark:from-purple-300 to-transparent" />
               </h2>
 
               {/* Main section content - Two columns on large screens */}
@@ -129,7 +129,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
               {/* Subsections - Two columns on large screens */}
               {section.subsections && section.subsections.map((subsection, subIndex) => (
                 <div key={subIndex} className="mt-10">
-                  <h3 className="text-2xl md:text-3xl font-normal text-purple-400 mb-4">
+                  <h3 className="text-2xl md:text-3xl font-normal text-purple-400 dark:text-purple-300 mb-4">
                     {subsection.heading}
                   </h3>
                   {subsection.content && (
@@ -153,7 +153,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
             )}
             <Link
               href="/contact"
-              className="inline-block px-12 py-5 bg-gradient-to-r from-purple-500 to-purple-600 text-black font-semibold rounded-lg text-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(168,85,247,0.4)]"
+              className="inline-block px-12 py-5 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-400 dark:to-purple-500 text-black font-semibold rounded-lg text-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(168,85,247,0.4)]"
             >
               {data.ctaButtonText || "Let's Work Together"}
             </Link>

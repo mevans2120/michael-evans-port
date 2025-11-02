@@ -116,8 +116,7 @@ export function ChatSection() {
     return (
       <div
         data-testid="chat-section"
-        className="chat-section border-t-0 bg-chat flex items-center justify-center py-4"
-        style={{ height: '34%' }}
+        className="chat-section border-t-0 bg-chat flex items-center justify-center py-4 h-[34%]"
       >
         <Sparkles className="w-4 h-4 text-accent" />
       </div>
@@ -221,7 +220,7 @@ export function ChatSection() {
                   <div
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chat-message"
                   >
-                    <Sparkles className="h-4 w-4 text-purple-400" />
+                    <Sparkles className="h-4 w-4 text-purple-400 dark:text-purple-300" />
                   </div>
                 )}
 
@@ -331,8 +330,7 @@ export function ChatSection() {
           onFocus={handleInputFocus}
           placeholder="Ask about Michael's work..."
           disabled={isLoading}
-          className="flex-1 px-3 py-2 text-base font-sans bg-chat-input border border-chat-input-border text-chat-foreground placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-none"
-          style={{ width: '100%', minWidth: 0 }}
+          className="flex-1 px-3 py-2 text-base font-sans bg-chat-input border border-chat-input-border text-chat-foreground placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0"
         />
         <button
           type="submit"

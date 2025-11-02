@@ -32,7 +32,7 @@ export function MetricsSlide({
         // Flexbox layout
         "flex flex-col items-center justify-center",
         // Background
-        "bg-gradient-to-br from-[#0a0a14] via-purple-950/20 to-[#0a0a14]",
+        "bg-gradient-to-br from-[#0a0a14] via-purple-950/20 dark:via-purple-900/20 to-[#0a0a14]",
         // Padding
         "px-8 md:px-16 lg:px-24 py-20 md:py-24",
         className
@@ -51,14 +51,14 @@ export function MetricsSlide({
               key={index}
               className={cn(
                 "p-8 rounded-2xl",
-                "bg-gradient-to-br from-purple-500/10 to-purple-900/5",
-                "border border-purple-500/20",
-                "hover:border-purple-500/40 transition-colors duration-300",
+                "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
+                "border border-purple-500/20 dark:border-purple-400/20",
+                "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-colors duration-300",
                 "text-center space-y-3"
               )}
             >
               {/* Value */}
-              <div className="font-syne text-4xl md:text-5xl lg:text-6xl font-bold text-purple-300">
+              <div className="font-syne text-4xl md:text-5xl lg:text-6xl font-bold text-purple-300 dark:text-purple-200">
                 {metric.value}
               </div>
 

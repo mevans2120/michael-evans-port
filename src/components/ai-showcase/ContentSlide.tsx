@@ -26,8 +26,8 @@ export function ContentSlide({
   columns = 1
 }: ContentSlideProps) {
   const backgroundClasses = {
-    default: 'bg-gradient-to-br from-[#0a0a14] via-purple-950/10 to-[#0a0a14]',
-    dark: 'bg-gradient-to-br from-[#0a0a14] via-purple-900/10 to-[#050510]',
+    default: 'bg-gradient-to-br from-[#0a0a14] via-purple-950/10 dark:via-purple-900/10 to-[#0a0a14]',
+    dark: 'bg-gradient-to-br from-[#0a0a14] via-purple-900/10 dark:via-purple-800/10 to-[#050510]',
     darker: 'bg-[#050510]'
   }
 
@@ -48,7 +48,7 @@ export function ContentSlide({
         <header className="space-y-4 mb-12">
           {/* Section Label */}
           {sectionLabel && (
-            <div className="text-xs md:text-sm uppercase tracking-widest text-purple-400 font-medium">
+            <div className="text-xs md:text-sm uppercase tracking-widest text-purple-400 dark:text-purple-300 font-medium">
               {sectionLabel}
             </div>
           )}

@@ -18,8 +18,8 @@ export function QuoteBox({ quote, attribution, className }: QuoteBoxProps) {
     <blockquote
       className={cn(
         "p-8 rounded-2xl",
-        "bg-gradient-to-br from-purple-500/10 to-purple-900/5",
-        "border-l-4 border-purple-400",
+        "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
+        "border-l-4 border-purple-400 dark:border-purple-300",
         "space-y-4",
         className
       )}
@@ -31,7 +31,7 @@ export function QuoteBox({ quote, attribution, className }: QuoteBoxProps) {
 
       {/* Attribution */}
       {attribution && (
-        <footer className="text-sm text-purple-300">
+        <footer className="text-sm text-purple-300 dark:text-purple-200">
           {attribution}
         </footer>
       )}

@@ -38,7 +38,7 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
       <div className="container relative z-10 max-w-5xl">
         <div className="max-w-[900px]">
           {/* Label */}
-          <div className="inline-block text-sm font-semibold tracking-widest uppercase text-purple-300 mb-6">
+          <div className="inline-block text-sm font-semibold tracking-widest uppercase text-purple-300 dark:text-purple-200 mb-6">
             Featured Case Study
           </div>
 
@@ -58,8 +58,8 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
 
           {/* Primary Metric */}
           {primaryMetric && (
-            <div className="flex items-center gap-4 text-2xl font-semibold text-purple-300 mb-6">
-              <div className="w-10 h-0.5 bg-gradient-to-r from-purple-400 to-transparent" />
+            <div className="flex items-center gap-4 text-2xl font-semibold text-purple-300 dark:text-purple-200 mb-6">
+              <div className="w-10 h-0.5 bg-gradient-to-r from-purple-400 dark:from-purple-300 to-transparent" />
               {primaryMetric.value}
             </div>
           )}
@@ -72,7 +72,7 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
           {/* CTA */}
           <Link
             href={`/case-studies/${caseStudy.slug.current}`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-black bg-gradient-to-br from-purple-500 to-purple-400 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-black bg-gradient-to-br from-purple-500 to-purple-400 dark:from-purple-400 dark:to-purple-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300"
           >
             View Case Study
             <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />

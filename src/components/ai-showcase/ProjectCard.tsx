@@ -38,9 +38,9 @@ export function ProjectCard({
       <div
         className={cn(
           "flex-1 p-8 rounded-2xl",
-          "bg-gradient-to-br from-purple-500/10 to-purple-900/5",
-          "border border-purple-500/20",
-          "hover:border-purple-500/40 transition-all duration-300",
+          "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
+          "border border-purple-500/20 dark:border-purple-400/20",
+          "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-all duration-300",
           "hover:scale-[1.02]",
           "space-y-6"
         )}
@@ -54,7 +54,7 @@ export function ProjectCard({
             </h3>
 
             {/* Project Type */}
-            <div className="text-sm text-purple-300">
+            <div className="text-sm text-purple-300 dark:text-purple-200">
               {projectType}
             </div>
           </div>
@@ -78,8 +78,8 @@ export function ProjectCard({
                 key={index}
                 className={cn(
                   "px-3 py-1 rounded-full text-xs",
-                  "bg-purple-500/10 border border-purple-500/30",
-                  "text-purple-200"
+                  "bg-purple-500/10 dark:bg-purple-400/10 border border-purple-500/30 dark:border-purple-400/30",
+                  "text-purple-200 dark:text-purple-100"
                 )}
               >
                 {tech}

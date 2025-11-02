@@ -36,7 +36,7 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
             bg-chat-suggestion
             hover:bg-chat-suggestion-hover
             border border-chat-input-border
-            hover:border-purple-500/50
+            hover:border-purple-500/50 dark:hover:border-purple-400/50
             rounded-lg
             cursor-pointer
             transition-colors duration-200

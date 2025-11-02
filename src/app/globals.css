@@ -234,10 +234,98 @@ All colors MUST be HSL.
     animation: slow-pulse 4s ease-in-out infinite;
   }
 
-  .animate-stagger:nth-child(2) { animation-delay: 0.1s; }
-  .animate-stagger:nth-child(3) { animation-delay: 0.2s; }
-  .animate-stagger:nth-child(4) { animation-delay: 0.3s; }
-  .animate-stagger:nth-child(5) { animation-delay: 0.4s; }
+  /* Stagger animation - supports unlimited children with 100ms incremental delay */
+  .animate-stagger:nth-child(1) { animation-delay: 0ms; }
+  .animate-stagger:nth-child(2) { animation-delay: 100ms; }
+  .animate-stagger:nth-child(3) { animation-delay: 200ms; }
+  .animate-stagger:nth-child(4) { animation-delay: 300ms; }
+  .animate-stagger:nth-child(5) { animation-delay: 400ms; }
+  .animate-stagger:nth-child(6) { animation-delay: 500ms; }
+  .animate-stagger:nth-child(7) { animation-delay: 600ms; }
+  .animate-stagger:nth-child(8) { animation-delay: 700ms; }
+  .animate-stagger:nth-child(9) { animation-delay: 800ms; }
+  .animate-stagger:nth-child(10) { animation-delay: 900ms; }
+  .animate-stagger:nth-child(11) { animation-delay: 1000ms; }
+  .animate-stagger:nth-child(12) { animation-delay: 1100ms; }
+  .animate-stagger:nth-child(13) { animation-delay: 1200ms; }
+  .animate-stagger:nth-child(14) { animation-delay: 1300ms; }
+  .animate-stagger:nth-child(15) { animation-delay: 1400ms; }
+  .animate-stagger:nth-child(16) { animation-delay: 1500ms; }
+  .animate-stagger:nth-child(17) { animation-delay: 1600ms; }
+  .animate-stagger:nth-child(18) { animation-delay: 1700ms; }
+  .animate-stagger:nth-child(19) { animation-delay: 1800ms; }
+  .animate-stagger:nth-child(20) { animation-delay: 1900ms; }
+}
+
+@layer components {
+  /* Layout Utilities */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .absolute-center {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  /* Transition Utilities */
+  .transition-smooth {
+    @apply transition-all duration-normal ease-smooth;
+  }
+
+  .transition-fast {
+    @apply transition-all duration-fast ease-smooth;
+  }
+
+  .transition-slow {
+    @apply transition-all duration-slow ease-smooth;
+  }
+
+  .transition-colors-smooth {
+    @apply transition-colors duration-normal ease-smooth;
+  }
+
+  /* Card Utilities */
+  .card-base {
+    @apply bg-card dark:bg-neutral-900 border border-border rounded-lg;
+  }
+
+  .card-interactive {
+    @apply card-base transition-colors-smooth hover:bg-muted cursor-pointer;
+  }
+
+  .card-elevated {
+    @apply card-base shadow-card;
+  }
+
+  /* Focus Styles */
+  .focus-outline {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 dark:focus-visible:ring-purple-300 focus-visible:ring-offset-2;
+  }
+
+  /* Interactive States */
+  .interactive-scale {
+    @apply transition-transform duration-fast hover:scale-105 active:scale-95;
+  }
+
+  .interactive-opacity {
+    @apply transition-opacity duration-normal hover:opacity-80;
+  }
+}
+
+/* Accessibility: Respect motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @keyframes fade-in {

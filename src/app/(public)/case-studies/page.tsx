@@ -46,10 +46,10 @@ export default async function CaseStudiesPage() {
       {/* All Case Studies */}
       <section className="container pb-32">
         <div className="mb-16">
-          <h2 className="text-3xl font-light text-gray-100 mb-2" style={{ fontFamily: 'var(--font-crimson-pro)' }}>
+          <h2 className="text-3xl font-light text-foreground mb-2" style={{ fontFamily: 'var(--font-crimson-pro)' }}>
             All Case Studies
           </h2>
-          <p className="text-gray-400">
+          <p className="text-muted-foreground">
             Product launches and transformational projects
           </p>
         </div>

@@ -50,7 +50,7 @@ export function AIShowcasePageClient({ showcase }: AIShowcasePageClientProps) {
             >
               {/* Portable Text Content */}
               {slide.content && slide.content.length > 0 && (
-                <div className="prose prose-invert max-w-none prose-headings:text-purple-200 prose-p:text-gray-300 prose-h3:text-xl prose-h3:font-syne prose-h3:font-semibold prose-h3:mb-3">
+                <div className="prose prose-invert max-w-none prose-headings:text-purple-200 dark:prose-headings:text-purple-100 prose-p:text-gray-300 prose-h3:text-xl prose-h3:font-syne prose-h3:font-semibold prose-h3:mb-3">
                   <PortableText value={slide.content} />
                 </div>
               )}

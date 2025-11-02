@@ -75,10 +75,10 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         "z-50",
         "border-t md:border-t-0",
         "animate-in fade-in duration-500",
+        hasInteracted && "transition-[width] duration-300 ease-in-out"
       )}
       style={{
         width: isDesktop ? getPanelWidth() : '100%',
-        transition: hasInteracted ? 'width 300ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
       }}
       onClick={panelState === 'partial' ? handleClick : undefined}
     >
@@ -120,14 +120,14 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
               "w-6 h-10",
               "flex items-center justify-center",
               "z-[102]",
-              "bg-purple-500/20 hover:bg-purple-500/30",
+              "bg-purple-500/20 hover:bg-purple-500/30 dark:bg-purple-400/20 dark:hover:bg-purple-400/30",
               "rounded transition-all"
             )}
             aria-label={panelState === 'expanded' ? 'Collapse navigation' : 'Expand navigation'}
           >
             <ChevronLeft
               className={cn(
-                "w-4 h-4 text-purple-400 transition-transform",
+                "w-4 h-4 text-purple-400 dark:text-purple-300 transition-transform",
                 panelState === 'partial' && "rotate-180"
               )}
             />

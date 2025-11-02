@@ -28,15 +28,15 @@ export default async function AIShowcasePage() {
   const showcases: ShowcaseItem[] = await client.fetch(allAIShowcasesQuery)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-background text-foreground">
       <main id="main-content" role="main" className="pt-20 pb-12 px-6">
         <div className="container mx-auto max-w-7xl">
           {/* Header */}
           <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-white mb-6">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-foreground mb-6">
               AI Showcase
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 font-light max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-muted-foreground font-light max-w-4xl mx-auto leading-relaxed">
               Explore my journey with AI-assisted development, from workflows and tools to production applications
             </p>
           </div>
@@ -50,11 +50,11 @@ export default async function AIShowcasePage() {
                   href={`/ai-showcase/${showcase.slug}`}
                   className="group relative block"
                 >
-                  <div className="relative h-full p-8 md:p-10 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-900/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+                  <div className="relative h-full p-8 md:p-10 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-900/5 border border-purple-500/20 dark:border-purple-400/20 hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
                     {/* Featured Badge */}
                     {showcase.featured && (
                       <div className="absolute top-4 right-4">
-                        <span className="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-medium uppercase tracking-wider">
+                        <span className="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 dark:border-purple-400/30 text-purple-300 dark:text-purple-200 text-xs font-medium uppercase tracking-wider">
                           Featured
                         </span>
                       </div>
@@ -63,20 +63,20 @@ export default async function AIShowcasePage() {
                     {/* Category Badge */}
                     {showcase.heroSection.badge && (
                       <div className="mb-4">
-                        <span className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium uppercase tracking-wider">
+                        <span className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 dark:border-purple-400/20 text-purple-300 dark:text-purple-200 text-xs font-medium uppercase tracking-wider">
                           {showcase.heroSection.badge}
                         </span>
                       </div>
                     )}
 
                     {/* Title */}
-                    <h2 className="text-2xl md:text-3xl font-syne font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">
+                    <h2 className="text-2xl md:text-3xl font-syne font-bold text-white mb-4 group-hover:text-purple-300 dark:group-hover:text-purple-200 transition-colors">
                       {showcase.heroSection.title}
                     </h2>
 
                     {/* Subtitle */}
                     {showcase.heroSection.subtitle && (
-                      <p className="text-lg text-purple-200 mb-4 font-light">
+                      <p className="text-lg text-purple-200 dark:text-purple-100 mb-4 font-light">
                         {showcase.heroSection.subtitle}
                       </p>
                     )}
@@ -89,7 +89,7 @@ export default async function AIShowcasePage() {
                     )}
 
                     {/* CTA */}
-                    <div className="flex items-center gap-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                    <div className="flex items-center gap-2 text-purple-300 dark:text-purple-200 group-hover:text-purple-200 dark:group-hover:text-purple-100 transition-colors">
                       <span className="text-sm font-medium">Explore this showcase</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -107,7 +107,7 @@ export default async function AIShowcasePage() {
           <div className="text-center">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm font-medium text-purple-300 hover:text-purple-200 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-purple-300 dark:text-purple-200 hover:text-purple-200 dark:hover:text-purple-100 transition-colors"
             >
               <ArrowRight className="w-4 h-4 rotate-180" />
               Back to Home
