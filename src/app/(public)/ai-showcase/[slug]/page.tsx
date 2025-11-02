@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { client } from '@/lib/sanity/client'
 import { aiShowcaseBySlugQuery, allAIShowcaseSlugsQuery } from '@/lib/sanity/queries/aiShowcase'
 import type { AIShowcase } from '@/types/aiShowcase'
-import { AIShowcasePageClient } from './AIShowcasePageClient'
+import { AIShowcasePageMagazine } from './AIShowcasePageMagazine'
 
 interface PageProps {
   params: Promise<{
@@ -47,5 +47,5 @@ export default async function AIShowcasePage({ params }: PageProps) {
     notFound()
   }
 
-  return <AIShowcasePageClient showcase={showcase} />
+  return <AIShowcasePageMagazine showcase={showcase} />
 }

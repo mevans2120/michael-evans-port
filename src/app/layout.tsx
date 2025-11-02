@@ -1,33 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Crimson_Pro, DM_Sans, Syne } from "next/font/google";
+import { DM_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { TimeThemeProvider } from "@/components/providers/TimeThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 
-// DM Sans is a sans-serif font
+// DM Sans is a sans-serif font for headers and UI
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
 });
 
-// Crimson Pro is a serif font
-const crimsonPro = Crimson_Pro({
+// Newsreader is a serif font for body text (editorial style)
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
   variable: "--font-serif",
-  display: "swap",
-});
-
-// Syne is used for AI Showcase headings
-const syne = Syne({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-syne",
   display: "swap",
 });
 
@@ -46,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${crimsonPro.variable} ${syne.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${dmSans.variable} ${newsreader.variable}`} suppressHydrationWarning>
       <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a
@@ -64,9 +58,11 @@ export default function RootLayout({
           storageKey="michael-evans-portfolio-theme"
         >
           <QueryProvider>
-            {children}
-            <Toaster />
-            <Sonner />
+            <TimeThemeProvider>
+              {children}
+              <Toaster />
+              <Sonner />
+            </TimeThemeProvider>
           </QueryProvider>
         </ThemeProvider>
         <Analytics />

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Workflow - Magazine Editorial Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Newsreader', Georgia, serif;
+      background: #faf9f7;
+      color: #1a1a1a;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Magazine layout grid */
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+
+    /* Category label */
+    .category {
+      font-family: 'Fraunces', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c8510a;
+      font-weight: 600;
+      margin-bottom: 32px;
+      display: inline-block;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c8510a;
+    }
+
+    /* Display title */
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(42px, 6vw, 68px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: #000;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    /* Subtitle */
+    .subtitle {
+      font-family: 'Newsreader', serif;
+      font-size: 22px;
+      line-height: 1.5;
+      color: #4a4a4a;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 40px;
+      max-width: 680px;
+    }
+
+    /* Lede/intro paragraph */
+    .lede {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #2a2a2a;
+      margin-bottom: 48px;
+      font-weight: 400;
+      border-left: 4px solid #c8510a;
+      padding-left: 28px;
+      max-width: 720px;
+    }
+
+    /* Separator */
+    .separator {
+      width: 60px;
+      height: 2px;
+      background: #c8510a;
+      margin: 64px 0;
+    }
+
+    /* Body text */
+    .body-text {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #2a2a2a;
+      margin-bottom: 28px;
+    }
+
+    .body-text + .body-text {
+      margin-top: 28px;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      font-family: 'Fraunces', serif;
+      font-size: 28px;
+      line-height: 1.4;
+      font-weight: 600;
+      color: #000;
+      margin: 56px 0;
+      padding: 40px;
+      background: #fff;
+      border-left: 6px solid #c8510a;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      font-style: italic;
+    }
+
+    .pull-quote-attribution {
+      font-family: 'Newsreader', serif;
+      font-size: 14px;
+      color: #6a6a6a;
+      margin-top: 16px;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    /* Metrics callout */
+    .metrics {
+      background: #000;
+      color: #fff;
+      padding: 48px;
+      margin: 64px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+    }
+
+    .metric-item {
+      text-align: center;
+    }
+
+    .metric-number {
+      font-family: 'Fraunces', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #c8510a;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .metric-label {
+      font-family: 'Newsreader', serif;
+      font-size: 14px;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Tech stack tags */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 40px 0;
+    }
+
+    .tech-tag {
+      font-family: 'Fraunces', serif;
+      font-size: 13px;
+      padding: 8px 16px;
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      color: #2a2a2a;
+      font-weight: 600;
+      transition: all 200ms ease;
+    }
+
+    .tech-tag:hover {
+      border-color: #c8510a;
+      color: #c8510a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(200, 81, 10, 0.15);
+    }
+
+    /* Section headers */
+    .section-header {
+      font-family: 'Fraunces', serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c8510a;
+      font-weight: 700;
+      margin: 80px 0 32px;
+      padding-top: 80px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 60px 24px 80px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .lede {
+        font-size: 17px;
+        padding-left: 20px;
+      }
+
+      .body-text {
+        font-size: 16px;
+      }
+
+      .pull-quote {
+        font-size: 22px;
+        padding: 28px;
+      }
+
+      .metrics {
+        padding: 32px 24px;
+        gap: 24px;
+      }
+
+      .metric-number {
+        font-size: 36px;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="category">AI Workflow Showcase</span>
+
+    <h1>My AI Workflow: Building Production Software with Claude Code</h1>
+
+    <p class="subtitle">From product manager to full-stack developer: How AI-assisted development changed everything about building software</p>
+
+    <p class="lede">
+      The "oh shit" moment came while building a D&D tracker with my 11-year-old son—we created a functional app in under an hour. That breakthrough crystallized a fundamental shift: what once took a year to build could now be accomplished in days or weeks with AI assistance. This is the story of discovering, refining, and productionizing an AI-powered development workflow that's shipped 30+ projects and generated 1000+ commits since March 2024.
+    </p>
+
+    <div class="separator"></div>
+
+    <p class="body-text">
+      For years, I quoted the same timeline to clients: complex software takes about a year to build. That estimate reflected research, strategy, design, prototyping, and full development—tested across dozens of projects. The timeline felt immutable, grounded in reality.
+    </p>
+
+    <p class="body-text">
+      In early 2024, that certainty began to crack. I built a voice-activated kitchen timer prototype in Replit in about an hour. It wasn't quite usable—it needed more work—but it was surprisingly close to functional. That got my attention, but I didn't fully grasp the implications yet.
+    </p>
+
+    <p class="body-text">
+      The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I could actually use in our games. It's called Dungeon Tracker and is available on my GitHub.
+    </p>
+
+    <blockquote class="pull-quote">
+      "This was my 'oh shit' moment. Seeing how fast AI could produce not just a prototype but actually usable software made me realize that the year-long timeline I'd always quoted was about to change dramatically."
+      <div class="pull-quote-attribution">— On building Dungeon Tracker</div>
+    </blockquote>
+
+    <p class="body-text">
+      What took a year now takes six weeks. What took six weeks now takes two. The improvement isn't linear across all task types, but it's substantial across virtually everything.
+    </p>
+
+    <h2 class="section-header">How It Works</h2>
+
+    <p class="body-text">
+      The foundation of reliable AI-assisted development starts with technology choices. TypeScript has become essential—not optional, but fundamental. The forced typing prevents an entire category of AI-generated errors. When AI doesn't keep everything in memory, it might use incorrect variable names. Without types, these mistakes only surface when production builds fail.
+    </p>
+
+    <p class="body-text">
+      Single-page applications work better for AI development because they're easier for AI to maintain context. Next.js and React have proven ideal—they're modern, well-documented frameworks that AI understands deeply because they're widely used in training data.
+    </p>
+
+    <p class="body-text">
+      Claude Code emerged as the most powerful, fastest, and most reliable AI coding assistant after extensive testing. It runs in the terminal, providing access to all files and CLI tools, which proves faster than VS Code plugins and more flexible than browser-based solutions. What sets Claude Code apart isn't just raw capability—it's autonomous reliability.
+    </p>
+
+    <div class="tech-stack">
+      <span class="tech-tag">Claude Code</span>
+      <span class="tech-tag">TypeScript</span>
+      <span class="tech-tag">Next.js</span>
+      <span class="tech-tag">React</span>
+      <span class="tech-tag">Git</span>
+      <span class="tech-tag">Playwright</span>
+      <span class="tech-tag">VS Code</span>
+      <span class="tech-tag">Custom Skills</span>
+      <span class="tech-tag">Memory Bank</span>
+    </div>
+
+    <h2 class="section-header">The Results</h2>
+
+    <div class="metrics">
+      <div class="metric-item">
+        <span class="metric-number">1,000+</span>
+        <span class="metric-label">GitHub Commits</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-number">30+</span>
+        <span class="metric-label">Shipped Projects</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-number">10x</span>
+        <span class="metric-label">Speed Increase</span>
+      </div>
+    </div>
+
+    <p class="body-text">
+      The speed improvements are difficult to overstate. Implementing Sanity CMS—a task that previously took a month with multiple developers—now takes less than a week. A reasonable prototype of a functional app now takes less than an hour. Full production applications still take weeks, but what took a year now takes six weeks.
+    </p>
+
+    <p class="body-text">
+      Since March 2024, I've generated over 1,000 GitHub commits across 30+ projects. The variety is remarkable: AI-powered specialized agents, autonomous analyzers, RAG-powered retrieval systems, full-stack applications, mobile apps, marketing websites, and developer tools.
+    </p>
+
+    <h2 class="section-header">Core Principles</h2>
+
+    <p class="body-text">
+      Every software project should leverage AI to enhance capabilities—not as an afterthought, but as a core architectural decision from day one. This means choosing TypeScript for better AI error detection, favoring single-page applications for easier AI context management, and building skills that encode best practices.
+    </p>
+
+    <p class="body-text">
+      AI can work autonomously for extended periods, but human verification remains absolutely necessary. I read every significant change AI makes, scrolling through code to understand what it did and catch mistakes before they compound. This verification isn't busywork—it's where human judgment adds irreplaceable value.
+    </p>
+
+    <p class="body-text">
+      Surprisingly, my English degree pays dividends in AI-assisted development. Specificity in language matters enormously—the ability to choose precise words, understand context, and communicate clearly makes AI dramatically more effective. Technical knowledge is learnable; clarity of communication is harder to develop but more valuable when working with AI.
+    </p>
+
+    <div class="separator"></div>
+
+    <p class="body-text">
+      This workflow is actively evolving. The skills and tools described are available on GitHub, and I'm documenting the complete methodology for others to adopt and adapt. Interested in AI-assisted development or curious about specific techniques? Let's talk about how these approaches might work for your projects.
+    </p>
+  </div>
+</body>
+</html>

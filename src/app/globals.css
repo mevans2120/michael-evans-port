@@ -68,8 +68,8 @@ All colors MUST be HSL.
     --input: var(--color-border);
     --ring: var(--color-accent);
 
-    --gradient-primary: linear-gradient(135deg, hsl(276 70% 55%), hsl(280 90% 25%));  /* Purple gradient for heroes */
-    --gradient-purple: linear-gradient(135deg, hsl(276 70% 55%), hsl(280 80% 65%));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--foreground)));  /* Gradient uses accent color */
+    --gradient-purple: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(0 0% 95%));
     --shadow-elegant: 0 10px 30px -10px hsl(240 20% 12% / 0.1);
     --shadow-card: 0 4px 20px -4px hsl(240 20% 12% / 0.08);
@@ -147,8 +147,8 @@ All colors MUST be HSL.
     --input: var(--color-border);
     --ring: var(--color-accent);
 
-    --gradient-primary: linear-gradient(135deg, hsl(280 60% 60%), hsl(0 0% 98%));
-    --gradient-purple: linear-gradient(135deg, hsl(276 100% 75%), hsl(280 100% 80%));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--foreground)));  /* Gradient uses accent color */
+    --gradient-purple: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
     --gradient-subtle: linear-gradient(180deg, hsl(215 28% 4%), hsl(215 25% 8%));
     --shadow-elegant: 0 10px 30px -10px hsl(220 90% 56% / 0.2);
     --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
@@ -172,6 +172,21 @@ All colors MUST be HSL.
   html {
     @apply bg-background;
     scroll-behavior: smooth;
+  }
+
+  /* Smooth transition for time-based theme color changes */
+  :root,
+  .dark {
+    transition: --accent 300ms ease-in-out,
+                --accent-light 300ms ease-in-out,
+                --accent-foreground 300ms ease-in-out;
+  }
+
+  /* Apply color transition to all elements using accent colors */
+  * {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
   }
 
   body {

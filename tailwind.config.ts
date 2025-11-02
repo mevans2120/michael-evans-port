@@ -21,7 +21,6 @@ export default {
 			fontFamily: {
 				sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
 				serif: ['var(--font-serif)', 'Georgia', 'serif'],
-				syne: ['var(--font-syne)', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

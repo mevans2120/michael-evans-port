@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Workflow - Cinematic Storytelling Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #000;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Cinematic layout with dramatic spacing */
+    .scene {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 40px;
+      position: relative;
+    }
+
+    .scene::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(ellipse at top, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .content-block {
+      max-width: 800px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Opening scene */
+    .opening {
+      text-align: center;
+      padding: 120px 40px;
+    }
+
+    .category {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #8b5cf6;
+      font-weight: 600;
+      margin-bottom: 48px;
+      display: inline-block;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(40px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 40px;
+      letter-spacing: -0.03em;
+      animation: fadeInUp 1s ease-out 0.2s backwards;
+    }
+
+    h1 .gradient-text {
+      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      line-height: 1.5;
+      color: #a3a3a3;
+      font-weight: 300;
+      margin-bottom: 48px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 1s ease-out 0.4s backwards;
+    }
+
+    /* Lede with dramatic presentation */
+    .lede {
+      font-size: 22px;
+      line-height: 1.7;
+      color: #e5e5e5;
+      font-weight: 400;
+      max-width: 800px;
+      margin: 0 auto 80px;
+      text-align: left;
+      padding: 60px;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      animation: fadeInUp 1s ease-out 0.6s backwards;
+    }
+
+    /* Scene divider */
+    .scene-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+      margin: 120px auto;
+    }
+
+    /* Body text with cinematic spacing */
+    .paragraph {
+      font-size: 19px;
+      line-height: 1.8;
+      color: #d4d4d4;
+      margin-bottom: 48px;
+      font-weight: 300;
+      max-width: 720px;
+    }
+
+    /* Quote as dramatic moment */
+    .dramatic-quote {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.3;
+      font-weight: 700;
+      color: #fff;
+      margin: 100px 0;
+      padding: 80px 60px;
+      background:
+        linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%),
+        rgba(255, 255, 255, 0.02);
+      border-left: 6px solid #8b5cf6;
+      position: relative;
+      backdrop-filter: blur(20px);
+    }
+
+    .dramatic-quote::before {
+      content: '"';
+      font-size: 200px;
+      color: rgba(139, 92, 246, 0.15);
+      position: absolute;
+      top: -40px;
+      left: 40px;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .quote-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-attribution {
+      font-size: 16px;
+      color: #8b5cf6;
+      margin-top: 24px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Metrics as data visualization */
+    .metrics-scene {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 40px;
+      margin: 80px 0;
+      padding: 80px 60px;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .metric {
+      text-align: center;
+      padding: 32px;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      background: rgba(139, 92, 246, 0.05);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .metric:hover {
+      transform: translateY(-8px);
+      border-color: rgba(139, 92, 246, 0.5);
+      background: rgba(139, 92, 246, 0.1);
+      box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+    }
+
+    .metric-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 14px;
+      color: #a3a3a3;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 500;
+    }
+
+    /* Tech stack as floating elements */
+    .tech-constellation {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin: 60px 0;
+    }
+
+    .tech-star {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #e5e5e5;
+      font-weight: 600;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+    }
+
+    .tech-star:hover {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: #8b5cf6;
+      color: #fff;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 24px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Chapter headers */
+    .chapter-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8b5cf6;
+      font-weight: 700;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .chapter-number {
+      display: block;
+      font-size: 12px;
+      color: #525252;
+      margin-bottom: 8px;
+      letter-spacing: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .scene {
+        padding: 60px 24px;
+      }
+
+      .opening {
+        padding: 80px 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .lede {
+        font-size: 17px;
+        padding: 32px 24px;
+      }
+
+      .paragraph {
+        font-size: 16px;
+        margin-bottom: 32px;
+      }
+
+      .dramatic-quote {
+        font-size: 22px;
+        padding: 48px 28px;
+        margin: 60px 0;
+      }
+
+      .dramatic-quote::before {
+        font-size: 120px;
+        top: -20px;
+        left: 20px;
+      }
+
+      .metrics-scene {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 48px 24px;
+      }
+
+      .metric-value {
+        font-size: 56px;
+      }
+
+      .tech-star {
+        font-size: 13px;
+        padding: 10px 20px;
+      }
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <!-- Opening Scene -->
+  <div class="scene opening">
+    <div class="content-block">
+      <div class="category">AI Workflow Showcase</div>
+
+      <h1>My AI Workflow: Building Production Software with <span class="gradient-text">Claude Code</span></h1>
+
+      <p class="subtitle">From product manager to full-stack developer: How AI-assisted development changed everything about building software</p>
+
+      <div class="lede">
+        The "oh shit" moment came while building a D&D tracker with my 11-year-old son—we created a functional app in under an hour. That breakthrough crystallized a fundamental shift: what once took a year to build could now be accomplished in days or weeks with AI assistance. This is the story of discovering, refining, and productionizing an AI-powered development workflow that's shipped 30+ projects and generated 1000+ commits since March 2024.
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-divider"></div>
+
+  <!-- The Story -->
+  <div class="scene">
+    <div class="content-block">
+      <p class="paragraph">
+        For years, I quoted the same timeline to clients: complex software takes about a year to build. That estimate reflected research, strategy, design, prototyping, and full development—tested across dozens of projects. The timeline felt immutable, grounded in reality.
+      </p>
+
+      <p class="paragraph">
+        In early 2024, that certainty began to crack. I built a voice-activated kitchen timer prototype in Replit in about an hour. It wasn't quite usable—it needed more work—but it was surprisingly close to functional. That got my attention, but I didn't fully grasp the implications yet.
+      </p>
+
+      <p class="paragraph">
+        The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I could actually use in our games. It's called Dungeon Tracker and is available on my GitHub.
+      </p>
+    </div>
+  </div>
+
+  <!-- Dramatic Quote -->
+  <div class="scene">
+    <div class="content-block">
+      <blockquote class="dramatic-quote">
+        <div class="quote-content">
+          "This was my 'oh shit' moment. Seeing how fast AI could produce not just a prototype but actually usable software made me realize that the year-long timeline I'd always quoted was about to change dramatically."
+        </div>
+        <div class="quote-attribution">— On building Dungeon Tracker</div>
+      </blockquote>
+
+      <p class="paragraph">
+        What took a year now takes six weeks. What took six weeks now takes two. The improvement isn't linear across all task types, but it's substantial across virtually everything.
+      </p>
+    </div>
+  </div>
+
+  <div class="scene-divider"></div>
+
+  <!-- How It Works -->
+  <div class="scene">
+    <div class="content-block">
+      <h2 class="chapter-title">
+        <span class="chapter-number">Chapter 01</span>
+        How It Works
+      </h2>
+
+      <p class="paragraph">
+        The foundation of reliable AI-assisted development starts with technology choices. TypeScript has become essential—not optional, but fundamental. The forced typing prevents an entire category of AI-generated errors. When AI doesn't keep everything in memory, it might use incorrect variable names. Without types, these mistakes only surface when production builds fail.
+      </p>
+
+      <p class="paragraph">
+        Single-page applications work better for AI development because they're easier for AI to maintain context. Next.js and React have proven ideal—they're modern, well-documented frameworks that AI understands deeply because they're widely used in training data.
+      </p>
+
+      <p class="paragraph">
+        Claude Code emerged as the most powerful, fastest, and most reliable AI coding assistant after extensive testing. It runs in the terminal, providing access to all files and CLI tools, which proves faster than VS Code plugins and more flexible than browser-based solutions. What sets Claude Code apart isn't just raw capability—it's autonomous reliability.
+      </p>
+
+      <div class="tech-constellation">
+        <div class="tech-star">Claude Code</div>
+        <div class="tech-star">TypeScript</div>
+        <div class="tech-star">Next.js</div>
+        <div class="tech-star">React</div>
+        <div class="tech-star">Git</div>
+        <div class="tech-star">Playwright</div>
+        <div class="tech-star">VS Code</div>
+        <div class="tech-star">Custom Skills</div>
+        <div class="tech-star">Memory Bank</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene-divider"></div>
+
+  <!-- The Results -->
+  <div class="scene">
+    <div class="content-block">
+      <h2 class="chapter-title">
+        <span class="chapter-number">Chapter 02</span>
+        The Results
+      </h2>
+
+      <div class="metrics-scene">
+        <div class="metric">
+          <span class="metric-value">1,000+</span>
+          <span class="metric-label">GitHub Commits</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">30+</span>
+          <span class="metric-label">Shipped Projects</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">10x</span>
+          <span class="metric-label">Speed Increase</span>
+        </div>
+      </div>
+
+      <p class="paragraph">
+        The speed improvements are difficult to overstate. Implementing Sanity CMS—a task that previously took a month with multiple developers—now takes less than a week. A reasonable prototype of a functional app now takes less than an hour. Full production applications still take weeks, but what took a year now takes six weeks.
+      </p>
+
+      <p class="paragraph">
+        Since March 2024, I've generated over 1,000 GitHub commits across 30+ projects. The variety is remarkable: AI-powered specialized agents, autonomous analyzers, RAG-powered retrieval systems, full-stack applications, mobile apps, marketing websites, and developer tools.
+      </p>
+    </div>
+  </div>
+
+  <div class="scene-divider"></div>
+
+  <!-- Core Principles -->
+  <div class="scene">
+    <div class="content-block">
+      <h2 class="chapter-title">
+        <span class="chapter-number">Chapter 03</span>
+        Core Principles
+      </h2>
+
+      <p class="paragraph">
+        Every software project should leverage AI to enhance capabilities—not as an afterthought, but as a core architectural decision from day one. This means choosing TypeScript for better AI error detection, favoring single-page applications for easier AI context management, and building skills that encode best practices.
+      </p>
+
+      <p class="paragraph">
+        AI can work autonomously for extended periods, but human verification remains absolutely necessary. I read every significant change AI makes, scrolling through code to understand what it did and catch mistakes before they compound. This verification isn't busywork—it's where human judgment adds irreplaceable value.
+      </p>
+
+      <p class="paragraph">
+        Surprisingly, my English degree pays dividends in AI-assisted development. Specificity in language matters enormously—the ability to choose precise words, understand context, and communicate clearly makes AI dramatically more effective. Technical knowledge is learnable; clarity of communication is harder to develop but more valuable when working with AI.
+      </p>
+    </div>
+  </div>
+
+  <div class="scene-divider"></div>
+
+  <!-- Closing -->
+  <div class="scene">
+    <div class="content-block">
+      <p class="paragraph" style="text-align: center; max-width: 680px; margin: 0 auto;">
+        This workflow is actively evolving. The skills and tools described are available on GitHub, and I'm documenting the complete methodology for others to adopt and adapt. Interested in AI-assisted development or curious about specific techniques? Let's talk about how these approaches might work for your projects.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
