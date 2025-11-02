@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 1: Elegant Pulse - Chatbot Loading State</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #0F0F13;
+      color: #FAFAFA;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 42px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #D8B4FE, #FAFAFA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #A3A3A3;
+      margin-bottom: 48px;
+    }
+
+    .description {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 48px;
+    }
+
+    .description h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 24px;
+      margin-bottom: 12px;
+      color: #D8B4FE;
+    }
+
+    .description p {
+      color: #D4D4D4;
+      margin-bottom: 12px;
+    }
+
+    .description ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 16px;
+    }
+
+    .description li {
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 8px;
+      color: #D4D4D4;
+    }
+
+    .description li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #D8B4FE;
+    }
+
+    /* Chat mockup container */
+    .chat-mockup {
+      background: #E8E9EB;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .chat-header {
+      background: #D4D5D8;
+      padding: 16px 24px;
+      border-bottom: 1px solid #BBBDC1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 18px;
+      color: #080808;
+      margin: 0;
+    }
+
+    .chat-messages {
+      padding: 24px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Message bubble */
+    .message {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar.assistant {
+      background: #2D2E32;
+    }
+
+    .avatar svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .message-content {
+      background: #2D2E32;
+      color: #FAFAFA;
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 70%;
+      font-size: 14px;
+    }
+
+    /* Loading state - Elegant Pulse */
+    .loading-container {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .loading-content {
+      background: #2D2E32;
+      padding: 12px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pulse-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #D8B4FE;
+      animation: elegantPulse 1.8s ease-in-out infinite;
+    }
+
+    .pulse-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .pulse-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .pulse-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes elegantPulse {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.3);
+      }
+    }
+
+    /* Sparkle icon */
+    .sparkle {
+      stroke: #D8B4FE;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Dark mode toggle for demo */
+    .demo-controls {
+      margin-top: 32px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .demo-controls p {
+      color: #A3A3A3;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Concept 1: Elegant Pulse</h1>
+    <p class="subtitle">Refined & Professional • Matches Existing Style</p>
+
+    <div class="description">
+      <h2>Design Rationale</h2>
+      <p>A sophisticated, minimal loading state that aligns with the portfolio's existing design system. Uses the site's purple accent color and smooth animations for a polished, professional feel.</p>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>Three pulsing dots with staggered animation (1.8s cycle)</li>
+        <li>Uses semantic accent color (#D8B4FE) from design system</li>
+        <li>No text label - just pure visual feedback</li>
+        <li>Smooth scale + opacity animation (elegant, not jarring)</li>
+        <li>Matches existing chat bubble styling</li>
+      </ul>
+
+      <p><strong>Best For:</strong> Users who want a safe, professional option that won't distract from the conversation. Familiar pattern (dots) with elevated execution.</p>
+    </div>
+
+    <!-- Chat Mockup -->
+    <div class="chat-mockup">
+      <div class="chat-header">
+        <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19 3L19.5 5.5L22 6L19.5 6.5L19 9L18.5 6.5L16 6L18.5 5.5L19 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>AI Assistant</h3>
+      </div>
+
+      <div class="chat-messages">
+        <!-- Previous message -->
+        <div class="message">
+          <div class="avatar assistant">
+            <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="message-content">
+            Hi! I can help you explore Michael's portfolio. What would you like to know?
+          </div>
+        </div>
+
+        <!-- Loading state -->
+        <div class="loading-container">
+          <div class="avatar assistant">
+            <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="loading-content">
+            <div class="pulse-dots">
+              <div class="pulse-dot"></div>
+              <div class="pulse-dot"></div>
+              <div class="pulse-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-controls">
+      <p>✨ Simple, clean animation • Just three dots, no text</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Shimmer Wave - Chatbot Loading State</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, sans-serif;
+      background: #000000;
+      color: #FAFAFA;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #00F5FF, #FF00FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      color: #00F5FF;
+      margin-bottom: 48px;
+      letter-spacing: 0.05em;
+    }
+
+    .description {
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 48px;
+    }
+
+    .description h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: #00F5FF;
+      font-weight: 700;
+    }
+
+    .description p {
+      color: #D4D4D4;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .description ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 16px;
+    }
+
+    .description li {
+      padding-left: 28px;
+      position: relative;
+      margin-bottom: 10px;
+      color: #D4D4D4;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+    }
+
+    .description li:before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #FF00FF;
+      font-size: 18px;
+    }
+
+    /* Chat mockup container */
+    .chat-mockup {
+      background: #0A0A0A;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0, 245, 255, 0.2);
+      border: 1px solid rgba(0, 245, 255, 0.3);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 255, 0.1));
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      color: #00F5FF;
+      margin: 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .chat-messages {
+      padding: 24px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 20px,
+          rgba(0, 245, 255, 0.02) 20px,
+          rgba(0, 245, 255, 0.02) 40px
+        );
+    }
+
+    /* Message bubble */
+    .message {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #00F5FF, #FF00FF);
+      position: relative;
+    }
+
+    .avatar::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: #0A0A0A;
+      border-radius: 6px;
+    }
+
+    .avatar svg {
+      width: 16px;
+      height: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .message-content {
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      color: #FAFAFA;
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 70%;
+      font-size: 14px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Loading state - Shimmer Wave */
+    .loading-container {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .loading-content {
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      padding: 20px 24px;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shimmer background animation */
+    .loading-content::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 245, 255, 0.1) 20%,
+        rgba(255, 0, 255, 0.1) 40%,
+        rgba(0, 245, 255, 0.1) 60%,
+        transparent 80%
+      );
+      animation: shimmerWave 2.5s linear infinite;
+      transform: translateX(-100%);
+    }
+
+    @keyframes shimmerWave {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(200%);
+      }
+    }
+
+    .shimmer-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .shimmer-bar {
+      height: 8px;
+      background: linear-gradient(90deg, rgba(0, 245, 255, 0.3), rgba(255, 0, 255, 0.3));
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shimmer-bar:nth-child(1) { width: 80%; }
+    .shimmer-bar:nth-child(2) { width: 95%; }
+    .shimmer-bar:nth-child(3) { width: 60%; }
+
+    /* Glow effect on bars */
+    .shimmer-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: barGlow 2s ease-in-out infinite;
+    }
+
+    .shimmer-bar:nth-child(1)::after { animation-delay: 0s; }
+    .shimmer-bar:nth-child(2)::after { animation-delay: 0.3s; }
+    .shimmer-bar:nth-child(3)::after { animation-delay: 0.6s; }
+
+    @keyframes barGlow {
+      0%, 100% {
+        transform: translateX(-100%);
+      }
+      50% {
+        transform: translateX(200%);
+      }
+    }
+
+    /* Sparkle icon */
+    .sparkle {
+      stroke: #00F5FF;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Demo controls */
+    .demo-controls {
+      margin-top: 32px;
+      padding: 20px;
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .demo-controls p {
+      color: #00F5FF;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Concept 2: Shimmer Wave</h1>
+    <p class="subtitle">BOLD • DYNAMIC • HIGH-ENERGY</p>
+
+    <div class="description">
+      <h2>Design Rationale</h2>
+      <p>A high-energy, visually striking loading state that uses gradient shimmer effects and animated bars. Inspired by futuristic UI and terminal aesthetics with a neon cyan/magenta color scheme.</p>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>Dual-layer animation: background shimmer + individual bar glows</li>
+        <li>Neon cyan/magenta gradient (breaks from purple theme intentionally)</li>
+        <li>Three stacked bars with staggered glow animations</li>
+        <li>Square avatars with gradient borders for bold, modern feel</li>
+        <li>Monospace font (Space Mono) for technical aesthetic</li>
+      </ul>
+
+      <p><strong>Best For:</strong> Users who want something eye-catching and energetic. This concept pushes creative boundaries and makes the loading state feel like an intentional part of the experience, not just a wait state.</p>
+    </div>
+
+    <!-- Chat Mockup -->
+    <div class="chat-mockup">
+      <div class="chat-header">
+        <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19 3L19.5 5.5L22 6L19.5 6.5L19 9L18.5 6.5L16 6L18.5 5.5L19 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>AI Assistant</h3>
+      </div>
+
+      <div class="chat-messages">
+        <!-- Previous message -->
+        <div class="message">
+          <div class="avatar">
+            <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="message-content">
+            Hi! I can help you explore Michael's portfolio. What would you like to know?
+          </div>
+        </div>
+
+        <!-- Loading state -->
+        <div class="loading-container">
+          <div class="avatar">
+            <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="loading-content">
+            <div class="shimmer-bars">
+              <div class="shimmer-bar"></div>
+              <div class="shimmer-bar"></div>
+              <div class="shimmer-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-controls">
+      <p>⚡ DUAL-LAYER ANIMATION • BACKGROUND SHIMMER + BAR GLOWS</p>
+    </div>
+  </div>
+</body>
+</html>
