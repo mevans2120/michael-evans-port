@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { useNavigation } from '@/contexts/NavigationContext';
+import { useChatState } from '@/contexts/ChatContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { Sparkles, ChevronDown, Send, User, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -11,7 +12,8 @@ import { SuggestedPrompts } from './SuggestedPrompts';
 import '../chatbot/chatbot.css';
 
 export function ChatSection() {
-  const { panelState, chatExpanded, setChatExpanded, chatInputFocused, setChatInputFocused, signalChatCloseComplete } = useNavigation();
+  const { panelState, chatInputFocused, setChatInputFocused, signalChatCloseComplete } = useNavigation();
+  const { chatExpanded, setChatExpanded } = useChatState();
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
