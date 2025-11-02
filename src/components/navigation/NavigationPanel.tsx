@@ -51,12 +51,12 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
 
     switch (panelState) {
       case 'partial':
-        return 'md:w-[56px]';
+        return 'md:w-[81px]';
       case 'expanded':
         const shouldBeWide = (chatInputFocused || chatExpanded) && !chatCloseAnimationComplete;
         return shouldBeWide ? 'md:w-[455px]' : 'md:w-[320px]';
       default:
-        return 'md:w-[56px]';
+        return 'md:w-[81px]';
     }
   };
 
