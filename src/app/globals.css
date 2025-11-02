@@ -282,6 +282,18 @@ All colors MUST be HSL.
   .animate-stagger:nth-child(18) { animation-delay: 1700ms; }
   .animate-stagger:nth-child(19) { animation-delay: 1800ms; }
   .animate-stagger:nth-child(20) { animation-delay: 1900ms; }
+
+  /* Hero gradient utilities */
+  .gradient-hero-title {
+    background: linear-gradient(135deg, hsl(var(--accent-light)), hsl(var(--foreground)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-hero-badge {
+    background: linear-gradient(135deg, hsl(var(--accent) / 0.1), hsl(var(--accent) / 0.05));
+  }
 }
 
 @layer components {
@@ -340,6 +352,17 @@ All colors MUST be HSL.
 
   .interactive-opacity {
     @apply transition-opacity duration-normal hover:opacity-80;
+  }
+
+  /* Metric card styling */
+  .metric-card {
+    @apply bg-white/[0.03] border border-white/10 rounded-3xl p-8;
+    @apply hover:border-white/20 transition-colors-smooth;
+  }
+
+  /* Meta info styling for case studies */
+  .meta-info-item {
+    @apply bg-white/[0.05] border border-white/10 px-6 py-4 rounded-2xl;
   }
 }
 

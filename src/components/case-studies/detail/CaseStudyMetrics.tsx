@@ -33,10 +33,7 @@ export function CaseStudyMetrics({
   if (!metrics || metrics.length === 0) return null
 
   return (
-    <section
-      className={cn("relative py-32 z-10", className)}
-      style={{ background: 'rgba(199, 128, 245, 0.03)' }}
-    >
+    <section className={cn("relative py-32 z-10 bg-accent/[0.03]", className)}>
       <div className="container max-w-[1200px] mx-auto px-8">
         <CaseStudySectionHeader label={label} heading={heading} />
 
@@ -45,19 +42,9 @@ export function CaseStudyMetrics({
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}
         >
           {metrics.map((metric, index) => (
-            <div
-              key={index}
-              className="rounded-3xl px-8 py-12 text-center"
-              style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}
-            >
+            <div key={index} className="metric-card px-8 py-12 text-center">
               {/* Metric Value with Gradient */}
-              <div
-                className="font-bold mb-4 leading-none bg-gradient-to-br from-accent to-accent-light bg-clip-text text-transparent"
-                style={{ fontSize: '3.5rem' }}
-              >
+              <div className="font-bold mb-4 leading-none bg-gradient-to-br from-accent to-accent-light bg-clip-text text-transparent text-[3.5rem]">
                 {metric.value}
               </div>
 
@@ -68,7 +55,7 @@ export function CaseStudyMetrics({
 
               {/* Metric Description */}
               {metric.description && (
-                <div className="text-sm" style={{ color: '#a0a0a0' }}>
+                <div className="text-sm text-muted-foreground">
                   {metric.description}
                 </div>
               )}
