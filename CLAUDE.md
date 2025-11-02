@@ -504,6 +504,13 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Fixed AI Assistant Message Text Color for Light Mode**
+  - Changed assistant message bubble text from hardcoded white to semantic `text-chat-foreground`
+  - Light mode: Text now black (`0 0% 3.1%`) for proper contrast on light background
+  - Dark mode: Text now white (`0 0% 98%`) for proper contrast on dark background
+  - Updated both message bubble wrapper and ReactMarkdown prose container
+  - Files updated: `/src/components/navigation/ChatSection.tsx` (lines 230, 233)
+  - Result: Assistant messages now have proper contrast in both modes, following centralized design system
 - **Reversed Chat Inversion - Chat Now Matches Mode**
   - Changed chat design system from inverted to matching mode
   - Light mode: Chat now light (`240 5% 90%`) matching navigation background

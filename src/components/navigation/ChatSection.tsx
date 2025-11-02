@@ -227,10 +227,10 @@ export function ChatSection() {
                     className={`rounded-lg px-4 py-2 chatbot-message ${
                       isUser
                         ? 'bg-accent text-white text-sm'
-                        : 'bg-chat-message dark:text-foreground text-white'
+                        : 'bg-chat-message text-chat-foreground'
                     }`}
                   >
-                    <div className="prose prose-sm max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0 prose-p:text-sm prose-li:text-sm [&>*]:text-sm dark:[&>*]:text-foreground [&>*]:text-white">
+                    <div className="prose prose-sm max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0 prose-p:text-sm prose-li:text-sm [&>*]:text-sm [&>*]:text-chat-foreground">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
