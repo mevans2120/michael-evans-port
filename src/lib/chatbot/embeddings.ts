@@ -5,6 +5,7 @@
 
 import { embed, embedMany } from 'ai';
 import { google } from '@ai-sdk/google';
+import { logger } from '@/lib/logger';
 
 /**
  * Configuration
@@ -57,7 +58,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 
     return embedding;
   } catch (error) {
-    console.error('Error generating embedding:', error);
+    logger.error('Error generating embedding:', error);
     throw new Error(`Failed to generate embedding: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
@@ -91,7 +92,7 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
 
     return allEmbeddings;
   } catch (error) {
-    console.error('Error generating embeddings:', error);
+    logger.error('Error generating embeddings:', error);
     throw new Error(`Failed to generate embeddings: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
@@ -107,7 +108,7 @@ export interface ProcessedChunk {
     source: string;
     chunkIndex: number;
     totalChunks: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -115,7 +116,7 @@ export async function processDocument(
   content: string,
   metadata: {
     source: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 ): Promise<ProcessedChunk[]> {
   // Split content into chunks
@@ -143,7 +144,7 @@ export async function processDocument(
 export async function processDocuments(
   documents: Array<{
     content: string;
-    metadata: { source: string; [key: string]: any };
+    metadata: { source: string; [key: string]: unknown };
   }>
 ): Promise<ProcessedChunk[]> {
   const allChunks: ProcessedChunk[] = [];

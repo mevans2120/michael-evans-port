@@ -114,11 +114,16 @@ export function ChatMessage({ role, content, timestamp, sources, onSuggestionCli
                 ul: ({ node, ...props }) => <ul className="list-disc pl-4" {...props} />,
                 ol: ({ node, ...props }) => <ol className="list-decimal pl-4" {...props} />,
                 // Style code
-                code: ({ node, inline, ...props }: any) =>
+                code: ({ node, inline, className, children, ...props }: {
+                  node?: unknown;
+                  inline?: boolean;
+                  className?: string;
+                  children?: React.ReactNode;
+                }) =>
                   inline ? (
-                    <code className="px-1 py-0.5 rounded text-xs font-semibold" {...props} />
+                    <code className="px-1 py-0.5 rounded text-xs font-semibold" {...props}>{children}</code>
                   ) : (
-                    <code className="block bg-background/10 p-2 rounded my-2 text-xs" {...props} />
+                    <code className="block bg-background/10 p-2 rounded my-2 text-xs" {...props}>{children}</code>
                   ),
                 // Style links
                 a: ({ node, ...props }) => (

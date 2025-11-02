@@ -1,3 +1,25 @@
+/**
+ * Sanity Portable Text block types
+ * These represent rich text content from Sanity CMS
+ */
+export interface PortableTextBlock {
+  _type: string
+  _key: string
+  style?: string
+  children?: Array<{
+    _type: string
+    _key: string
+    text: string
+    marks?: string[]
+  }>
+  markDefs?: Array<{
+    _type: string
+    _key: string
+    [key: string]: unknown
+  }>
+  [key: string]: unknown
+}
+
 export interface SanityProject {
   _id: string
   title: string
@@ -18,7 +40,7 @@ export interface SanityProject {
     value: string
   }>
   achievements?: string[]
-  content?: any[]
+  content?: PortableTextBlock[]
   technologies?: string[]
   liveUrl?: string
   githubUrl?: string
@@ -32,7 +54,7 @@ export interface SanityProfile {
   name: string
   title: string
   tagline?: string
-  bio?: any[]
+  bio?: PortableTextBlock[]
   profileImage?: {
     asset: {
       url: string

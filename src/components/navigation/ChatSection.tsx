@@ -24,9 +24,6 @@ export function ChatSection() {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 100);
     },
-    onError: (error) => {
-      console.error('Chat error:', error);
-    },
   });
 
   const [input, setInput] = useState('');
@@ -45,9 +42,13 @@ export function ChatSection() {
   const showChatContent = isDesktop ? isExpanded : chatExpanded;
   const isCollapsed = panelState === 'partial';
 
-  const heightStyle = isDesktop
-    ? (chatExpanded ? '100%' : '34%')
-    : (chatExpanded ? '50vh' : 'auto');
+  // Get dynamic height classes based on state
+  const getHeightClasses = () => {
+    if (!isDesktop) {
+      return chatExpanded ? 'h-[50vh]' : 'h-auto';
+    }
+    return chatExpanded ? 'md:h-full' : 'md:h-[34%]';
+  };
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -127,16 +128,13 @@ export function ChatSection() {
     <div
       data-testid="chat-section"
       key={`chat-${chatExpanded}`}
-      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${
+      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${getHeightClasses()} ${
         isDesktop && chatExpanded
           ? 'absolute inset-0 z-10'
           : !isDesktop && chatExpanded
           ? 'absolute bottom-0 left-0 right-0 z-10 border-t border-chat-border'
           : ''
       }`}
-      style={{
-        height: heightStyle,
-      }}
     >
       {/* Chat Header */}
       <div
@@ -157,15 +155,12 @@ export function ChatSection() {
         </div>
         <button
           onClick={(e) => {
-            console.log('🔥 BUTTON CLICKED!', chatExpanded);
             e.stopPropagation();
 
             if (chatExpanded) {
-              console.log('Closing...');
               setChatExpanded(false);
               setChatInputFocused(false);
             } else {
-              console.log('Opening...');
               setChatExpanded(true);
               setHasInteracted(true);
               setChatInputFocused(true);
@@ -246,11 +241,16 @@ export function ChatSection() {
                           ul: ({ node, ...props }) => <ul className="list-disc pl-4 text-sm" {...props} />,
                           ol: ({ node, ...props }) => <ol className="list-decimal pl-4 text-sm" {...props} />,
                           li: ({ node, ...props }) => <li className="text-sm" {...props} />,
-                          code: ({ node, inline, ...props }: any) =>
+                          code: ({ node, inline, className, children, ...props }: {
+                            node?: unknown;
+                            inline?: boolean;
+                            className?: string;
+                            children?: React.ReactNode;
+                          }) =>
                             inline ? (
-                              <code className="px-1 py-0.5 rounded text-sm font-mono bg-code-block" {...props} />
+                              <code className="px-1 py-0.5 rounded text-sm font-mono bg-code-block" {...props}>{children}</code>
                             ) : (
-                              <code className="block bg-code-block p-2 rounded my-2 text-sm font-mono" {...props} />
+                              <code className="block bg-code-block p-2 rounded my-2 text-sm font-mono" {...props}>{children}</code>
                             ),
                           a: ({ node, ...props }) => (
                             <a className="underline hover:no-underline text-sm" {...props} />

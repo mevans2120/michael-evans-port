@@ -22,22 +22,6 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
     }
   }, [chatInputFocused, chatExpanded]);
 
-  // Calculate panel width based on state and device
-  const getPanelWidth = () => {
-    if (!isDesktop) return '100%';
-
-    switch (panelState) {
-      case 'partial':
-        return '56px';
-      case 'expanded':
-        // Expand when chat is active, contract only after close animation completes
-        const shouldBeWide = (chatInputFocused || chatExpanded) && !chatCloseAnimationComplete;
-        return shouldBeWide ? '455px' : '320px';
-      default:
-        return '56px';
-    }
-  };
-
   // Handle click to expand when in partial state
   const handleClick = () => {
     if (panelState === 'partial') {
@@ -61,6 +45,21 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
   // Determine border color class
   const showBorder = panelState === 'partial' || isBorderHovered || isAnimating;
 
+  // Get dynamic width classes based on state
+  const getWidthClasses = () => {
+    if (!isDesktop) return 'w-full';
+
+    switch (panelState) {
+      case 'partial':
+        return 'md:w-[56px]';
+      case 'expanded':
+        const shouldBeWide = (chatInputFocused || chatExpanded) && !chatCloseAnimationComplete;
+        return shouldBeWide ? 'md:w-[455px]' : 'md:w-[320px]';
+      default:
+        return 'md:w-[56px]';
+    }
+  };
+
   return (
     <div
       data-testid="navigation-panel"
@@ -69,17 +68,15 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         "bottom-0 md:bottom-auto",
         "left-0 md:left-auto",
         "w-full",
+        getWidthClasses(),
         "h-auto md:h-full",
         "bg-navigation",
         "flex md:flex-shrink-0",
         "z-50",
         "border-t md:border-t-0",
         "animate-in fade-in duration-500",
-        hasInteracted && "transition-[width] duration-300 ease-in-out"
+        hasInteracted && "transition-[width] duration-normal ease-smooth"
       )}
-      style={{
-        width: isDesktop ? getPanelWidth() : '100%',
-      }}
       onClick={panelState === 'partial' ? handleClick : undefined}
     >
       <div className="relative flex-1 flex">

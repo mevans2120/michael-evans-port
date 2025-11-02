@@ -4,7 +4,8 @@
  */
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/supabase/database.types';
+import { Database, Json } from '@/lib/supabase/database.types';
+import { logger } from '@/lib/logger';
 
 // Type for our typed Supabase client
 export type TypedSupabaseClient = SupabaseClient<Database>;
@@ -52,7 +53,7 @@ export interface PortfolioDocument {
     category?: string;
     title?: string;
     date?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   content_hash: string | null;
   source_id: string | null;
@@ -97,7 +98,7 @@ export async function searchSimilarDocuments(
     });
 
     if (error) {
-      console.error('Error searching documents:', error);
+      logger.error('Error searching documents:', error);
       throw error;
     }
 
@@ -109,7 +110,7 @@ export async function searchSimilarDocuments(
       last_synced: null,
     }));
   } catch (error) {
-    console.error('Error in searchSimilarDocuments:', error);
+    logger.error('Error in searchSimilarDocuments:', error);
     throw error;
   }
 }
@@ -136,16 +137,16 @@ export async function insertDocument(
       .insert({
         content,
         embedding,
-        metadata,
+        metadata: metadata as Json,
         content_hash: contentHash,
         source_id: sourceId,
         last_synced: new Date().toISOString(),
-      } as any)
+      })
       .select()
       .single();
 
     if (error) {
-      console.error('Error inserting document:', error);
+      logger.error('Error inserting document:', error);
       throw error;
     }
 
@@ -154,7 +155,7 @@ export async function insertDocument(
       metadata: data.metadata as unknown as PortfolioDocument['metadata'],
     };
   } catch (error) {
-    console.error('Error in insertDocument:', error);
+    logger.error('Error in insertDocument:', error);
     throw error;
   }
 }
@@ -176,16 +177,17 @@ export async function insertDocuments(
   try {
     const docsToInsert = documents.map(doc => ({
       ...doc,
+      metadata: doc.metadata as Json,
       last_synced: new Date().toISOString(),
     }));
 
     const { data, error } = await admin
       .from('documents')
-      .insert(docsToInsert as any)
+      .insert(docsToInsert)
       .select();
 
     if (error) {
-      console.error('Error inserting documents:', error);
+      logger.error('Error inserting documents:', error);
       throw error;
     }
 
@@ -194,7 +196,7 @@ export async function insertDocuments(
       metadata: doc.metadata as unknown as PortfolioDocument['metadata'],
     }));
   } catch (error) {
-    console.error('Error in insertDocuments:', error);
+    logger.error('Error in insertDocuments:', error);
     throw error;
   }
 }
@@ -229,10 +231,10 @@ export async function upsertDocument(
         .update({
           content,
           embedding,
-          metadata,
+          metadata: metadata as Json,
           content_hash: contentHash,
           last_synced: new Date().toISOString(),
-        } as any)
+        })
         .eq('source_id', sourceId)
         .select()
         .single();
@@ -248,7 +250,7 @@ export async function upsertDocument(
       return await insertDocument(content, embedding, metadata, contentHash, sourceId);
     }
   } catch (error) {
-    console.error('Error in upsertDocument:', error);
+    logger.error('Error in upsertDocument:', error);
     throw error;
   }
 }
@@ -275,7 +277,7 @@ export async function findDocumentsBySourceId(sourceId: string): Promise<Portfol
       metadata: doc.metadata as unknown as PortfolioDocument['metadata'],
     }));
   } catch (error) {
-    console.error('Error in findDocumentsBySourceId:', error);
+    logger.error('Error in findDocumentsBySourceId:', error);
     throw error;
   }
 }
@@ -300,7 +302,7 @@ export async function deleteDocumentsBySourceId(sourceId: string): Promise<numbe
 
     return data?.length || 0;
   } catch (error) {
-    console.error('Error in deleteDocumentsBySourceId:', error);
+    logger.error('Error in deleteDocumentsBySourceId:', error);
     throw error;
   }
 }
@@ -327,7 +329,7 @@ export async function getSyncStatus(): Promise<{
 
     return data && data.length > 0 ? data[0] : null;
   } catch (error) {
-    console.error('Error in getSyncStatus:', error);
+    logger.error('Error in getSyncStatus:', error);
     return null;
   }
 }
@@ -342,11 +344,11 @@ export async function deleteAllDocuments(): Promise<void> {
     const { error } = await admin.from('documents').delete().neq('id', '00000000-0000-0000-0000-000000000000');
 
     if (error) {
-      console.error('Error deleting documents:', error);
+      logger.error('Error deleting documents:', error);
       throw error;
     }
   } catch (error) {
-    console.error('Error in deleteAllDocuments:', error);
+    logger.error('Error in deleteAllDocuments:', error);
     throw error;
   }
 }
@@ -370,7 +372,7 @@ export async function createChatSession(): Promise<ChatSession> {
       .single();
 
     if (error) {
-      console.error('Error creating chat session:', error);
+      logger.error('Error creating chat session:', error);
       throw error;
     }
 
@@ -379,7 +381,7 @@ export async function createChatSession(): Promise<ChatSession> {
       messages: data.messages as unknown as ChatMessage[],
     };
   } catch (error) {
-    console.error('Error in createChatSession:', error);
+    logger.error('Error in createChatSession:', error);
     throw error;
   }
 }
@@ -397,7 +399,7 @@ export async function getChatSession(sessionId: string): Promise<ChatSession | n
       .single();
 
     if (error) {
-      console.error('Error getting chat session:', error);
+      logger.error('Error getting chat session:', error);
       return null;
     }
 
@@ -406,7 +408,7 @@ export async function getChatSession(sessionId: string): Promise<ChatSession | n
       messages: data.messages as unknown as ChatMessage[],
     } : null;
   } catch (error) {
-    console.error('Error in getChatSession:', error);
+    logger.error('Error in getChatSession:', error);
     return null;
   }
 }
@@ -422,13 +424,16 @@ export async function updateChatSession(
   try {
     const { data, error } = await supabase
       .from('chat_sessions')
-      .update({ messages: messages as any, updated_at: new Date().toISOString() })
+      .update({
+        messages: messages as unknown as Json,
+        updated_at: new Date().toISOString()
+      })
       .eq('id', sessionId)
       .select()
       .single();
 
     if (error) {
-      console.error('Error updating chat session:', error);
+      logger.error('Error updating chat session:', error);
       throw error;
     }
 
@@ -437,7 +442,7 @@ export async function updateChatSession(
       messages: data.messages as unknown as ChatMessage[],
     };
   } catch (error) {
-    console.error('Error in updateChatSession:', error);
+    logger.error('Error in updateChatSession:', error);
     throw error;
   }
 }
