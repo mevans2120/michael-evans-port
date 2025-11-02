@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TimeThemeProvider } from "@/components/providers/TimeThemeProvider";
+import { FaviconGenerator } from "@/components/FaviconGenerator";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
@@ -59,6 +60,7 @@ export default function RootLayout({
         >
           <QueryProvider>
             <TimeThemeProvider>
+              <FaviconGenerator />
               {children}
               <Toaster />
               <Sonner />
