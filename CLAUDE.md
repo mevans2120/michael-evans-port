@@ -419,6 +419,24 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Simplified AI Showcase Landing Page with Centralized Design System**
+  - Created semantic color tokens for AI showcase cards in centralized design system
+  - Added `--ai-card-background`, `--ai-card-foreground`, `--ai-card-border`, `--ai-card-border-hover` to `globals.css`
+  - Light mode: Much darker purple cards (`276 70% 25%`) for better visual impact
+  - Dark mode: Existing card color (`240 10% 12%`) maintained
+  - Registered tokens in `tailwind.config.ts` following existing patterns
+  - Updated `/src/app/(public)/ai-showcase/page.tsx`:
+    - Replaced hardcoded gradient with semantic `bg-ai-card` token
+    - Removed Featured badge pill
+    - Removed Category badge pill
+    - Removed summary paragraph (second gray text)
+    - Changed CTA from "Explore this showcase" to "Learn more"
+  - Result: Clean, maintainable cards using centralized color system with no hardcoded values
+- **Improved Homepage Case Study Cards**
+  - Removed gradient effect from title text - now pure accent color (orange/purple based on time)
+  - Updated body copy to use `text-muted-foreground` for proper light/dark mode contrast
+  - Changed body copy font from sans to serif (`font-serif`) for better readability
+  - Files updated: `/src/components/FeaturedCaseStudies.tsx`
 - **Neutralized Background Colors & Completed Time-Based Theme Integration**
   - Removed purple tints from all background colors in design system
   - Changed core design token `--color-border` from purple (280°) to blue-gray (240°)

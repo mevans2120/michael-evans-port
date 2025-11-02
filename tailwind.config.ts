@@ -95,6 +95,12 @@ export default {
 					DEFAULT: 'hsl(var(--error-bg))',
 					border: 'hsl(var(--error-border))',
 					text: 'hsl(var(--error-text))'
+				},
+				'ai-card': {
+					DEFAULT: 'hsl(var(--ai-card-background))',
+					foreground: 'hsl(var(--ai-card-foreground))',
+					border: 'hsl(var(--ai-card-border))',
+					'border-hover': 'hsl(var(--ai-card-border-hover))'
 				}
 			},
 			borderRadius: {

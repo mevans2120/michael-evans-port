@@ -105,7 +105,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
                 <h3 className={`
                   text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight
                   transition-all duration-300 font-sans
-                  ${isExpanded ? 'bg-gradient-to-br from-accent to-white bg-clip-text text-transparent' : 'md:group-hover:bg-gradient-to-br md:group-hover:from-accent md:group-hover:to-white md:group-hover:bg-clip-text md:group-hover:text-transparent'}
+                  ${isExpanded ? 'text-accent' : 'md:group-hover:text-accent'}
                 `}>
                   {study.title}
                 </h3>
@@ -121,7 +121,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
 
             {/* Description - Expands on hover (desktop) or tap (mobile) */}
             <p className={`
-              text-lg md:text-xl leading-relaxed text-gray-300 max-w-3xl
+              text-lg md:text-xl leading-relaxed text-muted-foreground max-w-3xl font-serif
               transition-all duration-400 ease-out overflow-hidden
               ${isExpanded ? 'max-h-48 opacity-100 mt-10' : 'max-h-0 opacity-0 md:group-hover:max-h-48 md:group-hover:opacity-100 md:group-hover:mt-10'}
             `}>

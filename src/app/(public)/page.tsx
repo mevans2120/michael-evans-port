@@ -48,7 +48,11 @@ export default async function HomePage() {
   // Selected Work section with fallbacks
   const selectedWork = {
     heading: homepage?.selectedWorkSection?.heading || 'Selected Work',
-    description: homepage?.selectedWorkSection?.description || 'Case studies and product launches'
+    description: homepage?.selectedWorkSection?.description || 'Case studies and product launches',
+    viewAllText: homepage?.selectedWorkSection?.viewAllText || 'View all case studies',
+    viewAllLink: homepage?.selectedWorkSection?.viewAllLinkType === 'external'
+      ? homepage?.selectedWorkSection?.viewAllExternalLink
+      : homepage?.selectedWorkSection?.viewAllInternalLink || '/case-studies'
   }
 
   // AI Showcase section with fallbacks
@@ -133,6 +137,17 @@ export default async function HomePage() {
 
             <div className="-mx-6 md:mx-0">
               <FeaturedCaseStudies studies={featuredCaseStudies} />
+            </div>
+
+            {/* View All Link */}
+            <div className="mt-10 -mx-6 md:mx-0">
+              <Link
+                href={selectedWork.viewAllLink}
+                className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors"
+              >
+                {selectedWork.viewAllText}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </section>

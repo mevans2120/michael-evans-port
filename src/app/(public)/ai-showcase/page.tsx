@@ -50,27 +50,9 @@ export default async function AIShowcasePage() {
                   href={`/ai-showcase/${showcase.slug}`}
                   className="group relative block"
                 >
-                  <div className="relative h-full p-8 md:p-10 rounded-2xl bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-xl hover:shadow-accent/10">
-                    {/* Featured Badge */}
-                    {showcase.featured && (
-                      <div className="absolute top-4 right-4">
-                        <span className="inline-block px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-accent-light text-xs font-medium uppercase tracking-wider">
-                          Featured
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Category Badge */}
-                    {showcase.heroSection.badge && (
-                      <div className="mb-4">
-                        <span className="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent-light text-xs font-medium uppercase tracking-wider">
-                          {showcase.heroSection.badge}
-                        </span>
-                      </div>
-                    )}
-
+                  <div className="relative h-full p-8 md:p-10 rounded-2xl bg-ai-card border border-ai-card-border hover:border-ai-card-border-hover transition-all duration-300 hover:shadow-xl hover:shadow-accent/10">
                     {/* Title */}
-                    <h2 className="text-2xl md:text-3xl font-syne font-bold text-white mb-4 group-hover:text-accent-light transition-colors">
+                    <h2 className="text-2xl md:text-3xl font-syne font-bold text-ai-card-foreground mb-4 group-hover:text-accent-light transition-colors">
                       {showcase.heroSection.title}
                     </h2>
 
@@ -81,16 +63,9 @@ export default async function AIShowcasePage() {
                       </p>
                     )}
 
-                    {/* Summary */}
-                    {showcase.heroSection.summary && (
-                      <p className="text-gray-300 mb-6 leading-relaxed line-clamp-3">
-                        {showcase.heroSection.summary}
-                      </p>
-                    )}
-
                     {/* CTA */}
                     <div className="flex items-center gap-2 text-accent hover:text-accent-light transition-colors">
-                      <span className="text-sm font-medium">Explore this showcase</span>
+                      <span className="text-sm font-medium">Learn more</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>

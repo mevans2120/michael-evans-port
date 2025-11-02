@@ -115,6 +115,66 @@ export default defineType({
           initialValue: 'Case studies and product launches',
           validation: (Rule) => Rule.required().max(200),
         }),
+        defineField({
+          name: 'viewAllText',
+          title: 'View All CTA Text',
+          type: 'string',
+          initialValue: 'View all case studies',
+          validation: (Rule) => Rule.required().max(100),
+        }),
+        defineField({
+          name: 'viewAllLinkType',
+          title: 'Link Type',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Internal Page', value: 'internal' },
+              { title: 'External URL', value: 'external' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'internal',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'viewAllInternalLink',
+          title: 'Internal Page',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'About', value: '/about' },
+              { title: 'Case Studies', value: '/case-studies' },
+              { title: 'AI Showcase', value: '/ai-showcase' },
+              { title: 'Home', value: '/' },
+            ],
+          },
+          hidden: ({ parent }) => parent?.viewAllLinkType !== 'internal',
+          initialValue: '/case-studies',
+          validation: (Rule) => Rule.custom((value, context) => {
+            const parent = context.parent as any;
+            if (parent?.viewAllLinkType === 'internal' && !value) {
+              return 'Internal page is required';
+            }
+            return true;
+          }),
+        }),
+        defineField({
+          name: 'viewAllExternalLink',
+          title: 'External URL',
+          type: 'url',
+          description: 'Full URL starting with http:// or https://',
+          hidden: ({ parent }) => parent?.viewAllLinkType !== 'external',
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              const parent = context.parent as any;
+              if (parent?.viewAllLinkType === 'external' && !value) {
+                return 'External URL is required';
+              }
+              return true;
+            }).uri({
+              scheme: ['http', 'https'],
+            }),
+        }),
       ],
     }),
 

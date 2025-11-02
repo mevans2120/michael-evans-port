@@ -84,6 +84,12 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: var(--color-text);
     --sidebar-border: var(--color-border);
     --sidebar-ring: var(--color-accent);
+
+    /* AI Showcase Cards */
+    --ai-card-background: 276 70% 25%;      /* Dark purple for light mode */
+    --ai-card-foreground: 0 0% 98%;         /* White text */
+    --ai-card-border: 276 70% 35%;          /* Slightly lighter for border */
+    --ai-card-border-hover: 276 70% 45%;    /* Hover state */
   }
 
   .dark {
@@ -161,6 +167,12 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: var(--color-text);
     --sidebar-border: var(--color-border);
     --sidebar-ring: var(--color-accent);
+
+    /* AI Showcase Cards */
+    --ai-card-background: 240 10% 12%;      /* Existing dark card color */
+    --ai-card-foreground: var(--color-text);
+    --ai-card-border: 240 5% 20%;
+    --ai-card-border-hover: 240 5% 30%;
   }
 }
 
