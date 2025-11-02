@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MinimalProfessional from '@/components/design-concepts/MinimalProfessional';
 import TerminalDark from '@/components/design-concepts/TerminalDark';
-import WarmDepth from '@/components/design-concepts/WarmDepth';
 
-type ConceptType = 'minimal' | 'terminal' | 'warm';
+type ConceptType = 'minimal' | 'terminal';
 
 interface ConceptOption {
   id: ConceptType;
@@ -27,12 +26,6 @@ const concepts: ConceptOption[] = [
     name: 'Terminal Dark',
     description: 'Bold, distinctive with neon green accents',
     component: TerminalDark
-  },
-  {
-    id: 'warm',
-    name: 'Warm Depth',
-    description: 'Premium design with rich gradients',
-    component: WarmDepth
   }
 ];
 
@@ -87,7 +80,7 @@ export default function DesignConceptsPage() {
               </div>
 
               {/* Concept Buttons */}
-              <div className="grid grid-cols-3 gap-2 p-2">
+              <div className="grid grid-cols-2 gap-2 p-2">
                 {concepts.map((concept) => (
                   <button
                     key={concept.id}

@@ -34,23 +34,9 @@ export function CaseStudyAchievements({
           {achievements.map((achievement, index) => (
             <div key={index} className="mb-7 pl-8 relative">
               {/* Purple bullet */}
-              <span
-                className="absolute rounded-full bg-accent-light"
-                style={{
-                  left: 0,
-                  top: '0.6rem',
-                  width: '6px',
-                  height: '6px'
-                }}
-              />
+              <span className="absolute left-0 top-[0.6rem] w-[6px] h-[6px] rounded-full bg-accent-light" />
               {/* Achievement text */}
-              <div
-                className="leading-[1.7]"
-                style={{
-                  fontSize: '1.25rem',
-                  color: '#fafafa'
-                }}
-              >
+              <div className="leading-[1.7] text-[1.25rem] text-foreground">
                 {achievement}
               </div>
             </div>

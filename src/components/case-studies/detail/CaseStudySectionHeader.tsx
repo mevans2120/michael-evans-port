@@ -24,22 +24,13 @@ export function CaseStudySectionHeader({
     <header className={cn("mb-8", className)}>
       {/* Section Label */}
       {label && (
-        <div
-          className="text-xs font-bold uppercase mb-8 text-accent-light"
-          style={{ letterSpacing: '0.15em' }}
-        >
+        <div className="text-xs font-bold uppercase mb-8 text-accent-light tracking-[0.15em]">
           {label}
         </div>
       )}
 
       {/* Heading with Purple Underline */}
-      <h2
-        className="font-light mb-8 relative pb-4"
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-          lineHeight: '1.3'
-        }}
-      >
+      <h2 className="font-light mb-8 relative pb-4 text-[clamp(2rem,5vw,3.5rem)] leading-[1.3]">
         {heading}
         <span
           className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-accent to-transparent"

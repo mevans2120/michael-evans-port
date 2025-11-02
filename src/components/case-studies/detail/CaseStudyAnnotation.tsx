@@ -27,13 +27,9 @@ export function CaseStudyAnnotation({
         "mt-16 p-8 rounded-lg italic leading-relaxed",
         "bg-accent/[0.05]",
         "border-l-[3px] border-accent-light",
+        "text-[0.95rem] leading-[1.6] text-muted-foreground",
         className
       )}
-      style={{
-        fontSize: '0.95rem',
-        lineHeight: '1.6',
-        color: '#c0c0c0'
-      }}
     >
       {title && (
         <strong className="not-italic text-accent-light">
