@@ -284,9 +284,18 @@ export function ChatSection() {
 
           {/* Loading indicator */}
           {isLoading && (
-            <div className="flex items-center gap-2 text-chat-foreground/60 mb-4">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">Thinking...</span>
+            <div className="flex gap-3 mb-4">
+              {/* Avatar - matches assistant message style */}
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chat-message">
+                <Sparkles className="h-4 w-4 text-accent" />
+              </div>
+
+              {/* Three-dot pulse container */}
+              <div className="flex items-center justify-center gap-2 bg-chat-message px-4 py-3 rounded-lg">
+                <div className="w-2 h-2 rounded-full bg-accent animate-elegant-pulse" />
+                <div className="w-2 h-2 rounded-full bg-accent animate-elegant-pulse" />
+                <div className="w-2 h-2 rounded-full bg-accent animate-elegant-pulse" />
+              </div>
             </div>
           )}
 
@@ -330,7 +339,7 @@ export function ChatSection() {
           onFocus={handleInputFocus}
           placeholder="Ask about Michael's work..."
           disabled={isLoading}
-          className="flex-1 px-3 py-2 text-base font-sans bg-chat-input border border-chat-input-border text-foreground placeholder:text-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0"
+          className="flex-1 px-3 py-2 text-base font-serif bg-accent border border-accent text-white placeholder:text-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0"
         />
         <button
           type="submit"

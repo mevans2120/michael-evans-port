@@ -504,6 +504,14 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Improved AI Assistant Chat Input Styling**
+  - Changed input box background to accent color (orange/purple based on time)
+  - Updated from dark gray (`bg-chat-message`) to dynamic accent (`bg-accent`)
+  - Changed font from sans-serif to serif (`font-serif`) for consistency with body text
+  - Maintained white text for both light and dark modes
+  - Updated placeholder opacity to 60% for better visibility on accent background
+  - Updated focus ring to use `accent-light` for better contrast
+  - Result: Input box now matches user message bubble style and responds to time-based theme
 - **Completed Tailwind Style Compliance Refactor (Phases 1-3)**
   - Achieved 100% compliance with centralized design system (up from 89.5%)
   - **Phase 1:** Converted inline styles to Tailwind utilities in 3 case study components

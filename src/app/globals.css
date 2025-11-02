@@ -294,6 +294,24 @@ All colors MUST be HSL.
   .gradient-hero-badge {
     background: linear-gradient(135deg, hsl(var(--accent) / 0.1), hsl(var(--accent) / 0.05));
   }
+
+  /* Chatbot loading animation */
+  .animate-elegant-pulse {
+    animation: elegant-pulse 1.8s ease-in-out infinite;
+  }
+
+  /* Staggered delays for three-dot pulse */
+  .animate-elegant-pulse:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .animate-elegant-pulse:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .animate-elegant-pulse:nth-child(3) {
+    animation-delay: 0.4s;
+  }
 }
 
 @layer components {
@@ -406,6 +424,17 @@ All colors MUST be HSL.
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+@keyframes elegant-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
   }
 }
 
