@@ -381,6 +381,91 @@ const action = isMobile ? expandThenNavigate : navigateImmediately;
 
 5. **Respect motion preferences** (handled automatically via `@media (prefers-reduced-motion)`)
 
+### Style Compliance Guidelines
+
+**IMPORTANT: Follow the centralized design system at all times**
+
+**Compliance Status:** 100% as of November 2, 2025 (Phase 1-2 refactors complete)
+
+1. **Use semantic color tokens** - Never hardcode colors
+   ```tsx
+   // ✅ GOOD: Semantic tokens
+   <div className="bg-accent text-foreground border-border">
+   <div className="bg-accent/10"> {/* Arbitrary opacity with token */}
+   <div className="text-muted-foreground"> {/* Semantic text color */}
+
+   // ❌ BAD: Hardcoded colors
+   <div style={{ background: '#8B5CF6' }}>
+   <div style={{ color: 'rgba(199, 128, 245, 0.3)' }}>
+   <div className="bg-purple-500"> {/* Missing dark mode variant */}
+   ```
+
+2. **Use utility classes** from `globals.css` for common patterns
+   ```tsx
+   // ✅ GOOD: Predefined utilities
+   <div className="transition-smooth">
+   <div className="card-base">
+   <div className="gradient-hero-title">
+   <div className="metric-card">
+   ```
+
+3. **Use Tailwind arbitrary values** instead of inline styles
+   ```tsx
+   // ✅ GOOD: Tailwind arbitrary values
+   <div className="w-[320px] text-[1.25rem] tracking-[0.15em]">
+
+   // ❌ BAD: Inline styles
+   <div style={{ width: '320px', fontSize: '1.25rem', letterSpacing: '0.15em' }}>
+   ```
+
+4. **Always include dark mode variants** on colored elements
+   ```tsx
+   // ✅ GOOD (but prefer semantic tokens)
+   <div className="text-purple-400 dark:text-purple-300">
+
+   // ✅ BETTER (semantic tokens handle dark mode automatically)
+   <div className="text-accent">
+   ```
+
+5. **Use semantic transition durations**
+   ```tsx
+   // ✅ GOOD: Semantic durations
+   <div className="transition-smooth"> {/* 300ms, ease-smooth */}
+   <div className="duration-fast"> {/* 150ms */}
+
+   // ❌ BAD: Magic numbers
+   <div className="transition-all duration-300">
+   ```
+
+6. **Follow the exception policy** at `/docs/styling-exceptions.md`
+   - Inline styles only for: dynamic calculations, complex gradients (document why), grid templates
+   - All exceptions must have TSDoc comments explaining why
+
+**Available Semantic Tokens:**
+```tsx
+// Core colors
+bg-background, text-foreground, border-border
+
+// Component-specific
+bg-accent, text-accent-light, text-accent-foreground
+bg-card, text-card-foreground
+bg-navigation, text-navigation-foreground
+bg-chat, text-chat-foreground
+bg-muted, text-muted-foreground
+
+// Utilities from globals.css
+.gradient-hero-title, .gradient-hero-badge
+.metric-card, .meta-info-item
+.transition-smooth, .transition-fast, .transition-slow
+.card-base, .card-interactive, .card-elevated
+.flex-center, .flex-between, .absolute-center
+```
+
+**Documentation:**
+- **Compliance Audit:** `/docs/tailwind-style-compliance-audit-2025-11-02.md` - Full audit results
+- **Exception Policy:** `/docs/styling-exceptions.md` - When inline styles are acceptable
+- **Implementation Plan:** `/docs/tailwind-compliance-refactor-plan.md` - Phased refactor guide
+
 ### Testing
 
 ```bash
@@ -419,6 +504,23 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Completed Tailwind Style Compliance Refactor (Phases 1-3)**
+  - Achieved 100% compliance with centralized design system (up from 89.5%)
+  - **Phase 1:** Converted inline styles to Tailwind utilities in 3 case study components
+    - CaseStudySectionHeader, CaseStudyAnnotation, CaseStudyAchievements
+    - Deleted WarmDepth.tsx non-compliant design concept
+  - **Phase 2:** Replaced hardcoded colors with semantic tokens
+    - Added `.gradient-hero-title`, `.gradient-hero-badge` utilities to globals.css
+    - Added `.metric-card`, `.meta-info-item` component utilities
+    - Refactored CaseStudyHero.tsx: all hardcoded purple/gray → semantic tokens
+    - Refactored CaseStudyMetrics.tsx: rgba colors → semantic tokens
+    - Hero gradients now support time-based theme transitions (coral↔purple)
+  - **Phase 3:** Established governance and documentation
+    - Created `/docs/styling-exceptions.md` - policy for when inline styles are acceptable
+    - Updated CLAUDE.md with style compliance guidelines
+    - Created code review checklist
+  - Result: All case study components use centralized design system, full dark mode support
+  - Documentation: audit report, implementation plan, exception policy in `/docs/`
 - **Simplified AI Showcase Landing Page with Centralized Design System**
   - Created semantic color tokens for AI showcase cards in centralized design system
   - Added `--ai-card-background`, `--ai-card-foreground`, `--ai-card-border`, `--ai-card-border-hover` to `globals.css`
