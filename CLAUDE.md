@@ -504,6 +504,14 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Prevented Multiple Simultaneous AI Assistant Messages**
+  - Added `isLoading` check to prevent sending multiple messages at once
+  - Updated `handlePromptClick` to return early if message is already being processed
+  - Added `disabled` state to all suggested prompt buttons (initial and follow-up)
+  - Passed `isLoading` prop to `SuggestedPrompts` component
+  - Added visual feedback: buttons show 50% opacity and cursor-not-allowed when disabled
+  - Files updated: `/src/components/navigation/ChatSection.tsx`, `/src/components/navigation/SuggestedPrompts.tsx`
+  - Result: Users can no longer spam or double-click suggested prompts while AI is responding
 - **Fixed AI Assistant Message Text Color for Light Mode**
   - Changed assistant message bubble text from hardcoded white to semantic `text-chat-foreground`
   - Light mode: Text now black (`0 0% 3.1%`) for proper contrast on light background

@@ -77,6 +77,9 @@ export function ChatSection() {
   };
 
   const handlePromptClick = (prompt: string) => {
+    // Prevent sending multiple messages simultaneously
+    if (isLoading) return;
+
     if (!isDesktop) {
       setChatExpanded(true);
     }
@@ -269,7 +272,8 @@ export function ChatSection() {
                         <button
                           key={index}
                           onClick={() => handlePromptClick(question)}
-                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80"
+                          disabled={isLoading}
+                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {question}
                         </button>
@@ -311,7 +315,7 @@ export function ChatSection() {
 
           {/* Suggested Prompts - Show below welcome message when expanded */}
           {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && (
-            <SuggestedPrompts onPromptClick={handlePromptClick} />
+            <SuggestedPrompts onPromptClick={handlePromptClick} isLoading={isLoading} />
           )}
 
           <div ref={scrollRef} />

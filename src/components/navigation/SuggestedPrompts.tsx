@@ -4,9 +4,10 @@ import { useMemo } from 'react';
 
 interface SuggestedPromptsProps {
   onPromptClick: (prompt: string) => void;
+  isLoading?: boolean;
 }
 
-export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
+export function SuggestedPrompts({ onPromptClick, isLoading = false }: SuggestedPromptsProps) {
   const allPrompts = [
     "Tell me about the first responsive airline website",
     "What's the story behind launching a restaurant with cliff diving?",
@@ -27,6 +28,7 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
         <button
           key={index}
           onClick={() => onPromptClick(prompt)}
+          disabled={isLoading}
           className="
             group
             flex items-center
@@ -40,6 +42,8 @@ export function SuggestedPrompts({ onPromptClick }: SuggestedPromptsProps) {
             rounded-lg
             cursor-pointer
             transition-colors duration-200
+            disabled:opacity-50
+            disabled:cursor-not-allowed
           "
         >
           <span className="text-sm text-neutral-200 group-hover:text-white chatbot-suggestion transition-colors duration-200">
