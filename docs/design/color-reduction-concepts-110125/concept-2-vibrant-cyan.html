@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Vibrant Cyan (Dark Mode) - Homepage + Navigation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      overflow-x: hidden;
+    }
+
+    /* Navigation - CYAN THEME with purple border */
+    .navigation {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 320px;
+      background: linear-gradient(180deg, #0d1f24 0%, #0a1a1f 100%);
+      border-right: 3px solid hsl(276 100% 75%); /* PURPLE ACCENT */
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px;
+      transition: all 300ms ease;
+    }
+
+    .nav-header {
+      margin-bottom: 40px;
+    }
+
+    .nav-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #4dd0e1;
+      margin-bottom: 4px;
+    }
+
+    .nav-subtitle {
+      font-size: 13px;
+      color: #80deea;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-bottom: 40px;
+    }
+
+    .nav-link {
+      margin-bottom: 4px;
+    }
+
+    .nav-link a {
+      display: block;
+      padding: 10px 16px;
+      color: #80deea;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 200ms ease;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    /* VIBRANT CYAN HOVER */
+    .nav-link a:hover {
+      background: rgba(0, 188, 212, 0.2);
+      color: #4dd0e1;
+    }
+
+    .nav-link a.active {
+      background: #00bcd4; /* BRIGHT CYAN */
+      color: #0a0a0a;
+      border: 1px solid #00acc1;
+      box-shadow: 0 2px 8px rgba(0, 188, 212, 0.4);
+    }
+
+    /* Chat section - cyan theme */
+    .chat-section {
+      margin-top: auto;
+      padding: 16px;
+      background: #0a0a0a;
+      border-radius: 8px;
+      border: 2px solid #006064;
+    }
+
+    .chat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #80deea;
+      margin-bottom: 12px;
+    }
+
+    .chat-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #00838f;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #0d1f24;
+      color: #f5f5f5;
+      transition: all 200ms ease;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: #00bcd4;
+      background: #0a0a0a;
+    }
+
+    .chat-input::placeholder {
+      color: #006064;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 320px;
+      min-height: 100vh;
+    }
+
+    /* Hero section - DARK WITH CYAN GLOW */
+    .hero {
+      padding: 120px 80px;
+      max-width: 1200px;
+      background: #0a0a0a;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 188, 212, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #4dd0e1 0%, #00bcd4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 24px;
+      color: #80deea;
+      margin-bottom: 40px;
+      max-width: 600px;
+      line-height: 1.4;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Buttons - VIBRANT CYAN PRIMARY */
+    .btn-primary {
+      display: inline-block;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #00bcd4 0%, #00acc1 100%);
+      color: #0a0a0a;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 200ms ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #00acc1 0%, #0097a7 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 14px 28px;
+      background: transparent;
+      color: #4dd0e1;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      border: 2px solid #006064;
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 188, 212, 0.1);
+      border-color: #00bcd4;
+    }
+
+    /* Purple CTA - SECONDARY ACCENT */
+    .btn-accent {
+      display: inline-block;
+      padding: 14px 28px;
+      background: hsl(276 100% 75%);
+      color: #0a0a0a;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 200ms ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px hsl(276 100% 75% / 0.3);
+    }
+
+    .btn-accent:hover {
+      background: hsl(276 100% 80%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px hsl(276 100% 75% / 0.4);
+    }
+
+    /* Featured work section */
+    .featured-work {
+      padding: 80px;
+      background: #0d0d0d;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .section-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 48px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      color: #4dd0e1;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .work-card {
+      background: #0a0a0a;
+      border: 2px solid #1a2a2e;
+      border-radius: 12px;
+      padding: 28px;
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+
+    /* VIBRANT CYAN HOVER */
+    .work-card:hover {
+      border-color: #00bcd4;
+      background: #0d1517;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 188, 212, 0.3);
+    }
+
+    .work-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #4dd0e1;
+    }
+
+    .work-description {
+      font-size: 14px;
+      color: #a3a3a3;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .work-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: #00bcd4;
+      color: #0a0a0a;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Concept label */
+    .concept-label {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #00bcd4 0%, #00acc1 100%);
+      color: #0a0a0a;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
+    }
+
+    .concept-label span {
+      display: block;
+      font-size: 11px;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Concept identifier -->
+  <div class="concept-label">
+    Concept 2: Vibrant Cyan
+    <span>Bright, tech-forward • Purple = secondary</span>
+  </div>
+
+  <!-- Navigation with cyan theme -->
+  <nav class="navigation">
+    <div class="nav-header">
+      <h1 class="nav-title">Michael Evans</h1>
+      <p class="nav-subtitle">AI/ML Portfolio</p>
+    </div>
+
+    <ul class="nav-links">
+      <li class="nav-link"><a href="#" class="active">Home</a></li>
+      <li class="nav-link"><a href="#">Case Studies</a></li>
+      <li class="nav-link"><a href="#">AI Showcase</a></li>
+      <li class="nav-link"><a href="#">About</a></li>
+    </ul>
+
+    <div class="chat-section">
+      <div class="chat-label">Ask me anything</div>
+      <input type="text" class="chat-input" placeholder="What would you like to know?">
+    </div>
+  </nav>
+
+  <!-- Main content area -->
+  <main class="main-content">
+    <!-- Hero section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Building AI-Powered<br>Experiences</h1>
+        <p class="hero-subtitle">
+          Creative technologist specializing in machine learning,
+          natural language processing, and intelligent user interfaces.
+        </p>
+        <div class="button-group">
+          <a href="#" class="btn-primary">View My Work</a>
+          <a href="#" class="btn-secondary">Download Resume</a>
+          <a href="#" class="btn-accent">Schedule Call</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured work -->
+    <section class="featured-work">
+      <h2 class="section-title">Featured Projects</h2>
+
+      <div class="work-grid">
+        <div class="work-card">
+          <h3 class="work-title">AI Chatbot Platform</h3>
+          <p class="work-description">
+            Built intelligent conversational AI using GPT-4 and vector embeddings
+            for contextual responses. Integrated with Supabase for real-time data.
+          </p>
+          <div class="work-tags">
+            <span class="tag">OpenAI</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3 class="work-title">Computer Vision Pipeline</h3>
+          <p class="work-description">
+            Developed real-time object detection system using TensorFlow and
+            custom training data. Achieved 94% accuracy on production dataset.
+          </p>
+          <div class="work-tags">
+            <span class="tag">TensorFlow</span>
+            <span class="tag">Python</span>
+            <span class="tag">CV</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3 class="work-title">NLP Content Analysis</h3>
+          <p class="work-description">
+            Created semantic analysis tool for user-generated content using
+            transformer models and sentiment classification.
+          </p>
+          <div class="work-tags">
+            <span class="tag">BERT</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">NLP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

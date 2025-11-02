@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 2: Blue-Gray - Homepage + Navigation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      background: #fafafa;
+      color: #080808;
+      overflow-x: hidden;
+    }
+
+    /* Navigation - Purple border accent */
+    .navigation {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 320px;
+      background: hsl(280 11% 90%);
+      border-right: 3px solid hsl(276 70% 50%); /* PURPLE ACCENT */
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px;
+      transition: all 300ms ease;
+    }
+
+    .nav-header {
+      margin-bottom: 40px;
+    }
+
+    .nav-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #080808;
+      margin-bottom: 4px;
+    }
+
+    .nav-subtitle {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-bottom: 40px;
+    }
+
+    .nav-link {
+      margin-bottom: 8px;
+    }
+
+    .nav-link a {
+      display: block;
+      padding: 12px 16px;
+      color: #080808;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 200ms ease;
+      background: transparent;
+    }
+
+    /* BLUE-GRAY HOVER - No purple */
+    .nav-link a:hover {
+      background: hsl(210 15% 88%);
+      color: #080808;
+    }
+
+    .nav-link a.active {
+      background: hsl(210 20% 30%); /* BLUE-GRAY, not purple */
+      color: #fff;
+    }
+
+    /* Chat section in nav */
+    .chat-section {
+      margin-top: auto;
+      padding: 16px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid hsl(210 15% 85%);
+    }
+
+    .chat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .chat-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid hsl(210 15% 75%); /* BLUE-GRAY BORDER */
+      border-radius: 8px;
+      font-size: 13px;
+      background: #fafafa;
+      transition: all 200ms ease;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: hsl(210 20% 40%); /* BLUE-GRAY FOCUS */
+      background: #fff;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 320px;
+      min-height: 100vh;
+    }
+
+    /* Hero section */
+    .hero {
+      padding: 120px 80px;
+      max-width: 1200px;
+    }
+
+    .hero-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: #080808;
+    }
+
+    .hero-subtitle {
+      font-size: 24px;
+      color: #666;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    /* Buttons - BLUE-GRAY PRIMARY */
+    .btn-primary {
+      display: inline-block;
+      padding: 16px 32px;
+      background: hsl(210 20% 30%); /* BLUE-GRAY, not purple */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 200ms ease;
+      border: none;
+      cursor: pointer;
+      margin-right: 16px;
+    }
+
+    .btn-primary:hover {
+      background: hsl(210 25% 35%); /* LIGHTER BLUE-GRAY */
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 16px 32px;
+      background: transparent;
+      color: #080808;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1px solid hsl(210 15% 70%); /* BLUE-GRAY BORDER */
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: hsl(210 15% 92%); /* LIGHT BLUE-GRAY BG */
+      border-color: hsl(210 20% 50%);
+    }
+
+    /* Purple CTA - RARE */
+    .btn-accent {
+      display: inline-block;
+      padding: 16px 32px;
+      background: hsl(276 70% 50%); /* PURPLE - RARE/CRITICAL ONLY */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 200ms ease;
+      border: none;
+      cursor: pointer;
+      margin-left: 16px;
+    }
+
+    .btn-accent:hover {
+      background: hsl(276 70% 55%);
+      transform: translateY(-2px);
+    }
+
+    /* Featured work section */
+    .featured-work {
+      padding: 80px;
+      background: #fff;
+    }
+
+    .section-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 48px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      color: #080808;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 32px;
+    }
+
+    .work-card {
+      background: #fafafa;
+      border: 1px solid hsl(210 15% 85%);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+
+    /* BLUE-GRAY HOVER - No purple */
+    .work-card:hover {
+      border-color: hsl(210 20% 60%); /* BLUE-GRAY */
+      background: hsl(210 10% 98%);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(100, 120, 150, 0.12);
+    }
+
+    .work-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #080808;
+    }
+
+    .work-description {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .work-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: hsl(210 20% 35%); /* BLUE-GRAY TAG */
+      color: #fff;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    /* Concept label */
+    .concept-label {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: hsl(210 20% 30%);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .concept-label span {
+      display: block;
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    /* Subtle blue tint on some backgrounds */
+    .hero {
+      background: linear-gradient(135deg, #fafafa 0%, hsl(210 15% 98%) 100%);
+    }
+  </style>
+</head>
+<body>
+  <!-- Concept identifier -->
+  <div class="concept-label">
+    Concept 2: Blue-Gray
+    <span>Purple only on nav border & critical CTAs</span>
+  </div>
+
+  <!-- Navigation with purple border -->
+  <nav class="navigation">
+    <div class="nav-header">
+      <h1 class="nav-title">Michael Evans</h1>
+      <p class="nav-subtitle">AI/ML Portfolio</p>
+    </div>
+
+    <ul class="nav-links">
+      <li class="nav-link"><a href="#" class="active">Home</a></li>
+      <li class="nav-link"><a href="#">Case Studies</a></li>
+      <li class="nav-link"><a href="#">AI Showcase</a></li>
+      <li class="nav-link"><a href="#">About</a></li>
+    </ul>
+
+    <div class="chat-section">
+      <div class="chat-label">Ask me anything</div>
+      <input type="text" class="chat-input" placeholder="What would you like to know?">
+    </div>
+  </nav>
+
+  <!-- Main content area -->
+  <main class="main-content">
+    <!-- Hero section -->
+    <section class="hero">
+      <h1 class="hero-title">Building AI-Powered<br>Experiences</h1>
+      <p class="hero-subtitle">
+        Creative technologist specializing in machine learning,
+        natural language processing, and intelligent user interfaces.
+      </p>
+      <div>
+        <a href="#" class="btn-primary">View My Work</a>
+        <a href="#" class="btn-secondary">Download Resume</a>
+        <a href="#" class="btn-accent">Schedule Call</a>
+      </div>
+    </section>
+
+    <!-- Featured work -->
+    <section class="featured-work">
+      <h2 class="section-title">Featured Projects</h2>
+
+      <div class="work-grid">
+        <div class="work-card">
+          <h3 class="work-title">AI Chatbot Platform</h3>
+          <p class="work-description">
+            Built intelligent conversational AI using GPT-4 and vector embeddings
+            for contextual responses. Integrated with Supabase for real-time data.
+          </p>
+          <div class="work-tags">
+            <span class="tag">OpenAI</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3 class="work-title">Computer Vision Pipeline</h3>
+          <p class="work-description">
+            Developed real-time object detection system using TensorFlow and
+            custom training data. Achieved 94% accuracy on production dataset.
+          </p>
+          <div class="work-tags">
+            <span class="tag">TensorFlow</span>
+            <span class="tag">Python</span>
+            <span class="tag">CV</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3 class="work-title">NLP Content Analysis</h3>
+          <p class="work-description">
+            Created semantic analysis tool for user-generated content using
+            transformer models and sentiment classification.
+          </p>
+          <div class="work-tags">
+            <span class="tag">BERT</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">NLP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Interactive hover states
+    document.querySelectorAll('.work-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.borderColor = 'hsl(210 20% 60%)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.borderColor = 'hsl(210 15% 85%)';
+      });
+    });
+  </script>
+</body>
+</html>

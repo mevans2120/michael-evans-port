@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Concepts: Reduced Purple Usage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --text: #f5f5f5;
+      --border: #2a2a2a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    h2 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin: 60px 0 24px;
+      color: #fff;
+    }
+
+    h3 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 40px 0 16px;
+      color: #e0e0e0;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #a0a0a0;
+      margin-bottom: 60px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 40px;
+      margin: 40px 0;
+    }
+
+    .concept-card {
+      background: #141414;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .concept-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .concept-name {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .concept-desc {
+      font-size: 14px;
+      color: #999;
+      line-height: 1.5;
+    }
+
+    .color-palette {
+      display: grid;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .color-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .color-swatch {
+      height: 80px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .color-label {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    .color-usage {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .ui-examples {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .example-section {
+      margin-bottom: 32px;
+    }
+
+    .example-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms ease;
+      border: none;
+    }
+
+    .card-example {
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 12px 0;
+      transition: all 200ms ease;
+    }
+
+    .stroke-examples {
+      display: grid;
+      gap: 12px;
+    }
+
+    .stroke-box {
+      padding: 16px;
+      border-radius: 8px;
+      border-width: 2px;
+      border-style: solid;
+      font-size: 13px;
+    }
+
+    /* Concept 1: Minimal Gray */
+    .c1-primary { background: hsl(0 0% 20%); color: #fff; }
+    .c1-primary:hover { background: hsl(0 0% 25%); transform: translateY(-2px); }
+
+    .c1-secondary { background: transparent; border: 1px solid hsl(0 0% 30%); color: #e0e0e0; }
+    .c1-secondary:hover { background: hsl(0 0% 15%); border-color: hsl(0 0% 40%); }
+
+    .c1-accent { background: hsl(276 70% 50%); color: #fff; }
+    .c1-accent:hover { background: hsl(276 70% 55%); transform: translateY(-2px); }
+
+    .c1-card:hover {
+      border-color: hsl(0 0% 30%);
+      background: #1f1f1f;
+    }
+
+    .c1-stroke-1 { border-color: hsl(0 0% 25%); background: #141414; }
+    .c1-stroke-2 { border-color: hsl(0 0% 30%); background: #141414; }
+    .c1-stroke-3 { border-color: hsl(276 70% 50%); background: #141414; }
+
+    /* Concept 2: Blue-Gray Complement */
+    .c2-primary { background: hsl(210 20% 30%); color: #fff; }
+    .c2-primary:hover { background: hsl(210 25% 35%); transform: translateY(-2px); }
+
+    .c2-secondary { background: transparent; border: 1px solid hsl(210 15% 30%); color: #e0e0e0; }
+    .c2-secondary:hover { background: hsl(210 15% 18%); border-color: hsl(210 20% 40%); }
+
+    .c2-accent { background: hsl(276 70% 50%); color: #fff; }
+    .c2-accent:hover { background: hsl(276 70% 55%); transform: translateY(-2px); }
+
+    .c2-card {
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 12px 0;
+      transition: all 200ms ease;
+    }
+
+    .c2-card:hover {
+      border-color: hsl(210 20% 35%);
+      background: hsl(210 10% 12%);
+    }
+
+    .c2-stroke-1 { border-color: hsl(210 15% 25%); background: #141414; }
+    .c2-stroke-2 { border-color: hsl(210 20% 35%); background: #141414; }
+    .c2-stroke-3 { border-color: hsl(276 70% 50%); background: #141414; }
+
+    .comparison {
+      margin: 60px 0;
+      padding: 32px;
+      background: #141414;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .comparison-item {
+      text-align: center;
+    }
+
+    .comparison-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .comparison-box {
+      width: 100%;
+      height: 120px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: all 200ms ease;
+    }
+
+    .current-purple { background: hsl(276 70% 50%); }
+    .minimal-gray { background: hsl(0 0% 25%); }
+    .blue-gray { background: hsl(210 20% 30%); }
+
+    .rationale {
+      background: #1a1a1a;
+      border-left: 3px solid hsl(276 70% 50%);
+      padding: 20px;
+      margin: 24px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .rationale-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .pros, .cons {
+      padding: 16px;
+      background: #0f0f0f;
+      border-radius: 8px;
+    }
+
+    .pros h4 { color: #4ade80; margin-bottom: 8px; font-size: 14px; }
+    .cons h4 { color: #f87171; margin-bottom: 8px; font-size: 14px; }
+
+    .pros ul, .cons ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .pros li::before { content: "✓ "; color: #4ade80; margin-right: 6px; }
+    .cons li::before { content: "⚠ "; color: #f87171; margin-right: 6px; }
+
+    .pros li, .cons li {
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #ccc;
+    }
+
+    code {
+      background: #0f0f0f;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Color Concepts: Reduced Purple Usage</h1>
+  <p class="subtitle">Two approaches to minimize purple while keeping it as a strategic accent</p>
+
+  <div class="comparison">
+    <h3 style="margin-top: 0;">Strategic Goal</h3>
+    <p style="color: #ccc; margin-bottom: 20px;">
+      <strong>Current state:</strong> Purple is used heavily throughout (buttons, hovers, borders, accents)<br>
+      <strong>Desired state:</strong> Purple reserved for navigation border and key accents only<br>
+      <strong>Challenge:</strong> What replaces purple for secondary elements (button states, hover effects, strokes)?
+    </p>
+
+    <div class="comparison-grid">
+      <div class="comparison-item">
+        <div class="comparison-label">Current (Purple)</div>
+        <div class="comparison-box current-purple">hsl(276 70% 50%)</div>
+      </div>
+      <div class="comparison-item">
+        <div class="comparison-label">Concept 1 (Gray)</div>
+        <div class="comparison-box minimal-gray">hsl(0 0% 25%)</div>
+      </div>
+      <div class="comparison-item">
+        <div class="comparison-label">Concept 2 (Blue-Gray)</div>
+        <div class="comparison-box blue-gray">hsl(210 20% 30%)</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Concept 1: Minimal Gray</h2>
+  <p style="color: #999; margin-bottom: 32px;">
+    Ultra-minimal aesthetic using only grays for all UI elements. Purple appears sparingly for navigation border and critical accents.
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-name">Color Palette</div>
+        <div class="concept-desc">Neutral grays with strategic purple accent</div>
+      </div>
+
+      <div class="color-palette">
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(0 0% 20%); color: #fff;">
+            <span>Gray 800</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(0 0% 20%)</span>
+          </div>
+          <div>
+            <div class="color-label">Primary Buttons</div>
+            <div class="color-usage">Default state for all primary actions</div>
+          </div>
+        </div>
+
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(0 0% 25%); color: #fff;">
+            <span>Gray 750</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(0 0% 25%)</span>
+          </div>
+          <div>
+            <div class="color-label">Hover States</div>
+            <div class="color-usage">Subtle lightening on hover</div>
+          </div>
+        </div>
+
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(0 0% 30%); color: #fff;">
+            <span>Gray 700</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(0 0% 30%)</span>
+          </div>
+          <div>
+            <div class="color-label">Borders & Strokes</div>
+            <div class="color-usage">Card borders, dividers, outlines</div>
+          </div>
+        </div>
+
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(276 70% 50%); color: #fff;">
+            <span>Purple</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(276 70% 50%)</span>
+          </div>
+          <div>
+            <div class="color-label">Accent Only</div>
+            <div class="color-usage">Navigation border, critical CTAs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-examples">
+        <div class="example-section">
+          <div class="example-label">Buttons</div>
+          <div class="button-row">
+            <button class="btn c1-primary">Primary Action</button>
+            <button class="btn c1-secondary">Secondary Action</button>
+            <button class="btn c1-accent">Critical CTA</button>
+          </div>
+        </div>
+
+        <div class="example-section">
+          <div class="example-label">Hover State (Card)</div>
+          <div class="card-example c1-card">
+            <strong>Hover over this card</strong>
+            <p style="font-size: 13px; color: #999; margin-top: 4px;">
+              Gray border appears on hover, no purple
+            </p>
+          </div>
+        </div>
+
+        <div class="example-section">
+          <div class="example-label">Strokes & Borders</div>
+          <div class="stroke-examples">
+            <div class="stroke-box c1-stroke-1">Default border: Gray 750</div>
+            <div class="stroke-box c1-stroke-2">Hover border: Gray 700 (lighter)</div>
+            <div class="stroke-box c1-stroke-3">Accent border: Purple (rare)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rationale">
+        <div class="rationale-title">Design Rationale</div>
+        <p style="font-size: 13px; color: #aaa;">
+          This concept embraces extreme minimalism. By using only grays for UI, purple becomes a powerful signal when it appears.
+          Similar to how Stripe or Linear use minimal color palettes to create focus.
+        </p>
+
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Strengths</h4>
+            <ul>
+              <li>Purple accent feels intentional, not default</li>
+              <li>Clean, professional aesthetic</li>
+              <li>Easy to implement (fewer colors)</li>
+              <li>Works beautifully in dark mode</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Tradeoffs</h4>
+            <ul>
+              <li>Less colorful/vibrant overall</li>
+              <li>May feel too minimal for creative portfolio</li>
+              <li>Harder to create visual hierarchy without color</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-name">Technical Implementation</div>
+        <div class="concept-desc">CSS variable changes needed</div>
+      </div>
+
+      <div style="background: #0f0f0f; padding: 16px; border-radius: 8px; margin-top: 16px;">
+        <pre style="font-family: 'SF Mono', Monaco, monospace; font-size: 12px; line-height: 1.6; color: #e0e0e0; overflow-x: auto;">
+<span style="color: #888;">/* globals.css - Light Mode */</span>
+<span style="color: #4ade80;">:root</span> {
+  <span style="color: #888;">/* Replace purple with grays */</span>
+  <span style="color: #60a5fa;">--color-button-primary</span>: 0 0% 20%;
+  <span style="color: #60a5fa;">--color-border</span>: 0 0% 30%;
+
+  <span style="color: #888;">/* Keep purple for accents only */</span>
+  <span style="color: #60a5fa;">--color-accent</span>: 276 70% 45%;
+  <span style="color: #60a5fa;">--navigation-border</span>: 276 70% 45%;
+}
+
+<span style="color: #888;">/* Secondary buttons */</span>
+<span style="color: #60a5fa;">--secondary</span>: 0 0% 25%;
+<span style="color: #60a5fa;">--muted</span>: 0 0% 30%;
+
+<span style="color: #888;">/* Hover states */</span>
+.hover\:bg-gray-750 {
+  background: hsl(0 0% 25%);
+}</pre>
+      </div>
+
+      <div style="margin-top: 24px; padding: 16px; background: #1a1a1a; border-radius: 8px;">
+        <div style="font-weight: 600; margin-bottom: 12px; font-size: 14px;">Migration Path</div>
+        <ol style="font-size: 13px; color: #ccc; padding-left: 20px; line-height: 1.8;">
+          <li>Update <code>--color-button-primary</code> from purple to gray</li>
+          <li>Update <code>--secondary</code> and <code>--muted</code> to neutral grays</li>
+          <li>Keep <code>--color-accent</code> purple (navigation only)</li>
+          <li>Replace purple hover states with gray variants</li>
+          <li>Test dark mode equivalents</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <h2>Concept 2: Blue-Gray Complement</h2>
+  <p style="color: #999; margin-bottom: 32px;">
+    Introduces cool blue-gray tones for secondary elements. Purple remains for navigation and critical accents. More colorful than Concept 1.
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-name">Color Palette</div>
+        <div class="concept-desc">Blue-gray foundation with purple accents</div>
+      </div>
+
+      <div class="color-palette">
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(210 20% 30%); color: #fff;">
+            <span>Blue-Gray 700</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(210 20% 30%)</span>
+          </div>
+          <div>
+            <div class="color-label">Primary Buttons</div>
+            <div class="color-usage">Default state for primary actions</div>
+          </div>
+        </div>
+
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(210 25% 35%); color: #fff;">
+            <span>Blue-Gray 600</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(210 25% 35%)</span>
+          </div>
+          <div>
+            <div class="color-label">Hover States</div>
+            <div class="color-usage">Lighter blue-gray on interaction</div>
+          </div>
+        </div>
+
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(210 15% 25%); color: #fff;">
+            <span>Blue-Gray 750</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(210 15% 25%)</span>
+          </div>
+          <div>
+            <div class="color-label">Borders & Strokes</div>
+            <div class="color-usage">Card borders, dividers, outlines</div>
+          </div>
+        </div>
+
+        <div class="color-row">
+          <div class="color-swatch" style="background: hsl(276 70% 50%); color: #fff;">
+            <span>Purple</span>
+            <span style="opacity: 0.7; font-size: 11px; margin-top: 4px;">hsl(276 70% 50%)</span>
+          </div>
+          <div>
+            <div class="color-label">Accent Only</div>
+            <div class="color-usage">Navigation border, critical CTAs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-examples">
+        <div class="example-section">
+          <div class="example-label">Buttons</div>
+          <div class="button-row">
+            <button class="btn c2-primary">Primary Action</button>
+            <button class="btn c2-secondary">Secondary Action</button>
+            <button class="btn c2-accent">Critical CTA</button>
+          </div>
+        </div>
+
+        <div class="example-section">
+          <div class="example-label">Hover State (Card)</div>
+          <div class="c2-card">
+            <strong>Hover over this card</strong>
+            <p style="font-size: 13px; color: #999; margin-top: 4px;">
+              Blue-gray tint appears on hover
+            </p>
+          </div>
+        </div>
+
+        <div class="example-section">
+          <div class="example-label">Strokes & Borders</div>
+          <div class="stroke-examples">
+            <div class="stroke-box c2-stroke-1">Default border: Blue-Gray 750</div>
+            <div class="stroke-box c2-stroke-2">Hover border: Blue-Gray 600 (lighter)</div>
+            <div class="stroke-box c2-stroke-3">Accent border: Purple (rare)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rationale">
+        <div class="rationale-title">Design Rationale</div>
+        <p style="font-size: 13px; color: #aaa;">
+          Blue-gray provides a cool, technical aesthetic while reducing purple dominance. The blue tint complements purple
+          (analogous on color wheel: purple 276° → blue 210°) and feels modern, like VSCode or GitHub's dark themes.
+        </p>
+
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Strengths</h4>
+            <ul>
+              <li>More colorful than pure gray</li>
+              <li>Blue-gray feels technical/professional</li>
+              <li>Colors complement each other (analogous)</li>
+              <li>Suits AI/ML portfolio theme</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Tradeoffs</h4>
+            <ul>
+              <li>Adds another color to manage</li>
+              <li>Blue-gray may feel "corporate" to some</li>
+              <li>Less striking contrast than Concept 1</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-name">Technical Implementation</div>
+        <div class="concept-desc">CSS variable changes needed</div>
+      </div>
+
+      <div style="background: #0f0f0f; padding: 16px; border-radius: 8px; margin-top: 16px;">
+        <pre style="font-family: 'SF Mono', Monaco, monospace; font-size: 12px; line-height: 1.6; color: #e0e0e0; overflow-x: auto;">
+<span style="color: #888;">/* globals.css - Light Mode */</span>
+<span style="color: #4ade80;">:root</span> {
+  <span style="color: #888;">/* Replace purple with blue-gray */</span>
+  <span style="color: #60a5fa;">--color-button-primary</span>: 210 20% 30%;
+  <span style="color: #60a5fa;">--color-border</span>: 210 15% 25%;
+
+  <span style="color: #888;">/* Keep purple for accents only */</span>
+  <span style="color: #60a5fa;">--color-accent</span>: 276 70% 45%;
+  <span style="color: #60a5fa;">--navigation-border</span>: 276 70% 45%;
+}
+
+<span style="color: #888;">/* Secondary elements */</span>
+<span style="color: #60a5fa;">--secondary</span>: 210 25% 35%;
+<span style="color: #60a5fa;">--muted</span>: 210 15% 30%;
+
+<span style="color: #888;">/* Card hover states */</span>
+.card-interactive:hover {
+  background: hsl(210 10% 12%);
+  border-color: hsl(210 20% 35%);
+}</pre>
+      </div>
+
+      <div style="margin-top: 24px; padding: 16px; background: #1a1a1a; border-radius: 8px;">
+        <div style="font-weight: 600; margin-bottom: 12px; font-size: 14px;">Migration Path</div>
+        <ol style="font-size: 13px; color: #ccc; padding-left: 20px; line-height: 1.8;">
+          <li>Update <code>--color-button-primary</code> from purple to blue-gray (210° hue)</li>
+          <li>Update <code>--secondary</code> and <code>--muted</code> to blue-gray variants</li>
+          <li>Keep <code>--color-accent</code> purple (navigation only)</li>
+          <li>Replace purple hover states with blue-gray</li>
+          <li>Test dark mode with lighter blue-gray variants</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="comparison">
+    <h3 style="margin-top: 0;">Recommendation</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px;">
+      <div style="padding: 20px; background: #1a1a1a; border-radius: 12px; border: 2px solid hsl(0 0% 25%);">
+        <div style="font-weight: 600; margin-bottom: 12px;">Concept 1: Minimal Gray</div>
+        <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">
+          Best for: Ultra-minimal aesthetic, letting content shine, maximum purple reduction
+        </p>
+        <div style="font-size: 12px; color: #888;">
+          <strong>Choose if:</strong> You want the most dramatic change, prefer minimal design languages (Linear, Stripe),
+          or want purple to feel truly special when it appears.
+        </div>
+      </div>
+
+      <div style="padding: 20px; background: #1a1a1a; border-radius: 12px; border: 2px solid hsl(210 20% 30%);">
+        <div style="font-weight: 600; margin-bottom: 12px;">Concept 2: Blue-Gray Complement</div>
+        <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">
+          Best for: Technical aesthetic, more color than Concept 1, AI/ML portfolio theme
+        </p>
+        <div style="font-size: 12px; color: #888;">
+          <strong>Choose if:</strong> You want some color beyond pure gray, prefer cooler tones that suit technical portfolios,
+          or like the VSCode/GitHub aesthetic.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px; padding: 20px; background: linear-gradient(135deg, rgba(120, 60, 200, 0.1), rgba(100, 50, 180, 0.05)); border-radius: 12px; border: 1px solid rgba(120, 60, 200, 0.3);">
+      <div style="font-weight: 600; margin-bottom: 8px; color: hsl(276 70% 60%);">💡 My Recommendation: Concept 2 (Blue-Gray)</div>
+      <p style="font-size: 13px; color: #ccc; line-height: 1.6;">
+        For an AI/ML portfolio, blue-gray feels more appropriate than pure gray. It maintains a technical aesthetic while
+        providing more visual interest than Concept 1. The cool tones complement your purple accent and align with industry
+        expectations (think GitHub, VSCode, Vercel). Purple remains strategic for navigation and key CTAs, creating clear visual hierarchy.
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top: 60px; padding: 32px; background: #141414; border: 1px solid var(--border); border-radius: 16px;">
+    <h3 style="margin-top: 0;">Next Steps</h3>
+    <ul style="list-style: none; padding: 0; color: #ccc; line-height: 2;">
+      <li>✓ Review both concepts and choose direction</li>
+      <li>✓ Test chosen concept with actual components (navigation, chat, homepage)</li>
+      <li>✓ Create dark mode variants for chosen palette</li>
+      <li>✓ Update CSS variables in <code>globals.css</code></li>
+      <li>✓ Visual regression test to catch unexpected color changes</li>
+    </ul>
+  </div>
+
+  <div style="margin-top: 40px; padding: 20px; text-align: center; color: #666; font-size: 12px;">
+    Color Concepts: Reduced Purple Usage • November 1, 2025
+  </div>
+</body>
+</html>

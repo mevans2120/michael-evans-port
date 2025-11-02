@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 1: Minimal Gray (Dark Mode) - Homepage + Navigation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      background: #0a0a0a;
+      color: #fafaf9; /* Warm off-white */
+      overflow-x: hidden;
+    }
+
+    /* Navigation - MINIMAL with thin purple border */
+    .navigation {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 320px;
+      background: #1a1a1a;
+      border-right: 2px solid hsl(276 85% 60%); /* DARKER PURPLE */
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px;
+      transition: all 300ms ease;
+    }
+
+    .nav-header {
+      margin-bottom: 40px;
+    }
+
+    .nav-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fafaf9; /* Warm off-white */
+      margin-bottom: 4px;
+    }
+
+    .nav-subtitle {
+      font-size: 13px;
+      color: #a8a29e; /* Warm gray */
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-bottom: 40px;
+    }
+
+    .nav-link {
+      margin-bottom: 4px;
+    }
+
+    .nav-link a {
+      display: block;
+      padding: 10px 16px;
+      color: #d4d4d4;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 200ms ease;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    /* ULTRA MINIMAL GRAY HOVER */
+    .nav-link a:hover {
+      background: #262626;
+      color: #fafaf9;
+    }
+
+    .nav-link a.active {
+      background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%); /* Subtle warm gradient */
+      color: #0a0a0a;
+      border: 1px solid #e7e5e4;
+      box-shadow: 0 1px 3px rgba(250, 250, 249, 0.1);
+    }
+
+    /* Chat section - very minimal */
+    .chat-section {
+      margin-top: auto;
+      padding: 16px;
+      background: #0a0a0a;
+      border-radius: 8px;
+      border: 1px solid #404040;
+    }
+
+    .chat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #a3a3a3;
+      margin-bottom: 12px;
+    }
+
+    .chat-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #404040;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #1a1a1a;
+      color: #fafaf9; /* Warm off-white */
+      transition: all 200ms ease;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: #737373;
+      background: #0a0a0a;
+    }
+
+    .chat-input::placeholder {
+      color: #737373;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 320px;
+      min-height: 100vh;
+    }
+
+    /* Hero section - STARK DARK */
+    .hero {
+      padding: 120px 80px;
+      max-width: 1200px;
+      background: #0a0a0a;
+    }
+
+    .hero-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: #fafaf9; /* Warm off-white */
+    }
+
+    .hero-subtitle {
+      font-size: 24px;
+      color: #a8a29e; /* Warm gray */
+      margin-bottom: 40px;
+      max-width: 600px;
+      line-height: 1.4;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Buttons - WARM OFF-WHITE PRIMARY */
+    .btn-primary {
+      display: inline-block;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%); /* Warm gradient */
+      color: #0a0a0a;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 200ms ease;
+      border: 1px solid #e7e5e4;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(250, 250, 249, 0.15);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
+      border-color: #d6d3d1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(250, 250, 249, 0.2);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 14px 28px;
+      background: transparent;
+      color: #fafaf9;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid #44403c;
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: #1c1917;
+      border-color: #78716c;
+      color: #fafaf9;
+    }
+
+    /* Purple CTA - RARE AND STRIKING (darker) */
+    .btn-accent {
+      display: inline-block;
+      padding: 14px 28px;
+      background: hsl(276 85% 60%); /* DARKER PURPLE */
+      color: #fafaf9;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 200ms ease;
+      border: 1px solid hsl(276 85% 55%);
+      cursor: pointer;
+      box-shadow: 0 2px 8px hsl(276 85% 60% / 0.4);
+    }
+
+    .btn-accent:hover {
+      background: hsl(276 85% 65%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px hsl(276 85% 60% / 0.5);
+    }
+
+    /* Featured work section */
+    .featured-work {
+      padding: 80px;
+      background: #0a0a0a; /* Pure black background */
+      border-top: 1px solid #262626;
+    }
+
+    .section-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 48px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      color: #fafaf9; /* Warm off-white */
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .work-card {
+      background: #141414; /* Dark gray for cards */
+      border: 1px solid #262626;
+      border-radius: 8px;
+      padding: 28px;
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+
+    /* MINIMAL GRAY HOVER - SUBTLE */
+    .work-card:hover {
+      border-color: #525252;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .work-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #fafaf9; /* Warm off-white */
+    }
+
+    .work-description {
+      font-size: 14px;
+      color: #a8a29e; /* Warm gray */
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .work-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: #262626; /* DARK GRAY TAGS */
+      color: #e5e5e5;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Concept label */
+    .concept-label {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #f5f5f5;
+      color: #0a0a0a;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+      border: 1px solid #e5e5e5;
+    }
+
+    .concept-label span {
+      display: block;
+      font-size: 11px;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Concept identifier -->
+  <div class="concept-label">
+    Concept 1: Minimal Gray
+    <span>Black, white, gray only • Purple = accent</span>
+  </div>
+
+  <!-- Navigation with thin purple border -->
+  <nav class="navigation">
+    <div class="nav-header">
+      <h1 class="nav-title">Michael Evans</h1>
+      <p class="nav-subtitle">AI/ML Portfolio</p>
+    </div>
+
+    <ul class="nav-links">
+      <li class="nav-link"><a href="#" class="active">Home</a></li>
+      <li class="nav-link"><a href="#">Case Studies</a></li>
+      <li class="nav-link"><a href="#">AI Showcase</a></li>
+      <li class="nav-link"><a href="#">About</a></li>
+    </ul>
+
+    <div class="chat-section">
+      <div class="chat-label">Ask me anything</div>
+      <input type="text" class="chat-input" placeholder="What would you like to know?">
+    </div>
+  </nav>
+
+  <!-- Main content area -->
+  <main class="main-content">
+    <!-- Hero section -->
+    <section class="hero">
+      <h1 class="hero-title">Building AI-Powered<br>Experiences</h1>
+      <p class="hero-subtitle">
+        Creative technologist specializing in machine learning,
+        natural language processing, and intelligent user interfaces.
+      </p>
+      <div class="button-group">
+        <a href="#" class="btn-primary">View My Work</a>
+        <a href="#" class="btn-secondary">Download Resume</a>
+        <a href="#" class="btn-accent">Schedule Call</a>
+      </div>
+    </section>
+
+    <!-- Featured work -->
+    <section class="featured-work">
+      <h2 class="section-title">Featured Projects</h2>
+
+      <div class="work-grid">
+        <div class="work-card">
+          <h3 class="work-title">AI Chatbot Platform</h3>
+          <p class="work-description">
+            Built intelligent conversational AI using GPT-4 and vector embeddings
+            for contextual responses. Integrated with Supabase for real-time data.
+          </p>
+          <div class="work-tags">
+            <span class="tag">OpenAI</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3 class="work-title">Computer Vision Pipeline</h3>
+          <p class="work-description">
+            Developed real-time object detection system using TensorFlow and
+            custom training data. Achieved 94% accuracy on production dataset.
+          </p>
+          <div class="work-tags">
+            <span class="tag">TensorFlow</span>
+            <span class="tag">Python</span>
+            <span class="tag">CV</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3 class="work-title">NLP Content Analysis</h3>
+          <p class="work-description">
+            Created semantic analysis tool for user-generated content using
+            transformer models and sentiment classification.
+          </p>
+          <div class="work-tags">
+            <span class="tag">BERT</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">NLP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
