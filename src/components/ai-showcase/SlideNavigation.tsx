@@ -49,7 +49,7 @@ export function SlideNavigation({ slideCount, className }: SlideNavigationProps)
           key={index}
           onClick={() => scrollToSlide(index)}
           className={cn(
-            "w-3 h-3 rounded-full transition-all duration-300",
+            "w-3 h-3 rounded-full transition-smooth",
             "hover:scale-150 cursor-pointer",
             "ring-1 ring-purple-500/20",
             activeSlide === index

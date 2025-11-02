@@ -42,7 +42,7 @@ export function VisualGrid({
             "rounded-2xl overflow-hidden",
             "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
             "border border-purple-500/20 dark:border-purple-400/20",
-            "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-all duration-300",
+            "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-smooth",
             "group"
           )}
         >
@@ -53,7 +53,7 @@ export function VisualGrid({
                 src={card.image.url}
                 alt={card.image.alt}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-cover group-hover:scale-105 transition-transform duration-normal"
               />
             ) : card.placeholderText ? (
               <div className="absolute inset-0 flex items-center justify-center p-8">

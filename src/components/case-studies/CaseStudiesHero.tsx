@@ -72,10 +72,10 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
           {/* CTA */}
           <Link
             href={`/case-studies/${caseStudy.slug.current}`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-black bg-gradient-to-br from-purple-500 to-purple-400 dark:from-purple-400 dark:to-purple-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-black bg-gradient-to-br from-purple-500 to-purple-400 dark:from-purple-400 dark:to-purple-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/40 transition-smooth"
           >
             View Case Study
-            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="w-5 h-5 transition-transform duration-normal group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

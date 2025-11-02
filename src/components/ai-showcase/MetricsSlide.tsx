@@ -53,7 +53,7 @@ export function MetricsSlide({
                 "p-8 rounded-2xl",
                 "bg-gradient-to-br from-purple-500/10 dark:from-purple-400/10 to-purple-900/5 dark:to-purple-800/5",
                 "border border-purple-500/20 dark:border-purple-400/20",
-                "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-colors duration-300",
+                "hover:border-purple-500/40 dark:hover:border-purple-400/40 transition-colors-smooth",
                 "text-center space-y-3"
               )}
             >
