@@ -419,6 +419,18 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Neutralized Background Colors & Completed Time-Based Theme Integration**
+  - Removed purple tints from all background colors in design system
+  - Changed core design token `--color-border` from purple (280°) to blue-gray (240°)
+  - Updated all background variables to use neutral blue-gray (240° hue):
+    - `--card`, `--navigation-background`, `--chat-message-bg`, `--secondary`, `--muted`, `--sidebar-accent`
+  - Fixed AI assistant integration with time-based theme:
+    - Replaced `bg-button-primary` with `bg-accent` for send button
+    - Updated user message bubbles and avatars to use `bg-accent`
+    - Fixed chat input placeholder text color (now shows black in light mode)
+  - Result: Clean neutral backgrounds that work harmoniously with both coral (day) and purple (evening) accent colors
+  - All UI elements now properly respond to time-based theme changes
+  - Smooth 300ms transitions between color states
 - **Completed Magazine Editorial Redesign for AI Showcase Pages**
   - Created condensed content spec (3-4 slides max, flowing article format)
   - Designed 3 HTML concepts: Magazine Editorial, Terminal Inspired, Cinematic Storytelling

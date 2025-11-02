@@ -11,7 +11,7 @@ All colors MUST be HSL.
     /* 🎨 CORE COLOR SOURCES - Change these to update entire site */
     --color-text: 0 0% 3.1%;           /* Vampire black #080808 - ALL text */
     --color-bg: 0 0% 98%;              /* Off-white #FAFAFA - ALL backgrounds */
-    --color-border: 280 15% 85%;       /* Light gray - ALL borders/strokes */
+    --color-border: 240 5% 85%;        /* Blue-gray - ALL borders/strokes */
     --color-accent: 276 70% 45%;       /* Darker purple for light mode */
     --color-button-primary: 276 70% 47%;  /* Darker purple for buttons in light mode (purple-700 equivalent) */
 
@@ -19,26 +19,26 @@ All colors MUST be HSL.
     --background: var(--color-bg);
     --foreground: var(--color-text);
 
-    --card: 280 10% 96%;
+    --card: 240 5% 96%;
     --card-foreground: var(--color-text);
 
     /* Navigation - uses core colors */
-    --navigation-background: 280 11% 90%;  /* Darker with reduced purple tint */
+    --navigation-background: 240 5% 90%;  /* Blue-gray neutral */
     --navigation-foreground: var(--color-text);
     --navigation-border: var(--color-border);
     --navigation-link: var(--color-text);           /* Vampire black */
     --navigation-link-hover: var(--color-text);     /* No color change on hover */
-    --navigation-link-hover-bg: 280 11% 85%;
+    --navigation-link-hover-bg: 240 5% 85%;
 
     /* Chat - INVERTED (dark in light mode, light in dark mode) */
     --chat-background: 240 6% 10%;        /* Dark gray in light mode */
     --chat-foreground: 0 0% 98%;          /* White text in light mode */
     --chat-border: 240 5% 20%;            /* Dark borders in light mode */
-    --chat-message-bg: 280 15% 18%;       /* Darker purple-gray message bubbles (reduced saturation) */
+    --chat-message-bg: 240 5% 18%;        /* Blue-gray message bubbles */
     --chat-input-bg: 0 0% 100%;           /* White input field */
     --chat-input-border: 240 5% 26%;      /* Lighter border for white input */
-    --chat-suggestion-bg: 280 11% 20%;
-    --chat-suggestion-hover: 280 11% 18%;
+    --chat-suggestion-bg: 240 5% 20%;
+    --chat-suggestion-hover: 240 5% 18%;
 
     --popover: 0 0% 100%;
     --popover-foreground: var(--color-text);
@@ -46,10 +46,10 @@ All colors MUST be HSL.
     --primary: var(--color-accent);
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 280 15% 92%;
+    --secondary: 240 5% 92%;
     --secondary-foreground: var(--color-text);
 
-    --muted: 280 10% 95%;
+    --muted: 240 5% 95%;
     --muted-foreground: var(--color-text);
 
     --accent: var(--color-accent);
@@ -80,7 +80,7 @@ All colors MUST be HSL.
     --sidebar-foreground: var(--color-text);
     --sidebar-primary: var(--color-accent);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 280 15% 92%;
+    --sidebar-accent: 240 5% 92%;
     --sidebar-accent-foreground: var(--color-text);
     --sidebar-border: var(--color-border);
     --sidebar-ring: var(--color-accent);
@@ -98,7 +98,7 @@ All colors MUST be HSL.
     --background: var(--color-bg);
     --foreground: var(--color-text);
 
-    --card: 280 25% 12%;
+    --card: 240 10% 12%;
     --card-foreground: var(--color-text);
 
     /* Navigation - uses core colors */
@@ -110,14 +110,14 @@ All colors MUST be HSL.
     --navigation-link-hover-bg: var(--color-border);
 
     /* Chat - INVERTED (light in dark mode, dark in light mode) */
-    --chat-background: 280 11% 90%;       /* Purple-tinted off-white (matches light mode nav) */
+    --chat-background: 240 5% 90%;        /* Blue-gray off-white (matches light mode nav) */
     --chat-foreground: 0 0% 3.1%;         /* Dark text in dark mode */
-    --chat-border: 280 15% 85%;           /* Light borders in dark mode */
-    --chat-message-bg: 280 10% 25%;       /* Very dark gray message bubbles */
+    --chat-border: 240 5% 85%;            /* Light borders in dark mode */
+    --chat-message-bg: 240 5% 25%;        /* Very dark gray message bubbles */
     --chat-input-bg: 0 0% 100%;           /* White input field (same as light mode) */
-    --chat-input-border: 280 15% 85%;     /* Light border for white input */
-    --chat-suggestion-bg: 280 10% 30%;
-    --chat-suggestion-hover: 280 10% 25%;
+    --chat-input-border: 240 5% 85%;      /* Light border for white input */
+    --chat-suggestion-bg: 240 5% 30%;
+    --chat-suggestion-hover: 240 5% 25%;
 
     --popover: 215 28% 6%;
     --popover-foreground: var(--color-text);
@@ -125,7 +125,7 @@ All colors MUST be HSL.
     --primary: var(--color-text);
     --primary-foreground: 280 25% 8%;
 
-    --secondary: 280 25% 15%;
+    --secondary: 240 10% 15%;
     --secondary-foreground: var(--color-text);
 
     --muted: 215 25% 12%;
