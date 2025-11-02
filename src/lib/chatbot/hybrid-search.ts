@@ -4,6 +4,7 @@
  */
 
 import { supabase } from './supabase';
+import { CHATBOT_CONFIG } from '@/lib/constants';
 
 export interface DocumentChunk {
   id?: string;
@@ -26,8 +27,8 @@ export async function hybridSearch(
   queryEmbedding: number[],
   queryText: string,
   keywords: string[],
-  topK = 30,
-  similarityThreshold = 0.25
+  topK = CHATBOT_CONFIG.SEARCH_RESULT_LIMIT,
+  similarityThreshold = CHATBOT_CONFIG.SIMILARITY_THRESHOLD
 ): Promise<DocumentChunk[]> {
   // Run searches in parallel for efficiency
   const [semanticResults, keywordResults] = await Promise.all([
@@ -76,7 +77,7 @@ async function semanticSearch(
     content: doc.content,
     metadata: doc.metadata,
     similarity: doc.similarity,
-    combinedScore: doc.similarity * 0.7, // Weight semantic search at 70%
+    combinedScore: doc.similarity * CHATBOT_CONFIG.SEARCH_WEIGHTS.semantic,
   }));
 }
 
@@ -145,7 +146,7 @@ async function keywordSearch(
     content: doc.content,
     metadata: doc.metadata,
     textRank: doc.textRank || 0.3,
-    combinedScore: (doc.textRank || 0.3) * 0.3, // Weight keyword search at 30%
+    combinedScore: (doc.textRank || 0.3) * CHATBOT_CONFIG.SEARCH_WEIGHTS.keyword,
   }));
 }
 
