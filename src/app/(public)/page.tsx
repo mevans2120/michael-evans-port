@@ -108,8 +108,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Separator - positioned to peek above viewport */}
-      <div className="relative -mt-8">
+      {/* Separator - aligned with chat input border */}
+      <div className="relative mt-[59px]">
         <Separator className="mx-auto max-w-6xl" />
       </div>
 
