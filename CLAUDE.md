@@ -504,6 +504,14 @@ npm run test:refactor        # Runs: build + visual + styles + e2e
 ## Recent Updates
 
 **November 2, 2025:**
+- **Reversed Chat Inversion - Chat Now Matches Mode**
+  - Changed chat design system from inverted to matching mode
+  - Light mode: Chat now light (`240 5% 90%`) matching navigation background
+  - Dark mode: Chat now dark (`240 6% 10%`) matching navigation background
+  - Updated all chat color tokens in centralized design system (`globals.css`)
+  - Used independent HSL values (like navigation) rather than var() references
+  - Zero component changes needed - all components automatically inherited new colors
+  - Result: Consistent light/dark experience across entire site
 - **Improved AI Assistant Chat Input Styling**
   - Changed input box background to accent color (orange/purple based on time)
   - Updated from dark gray (`bg-chat-message`) to dynamic accent (`bg-accent`)
