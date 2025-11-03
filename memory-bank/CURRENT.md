@@ -1,14 +1,81 @@
 # Current Development Status
 
-## 📍 Active Sprint: Sanity Live Preview & Visual Editing Complete
+## 📍 Active Sprint: Sanity Live Preview Optimization Complete
 *Last Updated: 2025-11-03*
 
 ## 🎯 Current Focus
-**Sanity Visual Editing & Live Preview - COMPLETE!** ✅ Successfully enabled Sanity's Presentation Tool with live preview and click-to-edit visual editing overlays. Fixed peer dependency warnings, implemented proper configuration, and verified full functionality.
+**Sanity Live Preview Optimization - COMPLETE!** ✅ Fixed constant page refreshes during content editing by removing aggressive client-side polling and making live update systems mutually exclusive based on draft mode.
 
-**Status**: ✅ Working perfectly! Visual editing overlays appear on content, live preview updates in real-time, all WebSocket errors resolved.
+**Status**: ✅ Working perfectly! No more constant refreshes, smooth WebSocket-based updates in draft mode, HTTP polling for regular visitors.
 
 ## ✅ Recent Accomplishments (November 3, 2025)
+
+### Sanity Live Preview Performance Optimization - COMPLETE 🎉
+
+**Goal**: Fix constant page refreshes during content editing in Sanity's Presentation tool.
+
+**Problem**: User reported CMS was refreshing constantly while editing content, regardless of which page they were on. User has prior Sanity experience and knew this wasn't normal behavior.
+
+**Investigation**:
+1. Initially searched for remaining `client.fetch()` calls
+2. User pushed back: "Can we slow this down? Can you verify its working as expected... I've used Sanity before and haven't experienced this..."
+3. Checked logs and discovered revalidation happening 3-4 times per keystroke
+4. Found duplicate revalidations: same cache tags revalidating multiple times in succession
+
+**Root Causes Identified**:
+
+1. **Aggressive Client-Side Polling**:
+   - `browserToken` in `defineLive()` configuration was causing aggressive HTTP polling
+   - Each keystroke triggered multiple revalidations
+   - Pattern: `<SanityLive />` revalidating same tags 2-3 times in succession
+
+2. **Redundant Live Update Systems**:
+   - Both `<SanityLive />` (HTTP polling) and `<VisualEditing />` (WebSocket) running simultaneously
+   - User's insight: "Does it even need to refresh if we are using web sockets?"
+   - Two systems doing overlapping work in draft mode
+
+**Fixes Implemented** ✅:
+
+1. **Removed browserToken** (`/src/sanity/lib/live.ts`)
+   - Eliminated client-side HTTP polling
+   - Added comment explaining VisualEditing component handles updates via WebSocket
+
+2. **Made Live Update Systems Mutually Exclusive** (`/src/app/layout.tsx`)
+   - `<SanityLive />` only renders when NOT in draft mode (for regular visitors)
+   - `<VisualEditing />` only renders when IN draft mode (for content editors)
+   - Prevents redundant updates and constant refreshes
+
+**Files Modified**:
+- `/src/sanity/lib/live.ts` - Removed `browserToken` parameter
+- `/src/app/layout.tsx` - Made `<SanityLive />` and `<VisualEditing />` mutually exclusive
+
+**Architecture Rationale**:
+```
+Regular Site Visitors (NOT in draft mode):
+- <SanityLive /> renders
+- HTTP polling keeps cached pages fresh
+- Automatic revalidation when content changes
+
+Content Editors (IN draft mode via Presentation tool):
+- <VisualEditing /> renders
+- WebSocket-based live updates (smooth, no page refresh)
+- Click-to-edit overlays
+- Real-time content updates without polling
+```
+
+**Benefits Achieved**:
+- ✅ No more constant page refreshes during editing
+- ✅ Smooth, professional editing experience via WebSocket
+- ✅ Reduced server load (no aggressive polling)
+- ✅ Proper separation of concerns: editing vs. visitor experience
+- ✅ Matches standard Sanity implementation patterns
+
+**User Feedback**:
+- User's experience with Sanity helped identify the problem wasn't normal
+- Insightful question about WebSockets led to the final architectural solution
+- System now behaves like professional Sanity implementations
+
+---
 
 ### Sanity Live Preview & Visual Editing - COMPLETE 🎉
 

@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { client } from '@/lib/sanity/client'
+import { sanityFetch } from '@/sanity/lib/live'
 import { Metadata } from 'next'
 import AboutPageClient from '@/components/about/AboutPageClient'
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-  const data = await client.fetch(`
+  const { data } = await sanityFetch({ query: `
     *[_type == "profile"] | order(_updatedAt desc)[0] {
       name,
       "profileImage": profileImage.asset->url,
@@ -31,7 +31,7 @@ export default async function AboutPage() {
       ctaText,
       ctaButtonText
     }
-  `)
+  ` })
 
   if (!data) {
     notFound()

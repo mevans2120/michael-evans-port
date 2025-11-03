@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { client } from '@/lib/sanity/client'
+import { sanityFetch } from '@/sanity/lib/live'
 import { featuredCaseStudyQuery, projectsQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 export default async function CaseStudiesPage() {
   // Fetch data in parallel
-  const [featuredCaseStudy, allProjects] = await Promise.all([
-    client.fetch(featuredCaseStudyQuery),
-    client.fetch(projectsQuery)
+  const [{ data: featuredCaseStudy }, { data: allProjects }] = await Promise.all([
+    sanityFetch({ query: featuredCaseStudyQuery }),
+    sanityFetch({ query: projectsQuery })
   ])
 
   // Filter for case studies only and format for FeaturedCaseStudies component
@@ -23,7 +23,7 @@ export default async function CaseStudiesPage() {
     .map((project: any, index: number) => ({
       id: project._id,
       number: String(index + 1).padStart(2, '0'),
-      category: project.featuredCategory || 'Case Study',
+      category: project.category || 'Case Study',
       title: project.title,
       metric: project.featuredMetric || '',
       description: project.featuredDescription || project.summary || '',

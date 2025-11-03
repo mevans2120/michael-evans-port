@@ -24,7 +24,7 @@ export default async function HomePage() {
         _id,
         title,
         "slug": slug.current,
-        featuredCategory,
+        category,
         featuredMetric,
         featuredDescription,
         order
@@ -70,7 +70,7 @@ export default async function HomePage() {
     ? caseStudiesData.map((project: any, index: number) => ({
         id: project._id,
         number: String(index + 1).padStart(2, '0'),
-        category: project.featuredCategory || 'Case Study',
+        category: project.category || 'Case Study',
         title: project.title,
         metric: project.featuredMetric || '',
         description: project.featuredDescription || '',

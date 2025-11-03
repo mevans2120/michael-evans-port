@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from '@/sanity/lib/live';
+import { client, urlFor } from "@/lib/sanity/client";
 import { PortableText } from '@portabletext/react';
-import { urlFor } from '@/lib/sanity/client';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import {
@@ -135,7 +135,7 @@ export const revalidate = 3600;
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = await client.fetch<CaseStudyData>(PROJECT_QUERY, { slug });
+  const { data: project } = await sanityFetch({ query: PROJECT_QUERY, params: { slug } });
 
   if (!project) {
     return {
@@ -160,7 +160,7 @@ const portableTextComponents = {
 
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params;
-  const project = await client.fetch<CaseStudyData>(PROJECT_QUERY, { slug });
+  const { data: project } = await sanityFetch({ query: PROJECT_QUERY, params: { slug } });
 
   if (!project) {
     notFound();
@@ -181,7 +181,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
       />
 
       {/* Dynamic Sections - PARTIALLY REFACTORED */}
-      {project.sections?.map((section, index) => (
+      {project.sections?.map((section: Section, index: number) => (
         <CaseStudySection
           key={section._key}
           variant={index % 2 === 0 ? 'default' : 'alternate'}

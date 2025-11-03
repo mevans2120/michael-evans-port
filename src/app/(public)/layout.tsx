@@ -3,7 +3,7 @@ import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navig
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { TimeThemeToggle } from "@/components/ui/time-theme-toggle";
 import { Footer } from "@/components/Footer";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { footerQuery } from "@/lib/sanity/queries";
 
 export default async function PublicLayout({
@@ -12,7 +12,7 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   // Fetch footer data from Sanity
-  const footerData = await client.fetch(footerQuery);
+  const { data: footerData } = await sanityFetch({ query: footerQuery });
 
   return (
     <NavigationProvider>

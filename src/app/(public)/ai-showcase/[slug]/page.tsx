@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { sanityFetch } from '@/sanity/lib/live'
 import { client } from '@/lib/sanity/client'
 import { aiShowcaseBySlugQuery, allAIShowcaseSlugsQuery } from '@/lib/sanity/queries/aiShowcase'
 import type { AIShowcase } from '@/types/aiShowcase'
@@ -21,9 +22,7 @@ export async function generateStaticParams() {
 // Generate metadata
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params
-  const showcase = await client.fetch<AIShowcase>(aiShowcaseBySlugQuery, {
-    slug,
-  })
+  const { data: showcase } = await sanityFetch({ query: aiShowcaseBySlugQuery, params: { slug } })
 
   if (!showcase) {
     return {
@@ -39,9 +38,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function AIShowcasePage({ params }: PageProps) {
   const { slug } = await params
-  const showcase = await client.fetch<AIShowcase>(aiShowcaseBySlugQuery, {
-    slug,
-  })
+  const { data: showcase } = await sanityFetch({ query: aiShowcaseBySlugQuery, params: { slug } })
 
   if (!showcase) {
     notFound()

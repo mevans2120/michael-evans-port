@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { sanityFetch } from '@/sanity/lib/live'
 import { allAIShowcasesQuery } from '@/lib/sanity/queries'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -25,7 +25,7 @@ export const metadata = {
 }
 
 export default async function AIShowcasePage() {
-  const showcases: ShowcaseItem[] = await client.fetch(allAIShowcasesQuery)
+  const { data: showcases } = await sanityFetch({ query: allAIShowcasesQuery })
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -44,7 +44,7 @@ export default async function AIShowcasePage() {
           {/* Showcases Grid */}
           {showcases.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-              {showcases.map((showcase, index) => (
+              {showcases.map((showcase: ShowcaseItem, index: number) => (
                 <Link
                   key={showcase._id}
                   href={`/ai-showcase/${showcase.slug}`}

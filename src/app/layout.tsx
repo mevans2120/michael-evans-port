@@ -65,7 +65,9 @@ export default async function RootLayout({
             <TimeThemeProvider>
               <FaviconGenerator />
               {children}
-              <SanityLive />
+              {/* Only use SanityLive when NOT in draft mode (for regular visitors) */}
+              {!(await draftMode()).isEnabled && <SanityLive />}
+              {/* Use VisualEditing when IN draft mode (for content editors) */}
               {(await draftMode()).isEnabled && <VisualEditing />}
               <Toaster />
               <Sonner />

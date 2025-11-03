@@ -25,14 +25,7 @@ export default defineType({
       name: 'category',
       title: 'Category',
       type: 'string',
-      options: {
-        list: [
-          { title: 'Case Study', value: 'case-study' },
-          { title: 'AI Project', value: 'ai-project' },
-          { title: 'Research', value: 'research' },
-          { title: 'Open Source', value: 'open-source' },
-        ],
-      },
+      description: 'Project category (e.g., "Case Study", "UX Design", "Experience Design", "Mobile Product")',
     }),
     defineField({
       name: 'heroImage',
@@ -129,13 +122,6 @@ export default defineType({
       type: 'number',
       description: 'Order on homepage (1, 2, 3, etc.). Only applies if Featured is true.',
       validation: (Rule) => Rule.min(1),
-    }),
-    defineField({
-      name: 'featuredCategory',
-      title: 'Featured Category',
-      type: 'string',
-      description: 'Category label for homepage card (e.g., "UX Design", "Experience Design", "Mobile Product")',
-      hidden: ({ document }) => !document?.featured,
     }),
     defineField({
       name: 'featuredMetric',
