@@ -27,25 +27,67 @@ export default defineType({
       type: 'string',
       description: 'Project category (e.g., "Case Study", "UX Design", "Experience Design", "Mobile Product")',
     }),
+    // ===== EDITORIAL FORMAT: Hero Section =====
+    defineField({
+      name: 'heroSection',
+      title: 'Hero Section (Editorial Format)',
+      type: 'object',
+      description: 'Magazine-style hero section for editorial case studies',
+      fields: [
+        {
+          name: 'badge',
+          title: 'Badge Text',
+          type: 'string',
+          description: 'Small badge above title (e.g., "Case Study")',
+        },
+        {
+          name: 'title',
+          title: 'Hero Title',
+          type: 'string',
+          description: 'Large hero title (usually same as document title)',
+        },
+        {
+          name: 'subtitle',
+          title: 'Subtitle',
+          type: 'text',
+          rows: 2,
+          description: 'Tagline below title (1 sentence)',
+        },
+        {
+          name: 'summary',
+          title: 'Summary',
+          type: 'text',
+          rows: 4,
+          description: 'Brief overview (2-3 sentences)',
+        },
+      ],
+    }),
+    // ===== DEPRECATED FIELDS (kept for backward compatibility) =====
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: '[DEPRECATED] Hero Image',
       type: 'image',
       options: {
         hotspot: true,
       },
+      description: '⚠️ Deprecated: Not used in editorial format',
+      hidden: true,
     }),
     defineField({
       name: 'summary',
-      title: 'Summary',
+      title: '[DEPRECATED] Summary',
       type: 'text',
       rows: 3,
+      description: '⚠️ Deprecated: Use heroSection.summary instead',
+      hidden: true,
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: '[DEPRECATED] Description',
       type: 'text',
       rows: 5,
+      description: '⚠️ Deprecated: Use heroSection.subtitle instead',
+      hidden: true,
     }),
     defineField({
       name: 'metrics',
@@ -69,13 +111,15 @@ export default defineType({
     }),
     defineField({
       name: 'achievements',
-      title: 'Key Achievements',
+      title: '[DEPRECATED] Key Achievements',
       type: 'array',
       of: [{ type: 'string' }],
+      description: '⚠️ Deprecated: Use metrics and narrative instead',
+      hidden: true,
     }),
     defineField({
       name: 'content',
-      title: 'Content',
+      title: '[DEPRECATED] Content',
       type: 'array',
       of: [
         { type: 'block' },
@@ -84,6 +128,8 @@ export default defineType({
           options: { hotspot: true },
         },
       ],
+      description: '⚠️ Deprecated: Use slides instead',
+      hidden: true,
     }),
     defineField({
       name: 'technologies',
@@ -127,17 +173,15 @@ export default defineType({
       name: 'featuredMetric',
       title: 'Featured Metric',
       type: 'string',
-      description: 'Short metric for homepage card (e.g., "15% conversion lift", "100K+ users")',
-      hidden: ({ document }) => !document?.featured,
+      description: 'Short metric to display on homepage (e.g., "2x revenue")',
     }),
     defineField({
       name: 'featuredDescription',
       title: 'Featured Description',
       type: 'text',
-      description: 'Description for homepage card (150-200 characters)',
+      description: 'Brief description for homepage featured section',
       rows: 4,
       validation: (Rule) => Rule.max(250),
-      hidden: ({ document }) => !document?.featured,
     }),
     defineField({
       name: 'overview',
@@ -164,11 +208,213 @@ export default defineType({
         },
       ],
     }),
+    // ===== EDITORIAL FORMAT: Content Slides =====
+    defineField({
+      name: 'slides',
+      title: 'Content Slides (Editorial Format)',
+      type: 'array',
+      description: 'Main content slides for magazine-style case studies',
+      of: [
+        {
+          type: 'object',
+          name: 'contentSlide',
+          title: 'Content Slide',
+          fields: [
+            {
+              name: 'sectionLabel',
+              title: 'Section Label',
+              type: 'string',
+              description: 'Small label (e.g., "Opening", "The Solution")',
+            },
+            {
+              name: 'heading',
+              title: 'Heading',
+              type: 'string',
+              description: 'Main slide heading',
+            },
+            {
+              name: 'content',
+              title: 'Content',
+              type: 'array',
+              of: [
+                { type: 'block' },
+                {
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'quoteBox',
+              title: 'Quote Box',
+              type: 'object',
+              description: 'Optional pullquote',
+              fields: [
+                {
+                  name: 'quote',
+                  title: 'Quote Text',
+                  type: 'text',
+                  rows: 3,
+                },
+                {
+                  name: 'attribution',
+                  title: 'Attribution',
+                  type: 'string',
+                  description: 'Quote source (e.g., "— On building X")',
+                },
+              ],
+            },
+            {
+              name: 'comparisonBoxes',
+              title: 'Comparison Boxes',
+              type: 'array',
+              description: 'Problem/Solution or Before/After boxes',
+              of: [
+                {
+                  type: 'object',
+                  fields: [
+                    {
+                      name: 'label',
+                      title: 'Label',
+                      type: 'string',
+                      description: 'Box label (e.g., "The Problem")',
+                    },
+                    {
+                      name: 'title',
+                      title: 'Title',
+                      type: 'string',
+                    },
+                    {
+                      name: 'text',
+                      title: 'Text Content',
+                      type: 'text',
+                      rows: 4,
+                    },
+                    {
+                      name: 'stat',
+                      title: 'Stat (optional)',
+                      type: 'string',
+                      description: 'Large stat to display',
+                    },
+                    {
+                      name: 'icon',
+                      title: 'Icon (optional)',
+                      type: 'string',
+                      description: 'Emoji or icon character',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      title: 'title',
+                      subtitle: 'label',
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              name: 'visualCards',
+              title: 'Visual Cards',
+              type: 'array',
+              description: 'Screenshots or images',
+              of: [
+                {
+                  type: 'object',
+                  fields: [
+                    {
+                      name: 'image',
+                      title: 'Image',
+                      type: 'image',
+                      options: { hotspot: true },
+                    },
+                    {
+                      name: 'placeholderText',
+                      title: 'Placeholder Text',
+                      type: 'text',
+                      description: 'Text to show if no image',
+                      rows: 2,
+                    },
+                    {
+                      name: 'caption',
+                      title: 'Caption',
+                      type: 'string',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      title: 'placeholderText',
+                      subtitle: 'caption',
+                      media: 'image',
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              name: 'annotation',
+              title: 'Design Annotation',
+              type: 'object',
+              description: 'Optional annotation or design decision callout',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'string',
+                  title: 'Annotation Title',
+                  description: 'e.g., "Technical Note"',
+                },
+                {
+                  name: 'content',
+                  type: 'text',
+                  title: 'Annotation Content',
+                  rows: 3,
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'heading',
+              subtitle: 'sectionLabel',
+            },
+          },
+        },
+      ],
+    }),
+    // ===== EDITORIAL FORMAT: Call to Action =====
+    defineField({
+      name: 'callToAction',
+      title: 'Call to Action',
+      type: 'object',
+      description: 'CTA button at end of case study',
+      fields: [
+        {
+          name: 'text',
+          title: 'Button Text',
+          type: 'string',
+          description: 'e.g., "View More Projects"',
+        },
+        {
+          name: 'link',
+          title: 'Link URL',
+          type: 'string',
+          description: 'Internal path or external URL',
+        },
+      ],
+    }),
+    // ===== DEPRECATED FIELD =====
     defineField({
       name: 'sections',
-      title: 'Case Study Sections',
+      title: '[DEPRECATED] Case Study Sections',
       type: 'array',
-      description: 'Detailed narrative sections for the case study',
+      description: '⚠️ Deprecated: Renamed to slides',
+      hidden: true,
       of: [
         {
           type: 'object',

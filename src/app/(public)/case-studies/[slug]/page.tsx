@@ -1,283 +1,234 @@
-import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/sanity/lib/live';
-import { client, urlFor } from "@/lib/sanity/client";
-import { PortableText } from '@portabletext/react';
-import Image from 'next/image';
-import { Metadata } from 'next';
+import { notFound } from 'next/navigation'
+import { sanityFetch } from '@/sanity/lib/live'
+import { client } from '@/lib/sanity/client'
+import { Metadata } from 'next'
 import {
-  CaseStudyHero,
-  CaseStudySection,
-  CaseStudySectionHeader,
-  CaseStudyAnnotation,
-  CaseStudyMetrics,
-  CaseStudyAchievements,
-  CaseStudyCTA,
-} from '@/components/case-studies/detail';
+  EditorialHero,
+  EditorialMetrics,
+  ContentSlide,
+  EditorialCTA,
+} from '@/components/case-study-editorial'
 
-interface Screenshot {
-  image: {
-    asset: {
-      _ref: string;
-      url?: string;
-    };
-  };
-  caption?: string;
-  layout: 'grid' | 'large';
-}
-
-interface Annotation {
-  title?: string;
-  content?: string;
-}
-
-interface Section {
-  _key: string;
-  sectionLabel?: string;
-  heading: string;
-  content: any; // Portable Text content
-  screenshots?: Screenshot[];
-  annotation?: Annotation;
-}
-
-interface CaseStudyData {
-  title: string;
-  subtitle: string;
-  description: string;
-  category: string;
-  heroImage?: {
-    asset: {
-      url: string;
-    };
-  };
-  metrics: {
-    label: string;
-    value: string;
-    description?: string;
-  }[];
-  achievements: string[];
-  technologies?: string[];
+interface EditorialCaseStudyData {
+  title: string
+  slug: {
+    current: string
+  }
+  category: string
+  heroSection?: {
+    badge?: string
+    title?: string
+    subtitle?: string
+    summary?: string
+  }
   overview?: {
-    problem?: string;
-    solution?: string;
-    role?: string;
-    company?: string;
-    timeline?: string;
-  };
-  sections?: Section[];
+    role?: string
+    company?: string
+    timeline?: string
+  }
+  metrics?: Array<{
+    value: string
+    label: string
+    description?: string
+  }>
+  slides?: Array<{
+    _key: string
+    sectionLabel?: string
+    heading?: string
+    content?: any[] // Portable Text blocks
+    quoteBox?: {
+      quote: string
+      attribution?: string
+    }
+    comparisonBoxes?: Array<{
+      label?: string
+      title?: string
+      text: string
+      stat?: string
+      icon?: string
+      _key?: string
+    }>
+    visualCards?: Array<{
+      image?: any
+      placeholderText?: string
+      caption?: string
+      _key?: string
+    }>
+    annotation?: {
+      title: string
+      content: string
+    }
+  }>
+  technologies?: string[]
+  callToAction?: {
+    text: string
+    link: string
+  }
 }
 
-const PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
+const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
   title,
-  "subtitle": summary,
-  description,
+  slug,
   category,
-  heroImage {
-    asset-> {
-      url
-    }
+  heroSection {
+    badge,
+    title,
+    subtitle,
+    summary
   },
-  metrics[] {
-    label,
-    value,
-    description
-  },
-  achievements,
-  technologies,
   overview {
     role,
     company,
-    timeline,
-    problem,
-    solution
+    timeline
   },
-  sections[] {
+  metrics[] {
+    value,
+    label,
+    description
+  },
+  slides[] {
     _key,
     sectionLabel,
     heading,
     content,
-    screenshots[] {
-      image {
-        asset-> {
-          _ref,
-          url
-        }
-      },
-      caption,
-      layout
+    quoteBox {
+      quote,
+      attribution
+    },
+    comparisonBoxes[] {
+      _key,
+      label,
+      title,
+      text,
+      stat,
+      icon
+    },
+    visualCards[] {
+      _key,
+      image,
+      placeholderText,
+      caption
     },
     annotation {
       title,
       content
     }
+  },
+  technologies,
+  callToAction {
+    text,
+    link
   }
-}`;
+}`
 
 interface PageProps {
   params: Promise<{
-    slug: string;
-  }>;
+    slug: string
+  }>
 }
 
 // Generate static params for all case studies at build time
 export async function generateStaticParams() {
   const projects = await client.fetch<{ slug: string }[]>(
-    `*[_type == "project" && category == "case-study"]{ "slug": slug.current }`
-  );
+    `*[_type == "project" && category == "Case Study"]{ "slug": slug.current }`
+  )
 
   return projects.map((project) => ({
     slug: project.slug,
-  }));
+  }))
 }
 
 // Revalidate every hour (ISR - Incremental Static Regeneration)
-export const revalidate = 3600;
+export const revalidate = 3600
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const { data: project } = await sanityFetch({ query: PROJECT_QUERY, params: { slug } });
+  const { slug } = await params
+  const { data: project } = await sanityFetch({
+    query: EDITORIAL_PROJECT_QUERY,
+    params: { slug },
+  })
 
   if (!project) {
     return {
       title: 'Case Study Not Found',
-    };
+    }
   }
 
   return {
     title: `${project.title} | Michael Evans`,
-    description: project.subtitle || project.description,
-  };
+    description: project.heroSection?.subtitle || project.heroSection?.summary,
+  }
 }
 
-// Portable Text components for rich text rendering
-const portableTextComponents = {
-  marks: {
-    strong: ({ children }: any) => (
-      <strong className="text-accent-light">{children}</strong>
-    ),
-  },
-};
-
 export default async function CaseStudyPage({ params }: PageProps) {
-  const { slug } = await params;
-  const { data: project } = await sanityFetch({ query: PROJECT_QUERY, params: { slug } });
+  const { slug } = await params
+  const { data: project } = await sanityFetch({
+    query: EDITORIAL_PROJECT_QUERY,
+    params: { slug },
+  })
 
   if (!project) {
-    notFound();
+    notFound()
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0a14] to-[#050510] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Atmospheric blur orbs */}
-      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent/15 blur-[100px] pointer-events-none -z-10" />
-      <div className="fixed bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-accent-light/15 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent/15 dark:bg-accent/15 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-accent/10 dark:bg-accent/10 blur-[100px] pointer-events-none -z-10" />
 
-      {/* Hero Section - REFACTORED into component */}
-      <CaseStudyHero
-        category={project.category}
-        title={project.title}
-        subtitle={project.subtitle}
-        technologies={project.technologies}
+      {/* Editorial Hero */}
+      <EditorialHero
+        badge={project.heroSection?.badge}
+        title={project.heroSection?.title || project.title}
+        subtitle={project.heroSection?.subtitle}
+        summary={project.heroSection?.summary}
+        overview={project.overview}
       />
 
-      {/* Dynamic Sections - PARTIALLY REFACTORED */}
-      {project.sections?.map((section: Section, index: number) => (
-        <CaseStudySection
-          key={section._key}
-          variant={index % 2 === 0 ? 'default' : 'alternate'}
-        >
-          <CaseStudySectionHeader
-            label={section.sectionLabel}
-            heading={section.heading}
-          />
+      {/* Metrics (if present) */}
+      {project.metrics && project.metrics.length > 0 && (
+        <EditorialMetrics metrics={project.metrics} />
+      )}
 
-          {/* PortableText Content */}
-          {section.content && (
-            <div className="prose prose-invert max-w-[900px]">
-              <PortableText
-                value={section.content}
-                components={portableTextComponents}
-              />
-            </div>
-          )}
-
-          {/* Annotation - REFACTORED into component */}
-          {section.annotation && section.annotation.content && (
-            <CaseStudyAnnotation
-              title={section.annotation.title}
-              content={section.annotation.content}
-            />
-          )}
-
-          {/* Screenshots - PRESERVED as-is (complex logic) */}
-          {section.screenshots && section.screenshots.length > 0 && (
-            <div className="mt-16">
-              {/* Grid screenshots */}
-              {section.screenshots.filter(s => s.layout === 'grid').length > 0 && (
-                <div className="grid gap-8 mb-8 grid-cols-[repeat(auto-fit,minmax(400px,1fr))]">
-                  {section.screenshots.filter(s => s.layout === 'grid').map((screenshot, idx) => {
-                    const imageUrl = screenshot.image.asset.url || urlFor(screenshot.image.asset).url();
-                    return (
-                      <div key={idx}>
-                        <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
-                          {imageUrl ? (
-                            <Image src={imageUrl} alt={screenshot.caption || ''} fill className="object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-accent/10 to-accent/5 text-gray-500">
-                              Screenshot placeholder
-                            </div>
-                          )}
-                        </div>
-                        {screenshot.caption && (
-                          <div className="mt-4 text-sm text-center text-gray-400">
-                            {screenshot.caption}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Large screenshots */}
-              {section.screenshots.filter(s => s.layout === 'large').map((screenshot, idx) => {
-                const imageUrl = screenshot.image.asset.url || urlFor(screenshot.image.asset).url();
-                return (
-                  <div key={`large-${idx}`} className="max-w-[1100px] mx-auto mb-8">
-                    <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-white/5 border border-white/10">
-                      {imageUrl ? (
-                        <Image src={imageUrl} alt={screenshot.caption || ''} fill className="object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-center px-8 text-sm bg-gradient-to-br from-accent/10 to-accent/5 text-gray-500">
-                          Large screenshot placeholder
-                        </div>
-                      )}
-                    </div>
-                    {screenshot.caption && (
-                      <div className="mt-4 text-sm text-center text-gray-400">
-                        {screenshot.caption}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </CaseStudySection>
+      {/* Content Slides */}
+      {project.slides?.map((slide: any) => (
+        <ContentSlide
+          key={slide._key}
+          sectionLabel={slide.sectionLabel}
+          heading={slide.heading}
+          content={slide.content}
+          quoteBox={slide.quoteBox}
+          comparisonBoxes={slide.comparisonBoxes}
+          visualCards={slide.visualCards}
+          annotation={slide.annotation}
+        />
       ))}
 
-      {/* Metrics Section - REFACTORED into component */}
-      {project.metrics && project.metrics.length > 0 && (
-        <CaseStudyMetrics metrics={project.metrics} />
+      {/* Technologies Section */}
+      {project.technologies && project.technologies.length > 0 && (
+        <section className="max-w-4xl mx-auto px-6 py-16 border-t border-border dark:border-border">
+          <h3 className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-6">
+            Technologies Used
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {project.technologies.map((tech: string, index: number) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-muted dark:bg-muted text-foreground dark:text-foreground font-sans text-sm rounded-full border border-border dark:border-border"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </section>
       )}
 
-      {/* Achievements Section - REFACTORED into component */}
-      {project.achievements && project.achievements.length > 0 && (
-        <CaseStudyAchievements achievements={project.achievements} />
+      {/* Call to Action */}
+      {project.callToAction && (
+        <EditorialCTA text={project.callToAction.text} link={project.callToAction.link} />
       )}
-
-      {/* CTA - REFACTORED into component */}
-      <CaseStudyCTA />
     </div>
-  );
+  )
 }
