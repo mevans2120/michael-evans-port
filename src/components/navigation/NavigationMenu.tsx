@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useNavigation } from '@/contexts/NavigationContext';
-import { motion } from 'framer-motion';
 import {
   Home,
   User,

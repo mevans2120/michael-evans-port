@@ -43,6 +43,9 @@ export default {
 					message: 'hsl(var(--chat-message-bg))',
 					input: 'hsl(var(--chat-input-bg))',
 					'input-border': 'hsl(var(--chat-input-border))',
+					'input-text': 'hsl(var(--chat-input-text))',
+					'user-bubble': 'hsl(var(--chat-user-bubble-bg))',
+					'user-bubble-text': 'hsl(var(--chat-user-bubble-text))',
 					suggestion: 'hsl(var(--chat-suggestion-bg))',
 					'suggestion-hover': 'hsl(var(--chat-suggestion-hover))'
 				},

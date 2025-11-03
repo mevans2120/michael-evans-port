@@ -1,0 +1,118 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - navigation [ref=e8]:
+          - link "MEvans":
+            - /url: /
+            - generic: MEvans
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - img [ref=e10]
+            - generic [ref=e13]: Home
+          - link "About" [ref=e14] [cursor=pointer]:
+            - /url: /about
+            - img [ref=e15]
+            - generic [ref=e18]: About
+          - link "Case Studies" [ref=e19] [cursor=pointer]:
+            - /url: /case-studies
+            - img [ref=e20]
+            - generic [ref=e23]: Case Studies
+          - link "AI Showcase" [ref=e24] [cursor=pointer]:
+            - /url: /ai-showcase
+            - img [ref=e25]
+            - generic [ref=e27]: AI Showcase
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic:
+              - heading "AI Assistant" [level=2]
+            - button "Collapse chat" [ref=e30] [cursor=pointer]:
+              - img [ref=e31]
+          - generic [ref=e33]:
+            - generic [ref=e34]:
+              - img [ref=e36]
+              - paragraph [ref=e42]: Tell me about your work
+            - generic [ref=e43]:
+              - img [ref=e45]
+              - paragraph [ref=e50]: I've
+            - generic [ref=e51]:
+              - img [ref=e52]
+              - generic [ref=e54]: Thinking...
+          - generic [ref=e55]:
+            - textbox "Ask about Michael's work..." [disabled] [ref=e56]
+            - button [disabled] [ref=e57]:
+              - img [ref=e58]
+      - button "Collapse navigation" [ref=e60] [cursor=pointer]
+    - main [ref=e61]:
+      - button "Toggle theme" [ref=e63] [cursor=pointer]:
+        - img
+      - generic [ref=e64]:
+        - generic [ref=e68]:
+          - heading "Michael Evans builds products" [level=1] [ref=e69]
+          - paragraph [ref=e70]: He has shipped dozens of innovative digital products and services across a variety of different industries. Currently, he has been focused on using and operationalizing AI to deliver results across the software development lifecycle.
+          - link "Learn more" [ref=e71] [cursor=pointer]:
+            - /url: /about
+            - text: Learn more
+            - img [ref=e72]
+        - generic [ref=e77]:
+          - generic [ref=e78]:
+            - heading "Selected Work" [level=2] [ref=e79]:
+              - text: Selected Work
+              - img [ref=e80]
+            - paragraph [ref=e81]: A few case studies that makes Michael proud.
+          - generic [ref=e83]:
+            - 'button "Case study: Virgin America . 15% conversion lift. Press Enter to expand." [ref=e84] [cursor=pointer]':
+              - generic [ref=e85]:
+                - generic [ref=e86]:
+                  - generic [ref=e87]: 01 — UX Design
+                  - heading "Virgin America" [level=3] [ref=e88]
+                - generic [ref=e89]: 15% conversion lift
+              - paragraph: Created the first responsive airline website, reimagining booking flows by focusing on decisions rather than clicks — achieving industry recognition and measurable business impact.
+            - 'button "Case study: Before Launcher . 100K+ users. Press Enter to expand." [ref=e90] [cursor=pointer]':
+              - generic [ref=e91]:
+                - generic [ref=e92]:
+                  - generic [ref=e93]: 02 — Mobile Product
+                  - heading "Before Launcher" [level=3] [ref=e94]
+                - generic [ref=e95]: 100K+ users
+              - paragraph: Built a minimalist Android launcher focused on intentionality over distraction, reducing phone time through thoughtful UX and becoming a finalist for App of the Year.
+            - 'button "Case study: Casa Bonita . Cultural icon revival. Press Enter to expand." [ref=e96] [cursor=pointer]':
+              - generic [ref=e97]:
+                - generic [ref=e98]:
+                  - generic [ref=e99]: 03 — Experience Design
+                  - heading "Casa Bonita" [level=3] [ref=e100]
+                - generic [ref=e101]: Cultural icon revival
+              - paragraph: Revived a beloved Colorado landmark by reimagining the customer experience, balancing nostalgia with modern hospitality design — from reservation flows to in-venue wayfinding.
+            - 'button "Case study: Aesop. Global brand consistency. Press Enter to expand." [ref=e102] [cursor=pointer]':
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - generic [ref=e105]: 04 — Digital Commerce
+                  - heading "Aesop" [level=3] [ref=e106]
+                - generic [ref=e107]: Global brand consistency
+              - paragraph: Crafted a premium e-commerce experience that elevated the brand's minimalist aesthetic while maintaining accessibility and usability across global markets.
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - heading "AI Showcase" [level=2] [ref=e112]:
+              - text: AI Showcase
+              - img [ref=e113]
+            - paragraph [ref=e114]: articles about working with AI, including some recent projects.
+          - generic [ref=e115]:
+            - 'link "My AI Workflow: Building Production Software with Claude Code The \"oh shit\" moment came while building a D&D tracker with my 11-year-old son—we created a functional app in under an hour. That breakthrough crystallized a fundamental shift: what once took a year to build could now be accomplished in days or weeks with AI assistance. This is the story of discovering, refining, and productionizing an AI-powered development workflow that''s shipped 30+ projects and generated 1000+ commits since March 2024. Learn more" [ref=e116] [cursor=pointer]':
+              - /url: /ai-showcase/ai-workflow
+              - 'heading "My AI Workflow: Building Production Software with Claude Code" [level=3] [ref=e117]'
+              - paragraph [ref=e118]: "The \"oh shit\" moment came while building a D&D tracker with my 11-year-old son—we created a functional app in under an hour. That breakthrough crystallized a fundamental shift: what once took a year to build could now be accomplished in days or weeks with AI assistance. This is the story of discovering, refining, and productionizing an AI-powered development workflow that's shipped 30+ projects and generated 1000+ commits since March 2024. Learn more"
+            - link "See more posts" [ref=e120] [cursor=pointer]:
+              - /url: /ai-showcase
+              - text: See more posts
+              - img [ref=e121]
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e128] [cursor=pointer]:
+    - img [ref=e129]
+  - alert [ref=e132]
+```

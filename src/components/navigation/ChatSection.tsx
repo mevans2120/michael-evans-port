@@ -18,6 +18,7 @@ export function ChatSection() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [chatPromptsData, setChatPromptsData] = useState<{
     prompts: { text: string; order: number; active: boolean }[];
     numberOfPromptsToShow: number;
@@ -26,7 +27,7 @@ export function ChatSection() {
   const { messages: chatMessages, sendMessage, status, error } = useChat({
     onFinish: () => {
       // Scroll to bottom when assistant responds
-      setTimeout(() => {
+      scrollTimeoutRef.current = setTimeout(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 100);
     },
@@ -56,6 +57,15 @@ export function ChatSection() {
     return chatExpanded ? 'md:h-full' : 'md:h-[34%]';
   };
 
+  // Cleanup all timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Fetch chat prompts from CMS
   useEffect(() => {
     async function fetchChatPrompts() {
@@ -70,22 +80,24 @@ export function ChatSection() {
     fetchChatPrompts();
   }, []);
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll to bottom when messages change - only when chat is visible
   useEffect(() => {
-    if (scrollRef.current) {
+    if (chatExpanded && scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-  }, [messages]);
+  }, [messages, chatExpanded]);
 
   // Auto-focus input when chat expands (but not when it collapses)
   useEffect(() => {
     if (chatExpanded && inputRef.current && document.activeElement !== inputRef.current) {
       // Small delay to avoid conflicts with blur
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         if (chatExpanded) {
           inputRef.current?.focus();
         }
       }, 100);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [chatExpanded]);
 
@@ -150,7 +162,6 @@ export function ChatSection() {
   return (
     <div
       data-testid="chat-section"
-      key={`chat-${chatExpanded}`}
       className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${getHeightClasses()} ${
         isDesktop && chatExpanded
           ? 'absolute inset-0 z-10'

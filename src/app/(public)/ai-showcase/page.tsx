@@ -50,15 +50,15 @@ export default async function AIShowcasePage() {
                   href={`/ai-showcase/${showcase.slug}`}
                   className="group relative block"
                 >
-                  <div className="relative h-full p-8 md:p-10 rounded-2xl bg-ai-card border border-ai-card-border hover:border-ai-card-border-hover transition-all duration-300 hover:shadow-xl hover:shadow-accent/10">
+                  <div className="relative h-full p-8 md:p-10 rounded-2xl bg-ai-card border-2 border-ai-card-border hover:border-ai-card-border-hover transition-all duration-300 hover:shadow-xl hover:shadow-accent/10">
                     {/* Title */}
-                    <h2 className="text-2xl md:text-3xl font-syne font-bold text-ai-card-foreground mb-4 group-hover:text-accent-light transition-colors">
+                    <h2 className="text-2xl md:text-3xl font-syne font-bold text-ai-card-foreground mb-4 group-hover:text-accent transition-colors">
                       {showcase.heroSection.title}
                     </h2>
 
                     {/* Subtitle */}
                     {showcase.heroSection.subtitle && (
-                      <p className="text-lg text-accent-light mb-4 font-light">
+                      <p className="text-lg text-muted-foreground mb-4 font-light">
                         {showcase.heroSection.subtitle}
                       </p>
                     )}

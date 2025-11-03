@@ -34,11 +34,14 @@ All colors MUST be HSL.
     --chat-background: 240 5% 90%;        /* Blue-gray neutral (matches navigation) */
     --chat-foreground: 0 0% 3.1%;         /* Dark text in light mode */
     --chat-border: 240 5% 85%;            /* Light borders in light mode */
-    --chat-message-bg: 240 5% 96%;        /* Lighter message bubbles */
+    --chat-message-bg: 0 0% 100%;         /* White message bubbles (matches suggestions) */
     --chat-input-bg: 0 0% 100%;           /* White input field */
     --chat-input-border: 240 5% 85%;      /* Light border for input */
-    --chat-suggestion-bg: 240 5% 92%;
-    --chat-suggestion-hover: 240 5% 88%;
+    --chat-input-text: 0 0% 3.1%;         /* Dark text in input (light mode) */
+    --chat-user-bubble-bg: 0 0% 100%;     /* White background for user bubbles */
+    --chat-user-bubble-text: 0 0% 3.1%;   /* Dark text in user bubbles (light mode) */
+    --chat-suggestion-bg: 0 0% 100%;      /* White background for suggested prompts */
+    --chat-suggestion-hover: 240 5% 95%;  /* Very light gray on hover */
 
     --popover: 0 0% 100%;
     --popover-foreground: var(--color-text);
@@ -85,11 +88,11 @@ All colors MUST be HSL.
     --sidebar-border: var(--color-border);
     --sidebar-ring: var(--color-accent);
 
-    /* AI Showcase Cards */
-    --ai-card-background: 276 70% 25%;      /* Dark purple for light mode */
-    --ai-card-foreground: 0 0% 98%;         /* White text */
-    --ai-card-border: 276 70% 35%;          /* Slightly lighter for border */
-    --ai-card-border-hover: 276 70% 45%;    /* Hover state */
+    /* AI Showcase Cards - match chat/suggestion design */
+    --ai-card-background: 0 0% 100%;        /* White background */
+    --ai-card-foreground: var(--color-text); /* Uses core text color */
+    --ai-card-border: var(--accent);         /* Uses dynamic time-based accent */
+    --ai-card-border-hover: var(--accent);   /* Same on hover */
   }
 
   .dark {
@@ -120,8 +123,11 @@ All colors MUST be HSL.
     --chat-foreground: 0 0% 98%;          /* Light text in dark mode */
     --chat-border: 240 5% 20%;            /* Dark borders in dark mode */
     --chat-message-bg: 240 10% 12%;       /* Darker message bubbles */
-    --chat-input-bg: 0 0% 100%;           /* White input field (same as light mode) */
+    --chat-input-bg: 240 10% 12%;         /* Dark input field (matches mode) */
     --chat-input-border: 240 5% 20%;      /* Dark border for input */
+    --chat-input-text: 0 0% 98%;          /* Light text in input (dark mode) */
+    --chat-user-bubble-bg: 240 10% 12%;   /* Dark background for user bubbles */
+    --chat-user-bubble-text: 0 0% 98%;    /* Light text in user bubbles (dark mode) */
     --chat-suggestion-bg: 240 10% 15%;
     --chat-suggestion-hover: 240 10% 18%;
 
@@ -168,11 +174,11 @@ All colors MUST be HSL.
     --sidebar-border: var(--color-border);
     --sidebar-ring: var(--color-accent);
 
-    /* AI Showcase Cards */
-    --ai-card-background: 240 10% 12%;      /* Existing dark card color */
-    --ai-card-foreground: var(--color-text);
-    --ai-card-border: 240 5% 20%;
-    --ai-card-border-hover: 240 5% 30%;
+    /* AI Showcase Cards - match chat/suggestion design */
+    --ai-card-background: 240 10% 12%;      /* Dark background */
+    --ai-card-foreground: var(--color-text); /* Uses core text color */
+    --ai-card-border: var(--accent);         /* Uses dynamic time-based accent */
+    --ai-card-border-hover: var(--accent);   /* Same on hover */
   }
 }
 

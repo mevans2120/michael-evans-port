@@ -74,7 +74,6 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         "flex md:flex-shrink-0",
         "z-50",
         "border-t md:border-t-0",
-        "animate-in fade-in duration-500",
         hasInteracted && "transition-[width] duration-normal ease-smooth"
       )}
       onClick={panelState === 'partial' ? handleClick : undefined}

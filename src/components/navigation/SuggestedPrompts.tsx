@@ -5,26 +5,36 @@ import { useMemo } from 'react';
 interface SuggestedPromptsProps {
   onPromptClick: (prompt: string) => void;
   isLoading?: boolean;
+  prompts?: string[];
+  numberOfPromptsToShow?: number;
 }
 
-export function SuggestedPrompts({ onPromptClick, isLoading = false }: SuggestedPromptsProps) {
-  const allPrompts = [
+export function SuggestedPrompts({
+  onPromptClick,
+  isLoading = false,
+  prompts: cmsPrompts,
+  numberOfPromptsToShow = 2
+}: SuggestedPromptsProps) {
+  // Fallback to hardcoded prompts if CMS data unavailable
+  const fallbackPrompts = [
     "Tell me about the first responsive airline website",
     "What's the story behind launching a restaurant with cliff diving?",
     "Show me production AI applications you've built",
     "How did you help thousands of people focus?"
   ];
 
-  // Randomly select 2 prompts on component mount
-  const prompts = useMemo(() => {
+  const allPrompts = cmsPrompts || fallbackPrompts;
+
+  // Randomly select prompts on component mount
+  const selectedPrompts = useMemo(() => {
     const shuffled = [...allPrompts].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 2);
-  }, []);
+    return shuffled.slice(0, numberOfPromptsToShow);
+  }, [allPrompts, numberOfPromptsToShow]);
 
   return (
     <div className="px-4 py-4 flex flex-col gap-2">
-      <p className="text-sm text-neutral-500 mb-2 chatbot-suggestion">Suggested questions:</p>
-      {prompts.map((prompt, index) => (
+      <p className="text-sm text-chat-foreground/60 mb-2 chatbot-suggestion">Suggested questions:</p>
+      {selectedPrompts.map((prompt, index) => (
         <button
           key={index}
           onClick={() => onPromptClick(prompt)}
@@ -46,7 +56,7 @@ export function SuggestedPrompts({ onPromptClick, isLoading = false }: Suggested
             disabled:cursor-not-allowed
           "
         >
-          <span className="text-sm text-neutral-200 group-hover:text-white chatbot-suggestion transition-colors duration-200">
+          <span className="text-sm text-chat-foreground/80 group-hover:text-chat-foreground chatbot-suggestion transition-colors duration-200">
             {prompt}
           </span>
         </button>

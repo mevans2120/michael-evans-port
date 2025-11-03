@@ -19,14 +19,17 @@ const weatherConditionToWord = (condition: string): string => {
 };
 
 // In-memory cache to avoid hitting API too frequently
-let cachedWeather: { word: string; timestamp: number } | null = null;
+let cachedWeather: { word: string; time: string; timestamp: number } | null = null;
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 export async function GET() {
   try {
     // Check cache first
     if (cachedWeather && Date.now() - cachedWeather.timestamp < CACHE_DURATION) {
-      return NextResponse.json({ weather: cachedWeather.word, cached: true });
+      return NextResponse.json({
+        weather: cachedWeather.word,
+        cached: true
+      });
     }
 
     const apiKey = process.env.OPENWEATHERMAP_API_KEY;
@@ -67,6 +70,7 @@ export async function GET() {
     // Update cache
     cachedWeather = {
       word: weatherWord,
+      time: '', // No longer returning time
       timestamp: Date.now(),
     };
 
