@@ -32,6 +32,7 @@ const SUGGESTED_QUESTIONS = [
 export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [input, setInput] = useState('');
   const [sessionId, setSessionId] = useState<string | null>(null);
 
@@ -48,7 +49,10 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
     }),
     onFinish: () => {
       // Scroll to bottom when assistant responds
-      setTimeout(() => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 100);
     },
@@ -72,6 +76,15 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
       inputRef.current.focus();
     }
   }, [isOpen]);
+
+  // Cleanup scroll timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSuggestedQuestion = (question: string) => {
     sendMessage({ text: question });

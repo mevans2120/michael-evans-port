@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTimeBasedTheme } from '@/components/providers/TimeThemeProvider';
 
 interface FooterService {
   title: string;
@@ -26,6 +27,7 @@ interface FooterProps {
 
 export function Footer({ data }: FooterProps) {
   const [currentTime, setCurrentTime] = useState('');
+  const { theme, setManualOverride, sunrise, sunset } = useTimeBasedTheme();
 
   // Fetch weather from API route (client-side only, non-blocking)
   const { data: weatherData } = useQuery({
@@ -38,30 +40,36 @@ export function Footer({ data }: FooterProps) {
     staleTime: 15 * 60 * 1000, // 15 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes (formerly cacheTime)
     refetchOnWindowFocus: false,
+    refetchOnMount: false, // Don't refetch when component mounts if data exists
+    refetchOnReconnect: false, // Don't refetch on reconnect
     retry: false, // Don't retry on failure
   });
 
-  // Update current time every minute
+  // Sync local clock with API time, then tick independently
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('en-US', {
+      const portlandTime = new Date().toLocaleTimeString('en-US', {
         timeZone: 'America/Los_Angeles',
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
       });
-      setCurrentTime(`${timeStr} PST`);
+      setCurrentTime(portlandTime);
     };
 
     // Initial update
     updateTime();
 
-    // Update every minute
+    // Tick every minute - single interval, never recreated
     const interval = setInterval(updateTime, 60000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, []); // Empty deps - one interval for the lifetime of the component
+
+  // Calculate current time period based on sunrise/sunset
+  const now = new Date();
+  const isActuallyDay = sunrise && sunset ? now >= sunrise && now < sunset : false;
+  const actualTimePeriod: 'day' | 'night' = isActuallyDay ? 'day' : 'night';
 
   // Determine contact link
   const contactHref =
@@ -69,13 +77,14 @@ export function Footer({ data }: FooterProps) {
       ? data.contactExternalLink
       : data.contactInternalLink || '/contact';
 
-  // Build tagline
+  // Toggle theme handler - toggles color preference, not actual time
+  const toggleTheme = () => {
+    setManualOverride(theme === 'day' ? 'evening' : 'day');
+  };
+
+  // Build tagline parts
   const weatherWord = data.weatherEnabled && weatherData?.weather ? weatherData.weather : '';
-  const tagline = weatherWord
-    ? `made with love in ${weatherWord} ${data.weatherLocation || 'Portland'}, where it's ${currentTime}`
-    : currentTime
-    ? `made with love in ${data.weatherLocation || 'Portland'}, where it's ${currentTime}`
-    : `made with love in ${data.weatherLocation || 'Portland'}`;
+  const location = data.weatherLocation || 'Portland, Oregon';
 
   return (
     <footer className="border-t border-border bg-background">
@@ -179,7 +188,16 @@ export function Footer({ data }: FooterProps) {
             <p className="text-lg font-medium font-serif text-foreground/60 md:mr-auto">
               M<span className="text-gradient">Evans</span> LLC.
             </p>
-            <p className="text-base text-foreground/80 md:absolute md:left-1/2 md:-translate-x-1/2">{tagline}</p>
+            <p className="text-base text-foreground/80 md:absolute md:left-1/2 md:-translate-x-1/2">
+              Made in {weatherWord && `${weatherWord} `}{location}. It is {currentTime} and it's{' '}
+              <button
+                onClick={toggleTheme}
+                className="text-accent underline hover:opacity-80 transition-opacity cursor-pointer"
+              >
+                {actualTimePeriod}
+              </button>
+              .
+            </p>
           </div>
         </div>
       </div>

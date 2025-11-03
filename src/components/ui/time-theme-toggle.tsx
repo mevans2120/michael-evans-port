@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Sun, Moon as MoonIcon } from 'lucide-react';
-import { useTimeBasedTheme } from '@/hooks/useTimeBasedTheme';
+import { useTimeBasedTheme } from '@/components/providers/TimeThemeProvider';
 import { Button } from '@/components/ui/button';
 
 export function TimeThemeToggle() {

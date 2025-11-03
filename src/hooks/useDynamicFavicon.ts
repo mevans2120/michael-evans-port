@@ -6,6 +6,7 @@ interface FaviconOptions {
   accentColor: string;
   textColor: string;
   enabled?: boolean;
+  updateOnChange?: boolean;
 }
 
 /**
@@ -15,20 +16,20 @@ interface FaviconOptions {
  * @param textColor - HSL color string for the text (e.g., "0 0% 98%")
  * @param enabled - Whether to enable dynamic favicon updates (default: true)
  */
-export function useDynamicFavicon({ accentColor, textColor, enabled = true }: FaviconOptions) {
+export function useDynamicFavicon({ accentColor, textColor, enabled = true, updateOnChange = false }: FaviconOptions) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const lastFaviconRef = useRef<string>('');
+  const hasRunRef = useRef(false);
 
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return;
 
-    // Debounce updates to avoid excessive re-renders during transitions
-    const timeoutId = setTimeout(() => {
-      updateFavicon();
-    }, 100);
+    // If updateOnChange is false, only run once
+    if (!updateOnChange && hasRunRef.current) return;
 
-    return () => clearTimeout(timeoutId);
-  }, [accentColor, textColor, enabled]);
+    hasRunRef.current = true;
+    updateFavicon();
+  }, [enabled, ...(updateOnChange ? [accentColor, textColor] : [])]);
 
   const updateFavicon = () => {
     // Create favicon signature to avoid unnecessary updates
