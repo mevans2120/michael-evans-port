@@ -5,7 +5,15 @@ import { defineLive } from "next-sanity/live";
 import { client } from './client'
 
 export const { sanityFetch, SanityLive } = defineLive({
-  client: client.withConfig({ useCdn: false }),
+  client: client.withConfig({
+    useCdn: false,
+    stega: {
+      enabled: true,
+      studioUrl: process.env.NEXT_PUBLIC_SITE_URL
+        ? `${process.env.NEXT_PUBLIC_SITE_URL}/studio`
+        : '/studio',
+    },
+  }),
   serverToken: process.env.SANITY_AUTH_TOKEN,
   browserToken: process.env.NEXT_PUBLIC_SANITY_TOKEN,
 });

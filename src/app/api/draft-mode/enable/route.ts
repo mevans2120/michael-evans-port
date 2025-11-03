@@ -1,14 +1,8 @@
-import { draftMode } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { NextRequest } from 'next/server'
+import { defineEnableDraftMode } from 'next-sanity/draft-mode'
+import { client } from '@/sanity/lib/client'
 
-export async function GET(request: NextRequest) {
-  const slug = request.nextUrl.searchParams.get('slug')
-
-  // Enable Draft Mode
-  const draft = await draftMode()
-  draft.enable()
-
-  // Redirect to the path from the query parameter, or to the homepage
-  redirect(slug || '/')
-}
+export const { GET } = defineEnableDraftMode({
+  client: client.withConfig({
+    token: process.env.SANITY_AUTH_TOKEN,
+  }),
+})

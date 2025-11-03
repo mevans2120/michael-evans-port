@@ -9,6 +9,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SanityLive } from "@/sanity/lib/live";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { draftMode } from "next/headers";
 
 // DM Sans is a sans-serif font for headers and UI
 const dmSans = DM_Sans({
@@ -36,7 +38,7 @@ export const viewport: Viewport = {
   themeColor: "#050510",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -64,6 +66,7 @@ export default function RootLayout({
               <FaviconGenerator />
               {children}
               <SanityLive />
+              {(await draftMode()).isEnabled && <VisualEditing />}
               <Toaster />
               <Sonner />
             </TimeThemeProvider>
