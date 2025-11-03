@@ -8,6 +8,7 @@ import { FaviconGenerator } from "@/components/FaviconGenerator";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import { SanityLive } from "@/sanity/lib/live";
 
 // DM Sans is a sans-serif font for headers and UI
 const dmSans = DM_Sans({
@@ -62,6 +63,7 @@ export default function RootLayout({
             <TimeThemeProvider>
               <FaviconGenerator />
               {children}
+              <SanityLive />
               <Toaster />
               <Sonner />
             </TimeThemeProvider>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
-import { client } from "@/lib/sanity/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { featuredAIShowcaseQuery, homepageHeroQuery } from "@/lib/sanity/queries";
 import { Metadata } from 'next';
 
@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  // Fetch all data in parallel for performance
-  const [homepage, caseStudiesData, featuredShowcase] = await Promise.all([
+  // Fetch all data in parallel for performance with live preview support
+  const [{ data: homepage }, { data: caseStudiesData }, { data: featuredShowcase }] = await Promise.all([
     // Fetch homepage content
-    client.fetch(homepageHeroQuery),
+    sanityFetch({ query: homepageHeroQuery }),
 
     // Fetch featured case studies
-    client.fetch(`
+    sanityFetch({ query: `
       *[_type == "project" && featured == true] | order(order asc) {
         _id,
         title,
@@ -29,10 +29,10 @@ export default async function HomePage() {
         featuredDescription,
         order
       }
-    `),
+    ` }),
 
     // Fetch featured AI showcase
-    client.fetch(featuredAIShowcaseQuery)
+    sanityFetch({ query: featuredAIShowcaseQuery })
   ])
 
   // Hero section with fallbacks
