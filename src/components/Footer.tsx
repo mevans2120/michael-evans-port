@@ -53,7 +53,7 @@ export function Footer({ data }: FooterProps) {
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
-      });
+      }).toLowerCase();
       setCurrentTime(portlandTime);
     };
 
