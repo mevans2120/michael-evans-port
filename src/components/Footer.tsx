@@ -189,7 +189,7 @@ export function Footer({ data }: FooterProps) {
               M<span className="text-gradient">Evans</span> LLC.
             </p>
             <p className="text-base text-foreground/80 md:absolute md:left-1/2 md:-translate-x-1/2">
-              Made in {weatherWord && `${weatherWord} `}{location}. It is {currentTime} and it's{' '}
+              Made in {weatherWord && `${weatherWord} `}Portland, OR. It is {currentTime} here and its{' '}
               <button
                 onClick={toggleTheme}
                 className="text-accent underline hover:opacity-80 transition-opacity cursor-pointer"
