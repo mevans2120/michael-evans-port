@@ -196,3 +196,33 @@ export const featuredCaseStudyQuery = groq`
     order
   }
 `
+
+// Get chat prompts for AI assistant (singleton)
+export const chatPromptsQuery = groq`
+  *[_type == "chatPrompts"][0] {
+    prompts[active == true] | order(order asc) {
+      text,
+      order,
+      active
+    },
+    numberOfPromptsToShow
+  }
+`
+
+// Get footer content (singleton)
+export const footerQuery = groq`
+  *[_type == "footer"][0] {
+    _id,
+    services[] | order(order asc) {
+      title,
+      url,
+      order
+    },
+    linkedinUrl,
+    contactLinkType,
+    contactInternalLink,
+    contactExternalLink,
+    weatherEnabled,
+    weatherLocation
+  }
+`

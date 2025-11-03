@@ -8,6 +8,8 @@ import { Sparkles, ChevronDown, Send, User, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
+import { client } from '@/lib/sanity/client';
+import { chatPromptsQuery } from '@/lib/sanity/queries';
 import '../chatbot/chatbot.css';
 
 export function ChatSection() {
@@ -16,6 +18,10 @@ export function ChatSection() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [chatPromptsData, setChatPromptsData] = useState<{
+    prompts: { text: string; order: number; active: boolean }[];
+    numberOfPromptsToShow: number;
+  } | null>(null);
 
   const { messages: chatMessages, sendMessage, status, error } = useChat({
     onFinish: () => {
@@ -49,6 +55,20 @@ export function ChatSection() {
     }
     return chatExpanded ? 'md:h-full' : 'md:h-[34%]';
   };
+
+  // Fetch chat prompts from CMS
+  useEffect(() => {
+    async function fetchChatPrompts() {
+      try {
+        const data = await client.fetch(chatPromptsQuery);
+        setChatPromptsData(data);
+      } catch (error) {
+        // Silently fail - component will use fallback prompts
+        console.error('Failed to fetch chat prompts:', error);
+      }
+    }
+    fetchChatPrompts();
+  }, []);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -182,7 +202,7 @@ export function ChatSection() {
 
       {/* Chat Messages - Always render when there are messages, but hide with CSS when collapsed */}
       <div
-        className={`overflow-y-auto px-4 py-4 bg-chat hide-scrollbar ${
+        className={`overflow-y-auto px-8 py-4 bg-chat hide-scrollbar ${
           !showChatContent && !chatExpanded ? 'hidden' : ''
         }`}
       >
@@ -205,8 +225,8 @@ export function ChatSection() {
                 {/* Avatar - Only show for assistant when chat is expanded */}
                 {(isUser || chatExpanded) && !isCollapsedWithChat && (
                   <div
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                      isUser ? 'bg-accent text-white' : 'bg-chat-message'
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${
+                      isUser ? 'bg-accent text-white border-accent' : 'bg-chat-message border-transparent'
                     }`}
                   >
                     {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4 text-accent" />}
@@ -227,10 +247,10 @@ export function ChatSection() {
                   <div
                     className={`flex flex-col gap-1 max-w-[80%] ${isUser ? 'items-end' : ''}`}>
                   <div
-                    className={`rounded-lg px-4 py-2 chatbot-message ${
+                    className={`rounded-lg px-4 py-2 chatbot-message border ${
                       isUser
-                        ? 'bg-accent text-white text-sm'
-                        : 'bg-chat-message text-chat-foreground'
+                        ? 'bg-chat-user-bubble text-chat-user-bubble-text border-accent text-sm'
+                        : 'bg-chat-message text-chat-foreground border-transparent'
                     }`}
                   >
                     <div className="prose prose-sm max-w-none prose-headings:mt-3 prose-headings:mb-2 prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0 prose-p:text-sm prose-li:text-sm [&>*]:text-sm [&>*]:text-chat-foreground">
@@ -315,7 +335,12 @@ export function ChatSection() {
 
           {/* Suggested Prompts - Show below welcome message when expanded */}
           {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && (
-            <SuggestedPrompts onPromptClick={handlePromptClick} isLoading={isLoading} />
+            <SuggestedPrompts
+              onPromptClick={handlePromptClick}
+              isLoading={isLoading}
+              prompts={chatPromptsData?.prompts?.map(p => p.text)}
+              numberOfPromptsToShow={chatPromptsData?.numberOfPromptsToShow}
+            />
           )}
 
           <div ref={scrollRef} />
@@ -329,7 +354,7 @@ export function ChatSection() {
           sendMessage({ text: input });
           setInput('');
         }}
-        className={`px-4 py-3 border-t border-chat-border flex gap-2 flex-shrink-0 ${
+        className={`px-8 py-3 border-t border-chat-border flex gap-2 flex-shrink-0 ${
           !showChatContent ? 'hidden' : ''
         } ${
           panelState === 'partial' && chatExpanded ? 'hidden' : ''
@@ -343,7 +368,7 @@ export function ChatSection() {
           onFocus={handleInputFocus}
           placeholder="Ask about Michael's work..."
           disabled={isLoading}
-          className="flex-1 px-3 py-2 text-base font-serif bg-accent border border-accent text-white placeholder:text-white/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0"
+          className="flex-1 px-3 py-2 text-base font-serif bg-chat-input border border-accent text-chat-input-text placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0"
         />
         <button
           type="submit"

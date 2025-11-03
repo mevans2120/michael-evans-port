@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Concept 3 - Compact Grid</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Newsreader:wght@300;400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Newsreader', 'Georgia', 'serif'],
+          },
+          colors: {
+            accent: '#c780f5',
+            'accent-light': '#d9a3ff',
+            background: '#0a0d14',
+            foreground: '#fafafa',
+            navigation: '#191d28',
+            border: '#2e3544',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-foreground min-h-screen flex flex-col font-sans">
+
+  <!-- Simulated page content -->
+  <div class="flex-1 flex items-center justify-center">
+    <p class="text-muted-foreground text-sm">← Scroll down to see footer</p>
+  </div>
+
+  <!-- FOOTER - Concept 3: Compact Grid -->
+  <footer class="border-t border-border bg-navigation">
+    <div class="max-w-6xl mx-auto px-6 py-5">
+      <div class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 items-center">
+
+        <!-- Left: Crow + Tagline (vertical stack) -->
+        <div class="flex md:flex-col items-center md:items-start gap-3">
+          <svg
+            width="36"
+            height="44"
+            viewBox="0 0 110 135"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="text-accent/70"
+            style="transform: scaleX(-1);"
+          >
+            <path d="M37.871 48.258C39.7069 52.6291 44.0155 56.633 48.344 59.781C48.6253 61.6091 48.5588 63.531 47.5081 64.8162L42.012 69.5271C42.012 69.5271 37.6565 69.3123 36.4456 71.1677H46.2229C46.2229 71.1677 46.2463 70.3396 44.4377 69.6677L49.8596 65.531C51.426 65.07 52.9494 64.4646 54.4026 63.7263C55.3987 64.3083 56.3167 64.8201 57.1018 65.238L52.1018 69.5232C52.1018 69.5232 47.7463 69.3083 46.5354 71.1638H56.3127C56.3127 71.1638 56.3361 70.3357 54.5275 69.6638L59.0275 66.2302C59.5939 66.5114 59.9259 66.6677 59.9259 66.6677V85.2297C64.1368 97.3627 75.7699 105 75.7699 105L74.9144 78.8747L85.8364 87.7966C85.8364 87.7966 70.5634 51.4686 67.9224 44.2576C65.2818 37.0506 62.356 34.4803 62.356 34.4803C62.3521 34.4803 57.0708 17.4213 47.794 15.4253C38.5128 13.4253 36.517 19.1245 36.517 19.1245C34.2475 18.855 31.9506 19.0034 29.7358 19.5659C27.2436 20.2651 25.2006 22.0464 24.1694 24.4175L35.6614 26.0581C40.6536 29.4136 33.5872 38.0501 37.8723 48.2571L37.871 48.258ZM42.2226 20.387C42.7499 20.387 43.2226 20.7034 43.4218 21.1878C43.621 21.6721 43.5116 22.2308 43.1406 22.598C42.7695 22.9691 42.2109 23.0823 41.7265 22.8792C41.2421 22.68 40.9257 22.2073 40.9257 21.6839C40.9257 21.3402 41.0624 21.0081 41.3085 20.7659C41.5507 20.5238 41.8789 20.387 42.2226 20.387Z" fill="currentColor"/>
+          </svg>
+
+          <p class="font-serif text-sm text-foreground/70 text-center md:text-left">
+            made with love in<br />
+            <span id="weather-word" class="italic text-accent">rainy</span> Portland
+          </p>
+        </div>
+
+        <!-- Center: Services as Pills -->
+        <div class="flex flex-wrap justify-center md:justify-start gap-2">
+          <a href="#" class="px-3 py-1.5 text-xs rounded-full bg-foreground/5 hover:bg-accent/10 border border-foreground/10 hover:border-accent/30 text-foreground/70 hover:text-accent transition-all">
+            Research
+          </a>
+          <a href="#" class="px-3 py-1.5 text-xs rounded-full bg-foreground/5 hover:bg-accent/10 border border-foreground/10 hover:border-accent/30 text-foreground/70 hover:text-accent transition-all">
+            Strategy
+          </a>
+          <a href="#" class="px-3 py-1.5 text-xs rounded-full bg-foreground/5 hover:bg-accent/10 border border-foreground/10 hover:border-accent/30 text-foreground/70 hover:text-accent transition-all">
+            UX & Design
+          </a>
+          <a href="#" class="px-3 py-1.5 text-xs rounded-full bg-foreground/5 hover:bg-accent/10 border border-foreground/10 hover:border-accent/30 text-foreground/70 hover:text-accent transition-all">
+            Delivery & Development
+          </a>
+        </div>
+
+        <!-- Right: Social Links (vertical stack on desktop) -->
+        <div class="flex md:flex-col items-center md:items-end gap-3 justify-center md:justify-start">
+          <a href="https://linkedin.com" class="group flex items-center gap-2 text-sm text-foreground/60 hover:text-accent transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            <span class="hidden md:inline">LinkedIn</span>
+          </a>
+
+          <a href="/contact" class="group flex items-center gap-2 text-sm text-accent hover:text-accent-light transition-colors font-medium">
+            <span>Contact</span>
+            <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simulate weather word changing
+    const weatherWords = ['sunny', 'rainy', 'cloudy', 'misty', 'foggy'];
+    let currentIndex = 1;
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % weatherWords.length;
+      document.getElementById('weather-word').textContent = weatherWords[currentIndex];
+    }, 3000);
+  </script>
+</body>
+</html>

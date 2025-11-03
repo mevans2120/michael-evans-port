@@ -2,12 +2,18 @@ import { NavigationProvider } from "@/contexts/NavigationContext";
 import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { TimeThemeToggle } from "@/components/ui/time-theme-toggle";
+import { Footer } from "@/components/Footer";
+import { client } from "@/lib/sanity/client";
+import { footerQuery } from "@/lib/sanity/queries";
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch footer data from Sanity
+  const footerData = await client.fetch(footerQuery);
+
   return (
     <NavigationProvider>
       <div className="flex h-screen w-screen bg-background overflow-hidden">
@@ -31,6 +37,9 @@ export default function PublicLayout({
           </div>
 
           {children}
+
+          {/* Footer */}
+          {footerData && <Footer data={footerData} />}
         </main>
       </div>
     </NavigationProvider>

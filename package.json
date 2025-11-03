@@ -24,6 +24,7 @@
     "ingest:clear": "tsx src/lib/chatbot/ingest-content.ts --clear",
     "migrate:about": "tsx scripts/migrate-about-content.ts",
     "migrate:about-v2": "tsx scripts/migrate-about-content-v2.ts",
+    "migrate:footer": "tsx scripts/migrate-footer-content.ts",
     "import:showcases": "tsx scripts/import-showcases/import-all.ts",
     "import:ai-workflow": "tsx scripts/import-showcases/import-ai-workflow.ts",
     "import:postpal": "tsx scripts/import-showcases/import-postpal.ts",

@@ -8,6 +8,177 @@
 
 ## ✅ Recent Accomplishments (November 2, 2025)
 
+### Footer Implementation with CMS Integration - COMPLETE 🎉
+
+**Goal**: Create a professional footer with CMS-managed content, live weather display, and design system compliance.
+
+**Implementation Complete** ✅:
+- ✅ Created footer schema in Sanity with services, links, weather settings
+  - Services array (title, url, order)
+  - LinkedIn URL and contact link configuration (internal/external)
+  - Weather toggle and location settings
+  - Singleton pattern for single footer document
+- ✅ Built Footer component with OpenWeatherMap API integration
+  - Large crow logo (248×300) in navigation color, horizontally flipped
+  - Four-column layout: Logo | Product Management Services | Pages | Reach Out
+  - Dynamic tagline: "made with love in [weather] Portland, where it's [current time PST]"
+  - MEvans LLC. logo at bottom left with gradient matching top navigation
+  - Evenly distributed columns with left-aligned text content
+  - All content CMS-managed via Sanity
+- ✅ Created weather API route with caching and error handling
+  - 15-minute server-side caching
+  - 3-second timeout for API requests
+  - Graceful degradation if API unavailable
+  - Weather condition mapping (Clear → sunny, Rain → rainy, etc.)
+- ✅ Added footer migration script for initial content population
+- ✅ Design improvements after QA review:
+  - Fixed navigation padding inconsistency (unified all to `px-8`)
+  - Aligned footer crow to bottom left using `self-end`, `justify-self-start`, and negative margin (`-ml-16`)
+  - Changed footer background to darker black (`bg-background`)
+  - Removed inline CSS, converted to Tailwind (`-scale-x-100` for horizontal flip)
+  - Reduced spacing between footer sections with negative margin (`-mt-4`)
+  - Cropped SVG viewBox from "0 0 110 135" to "20 12 70 110" to remove internal padding
+  - Made bird 50% larger (165×200 → 248×300)
+
+**Files Created**:
+- `/sanity/schemas/footer.ts` - Footer schema (singleton)
+- `/src/components/Footer.tsx` - Main footer component
+- `/src/app/api/weather/route.ts` - Weather API endpoint
+- `/scripts/migrate-footer-content.ts` - Content migration script
+- `/docs/design/qa-batch-1-110225/design-qa-report.md` - Design QA review
+
+**Files Modified**:
+- `/src/lib/sanity/queries.ts` - Added `footerQuery`
+- `/src/app/(public)/layout.tsx` - Integrated footer with server-side data fetch
+- `/src/components/navigation/ChatSection.tsx` - Fixed padding from px-4 to px-8
+- `/src/components/FeaturedCaseStudies.tsx` - Fixed missing useRouter import
+- `/.env.example` - Added `OPENWEATHERMAP_API_KEY` with signup link
+- `/CLAUDE.md` - Removed detailed "Recent Updates" section, replaced with pointer to memory bank
+
+**Design System Compliance** ✅:
+- ✅ Uses semantic color tokens only (no hardcoded colors)
+- ✅ All styling via Tailwind utilities (no inline styles)
+- ✅ Full dark mode support
+- ✅ Responsive design with mobile/desktop layouts
+- ✅ Follows existing animation and transition patterns
+
+**Data Flow**:
+```
+Sanity Studio (footer singleton)
+  ↓
+Server-side fetch: layout.tsx
+  ↓
+Pass to: Footer component as props
+  ↓
+Client-side: Footer fetches weather from /api/weather
+  ↓
+Render: Dynamic tagline with weather + time
+```
+
+**Weather API Flow**:
+```
+OpenWeatherMap API
+  ↓
+/api/weather route (15-min cache, 3s timeout)
+  ↓
+Footer component (React Query, client-side)
+  ↓
+Display: "made with love in [weather] Portland, where it's [time PST]"
+```
+
+**Benefits Achieved**:
+- ✅ Professional footer matching site design language
+- ✅ Content control without code deployment
+- ✅ Live weather adds personality and local context
+- ✅ Design system compliant with centralized tokens
+- ✅ Navigation padding consistency fixed across all sections
+- ✅ Responsive design works on mobile and desktop
+
+**Bug Fixes**:
+- ✅ Fixed navigation padding inconsistency (ChatSection used px-4, nav used px-8)
+- ✅ Fixed FeaturedCaseStudies missing useRouter import (runtime error)
+- ✅ Fixed footer crow positioning with negative margins
+- ✅ Fixed footer spacing with negative top margin
+
+**Next Steps**:
+- ⏳ User needs to sign up for OpenWeatherMap API key at https://openweathermap.org/api
+- ⏳ Add API key to `.env.local` as `OPENWEATHERMAP_API_KEY`
+
+---
+
+### Chat Prompts CMS Migration - COMPLETE 🎉
+
+**Goal**: Move hardcoded chat suggested prompts to Sanity CMS for easier content management while maintaining performance and design system compliance.
+
+**Implementation Complete** ✅:
+- ✅ Created `chatPrompts` schema in Sanity with validation
+  - Array of prompt objects (text, order, active)
+  - Number of prompts to show (default: 2)
+  - Validation: 2-10 prompts, max 150 chars each
+  - Preview shows active status and order
+- ✅ Registered schema in `/sanity/schemas/index.ts`
+- ✅ Added `chatPromptsQuery` to `/src/lib/sanity/queries.ts`
+- ✅ Updated `SuggestedPrompts` component to accept CMS props with fallback
+  - Optional `prompts` and `numberOfPromptsToShow` props
+  - Falls back to hardcoded prompts if CMS unavailable
+  - Maintains existing randomization logic
+- ✅ Updated `ChatSection` to fetch and pass CMS data
+  - Client-side fetch with `useEffect` on component mount
+  - Stores data in state (`chatPromptsData`)
+  - Passes prompts array and count to SuggestedPrompts
+  - Graceful error handling (silent fail, uses fallback)
+- ✅ Updated chat design system for better visibility
+  - Changed `--chat-suggestion-bg` from gray to white (`0 0% 100%`)
+  - Changed `--chat-message-bg` from gray to white (`0 0% 100%`)
+  - Better contrast and readability in light mode
+  - Maintains dark mode appearance
+
+**Files Created**:
+- `/sanity/schemas/chatPrompts.ts` - Sanity schema for chat prompts
+- `/docs/implementation-plans/chat-prompts-cms-migration.md` - Complete implementation plan
+
+**Files Modified**:
+- `/sanity/schemas/index.ts` - Registered chatPrompts schema
+- `/src/lib/sanity/queries.ts` - Added chatPromptsQuery
+- `/src/components/navigation/SuggestedPrompts.tsx` - Added CMS props support
+- `/src/components/navigation/ChatSection.tsx` - Added fetch logic and state management
+- `/src/app/globals.css` - Updated chat color tokens for white backgrounds
+
+**Design System Compliance** ✅:
+- ✅ Uses semantic color tokens only (no hardcoded colors)
+- ✅ All styling via Tailwind utilities (no inline styles)
+- ✅ Follows existing animation and transition patterns
+- ✅ Full dark mode support
+- ✅ Graceful degradation with fallback prompts
+
+**Data Flow**:
+```
+Sanity Studio (chatPrompts document)
+  ↓
+Runtime: ChatSection.tsx (client-side fetch)
+  ↓
+Pass to: SuggestedPrompts component as props
+  ↓
+Random Selection: useMemo selects N prompts
+  ↓
+Render: Display as clickable buttons
+```
+
+**Benefits Achieved**:
+- ✅ Content control without code deployment
+- ✅ Easy experimentation and A/B testing
+- ✅ Toggle prompts on/off without deleting
+- ✅ Professional CMS-driven architecture
+- ✅ Better visibility with white backgrounds
+- ✅ Maintains site functionality if CMS unavailable
+
+**Next Steps**:
+- ⏳ Seed initial prompts data in Sanity Studio
+- ⏳ Test CMS prompts in chat interface
+- ⏳ Future optimization: Lazy load ChatSection for Lighthouse scores
+
+---
+
 ### Dynamic Favicon & Navigation Alignment Fixes - COMPLETE 🎉
 
 **Dynamic Favicon System** ✅:
