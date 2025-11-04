@@ -32,9 +32,6 @@ export function TimeThemeToggle() {
       ) : (
         <MoonIcon className={`h-5 w-5 ${isManualOverride ? 'text-accent' : ''}`} />
       )}
-      {isManualOverride && (
-        <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-accent rounded-full" />
-      )}
     </Button>
   );
 }

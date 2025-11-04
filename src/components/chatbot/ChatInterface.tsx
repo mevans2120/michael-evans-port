@@ -61,7 +61,10 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
     },
   });
 
-  const isLoading = status === 'streaming';
+  const isLoading = false; // We use isWaitingForResponse for loading state instead
+
+  // Track if we're waiting for a response (after send but before streaming)
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -87,15 +90,24 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   }, []);
 
   const handleSuggestedQuestion = (question: string) => {
+    setIsWaitingForResponse(true);
     sendMessage({ text: question });
   };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
+    setIsWaitingForResponse(true);
     sendMessage({ text: input });
     setInput('');
   };
+
+  // Reset waiting state when streaming starts
+  useEffect(() => {
+    if (status === 'streaming') {
+      setIsWaitingForResponse(false);
+    }
+  }, [status]);
 
   return (
     <AnimatePresence>
@@ -185,7 +197,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                     })}
 
                     {/* Loading indicator */}
-                    {isLoading && (
+                    {(isLoading || isWaitingForResponse) && (
                       <div className="flex items-center gap-2 text-muted-foreground chatbot-loading">
                         <Loader2 className="h-4 w-4 animate-spin" />
                         <span className="text-sm">Thinking...</span>

@@ -1,7 +1,6 @@
 import { NavigationProvider } from "@/contexts/NavigationContext";
 import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { TimeThemeToggle } from "@/components/ui/time-theme-toggle";
 import { Footer } from "@/components/Footer";
 import { sanityFetch } from "@/sanity/lib/live";
 import { footerQuery } from "@/lib/sanity/queries";
@@ -30,9 +29,8 @@ export default async function PublicLayout({
           id="main-content"
           className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0 hide-scrollbar relative"
         >
-          {/* Theme Toggles - Top Right */}
-          <div className="absolute top-6 right-6 z-50 flex gap-2">
-            <TimeThemeToggle />
+          {/* Theme Toggle - Top Right */}
+          <div className="absolute top-6 right-6 z-50">
             <ThemeToggle />
           </div>
 

@@ -34,7 +34,10 @@ export function ChatSection() {
   });
 
   const [input, setInput] = useState('');
-  const isLoading = status === 'streaming';
+  const isLoading = false; // We use isWaitingForResponse for loading state instead
+
+  // Track if we're waiting for a response (after send but before streaming)
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
 
   // Add welcome message to the start
   const messages = chatMessages.length === 0 ? [
@@ -110,14 +113,22 @@ export function ChatSection() {
 
   const handlePromptClick = (prompt: string) => {
     // Prevent sending multiple messages simultaneously
-    if (isLoading) return;
+    if (isLoading || isWaitingForResponse) return;
 
     if (!isDesktop) {
       setChatExpanded(true);
     }
     setChatInputFocused(true); // Expand width when using chat
+    setIsWaitingForResponse(true);
     sendMessage({ text: prompt });
   };
+
+  // Reset waiting state when streaming starts
+  useEffect(() => {
+    if (status === 'streaming') {
+      setIsWaitingForResponse(false);
+    }
+  }, [status]);
 
   const handleHeaderClick = () => {
     // Always allow expanding when clicking the header
@@ -318,7 +329,7 @@ export function ChatSection() {
           })}
 
           {/* Loading indicator */}
-          {isLoading && (
+          {(isLoading || isWaitingForResponse) && (
             <div className="flex gap-3 mb-4">
               {/* Avatar - matches assistant message style */}
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chat-message">
@@ -344,11 +355,11 @@ export function ChatSection() {
             </div>
           )}
 
-          {/* Suggested Prompts - Show below welcome message when expanded */}
-          {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && (
+          {/* Suggested Prompts - Show below welcome message when expanded, hide when waiting or loading */}
+          {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && !isWaitingForResponse && !isLoading && (
             <SuggestedPrompts
               onPromptClick={handlePromptClick}
-              isLoading={isLoading}
+              isLoading={isLoading || isWaitingForResponse}
               prompts={chatPromptsData?.prompts?.map(p => p.text)}
               numberOfPromptsToShow={chatPromptsData?.numberOfPromptsToShow}
             />
@@ -361,7 +372,8 @@ export function ChatSection() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!input.trim() || isLoading) return;
+          if (!input.trim() || isLoading || isWaitingForResponse) return;
+          setIsWaitingForResponse(true);
           sendMessage({ text: input });
           setInput('');
         }}
