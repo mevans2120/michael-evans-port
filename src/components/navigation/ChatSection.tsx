@@ -44,7 +44,7 @@ export function ChatSection() {
     {
       id: 'welcome',
       role: 'assistant' as const,
-      content: "Hi. Ask me any question about Michael's work and background"
+      content: "Hi. Ask me anything about Michael's work and background"
     }
   ] : chatMessages;
 
