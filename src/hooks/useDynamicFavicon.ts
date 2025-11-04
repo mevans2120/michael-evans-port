@@ -62,16 +62,16 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
   };
 
   const useFallbackFavicon = () => {
-    console.log('⚠️  Using fallback static favicon.ico');
+    console.log('⚠️  Using fallback static favicon');
     // Remove any dynamically generated favicons
     const existingLinks = document.querySelectorAll('link[rel*="icon"]');
     existingLinks.forEach(link => link.remove());
 
-    // Add static favicon.ico as fallback
+    // Add static favicon as fallback
     const link = document.createElement('link');
     link.rel = 'icon';
     link.type = 'image/x-icon';
-    link.href = '/favicon.ico';
+    link.href = '/favicon-backup.ico';
     document.head.appendChild(link);
   };
 
