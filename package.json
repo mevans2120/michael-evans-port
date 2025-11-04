@@ -128,5 +128,11 @@
     "typescript": "^5",
     "uuid": "^13.0.0",
     "vitest": "^4.0.6"
-  }
+  },
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ]
 }

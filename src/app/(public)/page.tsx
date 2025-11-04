@@ -86,8 +86,11 @@ export default async function HomePage() {
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-5xl -mx-6 md:mx-0">
             <div className="animate-in fade-in duration-700">
-              {/* Main Text */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-sans font-light leading-tight mb-6 text-foreground">
+              {/* Main Text - LCP Element */}
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl font-sans font-light leading-tight mb-6 text-foreground"
+                style={{ contentVisibility: 'auto' }}
+              >
                 Michael <span className="text-gradient">Evans</span> {tagline}
               </h1>
 
