@@ -21,12 +21,8 @@ export default async function CaseStudiesPage() {
     sanityFetch({ query: projectsQuery })
   ])
 
-  // Filter for case studies only and format for FeaturedCaseStudies component
+  // Format all projects for FeaturedCaseStudies component
   const caseStudies = allProjects
-    .filter((project: any) => {
-      const category = project.category?.toLowerCase() || ''
-      return category.includes('case') || category.includes('study') || category.includes('ecommerce')
-    })
     .map((project: any, index: number) => ({
       id: project._id,
       number: String(index + 1).padStart(2, '0'),
