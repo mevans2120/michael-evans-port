@@ -85,23 +85,25 @@ export default async function HomePage() {
       <section data-testid="hero" className="px-6 relative min-h-[85vh] flex items-center pt-20">
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-5xl -mx-6 md:mx-0">
-            {/* Main Text - LCP Element (animation removed for performance) */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-sans font-light leading-tight mb-6 text-foreground">
-              Michael <span className="text-gradient">Evans</span> {tagline}
-            </h1>
+            <div className="animate-in fade-in duration-700">
+              {/* Main Text */}
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-sans font-light leading-tight mb-6 text-foreground">
+                Michael <span className="text-gradient">Evans</span> {tagline}
+              </h1>
 
-            {/* Description */}
-            <p className="text-xl md:text-2xl font-serif mb-8 text-muted-foreground">
-              {description}
-            </p>
+              {/* Description */}
+              <p className="text-xl md:text-2xl font-serif mb-8 text-muted-foreground">
+                {description}
+              </p>
 
-            <Link
-              href={heroCta.link}
-              className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-accent hover:text-accent-light"
-            >
-              {heroCta.text}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              <Link
+                href={heroCta.link}
+                className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-accent hover:text-accent-light"
+              >
+                {heroCta.text}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
