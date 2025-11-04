@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations
   experimental: {
-    // Optimize CSS loading and chunking
-    optimizeCss: true,
+    // Optimize CSS loading and chunking (production only - breaks HMR in dev)
+    optimizeCss: process.env.NODE_ENV === 'production',
 
     // Optimize package imports to reduce bundle size
     optimizePackageImports: [
