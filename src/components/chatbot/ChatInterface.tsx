@@ -160,8 +160,7 @@ export function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
                   // Empty state with suggested questions
                   <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center chatbot-empty-state">
                     <div className="mb-4 text-muted-foreground">
-                      <p className="mb-2">Hi! I'm an AI assistant trained on Michael's portfolio.</p>
-                      <p className="text-sm">Ask me anything about his experience, projects, or skills.</p>
+                      <p className="mb-2">Hi. Ask me any question about Michael's work and background</p>
                     </div>
                     <div className="w-full space-y-2">
                       <p className="text-sm font-medium mb-2">Suggested questions:</p>

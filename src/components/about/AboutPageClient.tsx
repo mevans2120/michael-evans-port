@@ -55,7 +55,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-32">
         {/* Hero Section with Photo */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-16 mb-20 md:mb-32 opacity-0 animate-fadeIn">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-16 mb-20 md:mb-32 opacity-0 animate-fade-in">
           <div className="flex-1">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 text-gray-50">
               {data.name}
@@ -90,7 +90,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
             {data.quickFacts.map((fact, index) => (
               <div
                 key={index}
-                className="opacity-0 animate-slideUp"
+                className="opacity-0 animate-slide-up"
                 style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'forwards' }}
               >
                 <div className="text-xs uppercase tracking-wider text-gray-500 mb-2">
