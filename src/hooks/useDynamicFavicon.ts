@@ -28,7 +28,13 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
     if (!updateOnChange && hasRunRef.current) return;
 
     hasRunRef.current = true;
-    updateFavicon();
+
+    try {
+      updateFavicon();
+    } catch (error) {
+      console.error('Failed to generate dynamic favicon, falling back to static:', error);
+      useFallbackFavicon();
+    }
   }, [enabled, ...(updateOnChange ? [accentColor, textColor] : [])]);
 
   const updateFavicon = () => {
@@ -44,8 +50,29 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
     // Generate favicon using canvas
     const faviconDataUrl = generateFaviconDataUrl(accentRGB, textRGB);
 
+    if (!faviconDataUrl) {
+      console.warn('Canvas generation returned empty data URL, using fallback');
+      useFallbackFavicon();
+      return;
+    }
+
     // Update favicon link element
     updateFaviconLink(faviconDataUrl);
+    console.log('✅ Dynamic favicon generated successfully');
+  };
+
+  const useFallbackFavicon = () => {
+    console.log('⚠️  Using fallback static favicon.ico');
+    // Remove any dynamically generated favicons
+    const existingLinks = document.querySelectorAll('link[rel*="icon"]');
+    existingLinks.forEach(link => link.remove());
+
+    // Add static favicon.ico as fallback
+    const link = document.createElement('link');
+    link.rel = 'icon';
+    link.type = 'image/x-icon';
+    link.href = '/favicon.ico';
+    document.head.appendChild(link);
   };
 
   const generateFaviconDataUrl = (accentRGB: string, textRGB: string): string => {
