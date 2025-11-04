@@ -10,6 +10,7 @@ import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
 import { client } from '@/lib/sanity/client';
 import { chatPromptsQuery } from '@/lib/sanity/queries';
+import { LinkPreview } from '@/components/chatbot/LinkPreview';
 import '../chatbot/chatbot.css';
 
 export function ChatSection() {
@@ -137,6 +138,26 @@ export function ChatSection() {
     setChatInputFocused(true); // Expand width when chat opens
   };
 
+  // Extract link info from markdown link syntax
+  const parseMarkdownLink = (text: string): { hasLink: boolean; linkText: string; linkUrl: string } => {
+    const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/;
+    const match = text.match(linkPattern);
+
+    if (match) {
+      return {
+        hasLink: true,
+        linkText: match[1],
+        linkUrl: match[2],
+      };
+    }
+
+    return {
+      hasLink: false,
+      linkText: text,
+      linkUrl: '',
+    };
+  };
+
   // Parse follow-up questions from assistant messages
   const parseFollowUpQuestions = (text: string): { mainContent: string; questions: string[] } => {
     // Match the entire follow-up section including the header
@@ -153,7 +174,7 @@ export function ChatSection() {
     const questions = questionsText
       .split('\n')
       .filter(line => line.trim().startsWith('-'))
-      .map(line => line.trim().substring(1).trim());
+      .map(line => line.trim().substring(1).trim()); // Keep original markdown
 
     return { mainContent, questions };
   };
@@ -297,8 +318,10 @@ export function ChatSection() {
                             ) : (
                               <code className="block bg-code-block p-2 rounded my-2 text-sm font-mono" {...props}>{children}</code>
                             ),
-                          a: ({ node, ...props }) => (
-                            <a className="underline hover:no-underline text-sm" {...props} />
+                          a: ({ node, href, children, ...props }) => (
+                            <LinkPreview href={href || '#'} {...props}>
+                              {children}
+                            </LinkPreview>
                           ),
                         }}
                       >
@@ -307,19 +330,35 @@ export function ChatSection() {
                     </div>
                   </div>
 
-                  {/* Follow-up question suggestions */}
+                  {/* Follow-up question suggestions - Render LinkPreview for links */}
                   {questions.length > 0 && (
                     <div className="flex flex-col gap-2 mt-2">
-                      {questions.map((question, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handlePromptClick(question)}
-                          disabled={isLoading}
-                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {question}
-                        </button>
-                      ))}
+                      {questions.map((question, index) => {
+                        const { hasLink, linkText, linkUrl } = parseMarkdownLink(question);
+
+                        // If it's a link to a case study or AI showcase, render LinkPreview
+                        if (hasLink && (linkUrl.includes('/case-studies/') || linkUrl.includes('/ai-showcase/'))) {
+                          return (
+                            <div key={index}>
+                              <LinkPreview href={linkUrl}>
+                                {linkText}
+                              </LinkPreview>
+                            </div>
+                          );
+                        }
+
+                        // Otherwise, render as a button (original behavior)
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => handlePromptClick(hasLink ? linkText : question)}
+                            disabled={isLoading}
+                            className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {hasLink ? linkText : question}
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
