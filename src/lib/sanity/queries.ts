@@ -12,6 +12,8 @@ export const projectsQuery = groq`
     heroImage,
     technologies,
     featured,
+    featuredMetric,
+    featuredDescription,
     "imageUrl": heroImage.asset->url
   }
 `
