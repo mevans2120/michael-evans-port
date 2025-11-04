@@ -3,6 +3,8 @@ import { allAIShowcasesQuery } from '@/lib/sanity/queries'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Contact from '@/components/Contact'
+import { generateSanityMetadata } from '@/lib/sanity/metadata'
+import { Metadata } from 'next'
 
 interface ShowcaseItem {
   _id: string
@@ -19,9 +21,12 @@ interface ShowcaseItem {
   }
 }
 
-export const metadata = {
-  title: 'AI Showcase | Michael Evans',
-  description: 'Explore my AI-powered workflows, tools, and production projects',
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSanityMetadata({
+    title: 'AI Showcase | Michael Evans',
+    description: 'Explore my AI-powered workflows, tools, and production projects built with Claude, Cursor, and modern AI development tools.',
+    path: '/ai-showcase',
+  })
 }
 
 export default async function AIShowcasePage() {

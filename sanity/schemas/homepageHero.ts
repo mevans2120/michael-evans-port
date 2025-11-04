@@ -261,6 +261,14 @@ export default defineType({
         }),
       ],
     }),
+
+    // SEO
+    defineField({
+      name: 'seo',
+      title: 'SEO & Social',
+      type: 'seo',
+      description: 'Search engine and social media metadata for the homepage',
+    }),
   ],
   preview: {
     prepare() {

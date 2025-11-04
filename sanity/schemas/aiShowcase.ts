@@ -335,6 +335,29 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'featuredImage',
+      title: 'Featured Image',
+      type: 'image',
+      description: 'Main image for this showcase (used for thumbnails, social sharing, etc.)',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for accessibility and SEO',
+        },
+      ],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO & Social',
+      type: 'seo',
+      description: 'Search engine and social media metadata for this showcase',
+    }),
   ],
   preview: {
     select: {

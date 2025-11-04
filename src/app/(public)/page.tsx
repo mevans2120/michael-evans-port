@@ -6,10 +6,17 @@ import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { sanityFetch } from "@/sanity/lib/live";
 import { featuredAIShowcaseQuery, homepageHeroQuery } from "@/lib/sanity/queries";
 import { Metadata } from 'next';
+import { generateSanityMetadata } from '@/lib/sanity/metadata';
 
-export const metadata: Metadata = {
-  title: 'Michael Evans | AI/ML Portfolio',
-  description: 'Portfolio showcasing AI/ML expertise, creative technology solutions, and professional case studies.',
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });
+
+  return generateSanityMetadata({
+    seo: homepage?.seo,
+    title: 'Michael Evans | AI/ML Portfolio',
+    description: homepage?.description || 'Portfolio showcasing AI/ML expertise, creative technology solutions, and professional case studies.',
+    path: '/',
+  });
 }
 
 export default async function HomePage() {

@@ -419,6 +419,14 @@ export default defineType({
         { name: 'email', type: 'email', title: 'Email' },
       ],
     }),
+
+    // SEO
+    defineField({
+      name: 'seo',
+      title: 'SEO & Social',
+      type: 'seo',
+      description: 'Search engine and social media metadata for the about page',
+    }),
   ],
   preview: {
     select: {

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
 import { client } from '@/lib/sanity/client'
 import { Metadata } from 'next'
+import { generateSanityMetadata } from '@/lib/sanity/metadata'
 import {
   EditorialHero,
   EditorialMetrics,
@@ -118,6 +119,30 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
   callToAction {
     text,
     link
+  },
+  featuredImage {
+    asset,
+    alt
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    ogTitle,
+    ogDescription,
+    ogImage {
+      asset,
+      alt
+    },
+    twitterCard,
+    twitterTitle,
+    twitterDescription,
+    twitterImage {
+      asset,
+      alt
+    },
+    canonicalUrl,
+    noIndex
   }
 }`
 
@@ -155,10 +180,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  return {
+  return generateSanityMetadata({
+    seo: project.seo,
     title: `${project.title} | Michael Evans`,
     description: project.heroSection?.subtitle || project.heroSection?.summary,
-  }
+    path: `/case-studies/${slug}`,
+    featuredImage: project.featuredImage,
+  })
 }
 
 export default async function CaseStudyPage({ params }: PageProps) {

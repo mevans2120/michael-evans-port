@@ -7,8 +7,16 @@ import workflowStep from './workflowStep'
 import projectCard from './projectCard'
 import chatPrompts from './chatPrompts'
 import footer from './footer'
+import seoSettings from './seoSettings'
+
+// Object types (reusable)
+import { seoType } from './objects/seo'
 
 export const schemaTypes = [
+  // Objects
+  seoType,
+
+  // Documents
   project,
   profile,
   homepageHero,
@@ -18,4 +26,5 @@ export const schemaTypes = [
   projectCard,
   chatPrompts,
   footer,
+  seoSettings,
 ]

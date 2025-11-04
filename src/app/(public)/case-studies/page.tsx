@@ -4,10 +4,14 @@ import { featuredCaseStudyQuery, projectsQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
 import { FeaturedCaseStudies } from '@/components/FeaturedCaseStudies'
+import { generateSanityMetadata } from '@/lib/sanity/metadata'
 
-export const metadata: Metadata = {
-  title: 'Case Studies | Michael Evans',
-  description: 'Product launches, transformational projects, and measurable business impact across e-commerce, travel, and enterprise software.',
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSanityMetadata({
+    title: 'Case Studies | Michael Evans',
+    description: 'Product launches, transformational projects, and measurable business impact across e-commerce, travel, and enterprise software.',
+    path: '/case-studies',
+  })
 }
 
 export default async function CaseStudiesPage() {

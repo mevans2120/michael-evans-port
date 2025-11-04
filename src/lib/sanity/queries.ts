@@ -130,6 +130,26 @@ export const homepageHeroQuery = groq`
       viewAllLinkType,
       viewAllInternalLink,
       viewAllExternalLink
+    },
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords,
+      ogTitle,
+      ogDescription,
+      ogImage {
+        asset,
+        alt
+      },
+      twitterCard,
+      twitterTitle,
+      twitterDescription,
+      twitterImage {
+        asset,
+        alt
+      },
+      canonicalUrl,
+      noIndex
     }
   }
 `

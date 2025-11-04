@@ -538,6 +538,30 @@ export default defineType({
         },
       ],
     }),
+    // ===== FEATURED IMAGE & SEO =====
+    defineField({
+      name: 'featuredImage',
+      title: 'Featured Image',
+      type: 'image',
+      description: 'Main image for this project (used for thumbnails, social sharing, etc.)',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for accessibility and SEO',
+        },
+      ],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO & Social',
+      type: 'seo',
+      description: 'Search engine and social media metadata for this project',
+    }),
   ],
   preview: {
     select: {

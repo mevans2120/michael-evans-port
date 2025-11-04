@@ -2,36 +2,65 @@ import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
 import { Metadata } from 'next'
 import AboutPageClient from '@/components/about/AboutPageClient'
+import { generateSanityMetadata } from '@/lib/sanity/metadata'
 
-export const metadata: Metadata = {
-  title: 'About | Michael Evans',
-  description: 'Product Manager, UX Strategist, and AI Builder with 20 years of experience solving complex problems.',
+const profileQuery = `
+  *[_type == "profile"] | order(_updatedAt desc)[0] {
+    name,
+    "profileImage": profileImage.asset->url,
+    heroHeadline,
+    heroSubheadline,
+    heroIntro,
+    quickFacts,
+    capabilities,
+    sections[] {
+      heading,
+      slug,
+      content,
+      subsections,
+      visible
+    },
+    selectedProjects[] | order(order asc),
+    availability,
+    availabilityText,
+    ctaText,
+    ctaButtonText,
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords,
+      ogTitle,
+      ogDescription,
+      ogImage {
+        asset,
+        alt
+      },
+      twitterCard,
+      twitterTitle,
+      twitterDescription,
+      twitterImage {
+        asset,
+        alt
+      },
+      canonicalUrl,
+      noIndex
+    }
+  }
+`
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: profile } = await sanityFetch({ query: profileQuery })
+
+  return generateSanityMetadata({
+    seo: profile?.seo,
+    title: 'About | Michael Evans',
+    description: profile?.heroSubheadline || 'Product Manager, UX Strategist, and AI Builder with 20 years of experience solving complex problems.',
+    path: '/about',
+  })
 }
 
 export default async function AboutPage() {
-  const { data } = await sanityFetch({ query: `
-    *[_type == "profile"] | order(_updatedAt desc)[0] {
-      name,
-      "profileImage": profileImage.asset->url,
-      heroHeadline,
-      heroSubheadline,
-      heroIntro,
-      quickFacts,
-      capabilities,
-      sections[] {
-        heading,
-        slug,
-        content,
-        subsections,
-        visible
-      },
-      selectedProjects[] | order(order asc),
-      availability,
-      availabilityText,
-      ctaText,
-      ctaButtonText
-    }
-  ` })
+  const { data } = await sanityFetch({ query: profileQuery })
 
   if (!data) {
     notFound()
