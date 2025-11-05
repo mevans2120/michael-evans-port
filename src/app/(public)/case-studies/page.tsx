@@ -29,7 +29,10 @@ export default async function CaseStudiesPage() {
       category: project.category || 'Case Study',
       title: project.title,
       metric: project.featuredMetric || '',
-      description: project.featuredDescription || project.summary || '',
+      // Use featuredDescription or heroSection.summary
+      description: project.featuredDescription
+        || project.heroSection?.summary
+        || '',
       slug: project.slug?.current || project.slug,
       order: project.order || index + 1
     }))

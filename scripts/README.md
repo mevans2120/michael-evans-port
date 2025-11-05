@@ -1,4 +1,109 @@
-# Migration Scripts
+# Sanity Migration Scripts Guide
+
+## How to Write Migration Scripts (IMPORTANT!)
+
+### Critical Requirements
+
+When writing Sanity migration scripts, you **MUST** follow this exact pattern to avoid authentication errors:
+
+#### 1. Environment Variable Loading
+
+**ALWAYS use this pattern:**
+
+```typescript
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+
+// Load environment variables from .env.local
+dotenv.config({ path: resolve(process.cwd(), '.env.local') })
+```
+
+**❌ Don't use:** `import 'dotenv/config'` - it won't consistently load `.env.local`
+
+#### 2. Authentication Token
+
+**ALWAYS use `SANITY_WRITE_TOKEN`:**
+
+```typescript
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5n331bys',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  token: process.env.SANITY_WRITE_TOKEN, // ⚠️  MUST be SANITY_WRITE_TOKEN
+  useCdn: false, // Never cache writes
+})
+```
+
+**Common Mistakes:**
+- ❌ `SANITY_API_TOKEN` - Will fail with 403 Forbidden
+- ❌ `SANITY_AUTH_TOKEN` - Read-only, insufficient permissions
+- ❌ `NEXT_PUBLIC_SANITY_TOKEN` - Public read-only token
+- ✅ `SANITY_WRITE_TOKEN` - Correct!
+
+### Quick Start Template
+
+```typescript
+#!/usr/bin/env tsx
+import { createClient } from '@sanity/client'
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+
+// Load environment variables
+dotenv.config({ path: resolve(process.cwd(), '.env.local') })
+
+// Create write-enabled client
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '5n331bys',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  token: process.env.SANITY_WRITE_TOKEN,
+  useCdn: false,
+})
+
+async function migrate() {
+  console.log('Starting migration...')
+
+  // Fetch document
+  const doc = await client.fetch(`*[_id == "your-doc-id"][0]`)
+
+  if (!doc) {
+    console.log('Document not found')
+    return
+  }
+
+  // Update document
+  await client
+    .patch(doc._id)
+    .set({ yourField: 'new value' })
+    .commit()
+
+  console.log('✅ Migration complete')
+}
+
+migrate()
+```
+
+### Running Migrations
+
+```bash
+npx tsx scripts/your-migration-script.ts
+```
+
+### Troubleshooting
+
+**403 Forbidden Error:**
+```
+ClientError: transaction failed: Insufficient permissions; permission "update" required
+```
+
+**Solutions:**
+1. Verify you're using `SANITY_WRITE_TOKEN` (not `_API_TOKEN` or `_AUTH_TOKEN`)
+2. Check dotenv loading: `dotenv.config({ path: resolve(process.cwd(), '.env.local') })`
+3. Confirm `.env.local` contains `SANITY_WRITE_TOKEN=...`
+
+**See working example:** `scripts/migrate-aesop-lyft.ts`
+
+---
 
 ## About Page Content Migration
 

@@ -13,13 +13,7 @@ export interface SanitySEO {
   metaTitle?: string
   metaDescription?: string
   keywords?: string[]
-  ogTitle?: string
-  ogDescription?: string
-  ogImage?: SanityImage
   twitterCard?: 'summary' | 'summary_large_image'
-  twitterTitle?: string
-  twitterDescription?: string
-  twitterImage?: SanityImage
   canonicalUrl?: string
   noIndex?: boolean
 }
@@ -97,32 +91,19 @@ export async function generateSanityMetadata({
   // Determine base URL from global settings or environment
   const baseUrl = globalSettings.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans-port.vercel.app'
 
-  // Titles with fallback chain
+  // Title with fallback chain: seo → page → default
   const metaTitle = seo?.metaTitle || title
-  const ogTitle = seo?.ogTitle || seo?.metaTitle || title
-  const twitterTitle = seo?.twitterTitle || seo?.ogTitle || seo?.metaTitle || title
 
-  // Descriptions with fallback chain: seo → page → global → empty
+  // Description with fallback chain: seo → page → global → empty
   const metaDescription = seo?.metaDescription || description || globalSettings.defaultMetaDescription || ''
-  const ogDescription = seo?.ogDescription || seo?.metaDescription || description || globalSettings.defaultMetaDescription || ''
-  const twitterDescription = seo?.twitterDescription || seo?.ogDescription || seo?.metaDescription || description || globalSettings.defaultMetaDescription || ''
 
-  // Images with fallback chain: seo.ogImage → featuredImage → global.defaultOgImage → hardcoded defaultImage
-  let ogImageUrl: string | undefined = defaultImage
+  // Social image with fallback chain: featuredImage → global.defaultOgImage → hardcoded defaultImage
+  let socialImageUrl: string | undefined = defaultImage
 
-  if (seo?.ogImage?.asset) {
-    ogImageUrl = urlFor(seo.ogImage).width(1200).height(630).url()
-  } else if (featuredImage?.asset) {
-    ogImageUrl = urlFor(featuredImage).width(1200).height(630).url()
+  if (featuredImage?.asset) {
+    socialImageUrl = urlFor(featuredImage).width(1200).height(630).url()
   } else if (globalSettings.defaultOgImage?.asset) {
-    ogImageUrl = urlFor(globalSettings.defaultOgImage).width(1200).height(630).url()
-  }
-
-  // Twitter image: seo.twitterImage → seo.ogImage → featuredImage → global → hardcoded
-  let twitterImageUrl: string | undefined = ogImageUrl
-
-  if (seo?.twitterImage?.asset) {
-    twitterImageUrl = urlFor(seo.twitterImage).width(1200).height(675).url()
+    socialImageUrl = urlFor(globalSettings.defaultOgImage).width(1200).height(630).url()
   }
 
   // Keywords with fallback to global settings
@@ -151,29 +132,29 @@ export async function generateSanityMetadata({
 
     // Open Graph
     openGraph: {
-      title: ogTitle,
-      description: ogDescription,
+      title: metaTitle,
+      description: metaDescription,
       url: canonical,
       siteName: globalSettings.siteName || 'Michael Evans Portfolio',
       locale: 'en_US',
       type: 'website',
-      ...(ogImageUrl && {
+      ...(socialImageUrl && {
         images: [{
-          url: ogImageUrl,
+          url: socialImageUrl,
           width: 1200,
           height: 630,
-          alt: seo?.ogImage?.alt || featuredImage?.alt || globalSettings.defaultOgImage?.alt || ogTitle,
+          alt: featuredImage?.alt || globalSettings.defaultOgImage?.alt || metaTitle,
         }],
       }),
     },
 
-    // Twitter
+    // Twitter (uses same metadata as Open Graph)
     twitter: {
       card: seo?.twitterCard || 'summary_large_image',
-      title: twitterTitle,
-      description: twitterDescription,
-      ...(twitterImageUrl && {
-        images: [twitterImageUrl],
+      title: metaTitle,
+      description: metaDescription,
+      ...(socialImageUrl && {
+        images: [socialImageUrl],
       }),
       // Twitter handle from global settings
       creator: twitterHandle,

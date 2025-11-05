@@ -128,19 +128,7 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     metaTitle,
     metaDescription,
     keywords,
-    ogTitle,
-    ogDescription,
-    ogImage {
-      asset,
-      alt
-    },
     twitterCard,
-    twitterTitle,
-    twitterDescription,
-    twitterImage {
-      asset,
-      alt
-    },
     canonicalUrl,
     noIndex
   }

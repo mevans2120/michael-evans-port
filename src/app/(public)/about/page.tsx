@@ -29,19 +29,7 @@ const profileQuery = `
       metaTitle,
       metaDescription,
       keywords,
-      ogTitle,
-      ogDescription,
-      ogImage {
-        asset,
-        alt
-      },
       twitterCard,
-      twitterTitle,
-      twitterDescription,
-      twitterImage {
-        asset,
-        alt
-      },
       canonicalUrl,
       noIndex
     }

@@ -7,14 +7,28 @@ export const projectsQuery = groq`
     title,
     slug,
     category,
-    summary,
-    description,
-    heroImage,
+
+    // Editorial format
+    heroSection {
+      badge,
+      title,
+      subtitle,
+      summary
+    },
+
     technologies,
     featured,
     featuredMetric,
     featuredDescription,
-    "imageUrl": heroImage.asset->url
+
+    // Featured image
+    featuredImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    }
   }
 `
 
@@ -25,9 +39,20 @@ export const featuredProjectsQuery = groq`
     title,
     slug,
     category,
-    summary,
-    heroImage,
-    "imageUrl": heroImage.asset->url
+
+    // Editorial format
+    heroSection {
+      subtitle,
+      summary
+    },
+
+    // Featured image
+    featuredImage {
+      asset->{
+        _id,
+        url
+      }
+    }
   }
 `
 
@@ -38,24 +63,65 @@ export const projectQuery = groq`
     title,
     slug,
     category,
-    summary,
-    description,
-    heroImage,
-    "imageUrl": heroImage.asset->url,
-    metrics,
-    achievements,
-    content[] {
-      ...,
-      _type == "image" => {
-        "url": asset->url,
-        "dimensions": asset->metadata.dimensions
-      }
+
+    // Editorial format
+    heroSection {
+      badge,
+      title,
+      subtitle,
+      summary
     },
+    overview {
+      role,
+      company,
+      timeline
+    },
+
+    metrics[] {
+      label,
+      value,
+      description
+    },
+
+    slides[] {
+      _key,
+      sectionLabel,
+      heading,
+      content,
+      quoteBox,
+      comparisonBoxes,
+      visualCards,
+      annotation
+    },
+
+    // Featured image
+    featuredImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+
     technologies,
     liveUrl,
     githubUrl,
     publishedAt,
-    featured
+    featured,
+
+    callToAction {
+      text,
+      link
+    },
+
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords,
+      twitterCard,
+      canonicalUrl,
+      noIndex
+    }
   }
 `
 
@@ -66,9 +132,20 @@ export const projectsByCategoryQuery = groq`
     title,
     slug,
     category,
-    summary,
-    heroImage,
-    "imageUrl": heroImage.asset->url,
+
+    // Editorial format
+    heroSection {
+      summary
+    },
+
+    // Featured image
+    featuredImage {
+      asset->{
+        _id,
+        url
+      }
+    },
+
     technologies
   }
 `
@@ -137,19 +214,7 @@ export const homepageHeroQuery = groq`
       metaTitle,
       metaDescription,
       keywords,
-      ogTitle,
-      ogDescription,
-      ogImage {
-        asset,
-        alt
-      },
       twitterCard,
-      twitterTitle,
-      twitterDescription,
-      twitterImage {
-        asset,
-        alt
-      },
       canonicalUrl,
       noIndex
     }
@@ -192,18 +257,27 @@ export const featuredAIShowcaseQuery = groq`
 
 // Get featured case study for case studies landing page
 export const featuredCaseStudyQuery = groq`
-  *[_type == "project" && category == "case-study" && featured == true] | order(order asc)[0] {
+  *[_type == "project" && featured == true] | order(order asc)[0] {
     _id,
     title,
     slug,
-    summary,
-    description,
+
+    // Editorial format
+    heroSection {
+      badge,
+      title,
+      subtitle,
+      summary
+    },
+
     metrics[] {
       label,
       value,
       description
     },
-    heroImage {
+
+    // Featured image
+    featuredImage {
       asset->{
         _id,
         url,
@@ -212,9 +286,9 @@ export const featuredCaseStudyQuery = groq`
           lqip
         }
       },
-      alt,
-      caption
+      alt
     },
+
     order
   }
 `

@@ -5,17 +5,30 @@ import { CaseStudyBackground } from './CaseStudyBackground'
 interface CaseStudy {
   title: string
   slug: { current: string }
-  summary: string
-  description: string
+
+  // Editorial format
+  heroSection?: {
+    badge?: string
+    title?: string
+    subtitle?: string
+    summary?: string
+  }
+
   metrics?: Array<{
     label: string
     value: string
     description?: string
   }>
-  heroImage?: {
+
+  // Featured image
+  featuredImage?: {
     asset?: {
       _id: string
       url: string
+      metadata?: {
+        dimensions?: any
+        lqip?: string
+      }
     }
     alt?: string
   }
@@ -29,24 +42,32 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
   // Get primary metric (first metric or custom logic)
   const primaryMetric = caseStudy.metrics?.[0]
 
+  // Use editorial format fields
+  const displayTitle = caseStudy.heroSection?.title || caseStudy.title
+  const displayDescription = caseStudy.heroSection?.subtitle
+    || caseStudy.heroSection?.summary
+    || ''
+
+  const displayImage = caseStudy.featuredImage
+
   return (
     <section className="relative min-h-[75vh] flex items-center py-28 md:py-32 overflow-hidden">
       {/* Background layers */}
-      <CaseStudyBackground image={caseStudy.heroImage} />
+      <CaseStudyBackground image={displayImage} />
 
       {/* Content */}
       <div className="container relative z-10 max-w-5xl">
         <div className="max-w-[900px]">
           {/* Label */}
           <div className="inline-block text-sm font-semibold tracking-widest uppercase text-accent-light mb-6">
-            Featured Case Study
+            {caseStudy.heroSection?.badge || 'Featured Case Study'}
           </div>
 
           {/* Title */}
           <h1
             className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8 text-gradient"
           >
-            {caseStudy.title}
+            {displayTitle}
           </h1>
 
           {/* Primary Metric */}
@@ -58,9 +79,11 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
           )}
 
           {/* Description */}
-          <p className="text-xl leading-relaxed text-gray-200 max-w-[700px] mb-12">
-            {caseStudy.description}
-          </p>
+          {displayDescription && (
+            <p className="text-xl leading-relaxed text-gray-200 max-w-[700px] mb-12">
+              {displayDescription}
+            </p>
+          )}
 
           {/* CTA */}
           <Link
