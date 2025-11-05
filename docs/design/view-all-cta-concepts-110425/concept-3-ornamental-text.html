@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Ornamental Text</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #f3f4f6;
+      padding: 80px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+    }
+    .concept-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .cta-container {
+      background: #1a1a1a;
+      padding: 60px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    /* Ornamental Text Treatment */
+    .ornamental-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      color: hsl(276 70% 65%);
+      text-decoration: none;
+      position: relative;
+      cursor: pointer;
+      transition: color 300ms ease;
+    }
+    .ornamental-text:hover {
+      color: hsl(276 70% 75%);
+    }
+
+    /* Decorative line element */
+    .ornamental-text::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, hsl(276 70% 65%), hsl(276 70% 75%));
+      transition: width 300ms ease;
+    }
+    .ornamental-text:hover::before {
+      width: 48px;
+    }
+
+    /* Arrow container */
+    .ornamental-text .arrow-box {
+      width: 24px;
+      height: 24px;
+      border: 1px solid hsl(276 70% 65% / 0.3);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms ease;
+    }
+    .ornamental-text:hover .arrow-box {
+      border-color: hsl(276 70% 65%);
+      background: hsl(276 70% 65% / 0.1);
+      transform: translateX(2px);
+    }
+    .ornamental-text svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 300ms ease;
+    }
+    .ornamental-text:hover svg {
+      transform: translateX(1px);
+    }
+
+    .notes {
+      margin-top: 40px;
+      max-width: 500px;
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="concept-title">Concept 3: Ornamental Text</div>
+
+  <div class="cta-container">
+    <div class="label">Default State</div>
+    <a href="#" class="ornamental-text">
+      <span>View all case studies</span>
+      <span class="arrow-box">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </span>
+    </a>
+  </div>
+
+  <div class="notes">
+    <strong>Rationale:</strong> Slightly ornamental with decorative gradient line leading into the text and boxed arrow. Feels more editorial and refined. Line extends on hover, box illuminates, arrow slides. More visual interest without being heavy.
+  </div>
+
+</body>
+</html>

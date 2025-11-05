@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
+import { OrnamentalCTA } from "@/components/ui/OrnamentalCTA";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { sanityFetch } from "@/sanity/lib/live";
 import { featuredAIShowcaseQuery, homepageHeroQuery } from "@/lib/sanity/queries";
@@ -105,13 +106,10 @@ export default async function HomePage() {
                 {description}
               </p>
 
-              <Link
+              <OrnamentalCTA
+                text={heroCta.text}
                 href={heroCta.link}
-                className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-accent hover:text-accent-light"
-              >
-                {heroCta.text}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              />
             </div>
           </div>
         </div>
@@ -154,13 +152,10 @@ export default async function HomePage() {
 
             {/* View All Link */}
             <div className="mt-10 -mx-6 md:mx-0">
-              <Link
+              <OrnamentalCTA
+                text={selectedWork.viewAllText}
                 href={selectedWork.viewAllLink}
-                className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors"
-              >
-                {selectedWork.viewAllText}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              />
             </div>
           </div>
         </section>
@@ -199,7 +194,7 @@ export default async function HomePage() {
                           src={urlFor(featuredShowcase.featuredImage).width(600).height(450).fit('crop').quality(85).auto('format').url()}
                           alt={featuredShowcase.featuredImage.alt || featuredShowcase.heroSection.title}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-slow"
+                          className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                         />
                       </div>
                     </div>
@@ -227,13 +222,10 @@ export default async function HomePage() {
 
               {/* View All Link */}
               <div className="mt-10">
-                <Link
+                <OrnamentalCTA
+                  text={aiShowcase.viewAllText}
                   href={aiShowcase.viewAllLink}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors"
-                >
-                  {aiShowcase.viewAllText}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                />
               </div>
             </div>
           </div>

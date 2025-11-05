@@ -1,14 +1,109 @@
 # Current Development Status
 
-## 📍 Active Sprint: Navigation Loading & UX Polish
+## 📍 Active Sprint: Homepage CTA & Animation Refinements
 *Last Updated: 2025-11-05*
 
 ## 🎯 Current Focus
-**Navigation & UX Enhancements - COMPLETE!** ✅ Added internal navigation loading state, improved chatbot text styling, and refined homepage hero design.
+**Homepage Polish - COMPLETE!** ✅ Implemented ornamental CTA design, refined animations, unified purple hover states, and improved visual hierarchy.
 
-**Status**: ✅ Complete, build passing.
+**Status**: ✅ Complete, ready for build verification.
 
 ## ✅ Recent Accomplishments (November 4-5, 2025)
+
+### Ornamental CTA Implementation - COMPLETE 🎉
+
+**Goal**: Replace simple text links with refined ornamental CTA design across homepage.
+
+**Design Process**:
+- Explored 3 concept variations (minimal button, clean text, ornamental text)
+- User selected Concept 3 (ornamental text with decorative gradient line)
+- Iteratively refined animations to be more subtle
+
+**Implementation**:
+- Created reusable `OrnamentalCTA` component in `/src/components/ui/`
+- Replaced 3 CTAs on homepage:
+  1. Hero section: "Learn more about my background"
+  2. Selected Work section: "View all case studies"
+  3. AI Showcase section: "View all showcases"
+
+**Design Features**:
+- Decorative gradient line (32px, purple gradient from transparent → accent → accent-light)
+- No animations (removed line extension and arrow movement for subtlety)
+- Simple hover state: text color lightens from `text-accent` to `text-accent-light`
+- Clean arrow icon (no box, no border)
+- Full keyboard accessibility with focus rings
+- Dark mode support via design system tokens
+
+**Refinement Iterations**:
+1. Initial implementation with boxed arrow and extending line
+2. Removed arrow box/border per user feedback
+3. Reduced arrow movement by 75% (8px → 2px)
+4. Removed ALL animations (line + arrow) for maximum subtlety
+5. Final: Static decorative elements with only color change on hover
+
+**Files Created**:
+- `/src/components/ui/OrnamentalCTA.tsx` - Reusable CTA component
+- `/docs/design/view-all-cta-concepts-110425/concept-1-minimal-button.html` - Button concept
+- `/docs/design/view-all-cta-concepts-110425/concept-2-clean-text.html` - Text concept
+- `/docs/design/view-all-cta-concepts-110425/concept-3-ornamental-text.html` - Ornamental concept (selected)
+- `/docs/design/view-all-cta-concepts-110425/overview.md` - Concept comparison
+
+**Files Modified**:
+- `/src/app/(public)/page.tsx` - Replaced 3 CTAs with OrnamentalCTA component
+
+**Key Improvements**:
+- ✅ Consistent CTA treatment across homepage
+- ✅ Sophisticated ornamental design
+- ✅ Extremely subtle interactions (color change only)
+- ✅ Reusable component for future use
+- ✅ Maintains accessibility and performance
+
+---
+
+### Homepage Animation & Visual Refinements - COMPLETE 🎉
+
+**Goal**: Polish homepage animations and visual consistency.
+
+**Changes Made**:
+
+#### 1. AI Showcase Image Hover ✅
+- Removed aggressive scale animation (scale-105)
+- Added subtle opacity fade (100% → 90% on hover)
+- Image still clickable with text highlight on hover
+- Much more refined interaction
+
+#### 2. Case Study Card Height Reduction ✅
+- Reduced padding by 40% total:
+  - First reduction: `py-20 md:py-24` → `py-16 md:py-20` (20%)
+  - Second reduction: `py-16 md:py-20` → `py-12 md:py-16` (20%)
+- Cards more compact while maintaining readability
+- Better visual proportion after layout shift fix
+
+#### 3. Purple Hover Color Unification ✅
+- **Problem**: AI Showcase used `text-accent-light`, Case Studies used `text-accent`
+- **Solution**: Updated Case Studies to use `text-accent-light` (lighter shade)
+- Now both sections have consistent purple highlight on hover
+- More cohesive visual experience
+
+#### 4. Case Study Label Cleanup ✅
+- Removed numbers and dash from category labels
+- **Before**: "04 — CASE STUDY"
+- **After**: "CASE STUDY"
+- Cleaner, less cluttered appearance
+
+**Files Modified**:
+- `/src/app/(public)/page.tsx` - AI Showcase image opacity animation
+- `/src/components/FeaturedCaseStudies.tsx` - Card height, purple color, label format
+
+**Key Improvements**:
+- ✅ More subtle animations throughout
+- ✅ Consistent purple hover states
+- ✅ Better visual hierarchy
+- ✅ Cleaner typography
+
+---
+
+## ✅ Recent Accomplishments (November 4-5, 2025 - Earlier)
 
 ### Case Study Cards Animation Fix - COMPLETE 🎉
 

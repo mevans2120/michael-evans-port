@@ -74,7 +74,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
           <article
             key={study.id}
             className={`
-              relative py-20 md:py-24 border-b border-white/8 last:border-b-0
+              relative py-12 md:py-16 border-b border-white/8 last:border-b-0
               ${isExpanded ? 'pl-4' : ''}
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] focus-visible:rounded-lg
             `}
@@ -91,12 +91,12 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
               <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 md:gap-10">
                 <div className="flex-1">
                   <div className="text-xs md:text-sm font-semibold text-accent tracking-wider uppercase mb-3 md:mb-5 font-sans">
-                    {study.number} — {study.category}
+                    {study.category}
                   </div>
                   <h3 className={`
                     text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight font-sans
                     transition-colors duration-600
-                    ${isExpanded ? 'text-accent' : 'group-hover:text-accent'}
+                    ${isExpanded ? 'text-accent-light' : 'group-hover:text-accent-light'}
                   `}>
                     {study.title}
                   </h3>
