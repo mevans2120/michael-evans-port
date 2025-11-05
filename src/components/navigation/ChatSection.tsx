@@ -328,6 +328,12 @@ export function ChatSection() {
                               {children}
                             </LinkPreview>
                           ),
+                          em: ({ node, children, ...props }) => (
+                            <em className="text-chat-foreground not-italic font-normal" {...props}>{children}</em>
+                          ),
+                          strong: ({ node, children, ...props }) => (
+                            <strong className="text-chat-foreground font-semibold" {...props}>{children}</strong>
+                          ),
                         }}
                       >
                         {mainContent}

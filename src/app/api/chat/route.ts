@@ -61,6 +61,10 @@ Response Guidelines:
 - Format: [One paragraph] → [Two follow-up questions] → [Optional: "Learn more: [link]"]
 - DO NOT use headings, titles, or section headers in your responses
 - Start directly with the answer in natural, conversational paragraphs
+- **Formatting for emphasis**: Use **bold** for emphasis, NEVER use italics or other text styling
+  * Good: "Michael built **three major features** for the project"
+  * Bad: "Michael built *three major features* for the project" (italics are not readable)
+  * Only use bold when truly needed for emphasis - don't overuse it
 - ALWAYS mention the specific project, product, or feature name in your opening sentence to establish context
   * Good: "The Before Launcher was an Android home screen replacement that..."
   * Bad: "Michael built a launcher that..." (missing the project name)

@@ -1,5 +1,6 @@
 import { NavigationProvider } from "@/contexts/NavigationContext";
 import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
+import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Footer } from "@/components/Footer";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -15,6 +16,9 @@ export default async function PublicLayout({
 
   return (
     <NavigationProvider>
+      {/* Navigation loading indicator */}
+      <NavigationProgress />
+
       <div className="flex h-screen w-screen bg-background overflow-hidden">
         {/* Navigation Panel - Now on the left for desktop */}
         <NavigationPanel>

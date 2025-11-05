@@ -212,16 +212,29 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
   const [imageError, setImageError] = useState(false);
   const hasImage = metadata.imageUrl && !imageError;
 
+  // Detect internal links (starts with / but not //)
+  const isInternalLink = href.startsWith('/') && !href.startsWith('//');
+
+  const handleClick = () => {
+    // Only trigger loading for internal navigation
+    if (isInternalLink) {
+      window.dispatchEvent(new CustomEvent('navigation-start'));
+    }
+  };
+
   return (
     <Link
       href={href}
+      onClick={handleClick}
+      target={isInternalLink ? undefined : '_blank'}
+      rel={isInternalLink ? undefined : 'noopener noreferrer'}
       className={cn(
         'my-4 block rounded-lg border border-border bg-card hover:border-accent dark:hover:border-accent-light',
         'transition-smooth hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'group',
         className
       )}
-      aria-label={`View ${metadata.category}: ${metadata.title}`}
+      aria-label={`View ${metadata.category}: ${metadata.title}${!isInternalLink ? ' (opens in new tab)' : ''}`}
     >
       <div className="flex flex-col md:flex-row gap-4 p-4">
         {/* Image */}
