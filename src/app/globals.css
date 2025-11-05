@@ -30,18 +30,18 @@ All colors MUST be HSL.
     --navigation-link-hover: var(--color-text);     /* No color change on hover */
     --navigation-link-hover-bg: 240 5% 85%;
 
-    /* Chat - matches mode (light in light mode, dark in dark mode) */
-    --chat-background: 240 5% 90%;        /* Blue-gray neutral (matches navigation) */
-    --chat-foreground: 0 0% 3.1%;         /* Dark text in light mode */
-    --chat-border: 240 5% 85%;            /* Light borders in light mode */
-    --chat-message-bg: 0 0% 100%;         /* White message bubbles (matches suggestions) */
-    --chat-input-bg: 0 0% 100%;           /* White input field */
-    --chat-input-border: 240 5% 85%;      /* Light border for input */
-    --chat-input-text: 0 0% 3.1%;         /* Dark text in input (light mode) */
-    --chat-user-bubble-bg: 0 0% 100%;     /* White background for user bubbles */
-    --chat-user-bubble-text: 0 0% 3.1%;   /* Dark text in user bubbles (light mode) */
-    --chat-suggestion-bg: 0 0% 100%;      /* White background for suggested prompts */
-    --chat-suggestion-hover: 240 5% 95%;  /* Very light gray on hover */
+    /* Chat - Semantic tokens referencing core design system */
+    --chat-background: var(--navigation-background);  /* Matches navigation */
+    --chat-foreground: var(--color-text);             /* Primary text color */
+    --chat-border: var(--color-border);               /* Primary border color */
+    --chat-message-bg: var(--card);                   /* Card background */
+    --chat-input-bg: var(--color-bg);                 /* Primary background */
+    --chat-input-border: var(--color-border);         /* Primary border */
+    --chat-input-text: var(--color-text);             /* Primary text */
+    --chat-user-bubble-bg: var(--card);               /* Card background */
+    --chat-user-bubble-text: var(--color-text);       /* Primary text */
+    --chat-suggestion-bg: var(--card);                /* Card background */
+    --chat-suggestion-hover: var(--muted);            /* Muted background */
 
     --popover: 0 0% 100%;
     --popover-foreground: var(--color-text);
@@ -118,18 +118,18 @@ All colors MUST be HSL.
     --navigation-link-hover: 0 0% 100%;
     --navigation-link-hover-bg: var(--color-border);
 
-    /* Chat - matches mode (dark in dark mode, light in light mode) */
-    --chat-background: 240 6% 10%;        /* Dark background (matches navigation) */
-    --chat-foreground: 0 0% 98%;          /* Light text in dark mode */
-    --chat-border: 240 5% 20%;            /* Dark borders in dark mode */
-    --chat-message-bg: 240 10% 12%;       /* Darker message bubbles */
-    --chat-input-bg: var(--color-bg);     /* Vampire black input field */
-    --chat-input-border: 240 5% 20%;      /* Dark border for input */
-    --chat-input-text: 0 0% 98%;          /* Light text in input (dark mode) */
-    --chat-user-bubble-bg: 240 10% 12%;   /* Dark background for user bubbles */
-    --chat-user-bubble-text: 0 0% 98%;    /* Light text in user bubbles (dark mode) */
-    --chat-suggestion-bg: 240 10% 15%;
-    --chat-suggestion-hover: 240 10% 18%;
+    /* Chat - Semantic tokens referencing core design system */
+    --chat-background: var(--navigation-background);  /* Matches navigation */
+    --chat-foreground: var(--color-text);             /* Primary text color */
+    --chat-border: var(--color-border);               /* Primary border color */
+    --chat-message-bg: var(--card);                   /* Card background */
+    --chat-input-bg: var(--color-bg);                 /* Vampire black (already correct) */
+    --chat-input-border: var(--color-border);         /* Primary border */
+    --chat-input-text: var(--color-text);             /* Primary text */
+    --chat-user-bubble-bg: var(--card);               /* Card background */
+    --chat-user-bubble-text: var(--color-text);       /* Primary text */
+    --chat-suggestion-bg: var(--secondary);           /* Secondary background */
+    --chat-suggestion-hover: var(--muted);            /* Muted background */
 
     --popover: 215 28% 6%;
     --popover-foreground: var(--color-text);
