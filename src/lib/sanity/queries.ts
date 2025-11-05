@@ -263,11 +263,13 @@ export const featuredAIShowcaseQuery = groq`
 `
 
 // Get featured case study for case studies landing page
-export const featuredCaseStudyQuery = groq`
-  *[_type == "project" && featured == true] | order(order asc)[0] {
+// Get all featured case studies (for random selection)
+export const allFeaturedCaseStudiesQuery = groq`
+  *[_type == "project" && featured == true] | order(order asc) {
     _id,
     title,
     slug,
+    category,
 
     // Editorial format
     heroSection {

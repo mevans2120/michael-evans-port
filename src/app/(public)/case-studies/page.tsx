@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
-import { featuredCaseStudyQuery, projectsQuery } from '@/lib/sanity/queries'
+import { allFeaturedCaseStudiesQuery, projectsQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
 import { FeaturedCaseStudies } from '@/components/FeaturedCaseStudies'
@@ -16,10 +16,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CaseStudiesPage() {
   // Fetch data in parallel
-  const [{ data: featuredCaseStudy }, { data: allProjects }] = await Promise.all([
-    sanityFetch({ query: featuredCaseStudyQuery }),
+  const [{ data: featuredProjects }, { data: allProjects }] = await Promise.all([
+    sanityFetch({ query: allFeaturedCaseStudiesQuery }),
     sanityFetch({ query: projectsQuery })
   ])
+
+  // Randomly select one featured project
+  const randomCaseStudy = featuredProjects && featuredProjects.length > 0
+    ? featuredProjects[Math.floor(Math.random() * featuredProjects.length)]
+    : null
 
   // Format all projects for FeaturedCaseStudies component
   const caseStudies = allProjects
@@ -40,8 +45,8 @@ export default async function CaseStudiesPage() {
   return (
     <main>
       {/* Hero Section */}
-      {featuredCaseStudy && (
-        <CaseStudiesHero caseStudy={featuredCaseStudy} />
+      {randomCaseStudy && (
+        <CaseStudiesHero caseStudy={randomCaseStudy} />
       )}
 
       {/* Separator */}

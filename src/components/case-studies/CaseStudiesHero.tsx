@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { CaseStudyBackground } from './CaseStudyBackground'
+import { OrnamentalCTA } from '@/components/ui/OrnamentalCTA'
 
 interface CaseStudy {
   title: string
   slug: { current: string }
+  category?: string
 
   // Editorial format
   heroSection?: {
@@ -60,7 +62,7 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
         <div className="max-w-[900px]">
           {/* Label */}
           <div className="inline-block text-sm font-semibold tracking-widest uppercase text-accent-light mb-6">
-            {caseStudy.heroSection?.badge || 'Featured Case Study'}
+            {caseStudy.category || 'Case Study'}
           </div>
 
           {/* Title */}
@@ -86,13 +88,28 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
           )}
 
           {/* CTA */}
-          <Link
+          <OrnamentalCTA
+            text="View Case Study"
             href={`/case-studies/${caseStudy.slug.current}`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-semibold text-accent-foreground bg-gradient-to-br from-accent to-accent-light hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/40 transition-smooth"
+          />
+        </div>
+      </div>
+
+      {/* Randomly Selected Badge - Bottom Left */}
+      <div className="absolute bottom-8 left-8 z-20">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm border border-border text-xs font-medium text-muted-foreground">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            className="w-3 h-3"
           >
-            View Case Study
-            <ArrowRight className="w-5 h-5 transition-transform duration-normal group-hover:translate-x-1" />
-          </Link>
+            <circle cx="8" cy="8" r="6" />
+            <path d="M8 5v6M5 8h6" />
+          </svg>
+          Randomly Selected
         </div>
       </div>
     </section>
