@@ -251,6 +251,13 @@ export const featuredAIShowcaseQuery = groq`
       title,
       subtitle,
       summary
+    },
+    featuredImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
     }
   }
 `

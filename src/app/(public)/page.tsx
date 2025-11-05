@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
@@ -7,6 +8,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { featuredAIShowcaseQuery, homepageHeroQuery } from "@/lib/sanity/queries";
 import { Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
+import { urlFor } from '@/lib/sanity/client';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });
@@ -188,20 +190,39 @@ export default async function HomePage() {
 
             <div className="-mx-6 md:mx-0">
               <Link href={`/ai-showcase/${featuredShowcase.slug}`} className="block group mb-8">
-                {/* Title */}
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-light leading-tight mb-6 text-foreground group-hover:text-accent-light transition-colors">
-                  {featuredShowcase.heroSection.title}
-                </h3>
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  {/* Featured Image */}
+                  {featuredShowcase.featuredImage?.asset?.url && (
+                    <div className="w-full md:w-1/3 flex-shrink-0">
+                      <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
+                        <Image
+                          src={urlFor(featuredShowcase.featuredImage).width(600).height(450).fit('crop').quality(85).auto('format').url()}
+                          alt={featuredShowcase.featuredImage.alt || featuredShowcase.heroSection.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-slow"
+                        />
+                      </div>
+                    </div>
+                  )}
 
-                {/* Brief Description with inline CTA */}
-                {featuredShowcase.heroSection.summary && (
-                  <p className="text-lg md:text-xl font-serif mb-6 leading-relaxed text-muted-foreground">
-                    {featuredShowcase.heroSection.summary}{' '}
-                    <span className="text-lg md:text-xl font-medium text-accent hover:text-accent-light transition-colors underline whitespace-nowrap">
-                      Learn more
-                    </span>
-                  </p>
-                )}
+                  {/* Text Content */}
+                  <div className="flex-1">
+                    {/* Title */}
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-light leading-tight mb-6 text-foreground group-hover:text-accent-light transition-colors">
+                      {featuredShowcase.heroSection.title}
+                    </h3>
+
+                    {/* Brief Description with inline CTA */}
+                    {featuredShowcase.heroSection.summary && (
+                      <p className="text-lg md:text-xl font-serif mb-6 leading-relaxed text-muted-foreground">
+                        {featuredShowcase.heroSection.summary}{' '}
+                        <span className="text-lg md:text-xl font-medium text-accent hover:text-accent-light transition-colors underline whitespace-nowrap">
+                          Learn more
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                </div>
               </Link>
 
               {/* View All Link */}
