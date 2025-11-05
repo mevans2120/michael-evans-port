@@ -41,9 +41,6 @@ interface CaseStudiesHeroProps {
 }
 
 export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
-  // Get primary metric (first metric or custom logic)
-  const primaryMetric = caseStudy.metrics?.[0]
-
   // Use editorial format fields
   const displayTitle = caseStudy.heroSection?.title || caseStudy.title
   const displayDescription = caseStudy.heroSection?.subtitle
@@ -72,14 +69,6 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
             {displayTitle}
           </h1>
 
-          {/* Primary Metric */}
-          {primaryMetric && (
-            <div className="flex items-center gap-4 text-2xl font-semibold text-accent-light mb-6">
-              <div className="w-10 h-0.5 bg-gradient-to-r from-accent to-transparent" />
-              {primaryMetric.value}
-            </div>
-          )}
-
           {/* Description */}
           {displayDescription && (
             <p className="text-xl leading-relaxed text-gray-200 max-w-[700px] mb-12">
@@ -95,20 +84,9 @@ export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
         </div>
       </div>
 
-      {/* Randomly Selected Badge - Bottom Left */}
-      <div className="absolute bottom-8 left-8 z-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm border border-border text-xs font-medium text-muted-foreground">
-          <svg
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            className="w-3 h-3"
-          >
-            <circle cx="8" cy="8" r="6" />
-            <path d="M8 5v6M5 8h6" />
-          </svg>
+      {/* Randomly Selected Badge - Bottom Right */}
+      <div className="absolute bottom-8 right-8 z-20">
+        <div className="text-xs text-gray-500">
           Randomly Selected
         </div>
       </div>
