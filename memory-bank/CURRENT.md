@@ -1,12 +1,66 @@
 # Current Development Status
 
-## 📍 Active Sprint: Homepage CTA & Animation Refinements
+## 📍 Active Sprint: UI Polish & Chat Refinements
 *Last Updated: 2025-11-05*
 
 ## 🎯 Current Focus
-**Homepage Polish - COMPLETE!** ✅ Implemented ornamental CTA design, refined animations, unified purple hover states, and improved visual hierarchy.
+**Chat UI Color Fixes** ✅ Fixed chat message bubble and input field background colors to use proper design tokens.
 
-**Status**: ✅ Complete, ready for build verification.
+**Status**: ✅ Complete, committed and pushed.
+
+## ✅ Recent Accomplishments (November 5, 2025)
+
+### Chat UI Background Color Fix - COMPLETE 🎉
+
+**Goal**: Correct background colors for chat message bubbles and input field.
+
+**Problem**: Colors were reversed from intended design:
+- AI message bubble was using navigation background (`240 6% 10%`)
+- Input field was using vampire black (`240 10% 3%`)
+- Should have been the opposite
+
+**Solution**:
+- Swapped `--chat-message-bg` and `--chat-input-bg` values in dark mode CSS
+- AI message bubble now uses vampire black (darker, more subtle)
+- Input field now uses navigation background (lighter, more prominent)
+
+**Files Modified**:
+- `/src/app/globals.css` - Swapped chat background token values (line 125-126)
+
+**Color Values**:
+```css
+/* Dark mode */
+--chat-message-bg: var(--color-bg);               /* Vampire black (240 10% 3%) */
+--chat-input-bg: var(--navigation-background);    /* Navigation bg (240 6% 10%) */
+```
+
+**Key Improvements**:
+- ✅ AI message bubbles now have vampire black background (more subtle)
+- ✅ Input field has navigation background (more prominent)
+- ✅ Better visual hierarchy in chat interface
+- ✅ Consistent with design system tokens
+
+---
+
+### Suggested Prompts Stability Fix - COMPLETE 🎉
+
+**Goal**: Prevent suggested prompts from re-randomizing when user types in chat input.
+
+**Problem**: Prompts would change every time user interacted with the text input, appearing like search functionality.
+
+**Root Cause**: `useMemo` dependency array included `allPrompts` and `numberOfPromptsToShow`, which triggered re-execution because parent component creates new array reference on every render.
+
+**Solution**: Changed `useMemo` dependency array to empty `[]` so prompts only randomize once on component mount.
+
+**Files Modified**:
+- `/src/components/navigation/SuggestedPrompts.tsx` - Fixed useMemo dependencies (line 32)
+
+**Key Improvements**:
+- ✅ Prompts remain stable throughout user session
+- ✅ Only randomize once when chat first loads
+- ✅ No longer appear to be search-based
+
+---
 
 ## ✅ Recent Accomplishments (November 4-5, 2025)
 

@@ -122,8 +122,8 @@ All colors MUST be HSL.
     --chat-background: var(--navigation-background);  /* Matches navigation */
     --chat-foreground: var(--color-text);             /* Primary text color */
     --chat-border: var(--color-border);               /* Primary border color */
-    --chat-message-bg: var(--card);                   /* Card background */
-    --chat-input-bg: var(--color-bg);                 /* Vampire black (already correct) */
+    --chat-message-bg: var(--color-bg);               /* Vampire black */
+    --chat-input-bg: var(--navigation-background);    /* Navigation background */
     --chat-input-border: var(--color-border);         /* Primary border */
     --chat-input-text: var(--color-text);             /* Primary text */
     --chat-user-bubble-bg: var(--card);               /* Card background */
