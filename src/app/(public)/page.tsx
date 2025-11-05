@@ -115,9 +115,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Separator - aligned with chat input border */}
-      <div className="relative mt-[59px]">
-        <Separator className="mx-auto max-w-6xl" />
+      {/* Separator - decorative line under hero */}
+      <div className="relative mt-[59px] px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="max-w-5xl -mx-6 md:mx-0">
+            <Separator />
+          </div>
+        </div>
       </div>
 
       {/* Featured Work Section */}

@@ -1,14 +1,90 @@
 # Current Development Status
 
-## 📍 Active Sprint: Mobile Chatbot Branding
+## 📍 Active Sprint: Navigation Loading & UX Polish
 *Last Updated: 2025-11-05*
 
 ## 🎯 Current Focus
-**Mobile Chatbot Branding - COMPLETE!** ✅ Added MEvans logo branding to mobile chatbot header.
+**Navigation & UX Enhancements - COMPLETE!** ✅ Added internal navigation loading state, improved chatbot text styling, and refined homepage hero design.
 
 **Status**: ✅ Complete, build passing.
 
-## ✅ Recent Accomplishments (November 5, 2025)
+## ✅ Recent Accomplishments (November 4-5, 2025)
+
+### Internal Navigation Loading State - COMPLETE 🎉
+
+**Goal**: Add visual feedback during page transitions for internal navigation.
+
+**Problem Solved**:
+- No visual feedback when clicking internal links
+- Users unsure if navigation action was registered
+- Needed to distinguish internal vs external navigation
+
+**Solution Implemented**:
+- Created `NavigationProgress` component with minimal three-dot loading overlay
+- Dynamically positions based on navigation width (81px/320px/455px)
+- Auto-dismisses on pathname change with 2.5s safety timeout
+- Only shows for internal links (external links open in new tab)
+- Zero bundle size impact (pure CSS solution)
+
+**Technical Details**:
+- Uses `useNavigation()` context for dynamic positioning
+- Respects navigation state changes (collapsed/expanded/chat active)
+- Component placed in public layout (where NavigationProvider exists)
+- Respects `prefers-reduced-motion` for accessibility
+
+**Files Created**:
+- `/src/components/navigation/NavigationProgress.tsx` - Loading overlay component
+- `/docs/implementation-plans/internal-navigation-loading-plan.md` - Implementation plan
+
+**Files Modified**:
+- `/src/app/(public)/layout.tsx` - Added NavigationProgress component
+- `/src/components/chatbot/LinkPreview.tsx` - Internal link detection and event dispatch
+- `/src/components/navigation/ChatSection.tsx` - Loading trigger for follow-up questions
+
+---
+
+### Chatbot Text Styling & Prompt Improvements - COMPLETE 🎉
+
+**Goal**: Improve text readability and link relevance in chatbot responses.
+
+**Problems Solved**:
+1. Accent-colored emphasized text was unreadable
+2. Chatbot suggesting irrelevant internal links
+
+**Solutions Implemented**:
+
+#### Text Styling Fix
+- Updated system prompt to use **bold** instead of italics/accent color
+- Added custom `em` and `strong` renderers in ReactMarkdown
+- Ensured all emphasized text uses readable foreground color
+- Added guidance: "Use bold for emphasis, NEVER use italics"
+
+#### Link Relevance Guidance
+- Updated prompt with clear rules: only link when question is DIRECTLY about a project
+- Generic questions (skills, technologies) → Plain text, no link
+- Project-specific questions → Include link
+- Added examples showing when NOT to use links
+
+**Files Modified**:
+- `/src/app/api/chat/route.ts` - System prompt updates
+- `/src/components/navigation/ChatSection.tsx` - Custom em/strong styling
+
+---
+
+### Homepage Hero Design Polish - COMPLETE 🎉
+
+**Goal**: Adjust hero separator width to avoid visual conflict with chatbox border.
+
+**Problem**: Wide separator line (max-w-6xl) visually connected with chatbox border, creating visual confusion.
+
+**Solution**: Adjusted separator to match hero text width (max-w-5xl) for better visual hierarchy.
+
+**Files Modified**:
+- `/src/app/(public)/page.tsx` - Separator width adjustment
+
+---
+
+## ✅ Recent Accomplishments (November 5, 2025 - Earlier)
 
 ### Mobile Chatbot Branding - COMPLETE 🎉
 
