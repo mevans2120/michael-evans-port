@@ -215,8 +215,13 @@ export function ChatSection() {
       >
         <div className="flex items-center gap-4 pointer-events-none">
           {!chatExpanded && <Sparkles className="w-4 h-4 text-accent" />}
-          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${chatExpanded ? 'ml-16' : ''}`}>
-            AI Assistant
+          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${chatExpanded ? '' : 'md:ml-0'}`}>
+            {/* Mobile: Show "MEvans AI Assistant" with styled logo */}
+            {/* Desktop: Show "AI Assistant" always */}
+            <span className="md:hidden">
+              M<span className="text-gradient">Evans</span> AI Assistant
+            </span>
+            <span className="hidden md:inline">AI Assistant</span>
           </h2>
         </div>
         <button
