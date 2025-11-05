@@ -74,12 +74,9 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
           <article
             key={study.id}
             className={`
-              group relative py-14 md:py-14 border-b border-white/8 last:border-b-0
-              cursor-pointer transition-[padding-left] duration-400 ease-out
-              md:hover:pl-8
-              ${isExpanded ? 'pl-4 md:pl-8' : ''}
+              relative py-20 md:py-24 border-b border-white/8 last:border-b-0
+              ${isExpanded ? 'pl-4' : ''}
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] focus-visible:rounded-lg
-              active:scale-[0.99] md:active:scale-100
             `}
             onClick={() => handleClick(study.id, study.slug)}
             onKeyDown={(e) => handleKeyDown(e, study.id, study.slug)}
@@ -88,46 +85,39 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             aria-label={`Case study: ${study.title}. ${study.metric}. ${isExpanded ? 'Expanded. Press Enter to view details.' : 'Press Enter to expand.'}`}
             aria-expanded={isExpanded}
           >
-            {/* Accent bar */}
-            <div
-              className={`
-                absolute left-0 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
-                from-accent to-accent-light rounded-full transition-[height] duration-400
-                ${isExpanded ? 'h-20 md:h-30' : 'h-0 md:group-hover:h-30'}
-              `}
-            />
-
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 md:gap-10">
-              <div className="flex-1">
-                <div className="text-xs md:text-sm font-semibold text-accent tracking-wider uppercase mb-3 md:mb-5 font-sans">
-                  {study.number} — {study.category}
+            {/* Inner hover area with vertical buffer zones */}
+            <div className="group cursor-pointer -my-8 py-8 active:scale-[0.99] md:active:scale-100">
+              {/* Header */}
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 md:gap-10">
+                <div className="flex-1">
+                  <div className="text-xs md:text-sm font-semibold text-accent tracking-wider uppercase mb-3 md:mb-5 font-sans">
+                    {study.number} — {study.category}
+                  </div>
+                  <h3 className={`
+                    text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight font-sans
+                    transition-colors duration-600
+                    ${isExpanded ? 'text-accent' : 'group-hover:text-accent'}
+                  `}>
+                    {study.title}
+                  </h3>
                 </div>
-                <h3 className={`
-                  text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight
-                  transition-colors duration-400 font-sans
-                  ${isExpanded ? 'text-accent' : 'md:group-hover:text-accent'}
-                `}>
-                  {study.title}
-                </h3>
+                <div className="text-lg md:text-xl font-semibold font-sans whitespace-nowrap opacity-60">
+                  {study.metric}
+                </div>
               </div>
+
+              {/* Description - Grid wrapper for no layout shift */}
               <div className={`
-                text-lg md:text-xl font-semibold font-sans whitespace-nowrap
-                transition-opacity duration-400
-                ${isExpanded ? 'opacity-100' : 'opacity-60 md:group-hover:opacity-100'}
+                grid transition-[grid-template-rows,opacity] duration-[1200ms] ease-out
+                ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100'}
               `}>
-                {study.metric}
+                <div className="overflow-hidden">
+                  <p className="text-lg md:text-xl leading-relaxed text-muted-foreground max-w-3xl font-serif">
+                    {study.description}
+                  </p>
+                </div>
               </div>
             </div>
-
-            {/* Description - Expands on hover (desktop) or tap (mobile) */}
-            <p className={`
-              text-lg md:text-xl leading-relaxed text-muted-foreground max-w-3xl font-serif
-              transition-[max-height,opacity,margin-top] duration-400 ease-out overflow-hidden
-              ${isExpanded ? 'max-h-48 opacity-100 mt-10' : 'max-h-0 opacity-0 md:group-hover:max-h-48 md:group-hover:opacity-100 md:group-hover:mt-10'}
-            `}>
-              {study.description}
-            </p>
           </article>
         );
       })}
