@@ -221,7 +221,13 @@ export function ChatSection() {
             <span className="md:hidden">
               M<span className="text-gradient">Evans</span> AI Assistant
             </span>
-            <span className="hidden md:inline">AI Assistant</span>
+            <span className="hidden md:inline">
+              {chatExpanded ? (
+                <>M<span className="text-gradient">Evans</span> AI Assistant</>
+              ) : (
+                'AI Assistant'
+              )}
+            </span>
           </h2>
         </div>
         <button
