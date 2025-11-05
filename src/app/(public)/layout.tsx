@@ -1,6 +1,7 @@
 import { NavigationProvider } from "@/contexts/NavigationContext";
 import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
 import { NavigationProgress } from "@/components/navigation/NavigationProgress";
+import { MobileNav } from "@/components/navigation/MobileNav";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Footer } from "@/components/Footer";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -19,7 +20,10 @@ export default async function PublicLayout({
       {/* Navigation loading indicator */}
       <NavigationProgress />
 
-      <div className="flex h-screen w-screen bg-background overflow-hidden">
+      {/* Mobile Navigation Header & Hamburger Menu */}
+      <MobileNav />
+
+      <div className="flex h-screen w-screen bg-background overflow-hidden pt-16 md:pt-0">
         {/* Navigation Panel - Now on the left for desktop */}
         <NavigationPanel>
           <div className="flex-1 flex flex-col">
@@ -33,8 +37,8 @@ export default async function PublicLayout({
           id="main-content"
           className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0 hide-scrollbar relative"
         >
-          {/* Theme Toggle - Top Right */}
-          <div className="absolute top-6 right-6 z-50">
+          {/* Theme Toggle - Desktop Only (Top Right) */}
+          <div className="hidden md:block absolute top-6 right-6 z-50">
             <ThemeToggle />
           </div>
 

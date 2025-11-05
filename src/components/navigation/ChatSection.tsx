@@ -56,7 +56,7 @@ export function ChatSection() {
   // Get dynamic height classes based on state
   const getHeightClasses = () => {
     if (!isDesktop) {
-      return chatExpanded ? 'h-[50vh]' : 'h-auto';
+      return chatExpanded ? 'h-screen' : 'h-auto min-h-0';
     }
     return chatExpanded ? 'md:h-full' : 'md:h-[34%]';
   };
@@ -194,17 +194,21 @@ export function ChatSection() {
   return (
     <div
       data-testid="chat-section"
-      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${getHeightClasses()} ${
+      className={`chat-section border-t-0 ${getHeightClasses()} ${
+        chatExpanded ? 'grid grid-rows-[auto_1fr_auto] bg-chat' : 'bg-transparent'
+      } ${
         isDesktop && chatExpanded
           ? 'absolute inset-0 z-10'
           : !isDesktop && chatExpanded
-          ? 'absolute bottom-0 left-0 right-0 z-10 border-t border-chat-border'
+          ? 'fixed inset-0 z-40'
           : ''
       }`}
     >
       {/* Chat Header */}
       <div
-        className={`px-8 py-6 border-b border-chat-border flex items-center justify-between flex-shrink-0 ${
+        className={`px-8 flex items-center justify-between flex-shrink-0 ${
+          !chatExpanded && !isDesktop ? 'h-16 border-0' : 'py-6 border-b border-chat-border'
+        } ${
           !chatExpanded ? 'cursor-pointer hover:bg-chat-suggestion/50 transition-colors' : ''
         }`}
         onClick={(e) => {
@@ -216,11 +220,15 @@ export function ChatSection() {
         <div className="flex items-center gap-4 pointer-events-none">
           {!chatExpanded && <Sparkles className="w-4 h-4 text-accent" />}
           <h2 className={`text-lg font-medium text-chat-foreground font-serif ${chatExpanded ? '' : 'md:ml-0'}`}>
-            {/* Mobile: Show "MEvans AI Assistant" with styled logo */}
-            {/* Desktop: Show "AI Assistant" always */}
+            {/* Mobile: Show conditional text based on expanded state */}
             <span className="md:hidden">
-              M<span className="text-gradient">Evans</span> AI Assistant
+              {chatExpanded ? (
+                <>M<span className="text-gradient">Evans</span> AI Assistant</>
+              ) : (
+                'AI Assistant'
+              )}
             </span>
+            {/* Desktop: Show conditional text based on expanded state */}
             <span className="hidden md:inline">
               {chatExpanded ? (
                 <>M<span className="text-gradient">Evans</span> AI Assistant</>

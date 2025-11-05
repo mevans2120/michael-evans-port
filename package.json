@@ -117,6 +117,7 @@
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^5.1.0",
     "autoprefixer": "^10.4.21",
+    "canvas": "^3.2.0",
     "critters": "^0.0.23",
     "cssnano": "^7.1.2",
     "dotenv": "^17.2.3",

@@ -11,6 +11,9 @@ interface NavigationContextType {
   setChatExpanded: (expanded: boolean) => void;
   chatInputFocused: boolean;
   setChatInputFocused: (focused: boolean) => void;
+  // Mobile menu state
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: (open: boolean) => void;
   // Animation orchestration
   chatCloseAnimationComplete: boolean;
   signalChatCloseComplete: () => void;
@@ -23,6 +26,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [panelState, setPanelState] = useState<PanelState>('expanded');
   const [chatExpanded, setChatExpanded] = useState(false);
   const [chatInputFocused, setChatInputFocused] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [chatCloseAnimationComplete, setChatCloseAnimationComplete] = useState(false);
 
   const handleSetChatExpanded = (expanded: boolean) => {
@@ -58,6 +62,8 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         setChatExpanded: handleSetChatExpanded,
         chatInputFocused,
         setChatInputFocused: handleSetChatInputFocused,
+        mobileMenuOpen,
+        setMobileMenuOpen,
         chatCloseAnimationComplete,
         signalChatCloseComplete,
         resetChatAnimationFlag,

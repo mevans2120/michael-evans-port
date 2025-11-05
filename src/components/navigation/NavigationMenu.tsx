@@ -49,7 +49,7 @@ export function NavigationMenu() {
             )}
         </Link>
 
-        {/* Navigation Items */}
+        {/* Navigation Items - Desktop Only (hidden on mobile, now in hamburger menu) */}
         {navigationItems.map((item) => {
           const Icon = item.icon;
 
@@ -57,7 +57,7 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg`}
+              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg`}
             >
               <Icon className="w-4 h-4" />
               {isExpanded && <span className="hidden md:inline">{item.label}</span>}
