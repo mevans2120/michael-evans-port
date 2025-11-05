@@ -75,7 +75,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             key={study.id}
             className={`
               group relative py-14 md:py-14 border-b border-white/8 last:border-b-0
-              cursor-pointer transition-all duration-400 ease-out
+              cursor-pointer transition-[padding-left] duration-400 ease-out
               md:hover:pl-8
               ${isExpanded ? 'pl-4 md:pl-8' : ''}
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#050510] focus-visible:rounded-lg
@@ -92,7 +92,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             <div
               className={`
                 absolute left-0 top-1/2 -translate-y-1/2 w-1 bg-gradient-to-b
-                from-accent to-accent-light rounded-full transition-all duration-400
+                from-accent to-accent-light rounded-full transition-[height] duration-400
                 ${isExpanded ? 'h-20 md:h-30' : 'h-0 md:group-hover:h-30'}
               `}
             />
@@ -105,7 +105,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
                 </div>
                 <h3 className={`
                   text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight
-                  transition-all duration-300 font-sans
+                  transition-colors duration-400 font-sans
                   ${isExpanded ? 'text-accent' : 'md:group-hover:text-accent'}
                 `}>
                   {study.title}
@@ -113,7 +113,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
               </div>
               <div className={`
                 text-lg md:text-xl font-semibold font-sans whitespace-nowrap
-                transition-opacity duration-300
+                transition-opacity duration-400
                 ${isExpanded ? 'opacity-100' : 'opacity-60 md:group-hover:opacity-100'}
               `}>
                 {study.metric}
@@ -123,7 +123,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
             {/* Description - Expands on hover (desktop) or tap (mobile) */}
             <p className={`
               text-lg md:text-xl leading-relaxed text-muted-foreground max-w-3xl font-serif
-              transition-all duration-400 ease-out overflow-hidden
+              transition-[max-height,opacity,margin-top] duration-400 ease-out overflow-hidden
               ${isExpanded ? 'max-h-48 opacity-100 mt-10' : 'max-h-0 opacity-0 md:group-hover:max-h-48 md:group-hover:opacity-100 md:group-hover:mt-10'}
             `}>
               {study.description}
