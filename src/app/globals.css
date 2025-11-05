@@ -123,7 +123,7 @@ All colors MUST be HSL.
     --chat-foreground: 0 0% 98%;          /* Light text in dark mode */
     --chat-border: 240 5% 20%;            /* Dark borders in dark mode */
     --chat-message-bg: 240 10% 12%;       /* Darker message bubbles */
-    --chat-input-bg: 240 10% 3.9%;        /* Vampire black input field */
+    --chat-input-bg: var(--color-bg);     /* Vampire black input field */
     --chat-input-border: 240 5% 20%;      /* Dark border for input */
     --chat-input-text: 0 0% 98%;          /* Light text in input (dark mode) */
     --chat-user-bubble-bg: 240 10% 12%;   /* Dark background for user bubbles */
