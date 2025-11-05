@@ -25,11 +25,11 @@ export function SuggestedPrompts({
 
   const allPrompts = cmsPrompts || fallbackPrompts;
 
-  // Randomly select prompts on component mount
+  // Randomly select prompts on component mount (only once, not on re-renders)
   const selectedPrompts = useMemo(() => {
     const shuffled = [...allPrompts].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, numberOfPromptsToShow);
-  }, [allPrompts, numberOfPromptsToShow]);
+  }, []); // Empty deps = only run once on mount
 
   return (
     <div className="px-4 py-4 flex flex-col gap-2">
