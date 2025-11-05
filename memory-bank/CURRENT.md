@@ -10,6 +10,45 @@
 
 ## ✅ Recent Accomplishments (November 4-5, 2025)
 
+### Case Study Cards Animation Fix - COMPLETE 🎉
+
+**Goal**: Fix glitchy/stuttering animations on homepage case study cards.
+
+**Problem**: Multiple overlapping CSS transitions with different timings caused janky animations on hover.
+
+**Root Cause**:
+- Multiple `transition-all` declarations (performance anti-pattern)
+- Mixed timing durations (300ms vs 400ms)
+- Layout shift on parent triggering cascading animations in children
+- All properties being animated even when unnecessary
+
+**Solution**:
+- Replaced generic `transition-all` with specific property transitions
+- Standardized all timing to 400ms for synchronized animations
+- Only animate properties that actually change
+
+**Changes Made**:
+1. Article element: `transition-all` → `transition-[padding-left]`
+2. Accent bar: `transition-all` → `transition-[height]`
+3. Title: `transition-all duration-300` → `transition-colors duration-400`
+4. Metric: `duration-300` → `duration-400`
+5. Description: `transition-all` → `transition-[max-height,opacity,margin-top]`
+
+**Files Modified**:
+- `/src/components/FeaturedCaseStudies.tsx` - Animation optimization
+
+**Files Created**:
+- `/docs/implementation-plans/case-study-cards-animation-fix.md` - Implementation plan
+
+**Key Improvements**:
+- ✅ Smooth, synchronized animations (all 400ms)
+- ✅ No stuttering or visual jank
+- ✅ Better performance (fewer repaints)
+- ✅ Same visual behavior, cleaner execution
+- ✅ Build passing (22/22 pages)
+
+---
+
 ### Internal Navigation Loading State - COMPLETE 🎉
 
 **Goal**: Add visual feedback during page transitions for internal navigation.
