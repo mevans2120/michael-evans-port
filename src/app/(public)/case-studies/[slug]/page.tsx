@@ -9,6 +9,7 @@ import {
   ContentSlide,
   EditorialCTA,
 } from '@/components/case-study-editorial'
+import { FlowingArticle } from '@/components/case-study-flowing'
 
 interface EditorialCaseStudyData {
   title: string
@@ -32,6 +33,7 @@ interface EditorialCaseStudyData {
     label: string
     description?: string
   }>
+  article?: any[] // Flowing article content (new format)
   slides?: Array<{
     _key: string
     sectionLabel?: string
@@ -87,6 +89,7 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     label,
     description
   },
+  article,
   slides[] {
     _key,
     sectionLabel,
@@ -208,19 +211,23 @@ export default async function CaseStudyPage({ params }: PageProps) {
         <EditorialMetrics metrics={project.metrics} />
       )}
 
-      {/* Content Slides */}
-      {project.slides?.map((slide: any) => (
-        <ContentSlide
-          key={slide._key}
-          sectionLabel={slide.sectionLabel}
-          heading={slide.heading}
-          content={slide.content}
-          quoteBox={slide.quoteBox}
-          comparisonBoxes={slide.comparisonBoxes}
-          visualCards={slide.visualCards}
-          annotation={slide.annotation}
-        />
-      ))}
+      {/* Content: Flowing Article (new format) or Slides (legacy format) */}
+      {project.article && project.article.length > 0 ? (
+        <FlowingArticle article={project.article} />
+      ) : (
+        project.slides?.map((slide: any) => (
+          <ContentSlide
+            key={slide._key}
+            sectionLabel={slide.sectionLabel}
+            heading={slide.heading}
+            content={slide.content}
+            quoteBox={slide.quoteBox}
+            comparisonBoxes={slide.comparisonBoxes}
+            visualCards={slide.visualCards}
+            annotation={slide.annotation}
+          />
+        ))
+      )}
 
       {/* Technologies Section */}
       {project.technologies && project.technologies.length > 0 && (

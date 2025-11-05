@@ -1,14 +1,150 @@
 # Current Development Status
 
-## 📍 Active Sprint: UI Polish & Chat Refinements
+## 📍 Active Sprint: Case Studies Flowing Article Migration
 *Last Updated: 2025-11-05*
 
 ## 🎯 Current Focus
-**Chat UI Color Fixes** ✅ Fixed chat message bubble and input field background colors to use proper design tokens.
+**Case Studies Flowing Article Format** ✅ Migrated all 7 projects from slide-based format to flowing magazine-style articles with inline stat blocks.
 
-**Status**: ✅ Complete, committed and pushed.
+**Status**: ✅ Complete, ready to commit and push.
 
 ## ✅ Recent Accomplishments (November 5, 2025)
+
+### Case Studies Flowing Article Migration - COMPLETE 🎉
+
+**Goal**: Transform all case studies from slide-based format to flowing magazine-style articles with inline stat blocks and full WYSIWYG editing.
+
+**Problem**:
+- Case studies were structured as discrete slides (5-7 sections each)
+- Content felt fragmented, not flowing
+- No inline rich media or stat callouts
+- Difficult to create cohesive narratives
+
+**Solution**: Implemented comprehensive flowing article system with:
+- Single flowing Portable Text field with H2-H6, bold, italic, underline, links
+- 3 inline stat block types (Big Number, Quote, Free Text)
+- Support for images, videos, and code blocks inline
+- Magazine-style presentation
+- Validation: max 5 stat blocks per article
+
+**Implementation Phases**:
+
+#### Phase 1: Schema Design ✅
+- Added `article` field to project schema with comprehensive Portable Text configuration
+- Stat blocks as inline insertable objects:
+  - `statBlockNumber`: Large number with label (e.g., "8%" + "Conversion improvement")
+  - `statBlockQuote`: Pull quote with attribution
+  - `statBlockText`: Free text callout with optional heading
+- Images with captions, video embeds (YouTube/Vimeo), code blocks with syntax highlighting
+- Schema validation: max 5 stat blocks per article
+- Hidden (but preserved) old `slides` field for backward compatibility
+
+#### Phase 2: Migration Script ✅
+- Created `/scripts/migrate-slides-to-article.ts` following scripts/README.md patterns
+- Converts slide headings → H2 blocks
+- Preserves all slide content blocks
+- Converts quote boxes → statBlockQuote
+- Re-keys all blocks for uniqueness
+- Skips projects already migrated
+- Successfully migrated 7/7 projects:
+  - Aesop: 7 slides → 38 blocks
+  - Before Launcher: 5 slides → 12 blocks
+  - Casa Bonita: 7 slides → 16 blocks
+  - Lyft: 5 slides → 23 blocks (already migrated)
+  - Peddle: 6 slides → 14 blocks
+  - Target: 7 slides → 16 blocks
+  - Virgin America: 5 slides → 12 blocks
+
+#### Phase 3: Components Built ✅
+Created 5 new components in `/src/components/case-study-flowing/`:
+- `FlowingArticle.tsx` - Main wrapper component
+- `ArticleContent.tsx` - Portable Text renderer with custom components
+- `StatBlockNumber.tsx` - Big number with label
+- `StatBlockQuote.tsx` - Quote with attribution
+- `StatBlockText.tsx` - Free text with optional heading
+- Full dark mode support
+- Responsive design
+- Type-safe with comprehensive custom renderers
+
+#### Phase 4: Page Integration ✅
+- Updated `/src/app/(public)/case-studies/[slug]/page.tsx`
+- Added `article` field to EDITORIAL_PROJECT_QUERY
+- Smart fallback: uses article if present, falls back to slides for backward compatibility
+- No breaking changes to existing pages
+
+#### Phase 5: Testing & Verification ✅
+- Build passing: 22/22 pages generated successfully
+- All 7 projects now have flowing article content
+- Dev server verified working
+- Content preserved, ready for rewriting
+
+**Files Created** (9 files):
+- `/src/components/case-study-flowing/FlowingArticle.tsx`
+- `/src/components/case-study-flowing/ArticleContent.tsx`
+- `/src/components/case-study-flowing/StatBlockNumber.tsx`
+- `/src/components/case-study-flowing/StatBlockQuote.tsx`
+- `/src/components/case-study-flowing/StatBlockText.tsx`
+- `/src/components/case-study-flowing/index.ts`
+- `/scripts/migrate-slides-to-article.ts`
+- `/docs/case-studies-content-migration-plan.md` - Content rewriting guide
+- `/docs/case-studies-flowing-design-dev-plan.md` - Technical implementation plan
+
+**Files Modified** (3 files):
+- `/sanity/schemas/project.ts` - Added article field (246 lines), hidden slides field
+- `/src/app/(public)/case-studies/[slug]/page.tsx` - Integrated FlowingArticle component
+- `/src/app/globals.css` - (unrelated change from previous work)
+
+**Key Technical Features**:
+- ✅ Full Portable Text support (H2-H6, formatting, links)
+- ✅ 3 stat block types with distinct visual treatments
+- ✅ Images with captions (Sanity CDN optimized)
+- ✅ Video embeds (YouTube/Vimeo auto-detection)
+- ✅ Code blocks with language syntax highlighting
+- ✅ Validation: max 5 stat blocks per article
+- ✅ Backward compatible: falls back to slides if no article
+- ✅ Dark mode support throughout
+- ✅ Accessible (keyboard navigation, focus rings, ARIA labels)
+
+**Migration Results**:
+```
+Project            Slides  Article Blocks  Status
+─────────────────  ──────  ──────────────  ─────────
+Aesop              7       38              ✅ Migrated
+Before Launcher    5       12              ✅ Migrated
+Casa Bonita        7       16              ✅ Migrated
+Lyft               5       23              ✅ Migrated
+Peddle             6       14              ✅ Migrated
+Target             7       16              ✅ Migrated
+Virgin America     5       12              ✅ Migrated
+─────────────────────────────────────────────────────
+Total:             42      131             7/7 (100%)
+```
+
+**Content Strategy**:
+- Migration preserves all content in flowing format
+- Content rewriting can happen incrementally
+- Questionnaire in `/docs/case-studies-content-migration-plan.md` guides rewriting:
+  - Focus on 1-2 key narratives (vs 6-7 points)
+  - Target length: 800-1,200 words (vs 1,500-2,500)
+  - Strategic use of 3-5 stat blocks per article
+  - Magazine editorial style
+
+**Key Improvements**:
+- ✅ Flowing narrative format (magazine-style)
+- ✅ Inline rich media and stat callouts
+- ✅ Full WYSIWYG editing in Sanity Studio
+- ✅ All 7 projects migrated successfully
+- ✅ Build passing (22/22 pages)
+- ✅ Zero breaking changes
+- ✅ Content preserved for future rewriting
+- ✅ Comprehensive documentation for content work
+
+**Next Steps**:
+- Review migrated content in Sanity Studio (http://localhost:3000/studio)
+- View flowing articles on site (e.g., /case-studies/lyft)
+- Begin content rewriting using questionnaire guide (optional, when ready)
+
+---
 
 ### Chat UI Background Color Fix - COMPLETE 🎉
 
