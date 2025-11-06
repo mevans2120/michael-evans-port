@@ -1,15 +1,69 @@
 # Current Development Status
 
-## 📍 Active Sprint: Desktop Chat UX & Accessibility
+## 📍 Active Sprint: Case Study Cards UX Enhancement
 *Last Updated: 2025-11-06*
 
 ## 🎯 Current Focus
-**Desktop Chat Flex Behavior** ✅ Fixed messages area to flex with viewport height changes instead of input area.
-**Focus State Accessibility** ✅ Improved keyboard navigation focus indicators with neutral gray rings.
+**Case Study Card Layout** ✅ Improved with visible descriptions, balanced spacing, and better visual hierarchy.
 
 **Status**: ✅ Complete and tested.
 
 ## ✅ Recent Accomplishments (November 6, 2025 - Latest)
+
+### Case Study Card Layout Enhancement - COMPLETE 🎉
+
+**Goal**: Make case study descriptions visible on initial load and achieve balanced vertical spacing within cards.
+
+**Problem**:
+- Descriptions were hidden until hover, requiring user interaction to see content
+- Vertical spacing was unbalanced (more space at bottom than top)
+- First tap on mobile expanded description, second tap navigated (unnecessary complexity)
+- Layout used nested margins creating spacing inconsistencies
+
+**Solution**: Complete layout restructure with visible descriptions and flexbox spacing
+- Removed progressive disclosure (descriptions always visible)
+- Restructured to flexbox with gap for consistent spacing
+- Adjusted vertical padding for visual balance
+- Simplified mobile interaction to direct navigation
+- Added subtle hover effect (text brightens)
+
+**Technical Implementation**:
+- **Layout restructure**: Changed from nested margins to flexbox with `gap-6` for equal spacing
+- **Category separation**: Moved category outside header as standalone element
+- **Removed state logic**: Eliminated `expandedId` state and `isMobile` check (no longer needed)
+- **Simplified components**: Removed unused imports (`useState`, `Link`, `useMediaQuery`)
+- **Spacing adjustments**:
+  - Inner container: `pt-6 pb-[60px]` (24px top, 60px bottom)
+  - Parent gap: `gap-12` (48px between cards)
+  - Content gap: `gap-6` (24px between sections)
+
+**Files Modified**:
+- `/src/components/FeaturedCaseStudies.tsx` - Complete restructure
+
+**Files Created**:
+- `/docs/project-card-subtext-visibility-plan.md` - Initial implementation plan
+- `/docs/case-study-card-vertical-spacing-plan.md` - Spacing solution analysis
+
+**Key Improvements**:
+- ✅ Descriptions visible on page load
+- ✅ Balanced vertical spacing (compensates for text line-height)
+- ✅ Simplified interaction (tap/click navigates directly)
+- ✅ Subtle hover effect (text brightens from muted to foreground)
+- ✅ Cleaner code (removed expand/collapse logic)
+- ✅ Better mobile UX (no double-tap required)
+- ✅ Works with variable-length descriptions (2-3 lines)
+- ✅ Build passing
+- ✅ Zero breaking changes
+
+**Design Decisions**:
+- Used arbitrary value `pb-[60px]` for precise bottom padding (25% more than pb-12)
+- Reduced parent gap from `gap-16` to `gap-12` to tighten card spacing
+- Kept title/metric on left/right with `justify-between` for horizontal balance
+- Preserved all hover effects and transitions
+
+---
+
+### Desktop Chat Flex Behavior Fix - COMPLETE 🎉
 
 ### Desktop Chat Flex Area Fix - COMPLETE 🎉
 
