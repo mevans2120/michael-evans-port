@@ -1,7 +1,9 @@
 import { NavigationProvider } from "@/contexts/NavigationContext";
-import { NavigationPanel, NavigationMenu, ChatSection } from "@/components/navigation";
+import { NavigationPanel, NavigationMenu } from "@/components/navigation";
 import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { MobileNav } from "@/components/navigation/MobileNav";
+import { ConditionalChatSection } from "@/components/navigation/ConditionalChatSection";
+import { MobileChatFooter } from "@/components/navigation/MobileChatFooter";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Footer } from "@/components/Footer";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -28,14 +30,14 @@ export default async function PublicLayout({
         <NavigationPanel>
           <div className="flex-1 flex flex-col">
             <NavigationMenu />
-            <ChatSection />
+            <ConditionalChatSection />
           </div>
         </NavigationPanel>
 
         {/* Main Content Area */}
         <main
           id="main-content"
-          className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-[200px] md:pb-0 hide-scrollbar relative"
+          className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 md:pb-0 hide-scrollbar relative"
         >
           {/* Theme Toggle - Desktop Only (Top Right) */}
           <div className="hidden md:block absolute top-6 right-6 z-50">
@@ -48,6 +50,9 @@ export default async function PublicLayout({
           {footerData && <Footer data={footerData} />}
         </main>
       </div>
+
+      {/* Mobile Chat Footer - Always render, CSS handles visibility */}
+      <MobileChatFooter />
     </NavigationProvider>
   );
 }

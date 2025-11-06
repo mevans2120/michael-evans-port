@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
-import { Sparkles, ChevronDown, Send, User, Loader2 } from 'lucide-react';
+import { Sparkles, ChevronDown, Send, User, Loader2, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
@@ -13,8 +13,12 @@ import { chatPromptsQuery } from '@/lib/sanity/queries';
 import { LinkPreview } from '@/components/chatbot/LinkPreview';
 import '../chatbot/chatbot.css';
 
-export function ChatSection() {
-  const { panelState, chatExpanded, setChatExpanded, chatInputFocused, setChatInputFocused, signalChatCloseComplete } = useNavigation();
+interface ChatSectionProps {
+  isMobileVersion?: boolean;
+}
+
+export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
+  const { panelState, chatExpanded, setChatExpanded, chatInputFocused, setChatInputFocused, signalChatCloseComplete, mobileChatSource } = useNavigation();
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -53,8 +57,14 @@ export function ChatSection() {
   const showChatContent = isDesktop ? isExpanded : chatExpanded;
   const isCollapsed = panelState === 'partial';
 
+  // When rendered from MobileChatFooter, always treat as expanded
+  const effectiveExpanded = isMobileVersion ? true : chatExpanded;
+
   // Get dynamic height classes based on state
   const getHeightClasses = () => {
+    if (isMobileVersion) {
+      return 'h-screen'; // Always full screen when rendered from MobileChatFooter
+    }
     if (!isDesktop) {
       return chatExpanded ? 'h-screen' : 'h-auto min-h-0';
     }
@@ -104,6 +114,20 @@ export function ChatSection() {
       return () => clearTimeout(timeoutId);
     }
   }, [chatExpanded]);
+
+  // Add escape key handling for mobile version
+  useEffect(() => {
+    if (isMobileVersion && chatExpanded) {
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setChatExpanded(false);
+        }
+      };
+
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isMobileVersion, chatExpanded, setChatExpanded]);
 
   const handleInputFocus = () => {
     // Expand chat when input is focused
@@ -195,31 +219,53 @@ export function ChatSection() {
     <div
       data-testid="chat-section"
       className={`chat-section border-t-0 ${getHeightClasses()} ${
-        chatExpanded ? 'grid grid-rows-[auto_1fr_auto] bg-chat' : 'bg-transparent'
+        effectiveExpanded ? (isMobileVersion ? 'grid grid-rows-[auto_1fr_auto] bg-chat' : 'grid grid-rows-[auto_1fr_auto] bg-chat') : 'bg-transparent'
       } ${
-        isDesktop && chatExpanded
+        isMobileVersion
+          ? 'fixed inset-0 z-[70] bg-chat' // Full-screen overlay covering entire viewport
+          : isDesktop && chatExpanded
           ? 'absolute inset-0 z-10'
           : !isDesktop && chatExpanded
           ? 'fixed inset-0 z-40'
           : ''
       }`}
     >
-      {/* Chat Header */}
+      {/* Mobile Header - Simple header with title and close button */}
+      {isMobileVersion && (
+        <div className="px-8 py-6 border-b border-chat-border flex items-center justify-between flex-shrink-0">
+          <h2 className="text-lg font-medium text-chat-foreground font-serif">
+            M<span className="text-gradient">Evans</span> AI Assistant
+          </h2>
+          <button
+            onClick={() => {
+              setChatExpanded(false);
+              setChatInputFocused(false);
+            }}
+            className="p-1.5 rounded-lg transition-all text-chat-foreground hover:bg-chat-suggestion/30"
+            aria-label="Close chat"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+
+      {/* Desktop/Tablet Header - Original header with all functionality */}
+      {!isMobileVersion && (
       <div
         className={`px-8 flex items-center justify-between flex-shrink-0 ${
-          !chatExpanded && !isDesktop ? 'h-16 border-0' : 'py-6 border-b border-chat-border'
+          !chatExpanded && !isDesktop && !isMobileVersion ? 'h-16 border-0' : 'py-6 border-b border-chat-border'
         } ${
-          !chatExpanded ? 'cursor-pointer hover:bg-chat-suggestion/50 transition-colors' : ''
+          !chatExpanded && !isMobileVersion ? 'cursor-pointer hover:bg-chat-suggestion/50 transition-colors' : ''
         }`}
         onClick={(e) => {
-          if (!chatExpanded) {
+          if (!chatExpanded && !isMobileVersion) {
             handleHeaderClick();
           }
         }}
       >
         <div className="flex items-center gap-4 pointer-events-none">
-          {!chatExpanded && <Sparkles className="w-4 h-4 text-accent" />}
-          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${chatExpanded ? '' : 'md:ml-0'}`}>
+          {!chatExpanded && !isMobileVersion && <Sparkles className="w-4 h-4 text-accent" />}
+          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${effectiveExpanded ? '' : 'md:ml-0'}`}>
             {/* Mobile: Show conditional text based on expanded state */}
             <span className="md:hidden">
               {chatExpanded ? (
@@ -261,6 +307,7 @@ export function ChatSection() {
           <ChevronDown className={`w-4 h-4 transition-transform ${!chatExpanded ? 'rotate-180' : ''}`} />
         </button>
       </div>
+      )}
 
       {/* Chat Messages - Always render when there are messages, but hide with CSS when collapsed */}
       <div

@@ -14,6 +14,9 @@ interface NavigationContextType {
   // Mobile menu state
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
+  // Mobile chat state
+  mobileChatSource: 'footer' | 'hamburger' | null;
+  setMobileChatSource: (source: 'footer' | 'hamburger' | null) => void;
   // Animation orchestration
   chatCloseAnimationComplete: boolean;
   signalChatCloseComplete: () => void;
@@ -27,6 +30,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [chatExpanded, setChatExpanded] = useState(false);
   const [chatInputFocused, setChatInputFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileChatSource, setMobileChatSource] = useState<'footer' | 'hamburger' | null>(null);
   const [chatCloseAnimationComplete, setChatCloseAnimationComplete] = useState(false);
 
   const handleSetChatExpanded = (expanded: boolean) => {
@@ -34,6 +38,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     // Reset animation flag when opening chat
     if (expanded) {
       setChatCloseAnimationComplete(false);
+    }
+    // Clear mobile chat source when closing
+    if (!expanded) {
+      setMobileChatSource(null);
     }
   };
 
@@ -64,6 +72,8 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         setChatInputFocused: handleSetChatInputFocused,
         mobileMenuOpen,
         setMobileMenuOpen,
+        mobileChatSource,
+        setMobileChatSource,
         chatCloseAnimationComplete,
         signalChatCloseComplete,
         resetChatAnimationFlag,
