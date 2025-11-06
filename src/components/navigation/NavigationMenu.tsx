@@ -34,7 +34,7 @@ export function NavigationMenu() {
         {/* MEvans Logo - Desktop Only */}
         <Link
           href="/"
-          className={`${isCollapsed ? 'justify-center' : 'px-8'} pt-2 pb-6 hidden md:flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer ${
+          className={`${isCollapsed ? 'justify-center' : 'px-8'} pt-2 pb-6 hidden md:flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-lg ${
             chatExpanded ? 'pointer-events-none' : ''
           }`}
         >
@@ -57,7 +57,7 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg`}
+              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2`}
             >
               <Icon className="w-4 h-4" />
               {isExpanded && <span className="hidden md:inline">{item.label}</span>}

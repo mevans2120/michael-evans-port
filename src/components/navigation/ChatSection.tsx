@@ -217,9 +217,8 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   return (
     <div
       data-testid="chat-section"
-      className={`chat-section border-t-0 ${getHeightClasses()} ${
-        effectiveExpanded ? (isMobileVersion ? 'grid grid-rows-[auto_1fr_auto] bg-chat' : 'grid grid-rows-[auto_1fr_auto] bg-chat') : 'bg-transparent'
-      } ${
+      key={`chat-${chatExpanded}`}
+      className={`chat-section grid grid-rows-[auto_1fr_auto] border-t-0 bg-chat ${getHeightClasses()} ${
         isMobileVersion
           ? 'fixed inset-0 z-[70] bg-chat' // Full-screen overlay covering entire viewport
           : !isDesktop && chatExpanded

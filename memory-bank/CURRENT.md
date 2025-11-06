@@ -1,14 +1,76 @@
 # Current Development Status
 
-## 📍 Active Sprint: Mobile Chat UX Improvements
+## 📍 Active Sprint: Desktop Chat UX & Accessibility
 *Last Updated: 2025-11-06*
 
 ## 🎯 Current Focus
-**Mobile Chat Navigation Experience** ✅ Auto-minimize chat when navigating to content pages on mobile.
+**Desktop Chat Flex Behavior** ✅ Fixed messages area to flex with viewport height changes instead of input area.
+**Focus State Accessibility** ✅ Improved keyboard navigation focus indicators with neutral gray rings.
 
 **Status**: ✅ Complete and tested.
 
 ## ✅ Recent Accomplishments (November 6, 2025 - Latest)
+
+### Desktop Chat Flex Area Fix - COMPLETE 🎉
+
+**Goal**: Make chat messages area flex with viewport height changes on desktop, keeping input container fixed height.
+
+**Problem**:
+- Input box container was flexing with viewport height changes instead of messages area
+- Messages area stayed fixed height while input grew/shrank
+- Grid layout was conditionally applied, breaking height calculations
+
+**Root Cause**:
+- Grid layout `grid grid-rows-[auto_1fr_auto]` was conditionally applied based on `effectiveExpanded` state
+- When grid appears/disappears, browser recalculates layout context, breaking `1fr` row calculations
+- Working version (ab8b676) had grid always present
+
+**Solution**: Made grid always present to maintain proper height calculations
+- Removed conditional grid application (was: `effectiveExpanded ? 'grid...' : 'bg-transparent'`)
+- Applied grid as base className: `grid grid-rows-[auto_1fr_auto]`
+- Added React key `key={`chat-${chatExpanded}`}` to force re-render on state change
+- Kept collapsed desktop state as early return (already handled separately)
+
+**Technical Implementation**:
+- Grid now always established when not in collapsed state
+- Browser maintains proper `1fr` row calculations throughout
+- Messages area (1fr row) flexes with viewport height
+- Header and input (auto rows) stay fixed at content height
+- All mobile improvements preserved
+
+**Files Modified**:
+- `/src/components/navigation/ChatSection.tsx` - Made grid always present (line 221)
+
+**Key Improvements**:
+- ✅ Messages area grows/shrinks with viewport height changes
+- ✅ Input container maintains fixed height
+- ✅ Proper CSS Grid height calculations
+- ✅ All mobile functionality preserved
+- ✅ Production build passing
+
+### Focus State Accessibility Improvements - COMPLETE 🎉
+
+**Goal**: Improve keyboard navigation focus indicators for better accessibility.
+
+**Changes**:
+- Updated focus ring color from purple accent to neutral gray
+- Light mode: slate-600 (neutral gray)
+- Dark mode: slate-400 (lighter gray for contrast)
+- Added focus-visible styles to navigation components
+
+**Files Modified**:
+- `/src/app/globals.css` - Focus ring color variables
+- `/src/components/navigation/HamburgerMenu.tsx` - Focus styles
+- `/src/components/navigation/NavigationMenu.tsx` - Focus styles
+- `/src/components/navigation/MobileHeader.tsx` - Focus styles
+- `/src/components/navigation/NavigationPanel.tsx` - Focus styles
+
+**Key Improvements**:
+- ✅ Better keyboard navigation visibility
+- ✅ WCAG compliant focus indicators
+- ✅ Consistent focus styling across navigation
+
+---
 
 ### Desktop Chat Containment Fix - COMPLETE 🎉
 

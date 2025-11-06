@@ -35,7 +35,7 @@ export function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-lg hover:bg-navigation-link-hover-bg transition-colors-smooth"
+          className="absolute top-6 right-6 p-2 rounded-lg hover:bg-navigation-link-hover-bg transition-colors-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           aria-label="Close menu"
         >
           <X className="w-6 h-6 text-navigation-foreground" />
@@ -52,7 +52,7 @@ export function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`flex items-center gap-4 px-8 py-6 text-lg font-sans rounded-lg transition-colors-smooth ${
+                className={`flex items-center gap-4 px-8 py-6 text-lg font-sans rounded-lg transition-colors-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
                   isActive
                     ? 'text-navigation-link-hover'
                     : 'text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg'

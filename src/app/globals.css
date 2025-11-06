@@ -69,7 +69,8 @@ All colors MUST be HSL.
 
     --border: var(--color-border);
     --input: var(--color-border);
-    --ring: var(--color-accent);
+    --focus-ring: 213 14% 46%;  /* slate-600: neutral gray for focus states */
+    --ring: hsl(var(--focus-ring));
 
     --gradient-primary: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--foreground)));  /* Gradient uses accent color */
     --gradient-purple: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
@@ -157,7 +158,8 @@ All colors MUST be HSL.
 
     --border: var(--color-border);
     --input: var(--color-border);
-    --ring: var(--color-accent);
+    --focus-ring: 215 20% 65%;  /* slate-400: lighter gray for dark mode focus states */
+    --ring: hsl(var(--focus-ring));
 
     --gradient-primary: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--foreground)));  /* Gradient uses accent color */
     --gradient-purple: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
