@@ -78,7 +78,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
       )}
       onClick={panelState === 'partial' ? handleClick : undefined}
     >
-      <div className="relative flex-1 flex">
+      <div className="relative flex-1 flex flex-col h-full overflow-hidden">
         {children}
 
         {/* Purple border - positioned absolutely within inner container */}

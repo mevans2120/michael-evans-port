@@ -28,10 +28,8 @@ export default async function PublicLayout({
       <div className="flex h-screen w-screen bg-background overflow-hidden pt-16 md:pt-0">
         {/* Navigation Panel - Now on the left for desktop */}
         <NavigationPanel>
-          <div className="flex-1 flex flex-col">
-            <NavigationMenu />
-            <ConditionalChatSection />
-          </div>
+          <NavigationMenu />
+          <ConditionalChatSection />
         </NavigationPanel>
 
         {/* Main Content Area */}

@@ -15,9 +15,13 @@ export function MobileChatFooter() {
     setHasInteracted(true);
   };
 
-  // When expanded, render full ChatSection
+  // When expanded, render full ChatSection (mobile only)
   if (chatExpanded) {
-    return <ChatSection isMobileVersion={true} />;
+    return (
+      <div className="md:hidden">
+        <ChatSection isMobileVersion={true} />
+      </div>
+    );
   }
 
   // Collapsed state - slim 64px footer
