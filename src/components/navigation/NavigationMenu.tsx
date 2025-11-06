@@ -40,7 +40,7 @@ export function NavigationMenu() {
         >
             {panelState === 'expanded' ? (
               <span className={`text-lg font-medium font-serif ${chatExpanded ? 'text-chat-foreground' : ''}`}>
-                M<span className={chatExpanded ? 'text-accent' : 'text-gradient'}>Evans</span>
+                M<span className="text-gradient">Evans</span>
               </span>
             ) : (
               <span className="text-lg font-medium font-serif">

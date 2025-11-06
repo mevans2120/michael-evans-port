@@ -1,14 +1,68 @@
 # Current Development Status
 
-## 📍 Active Sprint: Case Study Cards UX Enhancement
+## 📍 Active Sprint: SEO & Visual Consistency
 *Last Updated: 2025-11-06*
 
 ## 🎯 Current Focus
-**Case Study Card Layout** ✅ Improved with visible descriptions, balanced spacing, and better visual hierarchy.
+**Global SEO Settings** ✅ Fixed site-wide title fallback to use global Site Name from Sanity.
+**Navigation Logo Gradient** ✅ Logo now maintains gradient when chat is expanded.
 
 **Status**: ✅ Complete and tested.
 
 ## ✅ Recent Accomplishments (November 6, 2025 - Latest)
+
+### Navigation Logo Gradient Consistency - COMPLETE 🎉
+
+**Goal**: Keep navigation logo gradient visible when chat is expanded.
+
+**Problem**:
+- Navigation logo changed from gradient to solid accent color when chat opened
+- Inconsistent branding - gradient disappeared during chat interaction
+- User reported logo should maintain gradient at all times
+
+**Root Cause**:
+- NavigationMenu.tsx had conditional logic: `chatExpanded ? 'text-accent' : 'text-gradient'`
+- This intentionally switched to solid color when chat expanded
+
+**Solution**: Remove conditional and always show gradient
+- Changed from: `<span className={chatExpanded ? 'text-accent' : 'text-gradient'}>Evans</span>`
+- Changed to: `<span className="text-gradient">Evans</span>`
+
+**Files Modified**:
+- `/src/components/navigation/NavigationMenu.tsx` - Removed conditional color logic (line 43)
+
+**Key Improvements**:
+- ✅ Logo gradient always visible regardless of chat state
+- ✅ Consistent branding throughout user interaction
+- ✅ Clean visual hierarchy maintained
+
+### Global SEO Settings Fix - COMPLETE 🎉
+
+**Goal**: Make global SEO settings from Sanity Studio apply site-wide as default title.
+
+**Problem**:
+- Global "Site Name" field in Sanity wasn't being used for page titles
+- Homepage showed hardcoded "Michael Evans | AI/ML Portfolio" instead of global setting
+- Title fallback chain didn't include global settings
+
+**Root Cause**:
+- Metadata generation function had fallback: `seo.metaTitle || title`
+- Skipped `globalSettings.siteName` entirely
+
+**Solution**: Updated title fallback chain to include global settings
+- Changed from: `seo.metaTitle || title`
+- Changed to: `seo.metaTitle || globalSettings.siteName || title`
+
+**Files Modified**:
+- `/src/lib/sanity/metadata.ts` - Updated title fallback chain (line 95)
+
+**Key Improvements**:
+- ✅ Global "Site Name" now works as intended site-wide default
+- ✅ Pages without SEO fields inherit global title
+- ✅ Individual pages can still override with page-specific SEO
+- ✅ Proper fallback hierarchy: page SEO → global SEO → hardcoded
+
+---
 
 ### Case Study Card Layout Enhancement - COMPLETE 🎉
 
