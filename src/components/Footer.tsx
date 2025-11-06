@@ -89,28 +89,10 @@ export function Footer({ data }: FooterProps) {
   return (
     <footer className="border-t border-border bg-background">
       <div className="max-w-5xl mx-auto px-8 py-8">
-        {/* Main content area: Crow+Logo | Services | Site Links | Social */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start mb-2">
-          {/* Left: Large Crow */}
-          <div className="flex flex-col self-end justify-self-start -ml-16">
-            <svg
-              width="248"
-              height="300"
-              viewBox="20 12 70 110"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-navigation opacity-80 -scale-x-100"
-              aria-label="Crow logo"
-            >
-              <path
-                d="M37.871 48.258C39.7069 52.6291 44.0155 56.633 48.344 59.781C48.6253 61.6091 48.5588 63.531 47.5081 64.8162L42.012 69.5271C42.012 69.5271 37.6565 69.3123 36.4456 71.1677H46.2229C46.2229 71.1677 46.2463 70.3396 44.4377 69.6677L49.8596 65.531C51.426 65.07 52.9494 64.4646 54.4026 63.7263C55.3987 64.3083 56.3167 64.8201 57.1018 65.238L52.1018 69.5232C52.1018 69.5232 47.7463 69.3083 46.5354 71.1638H56.3127C56.3127 71.1638 56.3361 70.3357 54.5275 69.6638L59.0275 66.2302C59.5939 66.5114 59.9259 66.6677 59.9259 66.6677V85.2297C64.1368 97.3627 75.7699 105 75.7699 105L74.9144 78.8747L85.8364 87.7966C85.8364 87.7966 70.5634 51.4686 67.9224 44.2576C65.2818 37.0506 62.356 34.4803 62.356 34.4803C62.3521 34.4803 57.0708 17.4213 47.794 15.4253C38.5128 13.4253 36.517 19.1245 36.517 19.1245C34.2475 18.855 31.9506 19.0034 29.7358 19.5659C27.2436 20.2651 25.2006 22.0464 24.1694 24.4175L35.6614 26.0581C40.6536 29.4136 33.5872 38.0501 37.8723 48.2571L37.871 48.258ZM42.2226 20.387C42.7499 20.387 43.2226 20.7034 43.4218 21.1878C43.621 21.6721 43.5116 22.2308 43.1406 22.598C42.7695 22.9691 42.2109 23.0823 41.7265 22.8792C41.2421 22.68 40.9257 22.2073 40.9257 21.6839C40.9257 21.3402 41.0624 21.0081 41.3085 20.7659C41.5507 20.5238 41.8789 20.387 42.2226 20.387Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
-
-          {/* Services (vertical list) */}
-          <nav className="flex flex-col gap-3 items-center md:items-start justify-self-center">
+        {/* Main content area: 3 columns on mobile/tablet, 3 columns on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 items-start mb-2">
+          {/* Services */}
+          <nav className="flex flex-col gap-3 items-start">
             <h3 className="text-xs uppercase tracking-wider text-foreground/40 mb-1">
               Product Management
             </h3>
@@ -134,8 +116,8 @@ export function Footer({ data }: FooterProps) {
             )}
           </nav>
 
-          {/* Site Links (vertical list) */}
-          <nav className="flex flex-col gap-3 items-center md:items-start justify-self-center">
+          {/* Pages - Hidden on mobile, sticky nav is always visible */}
+          <nav className="hidden md:flex flex-col gap-3 items-start">
             <h3 className="text-xs uppercase tracking-wider text-foreground/40 mb-1">Pages</h3>
             <Link href="/" className="text-base text-foreground/70 hover:text-accent transition-colors">
               Home
@@ -160,35 +142,42 @@ export function Footer({ data }: FooterProps) {
             </Link>
           </nav>
 
-          {/* Social Links (stacked vertically) */}
-          <div className="flex flex-col gap-3 items-center md:items-start justify-self-center">
-            <h3 className="text-xs uppercase tracking-wider text-foreground/40 mb-1">
-              Reach Out
-            </h3>
-            <a
-              href={data.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-base text-foreground/70 hover:text-accent transition-colors"
-            >
-              LinkedIn
-            </a>
-            <Link
-              href={contactHref || '/contact'}
-              className="text-base text-accent hover:text-accent-light transition-colors"
-            >
-              Contact
-            </Link>
+          {/* Reach Out */}
+          <div className="flex flex-col gap-3 items-start justify-between h-full">
+            <div className="flex flex-col gap-3 items-start">
+              <h3 className="text-xs uppercase tracking-wider text-foreground/40 mb-1">
+                Reach Out
+              </h3>
+              <a
+                href={data.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base text-foreground/70 hover:text-accent transition-colors"
+              >
+                LinkedIn
+              </a>
+              <Link
+                href={contactHref || '/contact'}
+                className="text-base text-accent hover:text-accent-light transition-colors"
+              >
+                Contact
+              </Link>
+            </div>
+
+            {/* Logo - Mobile only, bottom aligned */}
+            <p className="text-lg font-medium font-serif text-foreground/60 mt-auto md:hidden">
+              M<span className="text-gradient">Evans</span> LLC.
+            </p>
           </div>
         </div>
 
         {/* Bottom: Logo and Tagline */}
-        <div className="border-t border-border/30 pt-5 -mt-4">
-          <div className="flex flex-col md:flex-row items-center md:items-center gap-4">
-            <p className="text-lg font-medium font-serif text-foreground/60 md:mr-auto">
+        <div className="border-t border-border/30 pt-6 mt-4">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+            <p className="hidden md:block text-lg font-medium font-serif text-foreground/60 md:mr-auto">
               M<span className="text-gradient">Evans</span> LLC.
             </p>
-            <p className="text-base text-foreground/80 md:absolute md:left-1/2 md:-translate-x-1/2">
+            <p className="text-base text-foreground/80 w-full md:absolute md:left-1/2 md:-translate-x-1/2">
               Made in {weatherWord && `${weatherWord} `}Portland, OR. It is {currentTime} here and its{' '}
               <button
                 onClick={toggleTheme}
