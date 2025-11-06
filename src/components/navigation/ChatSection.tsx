@@ -87,7 +87,6 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
         const data = await client.fetch(chatPromptsQuery);
         setChatPromptsData(data);
       } catch (error) {
-        // Silently fail - component will use fallback prompts
         console.error('Failed to fetch chat prompts:', error);
       }
     }
