@@ -108,7 +108,7 @@ export function FeaturedCaseStudies({ studies }: FeaturedCaseStudiesProps) {
 
               {/* Description - Grid wrapper for no layout shift */}
               <div className={`
-                grid transition-[grid-template-rows,opacity] duration-[1200ms] ease-out
+                grid transition-[grid-template-rows,opacity] duration-slowest ease-out
                 ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100'}
               `}>
                 <div className="overflow-hidden">

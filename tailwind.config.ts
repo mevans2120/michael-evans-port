@@ -138,6 +138,7 @@ export default {
 				'normal': '300ms',
 				'slow': '400ms',
 				'slower': '600ms',
+				'slowest': '1200ms',
 			},
 			transitionTimingFunction: {
 				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
