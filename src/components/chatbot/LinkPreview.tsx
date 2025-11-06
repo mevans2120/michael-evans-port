@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ExternalLink, FileText } from 'lucide-react';
+import { useNavigation } from '@/contexts/NavigationContext';
+import { useIsDesktop } from '@/hooks/useMediaQuery';
 
 /**
  * TypeScript interfaces
@@ -215,10 +217,19 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
   // Detect internal links (starts with / but not //)
   const isInternalLink = href.startsWith('/') && !href.startsWith('//');
 
+  // Get navigation context and mobile detection
+  const { chatExpanded, setChatExpanded } = useNavigation();
+  const isDesktop = useIsDesktop();
+
   const handleClick = () => {
     // Only trigger loading for internal navigation
     if (isInternalLink) {
       window.dispatchEvent(new CustomEvent('navigation-start'));
+
+      // Auto-minimize chat on mobile when navigating
+      if (!isDesktop && chatExpanded) {
+        setChatExpanded(false);
+      }
     }
   };
 
