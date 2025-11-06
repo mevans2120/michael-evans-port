@@ -2,7 +2,6 @@
 
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import imageUrlBuilder from '@sanity/image-url'
 import { client } from '@/sanity/lib/client'
@@ -57,8 +56,6 @@ interface AboutData {
   sections: Section[]
   availability: boolean
   availabilityText: string
-  ctaText: string
-  ctaButtonText: string
 }
 
 interface AboutPageClientProps {
