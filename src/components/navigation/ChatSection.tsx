@@ -224,6 +224,8 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           ? 'fixed inset-0 z-[70] bg-chat' // Full-screen overlay covering entire viewport
           : !isDesktop && chatExpanded
           ? 'fixed inset-0 z-40'
+          : isDesktop && chatExpanded
+          ? 'absolute inset-0' // Position relative to parent container
           : ''
       }`}
     >
