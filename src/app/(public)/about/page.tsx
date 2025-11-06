@@ -7,7 +7,11 @@ import { generateSanityMetadata } from '@/lib/sanity/metadata'
 const profileQuery = `
   *[_type == "profile"] | order(_updatedAt desc)[0] {
     name,
-    "profileImage": profileImage.asset->url,
+    profileImage {
+      asset->,
+      hotspot,
+      crop
+    },
     heroHeadline,
     heroSubheadline,
     heroIntro,

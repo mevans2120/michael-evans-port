@@ -4,6 +4,10 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
+import imageUrlBuilder from '@sanity/image-url'
+import { client } from '@/sanity/lib/client'
+
+const builder = imageUrlBuilder(client)
 
 // TypeScript interfaces
 interface QuickFact {
@@ -24,9 +28,28 @@ interface Section {
   visible: boolean
 }
 
+interface SanityImage {
+  asset: {
+    _ref: string
+    _type: string
+  }
+  hotspot?: {
+    x: number
+    y: number
+    height: number
+    width: number
+  }
+  crop?: {
+    top: number
+    bottom: number
+    left: number
+    right: number
+  }
+}
+
 interface AboutData {
   name: string
-  profileImage: string
+  profileImage: SanityImage
   heroHeadline: string
   heroSubheadline: string
   heroIntro: string
@@ -73,7 +96,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
             <div className="flex-shrink-0">
               <div className="relative w-48 h-48 md:w-52 md:h-52 lg:w-56 lg:h-56">
                 <Image
-                  src={data.profileImage}
+                  src={builder.image(data.profileImage).width(448).height(448).fit('crop').url()}
                   alt={data.name}
                   fill
                   className="rounded-full object-cover border-2 border-accent/20"
@@ -142,23 +165,6 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
             </section>
           )
         })}
-
-        {/* CTA Section */}
-        <section className="mt-20 md:mt-32">
-          <div className="text-center">
-            {data.ctaText && (
-              <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                {data.ctaText}
-              </p>
-            )}
-            <Link
-              href="/contact"
-              className="inline-block px-12 py-5 bg-gradient-to-r from-accent to-accent-light text-black font-semibold rounded-lg text-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(168,85,247,0.4)]"
-            >
-              {data.ctaButtonText || "Let's Work Together"}
-            </Link>
-          </div>
-        </section>
       </div>
     </div>
   )
