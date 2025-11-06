@@ -91,8 +91,8 @@ export async function generateSanityMetadata({
   // Determine base URL from global settings or environment
   const baseUrl = globalSettings.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans-port.vercel.app'
 
-  // Title with fallback chain: seo → page → default
-  const metaTitle = seo?.metaTitle || title
+  // Title with fallback chain: seo → global → page → default
+  const metaTitle = seo?.metaTitle || globalSettings.siteName || title
 
   // Description with fallback chain: seo → page → global → empty
   const metaDescription = seo?.metaDescription || description || globalSettings.defaultMetaDescription || ''
