@@ -15,21 +15,18 @@ export function SuggestedPrompts({
   prompts: cmsPrompts,
   numberOfPromptsToShow = 2
 }: SuggestedPromptsProps) {
-  // Fallback to hardcoded prompts if CMS data unavailable
-  const fallbackPrompts = [
-    "Tell me about the first responsive airline website",
-    "What's the story behind launching a restaurant with cliff diving?",
-    "Show me production AI applications you've built",
-    "How did you help thousands of people focus?"
-  ];
+  // Only use CMS prompts, no fallbacks
+  if (!cmsPrompts || cmsPrompts.length === 0) {
+    return null; // Don't show anything if no CMS prompts available
+  }
 
-  const allPrompts = cmsPrompts || fallbackPrompts;
+  const allPrompts = cmsPrompts;
 
-  // Randomly select prompts on component mount (only once, not on re-renders)
+  // Randomly select prompts when CMS data loads
   const selectedPrompts = useMemo(() => {
     const shuffled = [...allPrompts].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, numberOfPromptsToShow);
-  }, []); // Empty deps = only run once on mount
+  }, [allPrompts, numberOfPromptsToShow]); // Re-run when prompts load
 
   return (
     <div className="px-4 py-4 flex flex-col gap-2">
