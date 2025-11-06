@@ -2,7 +2,6 @@ import { sanityFetch } from '@/sanity/lib/live'
 import { allAIShowcasesQuery } from '@/lib/sanity/queries'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import Contact from '@/components/Contact'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 import { Metadata } from 'next'
 
@@ -95,8 +94,6 @@ export default async function AIShowcasePage() {
           </div>
         </div>
       </main>
-
-      <Contact />
     </div>
   )
 }
