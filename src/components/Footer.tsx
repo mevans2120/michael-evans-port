@@ -153,10 +153,10 @@ export function Footer({ data }: FooterProps) {
               Case Studies
             </Link>
             <Link
-              href="/ai-showcase"
+              href="/blog"
               className="text-base text-foreground/70 hover:text-accent transition-colors"
             >
-              AI Showcase
+              Posts
             </Link>
           </nav>
 

@@ -16,7 +16,7 @@ export function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
     { href: '/', label: 'Home', icon: Home },
     { href: '/about', label: 'About', icon: User },
     { href: '/case-studies', label: 'Case Studies', icon: Briefcase },
-    { href: '/ai-showcase', label: 'AI Showcase', icon: Monitor }
+    { href: '/blog', label: 'Posts', icon: Monitor }
   ];
 
   if (!isOpen) return null;
