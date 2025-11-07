@@ -1,7 +1,7 @@
 import React from 'react';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import type { PortableTextBlock } from 'sanity';
-import { urlFor } from '@/lib/sanity/client';
+import { urlFor } from '@/sanity/lib/client';
 
 interface BlogContentProps {
   content: PortableTextBlock[];

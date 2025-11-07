@@ -159,9 +159,33 @@ Get token from: `https://sanity.io/manage/project/YOUR_PROJECT_ID/api`
 
 ---
 
+## Important: Remove Conflicting ISR Configuration
+
+If you're using `sanityFetch` (which you should be), **remove time-based `revalidate` exports**:
+
+```typescript
+// ❌ REMOVE THIS from pages using sanityFetch
+export const revalidate = 3600;
+
+// ✅ Let sanityFetch handle caching via tags
+const { data } = await sanityFetch({ query });
+```
+
+**Why?** Mixing time-based ISR with tag-based revalidation causes page refreshes. `sanityFetch` uses tags for instant cache updates via WebSocket. Time-based `revalidate` conflicts with this and triggers server-side refreshes.
+
+**Files to check:**
+- `/app/blog/[slug]/page.tsx`
+- `/app/projects/[slug]/page.tsx`
+- Any page using `sanityFetch`
+
+See `/docs/presentation-mode-isr-conflict-fix.md` for full details.
+
+---
+
 ## Troubleshooting
 
 **Still refreshing?**
+- Check for conflicting `export const revalidate` (remove it!)
 - Hard refresh Sanity Studio
 - Check `.env.local` has `SANITY_AUTH_TOKEN`
 - Look for `<SanityLive /> revalidated tag` in terminal (proves it's working)

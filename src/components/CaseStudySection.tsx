@@ -3,7 +3,7 @@
 import React from 'react'
 import { PortableText } from '@portabletext/react'
 import { CaseStudyScreenshots } from './CaseStudyScreenshots'
-import { urlFor } from '@/lib/sanity/client'
+import { urlFor } from '@/sanity/lib/client'
 import Image from 'next/image'
 
 interface Screenshot {

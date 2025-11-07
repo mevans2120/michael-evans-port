@@ -3,7 +3,7 @@
  * Fetches and transforms Sanity CMS content for vector database ingestion
  */
 
-import { client } from '@/lib/sanity/client';
+import { client } from '@/sanity/lib/client';
 import { PortableTextBlock } from 'sanity';
 
 /**

@@ -1,7 +1,7 @@
 /**
  * Check what content is actually in Sanity sections
  */
-import { client } from '@/lib/sanity/client';
+import { client } from '@/sanity/lib/client';
 
 async function checkSections() {
   const profile = await client.fetch(`

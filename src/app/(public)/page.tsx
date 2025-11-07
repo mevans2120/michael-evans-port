@@ -10,7 +10,7 @@ import { homepageHeroQuery } from "@/lib/sanity/queries";
 import { featuredBlogQuery } from "@/lib/sanity/queries/blog";
 import { Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
-import { urlFor } from '@/lib/sanity/client';
+import { urlFor } from '@/sanity/lib/client';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });

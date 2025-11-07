@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { urlFor } from '@/lib/sanity/client'
+import { urlFor } from '@/sanity/lib/client'
 
 interface Screenshot {
   image: {

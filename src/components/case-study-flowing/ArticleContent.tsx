@@ -5,7 +5,7 @@
 
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
-import { urlFor } from '@/lib/sanity/client'
+import { urlFor } from '@/sanity/lib/client'
 import { StatBlockNumber } from './StatBlockNumber'
 import { StatBlockQuote } from './StatBlockQuote'
 import { StatBlockText } from './StatBlockText'

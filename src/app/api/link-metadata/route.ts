@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { client, urlFor } from '@/lib/sanity/client';
+import { client, urlFor } from '@/sanity/lib/client';
 
 /**
  * TypeScript types for link metadata

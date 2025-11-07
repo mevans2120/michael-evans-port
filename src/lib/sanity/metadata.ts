@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { urlFor, client } from './client'
+import { urlFor, client } from '@/sanity/lib/client'
 
 interface SanityImage {
   asset?: {

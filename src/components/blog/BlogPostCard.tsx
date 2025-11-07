@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import type { BlogListItem } from '@/types/blog';
-import { urlFor } from '@/lib/sanity/client';
+import { urlFor } from '@/sanity/lib/client';
 import { CalendarIcon, ClockIcon } from 'lucide-react';
 
 interface BlogPostCardProps {
