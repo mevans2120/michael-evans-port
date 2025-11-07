@@ -58,9 +58,9 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 relative z-10 ${
+              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent relative z-10 ${
                 isActive
-                  ? 'text-accent bg-accent/10'
+                  ? 'text-navigation-link-hover'
                   : 'text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg'
               }`}
             >
