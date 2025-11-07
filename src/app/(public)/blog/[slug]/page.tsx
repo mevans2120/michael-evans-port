@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { sanityFetch } from '@/sanity/lib/live';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/sanity/lib/client';
 import { blogPostBySlugQuery } from '@/lib/sanity/queries/blog';
 import { BlogLayout, BlogHero, BlogMeta, BlogContent } from '@/components/blog';
 import type { Blog } from '@/types/blog';
@@ -23,9 +23,6 @@ export async function generateStaticParams() {
     slug: item.slug,
   }));
 }
-
-// Revalidate every hour (ISR - Incremental Static Regeneration)
-export const revalidate = 3600;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;

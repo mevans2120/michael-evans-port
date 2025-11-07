@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
-import { client } from '@/lib/sanity/client'
+import { client } from '@/sanity/lib/client'
 import { Metadata } from 'next'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 import {
@@ -153,9 +153,6 @@ export async function generateStaticParams() {
     slug: project.slug,
   }))
 }
-
-// Revalidate every hour (ISR - Incremental Static Regeneration)
-export const revalidate = 3600
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

@@ -8,7 +8,7 @@ import { Sparkles, ChevronDown, Send, User, Loader2, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/sanity/lib/client';
 import { chatPromptsQuery } from '@/lib/sanity/queries';
 import { LinkPreview } from '@/components/chatbot/LinkPreview';
 import '../chatbot/chatbot.css';

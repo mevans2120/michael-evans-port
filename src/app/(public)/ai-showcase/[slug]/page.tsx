@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
-import { client } from '@/lib/sanity/client'
+import { client } from '@/sanity/lib/client'
 import { aiShowcaseBySlugQuery, allAIShowcaseSlugsQuery } from '@/lib/sanity/queries/aiShowcase'
 import type { AIShowcase } from '@/types/aiShowcase'
 import { AIShowcasePageMagazine } from './AIShowcasePageMagazine'
