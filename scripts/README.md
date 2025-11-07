@@ -1,12 +1,49 @@
 # Sanity Migration Scripts Guide
 
+## ⚠️ BEFORE YOU START: Script Requirements Checklist
+
+**🔴 CRITICAL: Every script that touches Sanity data MUST load environment variables or it will fail with "Insufficient permissions"**
+
+**The token in `.env.local` is correct. If your script fails, the script is broken, not the token.**
+
+**REQUIRED: Add these 3 lines to EVERY script:**
+
+```javascript
+// For .js files (use node to run):
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+dotenv.config({ path: resolve(process.cwd(), '.env.local') })
+```
+
+```typescript
+// For .ts files (use tsx to run):
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+dotenv.config({ path: resolve(process.cwd(), '.env.local') })
+```
+
+**Why this is REQUIRED:**
+- Node.js scripts DO NOT automatically load `.env.local` (Next.js does, scripts don't)
+- Without this, `process.env.SANITY_WRITE_TOKEN` will be `undefined`
+- Undefined token = "Insufficient permissions" error
+- The token has write permissions, the script just can't see it
+
+**✅ Checklist for new scripts:**
+- [ ] Import dotenv and path/resolve at the top
+- [ ] Call `dotenv.config({ path: resolve(process.cwd(), '.env.local') })`
+- [ ] Use `process.env.SANITY_WRITE_TOKEN` (not SANITY_AUTH_TOKEN)
+- [ ] Set `useCdn: false` in client config
+- [ ] Test the script before committing
+
+---
+
 ## How to Write Migration Scripts (IMPORTANT!)
 
 ### Critical Requirements
 
 When writing Sanity migration scripts, you **MUST** follow this exact pattern to avoid authentication errors:
 
-#### 1. Environment Variable Loading
+#### 1. Environment Variable Loading (REQUIRED)
 
 **ALWAYS use this pattern:**
 
@@ -18,7 +55,10 @@ import { resolve } from 'path'
 dotenv.config({ path: resolve(process.cwd(), '.env.local') })
 ```
 
-**❌ Don't use:** `import 'dotenv/config'` - it won't consistently load `.env.local`
+**❌ Don't use:**
+- `import 'dotenv/config'` - won't consistently load `.env.local`
+- Skipping dotenv entirely - `process.env` will be empty
+- Assuming Next.js loads env vars for scripts - it doesn't!
 
 #### 2. Authentication Token
 
@@ -35,10 +75,12 @@ const client = createClient({
 ```
 
 **Common Mistakes:**
-- ❌ `SANITY_API_TOKEN` - Will fail with 403 Forbidden
-- ❌ `SANITY_AUTH_TOKEN` - Read-only, insufficient permissions
-- ❌ `NEXT_PUBLIC_SANITY_TOKEN` - Public read-only token
+- ❌ `SANITY_API_TOKEN` - Wrong variable name
+- ❌ `SANITY_AUTH_TOKEN` - Wrong variable name
+- ❌ `NEXT_PUBLIC_SANITY_TOKEN` - Wrong variable name
 - ✅ `SANITY_WRITE_TOKEN` - Correct!
+
+**Note:** The token itself in `.env.local` has write permissions. The variable name must be `SANITY_WRITE_TOKEN`.
 
 ### Quick Start Template
 
@@ -85,23 +127,72 @@ migrate()
 
 ### Running Migrations
 
+**For TypeScript files (.ts):**
 ```bash
 npx tsx scripts/your-migration-script.ts
 ```
 
+**For JavaScript files (.js):**
+```bash
+node scripts/your-migration-script.js
+```
+
 ### Troubleshooting
 
-**403 Forbidden Error:**
+#### Error: "Insufficient permissions; permission 'update' required"
+
+**Full error message:**
 ```
-ClientError: transaction failed: Insufficient permissions; permission "update" required
+ClientError: transaction failed: Insufficient permissions; permission "update" required:
+- Insufficient permissions; permission "update" required
 ```
 
-**Solutions:**
-1. Verify you're using `SANITY_WRITE_TOKEN` (not `_API_TOKEN` or `_AUTH_TOKEN`)
-2. Check dotenv loading: `dotenv.config({ path: resolve(process.cwd(), '.env.local') })`
-3. Confirm `.env.local` contains `SANITY_WRITE_TOKEN=...`
+**🔴 THE ISSUE IS ALWAYS YOUR SCRIPT, NOT THE TOKEN**
 
-**See working example:** `scripts/migrate-aesop-lyft.ts`
+The token in `.env.local` has write permissions and is correct. If you get this error, your script is broken.
+
+**Root cause (99% of the time):**
+
+**Missing dotenv loading - Script doesn't load environment variables**
+
+Your script is trying to use `process.env.SANITY_WRITE_TOKEN` but it's `undefined` because you didn't load `.env.local`.
+
+**Solution:** Add these THREE lines at the top of your script:
+```javascript
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+dotenv.config({ path: resolve(process.cwd(), '.env.local') })
+```
+
+**Why this happens:**
+- Next.js automatically loads `.env.local` for the app
+- Node.js scripts DO NOT automatically load `.env.local`
+- You must explicitly load it with dotenv in every script
+- Without it, `process.env.SANITY_WRITE_TOKEN` is undefined → authentication fails
+
+**Quick diagnosis:**
+```javascript
+// Add this RIGHT AFTER dotenv.config() to verify it worked:
+console.log('Token loaded:', !!process.env.SANITY_WRITE_TOKEN)
+console.log('Token preview:', process.env.SANITY_WRITE_TOKEN?.substring(0, 10) + '...')
+
+// If you see "Token loaded: false" → dotenv didn't work, check the path
+// If you see "Token loaded: true" → script is correct, run it again
+```
+
+**Other causes (rare):**
+
+1. **Wrong token variable name in script**
+   - Using `process.env.SANITY_AUTH_TOKEN` instead of `process.env.SANITY_WRITE_TOKEN`
+   - Solution: Use `SANITY_WRITE_TOKEN` everywhere
+
+2. **Typo in .env.local**
+   - Variable name is misspelled in `.env.local` file
+   - Solution: Verify the line says exactly `SANITY_WRITE_TOKEN=sk...`
+
+**See working examples:**
+- `scripts/migrate-aesop-lyft.ts` (TypeScript)
+- `scripts/delete-slides-data.js` (JavaScript)
 
 ---
 
