@@ -1,14 +1,163 @@
 # Current Development Status
 
-## 📍 Active Sprint: Sanity CMS Visual Editor & Image Handling
-*Last Updated: 2025-11-06*
+## 📍 Active Sprint: About Page Redesign
+*Last Updated: 2025-11-07*
 
 ## 🎯 Current Focus
-**Sanity Visual Editor & Profile Image Hotspot** ✅ Fixed visual editor connection and image hotspot support.
+**About Page Redesign** ✅ Complete - Migrated About page to flowing article format matching Case Study pages.
 
 **Status**: ✅ Complete and committed.
 
-## ✅ Recent Accomplishments (November 6, 2025 - Latest)
+## ✅ Recent Accomplishments (November 6-7, 2025 - Latest)
+
+### Desktop Footer Crow Restoration - COMPLETE 🎉
+
+**Goal**: Restore the crow graphic to the desktop footer that was accidentally removed on November 5.
+
+**Problem**:
+- Crow graphic disappeared from desktop footer
+- Was removed on November 5 during mobile footer optimization (commit `6ba61b1`)
+- Commit message said "from mobile" but crow was removed entirely (both mobile and desktop)
+- Crow existed from November 2-5 (3 days)
+
+**Root Cause**:
+- Crow was in first column of 4-column desktop grid layout
+- Mobile footer refactor changed grid from 4 columns to 3 columns
+- Crow column was deleted entirely instead of hidden on mobile only
+- Layout shrunk from `grid-cols-4` to `grid-cols-3` on desktop
+
+**Solution**: Restored original 4-column desktop layout with crow
+1. Changed desktop grid back to 4 columns: `grid-cols-2 md:grid-cols-4`
+2. Added crow SVG in first column (248×300, horizontally flipped)
+3. Hidden on mobile with `hidden md:flex`
+4. Removed extra "MEvans" logo that was off-screen
+5. Preserved all mobile improvements (2-column layout)
+
+**Implementation Details**:
+- **Crow Styling**:
+  - Size: 248px × 300px
+  - ViewBox: `20 12 70 110` (cropped for optimal display)
+  - Transform: `-scale-x-100` (horizontally flipped to face right)
+  - Color: `text-navigation` (matches nav panel)
+  - Opacity: 80%
+  - Positioning: `self-end justify-self-start -ml-16` (bottom-left with negative margin)
+
+- **Desktop Layout** (4 columns):
+  1. Crow graphic (hidden on mobile)
+  2. Services list (Research, Strategy, UX & Design, Delivery, Development)
+  3. Pages navigation (Home, About, Case Studies, AI Showcase)
+  4. Reach Out links (LinkedIn, Contact)
+
+- **Mobile Layout** (2 columns, unchanged):
+  1. Services list
+  2. Reach Out links + "MEvans LLC." logo
+
+**Files Modified**:
+- `/src/components/Footer.tsx` - Restored crow column and 4-column grid
+
+**Key Improvements**:
+- ✅ Crow visible on desktop (≥768px width)
+- ✅ Crow hidden on mobile (<768px width)
+- ✅ Original desktop design restored
+- ✅ All mobile improvements preserved (2-column, simplified layout)
+- ✅ No extra logo text off-screen
+- ✅ Build passing (22/22 pages)
+
+---
+
+### About Page Redesign - COMPLETE 🎉
+
+**Goal**: Update About page to use flowing article format matching Case Study detail pages with single-column layout and editorial styling.
+
+**Implementation Timeline**: November 6-7, 2025 (4 phases completed)
+
+**Phase 1: Schema Design & Migration Script** ✅
+- Added `article` field to profile schema (`/sanity/schemas/profile.ts`)
+- Supports Portable Text with stat blocks (Number, Quote, Text), images, videos, code
+- Deprecated `sections` field (hidden for backward compatibility)
+- Created migration script (`/scripts/migrate-profile-to-article.ts`)
+- Features: dry-run mode, automatic backup, H2/H3 heading conversion, interactive confirmation
+- Added npm script: `npm run migrate:profile`
+
+**Phase 2: Component Development** ✅
+- Created `/src/components/about/AboutHero.tsx` (119 lines) - Editorial-style hero with profile image
+- Created `/src/components/about/AboutArticle.tsx` (23 lines) - Wrapper for ArticleContent renderer
+- Created `/src/components/about/AboutFooter.tsx` (82 lines) - Availability status and CTA
+- Rewrote `/src/components/about/AboutPageClient.tsx` (169 → 86 lines) - Clean component architecture
+- Build verified: ✅ 22/22 pages, no TypeScript errors
+
+**Phase 3: Migration Execution** ✅
+- Backup created: `/backups/profile-backup-2025-11-07T01-19-28.json`
+- Migrated 6 sections (skipped 1 hidden) → 29 article blocks
+- Content structure preserved:
+  - The 50,000-Foot View (H2)
+  - From Yurts to Gigahertz (H2)
+  - What I Bring (H2) with 3 subsections (H3)
+  - Why AI Changes Many Things (H2)
+  - The Process (H2)
+- Updated page query (`/src/app/(public)/about/page.tsx`) to fetch `article` field
+- Preview saved: `/backups/article-preview.json`
+
+**Phase 4: Testing & Documentation** ✅
+- Production build successful (31.3s)
+- All 22 pages generated, no errors
+- Dev server verified (http://localhost:3000/about)
+- Created comprehensive documentation:
+  - `/docs/about-page-redesign-plan.md` - Planning document
+  - `/docs/about-page-redesign-implementation.md` - Implementation summary
+
+**Key Benefits**:
+- ✅ Matches Case Study visual style (single-column, max-w-4xl)
+- ✅ Reuses ArticleContent renderer (DRY principle)
+- ✅ All content preserved (100%)
+- ✅ Stat blocks available for future use
+- ✅ Simpler data structure (flat vs nested)
+- ✅ Backward compatibility maintained
+- ✅ Full dark mode support
+- ✅ Responsive design (mobile-first)
+
+**Technical Architecture**:
+```tsx
+<AboutPageClient>
+  {/* Blur orbs */}
+  <AboutHero {...hero} />
+  <AboutArticle article={data.article} />
+  <AboutFooter {...footer} />
+</AboutPageClient>
+```
+
+**Files Created**:
+- `/src/components/about/AboutHero.tsx`
+- `/src/components/about/AboutArticle.tsx`
+- `/src/components/about/AboutFooter.tsx`
+- `/scripts/migrate-profile-to-article.ts`
+- `/docs/about-page-redesign-plan.md`
+- `/docs/about-page-redesign-implementation.md`
+
+**Files Modified**:
+- `/sanity/schemas/profile.ts` - Added article field
+- `/src/components/about/AboutPageClient.tsx` - Complete rewrite
+- `/src/app/(public)/about/page.tsx` - Updated query
+- `/package.json` - Added migrate:profile script
+
+**Testing**:
+- ✅ Build: 31.3s, 22/22 pages
+- ✅ Bundle size: 3.28 kB (unchanged)
+- ✅ Content: 100% preserved
+- ✅ Runtime: About page loading successfully
+- ✅ Dark mode: Fully supported
+- ✅ Responsive: Mobile, tablet, desktop verified
+
+**Rollback Available**: Backup at `/backups/profile-backup-2025-11-07T01-19-28.json`
+
+**Future Enhancements** (optional):
+- Add stat blocks to highlight achievements
+- Add images/videos to article content
+- Enhance hero section with badge/tagline
+
+---
+
+## ✅ Previous Accomplishments
 
 ### Sanity Visual Editor & Profile Image Hotspot - COMPLETE 🎉
 
