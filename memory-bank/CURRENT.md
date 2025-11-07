@@ -4,11 +4,80 @@
 *Last Updated: 2025-11-06*
 
 ## 🎯 Current Focus
-**About Page CTA Removal** ✅ Removed "Get in Touch" CTA section from about page.
+**Case Study Article Spacing** ✅ Fixed inconsistent paragraph spacing and reduced component padding.
 
 **Status**: ✅ Complete and ready to commit.
 
 ## ✅ Recent Accomplishments (November 6, 2025 - Latest)
+
+### Case Study Article Spacing Improvements - COMPLETE 🎉
+
+**Goal**: Fix inconsistent paragraph spacing in case study articles and reduce excessive padding between hero metadata and article content.
+
+**Problem**:
+- Inconsistent spacing between paragraphs in case study articles (some cramped, some with gaps)
+- Likely caused by migration script creating soft line breaks instead of paragraph blocks
+- Excessive vertical gap (128px mobile / 192px desktop) between metadata section and article content
+- Tailwind margin stacking causing additional spacing issues
+
+**Root Cause**:
+- Migration script created content with soft breaks (`<br>`) that have no spacing
+- Paragraph blocks had `mb-6` (24px) but no CSS normalization rules
+- Tailwind margins don't collapse like native CSS, causing stacked margins
+- Both EditorialHero and FlowingArticle had large padding creating huge gap
+
+**Solution**: CSS normalization + component padding adjustments
+1. Created comprehensive analysis documentation explaining the formatting system
+2. Added `.prose-custom` class with spacing normalization rules
+3. Added `data-stat-block` attributes to all stat block components for CSS targeting
+4. Reduced paragraph spacing from `mb-6` (24px) to `mb-4` (16px)
+5. Reduced component padding between hero and article by 75%
+
+**Implementation Details**:
+- **CSS Normalization** (`/src/app/globals.css`):
+  - Base paragraph spacing: `mb-4` (16px between all paragraphs)
+  - Remove trailing margins on last paragraph
+  - Fix margin stacking after headings and stat blocks
+  - 100% Tailwind utilities (no direct CSS values)
+
+- **Component Padding Reductions**:
+  - EditorialHero: `py-16 md:py-24` → `pt-16 md:pt-24 pb-4 md:pb-6`
+  - FlowingArticle: `py-16 md:py-24` → `pt-4 md:pt-6 pb-16 md:pb-24`
+  - Total gap reduced from 128px/192px to 32px/48px (75% smaller)
+
+**Files Created**:
+- `/docs/case-study-paragraph-spacing-analysis.md` - Comprehensive 500+ line analysis document explaining:
+  - How the formatting system works (Sanity → Portable Text → React → CSS)
+  - Root causes of inconsistent spacing
+  - Migration script artifacts and Tailwind margin behavior
+  - Testing methods and future recommendations
+
+**Files Modified**:
+- `/src/app/globals.css` - Added `.prose-custom` class with spacing normalization
+- `/src/components/case-study-flowing/StatBlockNumber.tsx` - Added `data-stat-block` attribute
+- `/src/components/case-study-flowing/StatBlockQuote.tsx` - Added `data-stat-block` attribute
+- `/src/components/case-study-flowing/StatBlockText.tsx` - Added `data-stat-block` attribute
+- `/src/components/case-study-editorial/EditorialHero.tsx` - Reduced bottom padding (pb-8 → pb-4, pb-12 → pb-6)
+- `/src/components/case-study-flowing/FlowingArticle.tsx` - Reduced top padding (pt-8 → pt-4, pt-12 → pt-6)
+
+**Key Improvements**:
+- ✅ Consistent 16px spacing between all paragraphs
+- ✅ No cramped text or excessive gaps
+- ✅ Proper 48px spacing around stat blocks (no margin stacking)
+- ✅ 75% reduction in gap between hero metadata and article content
+- ✅ Works regardless of content source (migration script, manual edits, etc.)
+- ✅ 100% Tailwind design system compliance
+- ✅ Comprehensive documentation for future reference
+- ✅ Build passing (22/22 pages)
+
+**Design System Compliance**:
+- Uses `@layer components` (matches existing patterns like `.card-base`)
+- Uses `@apply` with Tailwind utilities throughout
+- CSS nesting with `&` selector (standard PostCSS)
+- Semantic spacing tokens (`mb-4`, `mt-12`, etc.)
+- Zero inline CSS or direct values
+
+---
 
 ### About Page CTA Removal - COMPLETE 🎉
 

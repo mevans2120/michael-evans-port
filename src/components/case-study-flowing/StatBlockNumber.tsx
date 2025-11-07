@@ -11,7 +11,7 @@ interface StatBlockNumberProps {
 
 export function StatBlockNumber({ number, label }: StatBlockNumberProps) {
   return (
-    <div className="my-12 p-8 bg-accent/5 dark:bg-accent/10 border-l-4 border-accent rounded-lg">
+    <div data-stat-block className="my-12 p-8 bg-accent/5 dark:bg-accent/10 border-l-4 border-accent rounded-lg">
       <div className="text-6xl md:text-7xl font-bold text-accent mb-3">
         {number}
       </div>

@@ -11,7 +11,7 @@ interface StatBlockTextProps {
 
 export function StatBlockText({ heading, text }: StatBlockTextProps) {
   return (
-    <div className="my-12 p-8 bg-card dark:bg-card/50 rounded-lg border border-border">
+    <div data-stat-block className="my-12 p-8 bg-card dark:bg-card/50 rounded-lg border border-border">
       {heading && (
         <h4 className="text-lg font-semibold text-foreground mb-4">
           {heading}

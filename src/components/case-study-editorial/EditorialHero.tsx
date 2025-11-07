@@ -20,7 +20,7 @@ interface EditorialHeroProps {
  */
 export function EditorialHero({ badge, title, subtitle, summary, overview }: EditorialHeroProps) {
   return (
-    <header className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <header className="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-4 md:pb-6">
       {badge && (
         <div className="font-sans text-xs uppercase tracking-[2px] text-accent dark:text-accent font-semibold mb-6">
           {badge}
