@@ -8,7 +8,7 @@ import { generateSanityMetadata } from '@/lib/sanity/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateSanityMetadata({
-    title: 'Blog | Michael Evans',
+    title: 'Posts | Michael Evans',
     description: 'Insights on AI, creative technology, and building with AI-powered tools',
     path: '/blog',
   });
@@ -24,7 +24,7 @@ export default async function BlogPage() {
       {/* Header */}
       <header className="mb-16">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold font-sans mb-6 text-foreground">
-          Blog
+          Posts
         </h1>
         <p className="text-xl md:text-2xl text-muted-foreground font-serif max-w-2xl">
           Insights on AI, creative technology, and building with AI-powered tools
@@ -41,7 +41,7 @@ export default async function BlogPage() {
       ) : (
         <div className="text-center py-16">
           <p className="text-lg text-muted-foreground">
-            No blog posts yet. Check back soon!
+            No posts yet. Check back soon!
           </p>
         </div>
       )}

@@ -21,7 +21,7 @@ export function NavigationMenu() {
     { href: '/', label: 'Home', icon: Home },
     { href: '/about', label: 'About', icon: User },
     { href: '/case-studies', label: 'Case Studies', icon: Briefcase },
-    { href: '/blog', label: 'Blog', icon: Monitor }
+    { href: '/blog', label: 'Posts', icon: Monitor }
   ];
 
   return (

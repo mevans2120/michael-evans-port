@@ -184,7 +184,7 @@ export async function GET(request: NextRequest) {
     let category = '';
     if (type === 'blog' && 'heroSection' in data && data.heroSection) {
       // Blog heroSection has badge field
-      category = ('badge' in data.heroSection && data.heroSection.badge) ? data.heroSection.badge : 'Blog';
+      category = ('badge' in data.heroSection && data.heroSection.badge) ? data.heroSection.badge : 'Post';
     } else if ('category' in data && data.category) {
       category = data.category;
     } else if (type === 'project') {
@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
     } else if (type === 'aiShowcase') {
       category = 'AI Showcase';
     } else {
-      category = 'Blog';
+      category = 'Post';
     }
 
     // Build response

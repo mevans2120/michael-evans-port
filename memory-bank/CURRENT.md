@@ -1,14 +1,57 @@
 # Current Development Status
 
-## 📍 Active Sprint: Blog System Implementation & PostPal Migration
+## 📍 Active Sprint: Sanity Presentation Mode & Content Branding
 *Last Updated: 2025-11-07*
 
 ## 🎯 Current Focus
-**AI Showcase → Blog Transformation** ✅ Complete - Converted AI Showcase system to Blog system, migrated 2 posts to blog, and migrated PostPal to Case Studies.
+**Sanity Presentation Mode Fixed** ✅ Complete - Fixed live editing in Presentation mode and renamed Blog → Posts throughout the site.
 
 **Status**: ✅ Complete and ready to commit.
 
 ## ✅ Recent Accomplishments (November 7, 2025 - Latest)
+
+### Sanity Presentation Mode Fix - COMPLETE 🎉
+
+**Problem**: Presentation mode was refreshing pages instead of updating content live. Live editing was not working seamlessly.
+
+**Root Cause**: `browserToken: false` in `/src/sanity/lib/live.ts` completely disabled WebSocket updates.
+
+**Solution (3 Phases)**:
+1. **Phase 1 (Critical)**: Enabled `browserToken: process.env.SANITY_AUTH_TOKEN`
+   - Fixed live WebSocket updates
+   - Content now updates in real-time without page refreshes
+2. **Phase 2 (Enhancement)**: Added location resolvers
+   - Created `/src/sanity/presentation.ts` with mainDocuments and locations config
+   - Updated `sanity.config.ts` to use resolvers
+   - Enables "Used on X pages" banner and better document navigation
+3. **Phase 3 (Optional)**: Base client stega (skipped - not needed)
+
+**Files Changed**:
+- `src/sanity/lib/live.ts` - Enabled browserToken
+- `src/sanity/presentation.ts` - NEW: Location resolver configuration
+- `sanity.config.ts` - Added resolve configuration to presentationTool
+- `docs/sanity-presentation-mode-fix.md` - NEW: Comprehensive analysis (747 lines)
+- `docs/SANITY-PRESENTATION-MODE-QUICK-FIX.md` - NEW: Quick reference guide for other projects
+
+**Result**: ✅ Live editing works seamlessly - no page refreshes on publish or edit.
+
+**Documentation**: Full analysis in `/docs/sanity-presentation-mode-fix.md` with root cause, technical details, and testing checklist. Quick reference guide available for applying to other projects.
+
+---
+
+### Content Branding: Blog → Posts
+
+**Change**: Renamed "Blog" to "Posts" throughout the site while keeping `/blog` URL slug.
+
+**Files Updated**:
+- `sanity/schemas/blog.ts` - Title: "Blog" → "Posts" (Sanity Studio sidebar)
+- `src/app/(public)/blog/page.tsx` - Heading and page title
+- `src/components/navigation/NavigationMenu.tsx` - Navigation label
+- `src/app/api/link-metadata/route.ts` - Category metadata
+
+**Result**: Site displays "Posts" everywhere, URL remains `/blog` for SEO continuity.
+
+---
 
 ### Blog System Implementation & PostPal Migration - COMPLETE 🎉
 
