@@ -59,8 +59,9 @@ export default defineType({
           options: {
             list: [
               { title: 'About', value: '/about' },
-              { title: 'Case Studies', value: '/case-studies' },
               { title: 'AI Showcase', value: '/ai-showcase' },
+              { title: 'Blog', value: '/blog' },
+              { title: 'Case Studies', value: '/case-studies' },
               { title: 'Home', value: '/' },
             ],
           },
@@ -143,8 +144,9 @@ export default defineType({
           options: {
             list: [
               { title: 'About', value: '/about' },
-              { title: 'Case Studies', value: '/case-studies' },
               { title: 'AI Showcase', value: '/ai-showcase' },
+              { title: 'Blog', value: '/blog' },
+              { title: 'Case Studies', value: '/case-studies' },
               { title: 'Home', value: '/' },
             ],
           },
@@ -227,8 +229,9 @@ export default defineType({
           options: {
             list: [
               { title: 'About', value: '/about' },
-              { title: 'Case Studies', value: '/case-studies' },
               { title: 'AI Showcase', value: '/ai-showcase' },
+              { title: 'Blog', value: '/blog' },
+              { title: 'Case Studies', value: '/case-studies' },
               { title: 'Home', value: '/' },
             ],
           },

@@ -82,8 +82,9 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Contact Page', value: '/contact' },
           { title: 'About Page', value: '/about' },
+          { title: 'Blog', value: '/blog' },
+          { title: 'Contact Page', value: '/contact' },
         ],
       },
       hidden: ({ parent }) => parent?.contactLinkType !== 'internal',

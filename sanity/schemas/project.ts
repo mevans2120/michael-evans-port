@@ -556,7 +556,7 @@ export default defineType({
               type: 'text',
               title: 'Quote Text',
               rows: 3,
-              validation: (Rule) => Rule.required().max(200)
+              validation: (Rule) => Rule.required()
             },
             {
               name: 'attribution',
