@@ -15,7 +15,7 @@ export const { sanityFetch, SanityLive } = defineLive({
     },
   }),
   serverToken: process.env.SANITY_AUTH_TOKEN,
-  // Explicitly disable browserToken - we use VisualEditing component instead
-  // which handles live updates via WebSocket for a better experience
-  browserToken: false,
+  // Enable browserToken for live WebSocket updates in Presentation mode
+  // This is required for real-time content updates without page refreshes
+  browserToken: process.env.SANITY_AUTH_TOKEN,
 });
