@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
@@ -11,6 +11,7 @@ import { SuggestedPrompts } from './SuggestedPrompts';
 import { client } from '@/sanity/lib/client';
 import { chatPromptsQuery } from '@/lib/sanity/queries';
 import { LinkPreview } from '@/components/chatbot/LinkPreview';
+import { extractInternalLinks } from '@/lib/linkExtractor';
 import '../chatbot/chatbot.css';
 
 interface ChatSectionProps {
@@ -28,6 +29,12 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
     prompts: { text: string; order: number; active: boolean }[];
     numberOfPromptsToShow: number;
   } | null>(null);
+
+  // Memoize prompts array to prevent re-shuffling on every render
+  const memoizedPrompts = useMemo(
+    () => chatPromptsData?.prompts?.map(p => p.text),
+    [chatPromptsData]
+  );
 
   const { messages: chatMessages, sendMessage, status, error } = useChat({
     onFinish: () => {
@@ -224,7 +231,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           : !isDesktop && chatExpanded
           ? 'fixed inset-0 z-40'
           : isDesktop && chatExpanded
-          ? 'absolute inset-0' // Position relative to parent container
+          ? 'absolute inset-0 z-[60]' // Above navigation panel (z-50)
           : ''
       }`}
     >
@@ -322,6 +329,9 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
               ? parseFollowUpQuestions(content)
               : { mainContent: content, questions: [] };
 
+            // Extract LinkPreview links from mainContent to render separately
+            const { textContent: cleanContent, links: extractedLinks } = extractInternalLinks(mainContent);
+
             const isCollapsedWithChat = panelState === 'partial' && chatExpanded;
 
             return (
@@ -395,9 +405,20 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
                           ),
                         }}
                       >
-                        {mainContent}
+                        {cleanContent}
                       </ReactMarkdown>
                     </div>
+
+                    {/* Extracted LinkPreview cards - rendered outside <p> tags */}
+                    {extractedLinks.length > 0 && (
+                      <div className="flex flex-col gap-3 mt-2">
+                        {extractedLinks.map((link, index) => (
+                          <LinkPreview key={index} href={link.href}>
+                            {link.text}
+                          </LinkPreview>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Follow-up question suggestions - Render LinkPreview for links */}
@@ -469,7 +490,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
             <SuggestedPrompts
               onPromptClick={handlePromptClick}
               isLoading={isLoading || isWaitingForResponse}
-              prompts={chatPromptsData?.prompts?.map(p => p.text)}
+              prompts={memoizedPrompts}
               numberOfPromptsToShow={chatPromptsData?.numberOfPromptsToShow}
             />
           )}

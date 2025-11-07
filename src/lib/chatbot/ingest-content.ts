@@ -12,19 +12,17 @@
  */
 
 // Load environment variables from .env.local
-import dotenv from 'dotenv';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+// CRITICAL: This must be at the top before other imports
+import * as dotenv from 'dotenv';
+import { resolve } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.join(__dirname, '../../../.env.local') });
+dotenv.config({ path: resolve(process.cwd(), '.env.local') });
 
 import { processDocuments } from './embeddings';
 import { insertDocuments, deleteAllDocuments } from './supabase';
 import { fetchAllSanityContent, SanityContentDocument } from './sanity-fetcher';
 import * as fs from 'fs';
+import * as path from 'path';
 
 interface ContentFile {
   filePath: string;

@@ -25,13 +25,13 @@ export function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-navigation backdrop-blur-sm z-60 md:hidden transition-opacity duration-normal"
+        className="fixed inset-0 bg-navigation backdrop-blur-sm z-[105] md:hidden transition-opacity duration-normal"
         onClick={onClose}
         aria-label="Close menu"
       />
 
       {/* Menu Content */}
-      <nav className="fixed inset-0 flex flex-col items-center justify-center z-65 md:hidden">
+      <nav className="fixed inset-0 flex flex-col items-center justify-center z-[110] md:hidden">
         {/* Close button */}
         <button
           onClick={onClose}

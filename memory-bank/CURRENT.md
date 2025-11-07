@@ -4,11 +4,70 @@
 *Last Updated: 2025-11-07*
 
 ## 🎯 Current Focus
-**Sanity Presentation Mode Fixed** ✅ Complete - Fixed live editing in Presentation mode and renamed Blog → Posts throughout the site.
+**Chatbot LinkPreview Layout Fixed** ✅ Complete - Fixed hydration errors and improved layout by extracting link previews from markdown paragraphs.
 
 **Status**: ✅ Complete and ready to commit.
 
 ## ✅ Recent Accomplishments (November 7, 2025 - Latest)
+
+### Chatbot LinkPreview Layout Fix - COMPLETE 🎉
+
+**Problem**: LinkPreview components were rendering inside markdown `<p>` tags in chatbot messages, causing:
+- React hydration errors (block-level elements `<div>`, `<h3>`, `<p>` cannot be children of `<p>`)
+- Stretched/tall layout appearance due to paragraph constraints
+
+**Root Cause**: ReactMarkdown's custom link renderer wrapped LinkPreview components directly in `<p>` tags, creating invalid HTML nesting.
+
+**Solution**: Extract LinkPreview links from markdown content and render them separately (outside `<p>` tags), similar to how Slack/Discord handle rich media.
+
+**Implementation**:
+1. **Created `/src/lib/linkExtractor.ts`** (88 lines)
+   - `extractInternalLinks()` - Parses markdown and extracts preview links
+   - `isPreviewableLink()` - Checks if link should be extracted
+   - Targets `/case-studies/`, `/ai-showcase/`, `/blog/` URLs
+   - Returns cleaned text content + array of extracted links
+
+2. **Updated `/src/components/navigation/ChatSection.tsx`**
+   - Line 14: Added import for extractInternalLinks utility
+   - Line 333: Extract links from mainContent before rendering
+   - Line 408: Use cleanContent (text without links) in ReactMarkdown
+   - Lines 412-421: Render extracted LinkPreview cards separately after message
+
+**Files Created**:
+- `/src/lib/linkExtractor.ts` (88 lines)
+
+**Files Modified**:
+- `/src/components/navigation/ChatSection.tsx` (3 changes: import, extraction, rendering)
+
+**Key Benefits**:
+- ✅ No more React hydration errors
+- ✅ Proper HTML structure (cards as siblings to paragraphs, not children)
+- ✅ Better layout (cards render at natural size without paragraph constraints)
+- ✅ Similar UX to Slack/Discord (rich media separated from text)
+- ✅ Links still appear after message text as intended
+- ✅ Supports multiple links per message
+- ✅ External links remain inline (unchanged)
+
+**Technical Architecture**:
+```tsx
+// Before (broken):
+<p>
+  <LinkPreview /> {/* ❌ Block element in paragraph */}
+</p>
+
+// After (fixed):
+<ReactMarkdown>{cleanContent}</ReactMarkdown>
+{extractedLinks.map(link => <LinkPreview />)} {/* ✅ Siblings */}
+```
+
+**Testing**:
+- ✅ Dev server running successfully
+- ✅ Link metadata API fetching correctly (200 responses)
+- ✅ No hydration errors in console
+- ✅ Layout renders correctly with proper card height
+- ✅ Multiple links per message supported
+
+---
 
 ### Sanity Presentation Mode Fix - COMPLETE 🎉
 

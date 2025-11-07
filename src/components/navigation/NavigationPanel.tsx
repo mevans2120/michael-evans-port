@@ -96,7 +96,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         {/* Hover detection and clickable area on right edge - Desktop only */}
         {isDesktop && (
           <button
-            className="absolute right-0 top-0 bottom-0 w-16 -mr-14 z-[101] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            className="absolute right-0 top-0 bottom-0 w-[85px] -mr-[77px] z-[101] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             onClick={handleBorderClick}
             onMouseEnter={() => setIsBorderHovered(true)}
             onMouseLeave={() => setIsBorderHovered(false)}
