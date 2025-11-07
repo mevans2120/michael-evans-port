@@ -10,7 +10,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SanityLive } from "@/sanity/lib/live";
-import { VisualEditing } from "next-sanity/visual-editing";
+import { VisualEditingWrapper } from "@/components/VisualEditingWrapper";
 import { draftMode } from "next/headers";
 
 // DM Sans is a sans-serif font for headers and UI
@@ -67,9 +67,7 @@ export default async function RootLayout({
               <FaviconGenerator />
               {children}
               <SanityLive />
-              {(await draftMode()).isEnabled && (
-                <VisualEditing />
-              )}
+              {(await draftMode()).isEnabled && <VisualEditingWrapper />}
               <Toaster />
               <Sonner />
             </TimeThemeProvider>

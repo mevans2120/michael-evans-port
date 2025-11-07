@@ -1,14 +1,83 @@
 # Current Development Status
 
-## 📍 Active Sprint: SEO & Visual Consistency
+## 📍 Active Sprint: Sanity CMS Visual Editor & Image Handling
 *Last Updated: 2025-11-06*
 
 ## 🎯 Current Focus
-**Case Study Article Spacing** ✅ Fixed inconsistent paragraph spacing and reduced component padding.
+**Sanity Visual Editor & Profile Image Hotspot** ✅ Fixed visual editor connection and image hotspot support.
 
-**Status**: ✅ Complete and ready to commit.
+**Status**: ✅ Complete and committed.
 
 ## ✅ Recent Accomplishments (November 6, 2025 - Latest)
+
+### Sanity Visual Editor & Profile Image Hotspot - COMPLETE 🎉
+
+**Goal**: Fix broken Sanity Presentation view (visual editor) and enable proper image hotspot/crop support for profile images.
+
+**Problems**:
+1. Sanity Presentation view showing "Unable to connect to visual editing" error
+2. Network errors (ERR_QUIC_PROTOCOL_ERROR, 500 Internal Server Error)
+3. React hydration mismatch error when loading pages
+4. Profile image on About page cutting off top of head despite setting hotspot in Sanity
+5. Module loading error for VisualEditing component causing runtime failures
+
+**Root Causes**:
+1. Missing `NEXT_PUBLIC_SITE_URL` environment variable (required for visual editor connection)
+2. Conditional rendering of `<SanityLive />` vs `<VisualEditing />` causing hydration mismatches
+3. Profile image query only fetching `asset->url` without hotspot/crop data
+4. `VisualEditing` component not wrapped in client component causing chunk loading errors
+
+**Solutions**:
+1. **Environment Configuration**:
+   - Added `NEXT_PUBLIC_SITE_URL=http://localhost:3000` to `.env.local`
+   - Documented need to add production URL to Vercel environment variables
+
+2. **Fixed Hydration Error** (`/src/app/layout.tsx:69-70`):
+   - Always render `<SanityLive />` (handles live updates for all visitors)
+   - Conditionally add `<VisualEditingWrapper />` only in draft mode
+   - Prevents hydration mismatch between server/client rendering
+
+3. **Profile Image Hotspot Support**:
+   - Updated query (`/src/app/(public)/about/page.tsx:10-14`) to fetch complete image object:
+     ```groq
+     profileImage {
+       asset->,
+       hotspot,
+       crop
+     }
+     ```
+   - Implemented Sanity image URL builder (`/src/components/about/AboutPageClient.tsx:99`):
+     ```typescript
+     builder.image(data.profileImage).width(448).height(448).fit('crop').url()
+     ```
+   - `.fit('crop')` respects hotspot, ensuring circular crop focuses on selected area
+
+4. **Fixed Module Loading Error**:
+   - Created client component wrapper (`/src/components/VisualEditingWrapper.tsx`)
+   - Wrapped `VisualEditing` in `'use client'` directive to prevent chunk loading errors
+   - Updated layout to use wrapper instead of direct import
+
+**Files Modified**:
+- `/src/app/layout.tsx` - Fixed hydration and added VisualEditing wrapper
+- `/src/app/(public)/about/page.tsx` - Updated query to fetch hotspot/crop data
+- `/src/components/about/AboutPageClient.tsx` - Implemented image URL builder
+- `/.env.local` - Added NEXT_PUBLIC_SITE_URL
+
+**Files Created**:
+- `/src/components/VisualEditingWrapper.tsx` - Client component wrapper for VisualEditing
+
+**Testing**:
+- ✅ Build passes (22/22 pages)
+- ✅ Visual editor connects successfully in Sanity Presentation view
+- ✅ No hydration errors
+- ✅ Profile image respects hotspot adjustments made in Sanity
+- ✅ No module loading errors
+
+**Commits**:
+- `0c6e568` - Fix Sanity visual editor and profile image hotspot support
+- `[pending]` - Fix VisualEditing module loading error with client wrapper
+
+---
 
 ### Case Study Article Spacing Improvements - COMPLETE 🎉
 
