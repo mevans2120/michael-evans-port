@@ -16,15 +16,7 @@ const profileQuery = `
     heroSubheadline,
     heroIntro,
     quickFacts,
-    capabilities,
-    sections[] {
-      heading,
-      slug,
-      content,
-      subsections,
-      visible
-    },
-    selectedProjects[] | order(order asc),
+    article,
     availability,
     availabilityText,
     ctaText,

@@ -1,0 +1,400 @@
+[
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_jjq1jhwzf",
+    "style": "h2",
+    "children": [
+      {
+        "_type": "span",
+        "text": "The 50,000-Foot View",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "w5exth",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "plakz",
+        "_type": "span",
+        "marks": [],
+        "text": "I'm a product manager who lives in Portland, Oregon—technology enthusiast, AI enthusiast, father of two boys, lifelong learner, and kind of an \"army of one\" when it comes to capabilities across software."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "91dgdlj",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "7wp2o",
+        "_type": "span",
+        "marks": [],
+        "text": "What makes me different from a typical product manager is the breadth of what I can do. I can define strategy and determine what to build and why. I can create the interface and user experience through UX design. I can conduct research to understand users and validate ideas, then make sense of data and metrics through analysis. I handle project management to ship things on time, tackle prioritization for backlogs and roadmaps, and manage feature lists. And here's the new part: I can build and test the software with Claude Code."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "q2wsqd",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "2q23bb",
+        "_type": "span",
+        "marks": [],
+        "text": "That last capability is transformative. Working with AI has changed how I operate—I can now take projects from strategy through to working code, all while maintaining the product thinking that's been at the core of my career for 20 years."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_isupw2kkv",
+    "style": "h2",
+    "children": [
+      {
+        "_type": "span",
+        "text": "From Yurts to Gigahertz",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "ro0y2j",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "wmns2",
+        "_type": "span",
+        "marks": [],
+        "text": "I was raised by hippies in a purple house in Eugene, Oregon. I fell in love with computers and software as a kid and learned to program a bit when I was 11. But I also loved to read and write, so I studied English at the University of Colorado—proof that you don't need a CS degree to have a successful career in software."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "zuqvme",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "vrwowp",
+        "_type": "span",
+        "marks": [],
+        "text": "I've been doing product management for much of my career, though sometimes my role was called \"project manager\" or \"solutions architect\" or \"business analyst.\" The titles changed, but the work remained consistent: understand the problem, design the solution, ship the product, measure the results, iterate."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "yaxo6g",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "kmn2h",
+        "_type": "span",
+        "marks": [],
+        "text": "My career has taken me from Work & Co, where I led the Virgin America and Alaska Airlines redesigns, to Huge, where I managed Target's massive e-commerce transformation across 20+ concurrent work streams. I founded Before Labs and created Before Launcher, a focus app that helped thousands of people reduce their phone time. More recently, I've been doing independent consulting through Raw Materials, working on projects like Casa Bonita's queue management system, Peddle's car marketplace, and PostPal's healthcare recovery app."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "jruryp",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "xaopu",
+        "_type": "span",
+        "marks": [],
+        "text": "Whether it was helping leisure travelers book airline tickets, helping people focus by filtering notifications, or managing 40,000 people in a queue for a restaurant, the work has always been about making complex things simple and delightful."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_3vx04x9jv",
+    "style": "h2",
+    "children": [
+      {
+        "_type": "span",
+        "text": "What I Bring",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_vuoctrt1b",
+    "style": "h3",
+    "children": [
+      {
+        "_type": "span",
+        "text": "Deep Technical Knowledge",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "s476re",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "74qpe",
+        "_type": "span",
+        "marks": [],
+        "text": "I'm as technical as you can get without being much of a coder. I coded in middle school, know HTML and CSS, and understand how software applications are architected. I can go deep technically in any stripe of software—whether it's Salesforce, NetSuite, SaaS products, or complete custom builds."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "x9h8i",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "91bns",
+        "_type": "span",
+        "marks": [],
+        "text": "This technical depth means I can have meaningful conversations with engineers about architecture decisions, understand constraints and trade-offs, design solutions that are technically feasible, and work effectively with Claude Code to build production software. When I'm in a meeting with developers, I'm not just nodding along—I genuinely understand what they're talking about and can contribute meaningfully to technical discussions."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_sb2f1c9df",
+    "style": "h3",
+    "children": [
+      {
+        "_type": "span",
+        "text": "Big Picture Business View",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "ibxpd",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "y53jd9",
+        "_type": "span",
+        "marks": [],
+        "text": "I'm really good at seeing what's important for a business and their customers at the 50,000-foot level. I understand that technology exists to serve business goals, and business goals exist to serve customers. This strategic perspective allows me to align product decisions with business objectives, prioritize ruthlessly based on impact, and communicate value to stakeholders."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "mz8vur",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "5on3uy",
+        "_type": "span",
+        "marks": [],
+        "text": "I think beyond features to outcomes. Before asking \"how do we build this?\" I ask \"should we build this?\" This business mindset, combined with technical capability, is rare—I can sit in the boardroom discussing strategy with executives and then sit in a technical sprint planning session reviewing API contracts with engineers."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_8q108nu6c",
+    "style": "h3",
+    "children": [
+      {
+        "_type": "span",
+        "text": "Range",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "9gourd",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "ykqde5",
+        "_type": "span",
+        "marks": [],
+        "text": "I can go from true 50,000 feet all the way down to deep in the weeds—wherever is needed for the project. One day I'm defining product strategy with executives. The next I'm reviewing button padding with designers. Then I'm debugging API responses with engineers. This range is rare and valuable."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "s2ybgr",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "qey2z7",
+        "_type": "span",
+        "marks": [],
+        "text": "The details matter. I think the details are what separate great products from good products—the little things. There are plenty of good ideas, but not as many great executions. Being able to zoom in and obsess over those details while maintaining the big picture is what makes products truly exceptional."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_dd4cssd0z",
+    "style": "h2",
+    "children": [
+      {
+        "_type": "span",
+        "text": "Why AI Changes Many Things",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "uuuxgj",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "3p4njj",
+        "_type": "span",
+        "marks": [],
+        "text": "People are talking about an AI bubble. Maybe they're right about the valuations. But I think they're underselling how useful AI is right now—not in some hypothetical future, but today."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "x3xrj",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "vj0mad",
+        "_type": "span",
+        "marks": [],
+        "text": "Here's what I believe: most new software projects should have parts that powered by AI or are created more expediently with AI. Even in its current non-AGI state, it's fantastically useful. AI speeds up work, reduces costs, and improves quality. For people who love to learn, it's going to be a boon. For people who don't like to learn, there might be unfortunate consequences."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "sunvm",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "1p1cb",
+        "_type": "span",
+        "marks": [],
+        "text": "I'm really interested in the 0-to-1 \"army of one\" approach, where I do product strategy, design, and development working directly with the client and with AI. Since switching to Claude Code, I've shipped PostPal (a medical procedure recovery app built with React Native and Next.js), multiple marketing websites including DOA, Opal Creek, and Karuna Gatton (all React with Sanity CMS), and created custom memory banks and three complete skill suites for Design, Project Management, and Development. I've generated over 1,000 GitHub commits working this way."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "84xmz",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "729l8l",
+        "_type": "span",
+        "marks": [],
+        "text": "Working with Claude Code and processes I learned from agentic engineering and vibe coding folks has taught me a lot about building full-stack applications with AI. The mobile app and web app architecture, the iteration speed, the ability to explore ideas quickly—it's fundamentally changed how I work."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "whri6",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "8floqa",
+        "_type": "span",
+        "marks": [],
+        "text": "My 20 years of product management translates perfectly to working with AI. You treat Claude as a team member. Giving Claude context, keeping things organized, and making it clear why you're doing things really helps the output. All those years of defining requirements, breaking down problems, and communicating clearly—that's exactly what AI needs to be effective."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_type": "block",
+    "_key": "heading_1762478376071_hj6ug9gbw",
+    "style": "h2",
+    "children": [
+      {
+        "_type": "span",
+        "text": "The Process",
+        "marks": []
+      }
+    ],
+    "markDefs": []
+  },
+  {
+    "_key": "wi4m9",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "5oxxje",
+        "_type": "span",
+        "marks": [],
+        "text": "I love product strategy, research, and testing. One thing I've learned about myself is that the process for building, testing, shipping, and taking products to market is one that I enjoy. It's completely changing now with AI, but I still enjoy it."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "5hznnv",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "i3gdlh",
+        "_type": "span",
+        "marks": [],
+        "text": "I work across the full spectrum: defining what we should build through strategy, understanding what users actually need through research, designing how it should work, building it with Claude Code, testing whether it works and whether users love it, shipping it to market, measuring what happened and what we should do next, then iterating to make it better. This end-to-end involvement means nothing gets lost in handoffs—I'm there from concept to launch and beyond."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  },
+  {
+    "_key": "6i0hu9",
+    "_type": "block",
+    "children": [
+      {
+        "_key": "9wkr9m",
+        "_type": "span",
+        "marks": [],
+        "text": "Typically I work on front-end and back-ends that support user interfaces for consumer and B2B apps. I'm fairly technology agnostic and can work across a variety of technologies—React, Next.js, and Vite for modern web apps; Sanity CMS which I've used extensively; Supabase and Firebase for back-end services; enterprise systems like Salesforce and NetSuite; React Native for mobile; and of course AI/ML integration with Claude, OpenAI, and Google."
+      }
+    ],
+    "markDefs": [],
+    "style": "normal"
+  }
+]

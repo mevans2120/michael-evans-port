@@ -1,31 +1,9 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
-import { PortableText } from '@portabletext/react'
-import imageUrlBuilder from '@sanity/image-url'
-import { client } from '@/sanity/lib/client'
-
-const builder = imageUrlBuilder(client)
-
-// TypeScript interfaces
-interface QuickFact {
-  label: string
-  value: string
-}
-
-interface Subsection {
-  heading: string
-  content: any // PortableText content
-}
-
-interface Section {
-  heading: string
-  slug: { current: string }
-  content: any // PortableText content
-  subsections?: Subsection[]
-  visible: boolean
-}
+import { AboutHero } from './AboutHero'
+import { AboutArticle } from './AboutArticle'
+import { AboutFooter } from './AboutFooter'
 
 interface SanityImage {
   asset: {
@@ -46,16 +24,23 @@ interface SanityImage {
   }
 }
 
+interface QuickFact {
+  label: string
+  value: string
+}
+
 interface AboutData {
   name: string
   profileImage: SanityImage
   heroHeadline: string
-  heroSubheadline: string
-  heroIntro: string
-  quickFacts: QuickFact[]
-  sections: Section[]
-  availability: boolean
-  availabilityText: string
+  heroSubheadline?: string
+  heroIntro?: string
+  quickFacts?: QuickFact[]
+  article?: any[] // Portable Text blocks
+  availability?: boolean
+  availabilityText?: string
+  ctaText?: string
+  ctaButtonText?: string
 }
 
 interface AboutPageClientProps {
@@ -69,100 +54,32 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Blur orbs for atmosphere */}
-      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent opacity-20 blur-[100px] pointer-events-none -z-10" />
-      <div className="fixed bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-accent-light opacity-20 blur-[100px] pointer-events-none -z-10" />
+      {/* Atmospheric blur orbs */}
+      <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent/15 dark:bg-accent/15 blur-[100px] pointer-events-none -z-10" />
+      <div className="fixed bottom-[20%] right-[10%] w-[500px] h-[500px] rounded-full bg-accent/10 dark:bg-accent/10 blur-[100px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-32">
-        {/* Hero Section with Photo */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-16 mb-20 md:mb-32 opacity-0 animate-fade-in">
-          <div className="flex-1">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 text-gray-50">
-              {data.name}
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-400 mb-8 font-light">
-              {data.heroHeadline}
-            </p>
-            {data.heroIntro && (
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                {data.heroIntro}
-              </p>
-            )}
-          </div>
-          {data.profileImage && (
-            <div className="flex-shrink-0">
-              <div className="relative w-48 h-48 md:w-52 md:h-52 lg:w-56 lg:h-56">
-                <Image
-                  src={builder.image(data.profileImage).width(448).height(448).fit('crop').url()}
-                  alt={data.name}
-                  fill
-                  className="rounded-full object-cover border-2 border-accent/20"
-                  priority
-                />
-              </div>
-            </div>
-          )}
-        </div>
+      {/* Hero */}
+      <AboutHero
+        name={data.name}
+        profileImage={data.profileImage}
+        heroHeadline={data.heroHeadline}
+        heroSubheadline={data.heroSubheadline}
+        heroIntro={data.heroIntro}
+        quickFacts={data.quickFacts}
+      />
 
-        {/* Quick Facts Grid */}
-        {data.quickFacts && data.quickFacts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 my-20 md:my-32 py-16 border-t border-b border-accent/10">
-            {data.quickFacts.map((fact, index) => (
-              <div
-                key={index}
-                className="opacity-0 animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'forwards' }}
-              >
-                <div className="text-xs uppercase tracking-wider text-gray-500 mb-2">
-                  {fact.label}
-                </div>
-                <div className="text-lg font-medium text-gray-50">
-                  {fact.value}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+      {/* Article Content */}
+      {data.article && data.article.length > 0 && (
+        <AboutArticle article={data.article} />
+      )}
 
-        {/* Dynamic Content Sections - Two Column Layout */}
-        {data.sections && data.sections.map((section, index) => {
-          if (!section.visible) return null
-
-          return (
-            <section
-              key={index}
-              id={section.slug?.current}
-              className="mb-20 md:mb-32"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-10 text-gray-50 relative pb-4">
-                {section.heading}
-                <span className="absolute bottom-0 left-0 w-16 h-px bg-gradient-to-r from-accent to-transparent" />
-              </h2>
-
-              {/* Main section content - Two columns on large screens */}
-              {section.content && (
-                <div className="lg:columns-2 lg:gap-x-12 space-y-0 prose prose-invert prose-lg max-w-none mb-8">
-                  <PortableText value={section.content} />
-                </div>
-              )}
-
-              {/* Subsections - Two columns on large screens */}
-              {section.subsections && section.subsections.map((subsection, subIndex) => (
-                <div key={subIndex} className="mt-10">
-                  <h3 className="text-2xl md:text-3xl font-normal text-accent mb-4">
-                    {subsection.heading}
-                  </h3>
-                  {subsection.content && (
-                    <div className="lg:columns-2 lg:gap-x-12 space-y-0 prose prose-invert prose-lg max-w-none">
-                      <PortableText value={subsection.content} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </section>
-          )
-        })}
-      </div>
+      {/* Footer with CTA */}
+      <AboutFooter
+        availability={data.availability}
+        availabilityText={data.availabilityText}
+        ctaText={data.ctaText}
+        ctaButtonText={data.ctaButtonText}
+      />
     </div>
   )
 }
