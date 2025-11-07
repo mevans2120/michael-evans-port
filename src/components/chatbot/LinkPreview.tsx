@@ -35,10 +35,11 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 /**
  * Parse URL to extract type and slug for internal links
  */
-function parseInternalLink(href: string): { type: 'project' | 'aiShowcase'; slug: string } | null {
-  // Match /case-studies/slug or /ai-showcase/slug
+function parseInternalLink(href: string): { type: 'project' | 'aiShowcase' | 'blog'; slug: string } | null {
+  // Match /case-studies/slug, /ai-showcase/slug, or /blog/slug
   const caseStudyMatch = href.match(/^\/case-studies\/([^/]+)$/);
   const aiShowcaseMatch = href.match(/^\/ai-showcase\/([^/]+)$/);
+  const blogMatch = href.match(/^\/blog\/([^/]+)$/);
 
   if (caseStudyMatch) {
     return { type: 'project', slug: caseStudyMatch[1] };
@@ -48,13 +49,17 @@ function parseInternalLink(href: string): { type: 'project' | 'aiShowcase'; slug
     return { type: 'aiShowcase', slug: aiShowcaseMatch[1] };
   }
 
+  if (blogMatch) {
+    return { type: 'blog', slug: blogMatch[1] };
+  }
+
   return null;
 }
 
 /**
  * LinkPreview Component
  *
- * Displays rich preview cards for internal case study and AI showcase links.
+ * Displays rich preview cards for internal case study, AI showcase, and blog links.
  * Fetches metadata from /api/link-metadata and caches results client-side.
  *
  * Features:
@@ -202,7 +207,7 @@ function LinkPreviewSkeleton() {
 /**
  * LinkPreviewCard
  *
- * Rich preview card displaying metadata for case studies and AI showcases
+ * Rich preview card displaying metadata for case studies, AI showcases, and blog posts
  */
 interface LinkPreviewCardProps {
   href: string;

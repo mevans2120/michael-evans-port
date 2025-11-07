@@ -2,6 +2,7 @@ import project from './project'
 import profile from './profile'
 import homepageHero from './homepageHero'
 import aiShowcase from './aiShowcase'
+import blog from './blog'
 import timelinePhase from './timelinePhase'
 import workflowStep from './workflowStep'
 import projectCard from './projectCard'
@@ -21,6 +22,7 @@ export const schemaTypes = [
   profile,
   homepageHero,
   aiShowcase,
+  blog,
   timelinePhase,
   workflowStep,
   projectCard,

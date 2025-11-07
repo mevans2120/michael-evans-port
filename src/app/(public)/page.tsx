@@ -6,7 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { OrnamentalCTA } from "@/components/ui/OrnamentalCTA";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { sanityFetch } from "@/sanity/lib/live";
-import { featuredAIShowcaseQuery, homepageHeroQuery } from "@/lib/sanity/queries";
+import { homepageHeroQuery } from "@/lib/sanity/queries";
+import { featuredBlogQuery } from "@/lib/sanity/queries/blog";
 import { Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { urlFor } from '@/lib/sanity/client';
@@ -41,8 +42,8 @@ export default async function HomePage() {
       }
     ` }),
 
-    // Fetch featured AI showcase
-    sanityFetch({ query: featuredAIShowcaseQuery })
+    // Fetch featured blog post
+    sanityFetch({ query: featuredBlogQuery })
   ])
 
   // Hero section with fallbacks
@@ -72,7 +73,7 @@ export default async function HomePage() {
     viewAllText: homepage?.aiShowcaseSection?.viewAllText || 'View all showcases',
     viewAllLink: homepage?.aiShowcaseSection?.viewAllLinkType === 'external'
       ? homepage?.aiShowcaseSection?.viewAllExternalLink
-      : homepage?.aiShowcaseSection?.viewAllInternalLink || '/ai-showcase'
+      : homepage?.aiShowcaseSection?.viewAllInternalLink || '/blog'
   }
 
   // Map case studies data to component format
@@ -184,7 +185,7 @@ export default async function HomePage() {
             </div>
 
             <div className="-mx-6 md:mx-0">
-              <Link href={`/ai-showcase/${featuredShowcase.slug}`} className="block group mb-8">
+              <Link href={`/blog/${featuredShowcase.slug.current}`} className="block group mb-8">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                   {/* Featured Image */}
                   {featuredShowcase.featuredImage?.asset?.url && (
@@ -208,9 +209,9 @@ export default async function HomePage() {
                     </h3>
 
                     {/* Brief Description with inline CTA */}
-                    {featuredShowcase.heroSection.summary && (
+                    {featuredShowcase.excerpt && (
                       <p className="text-lg md:text-xl font-serif mb-6 leading-relaxed text-muted-foreground">
-                        {featuredShowcase.heroSection.summary}{' '}
+                        {featuredShowcase.excerpt}{' '}
                         <span className="text-lg md:text-xl font-medium text-accent hover:text-accent-light transition-colors underline whitespace-nowrap">
                           Learn more
                         </span>
