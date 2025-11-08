@@ -4,7 +4,6 @@ import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { MobileNav } from "@/components/navigation/MobileNav";
 import { ConditionalChatSection } from "@/components/navigation/ConditionalChatSection";
 import { MobileChatFooter } from "@/components/navigation/MobileChatFooter";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Footer } from "@/components/Footer";
 import { sanityFetch } from "@/sanity/lib/live";
 import { footerQuery } from "@/lib/sanity/queries";
@@ -37,11 +36,6 @@ export default async function PublicLayout({
           id="main-content"
           className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 md:pb-0 hide-scrollbar relative"
         >
-          {/* Theme Toggle - Desktop Only (Top Right) */}
-          <div className="hidden md:block absolute top-6 right-6 z-50">
-            <ThemeToggle />
-          </div>
-
           {children}
 
           {/* Footer */}

@@ -1,14 +1,56 @@
 # Current Development Status
 
-## 📍 Active Sprint: Sanity Schema Cleanup & Content Management
+## 📍 Active Sprint: Navigation UX Improvements
 *Last Updated: 2025-11-07*
 
 ## 🎯 Current Focus
-**Removed Duplicate Title Fields from Sanity Schemas** ✅ Complete - Eliminated duplicate heroSection.title fields from blog and project schemas to create single source of truth.
+**Navigation UX Polish** ✅ Complete - Improved navigation interaction, active states, and focus styling.
 
 **Status**: ✅ Complete and ready to commit.
 
 ## ✅ Recent Accomplishments (November 7, 2025 - Latest)
+
+### Navigation UX Improvements - COMPLETE 🎉
+
+**Goal**: Polish navigation panel interactions and visual feedback for better user experience.
+
+**Changes Made**:
+
+1. **Expanded Purple Stripe Hover Area** (`NavigationPanel.tsx:99`)
+   - Increased hover detection width from 64px to 85px (33% wider)
+   - Changed: `w-16 -mr-14` → `w-[85px] -mr-[77px]`
+   - Makes it easier to trigger panel collapse/expand without being too close to the edge
+   - Visual appearance unchanged (purple stripe stays same size)
+
+2. **Improved Navigation Active States** (`NavigationMenu.tsx:55-65`)
+   - Added pathname detection to highlight current page
+   - Subtle active state: uses hover color (`text-navigation-link-hover`)
+   - No background highlight (keeps design clean)
+   - Added `relative z-10` for proper layering
+
+3. **Rectangular Focus States** (`NavigationMenu.tsx:61`)
+   - Removed `rounded-lg` from navigation links
+   - Changed to rectangular focus rings (matches design system)
+   - Removed `ring-offset-2` for cleaner appearance
+   - Focus ring: `focus-visible:ring-2 focus-visible:ring-accent`
+
+4. **Removed Theme Toggle** (`layout.tsx:6-7, 40-43`)
+   - Hid moon sliver (ThemeToggle) from top-right corner
+   - Removed component and import
+   - Theme switching still available via footer button
+
+**Files Modified**:
+- `src/components/navigation/NavigationPanel.tsx` - Wider hover area
+- `src/components/navigation/NavigationMenu.tsx` - Active state + rectangular focus
+- `src/app/(public)/layout.tsx` - Removed ThemeToggle
+
+**Benefits**:
+- ✅ Easier to interact with panel collapse/expand
+- ✅ Clear visual feedback for current page
+- ✅ Consistent rectangular focus styling
+- ✅ Cleaner UI (removed duplicate theme toggle)
+
+---
 
 ### Sanity Schema Cleanup: Removed Duplicate Title Fields - COMPLETE 🎉
 
