@@ -1,14 +1,73 @@
 # Current Development Status
 
-## 📍 Active Sprint: Sanity Presentation Mode & Content Branding
+## 📍 Active Sprint: Sanity Schema Cleanup & Content Management
 *Last Updated: 2025-11-07*
 
 ## 🎯 Current Focus
-**Chatbot LinkPreview Layout Fixed** ✅ Complete - Fixed hydration errors and improved layout by extracting link previews from markdown paragraphs.
+**Removed Duplicate Title Fields from Sanity Schemas** ✅ Complete - Eliminated duplicate heroSection.title fields from blog and project schemas to create single source of truth.
 
 **Status**: ✅ Complete and ready to commit.
 
 ## ✅ Recent Accomplishments (November 7, 2025 - Latest)
+
+### Sanity Schema Cleanup: Removed Duplicate Title Fields - COMPLETE 🎉
+
+**Problem**: Blog and project content types had duplicate title fields (main `title` + `heroSection.title`), causing:
+- Content editor confusion about which field to update
+- Manual sync burden between two fields
+- Publish errors when fields got out of sync
+- The specific issue: Blog post title changes weren't appearing because heroSection.title wasn't updated
+
+**Root Cause**: Overly flexible schema design that allowed titles to differ between main document and hero display, but in practice they were always kept in sync manually.
+
+**Solution**: Remove `heroSection.title` field entirely and use only the main `title` field everywhere.
+
+**Implementation**:
+
+**Files Modified (9 files)**:
+
+1. **Schemas (2 files)**:
+   - `sanity/schemas/blog.ts` - Removed title field from heroSection
+   - `sanity/schemas/project.ts` - Removed title field from heroSection
+
+2. **TypeScript Types (1 file)**:
+   - `src/types/blog.ts` - Removed `title?` from BlogHero interface
+
+3. **Components (1 file)**:
+   - `src/components/blog/BlogHero.tsx` - Changed from `fallbackTitle` prop to required `title` prop, removed fallback logic
+
+4. **Pages (3 files)**:
+   - `src/app/(public)/blog/[slug]/page.tsx` - Changed BlogHero to use `title={post.title}` directly
+   - `src/app/(public)/case-studies/[slug]/page.tsx` - Updated inline interface, query, and EditorialHero to use `project.title` directly
+   - `src/app/(public)/page.tsx` - Fixed homepage featured blog to use `featuredShowcase.title` instead of `heroSection.title`, also fixed image check from `asset.url` to `asset`
+
+5. **Queries (1 file)**:
+   - `src/lib/sanity/queries/blog.ts` - Removed `title` from heroSection in both `blogPostBySlugQuery` and `featuredBlogQuery`
+
+**Key Changes**:
+- Blog schemas now only have main `title` field (no heroSection.title)
+- All components updated to use main title field
+- Homepage featured blog now displays photo and title correctly
+- Fixed image conditional check (was checking `asset.url`, now checks `asset`)
+
+**Benefits**:
+- ✅ Single source of truth for titles
+- ✅ No manual sync needed between fields
+- ✅ Simpler Sanity Studio UI
+- ✅ Eliminates content editor confusion
+- ✅ Prevents publish errors from field mismatches
+- ✅ Cleaner, more maintainable schema
+
+**Testing**:
+- ✅ Build successful with zero TypeScript errors
+- ✅ Homepage displays featured blog photo and title correctly
+- ✅ Blog detail pages render with correct titles
+- ✅ Project detail pages render with correct titles
+- ✅ Dev server running without errors
+
+**Note**: AI Showcase schema was intentionally left unchanged (still has heroSection.title) per user request to only fix blog and project.
+
+---
 
 ### Chatbot LinkPreview Layout Fix - COMPLETE 🎉
 

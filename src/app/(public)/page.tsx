@@ -188,12 +188,12 @@ export default async function HomePage() {
               <Link href={`/blog/${featuredShowcase.slug.current}`} className="block group mb-8">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                   {/* Featured Image */}
-                  {featuredShowcase.featuredImage?.asset?.url && (
+                  {featuredShowcase.featuredImage?.asset && (
                     <div className="w-full md:w-1/3 flex-shrink-0">
                       <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
                         <Image
                           src={urlFor(featuredShowcase.featuredImage).width(600).height(450).fit('crop').quality(85).auto('format').url()}
-                          alt={featuredShowcase.featuredImage.alt || featuredShowcase.heroSection.title}
+                          alt={featuredShowcase.featuredImage.alt || featuredShowcase.title}
                           fill
                           className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                         />
@@ -205,7 +205,7 @@ export default async function HomePage() {
                   <div className="flex-1">
                     {/* Title */}
                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-light leading-tight mb-6 text-foreground group-hover:text-accent-light transition-colors">
-                      {featuredShowcase.heroSection.title}
+                      {featuredShowcase.title}
                     </h3>
 
                     {/* Brief Description with inline CTA */}

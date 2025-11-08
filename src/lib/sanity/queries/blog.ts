@@ -36,7 +36,6 @@ export const blogPostBySlugQuery = groq`
     excerpt,
     heroSection {
       badge,
-      title,
       subtitle
     },
     content,
@@ -102,7 +101,6 @@ export const featuredBlogQuery = groq`
     excerpt,
     heroSection {
       badge,
-      title,
       subtitle
     },
     publishedAt,

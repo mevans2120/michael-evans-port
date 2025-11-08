@@ -19,7 +19,6 @@ interface EditorialCaseStudyData {
   category: string
   heroSection?: {
     badge?: string
-    title?: string
     subtitle?: string
     summary?: string
   }
@@ -75,7 +74,6 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
   category,
   heroSection {
     badge,
-    title,
     subtitle,
     summary
   },
@@ -197,7 +195,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
       {/* Editorial Hero */}
       <EditorialHero
         badge={project.heroSection?.badge}
-        title={project.heroSection?.title || project.title}
+        title={project.title}
         subtitle={project.heroSection?.subtitle}
         summary={project.heroSection?.summary}
         overview={project.overview}

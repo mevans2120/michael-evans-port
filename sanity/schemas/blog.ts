@@ -50,12 +50,6 @@ export default defineType({
           description: 'Small uppercase label (e.g., "AI Showcase")',
         },
         {
-          name: 'title',
-          title: 'Hero Title',
-          type: 'string',
-          description: 'Large display title (can differ from main title)',
-        },
-        {
           name: 'subtitle',
           title: 'Subtitle',
           type: 'text',

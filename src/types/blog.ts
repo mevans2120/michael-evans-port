@@ -2,7 +2,6 @@ import { PortableTextBlock } from 'sanity';
 
 export interface BlogHero {
   badge?: string;
-  title?: string;
   subtitle?: string;
 }
 

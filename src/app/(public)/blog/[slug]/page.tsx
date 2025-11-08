@@ -61,7 +61,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     <BlogLayout>
       <BlogHero
         heroSection={post.heroSection}
-        fallbackTitle={post.title}
+        title={post.title}
       />
 
       <BlogMeta

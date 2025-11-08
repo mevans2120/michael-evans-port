@@ -3,7 +3,7 @@ import type { BlogHero as BlogHeroType } from '@/types/blog';
 
 interface BlogHeroProps {
   heroSection?: BlogHeroType;
-  fallbackTitle?: string;
+  title: string;
 }
 
 /**
@@ -14,8 +14,7 @@ interface BlogHeroProps {
  * - Large title with gradient effect on hover
  * - Optional subtitle/tagline
  */
-export function BlogHero({ heroSection, fallbackTitle }: BlogHeroProps) {
-  const title = heroSection?.title || fallbackTitle;
+export function BlogHero({ heroSection, title }: BlogHeroProps) {
   const { badge, subtitle } = heroSection || {};
 
   return (

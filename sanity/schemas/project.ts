@@ -41,12 +41,6 @@ export default defineType({
           description: 'Small badge above title (e.g., "Case Study")',
         },
         {
-          name: 'title',
-          title: 'Hero Title',
-          type: 'string',
-          description: 'Large hero title (usually same as document title)',
-        },
-        {
           name: 'subtitle',
           title: 'Subtitle',
           type: 'text',
