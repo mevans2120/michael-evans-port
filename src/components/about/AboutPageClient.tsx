@@ -3,7 +3,6 @@
 import React from 'react'
 import { AboutHero } from './AboutHero'
 import { AboutArticle } from './AboutArticle'
-import { AboutFooter } from './AboutFooter'
 
 interface SanityImage {
   asset: {
@@ -37,10 +36,6 @@ interface AboutData {
   heroIntro?: string
   quickFacts?: QuickFact[]
   article?: any[] // Portable Text blocks
-  availability?: boolean
-  availabilityText?: string
-  ctaText?: string
-  ctaButtonText?: string
 }
 
 interface AboutPageClientProps {
@@ -72,14 +67,6 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
       {data.article && data.article.length > 0 && (
         <AboutArticle article={data.article} />
       )}
-
-      {/* Footer with CTA */}
-      <AboutFooter
-        availability={data.availability}
-        availabilityText={data.availabilityText}
-        ctaText={data.ctaText}
-        ctaButtonText={data.ctaButtonText}
-      />
     </div>
   )
 }

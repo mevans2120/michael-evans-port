@@ -17,10 +17,6 @@ const profileQuery = `
     heroIntro,
     quickFacts,
     article,
-    availability,
-    availabilityText,
-    ctaText,
-    ctaButtonText,
     seo {
       metaTitle,
       metaDescription,
