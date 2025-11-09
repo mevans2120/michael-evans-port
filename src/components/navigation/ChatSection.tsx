@@ -75,7 +75,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
     if (!isDesktop) {
       return chatExpanded ? 'h-screen' : 'h-auto min-h-0';
     }
-    return chatExpanded ? 'md:h-full' : 'md:h-[34%]';
+    return chatExpanded ? 'lg:h-full' : 'lg:h-[34%]';
   };
 
   // Cleanup all timeouts on unmount
@@ -270,9 +270,9 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
       >
         <div className="flex items-center gap-4 pointer-events-none">
           {!chatExpanded && !isMobileVersion && <Sparkles className="w-4 h-4 text-accent" />}
-          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${effectiveExpanded ? '' : 'md:ml-0'}`}>
+          <h2 className={`text-lg font-medium text-chat-foreground font-serif ${effectiveExpanded ? '' : 'lg:ml-0'}`}>
             {/* Mobile: Show conditional text based on expanded state */}
-            <span className="md:hidden">
+            <span className="lg:hidden">
               {chatExpanded ? (
                 <>M<span className="text-gradient">Evans</span> AI Assistant</>
               ) : (
@@ -280,7 +280,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
               )}
             </span>
             {/* Desktop: Show conditional text based on expanded state */}
-            <span className="hidden md:inline">
+            <span className="hidden lg:inline">
               {chatExpanded ? (
                 <>M<span className="text-gradient">Evans</span> AI Assistant</>
               ) : (

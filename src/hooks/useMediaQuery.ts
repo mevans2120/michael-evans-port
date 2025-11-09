@@ -52,15 +52,15 @@ export function useMediaQuery(query: string): boolean {
 /**
  * Convenience hook for checking if viewport is desktop size or larger
  *
- * Uses Tailwind's 'md' breakpoint (768px) for consistency across the app.
+ * Uses Tailwind's 'lg' breakpoint (1024px) for consistency across the app.
  * This is the recommended way to check for desktop viewports.
  *
- * @returns true if viewport width >= 768px, false otherwise
+ * @returns true if viewport width >= 1024px, false otherwise
  *
  * @example
  * const isDesktop = useIsDesktop()
  * return isDesktop ? <DesktopNav /> : <MobileNav />
  */
 export function useIsDesktop(): boolean {
-  return useMediaQuery('(min-width: 768px)');
+  return useMediaQuery('(min-width: 1024px)');
 }

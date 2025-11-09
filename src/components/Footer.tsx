@@ -90,9 +90,9 @@ export function Footer({ data }: FooterProps) {
     <footer className="border-t border-border bg-background">
       <div className="max-w-5xl mx-auto px-8 py-8">
         {/* Main content area: 2 columns on mobile, 4 columns on desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-start mb-2">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 items-start mb-2">
           {/* Crow Logo - Desktop Only */}
-          <div className="hidden md:flex flex-col self-end justify-self-start -ml-16">
+          <div className="hidden lg:flex flex-col self-end justify-self-start -ml-16">
             <svg
               width="248"
               height="300"
@@ -135,7 +135,7 @@ export function Footer({ data }: FooterProps) {
           </nav>
 
           {/* Pages - Hidden on mobile, sticky nav is always visible */}
-          <nav className="hidden md:flex flex-col gap-3 items-start">
+          <nav className="hidden lg:flex flex-col gap-3 items-start">
             <h3 className="text-xs uppercase tracking-wider text-foreground/40 mb-1">Pages</h3>
             <Link href="/" className="text-base text-foreground/70 hover:text-accent transition-colors">
               Home
@@ -183,7 +183,7 @@ export function Footer({ data }: FooterProps) {
             </div>
 
             {/* Logo - Mobile only, bottom aligned */}
-            <p className="text-lg font-medium font-serif text-foreground/60 mt-auto md:hidden">
+            <p className="text-lg font-medium font-serif text-foreground/60 mt-auto lg:hidden">
               M<span className="text-gradient">Evans</span> LLC.
             </p>
           </div>
@@ -191,11 +191,11 @@ export function Footer({ data }: FooterProps) {
 
         {/* Bottom: Logo and Tagline */}
         <div className="border-t border-border/30 pt-6 mt-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            <p className="hidden md:block text-lg font-medium font-serif text-foreground/60 md:mr-auto">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
+            <p className="hidden lg:block text-lg font-medium font-serif text-foreground/60 lg:mr-auto">
               M<span className="text-gradient">Evans</span> LLC.
             </p>
-            <p className="text-base text-foreground/80 md:absolute md:left-1/2 md:-translate-x-1/2 md:w-auto">
+            <p className="text-base text-foreground/80 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:w-auto">
               Made in {weatherWord && `${weatherWord} `}Portland, OR. It is {currentTime} here and its{' '}
               <button
                 onClick={toggleTheme}

@@ -16,7 +16,7 @@ export function MobileHeader({ onMenuClick, chatExpanded, mobileMenuOpen }: Mobi
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-background border-b border-border z-[60] md:hidden">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-background border-b border-border z-[60] lg:hidden">
       <div className="flex items-center justify-between h-full px-6">
         {/* Logo - Now clickable */}
         <Link

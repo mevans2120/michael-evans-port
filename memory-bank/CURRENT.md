@@ -1,751 +1,286 @@
 # Current Development Status
 
-## 📍 Active Sprint: Navigation UX Improvements
-*Last Updated: 2025-11-07*
+## 📍 Active Sprint: Navigation Breakpoint Optimization
+*Last Updated: 2025-11-09*
 
 ## 🎯 Current Focus
-**Navigation UX Polish** ✅ Complete - Improved navigation interaction, active states, and focus styling.
+**Navigation Breakpoint Migration** ✅ Complete - Migrated mobile/desktop navigation breakpoint from 768px to 1024px for better tablet UX.
 
-**Status**: ✅ Complete and ready to commit.
+**Status**: ✅ Complete and ready for production.
 
-## ✅ Recent Accomplishments (November 7, 2025 - Latest)
+## ✅ Recent Accomplishments (November 9, 2025 - Latest)
 
-### Navigation UX Improvements - COMPLETE 🎉
+### Mobile Navigation Breakpoint Migration - COMPLETE 🎉
 
-**Goal**: Polish navigation panel interactions and visual feedback for better user experience.
-
-**Changes Made**:
-
-1. **Expanded Purple Stripe Hover Area** (`NavigationPanel.tsx:99`)
-   - Increased hover detection width from 64px to 85px (33% wider)
-   - Changed: `w-16 -mr-14` → `w-[85px] -mr-[77px]`
-   - Makes it easier to trigger panel collapse/expand without being too close to the edge
-   - Visual appearance unchanged (purple stripe stays same size)
-
-2. **Improved Navigation Active States** (`NavigationMenu.tsx:55-65`)
-   - Added pathname detection to highlight current page
-   - Subtle active state: uses hover color (`text-navigation-link-hover`)
-   - No background highlight (keeps design clean)
-   - Added `relative z-10` for proper layering
-
-3. **Rectangular Focus States** (`NavigationMenu.tsx:61`)
-   - Removed `rounded-lg` from navigation links
-   - Changed to rectangular focus rings (matches design system)
-   - Removed `ring-offset-2` for cleaner appearance
-   - Focus ring: `focus-visible:ring-2 focus-visible:ring-accent`
-
-4. **Removed Theme Toggle** (`layout.tsx:6-7, 40-43`)
-   - Hid moon sliver (ThemeToggle) from top-right corner
-   - Removed component and import
-   - Theme switching still available via footer button
-
-**Files Modified**:
-- `src/components/navigation/NavigationPanel.tsx` - Wider hover area
-- `src/components/navigation/NavigationMenu.tsx` - Active state + rectangular focus
-- `src/app/(public)/layout.tsx` - Removed ThemeToggle
-
-**Benefits**:
-- ✅ Easier to interact with panel collapse/expand
-- ✅ Clear visual feedback for current page
-- ✅ Consistent rectangular focus styling
-- ✅ Cleaner UI (removed duplicate theme toggle)
-
----
-
-### Sanity Schema Cleanup: Removed Duplicate Title Fields - COMPLETE 🎉
-
-**Problem**: Blog and project content types had duplicate title fields (main `title` + `heroSection.title`), causing:
-- Content editor confusion about which field to update
-- Manual sync burden between two fields
-- Publish errors when fields got out of sync
-- The specific issue: Blog post title changes weren't appearing because heroSection.title wasn't updated
-
-**Root Cause**: Overly flexible schema design that allowed titles to differ between main document and hero display, but in practice they were always kept in sync manually.
-
-**Solution**: Remove `heroSection.title` field entirely and use only the main `title` field everywhere.
-
-**Implementation**:
-
-**Files Modified (9 files)**:
-
-1. **Schemas (2 files)**:
-   - `sanity/schemas/blog.ts` - Removed title field from heroSection
-   - `sanity/schemas/project.ts` - Removed title field from heroSection
-
-2. **TypeScript Types (1 file)**:
-   - `src/types/blog.ts` - Removed `title?` from BlogHero interface
-
-3. **Components (1 file)**:
-   - `src/components/blog/BlogHero.tsx` - Changed from `fallbackTitle` prop to required `title` prop, removed fallback logic
-
-4. **Pages (3 files)**:
-   - `src/app/(public)/blog/[slug]/page.tsx` - Changed BlogHero to use `title={post.title}` directly
-   - `src/app/(public)/case-studies/[slug]/page.tsx` - Updated inline interface, query, and EditorialHero to use `project.title` directly
-   - `src/app/(public)/page.tsx` - Fixed homepage featured blog to use `featuredShowcase.title` instead of `heroSection.title`, also fixed image check from `asset.url` to `asset`
-
-5. **Queries (1 file)**:
-   - `src/lib/sanity/queries/blog.ts` - Removed `title` from heroSection in both `blogPostBySlugQuery` and `featuredBlogQuery`
-
-**Key Changes**:
-- Blog schemas now only have main `title` field (no heroSection.title)
-- All components updated to use main title field
-- Homepage featured blog now displays photo and title correctly
-- Fixed image conditional check (was checking `asset.url`, now checks `asset`)
-
-**Benefits**:
-- ✅ Single source of truth for titles
-- ✅ No manual sync needed between fields
-- ✅ Simpler Sanity Studio UI
-- ✅ Eliminates content editor confusion
-- ✅ Prevents publish errors from field mismatches
-- ✅ Cleaner, more maintainable schema
-
-**Testing**:
-- ✅ Build successful with zero TypeScript errors
-- ✅ Homepage displays featured blog photo and title correctly
-- ✅ Blog detail pages render with correct titles
-- ✅ Project detail pages render with correct titles
-- ✅ Dev server running without errors
-
-**Note**: AI Showcase schema was intentionally left unchanged (still has heroSection.title) per user request to only fix blog and project.
-
----
-
-### Chatbot LinkPreview Layout Fix - COMPLETE 🎉
-
-**Problem**: LinkPreview components were rendering inside markdown `<p>` tags in chatbot messages, causing:
-- React hydration errors (block-level elements `<div>`, `<h3>`, `<p>` cannot be children of `<p>`)
-- Stretched/tall layout appearance due to paragraph constraints
-
-**Root Cause**: ReactMarkdown's custom link renderer wrapped LinkPreview components directly in `<p>` tags, creating invalid HTML nesting.
-
-**Solution**: Extract LinkPreview links from markdown content and render them separately (outside `<p>` tags), similar to how Slack/Discord handle rich media.
-
-**Implementation**:
-1. **Created `/src/lib/linkExtractor.ts`** (88 lines)
-   - `extractInternalLinks()` - Parses markdown and extracts preview links
-   - `isPreviewableLink()` - Checks if link should be extracted
-   - Targets `/case-studies/`, `/ai-showcase/`, `/blog/` URLs
-   - Returns cleaned text content + array of extracted links
-
-2. **Updated `/src/components/navigation/ChatSection.tsx`**
-   - Line 14: Added import for extractInternalLinks utility
-   - Line 333: Extract links from mainContent before rendering
-   - Line 408: Use cleanContent (text without links) in ReactMarkdown
-   - Lines 412-421: Render extracted LinkPreview cards separately after message
-
-**Files Created**:
-- `/src/lib/linkExtractor.ts` (88 lines)
-
-**Files Modified**:
-- `/src/components/navigation/ChatSection.tsx` (3 changes: import, extraction, rendering)
-
-**Key Benefits**:
-- ✅ No more React hydration errors
-- ✅ Proper HTML structure (cards as siblings to paragraphs, not children)
-- ✅ Better layout (cards render at natural size without paragraph constraints)
-- ✅ Similar UX to Slack/Discord (rich media separated from text)
-- ✅ Links still appear after message text as intended
-- ✅ Supports multiple links per message
-- ✅ External links remain inline (unchanged)
-
-**Technical Architecture**:
-```tsx
-// Before (broken):
-<p>
-  <LinkPreview /> {/* ❌ Block element in paragraph */}
-</p>
-
-// After (fixed):
-<ReactMarkdown>{cleanContent}</ReactMarkdown>
-{extractedLinks.map(link => <LinkPreview />)} {/* ✅ Siblings */}
-```
-
-**Testing**:
-- ✅ Dev server running successfully
-- ✅ Link metadata API fetching correctly (200 responses)
-- ✅ No hydration errors in console
-- ✅ Layout renders correctly with proper card height
-- ✅ Multiple links per message supported
-
----
-
-### Sanity Presentation Mode Fix - COMPLETE 🎉
-
-**Problem**: Presentation mode was refreshing pages instead of updating content live. Live editing was not working seamlessly.
-
-**Root Cause**: `browserToken: false` in `/src/sanity/lib/live.ts` completely disabled WebSocket updates.
-
-**Solution (3 Phases)**:
-1. **Phase 1 (Critical)**: Enabled `browserToken: process.env.SANITY_AUTH_TOKEN`
-   - Fixed live WebSocket updates
-   - Content now updates in real-time without page refreshes
-2. **Phase 2 (Enhancement)**: Added location resolvers
-   - Created `/src/sanity/presentation.ts` with mainDocuments and locations config
-   - Updated `sanity.config.ts` to use resolvers
-   - Enables "Used on X pages" banner and better document navigation
-3. **Phase 3 (Optional)**: Base client stega (skipped - not needed)
-
-**Files Changed**:
-- `src/sanity/lib/live.ts` - Enabled browserToken
-- `src/sanity/presentation.ts` - NEW: Location resolver configuration
-- `sanity.config.ts` - Added resolve configuration to presentationTool
-- `docs/sanity-presentation-mode-fix.md` - NEW: Comprehensive analysis (747 lines)
-- `docs/SANITY-PRESENTATION-MODE-QUICK-FIX.md` - NEW: Quick reference guide for other projects
-
-**Result**: ✅ Live editing works seamlessly - no page refreshes on publish or edit.
-
-**Documentation**: Full analysis in `/docs/sanity-presentation-mode-fix.md` with root cause, technical details, and testing checklist. Quick reference guide available for applying to other projects.
-
----
-
-### Content Branding: Blog → Posts
-
-**Change**: Renamed "Blog" to "Posts" throughout the site while keeping `/blog` URL slug.
-
-**Files Updated**:
-- `sanity/schemas/blog.ts` - Title: "Blog" → "Posts" (Sanity Studio sidebar)
-- `src/app/(public)/blog/page.tsx` - Heading and page title
-- `src/components/navigation/NavigationMenu.tsx` - Navigation label
-- `src/app/api/link-metadata/route.ts` - Category metadata
-
-**Result**: Site displays "Posts" everywhere, URL remains `/blog` for SEO continuity.
-
----
-
-### Blog System Implementation & PostPal Migration - COMPLETE 🎉
-
-**Goal**: Transform the AI Showcase into a simple blog system and migrate PostPal to Case Studies as a full project.
-
-**Implementation Timeline**: November 7, 2025 (7 phases completed)
-
-#### Phase 1: Research & Planning ✅
-- Created `/docs/blog-implementation-approaches.md` (600+ lines)
-  - Analyzed 4 implementation approaches
-  - Detailed comparison matrix with pros/cons
-  - Recommended Approach #3 (New Simple Blog Schema) for true simplicity
-- Created `/docs/blog-implementation-plan-approach3.md` (800+ lines)
-  - Complete 8-phase implementation guide
-  - PostPal migration plan included
-  - Testing checklist and timeline (10-12 hours)
-
-#### Phase 2: Schema & Types ✅
-- Created `/sanity/schemas/blog.ts` (265 lines)
-  - Lightweight schema vs 360+ line aiShowcase schema (3-6x simpler)
-  - Key fields: title, slug, excerpt, heroSection, content (PortableText), publishedAt, author, readingTime
-  - Optional: featured, order, featuredImage, seo
-  - Icon: DocumentTextIcon
-- Created `/src/types/blog.ts` (80 lines)
-  - TypeScript interfaces: Blog, BlogListItem, BlogHero, BlogImage, BlogSEO
-- Created `/src/lib/sanity/queries/blog.ts` (117 lines)
-  - allBlogPostsQuery, blogPostBySlugQuery, featuredBlogQuery
-- Updated `/sanity/schemas/index.ts` to export blog schema
-
-#### Phase 3: Blog Components ✅
-Created 5 components in `/src/components/blog/`:
-- `BlogLayout.tsx` (35 lines) - Article wrapper with max-w-[920px]
-- `BlogHero.tsx` (45 lines) - Hero section with badge, title, subtitle
-- `BlogContent.tsx` (92 lines) - PortableText renderer with custom serializers
-- `BlogMeta.tsx` (55 lines) - Date, author, reading time display
-- `BlogPostCard.tsx` (95 lines) - Card for blog listing with click handling
-- `index.ts` - Component exports
-
-**Design System Compliance**:
-- All components use semantic tokens (text-foreground, text-muted-foreground, text-accent)
-- Proper dark mode support via design system
-- Transition utilities (transition-smooth, duration-normal, duration-slower)
-- No hardcoded colors or inline styles
-
-#### Phase 4: Blog Routes ✅
-- Created `/src/app/(public)/blog/page.tsx` (50 lines)
-  - Blog listing page with server-side data fetching
-  - Metadata generation with SEO support
-- Created `/src/app/(public)/blog/[slug]/page.tsx` (80 lines)
-  - Dynamic blog detail route
-  - Static generation with generateStaticParams
-  - Incremental Static Regeneration (revalidate: 3600)
-
-#### Phase 5: Navigation Integration ✅
-- Updated `/src/components/navigation/NavigationMenu.tsx`
-  - Changed "AI Showcase" → "Blog" in navigation menu
-- Updated `/src/app/(public)/page.tsx` (3 sections)
-  - Changed import from featuredAIShowcaseQuery to featuredBlogQuery
-  - Updated fetch query at line 45
-  - Changed field references: slug.current, excerpt vs summary
-
-#### Phase 6: Integration Points ✅
-Updated 3 integration files:
-
-1. **`/src/app/api/link-metadata/route.ts`:**
-   - Added SanityBlog interface
-   - Added 'blog' to type validation
-   - Added blog query fetch logic
-   - Updated description extraction for blog (uses excerpt field)
-   - Updated category formatting for blog
-
-2. **`/src/components/chatbot/LinkPreview.tsx`:**
-   - Updated parseInternalLink to include 'blog' type
-   - Added regex for /blog/ URLs
-   - Updated documentation comments
-
-3. **`/src/app/api/chat/route.ts`:**
-   - Updated system prompt references from "AI Showcase" to "Blog"
-   - Changed attribution guidelines
-   - Updated available URLs section
-   - Changed example links
-
-#### Phase 7: PostPal Migration ✅
-- **Created migration script**: `/scripts/migrate-postpal-to-project.ts` (206 lines)
-  - Flattens slide-based content to linear article format
-  - Converts quoteBox to statBlockQuote inline stat block
-  - Converts comparisonBoxes to structured text content
-  - Extracts techPills as technologies array
-  - Adds project overview metadata (role, company, timeline)
-- **Migration Results**:
-  - 43 content blocks created from 4 slides
-  - 9 metrics preserved and displaying
-  - 8 technologies extracted (Claude, Mistral, Next.js, React Native, PostgreSQL, Prisma, Supabase, TypeScript)
-  - Hero section complete with badge, title, subtitle, summary
-  - Project overview added (Role: Product Manager & Technical Lead, Company: PostPal (Startup), Timeline: 2024 - Present)
-  - Featured image and SEO metadata preserved
-  - Old aiShowcase document deleted successfully
-- **PostPal now live at**: `/case-studies/postpal`
-
-#### Phase 8: Content Migration ✅
-- Created automated migration script: `/scripts/migrate-showcase-to-blog.ts` (206 lines)
-  - Fetches AI Showcase posts (marketing-sites, ai-workflow)
-  - Flattens slide-based structure to linear blog format
-  - Converts section labels to H2 headings
-  - Converts slide headings to H3 headings
-  - Preserves all content blocks
-  - Transforms quotes, comparisons, tech stack
-  - Calculates reading time (wordCount / 200 words per minute)
-- **Migration Results**:
-  - `blog-marketing-sites`: 2 min read, 21 content blocks
-  - `blog-ai-workflow`: 5 min read, 38 content blocks
-- **Testing**: All blog pages render correctly, images load, metadata displays
-
-**Files Created** (15 files):
-- `/docs/blog-implementation-approaches.md` (600+ lines)
-- `/docs/blog-implementation-plan-approach3.md` (800+ lines)
-- `/sanity/schemas/blog.ts` (265 lines)
-- `/src/types/blog.ts` (80 lines)
-- `/src/lib/sanity/queries/blog.ts` (117 lines)
-- `/src/components/blog/BlogLayout.tsx` (35 lines)
-- `/src/components/blog/BlogHero.tsx` (45 lines)
-- `/src/components/blog/BlogContent.tsx` (92 lines)
-- `/src/components/blog/BlogMeta.tsx` (55 lines)
-- `/src/components/blog/BlogPostCard.tsx` (95 lines)
-- `/src/components/blog/index.ts`
-- `/src/app/(public)/blog/page.tsx` (50 lines)
-- `/src/app/(public)/blog/[slug]/page.tsx` (80 lines)
-- `/scripts/migrate-showcase-to-blog.ts` (206 lines)
-- `/scripts/migrate-postpal-to-project.ts` (206 lines)
-
-**Files Modified** (7 files):
-- `/sanity/schemas/index.ts` - Added blog schema export
-- `/src/components/navigation/NavigationMenu.tsx` - Changed "AI Showcase" to "Blog"
-- `/src/app/(public)/page.tsx` - Updated homepage to pull from blog
-- `/src/app/api/link-metadata/route.ts` - Added blog support
-- `/src/components/chatbot/LinkPreview.tsx` - Added blog link parsing
-- `/src/app/api/chat/route.ts` - Updated system prompt for blog
-
-**Key Benefits**:
-- ✅ Exceptionally simple blog schema (3-6x simpler than AI Showcase)
-- ✅ Linear content structure (easier to write and edit)
-- ✅ Reuses ArticleContent renderer (DRY principle)
-- ✅ All content migrated successfully (2 blog posts, PostPal to case studies)
-- ✅ Full dark mode support
-- ✅ Design system compliant (semantic tokens throughout)
-- ✅ Automated migration scripts for repeatable workflow
-- ✅ PostPal now has full case study treatment with metrics, overview, and technologies
-- ✅ AI Showcase collection cleaned up (only 2 blog posts remain)
-
-**Current State**:
-- **Blog**: 2 posts (marketing-sites, ai-workflow) at `/blog`
-- **Projects**: 8 case studies including PostPal at `/case-studies/postpal`
-- **AI Showcase collection**: 2 documents (will be migrated to blog in production)
-- **Navigation**: "Blog" link replaces "AI Showcase"
-- **Homepage**: "Blog" section replaces "AI Showcase" section
-
-**PostPal Migration Details**:
-- **Content**: 43 article blocks (4 sections: The Problem, The Solution, The Impact, The Technology)
-- **Metrics**: 9 key metrics (30-50% patient call reduction, 20-40% improved compliance, etc.)
-- **Technologies**: 8 technologies displayed with pills
-- **Category**: Healthcare AI
-- **Featured Metric**: "AI-powered care tracking"
-- **Featured Description**: "Healthcare AI product that transforms paper discharge instructions into intelligent recovery timelines, reducing patient calls by 30-50% and improving care compliance by up to 40%."
-
-**Technical Architecture**:
-```tsx
-// Blog Listing
-<main>
-  <header>Blog</header>
-  {posts.map(post => <BlogPostCard post={post} />)}
-</main>
-
-// Blog Detail
-<BlogLayout>
-  <BlogHero {...heroSection} fallbackTitle={title} />
-  <BlogMeta {...post} />
-  <BlogContent content={content} />
-</BlogLayout>
-
-// PostPal Case Study
-<EditorialHero {...heroSection} overview={overview} />
-<MetricsSection metrics={metrics} />
-<FlowingArticle article={article} />
-<TechnologiesSection technologies={technologies} />
-```
-
-**Testing**:
-- ✅ Build: All pages generated successfully
-- ✅ Blog listing: Displays 2 posts with cards
-- ✅ Blog detail: Both posts render correctly
-- ✅ PostPal case study: Renders at /case-studies/postpal
-- ✅ Navigation: "Blog" link works
-- ✅ Homepage: "Blog" section displays featured post
-- ✅ Chatbot: Link previews work for blog posts
-- ✅ Dark mode: Fully supported
-- ✅ Responsive: Mobile, tablet, desktop verified
-
-**Rollback Available**:
-- Original AI Showcase schema preserved in Sanity
-- Migration scripts can be re-run if needed
-- PostPal backup exists in aiShowcase collection history
-
-**Future Enhancements** (optional):
-- Add more blog posts via Sanity Studio
-- Add blog categories/tags for filtering
-- Add related posts feature
-- Set PostPal as featured on homepage
-- Update chatbot content to reflect PostPal case study
-
----
-
-### About Page Redesign - COMPLETE 🎉
-
-**Goal**: Update About page to use flowing article format matching Case Study detail pages with single-column layout and editorial styling.
-
-**Implementation Timeline**: November 6-7, 2025 (4 phases completed)
-
-**Phase 1: Schema Design & Migration Script** ✅
-- Added `article` field to profile schema (`/sanity/schemas/profile.ts`)
-- Supports Portable Text with stat blocks (Number, Quote, Text), images, videos, code
-- Deprecated `sections` field (hidden for backward compatibility)
-- Created migration script (`/scripts/migrate-profile-to-article.ts`)
-- Features: dry-run mode, automatic backup, H2/H3 heading conversion, interactive confirmation
-- Added npm script: `npm run migrate:profile`
-
-**Phase 2: Component Development** ✅
-- Created `/src/components/about/AboutHero.tsx` (119 lines) - Editorial-style hero with profile image
-- Created `/src/components/about/AboutArticle.tsx` (23 lines) - Wrapper for ArticleContent renderer
-- Created `/src/components/about/AboutFooter.tsx` (82 lines) - Availability status and CTA
-- Rewrote `/src/components/about/AboutPageClient.tsx` (169 → 86 lines) - Clean component architecture
-- Build verified: ✅ 22/22 pages, no TypeScript errors
-
-**Phase 3: Migration Execution** ✅
-- Backup created: `/backups/profile-backup-2025-11-07T01-19-28.json`
-- Migrated 6 sections (skipped 1 hidden) → 29 article blocks
-- Content structure preserved:
-  - The 50,000-Foot View (H2)
-  - From Yurts to Gigahertz (H2)
-  - What I Bring (H2) with 3 subsections (H3)
-  - Why AI Changes Many Things (H2)
-  - The Process (H2)
-- Updated page query (`/src/app/(public)/about/page.tsx`) to fetch `article` field
-- Preview saved: `/backups/article-preview.json`
-
-**Phase 4: Testing & Documentation** ✅
-- Production build successful (31.3s)
-- All 22 pages generated, no errors
-- Dev server verified (http://localhost:3000/about)
-- Created comprehensive documentation:
-  - `/docs/about-page-redesign-plan.md` - Planning document
-  - `/docs/about-page-redesign-implementation.md` - Implementation summary
-
-**Key Benefits**:
-- ✅ Matches Case Study visual style (single-column, max-w-4xl)
-- ✅ Reuses ArticleContent renderer (DRY principle)
-- ✅ All content preserved (100%)
-- ✅ Stat blocks available for future use
-- ✅ Simpler data structure (flat vs nested)
-- ✅ Backward compatibility maintained
-- ✅ Full dark mode support
-- ✅ Responsive design (mobile-first)
-
-**Technical Architecture**:
-```tsx
-<AboutPageClient>
-  {/* Blur orbs */}
-  <AboutHero {...hero} />
-  <AboutArticle article={data.article} />
-  <AboutFooter {...footer} />
-</AboutPageClient>
-```
-
-**Files Created**:
-- `/src/components/about/AboutHero.tsx`
-- `/src/components/about/AboutArticle.tsx`
-- `/src/components/about/AboutFooter.tsx`
-- `/scripts/migrate-profile-to-article.ts`
-- `/docs/about-page-redesign-plan.md`
-- `/docs/about-page-redesign-implementation.md`
-
-**Files Modified**:
-- `/sanity/schemas/profile.ts` - Added article field
-- `/src/components/about/AboutPageClient.tsx` - Complete rewrite
-- `/src/app/(public)/about/page.tsx` - Updated query
-- `/package.json` - Added migrate:profile script
-
-**Testing**:
-- ✅ Build: 31.3s, 22/22 pages
-- ✅ Bundle size: 3.28 kB (unchanged)
-- ✅ Content: 100% preserved
-- ✅ Runtime: About page loading successfully
-- ✅ Dark mode: Fully supported
-- ✅ Responsive: Mobile, tablet, desktop verified
-
-**Rollback Available**: Backup at `/backups/profile-backup-2025-11-07T01-19-28.json`
-
-**Future Enhancements** (optional):
-- Add stat blocks to highlight achievements
-- Add images/videos to article content
-- Enhance hero section with badge/tagline
-
----
-
-## ✅ Previous Accomplishments
-
-### Desktop Footer Crow Restoration - COMPLETE 🎉
-
-**Goal**: Restore the crow graphic to the desktop footer that was accidentally removed on November 5.
+**Goal**: Fix cramped tablet layout by switching mobile/desktop navigation breakpoint from 768px (md:) to 1024px (lg:).
 
 **Problem**:
-- Crow graphic disappeared from desktop footer
-- Was removed on November 5 during mobile footer optimization (commit `6ba61b1`)
-- Commit message said "from mobile" but crow was removed entirely (both mobile and desktop)
-- Crow existed from November 2-5 (3 days)
-
-**Root Cause**:
-- Crow was in first column of 4-column desktop grid layout
-- Mobile footer refactor changed grid from 4 columns to 3 columns
-- Crow column was deleted entirely instead of hidden on mobile only
-- Layout shrunk from `grid-cols-4` to `grid-cols-3` on desktop
-
-**Solution**: Restored original 4-column desktop layout with crow
-1. Changed desktop grid back to 4 columns: `grid-cols-2 md:grid-cols-4`
-2. Added crow SVG in first column (248×300, horizontally flipped)
-3. Hidden on mobile with `hidden md:flex`
-4. Removed extra "MEvans" logo that was off-screen
-5. Preserved all mobile improvements (2-column layout)
-
-**Implementation Details**:
-- **Crow Styling**:
-  - Size: 248px × 300px
-  - ViewBox: `20 12 70 110` (cropped for optimal display)
-  - Transform: `-scale-x-100` (horizontally flipped to face right)
-  - Color: `text-navigation` (matches nav panel)
-  - Opacity: 80%
-  - Positioning: `self-end justify-self-start -ml-16` (bottom-left with negative margin)
-
-- **Desktop Layout** (4 columns):
-  1. Crow graphic (hidden on mobile)
-  2. Services list (Research, Strategy, UX & Design, Delivery, Development)
-  3. Pages navigation (Home, About, Case Studies, AI Showcase)
-  4. Reach Out links (LinkedIn, Contact)
-
-- **Mobile Layout** (2 columns, unchanged):
-  1. Services list
-  2. Reach Out links + "MEvans LLC." logo
-
-**Files Modified**:
-- `/src/components/Footer.tsx` - Restored crow column and 4-column grid
-
-**Key Improvements**:
-- ✅ Crow visible on desktop (≥768px width)
-- ✅ Crow hidden on mobile (<768px width)
-- ✅ Original desktop design restored
-- ✅ All mobile improvements preserved (2-column, simplified layout)
-- ✅ No extra logo text off-screen
-- ✅ Build passing (22/22 pages)
-
----
-
-### Sanity Visual Editor & Profile Image Hotspot - COMPLETE 🎉
-
-**Goal**: Fix broken Sanity Presentation view (visual editor) and enable proper image hotspot/crop support for profile images.
-
-**Problems**:
-1. Sanity Presentation view showing "Unable to connect to visual editing" error
-2. Network errors (ERR_QUIC_PROTOCOL_ERROR, 500 Internal Server Error)
-3. React hydration mismatch error when loading pages
-4. Profile image on About page cutting off top of head despite setting hotspot in Sanity
-5. Module loading error for VisualEditing component causing runtime failures
+- At 768-1023px viewport widths, desktop sidebar nav was showing but content area was only 448px wide
+- Content was cramped with insufficient breathing room
+- Poor UX on tablets and small laptops
+- Dual navigation bug: Both mobile header and desktop sidebar showing at 783px
 
 **Root Causes**:
-1. Missing `NEXT_PUBLIC_SITE_URL` environment variable (required for visual editor connection)
-2. Conditional rendering of `<SanityLive />` vs `<VisualEditing />` causing hydration mismatches
-3. Profile image query only fetching `asset->url` without hotspot/crop data
-4. `VisualEditing` component not wrapped in client component causing chunk loading errors
+1. Original `md:` breakpoint (768px) was too early for desktop navigation
+2. With 320px sidebar at 768px, only 448px remained for content (58% of viewport)
+3. Footer component still using `md:` while navigation used `lg:`, creating inconsistent behavior
+4. NavigationPanel always rendered (just repositioned), not hidden on mobile
 
-**Solutions**:
-1. **Environment Configuration**:
-   - Added `NEXT_PUBLIC_SITE_URL=http://localhost:3000` to `.env.local`
-   - Documented need to add production URL to Vercel environment variables
+**Solution**: Systematic migration from `md:` (768px) to `lg:` (1024px) for all navigation components.
 
-2. **Fixed Hydration Error** (`/src/app/layout.tsx:69-70`):
-   - Always render `<SanityLive />` (handles live updates for all visitors)
-   - Conditionally add `<VisualEditingWrapper />` only in draft mode
-   - Prevents hydration mismatch between server/client rendering
+**Implementation Timeline**: November 9, 2025 (3 phases)
 
-3. **Profile Image Hotspot Support**:
-   - Updated query (`/src/app/(public)/about/page.tsx:10-14`) to fetch complete image object:
-     ```groq
-     profileImage {
-       asset->,
-       hotspot,
-       crop
-     }
-     ```
-   - Implemented Sanity image URL builder (`/src/components/about/AboutPageClient.tsx:99`):
-     ```typescript
-     builder.image(data.profileImage).width(448).height(448).fit('crop').url()
-     ```
-   - `.fit('crop')` respects hotspot, ensuring circular crop focuses on selected area
+#### Phase 1: Initial Breakpoint Migration ✅
+Updated 9 files to use `lg:` (1024px) instead of `md:` (768px):
 
-4. **Fixed Module Loading Error**:
-   - Created client component wrapper (`/src/components/VisualEditingWrapper.tsx`)
-   - Wrapped `VisualEditing` in `'use client'` directive to prevent chunk loading errors
-   - Updated layout to use wrapper instead of direct import
+1. **`/src/hooks/useMediaQuery.ts`**
+   - Changed `useIsDesktop()` from 768px → 1024px
+   - Updated JSDoc comments to reflect lg breakpoint
 
-**Files Modified**:
-- `/src/app/layout.tsx` - Fixed hydration and added VisualEditing wrapper
-- `/src/app/(public)/about/page.tsx` - Updated query to fetch hotspot/crop data
-- `/src/components/about/AboutPageClient.tsx` - Implemented image URL builder
-- `/.env.local` - Added NEXT_PUBLIC_SITE_URL
+2. **`/src/components/navigation/NavigationPanel.tsx`** (9 occurrences)
+   - Width classes: `md:w-[81px]` → `lg:w-[81px]`, `md:w-[320px]` → `lg:w-[320px]`, `md:w-[455px]` → `lg:w-[455px]`
+   - Layout: `fixed md:relative` → `fixed lg:relative`
+   - Positioning: `bottom-0 md:bottom-auto` → `bottom-0 lg:bottom-auto`, `left-0 md:left-auto` → `left-0 lg:left-auto`
+   - Height: `h-auto md:h-full` → `h-auto lg:h-full`
+   - Flex: `flex md:flex-shrink-0` → `flex lg:flex-shrink-0`
+   - Border: `border-t md:border-t-0` → `border-t lg:border-t-0`
 
-**Files Created**:
-- `/src/components/VisualEditingWrapper.tsx` - Client component wrapper for VisualEditing
+3. **`/src/components/navigation/MobileHeader.tsx`**
+   - Visibility: `md:hidden` → `lg:hidden`
+
+4. **`/src/components/navigation/HamburgerMenu.tsx`** (2 occurrences)
+   - Backdrop: `md:hidden` → `lg:hidden`
+   - Menu content: `md:hidden` → `lg:hidden`
+
+5. **`/src/components/navigation/MobileChatFooter.tsx`** (2 occurrences)
+   - Expanded state: `md:hidden` → `lg:hidden`
+   - Collapsed state: `md:hidden` → `lg:hidden`
+
+6. **`/src/components/navigation/ChatSection.tsx`** (4 occurrences)
+   - Height: `md:h-full` → `lg:h-full`, `md:h-[34%]` → `lg:h-[34%]`
+   - Margin: `md:ml-0` → `lg:ml-0`
+   - Visibility: `md:hidden` → `lg:hidden`, `hidden md:inline` → `hidden lg:inline`
+
+7. **`/src/app/(public)/layout.tsx`** (2 occurrences)
+   - Container padding: `pt-16 md:pt-0` → `pt-16 lg:pt-0`
+   - Main content: `pb-16 md:pb-0` → `pb-16 lg:pb-0`
+
+8. **`/src/hooks/__tests__/useMediaQuery.test.ts`** (2 occurrences)
+   - Test assertion: `'(min-width: 768px)'` → `'(min-width: 1024px)'`
+   - Test description: `'768px threshold'` → `'1024px threshold'`
+
+**Total changes**: 8 files, ~25 occurrences
+
+#### Phase 2: Fix Dual Navigation Bug ✅
+Discovered and fixed Footer component still using `md:` breakpoint:
+
+**`/src/components/Footer.tsx`** (7 occurrences)
+- Grid: `grid-cols-2 md:grid-cols-4` → `grid-cols-2 lg:grid-cols-4`
+- Crow logo: `hidden md:flex` → `hidden lg:flex`
+- Pages nav: `hidden md:flex` → `hidden lg:flex`
+- Mobile logo: `md:hidden` → `lg:hidden`
+- Bottom layout: `md:flex-row`, `md:items-center` → `lg:flex-row`, `lg:items-center`
+- Desktop logo: `hidden md:block`, `md:mr-auto` → `hidden lg:block`, `lg:mr-auto`
+- Tagline: `md:absolute`, `md:left-1/2`, `md:-translate-x-1/2`, `md:w-auto` → all changed to `lg:`
+
+**Why this mattered**: Footer switching at 768px while navigation switched at 1024px caused layout inconsistency in the 768-1023px range.
+
+#### Phase 3: Fix Left Nav Visibility ✅
+Fixed NavigationPanel always showing (even on mobile):
+
+**`/src/components/navigation/NavigationPanel.tsx`** (major refactor)
+- **Before**: `"fixed lg:relative"` - Always rendered, just repositioned
+- **After**: `"hidden lg:flex"` - Completely hidden on mobile, flex on desktop
+- Cleaned up all positioning classes to only apply at `lg:` breakpoint
+- Removed redundant mobile-specific classes since panel is now hidden below 1024px
+
+**Key change**:
+```tsx
+// Before (mobile positioning, desktop sidebar)
+"fixed lg:relative",
+"bottom-0 lg:bottom-auto",
+"left-0 lg:left-auto",
+
+// After (hidden on mobile, sidebar on desktop)
+"hidden lg:flex",
+"lg:relative",
+"lg:bottom-auto",
+"lg:left-auto",
+```
+
+**Why this mattered**: Without `hidden lg:flex`, the desktop sidebar was showing at 783px alongside the mobile header.
+
+**Files Modified** (10 total):
+- `/src/hooks/useMediaQuery.ts` - Source of truth for breakpoint
+- `/src/hooks/__tests__/useMediaQuery.test.ts` - Test assertions
+- `/src/components/navigation/NavigationPanel.tsx` - Width, positioning, visibility
+- `/src/components/navigation/MobileHeader.tsx` - Visibility
+- `/src/components/navigation/HamburgerMenu.tsx` - Visibility (2 places)
+- `/src/components/navigation/MobileChatFooter.tsx` - Visibility (2 places)
+- `/src/components/navigation/ChatSection.tsx` - Height, text visibility
+- `/src/components/Footer.tsx` - Grid, logo visibility, layout
+- `/src/app/(public)/layout.tsx` - Container padding
+
+**Key Benefits**:
+- ✅ **Better tablet UX**: Content gets 704px width instead of 448px (57% more space)
+- ✅ **Clean breakpoint**: Navigation switches cleanly at 1024px with no overlap
+- ✅ **Consistent behavior**: All navigation and layout components switch at same breakpoint
+- ✅ **Content components unchanged**: Blog, case studies keep `md:` for responsive typography/layout
+- ✅ **Single source of truth**: `useIsDesktop()` hook controls everything
+- ✅ **No dual navigation**: Mobile and desktop nav never show simultaneously
+
+**Impact by Viewport**:
+- **< 1024px (mobile/tablet)**: Hamburger menu + full-width content
+- **≥ 1024px (desktop)**: Sidebar navigation + content area shares space
+- **768-1023px range** (main improvement): Now uses mobile nav instead of cramped desktop layout
+
+**Technical Architecture**:
+```tsx
+// Navigation visibility logic
+const isDesktop = useMediaQuery('(min-width: 1024px)'); // lg: breakpoint
+
+// Mobile (< 1024px):
+<MobileHeader /> {/* lg:hidden */}
+<HamburgerMenu /> {/* lg:hidden */}
+<MobileChatFooter /> {/* lg:hidden */}
+
+// Desktop (≥ 1024px):
+<NavigationPanel className="hidden lg:flex"> {/* Sidebar */}
+  <NavigationMenu />
+  <ChatSection />
+</NavigationPanel>
+```
 
 **Testing**:
-- ✅ Build passes (22/22 pages)
-- ✅ Visual editor connects successfully in Sanity Presentation view
-- ✅ No hydration errors
-- ✅ Profile image respects hotspot adjustments made in Sanity
-- ✅ No module loading errors
+- ✅ Build successful with no TypeScript errors
+- ✅ Dev server running without errors
+- ✅ Navigation switches cleanly at 1024px
+- ✅ No dual navigation display at any breakpoint
+- ✅ Content components (blog, case studies) unaffected
+- ✅ Footer matches navigation breakpoint
+- ✅ Mobile, tablet, desktop layouts verified
 
-**Commits**:
-- `0c6e568` - Fix Sanity visual editor and profile image hotspot support
-- `[pending]` - Fix VisualEditing module loading error with client wrapper
+**Content vs Navigation Breakpoints**:
+- **Navigation**: Uses `lg:` (1024px) - Controls when sidebar appears
+- **Content**: Keeps `md:` (768px) - Controls typography, grid layouts, responsive design
+- This split is intentional and correct - content can be responsive before navigation switches
+
+**Documentation**:
+- Full analysis created: `/docs/scrollbar-unhide-analysis.md`
+- Breakpoint decision rationale documented
 
 ---
 
-### Case Study Article Spacing Improvements - COMPLETE 🎉
+## ✅ Previous Accomplishments (November 7, 2025)
 
-**Goal**: Fix inconsistent paragraph spacing in case study articles and reduce excessive padding between hero metadata and article content.
+### Desktop Navigation Width Bug Fix - COMPLETE 🎉
 
-**Problem**:
-- Inconsistent spacing between paragraphs in case study articles (some cramped, some with gaps)
-- Likely caused by migration script creating soft line breaks instead of paragraph blocks
-- Excessive vertical gap (128px mobile / 192px desktop) between metadata section and article content
-- Tailwind margin stacking causing additional spacing issues
+**Problem**: Desktop navigation panel stuck at 455px width (chat-active width) after closing and reopening the panel.
 
-**Root Cause**:
-- Migration script created content with soft breaks (`<br>`) that have no spacing
-- Paragraph blocks had `mb-6` (24px) but no CSS normalization rules
-- Tailwind margins don't collapse like native CSS, causing stacked margins
-- Both EditorialHero and FlowingArticle had large padding creating huge gap
+**Root Cause**: When navigation panel collapsed to partial state, `chatExpanded` flag remained `true` in NavigationContext. When panel reopened, width calculation saw chat as "expanded" and applied 455px instead of 320px.
 
-**Solution**: CSS normalization + component padding adjustments
-1. Created comprehensive analysis documentation explaining the formatting system
-2. Added `.prose-custom` class with spacing normalization rules
-3. Added `data-stat-block` attributes to all stat block components for CSS targeting
-4. Reduced paragraph spacing from `mb-6` (24px) to `mb-4` (16px)
-5. Reduced component padding between hero and article by 75%
+**Solution**: Added `useEffect` hook to reset chat state when panel collapses.
 
-**Implementation Details**:
-- **CSS Normalization** (`/src/app/globals.css`):
-  - Base paragraph spacing: `mb-4` (16px between all paragraphs)
-  - Remove trailing margins on last paragraph
-  - Fix margin stacking after headings and stat blocks
-  - 100% Tailwind utilities (no direct CSS values)
+**File Modified**: `/src/components/navigation/NavigationPanel.tsx`
 
-- **Component Padding Reductions**:
-  - EditorialHero: `py-16 md:py-24` → `pt-16 md:pt-24 pb-4 md:pb-6`
-  - FlowingArticle: `py-16 md:py-24` → `pt-4 md:pt-6 pb-16 md:pb-24`
-  - Total gap reduced from 128px/192px to 32px/48px (75% smaller)
+**Changes**:
+- Line 14: Added `setChatExpanded` and `setChatInputFocused` to context destructuring
+- Lines 25-31: Added new `useEffect` hook:
+  ```tsx
+  // Reset chat state when panel collapses
+  useEffect(() => {
+    if (panelState === 'partial') {
+      setChatExpanded(false);
+      setChatInputFocused(false);
+    }
+  }, [panelState, setChatExpanded, setChatInputFocused]);
+  ```
 
-**Files Created**:
-- `/docs/case-study-paragraph-spacing-analysis.md` - Comprehensive 500+ line analysis document explaining:
-  - How the formatting system works (Sanity → Portable Text → React → CSS)
-  - Root causes of inconsistent spacing
-  - Migration script artifacts and Tailwind margin behavior
-  - Testing methods and future recommendations
+**Impact**:
+- ✅ Navigation returns to correct 320px width when reopened
+- ✅ Chat messages preserved (only UI state reset, not data)
+- ✅ Logical behavior: collapsed nav = closed chat
+- ✅ Low risk fix (4 lines of code)
+
+---
+
+### Sanity Schema Updates: Blog Added to Internal Page Dropdowns - COMPLETE 🎉
+
+**Problem**: Blog page existed but wasn't available in Sanity Studio's internal page dropdowns.
+
+**Root Cause**: When blog feature was implemented, dropdown lists in `homepageHero.ts` and `footer.ts` weren't updated to include the new `/blog` route.
+
+**Solution**: Added `{ title: 'Blog', value: '/blog' }` to all internal page dropdown lists.
 
 **Files Modified**:
-- `/src/app/globals.css` - Added `.prose-custom` class with spacing normalization
-- `/src/components/case-study-flowing/StatBlockNumber.tsx` - Added `data-stat-block` attribute
-- `/src/components/case-study-flowing/StatBlockQuote.tsx` - Added `data-stat-block` attribute
-- `/src/components/case-study-flowing/StatBlockText.tsx` - Added `data-stat-block` attribute
-- `/src/components/case-study-editorial/EditorialHero.tsx` - Reduced bottom padding (pb-8 → pb-4, pb-12 → pb-6)
-- `/src/components/case-study-flowing/FlowingArticle.tsx` - Reduced top padding (pt-8 → pt-4, pt-12 → pt-6)
+- `/sanity/schemas/homepageHero.ts` (3 locations):
+  - Hero CTA internal link
+  - Selected Work section "View All" link
+  - AI Showcase section "View All" link
+- `/sanity/schemas/footer.ts` (1 location):
+  - Contact internal link
 
-**Key Improvements**:
-- ✅ Consistent 16px spacing between all paragraphs
-- ✅ No cramped text or excessive gaps
-- ✅ Proper 48px spacing around stat blocks (no margin stacking)
-- ✅ 75% reduction in gap between hero metadata and article content
-- ✅ Works regardless of content source (migration script, manual edits, etc.)
-- ✅ 100% Tailwind design system compliance
-- ✅ Comprehensive documentation for future reference
-- ✅ Build passing (22/22 pages)
+**Changes**: Added Blog entry to all dropdown lists, maintaining alphabetical order (About, AI Showcase, Blog, Case Studies, Home).
 
-**Design System Compliance**:
-- Uses `@layer components` (matches existing patterns like `.card-base`)
-- Uses `@apply` with Tailwind utilities throughout
-- CSS nesting with `&` selector (standard PostCSS)
-- Semantic spacing tokens (`mb-4`, `mt-12`, etc.)
-- Zero inline CSS or direct values
+**Impact**:
+- ✅ Blog now selectable in all Sanity Studio link dropdowns
+- ✅ Content editors can link to blog from homepage hero, CTAs, and footer
+- ✅ Consistent with other internal pages
+
+---
+
+### Mobile Navigation Z-Index Fix - COMPLETE 🎉
+
+**Problem**: Mobile navigation menu didn't cover the chat component at bottom of screen when opened.
+
+**Root Cause**: MobileChatFooter had `z-[100]`, higher than mobile nav backdrop (z-60) and content (z-65).
+
+**Solution**: Reduced MobileChatFooter z-index from `z-[100]` to `z-40`.
+
+**File Modified**: `/src/components/navigation/MobileChatFooter.tsx`
+
+**Changes**: Line 29 - Changed z-index in collapsed state footer div.
+
+**New Z-Index Hierarchy**:
+- Mobile Chat Footer: `z-40` (lowest)
+- Mobile Header: `z-[60]`
+- Mobile Nav Backdrop: `z-60`
+- Mobile Nav Content: `z-65` (highest)
+
+**Impact**:
+- ✅ Mobile nav menu now fully covers chat footer when open
+- ✅ Chat remains accessible when menu is closed
+- ✅ Clean visual hierarchy on mobile
 
 ---
 
 ## 🚀 Next Steps
 
 ### Immediate
-- Commit and push blog system implementation
-- Monitor blog pages in production
-- Test PostPal case study page
-- Update chatbot content to reflect new blog and PostPal
+- Monitor navigation behavior at different breakpoints in production
+- Verify no regressions on existing pages
 
 ### Short-term
-- Consider adding more blog posts via Sanity Studio
-- Add blog categories/tags for filtering
-- Add related posts feature
-- Set PostPal as featured on homepage if desired
-
-### Long-term
-- Plan additional blog features (search, pagination, etc.)
-- Optimize bundle size if needed
-- Consider blog RSS feed
+- Consider documenting breakpoint decision process for team
+- Review other components for potential breakpoint optimizations
 
 ## 📝 Notes
 
-**Blog System Architecture**:
-- Simple, focused schema (3-6x simpler than AI Showcase)
-- Linear content structure for easier writing
-- Reuses ArticleContent renderer from case studies
-- Full dark mode and design system compliance
+**Breakpoint Strategy**:
+- **Navigation**: `lg:` (1024px) - When to show desktop sidebar vs mobile menu
+- **Content**: `md:` (768px) - Responsive typography, grids, layouts
+- **Single source**: `useIsDesktop()` hook controls all navigation behavior
+- **Consistent**: All nav components switch at same breakpoint
 
-**PostPal Migration**:
-- Complete case study treatment with full project schema
-- 43 content blocks from 4 slides
-- 9 metrics, 8 technologies, project overview
-- Healthcare AI category
-- Ready for homepage featuring
+**Testing Methodology**:
+- Chrome DevTools responsive mode
+- Test at key widths: 767px, 783px, 1023px, 1024px, 1025px
+- Verify no dual navigation at any breakpoint
+- Check content readability and spacing
 
 **Production Readiness**:
-- Build passing (22/22 pages + new blog pages)
-- Zero breaking changes
-- All content migrated successfully
-- Backward compatible with existing routes
+- ✅ Build passing
+- ✅ Zero TypeScript errors
+- ✅ All navigation states tested
+- ✅ Content components unaffected
+- ✅ Backward compatible

@@ -125,10 +125,10 @@ describe('useIsDesktop', () => {
     vi.restoreAllMocks();
   });
 
-  it('uses min-width: 768px breakpoint', () => {
+  it('uses min-width: 1024px breakpoint', () => {
     renderHook(() => useIsDesktop());
 
-    expect(window.matchMedia).toHaveBeenCalledWith('(min-width: 768px)');
+    expect(window.matchMedia).toHaveBeenCalledWith('(min-width: 1024px)');
   });
 
   it('returns true for desktop viewport', () => {
@@ -145,7 +145,7 @@ describe('useIsDesktop', () => {
     expect(result.current).toBe(false);
   });
 
-  it('updates when viewport crosses 768px threshold', () => {
+  it('updates when viewport crosses 1024px threshold', () => {
     matchMediaMock.matches = false;
     const { result } = renderHook(() => useIsDesktop());
 

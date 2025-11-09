@@ -24,7 +24,7 @@ export default async function PublicLayout({
       {/* Mobile Navigation Header & Hamburger Menu */}
       <MobileNav />
 
-      <div className="flex h-screen w-screen bg-background overflow-hidden pt-16 md:pt-0">
+      <div className="flex h-screen w-screen bg-background overflow-hidden pt-16 lg:pt-0">
         {/* Navigation Panel - Now on the left for desktop */}
         <NavigationPanel>
           <NavigationMenu />
@@ -34,7 +34,7 @@ export default async function PublicLayout({
         {/* Main Content Area */}
         <main
           id="main-content"
-          className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 md:pb-0 hide-scrollbar relative"
+          className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 lg:pb-0 hide-scrollbar relative"
         >
           {children}
 

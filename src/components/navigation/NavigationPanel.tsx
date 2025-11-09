@@ -11,7 +11,7 @@ interface NavigationPanelProps {
 }
 
 export function NavigationPanel({ children }: NavigationPanelProps) {
-  const { panelState, setPanelState, chatInputFocused, chatExpanded, chatCloseAnimationComplete } = useNavigation();
+  const { panelState, setPanelState, chatInputFocused, chatExpanded, chatCloseAnimationComplete, setChatExpanded, setChatInputFocused } = useNavigation();
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
 
@@ -21,6 +21,14 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
       setHasInteracted(true);
     }
   }, [chatInputFocused, chatExpanded]);
+
+  // Reset chat state when panel collapses
+  useEffect(() => {
+    if (panelState === 'partial') {
+      setChatExpanded(false);
+      setChatInputFocused(false);
+    }
+  }, [panelState, setChatExpanded, setChatInputFocused]);
 
   // Handle click to expand when in partial state
   const handleClick = () => {
@@ -51,12 +59,12 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
 
     switch (panelState) {
       case 'partial':
-        return 'md:w-[81px]';
+        return 'lg:w-[81px]';
       case 'expanded':
         const shouldBeWide = (chatInputFocused || chatExpanded) && !chatCloseAnimationComplete;
-        return shouldBeWide ? 'md:w-[455px]' : 'md:w-[320px]';
+        return shouldBeWide ? 'lg:w-[455px]' : 'lg:w-[320px]';
       default:
-        return 'md:w-[81px]';
+        return 'lg:w-[81px]';
     }
   };
 
@@ -64,16 +72,16 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
     <div
       data-testid="navigation-panel"
       className={cn(
-        "fixed md:relative",
-        "bottom-0 md:bottom-auto",
-        "left-0 md:left-auto",
-        "w-full",
+        "hidden lg:flex",
+        "lg:relative",
+        "lg:bottom-auto",
+        "lg:left-auto",
         getWidthClasses(),
-        "h-auto md:h-full",
+        "lg:h-full",
         "bg-navigation",
-        "flex md:flex-shrink-0",
+        "lg:flex-shrink-0",
         "z-50",
-        "border-t md:border-t-0",
+        "lg:border-t-0",
         hasInteracted && "transition-[width] duration-normal ease-smooth"
       )}
       onClick={panelState === 'partial' ? handleClick : undefined}
