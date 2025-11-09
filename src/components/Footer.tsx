@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTimeBasedTheme } from '@/components/providers/TimeThemeProvider';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface FooterService {
   title: string;
@@ -87,7 +88,7 @@ export function Footer({ data }: FooterProps) {
   const location = data.weatherLocation || 'Portland, Oregon';
 
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="relative border-t border-border bg-background">
       <div className="max-w-5xl mx-auto px-8 py-8">
         {/* Main content area: 2 columns on mobile, 4 columns on desktop */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 items-start mb-2">
@@ -207,6 +208,11 @@ export function Footer({ data }: FooterProps) {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Easter egg theme toggle - bottom right */}
+      <div className="absolute bottom-8 right-8">
+        <ThemeToggle />
       </div>
     </footer>
   );

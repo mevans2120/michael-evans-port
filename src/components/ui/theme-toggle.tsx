@@ -1,26 +1,36 @@
 'use client';
 
 import * as React from 'react';
-import { Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { Button } from '@/components/ui/button';
 
+/**
+ * Easter egg theme toggle - barely visible text at page bottom
+ * Shows "dark" or "light" that toggles between modes when clicked
+ */
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  // Prevent hydration mismatch
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <Button
-      variant="ghost"
-      size="icon"
+    <button
       onClick={toggleTheme}
-      className="h-9 w-9 text-muted-foreground hover:text-foreground transition-colors"
-      aria-label="Toggle theme"
+      className="text-sm font-light text-muted-foreground/5 dark:text-muted-foreground/10 hover:text-muted-foreground/30 transition-colors duration-300 cursor-pointer select-none"
+      aria-label="Toggle theme (Easter egg)"
     >
-      <Moon className="h-5 w-5" />
-    </Button>
+      {theme === 'dark' ? 'dark' : 'light'}
+    </button>
   );
 }

@@ -1,14 +1,176 @@
 # Current Development Status
 
-## 📍 Active Sprint: Navigation Breakpoint Optimization
+## 📍 Active Sprint: Theme & Theming System Enhancements
 *Last Updated: 2025-11-09*
 
 ## 🎯 Current Focus
-**Navigation Breakpoint Migration** ✅ Complete - Migrated mobile/desktop navigation breakpoint from 768px to 1024px for better tablet UX.
+**Server-Side Time-Based Theming & Easter Egg Theme Toggle** ✅ Complete - Fixed logo flash bug and added easter egg light/dark mode toggle.
 
 **Status**: ✅ Complete and ready for production.
 
 ## ✅ Recent Accomplishments (November 9, 2025 - Latest)
+
+### Server-Side Time-Based Theming & Easter Egg Theme Toggle - COMPLETE 🎉
+
+**Goal**: Fix logo flash bug on page load and add hidden easter egg theme toggle for light/dark mode switching.
+
+#### Part 1: Logo Flash Bug Fix ✅
+
+**Problem**: MEvans logo and other `.text-gradient` elements flashed from purple to coral (or vice versa) on page load, even though other elements were fixed.
+
+**Root Cause**:
+- `.text-gradient` class uses `--gradient-primary` which depends on `--accent` CSS variable
+- `--accent` was set to purple initially in `globals.css`
+- `TimeThemeProvider` (client component) updated it to coral during daytime after hydration
+- This client-side update caused the flash from purple → coral during React hydration
+
+**Solution**: Server-side time calculation with inline styles to prevent FOUC.
+
+**Architecture Decision**: Hybrid approach
+- **Server-side**: Calculate Portland time-based accent colors (4 CSS variables)
+- **Client-side**: Handle user theme preference (light/dark) via next-themes
+- **Reasoning**: Server can calculate Portland time but not user's theme preference
+
+**Files Modified**:
+
+1. **`/src/app/layout.tsx`** - Added server-side time calculation
+   - Added `import * as SunCalc from 'suncalc'`
+   - Added Portland coordinates (45.52, -122.68)
+   - Calculate sunrise/sunset times server-side
+   - Determine day vs evening based on current Portland time
+   - Inject accent colors as inline styles on `<html>` element
+   - Added comment explaining styling exception per `docs/styling-exceptions.md`
+
+   ```tsx
+   const accentColors = isDayTime
+     ? {
+         accent: '20 90% 55%',        // Coral
+         accentLight: '25 95% 60%',   // Lighter coral
+         accentForeground: '0 0% 100%', // White text
+         buttonPrimary: '20 90% 50%', // Button coral
+       }
+     : {
+         accent: '270 80% 60%',       // Purple
+         accentLight: '270 70% 70%',  // Lighter purple
+         accentForeground: '0 0% 100%', // White text
+         buttonPrimary: '276 70% 47%', // Button purple
+       };
+
+   <html
+     style={{
+       '--accent': accentColors.accent,
+       '--accent-light': accentColors.accentLight,
+       '--accent-foreground': accentColors.accentForeground,
+       '--color-button-primary': accentColors.buttonPrimary,
+     } as React.CSSProperties}
+   >
+   ```
+
+2. **`/src/components/providers/TimeThemeProvider.tsx`** - Updated coordination logic
+   - Added logic to read current CSS variable values before updating
+   - Only update when time period actually changes (keepalive for long sessions)
+   - Added comment explaining server-side renders initial values
+
+   ```tsx
+   // Read current values to avoid unnecessary updates
+   const currentAccent = getComputedStyle(document.documentElement)
+     .getPropertyValue('--accent')
+     .trim();
+
+   // Only update if time period has actually changed
+   if (currentAccent !== colors.accent) {
+     document.documentElement.style.setProperty('--accent', colors.accent);
+     // ... update other variables
+   }
+   ```
+
+**Impact**:
+- ✅ Logo no longer flashes on page load
+- ✅ All `.text-gradient` elements render with correct color immediately
+- ✅ Server calculates correct colors for Portland time zone
+- ✅ Client keeps colors updated during long sessions
+- ✅ No FOUC on any time-based themed elements
+
+#### Part 2: Easter Egg Theme Toggle ✅
+
+**Problem**: Light/dark mode feature was hidden. User wanted to bring it back as a barely visible easter egg.
+
+**Requirements**:
+- Invisible/barely visible text at page bottom
+- Shows "dark" or "light" based on current theme
+- Click/tap toggles between light and dark modes
+- True easter egg - users have to discover it
+
+**Solution**: Repurposed existing ThemeToggle component as minimal easter egg.
+
+**Files Modified**:
+
+1. **`/src/components/ui/theme-toggle.tsx`** - Complete rewrite
+   - Removed Button component and Moon icon
+   - Changed to simple text showing current theme
+   - Small text size: `text-sm` (14px)
+   - Barely visible: 5% opacity in light mode, 10% in dark mode
+   - Subtle hover: 30% opacity
+   - Smooth transition: 300ms
+
+   ```tsx
+   <button
+     onClick={toggleTheme}
+     className="text-sm font-light text-muted-foreground/5 dark:text-muted-foreground/10 hover:text-muted-foreground/30 transition-colors duration-300 cursor-pointer select-none"
+     aria-label="Toggle theme (Easter egg)"
+   >
+     {theme === 'dark' ? 'dark' : 'light'}
+   </button>
+   ```
+
+2. **`/src/components/Footer.tsx`** - Added ThemeToggle placement
+   - Added `import { ThemeToggle } from '@/components/ui/theme-toggle'`
+   - Made footer `relative` positioned
+   - Placed ThemeToggle absolutely at bottom-right
+   - Position: `bottom-8 right-8` (32px from bottom/right)
+
+   ```tsx
+   <footer className="relative border-t border-border bg-background">
+     {/* ... footer content ... */}
+
+     {/* Easter egg theme toggle - bottom right */}
+     <div className="absolute bottom-8 right-8">
+       <ThemeToggle />
+     </div>
+   </footer>
+   ```
+
+**Iteration Process**:
+- Started at 10% opacity - too invisible
+- Increased to 50% for testing - too visible
+- Settled on 5% light / 10% dark with 30% hover
+- Positioned at bottom-8 right-8 for proper alignment
+
+**Impact**:
+- ✅ Light/dark mode toggle available but hidden (true easter egg)
+- ✅ Barely visible at 5-10% opacity
+- ✅ Reveals on hover (30% opacity)
+- ✅ Toggles theme when clicked
+- ✅ Shows current theme state ("dark" or "light")
+- ✅ Positioned at footer bottom-right corner
+
+**Testing**:
+- ✅ Build successful with no TypeScript errors
+- ✅ Logo flash bug fixed (verified on page load)
+- ✅ Easter egg positioned correctly
+- ✅ Theme toggle functionality working
+- ✅ Opacity levels appropriate for easter egg
+- ✅ Server-side time calculation working
+
+**Technical Details**:
+- **Inline Styles Exception**: Documented in `docs/styling-exceptions.md` - Dynamic runtime calculations (time-based colors) are acceptable
+- **CSS Variables Set**: `--accent`, `--accent-light`, `--accent-foreground`, `--color-button-primary`
+- **Time Zone**: Portland, Oregon (America/Los_Angeles)
+- **Color Scheme**: Coral (day) vs Purple (evening)
+
+---
+
+## ✅ Previous Accomplishments (November 9, 2025)
 
 ### Mobile Navigation Breakpoint Migration - COMPLETE 🎉
 
@@ -257,30 +419,40 @@ const isDesktop = useMediaQuery('(min-width: 1024px)'); // lg: breakpoint
 ## 🚀 Next Steps
 
 ### Immediate
-- Monitor navigation behavior at different breakpoints in production
-- Verify no regressions on existing pages
+- Monitor theme transitions and logo rendering in production
+- Verify easter egg is discoverable but not too obvious
+- Check time-based theming across different time zones
 
 ### Short-term
-- Consider documenting breakpoint decision process for team
-- Review other components for potential breakpoint optimizations
+- Consider documenting styling exceptions policy updates
+- Review other potential FOUC issues with CSS variables
 
 ## 📝 Notes
 
-**Breakpoint Strategy**:
-- **Navigation**: `lg:` (1024px) - When to show desktop sidebar vs mobile menu
-- **Content**: `md:` (768px) - Responsive typography, grids, layouts
-- **Single source**: `useIsDesktop()` hook controls all navigation behavior
-- **Consistent**: All nav components switch at same breakpoint
+**Theming Architecture**:
+- **Server-side**: Portland time-based accent colors (day/evening)
+- **Client-side**: User theme preference (light/dark) via next-themes
+- **Hybrid approach**: Server sets initial values, client maintains during session
+- **CSS Variables**: `--accent`, `--accent-light`, `--accent-foreground`, `--color-button-primary`
+
+**Easter Egg Design**:
+- Opacity: 5% (light mode), 10% (dark mode)
+- Hover: 30% opacity
+- Position: `bottom-8 right-8` in footer
+- Size: `text-sm` (14px)
+- No half measures: True easter egg, not semi-visible feature
 
 **Testing Methodology**:
 - Chrome DevTools responsive mode
 - Test at key widths: 767px, 783px, 1023px, 1024px, 1025px
 - Verify no dual navigation at any breakpoint
 - Check content readability and spacing
+- Test theme transitions and logo flash
 
 **Production Readiness**:
 - ✅ Build passing
 - ✅ Zero TypeScript errors
-- ✅ All navigation states tested
-- ✅ Content components unaffected
+- ✅ All theme states tested
+- ✅ Logo flash fixed
+- ✅ Easter egg positioned and functional
 - ✅ Backward compatible

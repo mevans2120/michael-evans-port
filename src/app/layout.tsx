@@ -12,6 +12,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SanityLive } from "@/sanity/lib/live";
 import { VisualEditingWrapper } from "@/components/VisualEditingWrapper";
 import { draftMode } from "next/headers";
+import * as SunCalc from 'suncalc';
 
 // DM Sans is a sans-serif font for headers and UI
 const dmSans = DM_Sans({
@@ -44,8 +45,43 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Calculate Portland time-based accent colors server-side to prevent FOUC
+  // Portland, Oregon coordinates
+  const PORTLAND_LAT = 45.52;
+  const PORTLAND_LON = -122.68;
+
+  const now = new Date();
+  const times = SunCalc.getTimes(now, PORTLAND_LAT, PORTLAND_LON);
+  const isDayTime = now >= times.sunrise && now < times.sunset;
+
+  // Day colors (Coral) vs Evening colors (Purple)
+  const accentColors = isDayTime
+    ? {
+        accent: '20 90% 55%',        // Coral
+        accentLight: '25 95% 60%',   // Lighter coral
+        accentForeground: '0 0% 100%', // White text
+        buttonPrimary: '20 90% 50%', // Button coral
+      }
+    : {
+        accent: '270 80% 60%',       // Purple
+        accentLight: '270 70% 70%',  // Lighter purple
+        accentForeground: '0 0% 100%', // White text
+        buttonPrimary: '276 70% 47%', // Button purple
+      };
+
   return (
-    <html lang="en" className={`${dmSans.variable} ${newsreader.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${dmSans.variable} ${newsreader.variable}`}
+      suppressHydrationWarning
+      // Inline styles required: Dynamic time-based color calculation to prevent FOUC on .text-gradient elements (see docs/styling-exceptions.md #2)
+      style={{
+        '--accent': accentColors.accent,
+        '--accent-light': accentColors.accentLight,
+        '--accent-foreground': accentColors.accentForeground,
+        '--color-button-primary': accentColors.buttonPrimary,
+      } as React.CSSProperties}
+    >
       <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a
