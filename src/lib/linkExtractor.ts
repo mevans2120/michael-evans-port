@@ -24,10 +24,9 @@ export interface ExtractedContent {
 export function isPreviewableLink(href: string): boolean {
   if (!href) return false;
 
-  // Only extract internal links to case studies, AI showcase, and blog
+  // Only extract internal links to case studies and blog
   return (
     href.startsWith('/case-studies/') ||
-    href.startsWith('/ai-showcase/') ||
     href.startsWith('/blog/')
   );
 }
@@ -36,7 +35,7 @@ export function isPreviewableLink(href: string): boolean {
  * Extract internal preview links from markdown content
  *
  * Finds all markdown links that should render as rich preview cards
- * (case studies, AI showcases, blog posts) and extracts them from the
+ * (case studies, blog posts) and extracts them from the
  * content to be rendered separately.
  *
  * @param markdown - The markdown content to process

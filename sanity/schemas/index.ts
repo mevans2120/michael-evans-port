@@ -3,7 +3,6 @@ import profile from './profile'
 import homepageHero from './homepageHero'
 import blogIndexPage from './blogIndexPage'
 import caseStudiesIndexPage from './caseStudiesIndexPage'
-import aiShowcase from './aiShowcase'
 import blog from './blog'
 import timelinePhase from './timelinePhase'
 import workflowStep from './workflowStep'
@@ -25,7 +24,6 @@ export const schemaTypes = [
   homepageHero,
   blogIndexPage,
   caseStudiesIndexPage,
-  aiShowcase,
   blog,
   timelinePhase,
   workflowStep,

@@ -66,14 +66,12 @@ export default async function HomePage() {
       : homepage?.selectedWorkSection?.viewAllInternalLink || '/case-studies'
   }
 
-  // AI Showcase section with fallbacks
-  const aiShowcase = {
-    heading: homepage?.aiShowcaseSection?.heading || 'AI Showcase',
-    description: homepage?.aiShowcaseSection?.description || 'My journey with AI-assisted development',
-    viewAllText: homepage?.aiShowcaseSection?.viewAllText || 'View all showcases',
-    viewAllLink: homepage?.aiShowcaseSection?.viewAllLinkType === 'external'
-      ? homepage?.aiShowcaseSection?.viewAllExternalLink
-      : homepage?.aiShowcaseSection?.viewAllInternalLink || '/blog'
+  // Featured Post section with fallbacks
+  const featuredPost = {
+    heading: 'Featured Post',
+    description: 'My journey with AI-assisted development',
+    viewAllText: 'View all posts',
+    viewAllLink: '/blog'
   }
 
   // Map case studies data to component format
@@ -162,14 +160,14 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* AI Showcase Section */}
+      {/* Featured Post Section */}
       {featuredShowcase && (
         <section className="py-20 px-6 relative">
           <div className="absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl bg-accent/20" />
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="mb-12 -mx-6 md:mx-0">
               <h2 className="text-2xl font-light mb-2 flex items-center gap-3 text-foreground">
-                {aiShowcase.heading}
+                {featuredPost.heading}
                 <svg width="48" height="8" viewBox="0 0 48 8" className="w-12" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -181,7 +179,7 @@ export default async function HomePage() {
                   <line x1="0" y1="4" x2="48" y2="4" stroke="url(#lineGradient2)" strokeWidth="0.5" />
                 </svg>
               </h2>
-              <p className="text-muted-foreground">{aiShowcase.description}</p>
+              <p className="text-muted-foreground">{featuredPost.description}</p>
             </div>
 
             <div className="-mx-6 md:mx-0">
@@ -224,8 +222,8 @@ export default async function HomePage() {
               {/* View All Link */}
               <div className="mt-10">
                 <OrnamentalCTA
-                  text={aiShowcase.viewAllText}
-                  href={aiShowcase.viewAllLink}
+                  text={featuredPost.viewAllText}
+                  href={featuredPost.viewAllLink}
                 />
               </div>
             </div>

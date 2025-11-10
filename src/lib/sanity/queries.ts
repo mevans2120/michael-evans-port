@@ -199,14 +199,6 @@ export const homepageHeroQuery = groq`
       externalLink
     },
     selectedWorkSection,
-    aiShowcaseSection {
-      heading,
-      description,
-      viewAllText,
-      viewAllLinkType,
-      viewAllInternalLink,
-      viewAllExternalLink
-    },
     seo {
       metaTitle,
       metaDescription,
@@ -214,47 +206,6 @@ export const homepageHeroQuery = groq`
       twitterCard,
       canonicalUrl,
       noIndex
-    }
-  }
-`
-
-// Get all AI Showcases for landing page
-export const allAIShowcasesQuery = groq`
-  *[_type == "aiShowcase"] | order(order asc) {
-    _id,
-    title,
-    "slug": slug.current,
-    category,
-    featured,
-    order,
-    heroSection {
-      badge,
-      title,
-      subtitle,
-      summary
-    }
-  }
-`
-
-// Get featured AI Showcase for homepage
-export const featuredAIShowcaseQuery = groq`
-  *[_type == "aiShowcase" && featured == true] | order(order asc)[0] {
-    _id,
-    title,
-    "slug": slug.current,
-    category,
-    heroSection {
-      badge,
-      title,
-      subtitle,
-      summary
-    },
-    featuredImage {
-      asset->{
-        _id,
-        url
-      },
-      alt
     }
   }
 `

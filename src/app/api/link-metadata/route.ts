@@ -25,20 +25,6 @@ interface SanityProject {
   };
 }
 
-interface SanityAIShowcase {
-  title: string;
-  category?: string;
-  heroSection: {
-    subtitle?: string;
-    summary?: string;
-  };
-  featuredImage?: {
-    asset: {
-      _ref: string;
-    };
-  };
-}
-
 interface SanityBlog {
   title: string;
   excerpt?: string;
@@ -57,17 +43,17 @@ interface SanityBlog {
 /**
  * GET /api/link-metadata
  *
- * Fetches metadata for case studies, AI showcase projects, and blog posts to display
+ * Fetches metadata for case studies and blog posts to display
  * rich link previews in the chatbot.
  *
  * Query Parameters:
- * - type: 'project' | 'aiShowcase' | 'blog' (required)
- * - slug: string (required) - The URL slug of the project/showcase/blog
+ * - type: 'project' | 'blog' (required)
+ * - slug: string (required) - The URL slug of the project/blog
  *
  * Returns:
  * - 200: LinkMetadata object with title, category, description, imageUrl
  * - 400: Missing or invalid parameters
- * - 404: Project/showcase/blog not found
+ * - 404: Project/blog not found
  * - 500: Internal server error
  */
 export async function GET(request: NextRequest) {
@@ -86,15 +72,15 @@ export async function GET(request: NextRequest) {
     }
 
     // Validate type parameter
-    if (type !== 'project' && type !== 'aiShowcase' && type !== 'blog') {
+    if (type !== 'project' && type !== 'blog') {
       return NextResponse.json(
-        { error: 'Invalid type parameter. Must be "project", "aiShowcase", or "blog"' },
+        { error: 'Invalid type parameter. Must be "project" or "blog"' },
         { status: 400 }
       );
     }
 
     // Fetch data based on type
-    let data: SanityProject | SanityAIShowcase | SanityBlog | null;
+    let data: SanityProject | SanityBlog | null;
 
     if (type === 'project') {
       const query = `*[_type == "project" && slug.current == $slug][0] {
@@ -113,23 +99,6 @@ export async function GET(request: NextRequest) {
       }`;
 
       data = await client.fetch<SanityProject>(query, { slug });
-    } else if (type === 'aiShowcase') {
-      const query = `*[_type == "aiShowcase" && slug.current == $slug][0] {
-        title,
-        category,
-        heroSection {
-          subtitle,
-          summary
-        },
-        featuredImage {
-          asset->{
-            _id,
-            url
-          }
-        }
-      }`;
-
-      data = await client.fetch<SanityAIShowcase>(query, { slug });
     } else {
       // type === 'blog'
       const query = `*[_type == "blog" && slug.current == $slug][0] {
@@ -190,8 +159,6 @@ export async function GET(request: NextRequest) {
       category = data.category;
     } else if (type === 'project') {
       category = 'Case Study';
-    } else if (type === 'aiShowcase') {
-      category = 'AI Showcase';
     } else {
       category = 'Post';
     }

@@ -427,8 +427,8 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
                       {questions.map((question, index) => {
                         const { hasLink, linkText, linkUrl } = parseMarkdownLink(question);
 
-                        // If it's a link to a case study or AI showcase, render LinkPreview
-                        if (hasLink && (linkUrl.includes('/case-studies/') || linkUrl.includes('/ai-showcase/'))) {
+                        // If it's a link to a case study or blog, render LinkPreview
+                        if (hasLink && (linkUrl.includes('/case-studies/') || linkUrl.includes('/blog/'))) {
                           return (
                             <div key={index}>
                               <LinkPreview href={linkUrl}>

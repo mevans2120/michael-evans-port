@@ -11,10 +11,6 @@ export const mainDocuments = defineDocuments([
     route: '/case-studies/:slug',
     filter: `_type == "project" && slug.current == $slug`,
   },
-  {
-    route: '/ai-showcase/:slug',
-    filter: `_type == "aiShowcase" && slug.current == $slug`,
-  },
 ])
 
 // Tell editors where their content is used
@@ -44,20 +40,6 @@ export const locations = {
         {
           title: doc?.title || 'Untitled',
           href: `/case-studies/${doc?.slug}`,
-        },
-      ],
-    }),
-  }),
-  aiShowcase: defineLocations({
-    select: {
-      title: 'title',
-      slug: 'slug.current',
-    },
-    resolve: (doc) => ({
-      locations: [
-        {
-          title: doc?.title || 'Untitled',
-          href: `/ai-showcase/${doc?.slug}`,
         },
       ],
     }),
