@@ -44,8 +44,8 @@ export default async function BlogPage() {
       {/* Blog Posts */}
       {posts && posts.length > 0 ? (
         <div className="space-y-12">
-          {posts.map((post: BlogListItem) => (
-            <BlogPostCard key={post._id} post={post} />
+          {posts.map((post: BlogListItem, index: number) => (
+            <BlogPostCard key={post._id} post={post} index={index} />
           ))}
         </div>
       ) : (
