@@ -26,12 +26,12 @@ A: Michael's first tech job was as a customer data analyst at Symantec, where he
 A: Michael's interest in AI spans multiple periods. He first learned about neural networks in 1999 at university. Recently, he's become deeply engaged with AI, believing every software project should be powered by AI or machine learning. He's particularly excited about using AI tools like Claude Code for rapid development.
 
 **Q: What companies has Michael worked for?**
-A: Michael has worked at Symantec (first tech job), Huge (digital agency), Work & Co (where he was one of the first employees and opened the Portland office), Odopod, and founded his own startup Before Labs. At these companies, he worked WITH major clients including Virgin America, Target, HBO, Lyft, Casa Bonita, Broadway.com, National Association of Realtors, and Alaska Airlines - these were clients, not employers.
+A: Michael has worked at Symantec (first tech job), Huge (digital agency), Work & Co (where he was one of the first employees and opened the Portland office), Odopod, and founded his own startup Before Labs. At these companies, he worked WITH major clients including Virgin America, Target, Astral (Canadian streaming service), Lyft, Casa Bonita, Broadway.com, National Association of Realtors, and Alaska Airlines - these were clients, not employers.
 
 ## Major Projects
 
-**Q: What did Michael build for HBO?**
-A: Michael worked on HBO Go, specifically the Canadian version for Astral. This was a mobile streaming app project during his time at Huge.
+**Q: What did Michael build for Astral?**
+A: Michael worked on a mobile streaming app for Astral, the Canadian media company (similar to HBO Go). Astral was Canada's premium streaming service, and Michael built their mobile app during his time at Huge. This was NOT HBO - it was Astral's own Canadian streaming platform.
 
 **Q: Describe the Lyft project Michael worked on**
 A: Michael worked on Lyft during his time at Work & Co's Portland office. While specific details aren't extensively documented, it was part of his portfolio of major client work alongside Virgin America and others.
