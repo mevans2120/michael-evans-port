@@ -47,13 +47,6 @@ export default defineType({
           rows: 2,
           description: 'Tagline below title (1 sentence)',
         },
-        {
-          name: 'summary',
-          title: 'Summary',
-          type: 'text',
-          rows: 4,
-          description: 'Brief overview (2-3 sentences)',
-        },
       ],
     }),
     // ===== DEPRECATED FIELDS (kept for backward compatibility) =====
@@ -173,9 +166,9 @@ export default defineType({
       name: 'featuredDescription',
       title: 'Featured Description',
       type: 'text',
-      description: 'Brief description for homepage featured section',
-      rows: 4,
-      validation: (Rule) => Rule.max(250),
+      description: 'Brief description for listings, cards, and meta descriptions. Used on homepage, case studies index, and SEO. Keep it punchy and compelling! (Aim for 150-160 chars for optimal SEO)',
+      rows: 3,
+      validation: (Rule) => Rule.required().max(250),
     }),
     defineField({
       name: 'overview',

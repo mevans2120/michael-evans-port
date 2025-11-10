@@ -1,24 +1,30 @@
 import { Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
-import { allFeaturedCaseStudiesQuery, projectsQuery } from '@/lib/sanity/queries'
+import { allFeaturedCaseStudiesQuery, projectsQuery, caseStudiesIndexPageQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
 import { FeaturedCaseStudies } from '@/components/FeaturedCaseStudies'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 
 export async function generateMetadata(): Promise<Metadata> {
+  const { data: pageData } = await sanityFetch({
+    query: caseStudiesIndexPageQuery,
+  });
+
   return generateSanityMetadata({
+    seo: pageData?.seo,
     title: 'Case Studies | Michael Evans',
-    description: 'Product launches, transformational projects, and measurable business impact across e-commerce, travel, and enterprise software.',
+    description: pageData?.allCaseStudiesDescription || 'Product launches, transformational projects, and measurable business impact across e-commerce, travel, and enterprise software.',
     path: '/case-studies',
   })
 }
 
 export default async function CaseStudiesPage() {
   // Fetch data in parallel
-  const [{ data: featuredProjects }, { data: allProjects }] = await Promise.all([
+  const [{ data: featuredProjects }, { data: allProjects }, { data: pageData }] = await Promise.all([
     sanityFetch({ query: allFeaturedCaseStudiesQuery }),
-    sanityFetch({ query: projectsQuery })
+    sanityFetch({ query: projectsQuery }),
+    sanityFetch({ query: caseStudiesIndexPageQuery })
   ])
 
   // Randomly select one featured project
@@ -34,13 +40,13 @@ export default async function CaseStudiesPage() {
       category: project.category || 'Case Study',
       title: project.title,
       metric: project.featuredMetric || '',
-      // Use featuredDescription or heroSection.summary
-      description: project.featuredDescription
-        || project.heroSection?.summary
-        || '',
+      description: project.featuredDescription || '',
       slug: project.slug?.current || project.slug,
       order: project.order || index + 1
     }))
+
+  const heading = pageData?.allCaseStudiesHeading || 'All Case Studies';
+  const description = pageData?.allCaseStudiesDescription || 'Product launches and transformational projects';
 
   return (
     <main>
@@ -58,10 +64,10 @@ export default async function CaseStudiesPage() {
       <section className="container pb-32">
         <div className="mb-16">
           <h2 className="text-3xl font-light text-foreground mb-2" style={{ fontFamily: 'var(--font-crimson-pro)' }}>
-            All Case Studies
+            {heading}
           </h2>
           <p className="text-muted-foreground">
-            Product launches and transformational projects
+            {description}
           </p>
         </div>
 

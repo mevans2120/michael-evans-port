@@ -1,6 +1,8 @@
 import project from './project'
 import profile from './profile'
 import homepageHero from './homepageHero'
+import blogIndexPage from './blogIndexPage'
+import caseStudiesIndexPage from './caseStudiesIndexPage'
 import aiShowcase from './aiShowcase'
 import blog from './blog'
 import timelinePhase from './timelinePhase'
@@ -21,6 +23,8 @@ export const schemaTypes = [
   project,
   profile,
   homepageHero,
+  blogIndexPage,
+  caseStudiesIndexPage,
   aiShowcase,
   blog,
   timelinePhase,

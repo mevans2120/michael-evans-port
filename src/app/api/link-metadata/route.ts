@@ -100,9 +100,9 @@ export async function GET(request: NextRequest) {
       const query = `*[_type == "project" && slug.current == $slug][0] {
         title,
         category,
+        featuredDescription,
         heroSection {
-          subtitle,
-          summary
+          subtitle
         },
         featuredImage {
           asset->{
@@ -164,8 +164,9 @@ export async function GET(request: NextRequest) {
     if (type === 'blog' && 'excerpt' in data) {
       description = data.excerpt || data.heroSection?.subtitle || '';
     } else if ('heroSection' in data && data.heroSection) {
-      // Projects and AI Showcase have summary field, blog does not
-      description = ('summary' in data.heroSection ? data.heroSection.summary : data.heroSection.subtitle) || '';
+      // Use subtitle first, then featuredDescription for projects
+      description = (data.heroSection.subtitle ||
+        ('featuredDescription' in data ? data.featuredDescription : '') || '') as string;
     }
 
     // Generate optimized image URL

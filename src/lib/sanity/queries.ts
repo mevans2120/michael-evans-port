@@ -12,8 +12,7 @@ export const projectsQuery = groq`
     heroSection {
       badge,
       title,
-      subtitle,
-      summary
+      subtitle
     },
 
     technologies,
@@ -42,8 +41,7 @@ export const featuredProjectsQuery = groq`
 
     // Editorial format
     heroSection {
-      subtitle,
-      summary
+      subtitle
     },
 
     // Featured image
@@ -68,8 +66,7 @@ export const projectQuery = groq`
     heroSection {
       badge,
       title,
-      subtitle,
-      summary
+      subtitle
     },
     overview {
       role,
@@ -135,7 +132,7 @@ export const projectsByCategoryQuery = groq`
 
     // Editorial format
     heroSection {
-      summary
+      subtitle
     },
 
     // Featured image
@@ -275,8 +272,7 @@ export const allFeaturedCaseStudiesQuery = groq`
     heroSection {
       badge,
       title,
-      subtitle,
-      summary
+      subtitle
     },
 
     metrics[] {
@@ -329,5 +325,39 @@ export const footerQuery = groq`
     contactExternalLink,
     weatherEnabled,
     weatherLocation
+  }
+`
+
+// Get blog index page content (singleton)
+export const blogIndexPageQuery = groq`
+  *[_type == "blogIndexPage"][0] {
+    _id,
+    title,
+    description,
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords,
+      twitterCard,
+      canonicalUrl,
+      noIndex
+    }
+  }
+`
+
+// Get case studies index page content (singleton)
+export const caseStudiesIndexPageQuery = groq`
+  *[_type == "caseStudiesIndexPage"][0] {
+    _id,
+    allCaseStudiesHeading,
+    allCaseStudiesDescription,
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords,
+      twitterCard,
+      canonicalUrl,
+      noIndex
+    }
   }
 `

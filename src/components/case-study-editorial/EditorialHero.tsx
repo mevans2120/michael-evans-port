@@ -6,7 +6,6 @@ interface EditorialHeroProps {
   badge?: string
   title: string
   subtitle?: string
-  summary?: string
   overview?: {
     role?: string
     company?: string
@@ -18,7 +17,7 @@ interface EditorialHeroProps {
  * Editorial hero component for case studies
  * Magazine-style header with badge, title, subtitle, and overview
  */
-export function EditorialHero({ badge, title, subtitle, summary, overview }: EditorialHeroProps) {
+export function EditorialHero({ badge, title, subtitle, overview }: EditorialHeroProps) {
   return (
     <header className="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-4 md:pb-6">
       {badge && (
@@ -34,12 +33,6 @@ export function EditorialHero({ badge, title, subtitle, summary, overview }: Edi
       {subtitle && (
         <p className="font-sans text-[24px] md:text-[28px] text-muted-foreground leading-[1.4] mb-8">
           {subtitle}
-        </p>
-      )}
-
-      {summary && (
-        <p className="font-serif text-[18px] text-foreground dark:text-foreground leading-relaxed mb-12 max-w-3xl">
-          {summary}
         </p>
       )}
 

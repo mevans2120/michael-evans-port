@@ -169,7 +169,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return generateSanityMetadata({
     seo: project.seo,
     title: `${project.title} | Michael Evans`,
-    description: project.heroSection?.subtitle || project.heroSection?.summary,
+    description: project.heroSection?.subtitle || project.featuredDescription,
     path: `/case-studies/${slug}`,
     featuredImage: project.featuredImage,
   })
@@ -197,7 +197,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
         badge={project.heroSection?.badge}
         title={project.title}
         subtitle={project.heroSection?.subtitle}
-        summary={project.heroSection?.summary}
         overview={project.overview}
       />
 

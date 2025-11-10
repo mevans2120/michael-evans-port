@@ -43,9 +43,7 @@ interface CaseStudiesHeroProps {
 export function CaseStudiesHero({ caseStudy }: CaseStudiesHeroProps) {
   // Use editorial format fields
   const displayTitle = caseStudy.heroSection?.title || caseStudy.title
-  const displayDescription = caseStudy.heroSection?.subtitle
-    || caseStudy.heroSection?.summary
-    || ''
+  const displayDescription = caseStudy.heroSection?.subtitle || ''
 
   const displayImage = caseStudy.featuredImage
 
