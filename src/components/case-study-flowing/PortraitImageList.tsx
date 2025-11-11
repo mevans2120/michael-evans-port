@@ -31,7 +31,7 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
           const imageUrl = urlFor(image.asset).url()
 
           return (
-            <figure key={image._key} className="flex-shrink-0 space-y-3 max-w-[280px]">
+            <figure key={image._key} className="flex-shrink-0 space-y-3 w-[280px]">
               <div className="relative w-full aspect-[9/16] border-black border-[8px] rounded-[6px] overflow-hidden bg-muted">
                 <Image
                   src={imageUrl}
