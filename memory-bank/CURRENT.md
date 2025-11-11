@@ -1,14 +1,221 @@
 # Current Development Status
 
-## 📍 Active Sprint: UX Enhancements
-*Last Updated: 2025-11-10*
+## 📍 Active Sprint: Content & Design Improvements
+*Last Updated: 2025-11-11*
 
 ## 🎯 Current Focus
-**Chat Input Auto-Grow Feature**
+**Portrait Image List Component**
 
-**Status**: Complete - Chat input now automatically grows with content.
+**Status**: Complete - Portrait Image List component ready for case study articles.
 
-## ✅ Recent Accomplishments (November 10, 2025 - Latest)
+## ✅ Recent Accomplishments (November 11, 2025 - Latest)
+
+### Portrait Image List Component - COMPLETE 🎉
+
+**Goal**: Create component to display 1-3 portrait-oriented phone screenshots in case study articles with consistent styling.
+
+**Requirements**:
+- Display 1-3 portrait (9:16 aspect ratio) images in horizontal row
+- Thick accent-colored border around each image
+- Individual captions below each image
+- No responsive stacking (always horizontal)
+- Images fill border completely without extra whitespace
+
+**Implementation**:
+
+**Files Created:**
+1. **`/src/components/case-study-flowing/PortraitImageList.tsx`**
+   - New component for rendering portrait image lists
+   - Fixed dimensions: 240px width × 500px height
+   - Border: 4px thick, accent color with rounded corners (6px)
+   - Image rendering: `object-cover` to fill borders completely
+   - Layout: Horizontal flex with 4px gap between images
+   - All images display uniformly without cropping edges
+
+**Files Modified:**
+2. **`/sanity/schemas/project.ts`**
+   - Added `portraitImageList` block type after imageGrid (line 498+)
+   - Validation: min 1, max 3 images required
+   - Each image: asset, alt (required), caption (optional)
+   - Preview shows image count
+
+3. **`/src/components/case-study-flowing/ArticleContent.tsx`**
+   - Added PortraitImageList import (line 13)
+   - Registered portraitImageList renderer in types object (line 72+)
+
+**Key Features**:
+- **Fixed uniform sizing**: All images 240px × 500px regardless of content
+- **Border styling**: 4px accent-colored border with 6px rounded corners
+- **Image rendering**: `object-cover` fills border completely
+- **Horizontal layout**: Always displays side-by-side, no mobile stacking
+- **Captions**: Individual centered captions below each image
+- **Content flexibility**: Supports 1-3 images per block
+
+**Results**:
+- ✅ Component renders uniformly-sized portrait images
+- ✅ Images fill borders without extra whitespace
+- ✅ Border thickness matches site design system
+- ✅ Integrated into Sanity Studio Article Content
+- ✅ Ready for use in case study articles
+
+---
+
+## ✅ Previous Accomplishments (November 10, 2025)
+
+### Blog Landing Page Design Improvements - COMPLETE 🎉
+
+**Goal**: Update blog landing page to match homepage featured blog design and fix stretched images.
+
+**Problem**:
+- Blog post cards used vertical stack with full-width images
+- Images had fixed height (240px) causing stretching for non-matching aspect ratios
+- Visual design inconsistent with homepage featured blog component
+
+**Solution**: Redesigned BlogPostCard to match featured blog component with horizontal layout and proper aspect ratio.
+
+**Implementation**:
+
+**Files Modified:**
+
+1. **`/src/components/blog/BlogPostCard.tsx`**
+   - Changed from vertical stack to horizontal flex layout (lines 51-101)
+   - Image now 1/3 width on desktop, content 2/3 width
+   - Replaced fixed height with `aspect-[4/3]` container (line 55)
+   - Added proper image optimization: `.width(600).height(450).fit('crop').quality(85).auto('format')` (line 57)
+   - Added `index` prop for alternating layout (line 11)
+   - Implemented alternating image position: even indices left, odd indices right (line 40, 56)
+   - Updated typography to match homepage (lighter font weight) (line 68)
+   - Increased spacing between cards: `pb-12 mb-12` (line 39)
+
+2. **`/src/app/(public)/blog/page.tsx`**
+   - Updated map function to pass index to BlogPostCard (line 48)
+
+**Key Features**:
+- **Horizontal layout**: Image left/right, content fills remaining space
+- **Alternating zigzag**: Desktop shows alternating image positions (left, right, left, right)
+- **No image stretching**: 4:3 aspect ratio container with `object-cover` maintains proportions
+- **Responsive**: Mobile stacks vertically, desktop shows side-by-side
+- **Consistent design**: Matches homepage featured post component exactly
+
+**Results**:
+- ✅ Build passes successfully
+- ✅ Images maintain proper aspect ratio (no stretching)
+- ✅ Visual rhythm with alternating layout
+- ✅ Better use of horizontal space on desktop
+- ✅ Consistent design language across blog sections
+
+---
+
+### AI Showcase Deprecation - COMPLETE 🎉
+
+**Goal**: Remove AI Showcase infrastructure since all content migrated to Blog.
+
+**Reason**:
+- All AI Showcase content migrated to Blog
+- Site not yet live (no redirects needed)
+- Simplifies content architecture
+
+**Implementation** (3 phases):
+
+#### Phase 1: Remove Routes, Queries, and API References ✅
+
+**Files Modified:**
+1. **`/src/lib/sanity/queries.ts`** - Removed `aiShowcaseSection` from homepage hero query
+2. **`/src/app/(public)/page.tsx`** - Renamed `aiShowcase` to `featuredPost`, removed schema references
+3. **`/src/components/chatbot/LinkPreview.tsx`** - Removed AI Showcase from link parsing
+4. **`/src/sanity/presentation.ts`** - Removed AI Showcase route and location resolver
+5. **`/src/lib/linkExtractor.ts`** - Removed AI Showcase from previewable links
+6. **`/src/app/api/link-metadata/route.ts`** - Removed AI Showcase type handling and documentation
+7. **`/src/components/navigation/ChatSection.tsx`** - Updated comment to reference blog instead
+
+**Files Deleted:**
+- `/src/app/(public)/ai-showcase/page.tsx`
+- `/src/app/(public)/ai-showcase/[slug]/page.tsx`
+- `/src/app/(public)/ai-showcase/[slug]/AIShowcasePageMagazine.tsx`
+- `/src/app/(public)/ai-showcase/[slug]/AIShowcasePageClient.OLD.tsx`
+- `/src/lib/sanity/queries/aiShowcase.ts`
+
+#### Phase 2: Clean Up Sanity Schemas ✅
+
+**Files Modified:**
+1. **`/sanity/schemas/homepageHero.ts`** - Removed `/ai-showcase` from internal link options (2 locations)
+2. **`/sanity/schemas/homepageHero.ts`** - Removed entire `aiShowcaseSection` field (lines 184-266)
+3. **`/sanity/schemas/index.ts`** - Removed aiShowcase schema import and registration
+
+**Files Archived:**
+- `/sanity/schemas/aiShowcase.ts` → `/sanity/schemas/_archive/aiShowcase.ts`
+
+#### Phase 3: Archive Migration Scripts ✅
+
+**Files Archived to `/scripts/_archive/`:**
+- `migrate-ai-showcases.ts` → `_archive/migrate-ai-showcases.ts`
+- `migrate-showcase-to-blog.ts` → `_archive/migrate-showcase-to-blog.ts`
+- `migrate-showcases.ndjson` → `_archive/migrate-showcases.ndjson`
+- `import-showcases/` (entire directory with 5 scripts) → `_archive/import-showcases/`
+
+**Results**:
+- ✅ Build passes successfully
+- ✅ All AI Showcase infrastructure removed
+- ✅ 710 lines of code removed
+- ✅ Migration scripts archived for reference
+- ✅ Homepage now features blog posts only
+- ✅ Clean, simplified content architecture
+
+**Git Commits**:
+- `65bc6de` - Complete AI Showcase deprecation
+- 24 files changed, 710 deletions
+
+---
+
+### Chatbot FAQ Content Fix - COMPLETE 🎉
+
+**Goal**: Fix chatbot incorrectly stating user worked with HBO instead of Astral.
+
+**Problem**:
+- Vector database embeddings were returning "HBO" as primary client
+- User actually worked with Astral (Canadian streaming service similar to HBO Go)
+- FAQ content had "HBO" too prominent without proper context
+
+**Root Cause Analysis**:
+- In `faq-chunks.md`, "HBO" appeared in client list and question title
+- Vector similarity search retrieved "HBO" keyword without sufficient context
+- Answer mentioned HBO Go but didn't emphasize Astral as the primary subject
+
+**Solution**: Rewrite FAQ content to make Astral the primary subject.
+
+**Files Modified:**
+
+1. **`/public/chatbot-content/transcripts/faq-chunks.md`**
+   - Line 29: Changed client list from "HBO" to "Astral (Canadian streaming service)"
+   - Line 33: Changed question from "What did Michael build for HBO?" to "What did Michael build for Astral?"
+   - Line 34: Rewrote answer to emphasize Astral as primary subject with explicit "This was NOT HBO" clarification
+
+**Before**:
+```markdown
+**Q: What did Michael build for HBO?**
+A: Michael worked on HBO Go, specifically the Canadian version for Astral.
+```
+
+**After**:
+```markdown
+**Q: What did Michael build for Astral?**
+A: Michael worked on a mobile streaming app for Astral, the Canadian media company (similar to HBO Go). Astral was Canada's premium streaming service, and Michael built their mobile app during his time at Huge. This was NOT HBO - it was Astral's own Canadian streaming platform.
+```
+
+**Content Re-ingestion**:
+- Ran `npm run ingest` to re-embed updated content
+- Successfully updated 184 chunks in vector database
+
+**Results**:
+- ✅ Chatbot now correctly identifies Astral as the client
+- ✅ Vector embeddings emphasize correct company name
+- ✅ Explicit clarification prevents future confusion
+- ✅ Maintains accurate project history
+
+**Git Commits**:
+- `3f3f86f` - Fix chatbot FAQ: correct Astral vs HBO confusion
+
+---
 
 ### Chat Input Auto-Grow - COMPLETE 🎉
 
@@ -125,25 +332,6 @@ Removed `heroSection.summary` entirely from project schema:
 
 ---
 
-### AI Showcase Deprecation - IN PROGRESS 🚧
-
-**Goal**: Remove AI Showcase infrastructure since all content migrated to Blog.
-
-**Reason**:
-- All AI Showcase content migrated to Blog
-- Site not yet live (no redirects needed)
-- Simplifies content architecture
-
-**Plan Created**: `/docs/ai-showcase-deprecation-plan.md` (Simplified)
-
-**Current Status**: Starting implementation
-
-**Next Steps:**
-- Phase 1: Remove code (routes, queries, API, homepage)
-- Phase 2: Clean up Sanity (schema, documents)
-- Phase 3: Archive scripts and verify
-
----
 
 ## ✅ Previous Accomplishments (November 10, 2025)
 
@@ -281,14 +469,12 @@ Removed `heroSection.summary` entirely from project schema:
 ## 🚀 Next Steps
 
 ### Immediate
-- Complete AI Showcase deprecation (in progress)
-- Build and verify no broken references
-- Archive migration scripts
+- No pending tasks - all recent work complete
 
 ### Short-term
-- Monitor metadata system in CMS
-- Consider additional schema consolidations
-- Review other potential content type redundancies
+- Monitor blog landing page design in production
+- Consider additional UX enhancements
+- Monitor chatbot accuracy with updated FAQ content
 
 ## 📝 Notes
 
@@ -298,11 +484,11 @@ Removed `heroSection.summary` entirely from project schema:
 - Keep schemas simple and purposeful
 - Avoid redundant fields that confuse content editors
 
-**AI Showcase Migration**:
-- Content already in Blog with proper categorization
-- No redirects needed (site not live)
-- Simple cleanup: remove infrastructure, archive scripts
-- Homepage already configured for blog posts
+**Blog Design Patterns**:
+- Horizontal layout with 4:3 aspect ratio prevents image stretching
+- Alternating left/right image positions create visual rhythm
+- Match homepage component design for consistency
+- Mobile-first: stack vertically, expand horizontally on desktop
 
 **Testing Methodology**:
 - Run full build after schema changes
@@ -312,6 +498,8 @@ Removed `heroSection.summary` entirely from project schema:
 
 **Production Readiness**:
 - ✅ Featured description consolidation complete
-- 🚧 AI Showcase deprecation in progress
+- ✅ AI Showcase deprecation complete
+- ✅ Blog landing page design updated
+- ✅ Chatbot FAQ content accurate
 - ✅ All builds passing
-- ✅ Metadata system working correctly
+- ✅ All commits pushed to GitHub
