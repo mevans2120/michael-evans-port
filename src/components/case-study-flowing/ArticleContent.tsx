@@ -10,6 +10,7 @@ import { StatBlockNumber } from './StatBlockNumber'
 import { StatBlockQuote } from './StatBlockQuote'
 import { StatBlockText } from './StatBlockText'
 import { ImageGrid } from './ImageGrid'
+import { PortraitImageList } from './PortraitImageList'
 
 interface ArticleContentProps {
   content: any[]
@@ -66,6 +67,11 @@ export function ArticleContent({ content }: ArticleContentProps) {
       // Image Grid
       imageGrid: ({ value }: any) => {
         return <ImageGrid images={value.images} />
+      },
+
+      // Portrait Image List
+      portraitImageList: ({ value }: any) => {
+        return <PortraitImageList images={value.images} />
       },
 
       // Video Embeds

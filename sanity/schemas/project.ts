@@ -495,6 +495,56 @@ export default defineType({
             }
           }
         },
+        // Portrait Image List - 1-3 portrait images with thick black borders
+        {
+          type: 'object',
+          name: 'portraitImageList',
+          title: 'Portrait Image List',
+          description: '1-3 portrait phone images with captions (horizontal layout)',
+          fields: [
+            {
+              name: 'images',
+              type: 'array',
+              title: 'Portrait Images',
+              description: 'Add 1-3 portrait-oriented images',
+              of: [
+                {
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alt Text',
+                      description: 'Describe the image for accessibility',
+                      validation: (Rule) => Rule.required()
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                      description: 'Description text shown below the image'
+                    }
+                  ]
+                }
+              ],
+              validation: (Rule) => Rule.min(1).max(3).required()
+                .error('Portrait image list must contain 1-3 images')
+            }
+          ],
+          preview: {
+            select: {
+              images: 'images'
+            },
+            prepare(selection: any) {
+              const { images } = selection
+              return {
+                title: 'Portrait Image List',
+                subtitle: `${images?.length || 0} image${images?.length !== 1 ? 's' : ''}`
+              }
+            }
+          }
+        },
         // Video embeds
         {
           type: 'object',
