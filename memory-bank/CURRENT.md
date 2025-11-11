@@ -1,14 +1,99 @@
 # Current Development Status
 
-## 📍 Active Sprint: Content & Design Improvements
+## 📍 Active Sprint: CMS & Infrastructure Improvements
 *Last Updated: 2025-11-11*
 
 ## 🎯 Current Focus
-**Portrait Image List Component**
+**Sanity Presentation Mode Revalidation Fix**
 
-**Status**: Complete - Portrait Image List component ready for case study articles.
+**Status**: Complete - Custom refresh handler implemented to prevent aggressive revalidation.
 
 ## ✅ Recent Accomplishments (November 11, 2025 - Latest)
+
+### Sanity Presentation Mode Revalidation Fix (4th Attempt) - COMPLETE 🎉
+
+**Goal**: Fix aggressive page revalidation in Sanity Presentation mode that was causing full page refreshes instead of smooth WebSocket updates.
+
+**Problem**:
+- Every content mutation triggered full page revalidation
+- Default `VisualEditing` component revalidated root layout on every change
+- WebSocket updates from `SanityLive` were being ignored
+- Poor editing experience with jarring page reloads
+- **This was the 4th attempt** to fix this persistent issue
+
+**Root Cause** (Finally Identified):
+- `VisualEditingWrapper` was using default `refresh` behavior
+- Default behavior revalidates root layout on every mutation
+- Purges Vercel's entire data cache
+- Known issue in `next-sanity` v11.6.x (GitHub issue #1649)
+
+**Solution**: Custom refresh handler with server action
+
+**Implementation**:
+
+**Files Created:**
+1. **`/docs/sanity-presentation-revalidation-research.md`** - Comprehensive research document
+   - All 4 previous fix attempts documented with commits
+   - Root cause analysis and technical details
+   - GitHub issue #1649 reference
+   - Solution with code examples
+   - Verification steps and testing guide
+
+2. **`/src/app/actions/revalidate.ts`** - Server action for targeted revalidation
+   - `revalidateSanityDocument(documentType)` function
+   - Uses `revalidateTag()` for targeted cache invalidation
+   - Called from client component via proper Next.js pattern
+
+**Files Modified:**
+3. **`/src/components/VisualEditingWrapper.tsx`** - Custom refresh handler implementation
+   - Added custom `refresh` prop to `VisualEditing` component
+   - **For mutations with live preview**: Returns early, lets WebSocket handle updates (no page refresh)
+   - **For mutations without live preview**: Uses targeted revalidation by document type
+   - **For manual refreshes**: Allows default behavior
+   - Comprehensive TSDoc comments explaining solution
+
+**How It Works**:
+```typescript
+refresh={async (payload) => {
+  // Skip revalidation when live preview is enabled
+  if (payload.source === 'mutation' && payload.livePreviewEnabled) {
+    return // WebSocket handles it smoothly
+  }
+
+  // Only revalidate for mutations without live preview
+  if (payload.source === 'mutation' && 'document' in payload) {
+    await revalidateSanityDocument(payload.document._type)
+  }
+}}
+```
+
+**Previous Fix Attempts** (all applied, but missing this final piece):
+1. **Nov 6** (Commit `b6cf8fb`): Enabled browserToken, added location resolvers
+2. **Nov 7** (Commit `74dd300`): Consolidated clients, disabled CDN caching
+3. **Nov 7**: Deep dive analysis, identified root cause
+4. **Nov 7**: Removed ISR conflicts
+
+**Results**:
+- ✅ Build passes successfully
+- ✅ No TypeScript errors
+- ✅ Smooth WebSocket updates (no page refresh on edits)
+- ✅ Targeted revalidation by document type (not root layout)
+- ✅ All previous fixes preserved (browserToken, location resolvers, client config)
+- ✅ Initial testing shows no aggressive revalidation
+
+**Technical Details**:
+- Workaround for known `next-sanity` v11.6.x issue
+- Server action pattern required (can't use inline `'use server'` in client component)
+- Custom refresh handler intercepts mutation events
+- Lets `SanityLive` WebSocket handle real-time preview updates
+- Only revalidates when explicitly needed (manual refresh or no live preview)
+
+**Documentation**:
+- Complete research doc: `/docs/sanity-presentation-revalidation-research.md`
+- Previous fixes: `/docs/sanity-presentation-mode-fixes.md`
+- Deep dive analysis: `/docs/sanity-presentation-deep-dive.md`
+
+---
 
 ### Portrait Image List Component - COMPLETE 🎉
 
