@@ -9,6 +9,7 @@ import { urlFor } from '@/sanity/lib/client'
 import { StatBlockNumber } from './StatBlockNumber'
 import { StatBlockQuote } from './StatBlockQuote'
 import { StatBlockText } from './StatBlockText'
+import { ImageGrid } from './ImageGrid'
 
 interface ArticleContentProps {
   content: any[]
@@ -60,6 +61,11 @@ export function ArticleContent({ content }: ArticleContentProps) {
             )}
           </figure>
         )
+      },
+
+      // Image Grid
+      imageGrid: ({ value }: any) => {
+        return <ImageGrid images={value.images} />
       },
 
       // Video Embeds

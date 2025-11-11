@@ -445,6 +445,56 @@ export default defineType({
             }
           ]
         },
+        // Image Grid - 2-column grid for 2-6 images
+        {
+          type: 'object',
+          name: 'imageGrid',
+          title: 'Image Grid',
+          description: '2-column grid for 2-6 images with captions',
+          fields: [
+            {
+              name: 'images',
+              type: 'array',
+              title: 'Images',
+              description: 'Add 2-6 images for the grid',
+              of: [
+                {
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alt Text',
+                      description: 'Describe the image for accessibility',
+                      validation: (Rule) => Rule.required()
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                      description: 'Description text shown below the image'
+                    }
+                  ]
+                }
+              ],
+              validation: (Rule) => Rule.min(2).max(6).required()
+                .error('Image grid must contain 2-6 images')
+            }
+          ],
+          preview: {
+            select: {
+              images: 'images'
+            },
+            prepare(selection: any) {
+              const { images } = selection
+              return {
+                title: 'Image Grid',
+                subtitle: `${images?.length || 0} images`
+              }
+            }
+          }
+        },
         // Video embeds
         {
           type: 'object',
