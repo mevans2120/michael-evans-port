@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
-import { allFeaturedCaseStudiesQuery, projectsQuery, caseStudiesIndexPageQuery } from '@/lib/sanity/queries'
+import { allFeaturedCaseStudiesQuery, allProjectsAlphabeticalQuery, caseStudiesIndexPageQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
 import { FeaturedCaseStudies } from '@/components/FeaturedCaseStudies'
@@ -23,7 +23,7 @@ export default async function CaseStudiesPage() {
   // Fetch data in parallel
   const [{ data: featuredProjects }, { data: allProjects }, { data: pageData }] = await Promise.all([
     sanityFetch({ query: allFeaturedCaseStudiesQuery }),
-    sanityFetch({ query: projectsQuery }),
+    sanityFetch({ query: allProjectsAlphabeticalQuery }),
     sanityFetch({ query: caseStudiesIndexPageQuery })
   ])
 

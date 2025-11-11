@@ -1,8 +1,39 @@
 import groq from 'groq'
 
-// Get all projects
+// Get all projects (editorial ordering for homepage)
 export const projectsQuery = groq`
   *[_type == "project"] | order(order asc, publishedAt desc) {
+    _id,
+    title,
+    slug,
+    category,
+
+    // Editorial format
+    heroSection {
+      badge,
+      title,
+      subtitle
+    },
+
+    technologies,
+    featured,
+    featuredMetric,
+    featuredDescription,
+
+    // Featured image
+    featuredImage {
+      asset->{
+        _id,
+        url
+      },
+      alt
+    }
+  }
+`
+
+// Get all projects alphabetically (for case studies landing page)
+export const allProjectsAlphabeticalQuery = groq`
+  *[_type == "project"] | order(title asc) {
     _id,
     title,
     slug,

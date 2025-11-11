@@ -154,7 +154,17 @@ export default defineType({
       title: 'Featured Order',
       type: 'number',
       description: 'Order on homepage (1, 2, 3, etc.). Only applies if Featured is true.',
-      validation: (Rule) => Rule.min(1),
+      hidden: ({ document }) => !document?.featured,
+      validation: (Rule) => Rule.custom((value, context) => {
+        const featured = (context.document as any)?.featured
+        if (featured && !value) {
+          return 'Order is required when project is featured on homepage'
+        }
+        if (value && value < 1) {
+          return 'Order must be at least 1'
+        }
+        return true
+      }),
     }),
     defineField({
       name: 'featuredMetric',
@@ -901,13 +911,19 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      media: 'heroImage',
+      media: 'featuredImage',
       category: 'category',
+      featured: 'featured',
+      order: 'order',
     },
     prepare(selection) {
-      const { title, media, category } = selection
+      const { title, media, category, featured, order } = selection
+
+      // Add star badge and order number for featured projects
+      const featuredBadge = featured ? `★ #${order || '?'} ` : ''
+
       return {
-        title,
+        title: `${featuredBadge}${title}`,
         subtitle: category,
         media,
       }

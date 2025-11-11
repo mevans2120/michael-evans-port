@@ -4,11 +4,80 @@
 *Last Updated: 2025-11-11*
 
 ## 🎯 Current Focus
-**Sanity Presentation Mode Revalidation Fix**
+**Case Study Organization System**
 
-**Status**: Complete - Custom refresh handler implemented to prevent aggressive revalidation.
+**Status**: Complete - Alphabetical ordering, featured badges, and smart validation implemented.
 
 ## ✅ Recent Accomplishments (November 11, 2025 - Latest)
+
+### Case Study Organization System - COMPLETE 🎉
+
+**Goal**: Organize case studies alphabetically on landing page while preserving editorial ordering on homepage, with clear visual indicators in Sanity Studio for featured projects.
+
+**Problem**:
+- Case studies landing page used editorial ordering (meant for homepage)
+- No visual indication of which projects were featured on homepage
+- Order field always visible, even for non-featured projects
+- Difficult to manage featured vs. all projects
+
+**Solution**: Three-phase implementation
+
+**Phase 1: Schema Enhancements**
+
+**File Modified**: `/sanity/schemas/project.ts`
+
+1. **Star Badges in List View** (lines 911-931)
+   - Updated preview to show `★ #1`, `★ #2`, etc. for featured projects
+   - Example: `★ #2 Virgin America` for featured, `Casa Bonita` for non-featured
+   - Shows `★ #?` if featured but missing order number
+
+2. **Conditional Field Visibility** (line 157)
+   - `order` field now hidden when `featured` is false
+   - Only shows when "Featured on Homepage" is toggled true
+   - Cleaner UI - no unnecessary fields
+
+3. **Smart Validation** (lines 158-167)
+   - `order` required when project is featured (error: "Order is required when project is featured on homepage")
+   - `order` must be at least 1 if provided
+   - No validation errors for non-featured projects
+
+4. **Fixed Preview Image** (line 914)
+   - Changed preview to use `featuredImage` instead of deprecated `heroImage`
+
+**Phase 2: Alphabetical Query**
+
+**File Modified**: `/src/lib/sanity/queries.ts`
+
+- Created `allProjectsAlphabeticalQuery` (lines 34-63)
+- Orders projects by `title asc` for alphabetical display
+- Identical structure to `projectsQuery` but different ordering
+- Updated `projectsQuery` comment to clarify it's for editorial ordering
+
+**Phase 3: Case Studies Page Update**
+
+**File Modified**: `/src/app/(public)/case-studies/page.tsx`
+
+- Replaced `projectsQuery` import with `allProjectsAlphabeticalQuery` (line 3)
+- Updated fetch call to use alphabetical query (line 26)
+- Case studies now display in alphabetical order by title
+- Numbering reflects alphabetical position (01, 02, 03...)
+
+**Results**:
+- ✅ Case studies landing page displays alphabetically
+- ✅ Homepage preserves editorial ordering (1, 2, 3, 4)
+- ✅ Sanity Studio shows "★ #1 Project Name" badges in list view
+- ✅ Order field only visible when project is featured
+- ✅ Validation ensures featured projects have order numbers
+- ✅ Build successful with no TypeScript errors
+
+**Testing Verified**:
+- TypeScript compilation successful
+- All pages built successfully
+- No errors or warnings
+
+**Commit**: [Pending]
+
+---
 
 ### Sanity Presentation Mode Revalidation Fix (4th Attempt) - COMPLETE 🎉
 
