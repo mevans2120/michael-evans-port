@@ -31,13 +31,13 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
           const imageUrl = urlFor(image.asset).url()
 
           return (
-            <figure key={image._key} className="flex-shrink-0 space-y-3 w-[280px]">
-              <div className="relative w-full aspect-[9/16] border-accent border-[8px] rounded-[6px] overflow-hidden bg-muted">
+            <figure key={image._key} className="flex-shrink-0 space-y-3 w-[240px]">
+              <div className="relative w-full h-[500px] border-accent border-[8px] rounded-[6px] overflow-hidden bg-muted">
                 <Image
                   src={imageUrl}
                   alt={image.alt || ''}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
               {image.caption && (
