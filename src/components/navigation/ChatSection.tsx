@@ -23,7 +23,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [chatPromptsData, setChatPromptsData] = useState<{
     prompts: { text: string; order: number; active: boolean }[];
@@ -109,17 +109,30 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
 
   // Auto-focus input when chat expands (but not when it collapses)
   useEffect(() => {
-    if (chatExpanded && inputRef.current && document.activeElement !== inputRef.current) {
+    if (chatExpanded && textareaRef.current && document.activeElement !== textareaRef.current) {
       // Small delay to avoid conflicts with blur
       const timeoutId = setTimeout(() => {
         if (chatExpanded) {
-          inputRef.current?.focus();
+          textareaRef.current?.focus();
         }
       }, 100);
 
       return () => clearTimeout(timeoutId);
     }
   }, [chatExpanded]);
+
+  // Auto-resize textarea based on content
+  useEffect(() => {
+    if (textareaRef.current) {
+      // Reset height to recalculate from scrollHeight
+      textareaRef.current.style.height = '42px';
+
+      // Calculate new height based on content, capped at maxHeight
+      const scrollHeight = textareaRef.current.scrollHeight;
+      const newHeight = Math.min(scrollHeight, 150); // 150px = ~5-6 lines
+      textareaRef.current.style.height = `${newHeight}px`;
+    }
+  }, [input]);
 
   // Add escape key handling for mobile version
   useEffect(() => {
@@ -134,6 +147,21 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
       return () => document.removeEventListener('keydown', handleEscape);
     }
   }, [isMobileVersion, chatExpanded, setChatExpanded]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Enter without Shift = Submit message
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent default newline insertion
+
+      // Only submit if there's valid input and we're not already loading
+      if (input.trim() && !isLoading && !isWaitingForResponse) {
+        setIsWaitingForResponse(true);
+        sendMessage({ text: input });
+        setInput('');
+      }
+    }
+    // Shift+Enter = Allow newline (default textarea behavior, no preventDefault)
+  };
 
   const handleInputFocus = () => {
     // Expand chat when input is focused
@@ -513,15 +541,23 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           panelState === 'partial' && chatExpanded ? 'hidden' : ''
         }`}
       >
-        <input
-          ref={inputRef}
-          type="text"
+        {/**
+         * Inline styles required for auto-grow behavior (see /docs/styling-exceptions.md):
+         * - minHeight: Initial collapsed height (42px = single line with padding)
+         * - maxHeight: Growth cap (150px = ~5-6 lines)
+         * JavaScript calculates dynamic height between these bounds.
+         */}
+        <textarea
+          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onFocus={handleInputFocus}
+          onKeyDown={handleKeyDown}
           placeholder="Ask about Michael's work..."
           disabled={isLoading}
-          className="flex-1 px-3 py-2 text-base font-serif bg-chat-input border border-accent text-chat-input-text placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0"
+          rows={1}
+          className="flex-1 px-3 py-2 text-base font-serif bg-chat-input border border-accent text-chat-input-text placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0 resize-none overflow-hidden"
+          style={{ minHeight: '42px', maxHeight: '150px' }}
         />
         <button
           type="submit"
