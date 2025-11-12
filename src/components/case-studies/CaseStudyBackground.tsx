@@ -29,7 +29,7 @@ export function CaseStudyBackground({ image }: CaseStudyBackgroundProps) {
   return (
     <>
       {/* Background image layer */}
-      <div className="absolute inset-0 opacity-25">
+      <div className="absolute inset-0 opacity-40">
         <Image
           src={imageUrl}
           alt={image.alt || ''}
@@ -42,9 +42,9 @@ export function CaseStudyBackground({ image }: CaseStudyBackgroundProps) {
 
       {/* Gradient overlay */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-slate-950/75 via-slate-900/80 to-slate-950/75"
+        className="absolute inset-0 bg-gradient-to-br from-slate-950/55 via-slate-900/60 to-slate-950/55"
         style={{
-          backgroundImage: 'linear-gradient(135deg, rgba(5,5,16,0.75) 0%, rgba(15,23,42,0.80) 50%, rgba(5,5,16,0.75) 100%)'
+          backgroundImage: 'linear-gradient(135deg, rgba(5,5,16,0.55) 0%, rgba(15,23,42,0.60) 50%, rgba(5,5,16,0.55) 100%)'
         }}
       />
 

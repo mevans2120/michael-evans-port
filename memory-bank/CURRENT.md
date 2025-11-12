@@ -8,7 +8,39 @@
 
 **Status**: Complete - Full contact page with split layout, gradient accent, and content script.
 
-## ✅ Recent Accomplishments (November 11, 2025 - Latest)
+## ✅ Recent Accomplishments (November 12, 2025 - Latest)
+
+### Case Studies Hero Background Mask Lightening - COMPLETE 🎉
+
+**Goal**: Lighten the dark mask overlay on case study hero background images to make them more visible while maintaining text readability.
+
+**Problem**:
+- Background image had only 25% opacity (too dark)
+- Gradient overlay was 75-80% opacity (very heavy mask)
+- Background images were barely visible through the dark overlay
+
+**Solution**: Reduced opacity on both layers to let more of the background image show through.
+
+**Files Modified**:
+1. `/src/components/case-studies/CaseStudyBackground.tsx`
+   - Background image opacity: `25%` → `40%` (60% increase)
+   - Gradient overlay opacity: `75-80%` → `55-60%` (~25% lighter)
+   - Both Tailwind classes and inline styles updated for consistency
+
+**Technical Details**:
+- Background image layer uses `opacity-40` on container
+- Gradient overlay uses `from-slate-950/55 via-slate-900/60 to-slate-950/55`
+- Inline gradient maintains same opacity values: `rgba(5,5,16,0.55)` to `rgba(15,23,42,0.60)`
+- Text remains readable with coral gradient title and light-colored description
+- Image blur (4px) and slight grayscale (20%) preserved
+
+**Results**:
+- ✅ Background images significantly more visible
+- ✅ Text remains readable (coral gradient + white/gray text)
+- ✅ Better balance between image visibility and content legibility
+- ✅ More visually engaging hero sections
+
+---
 
 ### Mobile Navigation Hide-on-Scroll - COMPLETE 🎉
 
