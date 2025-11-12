@@ -177,7 +177,7 @@ export function Footer({ data }: FooterProps) {
               </a>
               <Link
                 href={contactHref || '/contact'}
-                className="text-base text-accent hover:text-accent-light transition-colors"
+                className="text-base text-accent hover:text-accent-light transition-colors underline"
               >
                 Contact
               </Link>

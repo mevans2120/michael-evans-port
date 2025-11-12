@@ -7,7 +7,7 @@ import {
   Home,
   User,
   Briefcase,
-  Monitor
+  Pen
 } from 'lucide-react';
 
 export function NavigationMenu() {
@@ -21,7 +21,7 @@ export function NavigationMenu() {
     { href: '/', label: 'Home', icon: Home },
     { href: '/about', label: 'About', icon: User },
     { href: '/case-studies', label: 'Case Studies', icon: Briefcase },
-    { href: '/blog', label: 'Posts', icon: Monitor }
+    { href: '/blog', label: 'Posts', icon: Pen }
   ];
 
   return (
@@ -34,7 +34,7 @@ export function NavigationMenu() {
         {/* MEvans Logo - Desktop Only */}
         <Link
           href="/"
-          className={`${isCollapsed ? 'justify-center' : 'px-8'} pt-2 pb-6 hidden md:flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-lg ${
+          className={`${isCollapsed ? 'justify-center' : 'px-8'} pt-2 pb-6 hidden md:flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
             chatExpanded ? 'pointer-events-none' : ''
           }`}
         >

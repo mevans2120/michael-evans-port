@@ -40,3 +40,23 @@ export interface SanityHomepageHero {
   description: string;
 }
 
+/**
+ * Contact Page from Sanity CMS (Singleton)
+ * Used for the /contact page
+ */
+export interface ContactPageData {
+  heading: string;
+  subheading: string;
+  email: string;
+  emailSubject: string;
+  gmailLinkText: string;
+  outlookLinkText: string;
+  copyEmailLinkText: string;
+  copiedConfirmationText: string;
+  responseTimeNote: string;
+  seo: {
+    title: string;
+    description: string;
+  };
+}
+

@@ -343,3 +343,22 @@ export const caseStudiesIndexPageQuery = groq`
     }
   }
 `
+
+// Get contact page content (singleton)
+export const contactPageQuery = groq`
+  *[_type == "contactPage"][0] {
+    heading,
+    subheading,
+    email,
+    emailSubject,
+    gmailLinkText,
+    outlookLinkText,
+    copyEmailLinkText,
+    copiedConfirmationText,
+    responseTimeNote,
+    seo {
+      title,
+      description
+    }
+  }
+`
