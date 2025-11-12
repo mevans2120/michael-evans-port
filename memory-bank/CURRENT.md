@@ -10,6 +10,77 @@
 
 ## ✅ Recent Accomplishments (November 11, 2025 - Latest)
 
+### Mobile Navigation Hide-on-Scroll - COMPLETE 🎉
+
+**Goal**: Implement mobile navigation that hides when scrolling down and reappears when scrolling up to reclaim screen real estate.
+
+**Requirements**:
+- Hide navigation on scroll down
+- Show navigation on scroll up
+- Preserve scroll position and behavior
+- Maintain padding for mobile chat header when expanded
+- No background bars left behind when hidden
+- Handle edge cases (at top, menu open)
+
+**Implementation**:
+
+**Files Created**:
+1. `/src/hooks/useScrollDirection.ts` - Custom hook for scroll detection
+   - Detects scroll direction (up/down/none) with RAF optimization
+   - Monitors `#main-content` element scroll (not window)
+   - 10px threshold to prevent jitter
+   - 50px top threshold for "at top" detection
+   - Passive event listeners for performance
+
+2. `/src/contexts/MobileHeaderContext.tsx` - Context for header visibility state
+   - Shares header visibility across layout and header components
+   - Enables synchronized padding/transform transitions
+
+3. `/src/app/(public)/LayoutContent.tsx` - Client component for dynamic padding
+   - Wraps main layout content
+   - Controls `pt-16` padding based on header visibility
+   - Preserves padding when chat is expanded
+
+**Files Modified**:
+1. `/src/components/navigation/MobileHeader.tsx` - Hide/show behavior
+   - Uses `useScrollDirection` hook for scroll detection
+   - Updates context with visibility state via `useEffect`
+   - Transforms header with `-translate-y-full` when hidden
+   - Smooth transitions with `duration-normal ease-smooth`
+   - All hooks called before conditional return (React Rules of Hooks)
+
+2. `/src/app/(public)/layout.tsx` - Layout structure
+   - Wrapped content in `LayoutContent` component
+   - Added `MobileHeaderProvider` to provider tree
+
+**Key Features**:
+- **Scroll detection**: RAF-optimized scroll listener on `#main-content` element
+- **Smooth transitions**: Both header transform and padding animate together
+- **Context synchronization**: Header visibility state shared across components
+- **Chat preservation**: Padding always maintained when chat is expanded
+- **No leftover bars**: Padding removes completely when header hides (normal pages)
+- **Edge case handling**: Shows header when at top or menu is open
+
+**Technical Details**:
+- Header: `fixed top-0` with `-translate-y-full` transform when hidden
+- Layout: `pt-16` → `pt-0` transition synchronized with header
+- Chat mode: Always keeps `pt-16` padding for chat's sticky header
+- Scroll target: `#main-content` element (not `window`)
+- Performance: RequestAnimationFrame debouncing with passive listeners
+
+**Results**:
+- ✅ Header hides/shows smoothly on scroll
+- ✅ No background bar left behind (reclaims full 64px)
+- ✅ Mobile chat header preserved when expanded
+- ✅ React hooks compliance (no early returns before hooks)
+- ✅ Smooth synchronized transitions
+- ✅ Performance optimized with RAF
+
+**Documentation**:
+- Implementation plan: `/docs/mobile-nav-hide-on-scroll-plan.md`
+
+---
+
 ### Contact Page Implementation - COMPLETE 🎉
 
 **Goal**: Create a professional contact page with split layout, integrated with Sanity CMS, featuring multiple email options and gradient accent styling.

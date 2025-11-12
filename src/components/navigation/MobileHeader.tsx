@@ -2,6 +2,10 @@
 
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
+import { useMobileHeader } from '@/contexts/MobileHeaderContext';
+import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
 
 interface MobileHeaderProps {
   onMenuClick: () => void;
@@ -10,13 +14,37 @@ interface MobileHeaderProps {
 }
 
 export function MobileHeader({ onMenuClick, chatExpanded, mobileMenuOpen }: MobileHeaderProps) {
+  const { scrollDirection, isAtTop } = useScrollDirection();
+  const { setHeaderVisible } = useMobileHeader();
+
+  // Determine if header should be hidden
+  // Show if: scrolling up OR at top OR menu is open
+  // Hide if: scrolling down AND not at top AND menu is closed
+  const shouldHide = scrollDirection === 'down' && !isAtTop && !mobileMenuOpen;
+
+  // Update context so layout can adjust padding
+  useEffect(() => {
+    if (!chatExpanded) {
+      setHeaderVisible(!shouldHide);
+    }
+  }, [shouldHide, setHeaderVisible, chatExpanded]);
+
   // Hide entire header when chat is expanded - chat will show its own header
   if (chatExpanded) {
     return null;
   }
 
+  // Debug: log when shouldHide changes
+  console.log('[MobileHeader] Render', { scrollDirection, isAtTop, mobileMenuOpen, shouldHide });
+
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-background border-b border-border z-[60] lg:hidden">
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 h-16 bg-background border-b border-border z-[60] lg:hidden",
+        "transition-transform duration-normal ease-smooth",
+        shouldHide ? "-translate-y-full" : "translate-y-0"
+      )}
+    >
       <div className="flex items-center justify-between h-full px-6">
         {/* Logo - Now clickable */}
         <Link
