@@ -75,7 +75,7 @@
 - All pages built successfully
 - No errors or warnings
 
-**Commit**: [Pending]
+**Commit**: `385b012` - "Add case study organization system with alphabetical ordering and featured badges"
 
 ---
 
