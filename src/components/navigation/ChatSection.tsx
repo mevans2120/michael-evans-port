@@ -553,10 +553,10 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           onChange={(e) => setInput(e.target.value)}
           onFocus={handleInputFocus}
           onKeyDown={handleKeyDown}
-          placeholder="Ask about Michael's work..."
+          placeholder=""
           disabled={isLoading}
           rows={1}
-          className="flex-1 px-3 py-2 text-base font-serif bg-chat-input border border-accent text-chat-input-text placeholder:text-chat-foreground/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0 resize-none overflow-hidden"
+          className="flex-1 px-3 py-2 text-base font-serif bg-chat-message border border-accent text-chat-input-text placeholder:text-chat-foreground/40 rounded-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0 resize-none overflow-hidden"
           style={{ minHeight: '42px', maxHeight: '150px' }}
         />
         <button

@@ -1,14 +1,99 @@
 # Current Development Status
 
 ## 📍 Active Sprint: CMS & Infrastructure Improvements
-*Last Updated: 2025-11-11*
+*Last Updated: 2025-11-13*
 
 ## 🎯 Current Focus
-**Contact Page Implementation**
+**Case Study Hero Image Implementation**
 
-**Status**: Complete - Full contact page with split layout, gradient accent, and content script.
+**Status**: Complete - Blog-style layout with featured image on right side.
 
-## ✅ Recent Accomplishments (November 12, 2025 - Latest)
+## ✅ Recent Accomplishments (November 13, 2025 - Latest)
+
+### Case Study Hero Featured Image - COMPLETE 🎉
+
+**Goal**: Display featured images in case study hero sections using a clean, blog post-style layout.
+
+**Journey**: Explored multiple design approaches through extensive iteration:
+1. Initially tried subtle background image with low opacity gradient overlay
+2. Attempted split layout with large image on right
+3. Tried thumbnail-sized image next to title
+4. **Final solution**: Blog post-style layout matching existing blog card pattern
+
+**Implementation**:
+
+**Design Concepts Created**:
+- Created 3 HTML mockup concepts in `/docs/design/cs-hero-concepts-111325/`:
+  - Concept 1: Subtle background with gradient overlay
+  - Concept 2: Split layout with prominent image
+  - Concept 3: Asymmetric overlap design
+- Each concept had light and dark mode versions
+
+**Files Modified:**
+
+1. **`/src/components/case-study-editorial/EditorialHero.tsx`** (lines 57-84)
+   - Replaced background image approach with flex-based split layout
+   - Content on left (`flex-1`): badge, title, subtitle
+   - Featured image on right (`w-full md:w-1/3`): 4:3 aspect ratio, rounded corners
+   - Single column on mobile: text → image → overview
+   - Uses `urlFor()` helper with proper image optimization (1200×900, quality 85)
+   - Regular `<img>` tag (not Next.js Image) for simpler layout behavior
+   - Removed `absolute inset-0` positioning to fix mobile overlay issue
+
+2. **`/src/app/(public)/case-studies/[slug]/page.tsx`** (lines 124-132)
+   - Fixed GROQ query: `asset->{ _id, url }` instead of just `asset`
+   - Must dereference asset to get actual data instead of reference object
+   - Added `crop` and `hotspot` to support Sanity image editing
+   - Added `backgroundImage={project.featuredImage}` prop to EditorialHero
+
+3. **`/package.json`**
+   - Added `"debug:images": "tsx scripts/debug-sanity-images.ts"` script
+   - Used during troubleshooting image loading issues
+
+4. **`/src/components/ContactSection.tsx`** (line 37)
+   - Updated heading sizes: `text-4xl md:text-5xl` → `text-5xl md:text-6xl lg:text-7xl`
+   - Better visual hierarchy across breakpoints
+
+**Documentation Created:**
+- `/docs/split-hero-layout-implementation-plan.md` - Detailed implementation plan
+- `/docs/design/cs-hero-concepts-111325/overview.md` - Design concept comparison
+
+**Key Technical Decisions**:
+
+1. **GROQ Asset Dereferencing**: Must use `asset->{_id, url}` not `asset` alone
+   - `asset` returns `{_ref: "...", _type: "reference"}`
+   - `asset->{}` dereferences to get actual asset data
+
+2. **Image Component Choice**: Regular `<img>` vs Next.js Image
+   - Next.js Image with `fill` prop required complex parent container
+   - Regular `<img>` with `w-full h-full object-cover` worked immediately
+   - Simpler for flex-based responsive layout
+
+3. **Blog Post Pattern**: Adapted from BlogPostCard.tsx
+   - Flex layout with text on left, image on right
+   - 1/3 width image on desktop, full width on mobile
+   - 4:3 aspect ratio container prevents stretching
+   - Clean, consistent design language
+
+4. **Mobile Layout Fix**: Removed absolute positioning
+   - Initial implementation used `absolute inset-0` on image
+   - Caused image to overlay text on mobile
+   - Changed to standard `w-full h-full object-cover` for proper flex behavior
+
+**Results**:
+- ✅ Featured images display in case study hero
+- ✅ Blog post-style layout matches existing patterns
+- ✅ Responsive: side-by-side on desktop, stacked on mobile
+- ✅ No image stretching (4:3 aspect ratio maintained)
+- ✅ Dark mode support via semantic tokens
+- ✅ Build passes successfully
+- ✅ Clean, professional aesthetic
+
+**Commit**: `f39ad68` - "Implement blog-style layout for case study hero with featured image"
+
+---
+
+## ✅ Previous Accomplishments (November 12, 2025)
 
 ### Case Studies Hero Background Mask Lightening - COMPLETE 🎉
 
@@ -764,11 +849,18 @@ Removed `heroSection.summary` entirely from project schema:
 - No pending tasks - all recent work complete
 
 ### Short-term
-- Monitor blog landing page design in production
-- Consider additional UX enhancements
-- Monitor chatbot accuracy with updated FAQ content
+- Monitor case study hero images in production
+- Consider additional hero layout enhancements based on user feedback
+- Test featured images across different case studies
 
 ## 📝 Notes
+
+**Case Study Hero Image Learnings**:
+- GROQ asset dereferencing is critical: `asset->{_id, url}` not just `asset`
+- Regular `<img>` tags simpler than Next.js Image for flex layouts
+- Avoid `absolute` positioning in flex containers (causes mobile overlay issues)
+- Blog post pattern provides clean, consistent design language
+- 4:3 aspect ratio prevents image stretching
 
 **Content Architecture Decisions**:
 - Single source of truth for descriptions: `featuredDescription`
@@ -793,5 +885,6 @@ Removed `heroSection.summary` entirely from project schema:
 - ✅ AI Showcase deprecation complete
 - ✅ Blog landing page design updated
 - ✅ Chatbot FAQ content accurate
+- ✅ Case study hero images implemented
 - ✅ All builds passing
 - ✅ All commits pushed to GitHub
