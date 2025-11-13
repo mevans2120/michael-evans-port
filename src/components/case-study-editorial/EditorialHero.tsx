@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { urlFor } from '@/sanity/lib/client'
 
 interface EditorialHeroProps {
   badge?: string
@@ -11,65 +12,113 @@ interface EditorialHeroProps {
     company?: string
     timeline?: string
   }
+  backgroundImage?: {
+    asset?: {
+      _id: string
+      url: string
+    }
+    crop?: {
+      top: number
+      bottom: number
+      left: number
+      right: number
+    }
+    hotspot?: {
+      x: number
+      y: number
+      height: number
+      width: number
+    }
+    alt?: string
+  }
 }
 
 /**
  * Editorial hero component for case studies
- * Magazine-style header with badge, title, subtitle, and overview
+ * Split layout with content on left and image on right (desktop)
+ * Stacked layout on mobile: content → image → overview
  */
-export function EditorialHero({ badge, title, subtitle, overview }: EditorialHeroProps) {
+export function EditorialHero({ badge, title, subtitle, overview, backgroundImage }: EditorialHeroProps) {
+  // Build image URL - use urlFor helper which expects the full image object
+  const imageUrl = backgroundImage?.asset
+    ? urlFor(backgroundImage).width(1200).height(900).quality(85).url()
+    : null
+
   return (
-    <header className="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-4 md:pb-6">
-      {badge && (
-        <div className="font-sans text-xs uppercase tracking-[2px] text-accent dark:text-accent font-semibold mb-6">
-          {badge}
-        </div>
-      )}
+    <header className="min-h-[70vh] flex items-center">
+      <div className="max-w-4xl mx-auto px-6 py-16 md:py-24 w-full">
 
-      <h1 className="font-sans text-[56px] md:text-[72px] lg:text-[84px] font-bold text-foreground dark:text-foreground leading-[1.05] mb-8">
-        {title}
-      </h1>
+        {badge && (
+          <div className="font-sans text-xs uppercase tracking-[2px] text-accent dark:text-accent font-semibold mb-6">
+            {badge}
+          </div>
+        )}
 
-      {subtitle && (
-        <p className="font-sans text-[24px] md:text-[28px] text-muted-foreground leading-[1.4] mb-8">
-          {subtitle}
-        </p>
-      )}
+        {/* Content and Image Layout - Blog Post Style */}
+        <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
+          {/* Left: Text Content */}
+          <div className="flex-1">
+            <h1 className="text-[48px] md:text-[60px] lg:text-[72px] font-bold text-foreground dark:text-foreground leading-[1.05] mb-6">
+              {title}
+            </h1>
 
-      {overview && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-border dark:border-border">
-          {overview.role && (
-            <div>
-              <div className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
-                Role
-              </div>
-              <div className="font-sans text-base text-foreground dark:text-foreground">
-                {overview.role}
-              </div>
-            </div>
-          )}
-          {overview.company && (
-            <div>
-              <div className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
-                Company
-              </div>
-              <div className="font-sans text-base text-foreground dark:text-foreground">
-                {overview.company}
-              </div>
-            </div>
-          )}
-          {overview.timeline && (
-            <div>
-              <div className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
-                Timeline
-              </div>
-              <div className="font-sans text-base text-foreground dark:text-foreground">
-                {overview.timeline}
+            {subtitle && (
+              <p className="text-[20px] md:text-[24px] text-muted-foreground leading-[1.4]">
+                {subtitle}
+              </p>
+            )}
+          </div>
+
+          {/* Right: Featured Image */}
+          {imageUrl && (
+            <div className="w-full md:w-1/3 flex-shrink-0">
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50">
+                <img
+                  src={imageUrl}
+                  alt={backgroundImage?.alt || ""}
+                  className="w-full h-full object-cover transition-opacity duration-normal"
+                />
               </div>
             </div>
           )}
         </div>
-      )}
+
+        {/* Overview metadata */}
+        {overview && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-8 border-t border-border dark:border-border">
+            {overview.role && (
+              <div>
+                <div className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+                  Role
+                </div>
+                <div className="font-sans text-base text-foreground dark:text-foreground font-medium">
+                  {overview.role}
+                </div>
+              </div>
+            )}
+            {overview.company && (
+              <div>
+                <div className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+                  Company
+                </div>
+                <div className="font-sans text-base text-foreground dark:text-foreground font-medium">
+                  {overview.company}
+                </div>
+              </div>
+            )}
+            {overview.timeline && (
+              <div>
+                <div className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+                  Timeline
+                </div>
+                <div className="font-sans text-base text-foreground dark:text-foreground font-medium">
+                  {overview.timeline}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   )
 }

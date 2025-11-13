@@ -34,7 +34,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
         <div className="flex flex-col md:flex-row gap-12 md:gap-16">
         {/* Left: Header */}
         <div className="md:w-1/2">
-          <h1 className="text-4xl md:text-5xl font-serif font-light text-foreground mb-4 leading-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-foreground mb-4 leading-tight">
             Get in <span className="text-gradient">touch</span>
           </h1>
           <p className="text-lg text-muted-foreground">

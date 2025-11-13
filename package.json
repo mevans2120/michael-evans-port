@@ -33,7 +33,8 @@
     "update:featured-fields": "tsx scripts/update-featured-fields.ts",
     "migrate:case-studies": "tsx scripts/migrations/migrate-to-editorial.ts",
     "migrate:case-studies:dry-run": "tsx scripts/migrations/migrate-to-editorial.ts --dry-run",
-    "migrate:case-study": "tsx scripts/migrations/migrate-to-editorial.ts --project="
+    "migrate:case-study": "tsx scripts/migrations/migrate-to-editorial.ts --project=",
+    "debug:images": "tsx scripts/debug-sanity-images.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.37",

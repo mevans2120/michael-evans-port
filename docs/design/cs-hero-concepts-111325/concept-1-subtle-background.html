@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 1: Subtle Background Overlay - Before Launcher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            background: 'hsl(0, 0%, 98%)',
+            foreground: 'hsl(0, 0%, 3.1%)',
+            border: 'hsl(240, 5%, 85%)',
+            accent: 'hsl(276, 70%, 45%)',
+            'muted-foreground': 'hsl(0, 0%, 40%)',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: hsl(0, 0%, 98%);
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Concept 1: Subtle Background Overlay -->
+  <header class="relative overflow-hidden min-h-[70vh] flex items-center">
+    <!-- Background Image Layer -->
+    <div class="absolute inset-0 -z-10">
+      <img
+        src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1920&h=1080&fit=crop&auto=format&q=85"
+        alt=""
+        class="w-full h-full object-cover opacity-[0.12]"
+      />
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background"></div>
+    </div>
+
+    <!-- Content Layer -->
+    <div class="relative max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-12 md:pb-16 w-full">
+      <!-- Badge -->
+      <div class="text-xs uppercase tracking-[2px] text-accent font-semibold mb-6">
+        Mobile App
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-[56px] md:text-[72px] lg:text-[84px] font-bold text-foreground leading-[1.05] mb-8">
+        Before Launcher
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-[24px] md:text-[28px] text-muted-foreground leading-[1.4] mb-8 max-w-3xl">
+        Helping thousands reduce phone distraction by 30-40%
+      </p>
+
+      <!-- Overview Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-border">
+        <div>
+          <div class="text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+            Role
+          </div>
+          <div class="text-base text-foreground">
+            Founder, Product
+          </div>
+        </div>
+        <div>
+          <div class="text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+            Company
+          </div>
+          <div class="text-base text-foreground">
+            Before Labs
+          </div>
+        </div>
+        <div>
+          <div class="text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+            Timeline
+          </div>
+          <div class="text-base text-foreground">
+            2017-2020
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content Preview (to show context) -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <div class="prose prose-lg">
+      <p class="text-muted-foreground">
+        Like many of us, I became increasingly distracted by my phone when more and more very useful (and less useful) apps started taking up space on my phone...
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>

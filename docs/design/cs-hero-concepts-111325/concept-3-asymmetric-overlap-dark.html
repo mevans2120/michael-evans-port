@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Asymmetric Overlap - Dark Mode</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            background: 'hsl(240, 10%, 3%)',
+            foreground: 'hsl(0, 0%, 98%)',
+            border: 'hsl(240, 5%, 20%)',
+            accent: 'hsl(276, 100%, 75%)',
+            'muted-foreground': 'hsl(215, 15%, 70%)',
+            card: 'hsl(240, 10%, 12%)',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: hsl(240, 10%, 3%);
+      color: hsl(0, 0%, 98%);
+      margin: 0;
+      padding: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-image {
+        clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+      }
+    }
+  </style>
+</head>
+<body class="dark">
+
+  <!-- Dark Mode Toggle -->
+  <div class="fixed top-4 right-4 z-50">
+    <button onclick="window.location.href='concept-3-asymmetric-overlap.html'"
+            class="px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent rounded-lg text-sm font-medium transition-colors">
+      Switch to Light Mode
+    </button>
+  </div>
+
+  <!-- Concept 3: Asymmetric Overlap - DARK MODE -->
+  <header class="relative min-h-[85vh] overflow-hidden">
+    <!-- Large Background Image - Offset and Clipped -->
+    <div class="absolute top-0 right-0 w-full lg:w-[65%] h-full">
+      <div class="hero-image relative w-full h-full">
+        <img
+          src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1600&h=1200&fit=crop&auto=format&q=85"
+          alt=""
+          class="w-full h-full object-cover opacity-90"
+        />
+        <!-- Gradient overlay for depth in dark mode -->
+        <div class="absolute inset-0 bg-gradient-to-br from-background/15 via-transparent to-transparent"></div>
+      </div>
+    </div>
+
+    <!-- Content Card - Overlaps Image -->
+    <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-28 lg:py-32">
+      <div class="max-w-2xl">
+        <div class="bg-card/95 backdrop-blur-sm p-8 md:p-12 lg:p-14 rounded-3xl shadow-2xl border border-border/50 ring-1 ring-accent/10">
+
+          <!-- Badge -->
+          <div class="text-xs uppercase tracking-[2px] text-accent font-semibold mb-6">
+            Mobile App
+          </div>
+
+          <!-- Title -->
+          <h1 class="text-[44px] md:text-[56px] lg:text-[68px] font-bold text-foreground leading-[1.05] mb-6">
+            Before Launcher
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-[20px] md:text-[24px] text-muted-foreground leading-[1.4] mb-8">
+            Helping thousands reduce phone distraction by 30-40%
+          </p>
+
+          <!-- Overview Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
+            <div>
+              <div class="text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+                Role
+              </div>
+              <div class="text-sm text-foreground font-medium">
+                Founder, Product
+              </div>
+            </div>
+            <div>
+              <div class="text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+                Company
+              </div>
+              <div class="text-sm text-foreground font-medium">
+                Before Labs
+              </div>
+            </div>
+            <div>
+              <div class="text-xs uppercase tracking-[2px] text-muted-foreground mb-2">
+                Timeline
+              </div>
+              <div class="text-sm text-foreground font-medium">
+                2017-2020
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative accent element -->
+    <div class="absolute bottom-0 left-0 w-32 h-32 bg-accent/20 rounded-tr-full hidden lg:block"></div>
+  </header>
+
+  <!-- Page Content Preview -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <div class="prose prose-lg prose-invert">
+      <p class="text-muted-foreground">
+        Like many of us, I became increasingly distracted by my phone when more and more very useful (and less useful) apps started taking up space on my phone...
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>

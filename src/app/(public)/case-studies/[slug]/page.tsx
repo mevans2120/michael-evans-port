@@ -122,7 +122,12 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     link
   },
   featuredImage {
-    asset,
+    asset->{
+      _id,
+      url
+    },
+    crop,
+    hotspot,
     alt
   },
   seo {
@@ -198,6 +203,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
         title={project.title}
         subtitle={project.heroSection?.subtitle}
         overview={project.overview}
+        backgroundImage={project.featuredImage}
       />
 
       {/* Metrics (if present) */}
