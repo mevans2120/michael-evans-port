@@ -48,16 +48,16 @@ export function EditorialHero({ badge, title, subtitle, overview, backgroundImag
     <header className="min-h-[70vh] flex items-center">
       <div className="max-w-4xl mx-auto px-6 py-16 md:py-24 w-full">
 
-        {badge && (
-          <div className="font-sans text-xs uppercase tracking-[2px] text-accent dark:text-accent font-semibold mb-6">
-            {badge}
-          </div>
-        )}
-
         {/* Content and Image Layout - Blog Post Style */}
         <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
           {/* Left: Text Content */}
           <div className="flex-1">
+            {badge && (
+              <div className="font-sans text-xs uppercase tracking-[2px] text-accent dark:text-accent font-semibold mb-6">
+                {badge}
+              </div>
+            )}
+
             <h1 className="text-[48px] md:text-[60px] lg:text-[72px] font-bold text-foreground dark:text-foreground leading-[1.05] mb-6">
               {title}
             </h1>

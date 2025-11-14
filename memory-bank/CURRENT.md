@@ -10,6 +10,70 @@
 
 ## ✅ Recent Accomplishments (November 13, 2025 - Latest)
 
+### Case Study Hero Alignment Fix - COMPLETE 🎉
+
+**Goal**: Vertically align the category badge with the featured image in case study hero sections.
+
+**Problem**:
+- Category badge ("E-COMMERCE REPLATFORM") was positioned outside the flex container
+- Featured image was inside the flex container
+- This caused vertical misalignment - badge appeared above the image instead of aligned with it
+
+**Solution**: Moved category badge inside the flex container's left column.
+
+**Files Modified:**
+1. **`/src/components/case-study-editorial/EditorialHero.tsx`** (lines 51-59)
+   - Moved badge conditional block from outside flex container to inside left content div
+   - Badge now participates in flex layout with `items-start` alignment
+   - Both badge and image align to top of their respective columns
+
+**Layout Change**:
+```
+Before: Badge above container → Image inside container
+After:  Badge inside left column → Image in right column (aligned at top)
+```
+
+**Results**:
+- ✅ Category badge and featured image vertically aligned
+- ✅ Clean visual hierarchy maintained
+- ✅ Responsive behavior preserved
+- ✅ Build passes successfully
+
+---
+
+### Chat Input Styling Refinements - COMPLETE 🎉
+
+**Goal**: Clean up chat input styling by removing redundant placeholder text and adjusting visual design.
+
+**Changes Made**:
+
+**Files Modified:**
+1. **`/src/components/navigation/ChatSection.tsx`**
+   - Removed placeholder text "Ask about Michael's work..." (line 556)
+   - Changed input background from `bg-chat-input` to `bg-chat-message` (line 559)
+   - Removed focus ring: deleted `focus:ring-2 focus:ring-accent-light` classes
+   - Input now shows clean empty field with native blinking cursor only when focused
+
+2. **`/tailwind.config.ts`** (lines 131-140)
+   - Added `blink` keyframe animation for future use
+   - Animation definition: 1s step-end infinite (crisp on/off effect)
+
+**Design Rationale**:
+- **No placeholder**: Reduces visual clutter, native cursor is sufficient
+- **Message background**: Input matches chat bubble color for cohesive look
+- **No focus ring**: Border is already accent-colored, ring was redundant
+
+**Results**:
+- ✅ Cleaner, more minimal chat input design
+- ✅ Input background matches chat message bubbles
+- ✅ No redundant visual elements
+- ✅ Native browser cursor behavior
+- ✅ Build passes successfully
+
+**Commit**: `7127922` - "Refine chat input styling for cleaner UX"
+
+---
+
 ### Case Study Hero Featured Image - COMPLETE 🎉
 
 **Goal**: Display featured images in case study hero sections using a clean, blog post-style layout.
