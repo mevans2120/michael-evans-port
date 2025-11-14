@@ -45,8 +45,8 @@ export function EditorialHero({ badge, title, subtitle, overview, backgroundImag
     : null
 
   return (
-    <header className="min-h-[70vh] flex items-center">
-      <div className="max-w-4xl mx-auto px-6 py-16 md:py-24 w-full">
+    <header className="pt-16 md:pt-24 pb-8 md:pb-12">
+      <div className="max-w-4xl mx-auto px-6 w-full">
 
         {/* Content and Image Layout - Blog Post Style */}
         <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
