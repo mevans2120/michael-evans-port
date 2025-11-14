@@ -69,8 +69,87 @@
 - ✅ Matches project design system patterns
 - ✅ Build passes successfully
 
-**Next Steps** (Pending):
-- Consider full viewport width breakout for better horizontal scroll experience
+---
+
+### Portrait Image List Full-Width Breakout with Auto-Centering - COMPLETE 🎉
+
+**Goal**: Extend portrait image list to full viewport width while maintaining proper centering and scrollability.
+
+**Requirements**:
+- Break out of article container to span full viewport width
+- Center images when they fit in viewport
+- Allow proper left-to-right scrolling when images overflow
+- Maintain smooth scroll and snap behavior
+- Pure CSS solution (no JavaScript)
+
+**Problem Solved**:
+- Using `justify-center` on scrollable flex container breaks scrolling
+- Can't scroll to leftmost items when `justify-center` is applied
+- Need conditional centering: center when fits, scroll when overflows
+
+**Solution**: Auto-margin centering with two-div structure.
+
+**Files Modified:**
+1. **`/src/components/case-study-flowing/PortraitImageList.tsx`** (lines 27-29, 52)
+   - Added full-width breakout: `w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]`
+   - Implemented two-div structure for proper centering:
+     - **Outer div** (line 28): Handles scrolling (`overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide`)
+     - **Inner div** (line 29): Handles centering (`flex gap-4 min-w-fit mx-auto w-fit px-4 md:px-8`)
+   - Enhanced responsive padding: `px-4 md:px-8` (better spacing on larger screens)
+
+**How Auto-Margin Centering Works**:
+```tsx
+// Outer div: Enables scrolling
+<div className="overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide">
+  {/* Inner div: Centers content */}
+  <div className="flex gap-4 min-w-fit mx-auto w-fit px-4 md:px-8">
+    {/* Images with snap points */}
+  </div>
+</div>
+```
+
+**Key CSS Classes**:
+- `w-fit` - Container shrinks to content width
+- `mx-auto` - Centers the container horizontally
+- `min-w-fit` - Prevents content compression
+- When content fits viewport → centered by `mx-auto`
+- When content overflows → scrollable from left edge
+
+**Design System Research**:
+- Researched existing horizontal scroll patterns in codebase
+- Found similar patterns in HorizontalTimelineSlide, NavigationMenu
+- Project strongly prefers CSS-only solutions over JavaScript
+- Avoid `justify-center` + `overflow-x-auto` combination (known broken pattern)
+- `w-0 min-w-full` technique used elsewhere (from caption fix)
+
+**Technical Approach Evaluation**:
+1. **Option A: Auto-Margin Centering** (CHOSEN)
+   - ✅ Pure CSS, no JavaScript
+   - ✅ Semantic Tailwind classes
+   - ✅ Universal browser support
+   - ✅ Solves both requirements
+
+2. **Option B: Custom Padding** (Not chosen)
+   - Uses arbitrary values: `px-[max(1rem,calc(50vw-600px))]`
+   - Requires knowing content width
+   - More complex calculation
+
+3. **Option C: JavaScript Detection** (Not chosen)
+   - Against project's CSS-first philosophy
+   - Potential flash during resize
+   - Unnecessary complexity
+
+**Results**:
+- ✅ Images centered when they fit in viewport
+- ✅ Full left-to-right scrolling when images overflow
+- ✅ Full viewport width breakout (edge-to-edge)
+- ✅ Pure CSS solution (no JavaScript)
+- ✅ Semantic Tailwind classes (no arbitrary values)
+- ✅ Smooth scroll and snap behavior maintained
+- ✅ Matches project design patterns
+- ✅ Build passes successfully
+
+**Commit**: Pending - "Add full-width breakout with auto-centering to portrait image list"
 
 ---
 
