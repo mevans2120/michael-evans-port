@@ -1,12 +1,12 @@
 # Current Development Status
 
-## 📍 Active Sprint: Vector Database for Claude Code
+## 📍 Active Sprint: Portfolio Chatbot Enhancement
 *Last Updated: 2025-11-14*
 
 ## 🎯 Current Focus
-**Claude Code Vector Database System**
+**Portfolio Chatbot Content & Knowledge Base**
 
-**Status**: Core implementation complete. Vector DB successfully separated into its own repository with 100% document ingestion. MCP server implementation pending.
+**Status**: Full content ingestion complete with Sanity CMS integration enabled. Chatbot now has access to 242 chunks of knowledge including all projects, case studies, and transcripts.
 
 ## ✅ Recent Accomplishments (November 14, 2025 - Latest)
 
@@ -219,6 +219,64 @@
 - Alternative solution using `[contain:inline-size]` would work but uses arbitrary value
 - Width constraint technique (`w-0 min-w-full`) preferred for design system consistency
 - Gap-4 (16px) spacing works correctly once figure widths match image widths
+
+---
+
+### Portfolio Chatbot Full Content Re-ingestion - COMPLETE 🎉
+
+**Goal**: Re-ingest portfolio chatbot with Sanity CMS content enabled to restore full knowledge base.
+
+**Problem**:
+- Chatbot was missing Sanity CMS content (projects, case studies, profile)
+- Feature flag `INGEST_SANITY_CONTENT=false` was disabling CMS ingestion
+- Only had ~100 chunks from transcript files, missing expected ~180+ chunks
+
+**Solution**: Enable Sanity content feature flag and re-ingest all content.
+
+**Implementation**:
+
+**Files Modified:**
+1. **`.env.local`** (line 40)
+   - Changed `INGEST_SANITY_CONTENT=false` to `INGEST_SANITY_CONTENT=true`
+   - Enables ingestion of all Sanity CMS content alongside transcripts
+
+**Commands Executed:**
+```bash
+npm run ingest:clear  # Clear and re-ingest everything
+```
+
+**Content Sources Ingested:**
+1. **Transcript Files** (11 files from `public/chatbot-content/transcripts/`)
+   - Questionnaire answers, technical details, case studies
+   - Properly excluded `_Raw_Files_Ignore/` directory (5 files)
+
+2. **Sanity CMS Content** (23 documents)
+   - 13 Projects (case studies with details)
+   - 7 Profile sections (capabilities, experience)
+   - 3 AI Projects (specialized AI/ML work)
+
+**Results**:
+- ✅ **242 total chunks** created (up from ~100)
+- ✅ 34 documents processed (11 transcripts + 23 Sanity)
+- ✅ Archive folders properly excluded
+- ✅ Average 7.1 chunks per document
+- ✅ Full knowledge base restored
+
+**Knowledge Categories Distribution:**
+- General content: 56 chunks
+- Projects: 40 chunks
+- Technical: 34 chunks
+- Research: 24 chunks
+- Background: 24 chunks
+- AI Projects: 21 chunks
+- Profile: 16 chunks
+- Agentic Engineering: 14 chunks
+
+**Impact**:
+- Chatbot can now answer questions about all projects and case studies
+- Complete professional profile available for queries
+- Technical expertise fully documented
+- Comprehensive knowledge base for visitor questions
 
 ---
 
