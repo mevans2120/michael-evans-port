@@ -10,6 +10,70 @@
 
 ## ✅ Recent Accomplishments (November 14, 2025 - Latest)
 
+### Portrait Image List Horizontal Scrolling - COMPLETE 🎉
+
+**Goal**: Enable horizontal scrolling for portrait image lists to support more than 3 images.
+
+**Requirements**:
+- Support 1-10 portrait images (previously limited to 3)
+- Only enable scrolling when images exceed viewport width
+- Hide scrollbar to match project design system
+- Maintain smooth scroll and snap behavior
+
+**Implementation**:
+
+**Files Modified:**
+1. **`/sanity/schemas/project.ts`** (lines 532-563)
+   - Updated max images validation from `.max(3)` to `.max(10)`
+   - Updated descriptions to reflect "1-10 portrait phone images (scrollable)"
+
+2. **`/src/components/case-study-flowing/PortraitImageList.tsx`** (lines 1-6, 28, 35)
+   - Updated component documentation to describe horizontal scrolling support
+   - Added `overflow-x-auto` - enables scrolling only when content overflows
+   - Added `scroll-smooth` - provides smooth animated scrolling
+   - Added `snap-x snap-mandatory` on container - enables scroll snapping
+   - Added `snap-start` on each figure - snaps images to viewport position
+   - Added `scrollbar-hide` - hides scrollbar while keeping scroll functionality
+   - Added `px-4` - horizontal padding for visual spacing
+
+**Design System Research**:
+- Researched existing horizontal scroll patterns in codebase
+- Found `scrollbar-hide` utility class used in HorizontalTimelineSlide, NavigationMenu, ChatSection
+- Confirmed `overflow-x-auto` is correct solution (only scrolls when content overflows)
+- Verified approach matches project's CSS-first design philosophy
+
+**How It Works**:
+```tsx
+<div className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 scrollbar-hide">
+  {images.map((image) => (
+    <figure className="flex-shrink-0 flex flex-col gap-3 w-fit snap-start">
+      <img className="h-[500px] w-auto object-contain" />
+    </figure>
+  ))}
+</div>
+```
+
+**Key CSS Properties**:
+- `overflow-x-auto` - Scrollbar only appears when content width > container width
+- `scrollbar-hide` - Hides scrollbar visually (defined in globals.css lines 225-234)
+- `snap-x snap-mandatory` - Snaps images to container edges during scroll
+- `snap-start` - Defines snap point at start of each image
+- `flex-shrink-0` - Prevents images from compressing to fit
+
+**Results**:
+- ✅ Supports 1-10 portrait images (up from 3)
+- ✅ Scrollbar hidden but scroll still works via touch/trackpad/mouse wheel
+- ✅ Smooth animated scrolling between images
+- ✅ Images snap to position for better UX
+- ✅ Only scrolls when images exceed viewport width
+- ✅ Matches project design system patterns
+- ✅ Build passes successfully
+
+**Next Steps** (Pending):
+- Consider full viewport width breakout for better horizontal scroll experience
+
+---
+
 ### Portrait Image List Caption Wrapping Fix - COMPLETE 🎉
 
 **Goal**: Fix caption text extending beyond image width and ensure even spacing between portrait images.

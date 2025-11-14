@@ -29,12 +29,11 @@ export function VisualCards({ cards }: VisualCardsProps) {
           className="bg-card dark:bg-card border border-border dark:border-border shadow-card overflow-hidden"
         >
           {card.image ? (
-            <div className="relative aspect-video w-full bg-muted">
-              <Image
+            <div className="relative w-full h-auto bg-muted">
+              <img
                 src={urlFor(card.image).width(800).url()}
                 alt={card.caption || 'Case study visual'}
-                fill
-                className="object-cover"
+                className="w-full h-auto object-contain"
               />
             </div>
           ) : card.placeholderText ? (

@@ -66,15 +66,35 @@ export function ArticleContent({ content }: ArticleContentProps) {
           )
         }
 
+        // Float left variant (respects Sanity crop)
+        if (style === 'floatLeft') {
+          return (
+            <figure className="my-6 w-full md:w-[45%] md:float-left md:mr-6 md:mb-6 clear-left">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto object-cover rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
         // Float right variant (respects Sanity crop)
         if (style === 'floatRight') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
-              <div className="relative w-full h-auto max-h-[400px] rounded-lg overflow-hidden bg-muted">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
                 <img
                   src={imageUrl}
                   alt={value.alt || ''}
-                  className="w-full h-auto max-h-[400px] object-contain rounded-lg"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
               {value.caption && (
@@ -90,11 +110,11 @@ export function ArticleContent({ content }: ArticleContentProps) {
         if (style === 'floatRightPortrait') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
-              <div className="relative w-full h-auto max-h-[600px] rounded-lg overflow-hidden bg-muted">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
                 <img
                   src={imageUrl}
                   alt={value.alt || ''}
-                  className="w-full h-auto max-h-[600px] object-contain rounded-lg"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
               {value.caption && (

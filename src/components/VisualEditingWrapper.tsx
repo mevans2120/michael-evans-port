@@ -26,20 +26,18 @@ export function VisualEditingWrapper() {
   return (
     <VisualEditing
       refresh={async (payload) => {
-        // Skip revalidation for mutations when live preview is enabled
-        // Let the WebSocket (SanityLive) handle updates instead
+        // Always skip revalidation for mutations - let WebSocket handle updates
+        // This prevents aggressive full-page revalidation
         if (payload.source === 'mutation') {
-          if (payload.livePreviewEnabled) {
-            return // No refresh needed - WebSocket handles it
-          }
-          // For mutations without live preview, revalidate by document type
-          if ('document' in payload && payload.document) {
-            await revalidateSanityDocument(payload.document._type)
-          }
+          console.log('[VisualEditing] Mutation detected, skipping revalidation (livePreviewEnabled:', payload.livePreviewEnabled, ')')
+          return // No refresh needed - WebSocket handles it when connected
         }
 
-        // For manual refreshes, skip revalidation (user explicitly requested refresh)
-        // The default behavior will handle it
+        // For manual refreshes, allow default behavior
+        if (payload.source === 'manual') {
+          console.log('[VisualEditing] Manual refresh triggered')
+          // Let default behavior handle manual refresh
+        }
       }}
     />
   )

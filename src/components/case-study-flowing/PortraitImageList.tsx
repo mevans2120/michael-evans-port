@@ -1,7 +1,8 @@
 /**
  * Portrait Image List Component
- * Renders 1-3 portrait-oriented images in a horizontal row with thick black borders and captions
- * Always displays horizontally (no responsive stacking)
+ * Renders 1-10 portrait-oriented images in a horizontal scrolling row with thick black borders and captions
+ * Supports horizontal scrolling when images exceed viewport width
+ * Features scroll snapping for smooth navigation between images
  */
 
 import Image from 'next/image'
@@ -24,14 +25,14 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
 
   return (
     <div className="my-8">
-      <div className="flex gap-4 justify-center">
+      <div className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 scrollbar-hide">
         {images.map((image) => {
           if (!image?.asset) return null
 
           const imageUrl = urlFor(image).url()
 
           return (
-            <figure key={image._key} className="flex-shrink-0 flex flex-col gap-3 w-fit">
+            <figure key={image._key} className="flex-shrink-0 flex flex-col gap-3 w-fit snap-start">
               <div className="border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted">
                 <img
                   src={imageUrl}

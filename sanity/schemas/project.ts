@@ -404,6 +404,10 @@ export default defineType({
             { title: 'H6', value: 'h6' },
             { title: 'Quote', value: 'blockquote' }
           ],
+          lists: [
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' }
+          ],
           marks: {
             decorators: [
               { title: 'Bold', value: 'strong' },
@@ -452,6 +456,23 @@ export default defineType({
               name: 'caption',
               type: 'string',
               title: 'Caption'
+            },
+            {
+              name: 'style',
+              type: 'string',
+              title: 'Image Style',
+              description: 'Choose how this image should be displayed',
+              options: {
+                list: [
+                  { title: 'Full Width (16:9)', value: 'fullWidth' },
+                  { title: 'Float Left (4:3)', value: 'floatLeft' },
+                  { title: 'Float Right (4:3)', value: 'floatRight' },
+                  { title: 'Float Right (Portrait)', value: 'floatRightPortrait' }
+                ],
+                layout: 'radio'
+              },
+              initialValue: 'fullWidth',
+              validation: (Rule) => Rule.required()
             }
           ]
         },
@@ -510,13 +531,13 @@ export default defineType({
           type: 'object',
           name: 'portraitImageList',
           title: 'Portrait Image List',
-          description: '1-3 portrait phone images with captions (horizontal layout)',
+          description: '1-10 portrait phone images with captions (horizontal scrolling layout)',
           fields: [
             {
               name: 'images',
               type: 'array',
               title: 'Portrait Images',
-              description: 'Add 1-3 portrait-oriented images',
+              description: 'Add 1-10 portrait-oriented images (scrollable)',
               of: [
                 {
                   type: 'image',
@@ -538,8 +559,8 @@ export default defineType({
                   ]
                 }
               ],
-              validation: (Rule) => Rule.min(1).max(3).required()
-                .error('Portrait image list must contain 1-3 images')
+              validation: (Rule) => Rule.min(1).max(10).required()
+                .error('Portrait image list must contain 1-10 images')
             }
           ],
           preview: {
