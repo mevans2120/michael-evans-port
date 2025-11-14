@@ -1,14 +1,268 @@
 # Current Development Status
 
-## 📍 Active Sprint: CMS & Infrastructure Improvements
-*Last Updated: 2025-11-13*
+## 📍 Active Sprint: Vector Database for Claude Code
+*Last Updated: 2025-11-14*
 
 ## 🎯 Current Focus
-**Case Study Hero Image Implementation**
+**Claude Code Vector Database System**
 
-**Status**: Complete - Blog-style layout with featured image on right side.
+**Status**: Core implementation complete. Vector DB successfully separated into its own repository with 100% document ingestion. MCP server implementation pending.
 
-## ✅ Recent Accomplishments (November 13, 2025 - Latest)
+## ✅ Recent Accomplishments (November 14, 2025 - Latest)
+
+### Portrait Image List Caption Wrapping Fix - COMPLETE 🎉
+
+**Goal**: Fix caption text extending beyond image width and ensure even spacing between portrait images.
+
+**Problem**:
+- Caption text wasn't wrapping at image edge - extended beyond image width
+- In flexbox with `flex-direction: column`, parent figure sized to widest child (the caption)
+- Long caption text forced figure to be wider than the image
+- This caused uneven visual spacing between the three images
+- Classic CSS intrinsic sizing problem
+
+**Root Cause**:
+- Figure element: `flex flex-col` creates vertical flexbox
+- Image: `h-[500px] w-auto` has intrinsic width based on aspect ratio
+- Caption: `w-full` tries to match parent width
+- Result: Parent (figure) expands to fit caption text, not image width
+
+**Solution**: Width constraint technique using pure Tailwind utilities (no arbitrary values).
+
+**Files Modified:**
+1. **`/src/components/case-study-flowing/PortraitImageList.tsx`** (lines 34-47)
+   - Added `w-fit` to figure - makes it shrink to fit content width
+   - Added `max-w-full` to image - ensures responsive behavior
+   - Changed caption from `w-full` to `w-0 min-w-full` - prevents caption from expanding parent
+
+**How It Works**:
+```tsx
+// Figure sizes to image width only
+<figure className="w-fit">
+  <img className="h-[500px] w-auto max-w-full" />
+
+  // Caption doesn't affect figure width but fills available space
+  <figcaption className="w-0 min-w-full">
+</figure>
+```
+
+**The `w-0 min-w-full` Technique**:
+1. `w-0` - Caption has zero intrinsic width (doesn't expand parent)
+2. `min-w-full` - Caption grows to fill 100% of parent
+3. Figure sees caption as having no width
+4. Figure sizes to image width instead
+5. Caption then wraps at exactly the image width
+
+**Design System Compliance**:
+- Uses pure Tailwind utilities (no arbitrary `[contain:inline-size]`)
+- Follows project preference for semantic Tailwind classes over arbitrary values
+- Universal browser support (no modern CSS containment needed)
+
+**Research Conducted**:
+- Used Task agent to research CSS intrinsic sizing problem
+- Explored 3 solutions: CSS containment, width constraints, table layout
+- Selected width constraint technique for best design system alignment
+- Solution eliminates caption width from parent sizing calculation
+
+**Results**:
+- ✅ Captions wrap at exact image edge (no extension beyond image)
+- ✅ Even spacing between all three portrait images
+- ✅ Pure Tailwind utilities (design system compliant)
+- ✅ Universal browser support
+- ✅ No layout hacks or workarounds
+- ✅ Build passes successfully
+
+**Technical Notes**:
+- Alternative solution using `[contain:inline-size]` would work but uses arbitrary value
+- Width constraint technique (`w-0 min-w-full`) preferred for design system consistency
+- Gap-4 (16px) spacing works correctly once figure widths match image widths
+
+---
+
+### Claude Code Vector Database System - COMPLETE 🎉
+
+**Goal**: Create a vector database for Claude Code to access project context (plans, architecture, decisions) without manually reading files, saving ~100,000+ tokens/month.
+
+**Requirements**:
+- Must run locally (not Supabase) for offline development
+- Have backup capabilities
+- Dual-access pattern: Direct TypeScript API (0 tokens) + MCP server for agents
+- Separate from website codebase to avoid interference
+
+**Solution**: ChromaDB with Google AI embeddings in separate repository.
+
+**Implementation Journey**:
+1. **Research & Planning**: Evaluated vector DB options, chose ChromaDB for local storage
+2. **Initial Development**: Built TypeScript API and ingestion scripts
+3. **Error Resolution**: Fixed ChromaDB metadata restrictions, JSON parsing errors
+4. **Repository Separation**: Migrated to `~/claude-code-vectordb/` for clean separation
+5. **100% Ingestion Success**: 5527 documents successfully embedded
+6. **GitHub Deployment**: Published to https://github.com/mevans2120/claude-code-vectordb
+
+**Technical Architecture**:
+```
+Project Documentation → Ingestion Script → ChromaDB Vector DB
+                                                ↓
+                                         TypeScript API
+                                          ↙          ↘
+                              MCP Server              Direct Import
+                                   ↓                       ↓
+                            Claude Code Agents      Build Scripts/CLI
+```
+
+**Key Innovations**:
+1. **Dual-Access Pattern**:
+   - Direct TypeScript import for 0-token access
+   - MCP server wrapper for Claude Code agents (pending)
+
+2. **Sanitization Functions**:
+   - `sanitizeMetadata()` - Converts arrays to strings for ChromaDB compatibility
+   - `sanitizeContent()` - Removes control characters preventing JSON parsing
+
+3. **Error Recovery**:
+   - Batch processing continues past failed documents
+   - Comprehensive error logging for debugging
+
+**Files in New Repository (`~/claude-code-vectordb/`)**:
+- `/src/lib/client.ts` - Core TypeScript API
+- `/scripts/ingest-docs-to-vectordb.ts` - Document ingestion
+- `/scripts/test-search.ts` - Interactive search testing
+- `/package.json` - Scripts and dependencies
+- `/README.md` - Complete documentation
+- `/.env.example` - Environment template
+
+**Website Cleanup**:
+- Removed all vector DB code from main website
+- Removed ChromaDB and langchain dependencies
+- Created `/docs/VECTOR_DB_NOTE.md` explaining separation
+- No dependencies between website and vector DB
+
+**Results**:
+- ✅ 5527 documents successfully ingested
+- ✅ ChromaDB running locally on port 8000
+- ✅ TypeScript API ready for 0-token queries
+- ✅ Repository on GitHub with proper .gitignore
+- ✅ Website runs independently
+- ✅ ~100,000+ tokens/month savings potential
+
+**Pending Tasks**:
+- Build MCP server with query tools
+- Create CLI tools for manual access
+- Configure Claude Code to use MCP server
+- Evaluate query quality with test queries
+
+**Documentation**:
+- `/docs/claude-code-vector-db-concept.md` - Initial concept and architecture
+- `/docs/claude-code-vector-db-research.md` - Research findings on vector DB options
+- `/docs/claude-code-vector-db-plan.md` - Implementation roadmap
+- `/docs/vector-db-progress-nov-14.md` - Progress tracking document
+- `/docs/VECTOR_DB_NOTE.md` - Separation and relationship documentation
+
+---
+
+### Case Study Responsive Spacing Fix - COMPLETE 🎉
+
+**Goal**: Fix header and body spacing issue where gap grew larger as viewport height increased.
+
+**Problem**:
+- Case study hero header and article body became disconnected as viewport height increased
+- Root cause: `min-h-[70vh] flex items-center` created viewport-dependent vertical centering
+- Gap grew proportionally with screen height (more visible on tall displays)
+- Industry-standard editorial layouts don't have this issue
+
+**Solution**: Replace viewport-dependent sizing with fixed rem-based padding following industry standards.
+
+**Research Findings**:
+- Professional sites (Medium, Substack, NYT) use fixed padding, not viewport units
+- `flex items-center` with viewport-based min-height distributes extra space equally above/below
+- Design system already uses rem-based spacing throughout
+- Pattern `min-h-[Xvh] flex items-center` creates gaps that grow with viewport
+
+**Files Modified:**
+1. **`/src/components/case-study-editorial/EditorialHero.tsx`** (line 48)
+   - Changed from `min-h-[70vh] flex items-center` to `pt-16 md:pt-24 pb-8 md:pb-12`
+   - Removed `flex items-center` vertical centering
+   - Moved padding from inner div to header element
+   - Result: Controlled spacing (64px/96px top, 32px/48px bottom)
+
+2. **`/src/components/case-study-flowing/FlowingArticle.tsx`** (line 19)
+   - Removed top padding: `pt-4 md:pt-6` deleted from className
+   - Eliminates gap between header and article body
+   - Header's bottom padding provides controlled spacing
+
+**Implementation Journey**:
+- First attempt made it worse (user: "That made it far worse... Can you revert")
+- Conducted deep research into industry-standard patterns
+- Multiple iterations based on user feedback
+- Final solution uses 32px mobile / 48px desktop gap (consistent across all viewports)
+
+**Results**:
+- ✅ Header and body maintain consistent connection across all viewport heights
+- ✅ Follows industry-standard editorial layout patterns
+- ✅ Fixed rem-based padding (predictable, not proportional)
+- ✅ No viewport-dependent sizing
+- ✅ Build passes successfully
+- ✅ Responsive behavior preserved
+
+**Commit**: Successfully pushed - "Fix case study header and body spacing to maintain consistent connection"
+
+---
+
+### Navigation Logo Border Fix - COMPLETE 🎉
+
+**Goal**: Remove rounded corners from navigation logo's selected state to match square borders on other nav items.
+
+**Problem**: Logo Link had `rounded-lg` class causing curved border, inconsistent with square nav item borders.
+
+**Solution**: Removed `rounded-lg` class from logo Link element.
+
+**Files Modified:**
+1. **`/src/components/navigation/NavigationMenu.tsx`** (line 37)
+   - Removed `rounded-lg` from logo Link className
+   - Logo now has square border matching other navigation items
+
+**Results**:
+- ✅ Logo border now square like rest of navigation
+- ✅ Consistent visual design across all nav items
+
+---
+
+### Image Cache Debug Script - COMPLETE 🎉
+
+**Goal**: Create debug script to diagnose why images show locally but not in production.
+
+**Problem**: User reported images showing locally but not appearing on production URL.
+
+**Solution**: Created comprehensive debug script to check both published and draft content.
+
+**Files Created:**
+1. **`/scripts/debug-sanity-images.ts`**
+   - Checks both published and draft content perspectives
+   - Tests image accessibility on Sanity CDN
+   - Validates URLs and asset IDs
+   - Compares draft vs published versions
+
+**Files Modified:**
+1. **`/package.json`** (line 37)
+   - Added `"debug:images": "tsx scripts/debug-sanity-images.ts"`
+
+**Findings**:
+- All 13 projects published ✓
+- All 11 featured images accessible ✓
+- All 2 article images accessible ✓
+- No draft-only content ✓
+- Conclusion: Production cache issue (Vercel/ISR), not Sanity data problem
+
+**Recommended Solutions**: Redeploy on Vercel or manual ISR revalidation
+
+**Results**:
+- ✅ Diagnostic tool created for future debugging
+- ✅ Confirmed all images are properly published
+- ✅ Identified issue as production cache, not data problem
+
+---
+
+## ✅ Recent Accomplishments (November 13, 2025)
 
 ### Case Study Hero Alignment Fix - COMPLETE 🎉
 
@@ -918,6 +1172,13 @@ Removed `heroSection.summary` entirely from project schema:
 - Test featured images across different case studies
 
 ## 📝 Notes
+
+**Editorial Layout Spacing Patterns**:
+- **AVOID viewport-dependent sizing**: `min-h-[Xvh] flex items-center` creates gaps that grow with screen height
+- **USE fixed rem-based padding**: Industry standard (Medium, Substack, NYT) for predictable spacing
+- Vertical centering with `items-center` distributes extra space equally above/below content
+- Fixed padding (e.g., `pt-16 md:pt-24 pb-8 md:pb-12`) provides consistent gaps across all viewports
+- Design system should use content-based sizing, not viewport units
 
 **Case Study Hero Image Learnings**:
 - GROQ asset dereferencing is critical: `asset->{_id, url}` not just `asset`
