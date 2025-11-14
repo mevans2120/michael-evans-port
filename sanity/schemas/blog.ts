@@ -114,7 +114,159 @@ export default defineType({
               type: 'string',
               title: 'Caption',
             },
+            {
+              name: 'style',
+              type: 'string',
+              title: 'Image Style',
+              description: 'Choose how this image should be displayed',
+              options: {
+                list: [
+                  { title: 'Full Width (16:9)', value: 'fullWidth' },
+                  { title: 'Float Left (4:3)', value: 'floatLeft' },
+                  { title: 'Float Right (4:3)', value: 'floatRight' },
+                  { title: 'Float Right (Portrait)', value: 'floatRightPortrait' }
+                ],
+                layout: 'radio'
+              },
+              initialValue: 'fullWidth',
+              validation: (Rule) => Rule.required()
+            }
           ],
+        },
+        // Image Grid - 2-column grid for 2-6 images
+        {
+          type: 'object',
+          name: 'imageGrid',
+          title: 'Image Grid',
+          description: '2-column grid for 2-6 images with captions',
+          fields: [
+            {
+              name: 'images',
+              type: 'array',
+              title: 'Images',
+              description: 'Add 2-6 images for the grid',
+              of: [
+                {
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alt Text',
+                      description: 'Describe the image for accessibility',
+                      validation: (Rule) => Rule.required()
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                      description: 'Description text shown below the image'
+                    }
+                  ]
+                }
+              ],
+              validation: (Rule) => Rule.min(2).max(6).required()
+                .error('Image grid must contain 2-6 images')
+            }
+          ],
+          preview: {
+            select: {
+              images: 'images'
+            },
+            prepare(selection: any) {
+              const { images } = selection
+              return {
+                title: 'Image Grid',
+                subtitle: `${images?.length || 0} images`
+              }
+            }
+          }
+        },
+        // Portrait Image List - 1-10 portrait images with captions
+        {
+          type: 'object',
+          name: 'portraitImageList',
+          title: 'Portrait Image List',
+          description: '1-10 portrait phone images with captions (horizontal scrolling layout)',
+          fields: [
+            {
+              name: 'images',
+              type: 'array',
+              title: 'Portrait Images',
+              description: 'Add 1-10 portrait-oriented images (scrollable)',
+              of: [
+                {
+                  type: 'image',
+                  options: { hotspot: true },
+                  fields: [
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alt Text',
+                      description: 'Describe the image for accessibility',
+                      validation: (Rule) => Rule.required()
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                      description: 'Description text shown below the image'
+                    }
+                  ]
+                }
+              ],
+              validation: (Rule) => Rule.min(1).max(10).required()
+                .error('Portrait image list must contain 1-10 images')
+            }
+          ],
+          preview: {
+            select: {
+              images: 'images'
+            },
+            prepare(selection: any) {
+              const { images } = selection
+              return {
+                title: 'Portrait Image List',
+                subtitle: `${images?.length || 0} image${images?.length !== 1 ? 's' : ''}`
+              }
+            }
+          }
+        },
+        // Video embeds
+        {
+          type: 'object',
+          name: 'videoEmbed',
+          title: 'Video Embed',
+          description: 'YouTube or Vimeo video embed',
+          fields: [
+            {
+              name: 'url',
+              type: 'url',
+              title: 'Video URL',
+              description: 'YouTube or Vimeo URL',
+              validation: (Rule) => Rule.required().uri({
+                scheme: ['http', 'https']
+              })
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption'
+            }
+          ],
+          preview: {
+            select: {
+              url: 'url',
+              caption: 'caption'
+            },
+            prepare({ url, caption }: any) {
+              return {
+                title: caption || 'Video',
+                subtitle: url
+              }
+            }
+          }
         },
       ],
       validation: (Rule) => Rule.required(),

@@ -2,6 +2,8 @@ import React from 'react';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import type { PortableTextBlock } from 'sanity';
 import { urlFor } from '@/sanity/lib/client';
+import { ImageGrid } from '@/components/case-study-flowing/ImageGrid';
+import { PortraitImageList } from '@/components/case-study-flowing/PortraitImageList';
 
 interface BlogContentProps {
   content: PortableTextBlock[];
@@ -66,20 +68,148 @@ export function BlogContent({ content }: BlogContentProps) {
       ),
     },
     types: {
-      image: ({ value }) => (
-        <figure className="my-10">
-          <img
-            src={urlFor(value.asset).url()}
-            alt={value.alt || ''}
-            className="w-full rounded-lg"
-          />
-          {value.caption && (
-            <figcaption className="text-sm text-muted-foreground text-center mt-3 font-sans">
-              {value.caption}
-            </figcaption>
-          )}
-        </figure>
-      ),
+      // Images with style variants
+      image: ({ value }: any) => {
+        if (!value?.asset) return null
+
+        const imageUrl = urlFor(value).url()
+        const style = value.style || 'fullWidth' // Fallback for existing images without style
+
+        // Full width (respects Sanity crop)
+        if (style === 'fullWidth') {
+          return (
+            <figure className="my-8">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto object-contain rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground text-center">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        // Float left variant (respects Sanity crop)
+        if (style === 'floatLeft') {
+          return (
+            <figure className="my-6 w-full md:w-[45%] md:float-left md:mr-6 md:mb-6 clear-left">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto object-cover rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        // Float right variant (respects Sanity crop)
+        if (style === 'floatRight') {
+          return (
+            <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto object-cover rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        // Float right portrait variant (respects Sanity crop)
+        if (style === 'floatRightPortrait') {
+          return (
+            <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto object-cover rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        return null
+      },
+
+      // Image Grid
+      imageGrid: ({ value }: any) => {
+        return <ImageGrid images={value.images} />
+      },
+
+      // Portrait Image List
+      portraitImageList: ({ value }: any) => {
+        return <PortraitImageList images={value.images} />
+      },
+
+      // Video Embeds
+      videoEmbed: ({ value }: any) => {
+        if (!value?.url) return null
+
+        // Extract video ID from YouTube or Vimeo URLs
+        const getEmbedUrl = (url: string) => {
+          // YouTube
+          if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            const videoId = url.includes('youtu.be')
+              ? url.split('youtu.be/')[1]?.split('?')[0]
+              : new URLSearchParams(new URL(url).search).get('v')
+            return `https://www.youtube.com/embed/${videoId}`
+          }
+          // Vimeo
+          if (url.includes('vimeo.com')) {
+            const videoId = url.split('vimeo.com/')[1]?.split('?')[0]
+            return `https://player.vimeo.com/video/${videoId}`
+          }
+          return url
+        }
+
+        const embedUrl = getEmbedUrl(value.url)
+
+        return (
+          <figure className="my-8">
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
+              <iframe
+                src={embedUrl}
+                title={value.caption || 'Video'}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+            {value.caption && (
+              <figcaption className="mt-3 text-sm text-muted-foreground text-center">
+                {value.caption}
+              </figcaption>
+            )}
+          </figure>
+        )
+      },
     },
   };
 
