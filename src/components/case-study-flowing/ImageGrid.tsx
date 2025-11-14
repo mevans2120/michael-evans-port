@@ -22,16 +22,15 @@ export function ImageGrid({ images }: ImageGridProps) {
         {images.map((image) => {
           if (!image?.asset) return null
 
-          const imageUrl = urlFor(image.asset).url()
+          const imageUrl = urlFor(image).url()
 
           return (
             <figure key={image._key} className="space-y-3">
-              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
-                <Image
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
                   src={imageUrl}
                   alt={image.alt || ''}
-                  fill
-                  className="object-cover"
+                  className="w-full h-auto object-contain rounded-lg"
                 />
               </div>
               {image.caption && (

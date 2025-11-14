@@ -43,25 +43,70 @@ export function ArticleContent({ content }: ArticleContentProps) {
       image: ({ value }: any) => {
         if (!value?.asset) return null
 
-        const imageUrl = urlFor(value.asset).url()
+        const imageUrl = urlFor(value).url()
+        const style = value.style || 'fullWidth' // Fallback for existing images without style
 
-        return (
-          <figure className="my-8">
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-muted">
-              <Image
-                src={imageUrl}
-                alt={value.alt || ''}
-                fill
-                className="object-cover"
-              />
-            </div>
-            {value.caption && (
-              <figcaption className="mt-3 text-sm text-muted-foreground text-center">
-                {value.caption}
-              </figcaption>
-            )}
-          </figure>
-        )
+        // Full width (respects Sanity crop)
+        if (style === 'fullWidth') {
+          return (
+            <figure className="my-8">
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto object-contain rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground text-center">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        // Float right variant (respects Sanity crop)
+        if (style === 'floatRight') {
+          return (
+            <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
+              <div className="relative w-full h-auto max-h-[400px] rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto max-h-[400px] object-contain rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        // Float right portrait variant (respects Sanity crop)
+        if (style === 'floatRightPortrait') {
+          return (
+            <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
+              <div className="relative w-full h-auto max-h-[600px] rounded-lg overflow-hidden bg-muted">
+                <img
+                  src={imageUrl}
+                  alt={value.alt || ''}
+                  className="w-full h-auto max-h-[600px] object-contain rounded-lg"
+                />
+              </div>
+              {value.caption && (
+                <figcaption className="mt-3 text-sm text-muted-foreground">
+                  {value.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        return null
       },
 
       // Image Grid
@@ -176,6 +221,28 @@ export function ArticleContent({ content }: ArticleContentProps) {
         <blockquote className="my-8 pl-6 border-l-4 border-accent text-xl italic text-muted-foreground">
           {children}
         </blockquote>
+      ),
+    },
+
+    list: {
+      bullet: ({ children }) => (
+        <ul className="space-y-2 my-6 ml-6 list-disc list-outside text-lg leading-relaxed text-muted-foreground">
+          {children}
+        </ul>
+      ),
+      number: ({ children }) => (
+        <ol className="space-y-2 my-6 ml-6 list-decimal list-outside text-lg leading-relaxed text-muted-foreground">
+          {children}
+        </ol>
+      ),
+    },
+
+    listItem: {
+      bullet: ({ children }) => (
+        <li className="pl-2">{children}</li>
+      ),
+      number: ({ children }) => (
+        <li className="pl-2">{children}</li>
       ),
     },
 

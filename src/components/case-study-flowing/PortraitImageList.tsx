@@ -28,20 +28,19 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
         {images.map((image) => {
           if (!image?.asset) return null
 
-          const imageUrl = urlFor(image.asset).url()
+          const imageUrl = urlFor(image).url()
 
           return (
-            <figure key={image._key} className="flex-shrink-0 space-y-3 w-[240px]">
-              <div className="relative w-full h-[500px] border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted">
-                <Image
+            <figure key={image._key} className="flex-shrink-0 flex flex-col gap-3 w-fit">
+              <div className="border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted">
+                <img
                   src={imageUrl}
                   alt={image.alt || ''}
-                  fill
-                  className="object-cover"
+                  className="h-[500px] w-auto object-contain rounded-[2px] block max-w-full"
                 />
               </div>
               {image.caption && (
-                <figcaption className="text-sm text-muted-foreground text-center">
+                <figcaption className="text-sm text-muted-foreground text-center w-0 min-w-full">
                   {image.caption}
                 </figcaption>
               )}
