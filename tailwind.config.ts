@@ -22,6 +22,9 @@ export default {
 				sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
 				serif: ['var(--font-serif)', 'Georgia', 'serif'],
 			},
+			height: {
+				'dvh': '100dvh', // Dynamic viewport height for mobile browsers
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

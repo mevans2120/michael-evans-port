@@ -15,7 +15,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
   return (
     <div
       className={cn(
-        'flex h-screen w-screen bg-background overflow-hidden lg:pt-0',
+        'flex h-dvh w-screen bg-background overflow-hidden lg:pt-0',
         'transition-all duration-normal ease-smooth',
         // Always keep padding if chat is expanded (it has its own header)
         // Otherwise, toggle padding based on header visibility

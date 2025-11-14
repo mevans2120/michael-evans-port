@@ -70,10 +70,10 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   // Get dynamic height classes based on state
   const getHeightClasses = () => {
     if (isMobileVersion) {
-      return 'h-screen'; // Always full screen when rendered from MobileChatFooter
+      return 'h-dvh'; // Always full screen when rendered from MobileChatFooter
     }
     if (!isDesktop) {
-      return chatExpanded ? 'h-screen' : 'h-auto min-h-0';
+      return chatExpanded ? 'h-dvh' : 'h-auto min-h-0';
     }
     return chatExpanded ? 'lg:h-full' : 'lg:h-[34%]';
   };
