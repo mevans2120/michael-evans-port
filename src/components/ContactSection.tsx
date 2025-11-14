@@ -35,7 +35,7 @@ export default function ContactSection({ data }: ContactSectionProps) {
         {/* Left: Header */}
         <div className="md:w-1/2">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light text-foreground mb-4 leading-tight">
-            Get in <span className="text-gradient">touch</span>
+            <span className="text-gradient">Contact</span>
           </h1>
           <p className="text-lg text-muted-foreground">
             {data.subheading}
