@@ -29,13 +29,11 @@ export function VisualEditingWrapper() {
         // Always skip revalidation for mutations - let WebSocket handle updates
         // This prevents aggressive full-page revalidation
         if (payload.source === 'mutation') {
-          console.log('[VisualEditing] Mutation detected, skipping revalidation (livePreviewEnabled:', payload.livePreviewEnabled, ')')
           return // No refresh needed - WebSocket handles it when connected
         }
 
         // For manual refreshes, allow default behavior
         if (payload.source === 'manual') {
-          console.log('[VisualEditing] Manual refresh triggered')
           // Let default behavior handle manual refresh
         }
       }}

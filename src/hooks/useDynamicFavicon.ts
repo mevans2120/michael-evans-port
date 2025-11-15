@@ -58,11 +58,9 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
 
     // Update favicon link element
     updateFaviconLink(faviconDataUrl);
-    console.log('✅ Dynamic favicon generated successfully');
   };
 
   const useFallbackFavicon = () => {
-    console.log('⚠️  Using fallback static favicon');
     // Remove any dynamically generated favicons
     const existingLinks = document.querySelectorAll('link[rel*="icon"]');
     existingLinks.forEach(link => link.remove());

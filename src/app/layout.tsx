@@ -55,6 +55,9 @@ export default async function RootLayout({
   const times = SunCalc.getTimes(now, PORTLAND_LAT, PORTLAND_LON);
   const isDayTime = now >= times.sunrise && now < times.sunset;
 
+  // Get GA measurement ID from environment (server-side access is reliable)
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
   // Day colors (Coral) vs Evening colors (Purple)
   const accentColors = isDayTime
     ? {
@@ -110,7 +113,7 @@ export default async function RootLayout({
             </TimeThemeProvider>
           </QueryProvider>
         </ThemeProvider>
-        <GoogleAnalytics />
+        <GoogleAnalytics measurementId={gaId} />
         <Analytics />
         <SpeedInsights />
       </body>

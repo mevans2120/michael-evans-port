@@ -53,23 +53,9 @@ export function useScrollDirection({
     setScrollY(mainContent.scrollTop)
     setIsAtTop(mainContent.scrollTop < topThreshold)
 
-    console.log('[useScrollDirection] Hook initialized', {
-      initialScrollY: mainContent.scrollTop,
-      threshold,
-      topThreshold,
-      element: 'main-content',
-    })
-
     const updateScrollDirection = () => {
       const currentScrollY = mainContent.scrollTop
       const scrollDelta = currentScrollY - lastScrollY.current
-
-      console.log('[useScrollDirection] updateScrollDirection called', {
-        currentScrollY,
-        lastScrollY: lastScrollY.current,
-        scrollDelta,
-        threshold,
-      })
 
       // Always update scroll position and isAtTop
       setScrollY(currentScrollY)
@@ -78,8 +64,6 @@ export function useScrollDirection({
       // Check if we've scrolled past the threshold for direction change
       if (Math.abs(scrollDelta) > threshold) {
         const newDirection: ScrollDirection = scrollDelta > 0 ? 'down' : 'up'
-
-        console.log('[useScrollDirection] Threshold exceeded, direction:', newDirection)
 
         setScrollDirection(newDirection)
 
@@ -92,7 +76,6 @@ export function useScrollDirection({
     }
 
     const onScroll = () => {
-      console.log('[useScrollDirection] onScroll fired, scrollTop:', mainContent.scrollTop)
       // Use RAF for performance - only update once per frame
       if (!ticking.current) {
         window.requestAnimationFrame(updateScrollDirection)
@@ -101,12 +84,10 @@ export function useScrollDirection({
     }
 
     // Add scroll listener to main-content element
-    console.log('[useScrollDirection] Adding scroll listener to #main-content')
     mainContent.addEventListener('scroll', onScroll, { passive: true })
 
     // Cleanup
     return () => {
-      console.log('[useScrollDirection] Removing scroll listener from #main-content')
       mainContent.removeEventListener('scroll', onScroll)
     }
   }, [threshold, topThreshold])

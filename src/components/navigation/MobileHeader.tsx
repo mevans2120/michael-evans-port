@@ -34,9 +34,6 @@ export function MobileHeader({ onMenuClick, chatExpanded, mobileMenuOpen }: Mobi
     return null;
   }
 
-  // Debug: log when shouldHide changes
-  console.log('[MobileHeader] Render', { scrollDirection, isAtTop, mobileMenuOpen, shouldHide });
-
   return (
     <header
       className={cn(

@@ -8,7 +8,47 @@
 
 **Status**: Full content ingestion complete with Sanity CMS integration enabled. Chatbot now has access to 242 chunks of knowledge including all projects, case studies, and transcripts.
 
-## ✅ Recent Accomplishments (November 14, 2025 - Latest)
+## ✅ Recent Accomplishments (November 15, 2025 - Latest)
+
+### Google Analytics Fix & Debug Logging Cleanup - COMPLETE 🎉
+
+**Issue**: Google Analytics tag was not firing due to `NEXT_PUBLIC_` environment variable not being accessible in client components (Next.js 15.5.6 regression).
+
+**Root Cause**: Environment variables with `NEXT_PUBLIC_` prefix are not reliably accessible in client components in Next.js 15.3+.
+
+**Solution**: Pass measurement ID as prop from server component where environment variables are reliably accessible.
+
+**Implementation**:
+
+**Files Modified:**
+1. **`/src/components/GoogleAnalytics.tsx`** (complete rewrite)
+   - Now accepts `measurementId` as a prop instead of reading from `process.env`
+   - Added route change tracking using `usePathname()` and `useSearchParams()`
+   - Tracks SPA navigation automatically
+   - Added TypeScript declarations for `window.gtag`
+   - Removed all debug logging (6 console statements removed)
+
+2. **`/src/app/layout.tsx`** (lines 59, 116)
+   - Reads `NEXT_PUBLIC_GA_MEASUREMENT_ID` from environment on server side
+   - Passes measurement ID to GoogleAnalytics component as prop
+
+**Debug Logging Cleanup** (18 statements removed):
+3. **`/src/components/navigation/MobileHeader.tsx`** - Removed 1 log
+4. **`/src/components/VisualEditingWrapper.tsx`** - Removed 2 logs
+5. **`/src/components/design-concepts/TerminalDark.tsx`** - Removed 1 log
+6. **`/src/hooks/useDynamicFavicon.ts`** - Removed 2 logs
+7. **`/src/hooks/useScrollDirection.ts`** - Removed 6 logs
+
+**Results**:
+- ✅ Google Analytics now firing correctly
+- ✅ Automatic page view tracking on route changes
+- ✅ No console pollution (18 debug logs removed)
+- ✅ Production-ready implementation
+- ✅ Works in Next.js 15.5.6
+
+**Commit**: TBD - "Fix GA environment variable access and remove debug logging"
+
+---
 
 ### Google Analytics 4 Integration - COMPLETE 🎉
 
