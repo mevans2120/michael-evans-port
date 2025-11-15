@@ -46,7 +46,7 @@
 - ✅ Production-ready implementation
 - ✅ Works in Next.js 15.5.6
 
-**Commit**: TBD - "Fix GA environment variable access and remove debug logging"
+**Commit**: `f707270` - "Fix GA environment variable access and remove debug logging"
 
 ---
 
