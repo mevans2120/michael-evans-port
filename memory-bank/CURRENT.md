@@ -10,6 +10,127 @@
 
 ## ✅ Recent Accomplishments (November 14, 2025 - Latest)
 
+### Google Analytics 4 Integration - COMPLETE 🎉
+
+**Goal**: Add Google Analytics tracking following Next.js best practices.
+
+**Requirements**:
+- Use Next.js Script component with optimal loading strategy
+- Environment-based configuration
+- Client-side only component
+- Graceful handling of missing configuration
+
+**Solution**: Custom GoogleAnalytics component using Script component with afterInteractive strategy.
+
+**Implementation**:
+
+**Files Created:**
+1. **`/src/components/GoogleAnalytics.tsx`**
+   - Client component with `'use client'` directive
+   - Uses Next.js `Script` component for optimal performance
+   - Strategy: `afterInteractive` (loads after page becomes interactive)
+   - Reads measurement ID from `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+   - Returns null gracefully if measurement ID not configured
+   - Loads gtag.js and configures tracking
+
+**Files Modified:**
+2. **`/src/app/layout.tsx`** (lines 10, 12, 113)
+   - Imported GoogleAnalytics component
+   - Added to body alongside Vercel Analytics and SpeedInsights
+   - Loads on every page automatically
+
+3. **`.env.local`** (lines 47-48)
+   - Added `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-DWNZFHBFHB`
+
+4. **`.env.example`** (lines 49-52)
+   - Documented environment variable for production deployments
+   - Added helpful comment with Google Analytics setup URL
+
+**Best Practices Followed**:
+- **Next.js Script component**: Uses `strategy="afterInteractive"` for optimal loading
+- **Environment variables**: Uses `NEXT_PUBLIC_` prefix for client-side access
+- **Client-side only**: Properly marked with `'use client'`
+- **Type safety**: Uses TypeScript
+- **No layout shift**: Loads after page is interactive
+- **Automatic tracking**: Tracks all pageviews automatically
+
+**Results**:
+- ✅ Build passes successfully
+- ✅ Google Analytics tracking active (measurement ID: G-DWNZFHBFHB)
+- ✅ Optimal performance (afterInteractive strategy)
+- ✅ Environment-based configuration
+- ✅ Ready for production deployment
+
+**Commit**: `057c5f7` - "Add Google Analytics 4 tracking"
+
+---
+
+### Blog Post Rich Image Types (Phase 1) - COMPLETE 🎉
+
+**Goal**: Port rich image types from project case studies to blog posts, sharing components to avoid code duplication.
+
+**Requirements**:
+- Add image style variants (fullWidth, floatLeft, floatRight, floatRightPortrait)
+- Add ImageGrid support (2-6 images in 2-column grid)
+- Add PortraitImageList support (1-10 portrait images with horizontal scrolling)
+- Add VideoEmbed support (YouTube/Vimeo)
+- Share existing components from case-study-flowing directory
+- Maintain backward compatibility for existing blog images
+
+**Solution**: Enhanced blog schema and BlogContent renderer to use shared components from project case studies.
+
+**Implementation**:
+
+**Files Modified:**
+
+1. **`/sanity/schemas/blog.ts`** (lines 100-270)
+   - Added `style` field to existing image type with 4 variants:
+     - Full Width (16:9) - default
+     - Float Left (4:3)
+     - Float Right (4:3)
+     - Float Right Portrait
+   - Added `ImageGrid` type definition (2-6 images, 2-column grid, with captions)
+   - Added `PortraitImageList` type definition (1-10 portrait images, horizontal scrolling)
+   - Added `VideoEmbed` type definition (YouTube/Vimeo URL with caption)
+   - All types match project schema exactly for consistency
+
+2. **`/src/components/blog/BlogContent.tsx`** (lines 5-6, 70-213)
+   - Imported ImageGrid and PortraitImageList components from `case-study-flowing/`
+   - Enhanced image renderer with style-based layout variants:
+     - fullWidth: Full container width, object-contain
+     - floatLeft: 45% width on desktop, floated left
+     - floatRight: 45% width on desktop, floated right
+     - floatRightPortrait: 45% width on desktop, floated right (portrait aspect)
+   - Added imageGrid handler: passes images to ImageGrid component
+   - Added portraitImageList handler: passes images to PortraitImageList component
+   - Added videoEmbed handler: YouTube/Vimeo URL parsing and iframe embed
+   - Backward compatible: existing images default to fullWidth style
+
+**Key Features**:
+- **Component reuse**: All rendering logic shared with project case studies (zero duplication)
+- **Backward compatible**: Existing blog images automatically use fullWidth style
+- **Sanity Studio**: New content blocks immediately available in blog post editor
+- **Consistent styling**: Matches project case study appearance exactly
+- **Video support**: Automatic YouTube/Vimeo ID extraction and embed
+- **Responsive**: All layouts work on mobile and desktop
+
+**Results**:
+- ✅ Build passes successfully
+- ✅ 296 lines added to enhance blog functionality
+- ✅ Zero code duplication (reused existing components)
+- ✅ Blog posts now have same rich media capabilities as case studies
+- ✅ Available in Sanity Studio at `/studio`
+
+**What's Available in Sanity**:
+- 4 image layout options (fullWidth, floatLeft, floatRight, floatRightPortrait)
+- Image grids for showcasing multiple images
+- Portrait image carousels for mobile screenshots
+- Video embeds for YouTube/Vimeo content
+
+**Commit**: `1c15a50` - "Add rich image types to blog posts (Phase 1)"
+
+---
+
 ### Portrait Image List Horizontal Scrolling - COMPLETE 🎉
 
 **Goal**: Enable horizontal scrolling for portrait image lists to support more than 3 images.
