@@ -14,6 +14,7 @@ import { SanityLive } from "@/sanity/lib/live";
 import { VisualEditingWrapper } from "@/components/VisualEditingWrapper";
 import { draftMode } from "next/headers";
 import * as SunCalc from 'suncalc';
+import { Suspense } from "react";
 
 // DM Sans is a sans-serif font for headers and UI
 const dmSans = DM_Sans({
@@ -113,7 +114,9 @@ export default async function RootLayout({
             </TimeThemeProvider>
           </QueryProvider>
         </ThemeProvider>
-        <GoogleAnalytics measurementId={gaId} />
+        <Suspense fallback={null}>
+          <GoogleAnalytics measurementId={gaId} />
+        </Suspense>
         <Analytics />
         <SpeedInsights />
       </body>
