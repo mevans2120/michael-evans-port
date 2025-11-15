@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { SanityLive } from "@/sanity/lib/live";
 import { VisualEditingWrapper } from "@/components/VisualEditingWrapper";
 import { draftMode } from "next/headers";
@@ -109,6 +110,7 @@ export default async function RootLayout({
             </TimeThemeProvider>
           </QueryProvider>
         </ThemeProvider>
+        <GoogleAnalytics />
         <Analytics />
         <SpeedInsights />
       </body>
