@@ -247,10 +247,10 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
       )}
       aria-label={`View ${metadata.category}: ${metadata.title}${!isInternalLink ? ' (opens in new tab)' : ''}`}
     >
-      <div className="flex flex-col md:flex-row gap-4 p-4">
-        {/* Image */}
+      <div className="flex flex-col md:flex-row gap-4 p-4 md:min-h-[164px]">
+        {/* Image - taller aspect ratio on mobile */}
         {hasImage ? (
-          <div className="relative w-full md:w-32 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+          <div className="relative w-full md:w-32 h-48 md:h-32 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
             <Image
               src={metadata.imageUrl}
               alt={metadata.title}
@@ -260,13 +260,13 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
             />
           </div>
         ) : (
-          <div className="w-full md:w-32 h-32 rounded-lg flex-shrink-0 bg-gradient-purple flex items-center justify-center">
+          <div className="w-full md:w-32 h-48 md:h-32 rounded-lg flex-shrink-0 bg-gradient-purple flex items-center justify-center">
             <FileText className="w-12 h-12 text-white opacity-80" aria-hidden="true" />
           </div>
         )}
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
+        {/* Content - flex column to maintain consistent height */}
+        <div className="flex-1 min-w-0 flex flex-col">
           {/* Category badge */}
           <div className="text-xs font-medium text-accent dark:text-accent-light uppercase tracking-wider mb-1">
             {metadata.category}
@@ -277,16 +277,18 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
             {metadata.title}
           </h3>
 
-          {/* Description with ellipsis (3 lines max) */}
-          {metadata.description ? (
-            <p className="text-sm text-muted-foreground line-clamp-3">
-              {metadata.description}
-            </p>
-          ) : (
-            <p className="text-sm text-muted-foreground italic">
-              Click to view {metadata.category.toLowerCase()}
-            </p>
-          )}
+          {/* Description - hidden on mobile, shown on desktop with consistent height */}
+          <div className="hidden md:block flex-1">
+            {metadata.description ? (
+              <p className="text-sm text-muted-foreground line-clamp-3">
+                {metadata.description}
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground italic">
+                Click to view {metadata.category.toLowerCase()}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </Link>

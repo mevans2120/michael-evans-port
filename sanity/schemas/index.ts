@@ -5,12 +5,10 @@ import contactPage from './contactPage'
 import blogIndexPage from './blogIndexPage'
 import caseStudiesIndexPage from './caseStudiesIndexPage'
 import blog from './blog'
-import timelinePhase from './timelinePhase'
-import workflowStep from './workflowStep'
-import projectCard from './projectCard'
 import chatPrompts from './chatPrompts'
 import footer from './footer'
 import seoSettings from './seoSettings'
+import viewMoreProjectsSettings from './viewMoreProjectsSettings'
 
 // Object types (reusable)
 import { seoType } from './objects/seo'
@@ -27,10 +25,8 @@ export const schemaTypes = [
   blogIndexPage,
   caseStudiesIndexPage,
   blog,
-  timelinePhase,
-  workflowStep,
-  projectCard,
   chatPrompts,
   footer,
   seoSettings,
+  viewMoreProjectsSettings,
 ]

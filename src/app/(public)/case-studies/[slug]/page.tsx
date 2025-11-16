@@ -7,9 +7,9 @@ import {
   EditorialHero,
   EditorialMetrics,
   ContentSlide,
-  EditorialCTA,
 } from '@/components/case-study-editorial'
 import { FlowingArticle } from '@/components/case-study-flowing'
+import { ViewMoreProjects } from '@/components/view-more-projects'
 
 interface EditorialCaseStudyData {
   title: string
@@ -248,10 +248,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Call to Action */}
-      {project.callToAction && (
-        <EditorialCTA text={project.callToAction.text} link={project.callToAction.link} />
-      )}
+      {/* View More Projects Section */}
+      <ViewMoreProjects currentSlug={slug} />
     </div>
   )
 }
