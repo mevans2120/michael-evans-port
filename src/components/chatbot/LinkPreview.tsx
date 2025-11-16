@@ -278,17 +278,13 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
           </h3>
 
           {/* Description - hidden on mobile, shown on desktop with consistent height */}
-          <div className="hidden md:block flex-1">
-            {metadata.description ? (
+          {metadata.description && (
+            <div className="hidden md:block flex-1">
               <p className="text-sm text-muted-foreground line-clamp-3">
                 {metadata.description}
               </p>
-            ) : (
-              <p className="text-sm text-muted-foreground italic">
-                Click to view {metadata.category.toLowerCase()}
-              </p>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </Link>

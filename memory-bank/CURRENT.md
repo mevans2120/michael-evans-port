@@ -8,7 +8,66 @@
 
 **Status**: Full content ingestion complete with Sanity CMS integration enabled. Chatbot now has access to 242 chunks of knowledge including all projects, case studies, and transcripts.
 
-## ✅ Recent Accomplishments (November 15, 2025 - Latest)
+## ✅ Recent Accomplishments (November 16, 2025 - Latest)
+
+### Case Study Page Alignment & Polish - COMPLETE 🎉
+
+**Goal**: Fix alignment inconsistencies and polish UI details across case study pages.
+
+**Issues Identified**:
+1. **Redundant CTA text**: LinkPreview showed "Click to view [category]" when no description available
+2. **Misaligned content**: ViewMoreProjects used `max-w-6xl` while all other sections used `max-w-4xl`
+3. **Confusing separator**: Technologies section had border above instead of below
+
+**Solution**: Three targeted fixes for consistent, polished case study pages.
+
+**Files Modified**:
+
+1. **`/src/components/chatbot/LinkPreview.tsx`** (line 281-287)
+   - Removed redundant "Click to view {category}" fallback text
+   - Changed from conditional rendering with fallback to only showing description when present
+   - Cleaner cards without duplicative text (whole card is already clickable)
+   ```tsx
+   // Before: Showed "Click to view loyalty & reservations" when no description
+   // After: Shows only category badge and title when no description
+   {metadata.description && (
+     <div className="hidden md:block flex-1">
+       <p className="text-sm text-muted-foreground line-clamp-3">
+         {metadata.description}
+       </p>
+     </div>
+   )}
+   ```
+
+2. **`/src/components/view-more-projects/ViewMoreProjectsClient.tsx`** (line 60)
+   - Changed `max-w-6xl` to `max-w-4xl` for consistent alignment
+   - Now matches all other case study sections
+   - **Alignment audit revealed**:
+     - EditorialHero: `max-w-4xl` ✓
+     - EditorialMetrics: `max-w-4xl` ✓
+     - FlowingArticle: `max-w-4xl` ✓
+     - Technologies: `max-w-4xl` ✓
+     - ViewMoreProjects: `max-w-4xl` ✓ (fixed)
+
+3. **`/src/app/(public)/case-studies/[slug]/page.tsx`** (line 234)
+   - Changed `border-t` to `border-b` on Technologies section
+   - Moved horizontal line from above to below section
+   - Better visual hierarchy: line now separates article content from "Explore More Work"
+
+**Key Learnings**:
+- **Design system compliance**: All case study sections must use same max-width (`max-w-4xl`) for alignment
+- **UX polish**: Remove redundant text when interaction is already clear from context
+- **Visual hierarchy**: Borders should reinforce content structure, not create confusion
+
+**Results**:
+- ✅ Consistent horizontal alignment across all case study sections
+- ✅ Cleaner LinkPreview cards without redundant text
+- ✅ Better visual separation between article and recommendations
+- ✅ All changes follow existing design system patterns
+
+---
+
+## ✅ Recent Accomplishments (November 15, 2025)
 
 ### View More Projects Component - COMPLETE 🎉
 

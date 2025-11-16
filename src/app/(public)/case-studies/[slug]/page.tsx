@@ -231,7 +231,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
       {/* Technologies Section */}
       {project.technologies && project.technologies.length > 0 && (
-        <section className="max-w-4xl mx-auto px-6 py-16 border-t border-border dark:border-border">
+        <section className="max-w-4xl mx-auto px-6 py-16 border-b border-border dark:border-border">
           <h3 className="font-sans text-xs uppercase tracking-[2px] text-muted-foreground mb-6">
             Technologies Used
           </h3>

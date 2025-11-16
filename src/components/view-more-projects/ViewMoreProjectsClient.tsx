@@ -57,7 +57,7 @@ export function ViewMoreProjectsClient({ projects, settings }: ViewMoreProjectsC
       <div className="absolute top-[20%] left-[5%] w-[300px] h-[300px] rounded-full bg-accent/10 blur-[100px] pointer-events-none -z-10 opacity-50" />
       <div className="absolute bottom-[10%] right-[15%] w-[400px] h-[400px] rounded-full bg-accent/5 blur-[100px] pointer-events-none -z-10 opacity-50" />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Section Header - matching homepage style */}
         <div className={cn(
           "mb-12",
