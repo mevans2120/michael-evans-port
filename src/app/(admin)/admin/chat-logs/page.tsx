@@ -42,9 +42,16 @@ export default function ChatLogsPage() {
   const [selectedLog, setSelectedLog] = useState<ChatLog | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Check if we're in development
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   useEffect(() => {
-    fetchLogs();
-  }, []);
+    if (isDevelopment) {
+      fetchLogs();
+    } else {
+      setLoading(false);
+    }
+  }, [isDevelopment]);
 
   const fetchLogs = async () => {
     try {
@@ -104,6 +111,24 @@ export default function ChatLogsPage() {
   };
 
   const stats = calculateStats();
+
+  // Production environment message
+  if (!isDevelopment) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Development Only</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Chat logs are only available in development mode for privacy and security reasons.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

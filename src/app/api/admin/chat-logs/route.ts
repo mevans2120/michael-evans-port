@@ -12,6 +12,14 @@ import { verifyAdminAuth, createUnauthorizedResponse } from '@/lib/auth/admin-au
 export const runtime = 'edge';
 
 export async function GET(request: Request) {
+  // Only allow in development environment
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json(
+      { error: 'Not found' },
+      { status: 404 }
+    );
+  }
+
   // Verify authentication
   if (!verifyAdminAuth(request)) {
     return createUnauthorizedResponse();

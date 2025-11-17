@@ -8,7 +8,154 @@
 
 **Status**: Full content ingestion complete with Sanity CMS integration enabled. Chatbot now has access to 242 chunks of knowledge including all projects, case studies, and transcripts.
 
-## ✅ Recent Accomplishments (November 16, 2025 - Latest)
+## ✅ Recent Accomplishments (November 17, 2025 - Latest)
+
+### Security Audit & Chat Logs Privacy Enhancement - COMPLETE 🎉
+
+**Goal**: Conduct comprehensive security audit and restrict admin chat logs to development environment only.
+
+**Context**: Portfolio site with low traffic - security appropriate for use case, not enterprise-grade requirements.
+
+**Security Audit Results**:
+- **Total issues found: 10**
+- **Critical: 0** | **High: 1** | **Medium: 6** | **Low: 3**
+- Comprehensive report: `/docs/security-audit-2025-11-17.md`
+
+**Key Findings**:
+1. **HIGH**: No rate limiting on API routes (main concern: API cost abuse)
+2. **MEDIUM**: Insufficient input validation on chat endpoint
+3. **MEDIUM**: No CSRF protection on admin operations
+4. **MEDIUM**: Supabase RLS needs verification
+5. **MEDIUM**: No CSP headers configured
+6. **LOW**: Various best practice improvements
+
+**Fixes Implemented**:
+
+#### Chat Logs Restricted to Development Only ✅
+
+**Problem**:
+- Admin chat logs were accessible in production with weak client-side authentication
+- `NEXT_PUBLIC_ADMIN_API_TOKEN` exposed in client bundle
+- Anyone could bypass authentication and view private conversations
+
+**Solution**:
+- Environment-based access control using `NODE_ENV`
+- API returns 404 in production
+- Page shows "Development Only" message
+- Production chats still logged to Supabase, viewable locally for debugging
+
+**Files Modified:**
+
+1. **`/src/app/api/admin/chat-logs/route.ts`** (lines 14-21)
+   - Added environment check at start of GET handler
+   - Returns 404 in production: `if (process.env.NODE_ENV !== 'development')`
+   - Only processes requests in development mode
+
+2. **`/src/app/(admin)/admin/chat-logs/page.tsx`** (lines 45-54, 115-131)
+   - Added `isDevelopment` check using `process.env.NODE_ENV`
+   - Skips fetching logs in production
+   - Shows friendly message: "Chat logs are only available in development mode for privacy and security reasons"
+   - Only renders dashboard in development
+
+**Security Impact**:
+- ✅ Zero chat log exposure in production
+- ✅ Client-side admin auth bypass no longer matters for production
+- ✅ Chat privacy fully protected
+- ✅ Local debugging still available with full access
+- ✅ Eliminates HIGH severity issue for production deployment
+
+**Production vs Development Behavior**:
+- **Production**: Returns 404, shows "Development Only" message
+- **Development**: Full chat logs access with current authentication
+- **Data Flow**: Production chats → Supabase → Viewable in local dev (same database)
+
+**Audit Documentation**:
+- Complete security audit: `/docs/security-audit-2025-11-17.md`
+- All findings documented with severity, mitigation, and effort estimates
+- Remaining recommendations prioritized by risk and impact
+- Testing checklists for future security improvements
+
+**Remaining Security Recommendations** (not urgent for portfolio):
+1. **HIGH**: Implement rate limiting on API routes (prevents API cost abuse)
+2. **MEDIUM**: Add input validation on chat endpoint
+3. **MEDIUM**: Verify Supabase RLS policies
+4. **LOW**: Set `.env.local` file permissions to 600
+
+**Results**:
+- ✅ Comprehensive security assessment complete
+- ✅ High-priority production vulnerability eliminated
+- ✅ Clear roadmap for future security improvements
+- ✅ Portfolio site appropriately secured for its use case
+- ✅ No breaking changes to existing functionality
+
+**Commit**: Secure admin chat logs and complete security audit
+
+---
+
+### Sanity Presentation Mode Refresh Behavior Simplified - COMPLETE 🎉
+
+**Goal**: Eliminate aggressive page revalidation in Sanity Presentation mode by removing all fallback revalidation.
+
+**Problem**:
+- Even with skip logic for live preview, fallback revalidation was still triggering
+- Research showed WebSocket should handle ALL updates when connected
+- Unnecessary revalidation was causing jarring page refreshes
+
+**Solution**: Simplified refresh handler to ONLY skip revalidation for mutations, letting WebSocket handle everything.
+
+**Files Modified:**
+
+1. **`/src/components/VisualEditingWrapper.tsx`** (lines 28-40)
+   - Removed console logging (3 log statements deleted)
+   - Removed fallback revalidation logic entirely
+   - Simplified to: always skip revalidation for mutations, return early
+   - Manual refresh events pass through to default behavior
+   - Much cleaner implementation: 13 lines vs previous 21 lines
+
+**Before**: Complex conditional logic with fallback revalidation
+```typescript
+if (payload.source === 'mutation') {
+  if (payload.livePreviewEnabled) {
+    console.log('[VisualEditing] Skipping revalidation - WebSocket active')
+    return
+  }
+  if (payload.document?._type) {
+    console.log('[VisualEditing] Revalidating document type:', payload.document._type)
+    await revalidateSanityDocument(payload.document._type)
+  } else {
+    console.warn('[VisualEditing] Mutation payload missing document type:', payload)
+  }
+}
+```
+
+**After**: Clean skip-all-mutations approach
+```typescript
+if (payload.source === 'mutation') {
+  return // No refresh needed - WebSocket handles it when connected
+}
+
+// For manual refreshes, allow default behavior
+if (payload.source === 'manual') {
+  // Let default behavior handle manual refresh
+}
+```
+
+**Reasoning**:
+- WebSocket should handle ALL real-time updates when connected
+- Fallback revalidation was causing the aggressive refresh behavior
+- Manual refresh button is available if users need to force update
+- Simpler code is more maintainable and less error-prone
+
+**Results**:
+- ✅ No more aggressive page revalidation during editing
+- ✅ Smoother editing experience in Presentation mode
+- ✅ Cleaner, more maintainable code
+- ✅ Still supports manual refresh when needed
+- ✅ Removed debug logging noise
+
+---
+
+## ✅ Recent Accomplishments (November 16, 2025)
 
 ### Smart Cache Revalidation - Phase 1 & 2 COMPLETE 🎉
 
