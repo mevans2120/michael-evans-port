@@ -10,6 +10,98 @@
 
 ## ✅ Recent Accomplishments (November 16, 2025 - Latest)
 
+### Smart Cache Revalidation - Phase 1 & 2 COMPLETE 🎉
+
+**Goal**: Implement intelligent cache revalidation for Sanity CMS publishes - only invalidate affected pages when content is published (not on draft saves).
+
+**Problem**:
+- Production cache doesn't update when publishing in Sanity
+- Need surgical revalidation (not "nuclear" approach)
+- Should only trigger on publish, not on every draft save
+
+**Solution**: Phased implementation of smart, publish-triggered cache revalidation.
+
+**Implementation Plan**: Created comprehensive 5-phase plan at `/docs/sanity-cache-revalidation-plan.md`
+
+**Phases Completed**:
+
+### Phase 1: Publish Detection ✅
+**Files Modified**: `/src/app/api/webhooks/sanity/route.ts`
+
+**Changes**:
+- Added `isDraft()` helper function to detect draft documents
+- Draft documents have IDs starting with "drafts."
+- Skip processing for drafts with informational logging
+- Only process published content (clean document IDs)
+
+**Behavior**:
+```
+// Draft save (skipped):
+📨 Webhook received for: project (drafts.abc123)
+   ⏭️  Skipping draft document (not published yet)
+
+// Publish (processed):
+📨 Webhook received for: project (abc123)
+   ✅ Published document - processing...
+```
+
+### Phase 2: Smart Path Revalidation ✅
+**Files Modified**: `/src/app/api/webhooks/sanity/route.ts`
+
+**Changes**:
+- Imported `revalidatePath` from `next/cache`
+- Added `revalidateForDocument()` helper with type-specific logic
+- Revalidates paths after successful chatbot sync
+- Returns revalidated paths in webhook response
+- Graceful error handling (revalidation failures don't break webhook)
+
+**Revalidation Rules**:
+```typescript
+// Case Studies
+project → /case-studies/[slug], /case-studies
+
+// Blog Posts
+blog → /blog/[slug], /blog
+
+// Singletons
+profile → /about
+homepageHero → /
+contactPage → /contact
+
+// Global Content
+footer → /, /case-studies, /about, /contact
+siteSettings → all main pages
+```
+
+**Example Output**:
+```
+📨 Webhook received for: project (virgin-america)
+   ✅ Published document - processing...
+   🔄 Syncing project...
+   ✅ Synced 5 chunks
+
+   🔄 Revalidating cache...
+   ✅ Revalidated 2 path(s):
+      - /case-studies/virgin-america
+      - /case-studies
+```
+
+**Key Benefits**:
+- ✅ **Surgical revalidation**: Only affected paths, never entire site
+- ✅ **Publish-only**: Drafts ignored, no cache thrashing during editing
+- ✅ **Type-aware**: Different content types revalidate appropriate paths
+- ✅ **Non-breaking**: Revalidation failures don't crash webhook
+- ✅ **Transparent**: Clear logging of what was revalidated
+
+**Next Steps**:
+- Phase 3: Smart featured detection (optional - avoid homepage revalidation if content isn't featured)
+- Phase 4: Dynamic path handling (optional - more edge cases)
+- Phase 5: Enhanced error handling (optional - detailed error reporting)
+
+**Production Ready**: Phases 1-2 provide core functionality. Phases 3-5 are optional enhancements.
+
+---
+
 ### Case Study Page Alignment & Polish - COMPLETE 🎉
 
 **Goal**: Fix alignment inconsistencies and polish UI details across case study pages.
