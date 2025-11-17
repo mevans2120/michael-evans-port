@@ -1,0 +1,59 @@
+[
+  {
+    "_createdAt": "2025-11-04T21:49:46Z",
+    "_id": "projectCard-doa",
+    "_rev": "0N4MbPMTM10UuXbzIa2f9L",
+    "_type": "projectCard",
+    "_updatedAt": "2025-11-04T21:49:46Z",
+    "description": "Professional portfolio site showcasing high-resolution set construction work with optimized image loading, filterable project showcase, and Sanity CMS for easy portfolio updates. Solved the challenge of displaying visual work beautifully while maintaining fast page performance.",
+    "icon": "🎬",
+    "order": 1,
+    "projectName": "Department of Art",
+    "projectType": "Film & TV Set Construction · Portland",
+    "technologies": [
+      "Next.js",
+      "TypeScript",
+      "Sanity CMS",
+      "Tailwind",
+      "Jest",
+      "Playwright"
+    ]
+  },
+  {
+    "_createdAt": "2025-11-04T21:49:48Z",
+    "_id": "projectCard-karuna-gatton",
+    "_rev": "0N4MbPMTM10UuXbzIa2fLL",
+    "_type": "projectCard",
+    "_updatedAt": "2025-11-04T21:49:48Z",
+    "description": "Warm and authentic site for shamanic healing services featuring soft color palette, personal storytelling, clear service descriptions, testimonial showcases, and integrated booking system reducing conversion friction.",
+    "icon": "✨",
+    "order": 3,
+    "projectName": "Karuna Gatton",
+    "projectType": "Shamanic Healing · Eugene",
+    "technologies": [
+      "Next.js",
+      "TypeScript",
+      "Tailwind",
+      "Core Web Vitals"
+    ]
+  },
+  {
+    "_createdAt": "2025-11-04T21:49:47Z",
+    "_id": "projectCard-opal-creek",
+    "_rev": "C1NaVZZFNhf21TJHMfHNYd",
+    "_type": "projectCard",
+    "_updatedAt": "2025-11-04T21:49:47Z",
+    "description": "Enterprise consulting site with comprehensive security (CSP, HSTS headers), professional B2B design, case study templates for thought leadership, and content management enabling independent publishing of resources and expertise.",
+    "icon": "💼",
+    "order": 2,
+    "projectName": "Opal Creek",
+    "projectType": "NetSuite ERP Consulting · Portland",
+    "technologies": [
+      "Vite",
+      "React",
+      "TypeScript",
+      "Sanity CMS",
+      "shadcn/ui"
+    ]
+  }
+]

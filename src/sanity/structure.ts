@@ -4,4 +4,21 @@ import type {StructureResolver} from 'sanity/structure'
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
-    .items(S.documentTypeListItems())
+    .items([
+      // Singleton settings
+      S.listItem()
+        .title('View More Projects Settings')
+        .child(
+          S.editor()
+            .id('viewMoreProjectsSettings')
+            .schemaType('viewMoreProjectsSettings')
+            .documentId('viewMoreProjectsSettings')
+        ),
+
+      S.divider(),
+
+      // All other document types
+      ...S.documentTypeListItems().filter(
+        listItem => !['viewMoreProjectsSettings'].includes(listItem.getId() as string)
+      ),
+    ])

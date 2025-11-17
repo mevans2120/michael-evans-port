@@ -1,0 +1,68 @@
+[
+  {
+    "_createdAt": "2025-10-31T00:52:51Z",
+    "_id": "timelinePhase-continuous-evolution",
+    "_rev": "SREve7bOUfTqn6uTGxwfH0",
+    "_type": "timelinePhase",
+    "_updatedAt": "2025-10-31T02:43:44Z",
+    "description": "The workflow continues to evolve with each project, incorporating new patterns and capabilities. I'm now documenting these skills publicly and building specialized subagents that others can benefit from.",
+    "order": 6,
+    "phase": "Present",
+    "title": "Continuous Evolution"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:46Z",
+    "_id": "timelinePhase-experimentation",
+    "_rev": "T0zY3vaSb7fEMNaeUvBNww",
+    "_type": "timelinePhase",
+    "_updatedAt": "2025-10-31T02:43:39Z",
+    "description": "After completing the Casa Bonita project, I finally had time to pay attention to AI beyond just following the news. I started with Replit for rapid prototyping—it was accessible and required minimal setup. The kitchen timer experiment proved AI could build functional software quickly, but Replit's limitations became apparent.",
+    "order": 1,
+    "phase": "Early 2024",
+    "title": "Experimentation"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:50Z",
+    "_id": "timelinePhase-production-projects",
+    "_rev": "uU5Y9pmGe5l1IKNuwijDvF",
+    "_type": "timelinePhase",
+    "_updatedAt": "2025-10-31T02:43:43Z",
+    "description": "Since March 2024, I've generated over 1,000 GitHub commits across 30+ projects. The variety is remarkable: AI-powered specialized agents, autonomous analyzers, RAG-powered retrieval systems, full-stack applications, mobile apps, marketing websites, and developer tools.",
+    "order": 5,
+    "phase": "Fall 2024",
+    "title": "Production Projects"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:48Z",
+    "_id": "timelinePhase-production-ready",
+    "_rev": "uU5Y9pmGe5l1IKNuwijDmn",
+    "_type": "timelinePhase",
+    "_updatedAt": "2025-10-31T02:43:41Z",
+    "description": "The breakthrough came when I adopted Claude Code as my primary development environment. Unlike other tools, Claude Code runs in the terminal inside VS Code, giving it access to all files and CLI tools while maintaining the power and speed I needed.",
+    "order": 3,
+    "phase": "Mid 2024",
+    "title": "Production-Ready Development"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:49Z",
+    "_id": "timelinePhase-skills-ecosystem",
+    "_rev": "T0zY3vaSb7fEMNaeUvBO5u",
+    "_type": "timelinePhase",
+    "_updatedAt": "2025-10-31T02:43:42Z",
+    "description": "I developed a comprehensive workflow built around Claude Code's skills system, creating three complete skill suites: Design, Project Management, and Development. These weren't just scripts or shortcuts—they were specialized AI agents that could handle complex, multi-step tasks autonomously.",
+    "order": 4,
+    "phase": "Summer 2024",
+    "title": "Skills Ecosystem"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:47Z",
+    "_id": "timelinePhase-tool-discovery",
+    "_rev": "uU5Y9pmGe5l1IKNuwijDiZ",
+    "_type": "timelinePhase",
+    "_updatedAt": "2025-10-31T02:43:40Z",
+    "description": "I moved to Cursor after hearing it was a significant step up from Replit. Cursor offered much more flexibility by working with local files, which made it faster and more straightforward to verify work quality. I explored various AI coding assistants, testing their strengths and limitations.",
+    "order": 2,
+    "phase": "Spring 2024",
+    "title": "Tool Discovery"
+  }
+]

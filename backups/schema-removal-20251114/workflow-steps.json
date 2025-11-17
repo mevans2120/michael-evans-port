@@ -1,0 +1,46 @@
+[
+  {
+    "_createdAt": "2025-10-31T00:52:54Z",
+    "_id": "workflowStep-ai-extraction",
+    "_rev": "uU5Y9pmGe5l1IKNuwiZHfc",
+    "_type": "workflowStep",
+    "_updatedAt": "2025-10-31T00:52:54Z",
+    "description": "Mistral AI handles OCR to pull text from PDFs, while Claude analyzes medical instructions for context, identifying medications, activity restrictions, and creating structured tasks.",
+    "icon": "🤖",
+    "stepNumber": 2,
+    "title": "AI Content Extraction"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:56Z",
+    "_id": "workflowStep-patient-engagement",
+    "_rev": "SREve7bOUfTqn6uTGxqOzS",
+    "_type": "workflowStep",
+    "_updatedAt": "2025-10-31T00:52:56Z",
+    "description": "Mobile app delivers daily reminders, patients check off completed tasks, progress tracking provides visual feedback, and multi-channel notifications ensure critical reminders reach patients.",
+    "icon": "✅",
+    "stepNumber": 4,
+    "title": "Patient Engagement"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:53Z",
+    "_id": "workflowStep-provider-upload",
+    "_rev": "uU5Y9pmGe5l1IKNuwiZHbO",
+    "_type": "workflowStep",
+    "_updatedAt": "2025-10-31T00:52:53Z",
+    "description": "Providers upload PDF discharge instructions and generate a QR code with pre-filled patient data. Patients scan the code to instantly access their personalized timeline.",
+    "icon": "📄",
+    "stepNumber": 1,
+    "title": "Provider Upload"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:55Z",
+    "_id": "workflowStep-timeline-generation",
+    "_rev": "SREve7bOUfTqn6uTGxqOws",
+    "_type": "workflowStep",
+    "_updatedAt": "2025-10-31T00:52:55Z",
+    "description": "AI creates a personalized recovery timeline organized by day, week, and month, with automatic scheduling relative to the procedure date and context-aware task generation.",
+    "icon": "📅",
+    "stepNumber": 3,
+    "title": "Timeline Generation"
+  }
+]

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Board - View More Projects Component</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Pro:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #050510 0%, #0a0a1f 100%);
+      color: #f3f4f6;
+      padding: 60px 40px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #c788f5 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #9ca3af;
+      margin-bottom: 4rem;
+    }
+
+    .section {
+      margin-bottom: 5rem;
+    }
+
+    h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      color: #c788f5;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .color-swatch {
+      height: 120px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      transition: transform 200ms ease;
+      cursor: pointer;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .color-label {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    .type-sample {
+      margin: 20px 0;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    .meta-text {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .concept-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(199, 136, 245, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 300ms ease;
+    }
+
+    .concept-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(199, 136, 245, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .component-example {
+      background: #0a0a1f;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .interactive-demo {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(199, 136, 245, 0.05);
+      border-radius: 8px;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .interactive-demo:hover {
+      background: rgba(199, 136, 245, 0.1);
+      transform: translateX(8px);
+    }
+
+    .spacing-scale {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      margin: 2rem 0;
+    }
+
+    .spacing-bar {
+      background: linear-gradient(90deg, #c788f5, #a78bfa);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050510;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .animation-box {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #c788f5, #8b5cf6);
+      border-radius: 8px;
+      margin: 20px;
+      animation: pulse-scale 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-scale {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      background: rgba(199, 136, 245, 0.2);
+      border: 1px solid rgba(199, 136, 245, 0.3);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin: 4px;
+    }
+
+    .rationale-box {
+      background: rgba(139, 92, 246, 0.1);
+      border-left: 4px solid #c788f5;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .rationale-box h4 {
+      color: #c788f5;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>View More Projects Component</h1>
+  <p class="subtitle">Design concepts for encouraging exploration after reading case studies</p>
+
+  <!-- Design Challenge -->
+  <section class="section">
+    <h2>Design Challenge</h2>
+    <div class="rationale-box">
+      <h4>Goal</h4>
+      <p>Create a component that naturally encourages visitors to explore more projects after reading a case study, without being aggressive or disrupting the reading experience.</p>
+    </div>
+    <div class="rationale-box">
+      <h4>Context</h4>
+      <p>Appears at the bottom of editorial-style case study pages with magazine layout. Must feel like a natural continuation rather than an interruption.</p>
+    </div>
+  </section>
+
+  <!-- Color Palette -->
+  <section class="section">
+    <h2>Unified Color Palette</h2>
+    <p style="color: #9ca3af; margin-bottom: 1.5rem;">Leveraging the existing design system with purple accent variations</p>
+
+    <div class="color-palette">
+      <div class="color-swatch" style="background: #050510;">
+        <span>#050510</span>
+        <span class="color-label">Background Dark</span>
+      </div>
+      <div class="color-swatch" style="background: #c788f5;">
+        <span>#c788f5</span>
+        <span class="color-label">Accent Purple</span>
+      </div>
+      <div class="color-swatch" style="background: #a78bfa;">
+        <span>#a78bfa</span>
+        <span class="color-label">Accent Light</span>
+      </div>
+      <div class="color-swatch" style="background: #8b5cf6;">
+        <span>#8b5cf6</span>
+        <span class="color-label">Accent Dark</span>
+      </div>
+      <div class="color-swatch" style="background: rgba(199, 136, 245, 0.1);">
+        <span>accent/10</span>
+        <span class="color-label">Subtle BG</span>
+      </div>
+      <div class="color-swatch" style="background: #f3f4f6; color: #050510;">
+        <span>#f3f4f6</span>
+        <span class="color-label">Text Primary</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography Scale -->
+  <section class="section">
+    <h2>Typography Scale</h2>
+
+    <div class="type-sample">
+      <div style="font-family: 'Crimson Pro', serif; font-size: 32px; font-weight: 400;">
+        Explore More Work
+      </div>
+      <p class="meta-text">Section Header | Crimson Pro 32px | Editorial serif for continuity</p>
+    </div>
+
+    <div class="type-sample">
+      <div style="font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 600;">
+        Department of Art
+      </div>
+      <p class="meta-text">Project Title | Inter 24px Semi-bold | Clear hierarchy</p>
+    </div>
+
+    <div class="type-sample">
+      <div style="font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; color: #9ca3af;">
+        Professional portfolio site showcasing high-resolution set construction work with optimized image loading.
+      </div>
+      <p class="meta-text">Description | Inter 16px | Readable body text</p>
+    </div>
+
+    <div class="type-sample">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #c788f5;">
+        CASE STUDY
+      </div>
+      <p class="meta-text">Category Label | JetBrains Mono 12px | Technical accent</p>
+    </div>
+  </section>
+
+  <!-- Concept Directions -->
+  <section class="section">
+    <h2>Three Concept Directions</h2>
+
+    <div class="concept-grid">
+      <!-- Concept 1 -->
+      <div class="concept-card">
+        <h3>1. Card Grid</h3>
+        <p style="color: #c788f5; font-size: 0.9rem; margin-bottom: 1rem;">Safe & Refined</p>
+        <p style="margin-bottom: 1.5rem;">Rich project cards with visual hierarchy, featuring project images, descriptions, and clear CTAs. Familiar pattern that users understand.</p>
+
+        <div class="component-example">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+            <div style="background: rgba(199, 136, 245, 0.05); border: 1px solid rgba(199, 136, 245, 0.2); padding: 1rem; border-radius: 8px;">
+              <div style="height: 60px; background: linear-gradient(135deg, #c788f5, #8b5cf6); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+              <div style="font-weight: 600;">Project</div>
+            </div>
+            <div style="background: rgba(199, 136, 245, 0.05); border: 1px solid rgba(199, 136, 245, 0.2); padding: 1rem; border-radius: 8px;">
+              <div style="height: 60px; background: linear-gradient(135deg, #a78bfa, #c788f5); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+              <div style="font-weight: 600;">Project</div>
+            </div>
+            <div style="background: rgba(199, 136, 245, 0.05); border: 1px solid rgba(199, 136, 245, 0.2); padding: 1rem; border-radius: 8px;">
+              <div style="height: 60px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+              <div style="font-weight: 600;">Project</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <span class="tag">Familiar</span>
+          <span class="tag">Visual</span>
+          <span class="tag">Scannable</span>
+        </div>
+      </div>
+
+      <!-- Concept 2 -->
+      <div class="concept-card">
+        <h3>2. Editorial List</h3>
+        <p style="color: #a78bfa; font-size: 0.9rem; margin-bottom: 1rem;">Bold & Distinctive</p>
+        <p style="margin-bottom: 1.5rem;">Minimal text-focused list matching magazine aesthetic. Large typography, generous whitespace, subtle hover interactions.</p>
+
+        <div class="component-example">
+          <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 1.5rem 0;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">01 — Opal Creek Consulting</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">NetSuite ERP • Portland</div>
+          </div>
+          <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 1.5rem 0;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">02 — Department of Art</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">Film & TV • Portland</div>
+          </div>
+          <div style="padding: 1.5rem 0;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">03 — Karuna Gatton</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">Wellness • Eugene</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <span class="tag">Minimal</span>
+          <span class="tag">Editorial</span>
+          <span class="tag">Typography-first</span>
+        </div>
+      </div>
+
+      <!-- Concept 3 -->
+      <div class="concept-card">
+        <h3>3. Stacked Carousel</h3>
+        <p style="color: #8b5cf6; font-size: 0.9rem; margin-bottom: 1rem;">Experimental & Dynamic</p>
+        <p style="margin-bottom: 1.5rem;">Interactive horizontal scroll with overlapping cards. Playful depth, smooth animations, mobile-friendly swipe gestures.</p>
+
+        <div class="component-example">
+          <div style="position: relative; height: 120px;">
+            <div style="position: absolute; left: 0; top: 0; width: 200px; height: 100px; background: rgba(139, 92, 246, 0.3); border: 1px solid rgba(199, 136, 245, 0.3); border-radius: 8px; transform: translateX(0px); z-index: 3;"></div>
+            <div style="position: absolute; left: 60px; top: 10px; width: 200px; height: 100px; background: rgba(167, 139, 250, 0.2); border: 1px solid rgba(199, 136, 245, 0.2); border-radius: 8px; transform: scale(0.95); z-index: 2;"></div>
+            <div style="position: absolute; left: 120px; top: 20px; width: 200px; height: 100px; background: rgba(199, 136, 245, 0.1); border: 1px solid rgba(199, 136, 245, 0.1); border-radius: 8px; transform: scale(0.9); z-index: 1;"></div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <span class="tag">Interactive</span>
+          <span class="tag">Playful</span>
+          <span class="tag">Mobile-friendly</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spacing System -->
+  <section class="section">
+    <h2>Spacing Scale</h2>
+    <p style="color: #9ca3af; margin-bottom: 1.5rem;">Consistent spacing units for harmony with existing design</p>
+
+    <div class="spacing-scale">
+      <div class="spacing-bar" style="width: 4px; height: 40px;">4</div>
+      <div class="spacing-bar" style="width: 8px; height: 60px;">8</div>
+      <div class="spacing-bar" style="width: 16px; height: 80px;">16</div>
+      <div class="spacing-bar" style="width: 24px; height: 100px;">24</div>
+      <div class="spacing-bar" style="width: 32px; height: 120px;">32</div>
+      <div class="spacing-bar" style="width: 48px; height: 140px;">48</div>
+      <div class="spacing-bar" style="width: 64px; height: 160px;">64</div>
+    </div>
+  </section>
+
+  <!-- Animation Patterns -->
+  <section class="section">
+    <h2>Animation & Interaction</h2>
+
+    <div class="component-example">
+      <p style="margin-bottom: 1rem;">Hover to see interaction pattern:</p>
+
+      <div class="interactive-demo">
+        <div style="flex: 1;">
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">Smooth Transitions</div>
+          <div style="color: #9ca3af; font-size: 0.9rem;">300ms ease-out for natural feel</div>
+        </div>
+        <div style="width: 40px; display: flex; align-items: center; color: #c788f5;">→</div>
+      </div>
+
+      <div style="margin-top: 2rem; text-align: center;">
+        <div class="animation-box"></div>
+        <p class="meta-text">Subtle scale animation on hover/focus</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design Rationale -->
+  <section class="section">
+    <h2>Design Rationale</h2>
+
+    <div class="rationale-box">
+      <h4>Why These Three Concepts?</h4>
+      <p>Each concept explores a different interaction model and visual hierarchy approach:</p>
+      <ul style="margin-top: 1rem; list-style: none;">
+        <li style="margin: 0.5rem 0;">• <strong>Card Grid:</strong> Visual scanning, quick overview, familiar pattern</li>
+        <li style="margin: 0.5rem 0;">• <strong>Editorial List:</strong> Reading flow continuity, minimal cognitive switch</li>
+        <li style="margin: 0.5rem 0;">• <strong>Carousel:</strong> Discovery mindset, playful exploration, space-efficient</li>
+      </ul>
+    </div>
+
+    <div class="rationale-box">
+      <h4>Responsive Considerations</h4>
+      <p>All concepts adapt gracefully:</p>
+      <ul style="margin-top: 1rem; list-style: none;">
+        <li style="margin: 0.5rem 0;">• Mobile: Single column or horizontal scroll</li>
+        <li style="margin: 0.5rem 0;">• Tablet: 2-column grid or wider cards</li>
+        <li style="margin: 0.5rem 0;">• Desktop: Full 3-column or expansive list</li>
+      </ul>
+    </div>
+
+    <div class="rationale-box">
+      <h4>Accessibility Built-in</h4>
+      <p>Each concept includes:</p>
+      <ul style="margin-top: 1rem; list-style: none;">
+        <li style="margin: 0.5rem 0;">• Keyboard navigation support</li>
+        <li style="margin: 0.5rem 0;">• ARIA labels for screen readers</li>
+        <li style="margin: 0.5rem 0;">• Focus states matching brand</li>
+        <li style="margin: 0.5rem 0;">• Sufficient color contrast (WCAG AA)</li>
+      </ul>
+    </div>
+  </section>
+
+</body>
+</html>

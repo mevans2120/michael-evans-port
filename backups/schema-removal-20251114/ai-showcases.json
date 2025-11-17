@@ -1,0 +1,1188 @@
+[
+  {
+    "_createdAt": "2025-10-31T00:52:52Z",
+    "_id": "aiShowcase-ai-workflow",
+    "_rev": "ZkomLehjbvlyB7lUsKFwek",
+    "_system": {
+      "base": {
+        "id": "aiShowcase-ai-workflow",
+        "rev": "C1NaVZZFNhf21TJHMfRsaf"
+      }
+    },
+    "_type": "aiShowcase",
+    "_updatedAt": "2025-11-08T00:00:06Z",
+    "callToAction": {
+      "link": "/ai-projects",
+      "text": "View More AI Projects"
+    },
+    "category": "ai-workflow",
+    "featured": true,
+    "featuredImage": {
+      "_type": "image",
+      "alt": "two projects and three instances of Claude Code ",
+      "asset": {
+        "_ref": "image-b61766627f0fe8c7aec046377eb51984d32bbfc6-5106x2830-png",
+        "_type": "reference"
+      }
+    },
+    "heroSection": {
+      "badge": "AI Workflow Showcase",
+      "subtitle": "From product manager to full-stack developer: How AI-assisted development changed everything about building software",
+      "summary": "What once took a year to build could now be accomplished in weeks with AI assistance. This is the story of discovering, refining, and productionizing an AI-powered development workflow that's shipped 20+ projects and generated 1000+ commits since March 2024.",
+      "title": "My AI Workflow: Building Production Software with Claude Code"
+    },
+    "horizontalSectionHeading": "The Journey from Experimentation to Production",
+    "horizontalSectionLabel": "Phase 02 — Evolution",
+    "metrics": [
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtfU",
+        "description": "Since March 2024",
+        "label": "GitHub Commits",
+        "value": "1000+"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtik",
+        "description": "AI-powered applications",
+        "label": "Projects Shipped",
+        "value": "30+"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtm0",
+        "description": "Previously 1 month",
+        "label": "Sanity CMS Setup",
+        "value": "< 1 Week"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtpG",
+        "description": "Dungeon Tracker example",
+        "label": "Functional Prototype",
+        "value": "< 1 Hour"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtsW",
+        "description": "vs traditional development",
+        "label": "Speed Increase",
+        "value": "3-6x"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtvm",
+        "description": "Project Analyzer accuracy",
+        "label": "Confidence Score",
+        "value": "90%+"
+      }
+    ],
+    "order": 1,
+    "slides": [
+      {
+        "_key": "hvZm375oFdfFgdbWlfxrCM",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrM8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrPO",
+                "_type": "span",
+                "marks": [],
+                "text": "The catalyst was deceptively simple: I wanted to build a voice-activated kitchen timer that didn't connect to the internet. For people who don't want Amazon or Google listening in, but still want to use the best design for a kitchen timer (its voice!) Anyway, I built a prototype in Replit in about an hour. It wasn't quite usable—it needed more work—but it was surprisingly close to functional. That got my attention, but I didn't fully grasp the implications yet."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrSe",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrVu",
+                "_type": "span",
+                "marks": [],
+                "text": "The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I  use in our games. It's called Dungeon Tracker and is available on my GitHub."
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "5a85358312cb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b078cd85f39d",
+                "_type": "span",
+                "marks": [],
+                "text": "I felt like I'd discovered a super power, and needed to learn how to maximize it to its fullest potential. "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "heading": "The \"Oh Shit\" Moment",
+        "quoteBox": {
+          "attribution": "— Colleague on AI's future growth",
+          "quote": "\"If AI ceased to get any better than it is now, there is at least half a decade of work creating new products and improving existing ones. I think I read that somewhere\"usable software made me realize that the year-long timeline I'd always quoted was about to change dramatically."
+        }
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxrZA",
+        "_type": "contentSlide",
+        "comparisonBoxes": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrvy",
+            "icon": "🐌",
+            "label": "Traditional Development",
+            "stat": "🐌",
+            "text": "Complex projects can be well over a year. Multiple developers, designers and QA analysts required. "
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrzE",
+            "icon": "🚀",
+            "label": "AI-Assisted Development",
+            "stat": "✈️",
+            "text": "Complex projects can take less than a quarter. A single developer with AI assistance, and a few colleagues in consultation, can do the work. "
+          }
+        ],
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxriw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrmC",
+                "_type": "span",
+                "marks": [],
+                "text": "While AI has been facile with nearly every technology I've thrown at it... There are choices you can make that greatly improve the ease of development, especially when projects get more complex.  "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "2fe0f083a3ca",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrmC",
+                "_type": "span",
+                "marks": [],
+                "text": "As AI has a poor memory, and occaissonaly sloppy habits (AI slop anyone), lean towards languages that are strongly typed, and frameworks that are widely used and have a well established set of best practices. "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be9eb40516f9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrmC",
+                "_type": "span",
+                "marks": [],
+                "text": "For example, TypeScript has become essential—not optional, but fundamental. If at all possible, don't use pure Javascript. The forced typing prevents an entire category of AI-generated errors. Every time you build for production with a Typescript project and it fails because there are type errors, be thankful those never make it to production."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrpS",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrsi",
+                "_type": "span",
+                "marks": [],
+                "text": "Next.js. React, & React Native  have proven ideal—they're modern, well-documented frameworks that AI understands deeply because they're widely used in training data. "
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "2fe47a6a1fe1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrsi",
+                "_type": "span",
+                "marks": [],
+                "text": "While I haven't spent a lot of time working with it, I've heard that using Rust is preferable to Python for the same reason."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "43e968750832",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "967747701d83",
+                "_type": "span",
+                "marks": [],
+                "text": "Test driven development or ensuring you have significant unit testing coverage of your app is also essential. I find starting out test driven can be hard if the product needs definition through testing and the design process."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "heading": "How AI-Assisted Development Actually Works"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxs2U",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxs5k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxs90",
+                "_type": "span",
+                "marks": [],
+                "text": "I landed on Claude Code after going from Replit, to Cursor, to Roo Code & VS Code. "
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "72a4ae16b8b0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxs90",
+                "_type": "span",
+                "marks": [],
+                "text": "While I think Roo's plugin has the best experience design... Claude Code is more powerful, faster and easier to customize to suit your workflow. It runs in the terminal, providing access to all files and CLI tools, which proves faster than VS Code plugins and more flexible than browser-based solutions. While I don't love the writing experience in "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsCG",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsFW",
+                "_type": "span",
+                "marks": [],
+                "text": "What sets Claude Code apart isn't just raw capability—it's autonomous reliability. Claude Code makes fewer mistakes than alternatives and works best when given complex, multi-step tasks to complete independently."
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsIm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsM2",
+                "_type": "span",
+                "marks": [],
+                "text": "Custom Skills Built"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsPI",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsSY",
+                "_type": "span",
+                "marks": [],
+                "text": "Over months of development, I've built comprehensive skill suites: Project Analyzer (scans TODOs with 90%+ confidence), Project Manager (GitHub integration with screenshots), Project Planner (discovers features from code), plus complete Design and Development suites."
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "heading": "Claude Code and the Skills Ecosystem",
+        "techPills": [
+          "Claude Code",
+          "TypeScript",
+          "Next.js",
+          "React",
+          "Git",
+          "Playwright",
+          "VS Code",
+          "Terminal",
+          "Custom Skills",
+          "Memory Bank"
+        ]
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxsVo",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsZ4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxscK",
+                "_type": "span",
+                "text": "Development Speed"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsfa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsiq",
+                "_type": "span",
+                "text": "The speed improvements are difficult to overstate. Implementing Sanity CMS—a task that previously took a month with multiple developers—now takes less than a week. A reasonable prototype of a functional app now takes less than an hour. Full production applications still take weeks, but what took a year now takes six weeks."
+              }
+            ]
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsm6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxspM",
+                "_type": "span",
+                "text": "Productivity Metrics"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxssc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsvs",
+                "_type": "span",
+                "text": "Since March 2024, I've generated over 1,000 GitHub commits across 30+ projects. The variety is remarkable: AI-powered specialized agents, autonomous analyzers, RAG-powered retrieval systems, full-stack applications, mobile apps, marketing websites, and developer tools."
+              }
+            ]
+          }
+        ],
+        "heading": "The Numbers Behind the Transformation"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxsz8",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxt2O",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxt5e",
+                "_type": "span",
+                "text": "AI-First Design"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxt8u",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtCA",
+                "_type": "span",
+                "text": "Every software project should leverage AI to enhance capabilities—not as an afterthought, but as a core architectural decision from day one. This means choosing TypeScript for better AI error detection, favoring single-page applications for easier AI context management, and building skills that encode best practices."
+              }
+            ]
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtFQ",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtIg",
+                "_type": "span",
+                "text": "Verification is Essential"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtLw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtPC",
+                "_type": "span",
+                "text": "AI can work autonomously for extended periods, but human verification remains absolutely necessary. I read every significant change AI makes, scrolling through code to understand what it did and catch mistakes before they compound. This verification isn't busywork—it's where human judgment adds irreplaceable value."
+              }
+            ]
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtSS",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtVi",
+                "_type": "span",
+                "text": "The English Major Advantage"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtYy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtcE",
+                "_type": "span",
+                "text": "Surprisingly, my English degree pays dividends in AI-assisted development. Specificity in language matters enormously—the ability to choose precise words, understand context, and communicate clearly makes AI dramatically more effective. Technical knowledge is learnable; clarity of communication is harder to develop but more valuable when working with AI."
+              }
+            ]
+          }
+        ],
+        "heading": "Principles That Guide the Work"
+      }
+    ],
+    "slug": {
+      "_type": "slug",
+      "current": "ai-workflow"
+    },
+    "timelinePhases": [
+      {
+        "_key": "hvZm375oFdfFgdbWlfxqso",
+        "_ref": "timelinePhase-experimentation",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxqw4",
+        "_ref": "timelinePhase-tool-discovery",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxqzK",
+        "_ref": "timelinePhase-production-ready",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxr2a",
+        "_ref": "timelinePhase-skills-ecosystem",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxr5q",
+        "_ref": "timelinePhase-production-projects",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxr96",
+        "_ref": "timelinePhase-continuous-evolution",
+        "_type": "reference"
+      }
+    ],
+    "title": "Note done: My AI Workflow: Building Production Software with Claude Code"
+  },
+  {
+    "_createdAt": "2025-10-31T00:53:01Z",
+    "_id": "aiShowcase-marketing-sites",
+    "_rev": "C1NaVZZFNhf21TJHMfQ21v",
+    "_system": {
+      "base": {
+        "id": "aiShowcase-marketing-sites",
+        "rev": "C1NaVZZFNhf21TJHMfPC4n"
+      }
+    },
+    "_type": "aiShowcase",
+    "_updatedAt": "2025-11-04T22:53:29Z",
+    "callToAction": {
+      "link": "/ai-projects",
+      "text": "View All Projects"
+    },
+    "category": "marketing-sites",
+    "featured": true,
+    "featuredImage": {
+      "_type": "image",
+      "asset": {
+        "_ref": "image-d1b816d8ca0546234300919768f97a8b2993f0b7-2860x1616-png",
+        "_type": "reference"
+      }
+    },
+    "heroSection": {
+      "badge": "Marketing Sites Showcase",
+      "subtitle": "Could AI-assisted development deliver high-quality marketing websites faster and more affordably than traditional agencies while maintaining professional standards?",
+      "summary": "Small businesses face a harsh choice when building their web presence: cheap but generic DIY website builders, expensive agencies charging $20K-$50K with 3-6 month timelines, or variable-quality freelancers. Three diverse clients became test cases for a different approach: AI-powered development delivering agency-quality websites at freelancer prices with startup-level speed.",
+      "title": "AI-Built Marketing Sites: Proving the Concept"
+    },
+    "horizontalSectionHeading": "Three Different Businesses, Three Different Solutions",
+    "horizontalSectionLabel": "Phase 03 — Project Showcase",
+    "metrics": [
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9C8",
+        "description": "vs 3-6 months traditionally",
+        "label": "Delivery Time",
+        "value": "2-4 Weeks"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9FO",
+        "description": "From agency pricing",
+        "label": "Cost Reduction",
+        "value": "60-80%"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9Ie",
+        "description": "Core Web Vitals met",
+        "label": "Page Load Time",
+        "value": "< 2 Sec"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9Lu",
+        "description": "Development velocity",
+        "label": "Speed Increase",
+        "value": "3-6x"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9PA",
+        "description": "Performance & SEO",
+        "label": "Lighthouse Score",
+        "value": "90+"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9SQ",
+        "description": "Validated across types",
+        "label": "Diverse Industries",
+        "value": "3"
+      }
+    ],
+    "order": 3,
+    "projectCards": [
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9Vg",
+        "_ref": "projectCard-doa",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9Yw",
+        "_ref": "projectCard-opal-creek",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlmE9cC",
+        "_ref": "projectCard-karuna-gatton",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "_type": "seo",
+      "metaDescription": "AI assistance can help design and develop high-quality marketing websites faster, better and cheaper"
+    },
+    "slides": [
+      {
+        "_key": "74c24b8ac79c3a4682baeda85f99935a",
+        "_type": "contentSlide",
+        "comparisonBoxes": [
+          {
+            "_key": "hvZm375oFdfFgdbWlmE9fS",
+            "icon": "🛠️",
+            "label": "DIY Builders",
+            "stat": "$50-500",
+            "text": "Cheap but generic templates. Limited customization. Often unprofessional results that undermine brand credibility."
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlmE9ii",
+            "icon": "🏢",
+            "label": "Traditional Agencies",
+            "stat": "$20K-50K",
+            "text": "Professional outcomes. Excellent quality. Budgets of $20K-$50K with 3-6 month timelines most small businesses can't afford."
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlmE9ly",
+            "icon": "🚀",
+            "label": "AI-Assisted",
+            "stat": "60-80% Savings",
+            "text": "Agency-quality websites at freelancer prices. Professional results in 2-4 weeks with client content management empowerment."
+          }
+        ],
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlmE9pE",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlmE9sU",
+                "_type": "span",
+                "text": "The business reality for small businesses seeking professional websites hasn't changed much in decades. DIY builders offer affordability but deliver generic templates. Traditional agencies provide professional outcomes but require $20K-$50K budgets and 3-6 month timelines."
+              }
+            ]
+          }
+        ],
+        "heading": "Why These Three Projects Matter",
+        "sectionLabel": "Phase 01 — Hypothesis"
+      },
+      {
+        "_key": "fd5f27797124f3e534ef19bd96f3fb32",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlmE9vk",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlmE9z0",
+                "_type": "span",
+                "text": "React combined with Sanity CMS emerged as the optimal stack for AI-assisted marketing site development. This wasn't theoretical—it was validated through real projects. AI understands React's component architecture exceptionally well."
+              }
+            ]
+          }
+        ],
+        "heading": "How AI Changes Marketing Site Development",
+        "sectionLabel": "Phase 02 — Process",
+        "techPills": [
+          "React",
+          "Next.js",
+          "Sanity CMS",
+          "Tailwind CSS",
+          "TypeScript",
+          "Vercel",
+          "shadcn/ui",
+          "SEO Optimized"
+        ]
+      },
+      {
+        "_key": "82c278d5a8e4197e62d92c64667f7f7f",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlmEA2G",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlmEA5W",
+                "_type": "span",
+                "text": "AI excels at component scaffolding, Tailwind styling, TypeScript definitions, and SEO implementation. Human expertise remains irreplaceable for design decisions, brand alignment, content strategy, and visual hierarchy."
+              }
+            ]
+          }
+        ],
+        "heading": "What AI Handles vs Human Expertise",
+        "quoteBox": {
+          "attribution": "— On AI-assisted marketing site development",
+          "quote": "Getting the design right and the marketing right was the more challenging and fun thing to do. AI handles the technical implementation, freeing humans to solve the genuinely difficult problems."
+        },
+        "sectionLabel": "Phase 03 — Collaboration"
+      },
+      {
+        "_key": "86b99660a1a9d9203ba61d02693894a1",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlmEA8m",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlmEAC2",
+                "_type": "span",
+                "text": "Development speed improvements represented order-of-magnitude changes: 3-6 month agency timelines compressed to 2-4 weeks. Page loads under 2 seconds met Core Web Vitals. Clients confidently managed their own content through Sanity CMS."
+              }
+            ]
+          }
+        ],
+        "heading": "Impact and Lessons Learned",
+        "sectionLabel": "Phase 04 — Results"
+      }
+    ],
+    "slug": {
+      "_type": "slug",
+      "current": "marketing-sites"
+    },
+    "title": "AI-Built Marketing Sites: Agency Quality at Startup Speed"
+  },
+  {
+    "_createdAt": "2025-10-31T00:52:52Z",
+    "_id": "drafts.aiShowcase-ai-workflow",
+    "_rev": "9c591436-9c79-49b2-90f4-9c63230214f3",
+    "_system": {
+      "base": {
+        "id": "aiShowcase-ai-workflow",
+        "rev": "ZkomLehjbvlyB7lUsKFwek"
+      }
+    },
+    "_type": "aiShowcase",
+    "_updatedAt": "2025-11-08T00:00:30Z",
+    "callToAction": {
+      "link": "/ai-projects",
+      "text": "View More AI Projects"
+    },
+    "category": "ai-workflow",
+    "featured": true,
+    "featuredImage": {
+      "_type": "image",
+      "alt": "two projects and three instances of Claude Code ",
+      "asset": {
+        "_ref": "image-b61766627f0fe8c7aec046377eb51984d32bbfc6-5106x2830-png",
+        "_type": "reference"
+      }
+    },
+    "heroSection": {
+      "badge": "AI Workflow Showcase",
+      "subtitle": "From product manager to full-stack developer: How AI-assisted development changed everything about building software",
+      "summary": "What once took a year to build could now be accomplished in weeks with AI assistance. This is the story of discovering, refining, and productionizing an AI-powered development workflow that's shipped 20+ projects and generated 1000+ commits since March 2024.",
+      "title": "My AI Workflow: Building Production Software with Claude Code"
+    },
+    "horizontalSectionHeading": "The Journey from Experimentation to Production",
+    "horizontalSectionLabel": "Phase 02 — Evolution",
+    "metrics": [
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtfU",
+        "description": "Since March 2024",
+        "label": "GitHub Commits",
+        "value": "1000+"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtik",
+        "description": "AI-powered applications",
+        "label": "Projects Shipped",
+        "value": "30+"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtm0",
+        "description": "Previously 1 month",
+        "label": "Sanity CMS Setup",
+        "value": "< 1 Week"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtpG",
+        "description": "Dungeon Tracker example",
+        "label": "Functional Prototype",
+        "value": "< 1 Hour"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtsW",
+        "description": "vs traditional development",
+        "label": "Speed Increase",
+        "value": "3-6x"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxtvm",
+        "description": "Project Analyzer accuracy",
+        "label": "Confidence Score",
+        "value": "90%+"
+      }
+    ],
+    "order": 1,
+    "slides": [
+      {
+        "_key": "hvZm375oFdfFgdbWlfxrCM",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrM8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrPO",
+                "_type": "span",
+                "marks": [],
+                "text": "The catalyst was deceptively simple: I wanted to build a voice-activated kitchen timer that didn't connect to the internet. For people who don't want Amazon or Google listening in, but still want to use the best design for a kitchen timer (its voice!) Anyway, I built a prototype in Replit in about an hour. It wasn't quite usable—it needed more work—but it was surprisingly close to functional. That got my attention, but I didn't fully grasp the implications yet."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrSe",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrVu",
+                "_type": "span",
+                "marks": [],
+                "text": "The real revelation came when working with my 11-year-old son, who loves Dungeons & Dragons. Within an hour, we had something genuinely useful—something I  use in our games. It's called Dungeon Tracker and is available on my GitHub."
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "5a85358312cb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b078cd85f39d",
+                "_type": "span",
+                "marks": [],
+                "text": "I felt like I'd discovered a super power, and needed to learn how to maximize it to its fullest potential. "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "heading": "The \"Oh Shit\" Moment",
+        "quoteBox": {
+          "attribution": "— Colleague on AI's future growth",
+          "quote": "\"If AI ceased to get any better than it is now, there is at least half a decade of work creating new products and improving existing ones. I think I read that somewhere\"usable software made me realize that the year-long timeline I'd always quoted was about to change dramatically."
+        }
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxrZA",
+        "_type": "contentSlide",
+        "comparisonBoxes": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrvy",
+            "icon": "🐌",
+            "label": "Traditional Development",
+            "stat": "🐌",
+            "text": "Complex projects can be well over a year. Multiple developers, designers and QA analysts required. "
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrzE",
+            "icon": "🚀",
+            "label": "AI-Assisted Development",
+            "stat": "✈️",
+            "text": "Complex projects can take less than a quarter. A single developer with AI assistance, and a few colleagues in consultation, can do the work. "
+          }
+        ],
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxriw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrmC",
+                "_type": "span",
+                "marks": [],
+                "text": "While AI has been facile with nearly every technology I've thrown at it... There are choices you can make that greatly improve the ease of development, especially when projects get more complex.  "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "2fe0f083a3ca",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrmC",
+                "_type": "span",
+                "marks": [],
+                "text": "As AI has a poor memory, and occaissonaly sloppy habits (AI slop anyone), lean towards languages that are strongly typed, and frameworks that are widely used and have a well established set of best practices. "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "be9eb40516f9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrmC",
+                "_type": "span",
+                "marks": [],
+                "text": "For example, TypeScript has become essential—not optional, but fundamental. If at all possible, don't use pure Javascript. The forced typing prevents an entire category of AI-generated errors. Every time you build for production with a Typescript project and it fails because there are type errors, be thankful those never make it to production."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxrpS",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrsi",
+                "_type": "span",
+                "marks": [],
+                "text": "Next.js. React, & React Native  have proven ideal—they're modern, well-documented frameworks that AI understands deeply because they're widely used in training data. "
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "2fe47a6a1fe1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxrsi",
+                "_type": "span",
+                "marks": [],
+                "text": "While I haven't spent a lot of time working with it, I've heard that using Rust is preferable to Python for the same reason."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "43e968750832",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "967747701d83",
+                "_type": "span",
+                "marks": [],
+                "text": "Test driven development or ensuring you have significant unit testing coverage of your app is also essential. I find starting out test driven can be hard if the product needs definition through testing and the design process."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "heading": "How AI-Assisted Development Actually Works"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxs2U",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxs5k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxs90",
+                "_type": "span",
+                "marks": [],
+                "text": "I landed on Claude Code after going from Replit, to Cursor, to Roo Code & VS Code. "
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "72a4ae16b8b0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxs90",
+                "_type": "span",
+                "marks": [],
+                "text": "While I think Roo's plugin has the best experience design... Claude Code is more powerful, faster and easier to customize to suit your workflow. It runs in the terminal, providing access to all files and CLI tools, which proves faster than VS Code plugins and more flexible than browser-based solutions. While I don't love the writing experience in "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsCG",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsFW",
+                "_type": "span",
+                "marks": [],
+                "text": "What sets Claude Code apart isn't just raw capability—it's autonomous reliability. Claude Code makes fewer mistakes than alternatives and works best when given complex, multi-step tasks to complete independently."
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsIm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsM2",
+                "_type": "span",
+                "marks": [],
+                "text": "Custom Skills Built"
+              }
+            ],
+            "markDefs": [],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsPI",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsSY",
+                "_type": "span",
+                "marks": [],
+                "text": "Over months of development, I've built comprehensive skill suites: Project Analyzer (scans TODOs with 90%+ confidence), Project Manager (GitHub integration with screenshots), Project Planner (discovers features from code), plus complete Design and Development suites."
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "heading": "Claude Code and the Skills Ecosystem",
+        "techPills": [
+          "Claude Code",
+          "TypeScript",
+          "Next.js",
+          "React",
+          "Git",
+          "Playwright",
+          "VS Code",
+          "Terminal",
+          "Custom Skills",
+          "Memory Bank"
+        ]
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxsVo",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsZ4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxscK",
+                "_type": "span",
+                "text": "Development Speed"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsfa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsiq",
+                "_type": "span",
+                "text": "The speed improvements are difficult to overstate. Implementing Sanity CMS—a task that previously took a month with multiple developers—now takes less than a week. A reasonable prototype of a functional app now takes less than an hour. Full production applications still take weeks, but what took a year now takes six weeks."
+              }
+            ]
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxsm6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxspM",
+                "_type": "span",
+                "text": "Productivity Metrics"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxssc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxsvs",
+                "_type": "span",
+                "text": "Since March 2024, I've generated over 1,000 GitHub commits across 30+ projects. The variety is remarkable: AI-powered specialized agents, autonomous analyzers, RAG-powered retrieval systems, full-stack applications, mobile apps, marketing websites, and developer tools."
+              }
+            ]
+          }
+        ],
+        "heading": "The Numbers Behind the Transformation"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxsz8",
+        "_type": "contentSlide",
+        "content": [
+          {
+            "_key": "hvZm375oFdfFgdbWlfxt2O",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxt5e",
+                "_type": "span",
+                "text": "AI-First Design"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxt8u",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtCA",
+                "_type": "span",
+                "text": "Every software project should leverage AI to enhance capabilities—not as an afterthought, but as a core architectural decision from day one. This means choosing TypeScript for better AI error detection, favoring single-page applications for easier AI context management, and building skills that encode best practices."
+              }
+            ]
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtFQ",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtIg",
+                "_type": "span",
+                "text": "Verification is Essential"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtLw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtPC",
+                "_type": "span",
+                "text": "AI can work autonomously for extended periods, but human verification remains absolutely necessary. I read every significant change AI makes, scrolling through code to understand what it did and catch mistakes before they compound. This verification isn't busywork—it's where human judgment adds irreplaceable value."
+              }
+            ]
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtSS",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtVi",
+                "_type": "span",
+                "text": "The English Major Advantage"
+              }
+            ],
+            "style": "h3"
+          },
+          {
+            "_key": "hvZm375oFdfFgdbWlfxtYy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvZm375oFdfFgdbWlfxtcE",
+                "_type": "span",
+                "text": "Surprisingly, my English degree pays dividends in AI-assisted development. Specificity in language matters enormously—the ability to choose precise words, understand context, and communicate clearly makes AI dramatically more effective. Technical knowledge is learnable; clarity of communication is harder to develop but more valuable when working with AI."
+              }
+            ]
+          }
+        ],
+        "heading": "Principles That Guide the Work"
+      }
+    ],
+    "slug": {
+      "_type": "slug",
+      "current": "ai-workflow"
+    },
+    "timelinePhases": [
+      {
+        "_key": "hvZm375oFdfFgdbWlfxqso",
+        "_ref": "timelinePhase-experimentation",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxqw4",
+        "_ref": "timelinePhase-tool-discovery",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxqzK",
+        "_ref": "timelinePhase-production-ready",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxr2a",
+        "_ref": "timelinePhase-skills-ecosystem",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxr5q",
+        "_ref": "timelinePhase-production-projects",
+        "_type": "reference"
+      },
+      {
+        "_key": "hvZm375oFdfFgdbWlfxr96",
+        "_ref": "timelinePhase-continuous-evolution",
+        "_type": "reference"
+      }
+    ],
+    "title": "Not done: My AI Workflow: Building Production Software with Claude Code"
+  }
+]
