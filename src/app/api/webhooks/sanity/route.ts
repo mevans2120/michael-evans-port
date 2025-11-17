@@ -38,6 +38,14 @@ function verifySignature(
 }
 
 /**
+ * Check if document is a draft
+ * Drafts have IDs that start with "drafts."
+ */
+function isDraft(documentId: string): boolean {
+  return documentId.startsWith('drafts.');
+}
+
+/**
  * Sanity webhook payload interface
  */
 interface SanityWebhookPayload {
@@ -80,9 +88,23 @@ export async function POST(request: NextRequest) {
 
     logger.log(`\n📨 Webhook received for: ${payload._type} (${payload._id})`);
     logger.log(`   Title: ${payload.title || 'N/A'}`);
-    logger.log(`   Slug: ${payload.slug?.current || 'N/A'}\n`);
+    logger.log(`   Slug: ${payload.slug?.current || 'N/A'}`);
 
-    // Step 4: Determine action based on document type and event
+    // Step 4: Check if this is a draft document
+    if (isDraft(payload._id)) {
+      logger.log(`   ⏭️  Skipping draft document (not published yet)\n`);
+
+      return NextResponse.json({
+        success: true,
+        skipped: true,
+        reason: 'Draft document - only published content is processed',
+        documentId: payload._id,
+      });
+    }
+
+    logger.log(`   ✅ Published document - processing...\n`);
+
+    // Step 5: Determine action based on document type and event
     // Note: Sanity webhooks don't explicitly send the event type in the payload,
     // but we can detect deletions by checking if the document exists when we fetch it
     const documentId = payload._id;
@@ -101,7 +123,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Step 5: Sync the document
+    // Step 6: Sync the document
     logger.log(`   🔄 Syncing ${documentType}...`);
 
     const result = await syncSingleDocument(documentId);
@@ -110,7 +132,7 @@ export async function POST(request: NextRequest) {
     printSyncSummary(result);
     logger.log('');
 
-    // Step 6: Return success response
+    // Step 7: Return success response
     return NextResponse.json({
       success: true,
       documentId,
