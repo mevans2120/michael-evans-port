@@ -12,6 +12,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import crypto from 'crypto';
 import { syncSingleDocument, deleteSanityDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
 import { logger } from '@/lib/logger';
@@ -43,6 +44,88 @@ function verifySignature(
  */
 function isDraft(documentId: string): boolean {
   return documentId.startsWith('drafts.');
+}
+
+/**
+ * Revalidate paths based on document type
+ * Smart, targeted revalidation - only revalidates affected paths
+ */
+async function revalidateForDocument(
+  documentType: string,
+  slug?: string
+): Promise<string[]> {
+  const revalidatedPaths: string[] = [];
+
+  try {
+    switch (documentType) {
+      // Case Studies (project documents with slugs)
+      case 'project':
+        if (slug) {
+          // Revalidate the specific case study page
+          revalidatePath(`/case-studies/${slug}`);
+          revalidatedPaths.push(`/case-studies/${slug}`);
+        }
+        // Always revalidate the case studies listing page
+        revalidatePath('/case-studies');
+        revalidatedPaths.push('/case-studies');
+        break;
+
+      // Blog Posts (if you have blog functionality)
+      case 'blog':
+        if (slug) {
+          revalidatePath(`/blog/${slug}`);
+          revalidatedPaths.push(`/blog/${slug}`);
+        }
+        revalidatePath('/blog');
+        revalidatedPaths.push('/blog');
+        break;
+
+      // Profile (singleton - only one profile page)
+      case 'profile':
+        revalidatePath('/about');
+        revalidatedPaths.push('/about');
+        break;
+
+      // Homepage Hero (singleton)
+      case 'homepageHero':
+        revalidatePath('/');
+        revalidatedPaths.push('/');
+        break;
+
+      // Contact Page (singleton)
+      case 'contactPage':
+        revalidatePath('/contact');
+        revalidatedPaths.push('/contact');
+        break;
+
+      // Footer (appears on all pages - revalidate main pages)
+      case 'footer':
+        const mainPages = ['/', '/case-studies', '/about', '/contact'];
+        for (const path of mainPages) {
+          revalidatePath(path);
+          revalidatedPaths.push(path);
+        }
+        break;
+
+      // SEO Settings (global - revalidate all main pages)
+      case 'siteSettings':
+      case 'seoSettings':
+        const allPages = ['/', '/case-studies', '/about', '/contact'];
+        for (const path of allPages) {
+          revalidatePath(path);
+          revalidatedPaths.push(path);
+        }
+        break;
+
+      default:
+        logger.log(`   ℹ️  No revalidation rules defined for type: ${documentType}`);
+    }
+  } catch (error) {
+    logger.error(`   ❌ Error during revalidation:`, error);
+    // Don't throw - revalidation failures shouldn't break the webhook
+  }
+
+  return revalidatedPaths;
 }
 
 /**
@@ -132,7 +215,22 @@ export async function POST(request: NextRequest) {
     printSyncSummary(result);
     logger.log('');
 
-    // Step 7: Return success response
+    // Step 7: Revalidate cache for affected pages
+    logger.log(`   🔄 Revalidating cache...`);
+    const revalidatedPaths = await revalidateForDocument(
+      documentType,
+      payload.slug?.current
+    );
+
+    if (revalidatedPaths.length > 0) {
+      logger.log(`   ✅ Revalidated ${revalidatedPaths.length} path(s):`);
+      revalidatedPaths.forEach(path => logger.log(`      - ${path}`));
+    } else {
+      logger.log(`   ℹ️  No paths revalidated for this document type`);
+    }
+    logger.log('');
+
+    // Step 8: Return success response
     return NextResponse.json({
       success: true,
       documentId,
@@ -144,6 +242,7 @@ export async function POST(request: NextRequest) {
         unchanged: result.unchanged,
         totalChunks: result.totalChunks,
       },
+      revalidated: revalidatedPaths,
     });
   } catch (error) {
     logger.error('❌ Error processing webhook:', error);
