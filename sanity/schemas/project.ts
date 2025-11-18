@@ -49,33 +49,6 @@ export default defineType({
         },
       ],
     }),
-    // ===== DEPRECATED FIELDS (kept for backward compatibility) =====
-    defineField({
-      name: 'heroImage',
-      title: '[DEPRECATED] Hero Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-      description: '⚠️ Deprecated: Not used in editorial format',
-      hidden: true,
-    }),
-    defineField({
-      name: 'summary',
-      title: '[DEPRECATED] Summary',
-      type: 'text',
-      rows: 3,
-      description: '⚠️ Deprecated: Use heroSection.summary instead',
-      hidden: true,
-    }),
-    defineField({
-      name: 'description',
-      title: '[DEPRECATED] Description',
-      type: 'text',
-      rows: 5,
-      description: '⚠️ Deprecated: Use heroSection.subtitle instead',
-      hidden: true,
-    }),
     defineField({
       name: 'metrics',
       title: 'Key Metrics',
@@ -95,28 +68,6 @@ export default defineType({
           ],
         },
       ],
-    }),
-    defineField({
-      name: 'achievements',
-      title: '[DEPRECATED] Key Achievements',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: '⚠️ Deprecated: Use metrics and narrative instead',
-      hidden: true,
-    }),
-    defineField({
-      name: 'content',
-      title: '[DEPRECATED] Content',
-      type: 'array',
-      of: [
-        { type: 'block' },
-        {
-          type: 'image',
-          options: { hotspot: true },
-        },
-      ],
-      description: '⚠️ Deprecated: Use slides instead',
-      hidden: true,
     }),
     defineField({
       name: 'technologies',
@@ -778,136 +729,6 @@ export default defineType({
           title: 'Link URL',
           type: 'string',
           description: 'Internal path or external URL',
-        },
-      ],
-    }),
-    // ===== DEPRECATED FIELD =====
-    defineField({
-      name: 'sections',
-      title: '[DEPRECATED] Case Study Sections',
-      type: 'array',
-      description: '⚠️ Deprecated: Renamed to slides',
-      hidden: true,
-      of: [
-        {
-          type: 'object',
-          name: 'caseStudySection',
-          title: 'Section',
-          fields: [
-            {
-              name: 'sectionLabel',
-              title: 'Section Label',
-              type: 'string',
-              description: 'e.g., "The Challenge", "Research Insights", "The Solution"',
-            },
-            {
-              name: 'heading',
-              title: 'Heading',
-              type: 'string',
-              description: 'Main heading for this section',
-            },
-            {
-              name: 'content',
-              title: 'Content',
-              type: 'array',
-              of: [
-                { type: 'block' },
-                {
-                  type: 'image',
-                  options: { hotspot: true },
-                  fields: [
-                    {
-                      name: 'caption',
-                      type: 'string',
-                      title: 'Caption',
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'screenshots',
-              title: 'Screenshots',
-              description: 'Screenshots or images for this section',
-              type: 'array',
-              of: [
-                {
-                  type: 'object',
-                  name: 'screenshot',
-                  fields: [
-                    {
-                      name: 'image',
-                      type: 'image',
-                      title: 'Screenshot',
-                      options: { hotspot: true },
-                    },
-                    {
-                      name: 'caption',
-                      type: 'string',
-                      title: 'Caption',
-                    },
-                    {
-                      name: 'layout',
-                      type: 'string',
-                      title: 'Layout',
-                      description: 'How to display this screenshot',
-                      options: {
-                        list: [
-                          { title: 'Grid (with other screenshots)', value: 'grid' },
-                          { title: 'Large (full width)', value: 'large' },
-                        ],
-                      },
-                      initialValue: 'grid',
-                    },
-                  ],
-                  preview: {
-                    select: {
-                      media: 'image',
-                      caption: 'caption',
-                    },
-                    prepare({ media, caption }) {
-                      return {
-                        title: caption || 'Screenshot',
-                        media,
-                      }
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              name: 'annotation',
-              title: 'Design Annotation',
-              description: 'Optional annotation or design decision callout for this section',
-              type: 'object',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'string',
-                  title: 'Annotation Title',
-                  description: 'e.g., "Design Decision", "Technical Note"',
-                },
-                {
-                  name: 'content',
-                  type: 'text',
-                  title: 'Annotation Content',
-                  rows: 3,
-                },
-              ],
-            },
-          ],
-          preview: {
-            select: {
-              title: 'heading',
-              label: 'sectionLabel',
-            },
-            prepare({ title, label }) {
-              return {
-                title: title || 'Untitled Section',
-                subtitle: label,
-              }
-            },
-          },
         },
       ],
     }),
