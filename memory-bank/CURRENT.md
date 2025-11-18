@@ -10,6 +10,50 @@
 
 ## ✅ Recent Accomplishments (November 17, 2025 - Latest)
 
+### Sanity Schema Cleanup - COMPLETE 🎉
+
+**Goal**: Remove deprecated schema fields from profile and project schemas to reduce bloat and improve maintainability.
+
+**Context**: After comprehensive schema audit documented in `docs/sanity-schema-audit-2025-11-17.md`, identified 15 unused/deprecated fields across profile and project schemas.
+
+**Accomplishments**:
+
+#### Profile Schema Cleanup ✅
+- **Removed 9 deprecated fields** (296 lines):
+  - `quickFacts` - Grid facts display
+  - `capabilities` - Skills with descriptions
+  - `sections` - Old about page sections
+  - `selectedProjects` - Project highlights
+  - `technologies` - Tech stack categories
+  - `availability` - Work availability flag
+  - `availabilityText` - Availability description
+  - `ctaText` - Call-to-action text
+  - `ctaButtonText` - CTA button label
+- **Result**: Profile schema reduced from 30 to 21 actively used fields (30% reduction)
+- **Commit**: `175d2ed` - "refactor: Remove deprecated profile schema fields"
+
+#### Project Schema Cleanup ✅
+- **Removed 6 deprecated fields** (179 lines):
+  - `heroImage` → Replaced by `featuredImage`
+  - `summary` → Replaced by `heroSection.summary`
+  - `description` → Replaced by `heroSection.subtitle`
+  - `achievements` → Replaced by `metrics` and narrative
+  - `content` → Replaced by `slides`
+  - `sections` → Replaced by `slides`
+- **Result**: Project schema reduced by 179 lines, cleaner field organization
+- **Commit**: `455b4f9` - "refactor: Remove 6 deprecated project schema fields"
+
+**Impact**:
+- Total **475 lines removed** from schema definitions
+- Improved schema maintainability and clarity
+- All data has been migrated to new fields (no data loss)
+- Build verified successfully with no errors
+
+**Related Documentation**:
+- Schema audit report: `docs/sanity-schema-audit-2025-11-17.md`
+
+---
+
 ### Case Study Performance Optimization - COMPLETE 🎉
 
 **Goal**: Improve case study page performance from RES 38 to 70-75+ through comprehensive image optimization.
