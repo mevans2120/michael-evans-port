@@ -46,7 +46,7 @@ The `min-h-[164px]` sets a floor but doesn't cap the height. Cards with longer d
 - ✅ Descriptions truncate with `line-clamp-3` if too long
 - ✅ Mobile layout unaffected (no md: prefix, cards stack vertically)
 
-**Commit**: Pending - "Fix More Work card heights to maintain consistent layout"
+**Commit**: `42661a7` - "Fix More Work card heights to maintain consistent layout"
 
 ---
 
