@@ -15,6 +15,8 @@ export const allBlogPostsQuery = groq`
     readingTime,
     featuredImage {
       asset,
+      crop,
+      hotspot,
       alt
     },
     featured,
@@ -45,6 +47,8 @@ export const blogPostBySlugQuery = groq`
     readingTime,
     featuredImage {
       asset,
+      crop,
+      hotspot,
       alt,
       caption
     },
@@ -84,6 +88,8 @@ export const featuredBlogPostsQuery = groq`
     readingTime,
     featuredImage {
       asset,
+      crop,
+      hotspot,
       alt
     }
   }
@@ -108,6 +114,8 @@ export const featuredBlogQuery = groq`
     readingTime,
     featuredImage {
       asset,
+      crop,
+      hotspot,
       alt
     }
   }

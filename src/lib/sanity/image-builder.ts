@@ -62,8 +62,6 @@ const PRESET_CONFIGS: Record<ImagePreset, PresetConfig> = {
   card: {
     width: 600,
     height: 450,
-    fit: 'crop',
-    crop: 'top',
     quality: 80,
     auto: 'format',
   },
