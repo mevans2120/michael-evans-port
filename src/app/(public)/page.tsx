@@ -162,9 +162,9 @@ export default async function HomePage() {
 
       {/* Featured Post Section */}
       {featuredShowcase && (
-        <section className="py-20 px-6 relative border-b border-border dark:border-border">
+        <section className="py-20 px-6 relative">
           <div className="absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl bg-accent/20" />
-          <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="container mx-auto max-w-6xl relative z-10 border-t border-border dark:border-border pt-20 -mt-20">
             <div className="mb-12 -mx-6 md:mx-0">
               <h2 className="text-2xl font-light mb-2 flex items-center gap-3 text-foreground">
                 {featuredPost.heading}

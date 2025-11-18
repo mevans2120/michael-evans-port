@@ -10,6 +10,50 @@
 
 ## ✅ Recent Accomplishments (November 17, 2025 - Latest)
 
+### Homepage Border Fix - COMPLETE 🎉
+
+**Goal**: Fix double border issue on homepage and properly position Featured Post section border.
+
+**Problem**:
+- Double border appearing above footer on homepage only
+- Featured Post section had `border-b` (bottom border)
+- Footer component has `border-t` (top border)
+- These two borders stacked, creating thick double border
+- Additionally, border spanned full page width instead of matching constrained container width
+
+**Solution**:
+
+**Part 1: Remove Double Border**
+- Removed `border-b` from Featured Post section
+- Footer's existing `border-t` provides single clean border above footer
+- **File**: `/src/app/(public)/page.tsx` (line 165)
+
+**Part 2: Add Constrained Border Above Featured Post**
+- Moved border from full-width `<section>` to inner `container` div
+- Border now respects max-w-6xl container width (matches case studies style)
+- Added `border-t` to container with `pt-20 -mt-20` to maintain spacing
+- **File**: `/src/app/(public)/page.tsx` (line 167)
+
+**Technical Details**:
+```tsx
+// Before: Full-width border on section
+<section className="py-20 px-6 relative border-b border-border dark:border-border">
+
+// After: Constrained border on container
+<section className="py-20 px-6 relative">
+  <div className="container mx-auto max-w-6xl relative z-10 border-t border-border dark:border-border pt-20 -mt-20">
+```
+
+**Results**:
+- ✅ Eliminated double border above footer
+- ✅ Added properly positioned border above Featured Post section
+- ✅ Border width matches case studies section (constrained, not full-width)
+- ✅ Consistent visual hierarchy across homepage sections
+
+**Commit**: Pending - "Fix homepage Featured Post section border positioning"
+
+---
+
 ### Sanity Schema Cleanup - COMPLETE 🎉
 
 **Goal**: Remove deprecated schema fields from profile and project schemas to reduce bloat and improve maintainability.
