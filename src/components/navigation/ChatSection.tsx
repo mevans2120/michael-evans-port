@@ -563,6 +563,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           type="submit"
           disabled={isLoading || !input?.trim()}
           className="p-2 bg-accent hover:bg-accent/90 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label={isLoading ? "Sending message" : "Send message"}
         >
           {isLoading ? (
             <Loader2 className="w-4 h-4 text-white animate-spin" />
