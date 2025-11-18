@@ -34,11 +34,14 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
 
           return (
             <figure key={image._key} className="flex-shrink-0 flex flex-col gap-3 w-fit snap-start">
-              <div className="border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted">
-                <img
+              <div className="relative border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted h-[500px] w-[375px]">
+                <Image
                   src={imageUrl}
                   alt={image.alt || ''}
-                  className="h-[500px] w-auto object-contain rounded-[2px] block max-w-full"
+                  fill
+                  loading="lazy"
+                  sizes="375px"
+                  className="object-contain rounded-[2px]"
                 />
               </div>
               {image.caption && (

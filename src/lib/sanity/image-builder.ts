@@ -56,7 +56,7 @@ interface PresetConfig {
 const PRESET_CONFIGS: Record<ImagePreset, PresetConfig> = {
   hero: {
     width: 1200,
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
   card: {
@@ -64,32 +64,32 @@ const PRESET_CONFIGS: Record<ImagePreset, PresetConfig> = {
     height: 450,
     fit: 'crop',
     crop: 'top',
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
   'article-full': {
     width: 1200,
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
   'article-float': {
     width: 800,
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
   portrait: {
     width: 800,
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
   'visual-card': {
     width: 800,
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
   grid: {
     width: 800,
-    quality: 85,
+    quality: 80,
     auto: 'format',
   },
 }

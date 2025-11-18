@@ -29,11 +29,14 @@ export function VisualCards({ cards }: VisualCardsProps) {
           className="bg-card dark:bg-card border border-border dark:border-border shadow-card overflow-hidden"
         >
           {card.image ? (
-            <div className="relative w-full h-auto bg-muted">
-              <img
+            <div className="relative w-full aspect-video bg-muted">
+              <Image
                 src={buildImageUrl(card.image, 'visual-card')}
                 alt={card.caption || 'Case study visual'}
-                className="w-full h-auto object-contain"
+                fill
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
               />
             </div>
           ) : card.placeholderText ? (
