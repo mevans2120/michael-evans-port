@@ -3,10 +3,9 @@ import type { Config } from "tailwindcss";
 export default {
 	darkMode: ["class"],
 	content: [
-		"./pages/**/*.{ts,tsx}",
-		"./components/**/*.{ts,tsx}",
-		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
+		// Optimized paths - only scan where Tailwind classes are actually used
+		"./src/app/**/*.{ts,tsx}",
+		"./src/components/**/*.{ts,tsx}",
 	],
 	prefix: "",
 	theme: {
@@ -171,6 +170,8 @@ export default {
 	},
 	plugins: [
 		require("tailwindcss-animate"),
-		require("@tailwindcss/typography"),
+		require("@tailwindcss/typography")({
+			className: 'prose', // Only generate .prose classes, not global styles
+		}),
 	],
 } satisfies Config;
