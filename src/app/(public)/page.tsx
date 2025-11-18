@@ -68,10 +68,12 @@ export default async function HomePage() {
 
   // Featured Post section with fallbacks
   const featuredPost = {
-    heading: 'Featured Post',
-    description: 'My journey with AI-assisted development',
-    viewAllText: 'View all posts',
-    viewAllLink: '/blog'
+    heading: homepage?.featuredPostSection?.heading || 'Featured Post',
+    description: homepage?.featuredPostSection?.description || 'My journey with AI-assisted development',
+    viewAllText: homepage?.featuredPostSection?.viewAllText || 'View all posts',
+    viewAllLink: homepage?.featuredPostSection?.viewAllLinkType === 'external'
+      ? homepage?.featuredPostSection?.viewAllExternalLink
+      : homepage?.featuredPostSection?.viewAllInternalLink || '/blog'
   }
 
   // Map case studies data to component format

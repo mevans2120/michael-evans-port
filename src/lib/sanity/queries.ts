@@ -230,6 +230,7 @@ export const homepageHeroQuery = groq`
       externalLink
     },
     selectedWorkSection,
+    featuredPostSection,
     seo {
       metaTitle,
       metaDescription,
