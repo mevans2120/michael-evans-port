@@ -247,7 +247,7 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
       )}
       aria-label={`View ${metadata.category}: ${metadata.title}${!isInternalLink ? ' (opens in new tab)' : ''}`}
     >
-      <div className="flex flex-col md:flex-row gap-4 p-4 md:min-h-[164px]">
+      <div className="flex flex-col md:flex-row gap-4 p-4 md:h-[164px]">
         {/* Image - taller aspect ratio on mobile */}
         {hasImage ? (
           <div className="relative w-full md:w-32 h-48 md:h-32 rounded-lg overflow-hidden flex-shrink-0 bg-muted">

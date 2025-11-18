@@ -10,6 +10,46 @@
 
 ## ✅ Recent Accomplishments (November 17, 2025 - Latest)
 
+### More Work Card Height Fix - COMPLETE 🎉
+
+**Goal**: Fix inconsistent card heights in "More Work" section on homepage.
+
+**Problem**:
+- LinkPreview component cards had varying heights based on description length
+- Virgin America card appeared taller than Peacock and Aesop cards
+- Used `md:min-h-[164px]` which set minimum height but allowed cards to grow
+- Created visual inconsistency in the grid layout
+
+**Root Cause**:
+```tsx
+// Problematic approach - minimum height allows growth
+<div className="flex flex-col md:flex-row gap-4 p-4 md:min-h-[164px]">
+```
+
+The `min-h-[164px]` sets a floor but doesn't cap the height. Cards with longer descriptions expanded beyond 164px, while cards with shorter descriptions stayed at the minimum height.
+
+**Solution**:
+- Changed from `md:min-h-[164px]` to `md:h-[164px]`
+- Fixed height enforces consistent 164px across all cards on desktop
+- Prevents cards from growing based on content length
+- **File**: `/src/components/chatbot/LinkPreview.tsx` (line 250)
+
+**Implementation**:
+```tsx
+// Fixed approach - explicit height prevents growth
+<div className="flex flex-col md:flex-row gap-4 p-4 md:h-[164px]">
+```
+
+**Results**:
+- ✅ All cards maintain consistent 164px height on desktop
+- ✅ Grid layout appears uniform and polished
+- ✅ Descriptions truncate with `line-clamp-3` if too long
+- ✅ Mobile layout unaffected (no md: prefix, cards stack vertically)
+
+**Commit**: Pending - "Fix More Work card heights to maintain consistent layout"
+
+---
+
 ### Portrait Image List Border Fix - COMPLETE 🎉
 
 **Goal**: Fix broken borders around portrait phone screenshots in case study editorial section.
