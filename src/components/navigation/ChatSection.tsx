@@ -526,6 +526,20 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           <div ref={scrollRef} />
       </div>
 
+      {/* AI Disclaimer */}
+      <div className={`px-8 pt-2 pb-1 text-center ${
+        !showChatContent ? 'hidden' : ''
+      } ${
+        panelState === 'partial' && chatExpanded ? 'hidden' : ''
+      }`}>
+        <p className="text-xs text-chat-foreground/60">
+          I can make mistakes. If you are curious,{' '}
+          <a href="/contact" className="text-accent hover:text-accent-light underline underline-offset-2 transition-colors">
+            get in touch
+          </a>
+        </p>
+      </div>
+
       {/* Chat Input - Grid row with auto height to stay fixed during animations */}
       <form
         onSubmit={(e) => {
