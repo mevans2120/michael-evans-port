@@ -43,7 +43,6 @@ export interface Blog {
   publishedAt: string;
   updatedAt?: string;
   author?: string;
-  readingTime?: number;
 
   // Organization
   featured?: boolean;
@@ -65,6 +64,5 @@ export interface BlogListItem {
   excerpt?: string;
   publishedAt: string;
   author?: string;
-  readingTime?: number;
   featuredImage?: BlogImage;
 }

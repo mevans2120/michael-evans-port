@@ -1,11 +1,10 @@
 import React from 'react';
-import { CalendarIcon, ClockIcon, UserIcon } from 'lucide-react';
+import { CalendarIcon, UserIcon } from 'lucide-react';
 
 interface BlogMetaProps {
   publishedAt: string;
   updatedAt?: string;
   author?: string;
-  readingTime?: number;
 }
 
 /**
@@ -15,9 +14,8 @@ interface BlogMetaProps {
  * - Published date
  * - Updated date (if different)
  * - Author
- * - Reading time estimate
  */
-export function BlogMeta({ publishedAt, updatedAt, author, readingTime }: BlogMetaProps) {
+export function BlogMeta({ publishedAt, updatedAt, author }: BlogMetaProps) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -41,14 +39,6 @@ export function BlogMeta({ publishedAt, updatedAt, author, readingTime }: BlogMe
         <div className="flex items-center gap-2">
           <UserIcon className="w-4 h-4" />
           <span>{author}</span>
-        </div>
-      )}
-
-      {/* Reading Time */}
-      {readingTime && (
-        <div className="flex items-center gap-2">
-          <ClockIcon className="w-4 h-4" />
-          <span>{readingTime} min read</span>
         </div>
       )}
 

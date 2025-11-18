@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import type { BlogListItem } from '@/types/blog';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
-import { CalendarIcon, ClockIcon } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 
 interface BlogPostCardProps {
   post: BlogListItem;
@@ -17,7 +17,7 @@ interface BlogPostCardProps {
  * Card for blog listing page with:
  * - Featured image
  * - Title and excerpt
- * - Published date and reading time
+ * - Published date
  * - Click/tap to navigate
  * - Alternating image position (left/right) on desktop
  */
@@ -89,13 +89,6 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
                 {formatDate(post.publishedAt)}
               </time>
             </div>
-
-            {post.readingTime && (
-              <div className="flex items-center gap-2">
-                <ClockIcon className="w-4 h-4" />
-                <span>{post.readingTime} min</span>
-              </div>
-            )}
           </div>
         </div>
       </div>

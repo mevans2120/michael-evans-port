@@ -68,7 +68,6 @@ export default async function BlogPostPage({ params }: PageProps) {
         publishedAt={post.publishedAt}
         updatedAt={post.updatedAt}
         author={post.author}
-        readingTime={post.readingTime}
       />
 
       <BlogContent content={post.content} />
