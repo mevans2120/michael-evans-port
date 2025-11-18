@@ -37,7 +37,7 @@ export default async function PublicLayout({
           {/* Main Content Area */}
           <main
             id="main-content"
-            className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 lg:pb-0 hide-scrollbar relative"
+            className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 lg:pb-0 relative"
           >
             {children}
 
