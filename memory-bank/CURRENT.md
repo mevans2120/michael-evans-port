@@ -10,6 +10,64 @@
 
 ## ✅ Recent Accomplishments (November 17, 2025 - Latest)
 
+### Portrait Image List Border Fix - COMPLETE 🎉
+
+**Goal**: Fix broken borders around portrait phone screenshots in case study editorial section.
+
+**Problem**:
+- During earlier performance optimization (Phase 2), converted PortraitImageList from `<img>` to Next.js `<Image>`
+- Used `fill` prop with fixed-size container (`h-[500px] w-[375px]`)
+- Border container had fixed dimensions that didn't match actual image content
+- Borders extended beyond images, creating visual breaks
+
+**Root Cause**:
+```tsx
+// Problematic approach - fixed container with fill
+<div className="relative border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted h-[500px] w-[375px]">
+  <Image src={imageUrl} fill loading="lazy" sizes="375px" className="object-contain" />
+</div>
+```
+
+The `fill` prop makes the image try to fill the container, but `object-contain` respects aspect ratio, creating misalignment with fixed container dimensions.
+
+**Solution**:
+- Removed fixed dimensions from border container
+- Changed from `fill` to explicit `width={375} height={500}` props
+- Applied sizing to image itself: `h-[500px] w-auto object-contain`
+- Container now wraps snugly around actual image content
+
+**Implementation**:
+```tsx
+// Fixed approach - flexible container with explicit image dimensions
+<div className="border-accent border-[4px] rounded-[6px] overflow-hidden bg-muted">
+  <Image
+    src={imageUrl}
+    width={375}
+    height={500}
+    loading="lazy"
+    className="h-[500px] w-auto object-contain rounded-[2px] block max-w-full"
+  />
+</div>
+```
+
+**Technical Details**:
+- Image maintains fixed 500px height
+- Width adjusts automatically (`w-auto`) based on aspect ratio
+- Border container flexes to fit actual rendered image dimensions
+- Still uses Next.js Image for optimization (WebP/AVIF, responsive)
+
+**File**: `/src/components/case-study-flowing/PortraitImageList.tsx` (lines 37-46)
+
+**Results**:
+- ✅ Borders wrap properly around portrait screenshots
+- ✅ Each image can have different width based on aspect ratio
+- ✅ Maintains Next.js Image optimization benefits
+- ✅ No visual breaks or extended borders
+
+**Commit**: Pending - "Fix PortraitImageList borders by using explicit dimensions instead of fill"
+
+---
+
 ### Homepage Border Fix - COMPLETE 🎉
 
 **Goal**: Fix double border issue on homepage and properly position Featured Post section border.
