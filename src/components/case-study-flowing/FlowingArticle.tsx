@@ -16,7 +16,7 @@ export function FlowingArticle({ article, className = '' }: FlowingArticleProps)
   }
 
   return (
-    <article className={`container max-w-4xl mx-auto px-6 pb-16 md:pb-24 ${className}`}>
+    <article className={`container max-w-4xl mx-auto px-6 pb-8 md:pb-12 ${className}`}>
       <ArticleContent content={article} />
     </article>
   )

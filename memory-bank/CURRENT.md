@@ -10,6 +10,66 @@
 
 ## ✅ Recent Accomplishments (November 17, 2025 - Latest)
 
+### UI Polish & Performance Optimization - Session 2 ✅
+
+**Focus**: Image cropping fixes, spacing adjustments, Sanity presentation mode, and Lighthouse performance optimization.
+
+**Changes Made**:
+
+#### 1. Case Study Hero Image Cropping Fixed
+- **Issue**: Hero images (esp. Aesop product) were cropped from sides
+- **Root Cause**: Hero preset using `fit: 'crop'` with fixed 1200x900 dimensions
+- **Solution**: Removed height/fit constraints from hero preset - now uses width-only (1200px, natural aspect ratio)
+- **Files**: `/src/lib/sanity/image-builder.ts` (line 57-61), `/src/components/case-study-editorial/EditorialHero.tsx` (line 74-79)
+- **Result**: Full-width images display without side cropping
+
+#### 2. Hero Image Vertical Alignment
+- **Issue**: Hero image aligned with category badge instead of title
+- **Solution**: Added `md:mt-[42px]` top margin to image container
+- **File**: `/src/components/case-study-editorial/EditorialHero.tsx` (line 74)
+- **Result**: Image top now aligns with title text on desktop
+
+#### 3. Reduced Spacing Before Technologies Section
+- **Issue**: Large gap between article content and Technologies section
+- **Solution**: Reduced FlowingArticle bottom padding from `pb-16 md:pb-24` to `pb-8 md:pb-12`
+- **Files**: `/src/components/case-study-flowing/FlowingArticle.tsx` (line 19), `/src/app/(public)/case-studies/[slug]/page.tsx` (line 234)
+- **Result**: Tighter, more balanced vertical spacing
+
+#### 4. Homepage Featured Post Border Added
+- **Issue**: No visual separation between Featured Post and sections below
+- **Solution**: Added `border-b border-border dark:border-border` to Featured Post section
+- **File**: `/src/app/(public)/page.tsx` (line 165)
+- **Result**: Consistent stroke styling matching rest of site
+
+#### 5. Sanity Presentation Mode Revalidation Fixed
+- **Issue**: Presentation mode refreshing entire page on every keystroke (7th attempt to fix)
+- **Root Cause**: Refresh handler with broken empty manual refresh block
+- **Solution**: Simplified refresh handler to disable ALL manual refreshes, rely on SanityLive WebSocket
+- **File**: `/src/components/VisualEditingWrapper.tsx` (line 30-33)
+- **Result**: No more page refreshes while typing in drafts
+
+#### 6. Lighthouse Performance Investigation & Optimization (Phase 1)
+- **Score**: 67 → Target 85+ (currently at Phase 1)
+- **Root Cause**: 3-second Element Render Delay due to render-blocking CSS/fonts
+- **Analysis**: Created comprehensive report `/docs/lighthouse-performance-investigation-2025-11-17.md`
+- **Phase 1 Implementation**: Added `preload: true` to DM Sans and Newsreader fonts
+- **Files**: `/src/app/layout.tsx` (lines 25, 35)
+- **Expected Impact**: +5-10 points improvement
+- **Next Steps**: Phase 2 (Critical CSS inlining) and Phase 3 (CSS optimization)
+
+**Key Insights**:
+- Image cropping was happening at Sanity CDN level (URL params), not CSS
+- Lighthouse performance issue NOT image-related - it's render-blocking CSS/fonts
+- Next.js font optimization works, but still needs preloading for LCP
+- SanityLive WebSocket handles real-time updates - no manual refresh needed
+
+**Documentation Created**:
+- `/docs/lighthouse-performance-investigation-2025-11-17.md` - Comprehensive performance analysis with 4-phase implementation plan
+
+**Build Status**: ✅ Passing (all TypeScript errors resolved)
+
+---
+
 ### Security Audit & Chat Logs Privacy Enhancement - COMPLETE 🎉
 
 **Goal**: Conduct comprehensive security audit and restrict admin chat logs to development environment only.

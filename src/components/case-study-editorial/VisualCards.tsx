@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { urlFor } from '@/sanity/lib/image'
+import { buildImageUrl } from '@/lib/sanity/image-builder'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 interface VisualCard {
@@ -31,7 +31,7 @@ export function VisualCards({ cards }: VisualCardsProps) {
           {card.image ? (
             <div className="relative w-full h-auto bg-muted">
               <img
-                src={urlFor(card.image).width(800).url()}
+                src={buildImageUrl(card.image, 'visual-card')}
                 alt={card.caption || 'Case study visual'}
                 className="w-full h-auto object-contain"
               />

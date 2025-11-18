@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { urlFor } from '@/sanity/lib/client'
+import { buildImageUrl } from '@/lib/sanity/image-builder'
 
 interface EditorialHeroProps {
   badge?: string
@@ -39,9 +39,9 @@ interface EditorialHeroProps {
  * Stacked layout on mobile: content → image → overview
  */
 export function EditorialHero({ badge, title, subtitle, overview, backgroundImage }: EditorialHeroProps) {
-  // Build image URL - use urlFor helper which expects the full image object
+  // Build image URL using 'hero' preset (1920x900, crop top, quality 85)
   const imageUrl = backgroundImage?.asset
-    ? urlFor(backgroundImage).width(1200).height(900).quality(85).url()
+    ? buildImageUrl(backgroundImage, 'hero')
     : null
 
   return (
@@ -71,12 +71,12 @@ export function EditorialHero({ badge, title, subtitle, overview, backgroundImag
 
           {/* Right: Featured Image */}
           {imageUrl && (
-            <div className="w-full md:w-1/3 flex-shrink-0">
-              <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50">
+            <div className="w-full md:w-1/3 flex-shrink-0 md:mt-[42px]">
+              <div className="relative rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50">
                 <img
                   src={imageUrl}
                   alt={backgroundImage?.alt || ""}
-                  className="w-full h-full object-cover transition-opacity duration-normal"
+                  className="w-full h-auto object-contain transition-opacity duration-normal"
                 />
               </div>
             </div>

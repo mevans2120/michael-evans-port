@@ -10,7 +10,7 @@ import { homepageHeroQuery } from "@/lib/sanity/queries";
 import { featuredBlogQuery } from "@/lib/sanity/queries/blog";
 import { Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
-import { urlFor } from '@/sanity/lib/client';
+import { buildImageUrl } from '@/lib/sanity/image-builder';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });
@@ -162,7 +162,7 @@ export default async function HomePage() {
 
       {/* Featured Post Section */}
       {featuredShowcase && (
-        <section className="py-20 px-6 relative">
+        <section className="py-20 px-6 relative border-b border-border dark:border-border">
           <div className="absolute right-1/4 top-1/2 w-40 h-40 rounded-full blur-3xl bg-accent/20" />
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="mb-12 -mx-6 md:mx-0">
@@ -190,7 +190,7 @@ export default async function HomePage() {
                     <div className="w-full md:w-1/3 flex-shrink-0">
                       <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
                         <Image
-                          src={urlFor(featuredShowcase.featuredImage).width(600).height(450).fit('crop').quality(85).auto('format').url()}
+                          src={buildImageUrl(featuredShowcase.featuredImage, 'card')}
                           alt={featuredShowcase.featuredImage.alt || featuredShowcase.title}
                           fill
                           className="object-cover transition-opacity duration-300 group-hover:opacity-90"

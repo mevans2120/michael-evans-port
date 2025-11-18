@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import type { BlogListItem } from '@/types/blog';
-import { urlFor } from '@/sanity/lib/client';
+import { buildImageUrl } from '@/lib/sanity/image-builder';
 import { CalendarIcon, ClockIcon } from 'lucide-react';
 
 interface BlogPostCardProps {
@@ -59,7 +59,7 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
           <div className="w-full md:w-1/3 flex-shrink-0">
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
               <img
-                src={urlFor(post.featuredImage.asset).width(600).height(450).fit('crop').quality(85).auto('format').url()}
+                src={buildImageUrl(post.featuredImage.asset, 'card')}
                 alt={post.featuredImage.alt}
                 className="absolute inset-0 w-full h-full object-cover transition-opacity duration-normal group-hover:opacity-90"
               />

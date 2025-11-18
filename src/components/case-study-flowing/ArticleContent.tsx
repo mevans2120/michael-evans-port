@@ -5,7 +5,7 @@
 
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
-import { urlFor } from '@/sanity/lib/client'
+import { buildImageUrl } from '@/lib/sanity/image-builder'
 import { StatBlockNumber } from './StatBlockNumber'
 import { StatBlockQuote } from './StatBlockQuote'
 import { StatBlockText } from './StatBlockText'
@@ -43,8 +43,10 @@ export function ArticleContent({ content }: ArticleContentProps) {
       image: ({ value }: any) => {
         if (!value?.asset) return null
 
-        const imageUrl = urlFor(value).url()
         const style = value.style || 'fullWidth' // Fallback for existing images without style
+        // Use article-full for fullWidth, article-float for floating images
+        const isFloating = style === 'floatLeft' || style === 'floatRight' || style === 'floatRightPortrait'
+        const imageUrl = buildImageUrl(value, isFloating ? 'article-float' : 'article-full')
 
         // Full width (respects Sanity crop)
         if (style === 'fullWidth') {

@@ -6,7 +6,7 @@
  */
 
 import Image from 'next/image'
-import { urlFor } from '@/sanity/lib/client'
+import { buildImageUrl } from '@/lib/sanity/image-builder'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 interface PortraitImage {
@@ -30,7 +30,7 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
           {images.map((image) => {
           if (!image?.asset) return null
 
-          const imageUrl = urlFor(image).url()
+          const imageUrl = buildImageUrl(image, 'portrait')
 
           return (
             <figure key={image._key} className="flex-shrink-0 flex flex-col gap-3 w-fit snap-start">

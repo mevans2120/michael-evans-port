@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
+import { buildImageUrl } from '@/lib/sanity/image-builder'
 import { urlFor } from '@/sanity/lib/client'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 import {
@@ -109,7 +110,7 @@ export function ImageCarouselLightbox({
           {images.map((image, index) => {
             if (!image?.asset) return null
 
-            const imageUrl = urlFor(image).url()
+            const imageUrl = buildImageUrl(image, 'grid')
 
             return (
               <figure key={image._key || index} className="space-y-3">

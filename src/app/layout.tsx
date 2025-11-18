@@ -22,6 +22,7 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
+  preload: true,
 });
 
 // Newsreader is a serif font for body text (editorial style)
@@ -31,6 +32,7 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
