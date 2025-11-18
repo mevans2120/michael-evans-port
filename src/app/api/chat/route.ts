@@ -114,7 +114,7 @@ Follow-up Questions:
 - **Question 1**: Should be related to the original question/topic (dig deeper into what was just discussed)
 - **Question 2**: A "learn more" style question about a DIFFERENT topic or project (help users explore other areas of Michael's work)
 - Format them as plain text (no links in the questions)
-- WHEN your answer discusses a specific project, ALWAYS include the corresponding case study link at the very end of your response:
+- WHEN your answer discusses a specific project, post or case study, ALWAYS include the corresponding link at the very end of your response:
 
   **Follow-up questions:**
   - Question related to current topic
@@ -124,7 +124,6 @@ Follow-up Questions:
 
 - Make questions natural, conversational, and specific to the context you just discussed
 - Questions should help users discover related information you know about Michael's work
-- The "Learn more" link should match the project you just discussed
 
 Available case study URLs:
 • /case-studies/virgin-america (Virgin America)
@@ -132,7 +131,7 @@ Available case study URLs:
 • /case-studies/target (Target)
 • /case-studies/before-launcher (Before Launcher)
 • /case-studies/playstation-vue (Playstation Vue)
-• /case-studies/Houselogic (Houselogic/NAR)
+• /case-studies/houselogic (Houselogic/NAR)
 • /case-studies/peacock (Peacock)
 • /case-studies/aesop (Aesop)
 • /case-studies/teaching-books (Teaching Books)

@@ -100,7 +100,7 @@ export function ImageCarouselLightbox({
 
   if (!images || images.length === 0) return null
 
-  const gridCols = columns === 3 ? 'grid-cols-3' : 'grid-cols-2'
+  const gridCols = columns === 3 ? 'grid-cols-2 md:grid-cols-3' : 'grid-cols-2'
 
   return (
     <>
@@ -139,7 +139,7 @@ export function ImageCarouselLightbox({
       {/* Lightbox Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
-          className="max-w-[95vw] w-full h-[95vh] p-0 border-0 bg-black/95 dark:bg-black/95"
+          className="max-w-[95vw] w-full h-[95vh] p-0 border-0 bg-black/95 dark:bg-black/95 [&>button]:h-10 [&>button]:w-10 [&>button]:bg-black/50 [&>button]:hover:bg-black/70 [&>button]:rounded-full [&>button_svg]:h-6 [&>button_svg]:w-6 [&>button]:text-white/90"
           aria-describedby="carousel-description"
         >
           {/* Visually hidden title for accessibility */}
@@ -178,19 +178,19 @@ export function ImageCarouselLightbox({
                   >
                     {/* Image container - leave space for caption */}
                     <div className={cn(
-                      "relative w-full flex items-center justify-center px-16",
+                      "relative w-full flex items-center justify-center px-4 md:px-16",
                       image.caption ? "h-[calc(100%-120px)] py-8" : "h-full py-12"
                     )}>
                       <img
                         src={imageUrl}
                         alt={image.alt || ''}
-                        className="max-w-full max-h-full object-contain"
+                        className="max-w-[75%] max-h-[75%] object-contain"
                       />
                     </div>
 
                     {/* Caption */}
                     {image.caption && (
-                      <div className="w-full px-16 py-6 flex items-center justify-center">
+                      <div className="w-full px-4 md:px-16 py-6 flex items-center justify-center">
                         <p className="text-sm text-white/90 text-center max-w-2xl">
                           {image.caption}
                         </p>
