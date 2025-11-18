@@ -2,7 +2,7 @@ import groq from 'groq'
 
 // Get all projects (editorial ordering for homepage)
 export const projectsQuery = groq`
-  *[_type == "project"] | order(order asc, publishedAt desc) {
+  *[_type == "project" && chatbotOnly != true] | order(order asc, publishedAt desc) {
     _id,
     title,
     slug,
@@ -33,7 +33,7 @@ export const projectsQuery = groq`
 
 // Get all projects alphabetically (for case studies landing page)
 export const allProjectsAlphabeticalQuery = groq`
-  *[_type == "project"] | order(title asc) {
+  *[_type == "project" && chatbotOnly != true] | order(title asc) {
     _id,
     title,
     slug,
@@ -64,7 +64,7 @@ export const allProjectsAlphabeticalQuery = groq`
 
 // Get featured projects for homepage
 export const featuredProjectsQuery = groq`
-  *[_type == "project" && featured == true] | order(order asc, publishedAt desc)[0...4] {
+  *[_type == "project" && featured == true && chatbotOnly != true] | order(order asc, publishedAt desc)[0...4] {
     _id,
     title,
     slug,
@@ -155,7 +155,7 @@ export const projectQuery = groq`
 
 // Get projects by category
 export const projectsByCategoryQuery = groq`
-  *[_type == "project" && category == $category] | order(order asc, publishedAt desc) {
+  *[_type == "project" && category == $category && chatbotOnly != true] | order(order asc, publishedAt desc) {
     _id,
     title,
     slug,
@@ -244,7 +244,7 @@ export const homepageHeroQuery = groq`
 // Get featured case study for case studies landing page
 // Get all featured case studies (for random selection)
 export const allFeaturedCaseStudiesQuery = groq`
-  *[_type == "project" && featured == true] | order(order asc) {
+  *[_type == "project" && featured == true && chatbotOnly != true] | order(order asc) {
     _id,
     title,
     slug,

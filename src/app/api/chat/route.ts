@@ -10,7 +10,7 @@ import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
 import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
 import { preprocessQuery } from '@/lib/chatbot/query-preprocessor';
 import { hybridSearch, rerankResults } from '@/lib/chatbot/hybrid-search';
-import { detectPraise, getRandomAsciiArt } from '@/lib/chatbot/ascii-art';
+import { detectPraise } from '@/lib/chatbot/ascii-art';
 import { logger } from '@/lib/logger';
 
 export const runtime = 'edge';
@@ -114,7 +114,7 @@ Follow-up Questions:
 - **Question 1**: Should be related to the original question/topic (dig deeper into what was just discussed)
 - **Question 2**: A "learn more" style question about a DIFFERENT topic or project (help users explore other areas of Michael's work)
 - Format them as plain text (no links in the questions)
-- If your answer discussed a specific project, include a link at the very end:
+- WHEN your answer discusses a specific project, ALWAYS include the corresponding case study link at the very end of your response:
 
   **Follow-up questions:**
   - Question related to current topic
@@ -140,20 +140,50 @@ Available case study URLs:
 • /case-studies/peddle (Peddle)
 • /case-studies/postpal (Post Pal)
 
-Special Response for Praise:
-- If the user's message contains praise, thanks, or positive feedback (like "thank you", "great job", "awesome", "helpful", etc.)
-- Include a fun ASCII art appreciation at the end of your response
-- Add the ASCII art in a code block after your main response
-- Use one of these ASCII art designs randomly:
-  * Heart pattern with <3 symbols
-  * Star pattern with asterisks
-  * Robot saying THX
-  * Dog saying "Woof! Thanks!"
-  * Cat saying "Purrfect feedback!"
-  * Trophy with "You're the best!"
-  * Smiley face
-  * Flower made with @ symbols
-- Keep the ASCII art simple and pure text (no emojis)`;
+// COMMENTED OUT: ASCII art feature temporarily disabled
+// Special Response for Praise:
+// - If the user's message contains praise, thanks, or positive feedback (like "thank you", "great job", "awesome", "helpful", etc.)
+// - Include a fun ASCII art appreciation at the end of your response
+// - CRITICAL: Wrap the ASCII art in a code block (three backticks before and after)
+// - Choose ONE of these ASCII art designs randomly and copy it EXACTLY as shown
+// - Format: After your response, add a blank line, then three backticks, then the ASCII art, then three backticks
+//
+//     <3 <3 <3 <3 <3 <3 <3
+//     <3               <3
+//     <3  Thank you!   <3
+//     <3               <3
+//     <3 <3 <3 <3 <3 <3 <3
+//
+// OR
+//
+//       [=========]
+//       | o     o |
+//       |    >    |
+//       |  \___/  |
+//       [=========]
+//        |[-----]|
+//        || THX ||
+//        |[-----]|
+//        d       b
+//
+// OR
+//
+//     *~*~*~*~*~*~*~*
+//     ~*~*~*~*~*~*~*~
+//     * Thanks for  *
+//     * the kind    *
+//     * words!      *
+//     ~*~*~*~*~*~*~*~
+//     *~*~*~*~*~*~*~*
+//
+// OR
+//
+//      /\_/\
+//     ( o.o )
+//      > ^ <
+//     Purrfect feedback!
+//     Thank mew!
+`;
 
 export async function POST(req: Request) {
   try {

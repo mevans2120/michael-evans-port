@@ -10,6 +10,81 @@
 
 ## ✅ Recent Accomplishments (November 17, 2025 - Latest)
 
+### Chatbot-Only Case Studies Feature - COMPLETE ✅
+
+**Goal**: Enable case studies to be hidden from public lists but still discoverable through chatbot conversations.
+
+**Implementation**:
+
+#### 1. Sanity Schema Enhancement
+- **File**: `/sanity/schemas/project.ts` (line 169-175)
+- **Change**: Added `chatbotOnly` boolean field to project schema
+- **Default**: `false` (all existing projects remain public)
+- **Description**: "Hide from case study list and recommended cards, but keep available for chatbot recommendations. Use this for unlisted projects that users can discover through conversation."
+
+#### 2. GROQ Query Filtering (7 queries updated)
+**Files Modified**:
+- `/src/lib/sanity/queries.ts` - 5 queries updated:
+  - Line 5: `projectsQuery` (homepage projects)
+  - Line 36: `allProjectsAlphabeticalQuery` (case studies list)
+  - Line 67: `featuredProjectsQuery` (homepage featured)
+  - Line 158: `projectsByCategoryQuery` (category filters)
+  - Line 247: `allFeaturedCaseStudiesQuery` (hero section)
+- `/src/lib/sanity/queries/viewMoreProjects.ts` - 2 queries updated:
+  - Line 45: `allProjectsForSelectionQuery` (random selection)
+  - Line 56: `relatedProjectsByCategoryQuery` (related content)
+
+**Filter Applied**: `&& chatbotOnly != true` added to all list/collection queries
+
+#### 3. Intentionally NOT Filtered
+- **Individual project pages** (`projectQuery`) - Direct URLs still work
+- **Chatbot vector database** - Syncs ALL projects automatically via Sanity webhook
+- **Result**: "Unlisted" projects are discoverable through conversation but hidden from browsing
+
+**Use Cases**:
+- Work-in-progress case studies (mention but don't display)
+- Private/NDA projects (chatbot can discuss at high level)
+- Archived projects (remove from portfolio but keep in knowledge base)
+- Easter eggs (hidden content discovered through chatbot)
+
+**Documentation**:
+- Implementation plan: `/docs/chatbot-only-case-studies-plan.md`
+
+**Key Design Decision**: List views filter content, chatbot doesn't. This creates an "unlisted but discoverable" content tier.
+
+**Testing**:
+- Sanity Studio: New "Chatbot Only" checkbox appears on all projects
+- Set project to `chatbotOnly: true` → Hidden from `/case-studies` list
+- Direct URL still works: `/case-studies/project-slug` loads normally
+- Chatbot can still recommend and link to hidden projects
+
+---
+
+### Chatbot Fixes: Case Study Cards & ASCII Art - Session 3 ✅
+
+**Issues Resolved**:
+
+#### 1. Case Study Cards Not Always Appearing
+- **Problem**: Case study preview cards appeared inconsistently when chatbot discussed projects
+- **Root Cause**: Optional prompt language ("If your answer discussed...")
+- **Solution**: Changed to mandatory with "WHEN...ALWAYS" language
+- **File**: `/src/app/api/chat/route.ts` (line 117)
+- **Result**: Cards now appear consistently when projects are mentioned
+
+#### 2. ASCII Art Feature Temporarily Disabled
+- **Problem**: ASCII art showing grey boxes when praised (regression from model behavior change)
+- **Attempted Fix**: Added actual ASCII examples with code block wrapping instructions
+- **User Feedback**: Didn't want ASCII in code blocks
+- **Final Decision**: Commented out entire ASCII art feature (lines 143-186)
+- **Status**: Feature disabled for now, can be re-enabled later with different approach
+
+**Files Modified**:
+- `/src/app/api/chat/route.ts`:
+  - Line 117: Updated case study link prompt to mandatory
+  - Lines 143-186: ASCII art feature commented out (preserved for future reference)
+
+---
+
 ### UI Polish & Performance Optimization - Session 2 ✅
 
 **Focus**: Image cropping fixes, spacing adjustments, Sanity presentation mode, and Lighthouse performance optimization.

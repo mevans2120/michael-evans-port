@@ -167,6 +167,13 @@ export default defineType({
       }),
     }),
     defineField({
+      name: 'chatbotOnly',
+      title: 'Chatbot Only',
+      type: 'boolean',
+      description: 'Hide from case study list and recommended cards, but keep available for chatbot recommendations. Use this for unlisted projects that users can discover through conversation.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'featuredMetric',
       title: 'Featured Metric',
       type: 'string',

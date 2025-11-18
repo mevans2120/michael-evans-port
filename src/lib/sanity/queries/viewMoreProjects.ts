@@ -42,7 +42,7 @@ export const viewMoreProjectsSettingsQuery = groq`
 
 // Query for all projects (for random/recent selection)
 export const allProjectsForSelectionQuery = groq`
-  *[_type == "project"] | order(_createdAt desc) {
+  *[_type == "project" && chatbotOnly != true] | order(_createdAt desc) {
     _id,
     title,
     slug,
@@ -53,7 +53,7 @@ export const allProjectsForSelectionQuery = groq`
 
 // Query for related projects by category
 export const relatedProjectsByCategoryQuery = groq`
-  *[_type == "project" && category == $category && slug.current != $currentSlug] | order(_createdAt desc) [0...$limit] {
+  *[_type == "project" && category == $category && slug.current != $currentSlug && chatbotOnly != true] | order(_createdAt desc) [0...$limit] {
     _id,
     title,
     slug,
