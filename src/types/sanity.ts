@@ -54,6 +54,22 @@ export interface ContactPageData {
   copyEmailLinkText: string;
   copiedConfirmationText: string;
   responseTimeNote: string;
+  form?: {
+    nameLabel: string;
+    emailLabel: string;
+    messageLabel: string;
+    sendButtonText: string;
+    sendingButtonText: string;
+    successMessage: string;
+    errorMessage: string;
+  };
+  confirmationEmail?: {
+    enabled: boolean;
+    fromName?: string;
+    subject?: string;
+    cc?: string;
+    body?: string;
+  };
   seo: {
     title: string;
     description: string;

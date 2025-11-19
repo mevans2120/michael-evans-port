@@ -73,6 +73,103 @@ export default defineType({
       initialValue: 'I typically respond within 24-48 hours',
     }),
 
+    // Form Configuration
+    defineField({
+      name: 'form',
+      title: 'Form Settings',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'nameLabel',
+          title: 'Name Label',
+          type: 'string',
+          initialValue: 'Name',
+        }),
+        defineField({
+          name: 'emailLabel',
+          title: 'Email Label',
+          type: 'string',
+          initialValue: 'Email',
+        }),
+        defineField({
+          name: 'messageLabel',
+          title: 'Message Label',
+          type: 'string',
+          initialValue: 'Message',
+        }),
+        defineField({
+          name: 'sendButtonText',
+          title: 'Send Button Text',
+          type: 'string',
+          initialValue: 'Send Message',
+        }),
+        defineField({
+          name: 'sendingButtonText',
+          title: 'Sending Button Text',
+          type: 'string',
+          initialValue: 'Sending...',
+        }),
+        defineField({
+          name: 'successMessage',
+          title: 'Success Message',
+          type: 'string',
+          initialValue: 'Message sent successfully!',
+        }),
+        defineField({
+          name: 'errorMessage',
+          title: 'Error Message',
+          type: 'string',
+          initialValue: 'Something went wrong. Please try again.',
+        }),
+      ],
+    }),
+
+    // Confirmation Email Configuration
+    defineField({
+      name: 'confirmationEmail',
+      title: 'Confirmation Email',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'enabled',
+          title: 'Enable Confirmation Email',
+          type: 'boolean',
+          initialValue: false,
+          description: 'Send a confirmation email to the user who submitted the form',
+        }),
+        defineField({
+          name: 'fromName',
+          title: 'From Name',
+          type: 'string',
+          initialValue: 'Michael Evans',
+          hidden: ({ parent }) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'subject',
+          title: 'Email Subject',
+          type: 'string',
+          initialValue: 'Thanks for reaching out!',
+          hidden: ({ parent }) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'cc',
+          title: 'CC Email',
+          type: 'string',
+          description: 'Optional email address to CC on the confirmation email',
+          hidden: ({ parent }) => !parent?.enabled,
+        }),
+        defineField({
+          name: 'body',
+          title: 'Email Body',
+          type: 'text',
+          rows: 5,
+          initialValue: 'Thanks for your message. I will get back to you shortly.',
+          description: 'The content of the confirmation email.',
+          hidden: ({ parent }) => !parent?.enabled,
+        }),
+      ],
+    }),
+
     // SEO
     defineField({
       name: 'seo',

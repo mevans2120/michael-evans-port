@@ -357,6 +357,22 @@ export const contactPageQuery = groq`
     copyEmailLinkText,
     copiedConfirmationText,
     responseTimeNote,
+    form {
+      nameLabel,
+      emailLabel,
+      messageLabel,
+      sendButtonText,
+      sendingButtonText,
+      successMessage,
+      errorMessage
+    },
+    confirmationEmail {
+      enabled,
+      fromName,
+      subject,
+      cc,
+      body
+    },
     seo {
       title,
       description
