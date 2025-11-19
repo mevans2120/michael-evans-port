@@ -20,9 +20,10 @@ const VIEWPORTS = [
 
 const PAGES_TO_TEST = [
   { path: '/', name: 'homepage' },
-  // Add more pages as needed:
-  // { path: '/about', name: 'about' },
-  // { path: '/projects', name: 'projects' },
+  { path: '/about', name: 'about' },
+  { path: '/contact', name: 'contact' },
+  { path: '/blog', name: 'blog' },
+  { path: '/case-studies', name: 'case-studies' },
 ];
 
 const COMPONENTS_TO_TEST = [

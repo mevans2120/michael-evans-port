@@ -11,7 +11,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { SanityLive } from "@/sanity/lib/live";
-import { VisualEditingWrapper } from "@/components/VisualEditingWrapper";
+import { SanityVisualEditingLoader } from "@/components/SanityVisualEditingLoader";
 import { draftMode } from "next/headers";
 import * as SunCalc from 'suncalc';
 import { Suspense } from "react";
@@ -62,17 +62,17 @@ export default async function RootLayout({
   // Day colors (Coral) vs Evening colors (Purple)
   const accentColors = isDayTime
     ? {
-        accent: '20 90% 55%',        // Coral
-        accentLight: '25 95% 60%',   // Lighter coral
-        accentForeground: '0 0% 100%', // White text
-        buttonPrimary: '20 90% 50%', // Button coral
-      }
+      accent: '20 90% 55%',        // Coral
+      accentLight: '25 95% 60%',   // Lighter coral
+      accentForeground: '0 0% 100%', // White text
+      buttonPrimary: '20 90% 50%', // Button coral
+    }
     : {
-        accent: '270 80% 60%',       // Purple
-        accentLight: '270 70% 70%',  // Lighter purple
-        accentForeground: '0 0% 100%', // White text
-        buttonPrimary: '276 70% 47%', // Button purple
-      };
+      accent: '270 80% 60%',       // Purple
+      accentLight: '270 70% 70%',  // Lighter purple
+      accentForeground: '0 0% 100%', // White text
+      buttonPrimary: '276 70% 47%', // Button purple
+    };
 
   return (
     <html
@@ -108,7 +108,7 @@ export default async function RootLayout({
               <FaviconGenerator />
               {children}
               <SanityLive />
-              {(await draftMode()).isEnabled && <VisualEditingWrapper />}
+              {(await draftMode()).isEnabled && <SanityVisualEditingLoader />}
               <Toaster />
               <Sonner />
             </TimeThemeProvider>

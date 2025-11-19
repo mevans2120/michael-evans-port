@@ -1,0 +1,126 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - navigation [ref=e7]:
+      - link "MEvans" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e9]: MEvans
+      - link "Home" [ref=e10] [cursor=pointer]:
+        - /url: /
+        - img [ref=e11]
+        - generic [ref=e14]: Home
+      - link "About" [ref=e15] [cursor=pointer]:
+        - /url: /about
+        - img [ref=e16]
+        - generic [ref=e19]: About
+      - link "Case Studies" [ref=e20] [cursor=pointer]:
+        - /url: /case-studies
+        - img [ref=e21]
+        - generic [ref=e24]: Case Studies
+      - link "Posts" [ref=e25] [cursor=pointer]:
+        - /url: /blog
+        - img [ref=e26]
+        - generic [ref=e28]: Posts
+    - main:
+      - generic:
+        - generic [ref=e29]:
+          - generic:
+            - heading "Michael Evans" [level=1] [ref=e31]
+            - img "Michael Evans" [ref=e34]
+          - paragraph: Product Manager • UX Strategist • AI Builder
+          - generic:
+            - generic:
+              - generic: Location
+              - generic: Portland, Oregon
+            - generic:
+              - generic: Experience
+              - generic: Nearly two decades
+            - generic:
+              - generic: Approach
+              - generic: 1 team 1 dream / army of 1
+            - generic:
+              - generic: Current Focus
+              - generic: AI amplifying software
+            - generic:
+              - generic: Work Style
+              - generic: Remote (love on-site too)
+            - generic:
+              - generic: Availability
+              - generic: Open to opportunities
+        - article [ref=e35]:
+          - generic:
+            - paragraph: I'm a product manager who lives in Portland, Oregon but who cut his teeth in New York and San Francisco. I am a technology and AI enthusiast, a father of two boys, a lifelong learner, a lover of teams, but also a very capable "army of one”.
+            - paragraph: "What makes me different from a typical product manager is the breadth of what I can do (and have done). I can define strategy and determine what to build and why. I can create the interface and user experience through UX design. I can conduct research to understand users and validate ideas then make sense of data and metrics through analysis. I'm a skilled project manager who ships consistently, tackles prioritization for backlogs and roadmaps, and manages feature lists. And here's the newest part: I can build and test the software with Claude Code."
+            - paragraph: That last capability is transformative. Working with AI has changed how I operate. I can now take projects from strategy through to working code, all while maintaining the product-oriented thinking that's been at the core of my career for nearly 20 years.
+            - heading "Three things about me" [level=3]:
+              - strong [ref=e36]: Three things about me
+            - paragraph:
+              - strong [ref=e37]: "Deep Software Knowledge:"
+              - text: I'm as technical as you can get without ever having the title of engineer in my job title. Great always starts with an excellent foundation. Without good design and engineering you will not have a good foundation. Anyone who has lived through the outcomes that result from a poorly designed or engineered product can tell you…
+            - paragraph:
+              - strong [ref=e38]: "Big Picture Business View:"
+              - text: What does a business and their customers need right now, and years in the future? How best can this <x> product meet those needs? Being focused on answering those two questions while you design, build, test, and iterate on a product is one of the main ingredients of a successful product.
+            - paragraph:
+              - strong [ref=e39]: "Still Heart the Details:"
+              - text: Finally, the details are what separate great products from good products. There are plenty of good ideas, but far fewer great executions. Being able to zoom in and obsess over those details while maintaining a sense of the big picture is what makes products truly exceptional.
+            - heading "Why AI changes many things, including me" [level=3]:
+              - strong [ref=e40]: Why AI changes many things, including me
+            - paragraph: AI is incredibly useful right now. Sure, it hallucinates, it can be sloppy, over confident, and frequently maddening. On the other hand, it works extremely fast, follows rules well enough, and doesn’t complain about revising until it's good enough. It works around the clock… and with the right processes, guard rails, patience, know-how and time, AI can deliver excellent results.
+            - paragraph:
+              - text: Recently, I’ve become interested in the 0-to-1 "army of one" approach, where I perform product strategy, design, and development working directly with AI. Since switching to Claude Code, I've shipped PostPal (a medical procedure recovery app built with React Native and Next.js), multiple marketing websites including DOA, Opal Creek, and Karuna Gatton (all React integrated with Sanity CMS), and created custom memory banks and three complete skill suites for Design, Project Management, and Development. I've generated over 1,000 GitHub commits working this way. You can learn more about my process
+              - link "at my blog" [ref=e41] [cursor=pointer]:
+                - /url: https://mevans.space/blog
+              - text: .
+            - paragraph: Working with Claude Code and processes I learned from agentic engineering enthusiasts like me has taught me a lot about building high quality full-stack applications with AI.
+            - paragraph: Given my background, working with AI suits me very well. Claude is a team member, with a bad memory and is prone to making messes… But gets work done very quickly, and follows direction well enough. Giving Claude context, organization, and success criteria, all the support you would give your development team, greatly improves the output. All those years of defining requirements, breaking down problems, and communicating clearly… that's exactly what AI needs to be effective. My English major in college never felt so relevant.
+            - heading "I still love it" [level=3]:
+              - strong [ref=e42]: I still love it
+            - paragraph: One thing I've learned about myself in the last couple of years is that I love process for building, testing, shipping, and taking products to market. From ideation though debugging, I find joy in all of it. While it's completely changing now with AI, and I’d be lying if I said I didn’t miss aspects about the “old way,” the rapidity now at which we can achieve results are undeniable.
+            - paragraph:
+              - text: I go deep across the product lifecycle, defining what we
+              - emphasis [ref=e43]: should
+              - text: build through strategy, understanding what users actually need through research, designing how it should work, building it with Claude Code, testing whether it works and whether users love it, shipping it to market, measuring what happened and what we should do next, then iterating to make it better.
+            - paragraph: Oh. I also love working with human teams, in a variety of roles. Get in touch if you need exceptional research, strategy, design or development work.
+            - paragraph: I’d love to hear from you.
+      - generic [ref=e44]:
+        - generic:
+          - img "Crow logo" [ref=e46]
+          - navigation:
+            - heading "Product Management" [level=3] [ref=e48]
+            - generic [ref=e49]: Research
+            - generic [ref=e50]: Strategy
+            - generic [ref=e51]: UX & Design
+            - generic [ref=e52]: Delivery
+            - generic [ref=e53]: Development
+            - generic [ref=e54]: AI Innovation
+          - navigation:
+            - heading "Pages" [level=3] [ref=e55]
+            - link "Home" [ref=e56] [cursor=pointer]:
+              - /url: /
+            - link "About" [ref=e57] [cursor=pointer]:
+              - /url: /about
+            - link "Case Studies" [ref=e58] [cursor=pointer]:
+              - /url: /case-studies
+            - link "Posts" [ref=e59] [cursor=pointer]:
+              - /url: /blog
+          - generic [ref=e60]:
+            - heading "Reach Out" [level=3] [ref=e61]
+            - link "LinkedIn" [ref=e62] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/mevans212/
+            - link "Contact" [ref=e63] [cursor=pointer]:
+              - /url: /contact
+        - generic:
+          - generic:
+            - paragraph [ref=e64]: MEvans LLC.
+            - paragraph [ref=e65]:
+              - text: Made in Portland, OR. It is here and its
+              - button "night" [ref=e66] [cursor=pointer]
+              - text: .
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+```
