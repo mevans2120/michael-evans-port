@@ -1,54 +1,156 @@
-# Scrollbar Restoration (2025-01-18)
+# Blog & About Content Ingestion + Link Recommendations (2025-01-18)
 
 ## Context
-User requested to restore the visible scrollbar to the main content area after navigation moved from the right side to the left side. The scrollbar was originally hidden when navigation was on the right to create a cleaner aesthetic, but now that navigation is on the left, the scrollbar should be visible for better UX.
+User wanted to add blog posts and About page content to the chatbot's knowledge base, and ensure the chatbot correctly suggests blog post links when answering questions about AI workflows, tools, and methodologies.
 
 ## Changes Made
 
-### 1. Restore Native OS Scrollbar
-**File**: `src/app/(public)/layout.tsx` (line 40)
+### 1. Added Blog Post Ingestion
+**File**: `src/lib/chatbot/sanity-fetcher.ts`
 
-**Change**: Removed `.hide-scrollbar` class from main content area
-- **Before**: `className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 lg:pb-0 hide-scrollbar relative"`
-- **After**: `className="flex-1 h-full overflow-y-auto transition-all duration-300 pb-16 lg:pb-0 relative"`
+**Changes**:
+- Added `SanityBlog` interface (lines 126-140)
+- Created `fetchBlogPosts()` function (lines 503-567) to fetch and transform blog posts from Sanity
+- Updated `SanityContentDocument` type to include `'sanity_blog'` (line 148)
+- Updated `fetchAllSanityContent()` to include blog posts (lines 573-591)
+- **Added explicit URLs** to blog posts: `Blog post URL: /blog/${slug}` (lines 525-528)
 
 **Impact**:
-- Main content area now displays native OS scrollbar
-- Scrollbar automatically matches system appearance (dark mode, etc.)
-- Users can see scroll position and document length
-- Familiar, standard UX
+- 2 blog posts now ingested: "How I AI in Q4 2025" and "Marketing Sites"
+- 13 chunks created from blog posts (6-7 chunks per post)
+- Total documents: 35 → 37
+- Total chunks: 246 → 267
 
-### 2. Intentionally Hidden Scrollbars (Unchanged)
-The following components retain `.hide-scrollbar` for design reasons:
-- **Navigation menu** (`src/components/navigation/NavigationMenu.tsx:32`) - Clean aesthetic
-- **Chat section** (`src/components/navigation/ChatSection.tsx:347`) - Messaging app convention
-- **Horizontal scrollers** (portrait lists, slideshows) - Touch-friendly, minimal UI
+### 2. Enhanced About Page Content
+**File**: `src/lib/chatbot/sanity-fetcher.ts`
+
+**Changes**:
+- Added `article` field to `SanityProfile` interface (line 84)
+- Updated profile query to fetch `article` field (line 248)
+- Added article content processing (lines 293-300) - "About / Background Details" section
+
+**Impact**:
+- About page extended content now included in profile document
+- Richer context for biographical and background questions
+
+### 3. Added Case Study URLs
+**File**: `src/lib/chatbot/sanity-fetcher.ts`
+
+**Changes**:
+- Added explicit URLs to case studies: `Case study URL: /case-studies/${slug}` (lines 186-189)
+
+**Impact**:
+- Both blog posts AND case studies now have explicit URLs in searchable content
+- LLM can see exact link to use when retrieving context
+
+### 4. Updated Chatbot Link Instructions
+**File**: `src/app/api/chat/route.ts`
+
+**Changes**:
+- Updated link format examples to show all three content types (lines 123-126):
+  - Case study: `[Project Name](/case-studies/project-slug)`
+  - Blog post: `[Post Title](/blog/post-slug)`
+  - About page: `[About Michael](/about)`
+- Added "Match link type to question context" section (lines 128-132):
+  - AI tools/workflows/methodologies → Blog posts
+  - Client projects → Case studies
+  - Background/bio → About page
+  - **IMPORTANT**: Look for "Blog post URL:" or "Case study URL:" in context
+- Enhanced link deduplication instructions (lines 134-141)
+
+**Impact**:
+- LLM now knows WHEN to use each link type based on question context
+- Explicit instruction to look for URLs in retrieved content
+- Variety in link suggestions throughout conversation
+
+### 5. Fixed Link Preview Overlap
+**File**: `src/components/chatbot/LinkPreview.tsx`
+
+**Changes**:
+- Reduced description line clamping from 3 to 2 lines (line 283)
+
+**Impact**:
+- Fixed text overlap issue where description overlapped with title on link preview cards
 
 ## Documentation
 
-**Created**: `docs/scrollbar-restoration-plan.md`
-- Comprehensive analysis of scrollbar hiding mechanisms
-- Three implementation options (native, custom, hybrid)
-- Details on which components should keep hidden scrollbars
-- Testing checklist and browser compatibility notes
+**Created**: `docs/chatbot/blog-and-about-content-ingestion-plan.md`
+- Comprehensive 4-phase implementation plan
+- Detailed explanation of content ingestion architecture
+- Testing checklist and verification steps
+- Future enhancement suggestions
 
-## Historical Context
+## Ingestion Results
 
-**Git commit 033eb70** (Oct 28, 2025) originally added `overflow-hidden` to body during About page implementation when navigation was on the right side. Navigation later moved to left, but scrollbar remained hidden until now.
+**Command**: `npm run ingest`
+**Script**: `src/lib/chatbot/ingest-content.ts` (uses Supabase)
+
+**Results**:
+- Documents processed: 37 (12 transcripts + 25 Sanity documents)
+- Chunks created: 267 with embeddings
+- Blog posts: 2 (13 chunks)
+- Projects: 13 (13 chunks)
+- Profile sections: 7 (24 chunks)
+- AI Projects: 3 (21 chunks)
+
+**Chunks by source**:
+- general: 60
+- projects: 40
+- technical: 34
+- research: 24
+- background: 24
+- sanity_profile: 24
+- sanity_ai_project: 21
+- agentic: 14
+- sanity_project: 13
+- sanity_blog: 13
+
+## Testing & Troubleshooting
+
+### Issue: Blog Posts Not Being Suggested
+**Problem**: Chatbot was suggesting case studies instead of blog posts for AI workflow questions
+
+**Diagnosis**:
+1. Verified ingestion successful (267 chunks, 37 documents)
+2. Confirmed chatbot uses Supabase (not ChromaDB)
+3. Identified missing URL context in chunks
+
+**Solutions Applied**:
+1. Added explicit URLs to blog post and case study content
+2. Added "Match link type to question context" instructions
+3. Added instruction to look for "Blog post URL:" in context
+4. Re-ingested content with URLs included
+
+**Next Steps for User**:
+- Test in fresh chat session
+- Try specific queries like "Tell me about your How I AI in Q4 2025 blog post"
+- Monitor if blog post links now appear for AI tools/workflows questions
 
 ## Files Modified
 
-1. `src/app/(public)/layout.tsx` - Removed `.hide-scrollbar` from main content
-2. `docs/scrollbar-restoration-plan.md` - Implementation plan and analysis
+1. `src/lib/chatbot/sanity-fetcher.ts` - Blog ingestion, URLs, About content
+2. `src/app/api/chat/route.ts` - Link format examples, context matching, deduplication
+3. `src/components/chatbot/LinkPreview.tsx` - Line clamp fix
+4. `docs/chatbot/blog-and-about-content-ingestion-plan.md` - Implementation plan
 
-## Testing Notes
+## Available Blog Post URLs
 
-- Native OS scrollbar appears in main content area
-- Navigation menu scrollbar remains hidden (clean look)
-- Chat section scrollbar remains hidden (messaging convention)
-- Horizontal image scrollers remain without scrollbars (touch-friendly)
+- `/blog/how-i-ai-in-q4-2025` - "How I AI in Q4 2025"
+- `/blog/marketing-sites` - "Marketing Sites"
+
+## Available Pages
+
+- `/about` - About Michael (extended profile content)
+
+## Technical Notes
+
+- **Database**: Uses Supabase for vector search (not ChromaDB)
+- **Ingestion script**: `src/lib/chatbot/ingest-content.ts` via `npm run ingest`
+- **Edge Runtime**: Prompt changes take effect automatically (no server restart needed)
+- **Content format**: URLs embedded as "Blog post URL: /blog/slug" and "Case study URL: /case-studies/slug"
+- **Vector DB**: Supabase with hybrid search (semantic + keyword)
 
 ## Related Work
 
-- **Previous session**: Mobile responsive fixes and chatbot content updates
-- **Historical**: Navigation migration from right to left side
+- **Previous session**: Scrollbar restoration
+- **Historical**: Chatbot content system documented in `/docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md`

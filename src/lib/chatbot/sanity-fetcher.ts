@@ -81,6 +81,7 @@ interface SanityProfile {
     enterprise?: string[];
   };
   bio?: PortableTextBlock[];
+  article?: PortableTextBlock[];
   skills?: Array<{
     category: string;
     skills: string[];
@@ -123,13 +124,29 @@ interface SanityAIProject {
   achievements?: string[];
 }
 
+interface SanityBlog {
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  slug: { current: string };
+  excerpt?: string;
+  content?: PortableTextBlock[];
+  heroSection?: {
+    badge?: string;
+    subtitle?: string;
+  };
+  publishedAt?: string;
+  author?: string;
+  featured?: boolean;
+}
+
 /**
  * Content document interface for ingestion
  */
 export interface SanityContentDocument {
   content: string;
   metadata: {
-    source: 'sanity_project' | 'sanity_profile' | 'sanity_ai_project';
+    source: 'sanity_project' | 'sanity_profile' | 'sanity_ai_project' | 'sanity_blog';
     source_id: string;
     title: string;
     category?: string;
@@ -165,6 +182,12 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
 
     // Add title and basic info
     contentParts.push(`# ${project.title}`);
+
+    // Add URL so chatbot knows which link to use
+    if (project.slug?.current) {
+      contentParts.push(`Case study URL: /case-studies/${project.slug.current}`);
+    }
+
     if (project.category) contentParts.push(`Category: ${project.category}`);
     if (project.summary) contentParts.push(project.summary);
     if (project.description) contentParts.push(project.description);
@@ -228,6 +251,7 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     selectedProjects,
     technologies,
     bio,
+    article,
     skills,
     experience
   }`;
@@ -269,6 +293,15 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     if (bioText) {
       mainContentParts.push('\n## Background');
       mainContentParts.push(bioText);
+    }
+  }
+
+  // Add article (About page extended content)
+  if (profile.article) {
+    const articleText = portableTextToPlainText(profile.article);
+    if (articleText) {
+      mainContentParts.push('\n## About / Background Details');
+      mainContentParts.push(articleText);
     }
   }
 
@@ -471,23 +504,100 @@ export async function fetchAIProjects(): Promise<SanityContentDocument[]> {
 }
 
 /**
+ * Fetch all blog posts from Sanity
+ */
+export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
+  const query = `*[_type == "blog"] {
+    _id,
+    _updatedAt,
+    title,
+    slug,
+    excerpt,
+    content,
+    heroSection,
+    publishedAt,
+    author,
+    featured
+  }`;
+
+  const blogPosts: SanityBlog[] = await client.fetch(query);
+
+  return blogPosts.map((post) => {
+    const contentParts: string[] = [];
+
+    // Add title and hero info
+    contentParts.push(`# ${post.title}`);
+
+    // Add URL so chatbot knows which link to use
+    if (post.slug?.current) {
+      contentParts.push(`Blog post URL: /blog/${post.slug.current}`);
+    }
+
+    if (post.heroSection?.badge) {
+      contentParts.push(`Category: ${post.heroSection.badge}`);
+    }
+
+    if (post.heroSection?.subtitle) {
+      contentParts.push(post.heroSection.subtitle);
+    }
+
+    if (post.excerpt) {
+      contentParts.push(post.excerpt);
+    }
+
+    // Add main content (portable text)
+    if (post.content) {
+      const contentText = portableTextToPlainText(post.content);
+      if (contentText) contentParts.push(contentText);
+    }
+
+    // Add metadata footer
+    if (post.publishedAt) {
+      const date = new Date(post.publishedAt).toLocaleDateString();
+      contentParts.push(`\nPublished: ${date}`);
+    }
+
+    if (post.author) {
+      contentParts.push(`Author: ${post.author}`);
+    }
+
+    return {
+      content: contentParts.join('\n\n'),
+      metadata: {
+        source: 'sanity_blog' as const,
+        source_id: post._id,
+        title: post.title,
+        category: post.heroSection?.badge || 'blog',
+        slug: post.slug?.current,
+        updated_at: post._updatedAt,
+        publishedAt: post.publishedAt,
+        author: post.author,
+        featured: post.featured,
+      },
+    };
+  });
+}
+
+/**
  * Fetch all Sanity content for chatbot ingestion
  */
 export async function fetchAllSanityContent(): Promise<SanityContentDocument[]> {
   console.log('📦 Fetching Sanity content...');
 
-  const [projects, profile, aiProjects] = await Promise.all([
+  const [projects, profile, aiProjects, blogPosts] = await Promise.all([
     fetchProjects(),
     fetchProfile(),
     fetchAIProjects(),
+    fetchBlogPosts(),
   ]);
 
-  const allContent = [...projects, ...profile, ...aiProjects];
+  const allContent = [...projects, ...profile, ...aiProjects, ...blogPosts];
 
   console.log(`✅ Fetched ${allContent.length} Sanity documents:`);
   console.log(`   - Projects: ${projects.length}`);
   console.log(`   - Profile sections: ${profile.length}`);
   console.log(`   - AI Projects: ${aiProjects.length}`);
+  console.log(`   - Blog Posts: ${blogPosts.length}`);
 
   return allContent;
 }
