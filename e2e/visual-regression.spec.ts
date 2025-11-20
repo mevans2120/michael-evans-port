@@ -47,7 +47,7 @@ const COMPONENTS_TO_TEST = [
 
 // Helper to wait for all animations to complete
 async function waitForAnimations(page: any) {
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
 
   // Wait for any CSS transitions/animations to complete
   await page.evaluate(() => {
@@ -66,7 +66,7 @@ async function waitForAnimations(page: any) {
   });
 
   // Additional safety wait for any delayed animations
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(1000);
 }
 
 // Test each viewport

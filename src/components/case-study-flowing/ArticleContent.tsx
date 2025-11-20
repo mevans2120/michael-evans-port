@@ -52,14 +52,12 @@ export function ArticleContent({ content }: ArticleContentProps) {
         if (style === 'fullWidth') {
           return (
             <figure className="my-8">
-              <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-muted">
-                <Image
+              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
+                <img
                   src={imageUrl}
                   alt={value.alt || ''}
-                  fill
                   loading="lazy"
-                  sizes="(max-width: 896px) 100vw, 896px"
-                  className="object-contain rounded-lg"
+                  className="w-full h-auto object-contain rounded-lg"
                 />
               </div>
               {value.caption && (
@@ -75,14 +73,15 @@ export function ArticleContent({ content }: ArticleContentProps) {
         if (style === 'floatLeft') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-left md:mr-6 md:mb-6 clear-left">
-              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted">
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
                 <Image
                   src={imageUrl}
                   alt={value.alt || ''}
-                  fill
+                  width={800}
+                  height={600}
                   loading="lazy"
                   sizes="(max-width: 768px) 100vw, 45vw"
-                  className="object-cover rounded-lg"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
               {value.caption && (
@@ -98,14 +97,15 @@ export function ArticleContent({ content }: ArticleContentProps) {
         if (style === 'floatRight') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
-              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted">
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
                 <Image
                   src={imageUrl}
                   alt={value.alt || ''}
-                  fill
+                  width={800}
+                  height={600}
                   loading="lazy"
                   sizes="(max-width: 768px) 100vw, 45vw"
-                  className="object-cover rounded-lg"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
               {value.caption && (
@@ -121,14 +121,15 @@ export function ArticleContent({ content }: ArticleContentProps) {
         if (style === 'floatRightPortrait') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
-              <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden bg-muted">
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
                 <Image
                   src={imageUrl}
                   alt={value.alt || ''}
-                  fill
+                  width={400}
+                  height={600}
                   loading="lazy"
                   sizes="(max-width: 768px) 100vw, 45vw"
-                  className="object-cover rounded-lg"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
               {value.caption && (

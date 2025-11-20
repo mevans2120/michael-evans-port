@@ -1,83 +1,108 @@
 # Page snapshot
 
 ```yaml
-- generic:
-  - generic [active]:
-    - generic [ref=e3]:
-      - generic [ref=e4]:
-        - generic [ref=e5]:
-          - navigation [ref=e6]:
-            - button "previous" [disabled] [ref=e7]:
-              - img "previous" [ref=e8]
-            - generic [ref=e10]:
-              - generic [ref=e11]: 1/
-              - text: "1"
-            - button "next" [disabled] [ref=e12]:
-              - img "next" [ref=e13]
-          - img
-        - generic [ref=e15]:
-          - link "Next.js 15.5.6 (outdated) Turbopack" [ref=e16] [cursor=pointer]:
-            - /url: https://nextjs.org/docs/messages/version-staleness
-            - img [ref=e17]
-            - generic "An outdated version detected (latest is 16.0.3), upgrade is highly recommended!" [ref=e19]: Next.js 15.5.6 (outdated)
-            - generic [ref=e20]: Turbopack
-          - img
-      - dialog "Build Error" [ref=e22]:
-        - generic [ref=e25]:
-          - generic [ref=e26]:
-            - generic [ref=e27]:
-              - generic [ref=e29]: Build Error
-              - generic [ref=e30]:
-                - button "Copy Error Info" [ref=e31] [cursor=pointer]:
-                  - img [ref=e32]
-                - button "No related documentation found" [disabled] [ref=e34]:
-                  - img [ref=e35]
-                - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e37] [cursor=pointer]:
-                  - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
-                  - img [ref=e38]
-            - paragraph [ref=e47]: Ecmascript file had an error
-          - generic [ref=e49]:
-            - generic [ref=e51]:
-              - img [ref=e53]
-              - generic [ref=e56]: ./src/app/layout.tsx (18:10)
-              - button "Open in editor" [ref=e57] [cursor=pointer]:
-                - img [ref=e59]
-            - generic [ref=e62]:
-              - generic [ref=e63]: Ecmascript file had an error
-              - generic [ref=e64]: 16 |
-              - text: import * as SunCalc from 'suncalc';
-              - generic [ref=e65]: 17 |
-              - text: import
-              - generic [ref=e66]: "{"
-              - text: Suspense
-              - generic [ref=e67]: "}"
-              - text: from "react"; >
-              - generic [ref=e68]: 18 |
-              - text: import
-              - generic [ref=e69]: "{"
-              - text: VisualEditingWrapper
-              - generic [ref=e70]: "}"
-              - text: from "@/components/VisualEditingWrapper";
-              - generic [ref=e71]: "|"
-              - text: ^^^^^^^^^^^^^^^^^^^^
-              - generic [ref=e72]: 19 |
-              - generic [ref=e73]: 20 |
-              - generic [ref=e74]: // DM Sans is a sans-serif font for headers and UI
-              - generic [ref=e75]: 21 |
-              - text: const
-              - generic [ref=e76]: dmSans
-              - text: "= DM_Sans({"
-              - generic [ref=e77]: "the name `VisualEditingWrapper` is defined multiple times"
-        - generic [ref=e78]:
-          - generic [ref=e79]: "1"
-          - generic [ref=e80]: "2"
-    - generic [ref=e85] [cursor=pointer]:
-      - button "Open Next.js Dev Tools" [ref=e86]:
-        - img [ref=e87]
-      - button "Open issues overlay" [ref=e91]:
-        - generic [ref=e92]:
-          - generic [ref=e93]: "0"
-          - generic [ref=e94]: "1"
-        - generic [ref=e95]: Issue
-  - alert [ref=e96]
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: MEvans
+      - button "Open menu" [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e15]:
+        - heading "Michael Evans builds products" [level=1] [ref=e16]
+        - paragraph [ref=e17]: He's shipped dozens of digital products across various industries & business models. He's an AI builder, offering innovation & operationalization throughout the software development lifecycle.
+        - link "More about me" [ref=e18] [cursor=pointer]:
+          - /url: /about
+          - generic [ref=e20]: More about me
+          - img [ref=e22]
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - heading "Selected Work" [level=2] [ref=e31]:
+            - text: Selected Work
+            - img [ref=e32]
+          - paragraph [ref=e33]: Some notable case studies
+        - generic [ref=e35]:
+          - 'button "Case study: Post Pal. AI enabled care. Press Enter to view details." [ref=e36] [cursor=pointer]':
+            - generic [ref=e37]:
+              - generic [ref=e38]: Med Tech & AI
+              - generic [ref=e39]:
+                - heading "Post Pal" [level=3] [ref=e40]
+                - generic [ref=e41]: AI enabled care
+              - paragraph [ref=e44]: Healthcare AI product that transforms paper discharge instructions into intelligent recovery timelines, improving care and compliance.
+          - 'button "Case study: Before Launcher. 900k downloads. Press Enter to view details." [ref=e45] [cursor=pointer]':
+            - generic [ref=e46]:
+              - generic [ref=e47]: Mobile App
+              - generic [ref=e48]:
+                - heading "Before Launcher" [level=3] [ref=e49]
+                - generic [ref=e50]: 900k downloads
+              - paragraph [ref=e53]: An intelligent Android home screen replacement that tackled phone addiction through notification filtering and minimalist design. One of Fast Company's Best Apps of 2019.
+          - 'button "Case study: Virgin America. 15% conversion lift. Press Enter to view details." [ref=e54] [cursor=pointer]':
+            - generic [ref=e55]:
+              - generic [ref=e56]: Booking flow
+              - generic [ref=e57]:
+                - heading "Virgin America" [level=3] [ref=e58]
+                - generic [ref=e59]: 15% conversion lift
+              - paragraph [ref=e62]: By rethinking booking around decisions instead of clicks we created something that brings continued pride to the whole team.
+        - link "View all" [ref=e64] [cursor=pointer]:
+          - /url: /case-studies
+          - generic [ref=e66]: View all
+          - img [ref=e68]
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - heading "Featured Post" [level=2] [ref=e74]:
+            - text: Featured Post
+            - img [ref=e75]
+          - paragraph [ref=e76]: Michael on software
+        - generic [ref=e77]:
+          - 'link "A bunch of open terminal windows How I AI in Q4 2025 The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often... Learn more" [ref=e78] [cursor=pointer]':
+            - /url: /blog/how-i-ai-in-q4-2025
+            - generic [ref=e79]:
+              - img "A bunch of open terminal windows" [ref=e82]
+              - generic [ref=e83]:
+                - heading "How I AI in Q4 2025" [level=3] [ref=e84]
+                - paragraph [ref=e85]: "The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often... Learn more"
+          - link "View All" [ref=e87] [cursor=pointer]:
+            - /url: /blog
+            - generic [ref=e89]: View All
+            - img [ref=e91]
+    - generic [ref=e93]:
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - navigation [ref=e96]:
+            - heading "Product Management" [level=3] [ref=e97]
+            - generic [ref=e98]: Research
+            - generic [ref=e99]: Strategy
+            - generic [ref=e100]: UX & Design
+            - generic [ref=e101]: Delivery
+            - generic [ref=e102]: Development
+            - generic [ref=e103]: AI Innovation
+          - generic [ref=e104]:
+            - generic [ref=e105]:
+              - heading "Reach Out" [level=3] [ref=e106]
+              - link "LinkedIn" [ref=e107] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/mevans212/
+              - link "Contact" [ref=e108] [cursor=pointer]:
+                - /url: /contact
+            - paragraph [ref=e109]: MEvans LLC.
+        - paragraph [ref=e112]:
+          - text: Made in cloudy Portland, OR. It is 4:07 pm here and its
+          - button "day" [ref=e113] [cursor=pointer]
+          - text: .
+      - button "Toggle theme (Easter egg)" [ref=e115] [cursor=pointer]: dark
+  - button "Expand AI Assistant" [ref=e117] [cursor=pointer]:
+    - generic [ref=e118]:
+      - img [ref=e119]
+      - generic [ref=e121]: AI Assistant
+    - img [ref=e122]
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e129] [cursor=pointer]:
+    - img [ref=e130]
+  - alert [ref=e133]
 ```

@@ -5,89 +5,103 @@
   - link "Skip to main content" [ref=e2] [cursor=pointer]:
     - /url: "#main-content"
   - generic [ref=e3]:
-    - navigation [ref=e7]:
-      - link "MEvans" [ref=e8] [cursor=pointer]:
-        - /url: /
-        - generic [ref=e9]: MEvans
-      - link "Home" [ref=e10] [cursor=pointer]:
-        - /url: /
-        - img [ref=e11]
-        - generic [ref=e14]: Home
-      - link "About" [ref=e15] [cursor=pointer]:
-        - /url: /about
-        - img [ref=e16]
-        - generic [ref=e19]: About
-      - link "Case Studies" [ref=e20] [cursor=pointer]:
-        - /url: /case-studies
-        - img [ref=e21]
-        - generic [ref=e24]: Case Studies
-      - link "Posts" [ref=e25] [cursor=pointer]:
-        - /url: /blog
-        - img [ref=e26]
-        - generic [ref=e28]: Posts
-    - main:
-      - main [ref=e29]:
-        - generic:
-          - heading "Posts" [level=1]
-          - paragraph: "Michael on software: Insights into technology, design, operations and building with AI-powered tools"
-        - generic:
-          - 'button "Read blog post: Designing and developing marketing sites with AI"':
-            - generic:
-              - generic:
-                - generic:
-                  - img "DOA Department of Art with a skull for the O and a heartbeat sinewave border"
-              - generic [ref=e30] [cursor=pointer]:
-                - heading "Designing and developing marketing sites with AI" [level=2] [ref=e31]
-                - paragraph [ref=e32]: Building marketing sites with AI offers high quality technology at a tremendous value.
-                - generic [ref=e34]:
-                  - img [ref=e35]
-                  - time [ref=e37]: Oct 30, 2025
-          - 'button "Read blog post: How I AI in Q4 2025"':
-            - generic:
-              - generic:
-                - generic:
-                  - img "A bunch of open terminal windows"
-              - generic [ref=e38] [cursor=pointer]:
-                - heading "How I AI in Q4 2025" [level=2] [ref=e39]
-                - paragraph [ref=e40]: "The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often..."
-                - generic [ref=e42]:
-                  - img [ref=e43]
-                  - time [ref=e45]: Oct 30, 2025
-      - generic [ref=e46]:
-        - generic:
-          - img "Crow logo" [ref=e48]
-          - navigation:
-            - heading "Product Management" [level=3] [ref=e50]
-            - generic [ref=e51]: Research
-            - generic [ref=e52]: Strategy
-            - generic [ref=e53]: UX & Design
-            - generic [ref=e54]: Delivery
-            - generic [ref=e55]: Development
-            - generic [ref=e56]: AI Innovation
-          - navigation:
-            - heading "Pages" [level=3] [ref=e57]
-            - link "Home" [ref=e58] [cursor=pointer]:
-              - /url: /
-            - link "About" [ref=e59] [cursor=pointer]:
-              - /url: /about
-            - link "Case Studies" [ref=e60] [cursor=pointer]:
-              - /url: /case-studies
-            - link "Posts" [ref=e61] [cursor=pointer]:
-              - /url: /blog
-          - generic [ref=e62]:
-            - heading "Reach Out" [level=3] [ref=e63]
-            - link "LinkedIn" [ref=e64] [cursor=pointer]:
-              - /url: https://www.linkedin.com/in/mevans212/
-            - link "Contact" [ref=e65] [cursor=pointer]:
-              - /url: /contact
-        - generic:
+    - generic [ref=e5]:
+      - navigation [ref=e7]:
+        - link "MEvans" [ref=e8] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e9]: MEvans
+        - link "Home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+          - generic [ref=e14]: Home
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+          - img [ref=e16]
+          - generic [ref=e19]: About
+        - link "Case Studies" [ref=e20] [cursor=pointer]:
+          - /url: /case-studies
+          - img [ref=e21]
+          - generic [ref=e24]: Case Studies
+        - link "Posts" [ref=e25] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e26]
+          - generic [ref=e28]: Posts
+      - generic [ref=e29]:
+        - generic [ref=e30] [cursor=pointer]:
           - generic:
-            - paragraph [ref=e66]: MEvans LLC.
-            - paragraph [ref=e67]:
-              - text: Made in Portland, OR. It is here and its
-              - button "night" [ref=e68] [cursor=pointer]
+            - img
+            - heading "AI Assistant" [level=2]
+          - button "Expand chat" [ref=e31]:
+            - img [ref=e32]
+        - paragraph [ref=e39]: Hi. Ask me anything about Michael's work and background
+        - generic [ref=e40]:
+          - textbox [ref=e41]
+          - button "Send message" [disabled] [ref=e42]:
+            - img [ref=e43]
+      - button "Collapse navigation" [ref=e46] [cursor=pointer]
+    - main [ref=e47]:
+      - main [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Posts" [level=1] [ref=e50]
+          - paragraph [ref=e51]: "Michael on software: Insights into technology, design, operations and building with AI-powered tools"
+        - generic [ref=e52]:
+          - 'button "Read blog post: Designing and developing marketing sites with AI" [ref=e53] [cursor=pointer]':
+            - generic [ref=e54]:
+              - img "DOA Department of Art with a skull for the O and a heartbeat sinewave border" [ref=e57]
+              - generic [ref=e58]:
+                - heading "Designing and developing marketing sites with AI" [level=2] [ref=e59]
+                - paragraph [ref=e60]: Building marketing sites with AI offers high quality technology at a tremendous value.
+                - generic [ref=e62]:
+                  - img [ref=e63]
+                  - time [ref=e65]: Oct 30, 2025
+          - 'button "Read blog post: How I AI in Q4 2025" [ref=e66] [cursor=pointer]':
+            - generic [ref=e67]:
+              - img "A bunch of open terminal windows" [ref=e70]
+              - generic [ref=e71]:
+                - heading "How I AI in Q4 2025" [level=2] [ref=e72]
+                - paragraph [ref=e73]: "The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often..."
+                - generic [ref=e75]:
+                  - img [ref=e76]
+                  - time [ref=e78]: Oct 30, 2025
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - img "Crow logo" [ref=e83]
+            - navigation [ref=e85]:
+              - heading "Product Management" [level=3] [ref=e86]
+              - generic [ref=e87]: Research
+              - generic [ref=e88]: Strategy
+              - generic [ref=e89]: UX & Design
+              - generic [ref=e90]: Delivery
+              - generic [ref=e91]: Development
+              - generic [ref=e92]: AI Innovation
+            - navigation [ref=e93]:
+              - heading "Pages" [level=3] [ref=e94]
+              - link "Home" [ref=e95] [cursor=pointer]:
+                - /url: /
+              - link "About" [ref=e96] [cursor=pointer]:
+                - /url: /about
+              - link "Case Studies" [ref=e97] [cursor=pointer]:
+                - /url: /case-studies
+              - link "Posts" [ref=e98] [cursor=pointer]:
+                - /url: /blog
+            - generic [ref=e100]:
+              - heading "Reach Out" [level=3] [ref=e101]
+              - link "LinkedIn" [ref=e102] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/mevans212/
+              - link "Contact" [ref=e103] [cursor=pointer]:
+                - /url: /contact
+          - generic [ref=e105]:
+            - paragraph [ref=e106]: MEvans LLC.
+            - paragraph [ref=e107]:
+              - text: Made in cloudy Portland, OR. It is 4:07 pm here and its
+              - button "day" [ref=e108] [cursor=pointer]
               - text: .
+        - button "Toggle theme (Easter egg)" [ref=e110] [cursor=pointer]: dark
   - region "Notifications (F8)":
     - list
   - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e116] [cursor=pointer]:
+    - img [ref=e117]
+  - alert [ref=e120]
 ```

@@ -14,7 +14,7 @@ As part of Phase 2.5.1 of the mobile LCP optimization plan, we identified and fi
 - Shared bundle: 103KB
 
 ### 2. Lazy Loading Implementation
-**Files**: 
+**Files**:
 - `src/components/SanityVisualEditingLoader.tsx` (NEW)
 - `src/app/layout.tsx`
 
@@ -48,14 +48,90 @@ As part of Phase 2.5.1 of the mobile LCP optimization plan, we identified and fi
 **Before**: Sanity UI included in shared bundle (103KB shared)
 **After**: Sanity UI in separate async chunk (~1MB), loaded only when needed
 
-This optimization primarily benefits regular site visitors who never use Draft Mode, reducing their initial JavaScript payload by ~841KB.
+---
 
-## Next Steps
-- Phase 2.5.2: Mobile-specific image optimization
-- Phase 2.5.3: Font loading optimization
-- Lighthouse mobile testing to measure real-world improvement
+# Case Study Image Display Fix (2025-11-19 Evening)
 
-## Related Documentation
-- `/docs/css-lcp-optimization-phase-2.5-mobile.md` - Full mobile optimization plan
-- Phase 1 focused on Tailwind and CSS optimization (desktop)
-- Phase 2.5 focuses on mobile-specific JavaScript and asset optimization
+## Context
+Case study images were being cropped/constrained by fixed aspect ratio containers instead of allowing containers to expand to fit image content. This affected portrait images like the Aesop case study design.
+
+## Problem Analysis
+
+### Root Cause
+Commit `f824bb0` ("Complete Phase 2 & 3: Optimize all images for performance") introduced:
+- Fixed aspect ratios (`aspect-[16/9]`, `aspect-[4/3]`, etc.) on image containers
+- Next.js `<Image fill>` prop which requires container dimensions
+- This forced all images into predetermined shapes regardless of their actual dimensions
+
+### Discovery Process
+1. Initially thought Sanity crops were the issue
+2. Discovered containers were constraining images after crops applied
+3. Found working pattern in `PortraitImageList` component (commit `69a1687`)
+
+## Solution Pattern
+
+Used the PortraitImageList approach:
+```tsx
+<Image
+  width={800}      // Explicit dimensions for Next.js optimization
+  height={600}     // These are hints, not constraints
+  className="w-full h-auto object-cover"  // h-auto lets height flex!
+/>
+```
+
+Key insight: **`h-auto` or `w-auto` allows one dimension to adjust** while respecting Sanity crops.
+
+## Changes Made
+
+### 1. ArticleContent.tsx - Fixed all floating image variants
+- **floatLeft**: Removed `aspect-[4/3]`, switched from `fill` to explicit dimensions
+- **floatRight**: Removed `aspect-[4/3]`, switched from `fill` to explicit dimensions
+- **floatRightPortrait**: Removed `aspect-[3/4]`, switched from `fill` to explicit dimensions
+
+### 2. EditorialHero.tsx - Fixed hero image
+- Removed `aspect-[4/3]` from hero image container
+- Changed from `<Image fill>` to `<Image width={600} height={800}>`
+- Added `className="w-full h-auto object-contain"`
+
+### 3. Query Fix - Added crop/hotspot data
+- Updated `article` field query to properly expand image objects
+- Ensures crop/hotspot data from Sanity Studio is fetched and applied
+
+## Technical Details
+
+### Before (Broken)
+```tsx
+<div className="relative w-full aspect-[16/9]">
+  <Image fill className="object-contain" />
+</div>
+```
+
+### After (Fixed)
+```tsx
+<div className="relative w-full">
+  <Image width={800} height={600} className="w-full h-auto object-cover" />
+</div>
+```
+
+## Benefits
+- ✅ Keeps Next.js Image optimizations (lazy loading, format conversion)
+- ✅ Respects Sanity crop/hotspot settings
+- ✅ Containers adapt to image content dimensions
+- ✅ No complex dimension calculations needed
+
+## Files Modified
+- `src/components/case-study-flowing/ArticleContent.tsx`
+- `src/components/case-study-editorial/EditorialHero.tsx`
+- `src/app/(public)/case-studies/[slug]/page.tsx` (query update)
+
+## Verification
+- ✅ Build successful (`npm run build`)
+- ✅ Portrait images display at full height
+- ✅ Landscape images display correctly
+- ✅ Sanity crop/hotspot settings are respected
+
+## Lessons Learned
+1. Next.js `Image fill` requires fixed container dimensions
+2. Using explicit width/height with `h-auto` or `w-auto` provides flexibility
+3. Always check if containers are constraining content before assuming source issues
+4. Look for working patterns in the codebase before implementing new solutions

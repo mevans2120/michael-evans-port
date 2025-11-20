@@ -87,7 +87,18 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     label,
     description
   },
-  article,
+  article[] {
+    ...,
+    _type == "image" => {
+      ...,
+      asset->{
+        _id,
+        url
+      },
+      crop,
+      hotspot
+    }
+  },
   slides[] {
     _key,
     sectionLabel,
@@ -107,7 +118,15 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     },
     visualCards[] {
       _key,
-      image,
+      image {
+        asset->{
+          _id,
+          url
+        },
+        crop,
+        hotspot,
+        alt
+      },
       placeholderText,
       caption
     },

@@ -1,0 +1,142 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - generic [ref=e5]:
+      - navigation [ref=e7]:
+        - link "MEvans" [ref=e8] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e9]: MEvans
+        - link "Home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+          - generic [ref=e14]: Home
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+          - img [ref=e16]
+          - generic [ref=e19]: About
+        - link "Case Studies" [ref=e20] [cursor=pointer]:
+          - /url: /case-studies
+          - img [ref=e21]
+          - generic [ref=e24]: Case Studies
+        - link "Posts" [ref=e25] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e26]
+          - generic [ref=e28]: Posts
+      - generic [ref=e29]:
+        - generic [ref=e30] [cursor=pointer]:
+          - generic:
+            - img
+            - heading "AI Assistant" [level=2]
+          - button "Expand chat" [ref=e31]:
+            - img [ref=e32]
+        - paragraph [ref=e39]: Hi. Ask me anything about Michael's work and background
+        - generic [ref=e40]:
+          - textbox [ref=e41]
+          - button "Send message" [disabled] [ref=e42]:
+            - img [ref=e43]
+      - button "Collapse navigation" [ref=e46] [cursor=pointer]
+    - main [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e52]:
+          - heading "Michael Evans builds products" [level=1] [ref=e53]
+          - paragraph [ref=e54]: He's shipped dozens of digital products across various industries & business models. He's an AI builder, offering innovation & operationalization throughout the software development lifecycle.
+          - link "More about me" [ref=e55] [cursor=pointer]:
+            - /url: /about
+            - generic [ref=e57]: More about me
+            - img [ref=e59]
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - heading "Selected Work" [level=2] [ref=e68]:
+              - text: Selected Work
+              - img [ref=e69]
+            - paragraph [ref=e70]: Some notable case studies
+          - generic [ref=e72]:
+            - 'button "Case study: Post Pal. AI enabled care. Press Enter to view details." [ref=e73] [cursor=pointer]':
+              - generic [ref=e74]:
+                - generic [ref=e75]: Med Tech & AI
+                - generic [ref=e76]:
+                  - heading "Post Pal" [level=3] [ref=e77]
+                  - generic [ref=e78]: AI enabled care
+                - paragraph [ref=e81]: Healthcare AI product that transforms paper discharge instructions into intelligent recovery timelines, improving care and compliance.
+            - 'button "Case study: Before Launcher. 900k downloads. Press Enter to view details." [ref=e82] [cursor=pointer]':
+              - generic [ref=e83]:
+                - generic [ref=e84]: Mobile App
+                - generic [ref=e85]:
+                  - heading "Before Launcher" [level=3] [ref=e86]
+                  - generic [ref=e87]: 900k downloads
+                - paragraph [ref=e90]: An intelligent Android home screen replacement that tackled phone addiction through notification filtering and minimalist design. One of Fast Company's Best Apps of 2019.
+            - 'button "Case study: Virgin America. 15% conversion lift. Press Enter to view details." [ref=e91] [cursor=pointer]':
+              - generic [ref=e92]:
+                - generic [ref=e93]: Booking flow
+                - generic [ref=e94]:
+                  - heading "Virgin America" [level=3] [ref=e95]
+                  - generic [ref=e96]: 15% conversion lift
+                - paragraph [ref=e99]: By rethinking booking around decisions instead of clicks we created something that brings continued pride to the whole team.
+          - link "View all" [ref=e101] [cursor=pointer]:
+            - /url: /case-studies
+            - generic [ref=e103]: View all
+            - img [ref=e105]
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - heading "Featured Post" [level=2] [ref=e111]:
+              - text: Featured Post
+              - img [ref=e112]
+            - paragraph [ref=e113]: Michael on software
+          - generic [ref=e114]:
+            - 'link "A bunch of open terminal windows How I AI in Q4 2025 The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often... Learn more" [ref=e115] [cursor=pointer]':
+              - /url: /blog/how-i-ai-in-q4-2025
+              - generic [ref=e116]:
+                - img "A bunch of open terminal windows" [ref=e119]
+                - generic [ref=e120]:
+                  - heading "How I AI in Q4 2025" [level=3] [ref=e121]
+                  - paragraph [ref=e122]: "The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often... Learn more"
+            - link "View All" [ref=e124] [cursor=pointer]:
+              - /url: /blog
+              - generic [ref=e126]: View All
+              - img [ref=e128]
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - img "Crow logo" [ref=e134]
+            - navigation [ref=e136]:
+              - heading "Product Management" [level=3] [ref=e137]
+              - generic [ref=e138]: Research
+              - generic [ref=e139]: Strategy
+              - generic [ref=e140]: UX & Design
+              - generic [ref=e141]: Delivery
+              - generic [ref=e142]: Development
+              - generic [ref=e143]: AI Innovation
+            - navigation [ref=e144]:
+              - heading "Pages" [level=3] [ref=e145]
+              - link "Home" [ref=e146] [cursor=pointer]:
+                - /url: /
+              - link "About" [ref=e147] [cursor=pointer]:
+                - /url: /about
+              - link "Case Studies" [ref=e148] [cursor=pointer]:
+                - /url: /case-studies
+              - link "Posts" [ref=e149] [cursor=pointer]:
+                - /url: /blog
+            - generic [ref=e151]:
+              - heading "Reach Out" [level=3] [ref=e152]
+              - link "LinkedIn" [ref=e153] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/mevans212/
+              - link "Contact" [ref=e154] [cursor=pointer]:
+                - /url: /contact
+          - generic [ref=e156]:
+            - paragraph [ref=e157]: MEvans LLC.
+            - paragraph [ref=e158]:
+              - text: Made in Portland, OR. It is 4:08 pm here and its
+              - button "day" [ref=e159] [cursor=pointer]
+              - text: .
+        - button "Toggle theme (Easter egg)" [ref=e161] [cursor=pointer]: dark
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e167] [cursor=pointer]:
+    - img [ref=e168]
+  - alert [ref=e171]
+```

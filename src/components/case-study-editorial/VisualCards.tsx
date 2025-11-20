@@ -26,17 +26,24 @@ export function VisualCards({ cards }: VisualCardsProps) {
       {cards.map((card, index) => (
         <div
           key={card._key || index}
-          className="bg-card dark:bg-card border border-border dark:border-border shadow-card overflow-hidden"
+          className="bg-card dark:bg-card border border-border dark:border-border shadow-card"
         >
           {card.image ? (
-            <div className="relative w-full aspect-video bg-muted">
-              <Image
+            <div className="relative w-full h-auto bg-muted">
+              <img
                 src={buildImageUrl(card.image, 'visual-card')}
                 alt={card.caption || 'Case study visual'}
-                fill
-                loading="lazy"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-contain"
+                className="w-full h-auto object-contain"
+                onLoad={(e) => {
+                  const img = e.target as HTMLImageElement;
+                  console.log('Image loaded:', {
+                    src: img.src,
+                    naturalWidth: img.naturalWidth,
+                    naturalHeight: img.naturalHeight,
+                    displayWidth: img.width,
+                    displayHeight: img.height
+                  });
+                }}
               />
             </div>
           ) : card.placeholderText ? (

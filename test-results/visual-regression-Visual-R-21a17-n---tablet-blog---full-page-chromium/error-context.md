@@ -1,83 +1,73 @@
 # Page snapshot
 
 ```yaml
-- generic:
-  - generic [active]:
-    - generic [ref=e3]:
-      - generic [ref=e4]:
-        - generic [ref=e5]:
-          - navigation [ref=e6]:
-            - button "previous" [disabled] [ref=e7]:
-              - img "previous" [ref=e8]
-            - generic [ref=e10]:
-              - generic [ref=e11]: 1/
-              - text: "1"
-            - button "next" [disabled] [ref=e12]:
-              - img "next" [ref=e13]
-          - img
-        - generic [ref=e15]:
-          - link "Next.js 15.5.6 (outdated) Turbopack" [ref=e16] [cursor=pointer]:
-            - /url: https://nextjs.org/docs/messages/version-staleness
-            - img [ref=e17]
-            - generic "An outdated version detected (latest is 16.0.3), upgrade is highly recommended!" [ref=e19]: Next.js 15.5.6 (outdated)
-            - generic [ref=e20]: Turbopack
-          - img
-      - dialog "Build Error" [ref=e22]:
-        - generic [ref=e25]:
-          - generic [ref=e26]:
-            - generic [ref=e27]:
-              - generic [ref=e29]: Build Error
-              - generic [ref=e30]:
-                - button "Copy Error Info" [ref=e31] [cursor=pointer]:
-                  - img [ref=e32]
-                - button "No related documentation found" [disabled] [ref=e34]:
-                  - img [ref=e35]
-                - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e37] [cursor=pointer]:
-                  - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
-                  - img [ref=e38]
-            - paragraph [ref=e47]: Ecmascript file had an error
-          - generic [ref=e49]:
-            - generic [ref=e51]:
-              - img [ref=e53]
-              - generic [ref=e56]: ./src/app/layout.tsx (18:10)
-              - button "Open in editor" [ref=e57] [cursor=pointer]:
-                - img [ref=e59]
-            - generic [ref=e62]:
-              - generic [ref=e63]: Ecmascript file had an error
-              - generic [ref=e64]: 16 |
-              - text: import * as SunCalc from 'suncalc';
-              - generic [ref=e65]: 17 |
-              - text: import
-              - generic [ref=e66]: "{"
-              - text: Suspense
-              - generic [ref=e67]: "}"
-              - text: from "react"; >
-              - generic [ref=e68]: 18 |
-              - text: import
-              - generic [ref=e69]: "{"
-              - text: VisualEditingWrapper
-              - generic [ref=e70]: "}"
-              - text: from "@/components/VisualEditingWrapper";
-              - generic [ref=e71]: "|"
-              - text: ^^^^^^^^^^^^^^^^^^^^
-              - generic [ref=e72]: 19 |
-              - generic [ref=e73]: 20 |
-              - generic [ref=e74]: // DM Sans is a sans-serif font for headers and UI
-              - generic [ref=e75]: 21 |
-              - text: const
-              - generic [ref=e76]: dmSans
-              - text: "= DM_Sans({"
-              - generic [ref=e77]: "the name `VisualEditingWrapper` is defined multiple times"
-        - generic [ref=e78]:
-          - generic [ref=e79]: "1"
-          - generic [ref=e80]: "2"
-    - generic [ref=e85] [cursor=pointer]:
-      - button "Open Next.js Dev Tools" [ref=e86]:
-        - img [ref=e87]
-      - button "Open issues overlay" [ref=e91]:
-        - generic [ref=e92]:
-          - generic [ref=e93]: "0"
-          - generic [ref=e94]: "1"
-        - generic [ref=e95]: Issue
-  - alert [ref=e96]
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: MEvans
+      - button "Open menu" [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+  - main [ref=e10]:
+    - main [ref=e11]:
+      - generic [ref=e12]:
+        - heading "Posts" [level=1] [ref=e13]
+        - paragraph [ref=e14]: "Michael on software: Insights into technology, design, operations and building with AI-powered tools"
+      - generic [ref=e15]:
+        - 'button "Read blog post: Designing and developing marketing sites with AI" [ref=e16] [cursor=pointer]':
+          - generic [ref=e17]:
+            - img "DOA Department of Art with a skull for the O and a heartbeat sinewave border" [ref=e20]
+            - generic [ref=e21]:
+              - heading "Designing and developing marketing sites with AI" [level=2] [ref=e22]
+              - paragraph [ref=e23]: Building marketing sites with AI offers high quality technology at a tremendous value.
+              - generic [ref=e25]:
+                - img [ref=e26]
+                - time [ref=e28]: Oct 30, 2025
+        - 'button "Read blog post: How I AI in Q4 2025" [ref=e29] [cursor=pointer]':
+          - generic [ref=e30]:
+            - img "A bunch of open terminal windows" [ref=e33]
+            - generic [ref=e34]:
+              - heading "How I AI in Q4 2025" [level=2] [ref=e35]
+              - paragraph [ref=e36]: "The catalyst was deceptively simple: I wanted to build one of the half-baked ideas that I have every so often..."
+              - generic [ref=e38]:
+                - img [ref=e39]
+                - time [ref=e41]: Oct 30, 2025
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - navigation [ref=e45]:
+            - heading "Product Management" [level=3] [ref=e46]
+            - generic [ref=e47]: Research
+            - generic [ref=e48]: Strategy
+            - generic [ref=e49]: UX & Design
+            - generic [ref=e50]: Delivery
+            - generic [ref=e51]: Development
+            - generic [ref=e52]: AI Innovation
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - heading "Reach Out" [level=3] [ref=e55]
+              - link "LinkedIn" [ref=e56] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/mevans212/
+              - link "Contact" [ref=e57] [cursor=pointer]:
+                - /url: /contact
+            - paragraph [ref=e58]: MEvans LLC.
+        - paragraph [ref=e61]:
+          - text: Made in cloudy Portland, OR. It is 4:07 pm here and its
+          - button "day" [ref=e62] [cursor=pointer]
+          - text: .
+      - button "Toggle theme (Easter egg)" [ref=e64] [cursor=pointer]: dark
+  - button "Expand AI Assistant" [ref=e66] [cursor=pointer]:
+    - generic [ref=e67]:
+      - img [ref=e68]
+      - generic [ref=e70]: AI Assistant
+    - img [ref=e71]
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e78] [cursor=pointer]:
+    - img [ref=e79]
+  - alert [ref=e82]
 ```

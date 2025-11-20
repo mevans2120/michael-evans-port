@@ -92,12 +92,14 @@
           - generic [ref=e100]:
             - paragraph [ref=e101]: MEvans LLC.
             - paragraph [ref=e102]:
-              - text: Made in Portland, OR. It is 3:34 pm here and its
+              - text: Made in cloudy Portland, OR. It is 4:07 pm here and its
               - button "day" [ref=e103] [cursor=pointer]
               - text: .
         - button "Toggle theme (Easter egg)" [ref=e105] [cursor=pointer]: dark
   - region "Notifications (F8)":
     - list
   - region "Notifications alt+T"
-  - alert [ref=e106]
+  - button "Open Next.js Dev Tools" [ref=e111] [cursor=pointer]:
+    - img [ref=e112]
+  - alert [ref=e115]
 ```

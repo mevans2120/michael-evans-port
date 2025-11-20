@@ -73,14 +73,15 @@ export function EditorialHero({ badge, title, subtitle, overview, backgroundImag
           {/* Right: Featured Image */}
           {imageUrl && (
             <div className="w-full md:w-1/3 flex-shrink-0 md:mt-[42px]">
-              <div className="relative rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50 aspect-[4/3]">
+              <div className="relative rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50">
                 <Image
                   src={imageUrl}
                   alt={backgroundImage?.alt || ""}
-                  fill
+                  width={600}
+                  height={800}
                   priority
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-contain transition-opacity duration-normal"
+                  className="w-full h-auto object-contain transition-opacity duration-normal"
                 />
               </div>
             </div>

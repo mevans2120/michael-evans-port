@@ -42,144 +42,143 @@
     - main [ref=e47]:
       - main [ref=e48]:
         - generic [ref=e49]:
-          - img "protect your patients with Post Pal" [ref=e51]
-          - generic [ref=e54]:
-            - generic [ref=e55]: Med Tech & AI
-            - heading "Post Pal" [level=1] [ref=e56]
-            - paragraph [ref=e57]: How an AI-powered recovery timeline transforms healthcare's most frustrating patient experience
-            - link "View Case Study" [ref=e58] [cursor=pointer]:
-              - /url: /case-studies/postpal
-              - generic [ref=e60]: View Case Study
-              - img [ref=e62]
-          - generic [ref=e65]: Randomly Selected
-        - generic [ref=e68]:
-          - generic [ref=e69]:
-            - heading "All Case Studies" [level=2] [ref=e70]
-            - paragraph [ref=e71]: Products, projects, services & strategy
-          - generic [ref=e72]:
-            - 'button "Case study: Aesop. Global brand consistency. Press Enter to view details." [ref=e73] [cursor=pointer]':
-              - generic [ref=e74]:
-                - generic [ref=e75]: ecommerce replatform
-                - generic [ref=e76]:
-                  - heading "Aesop" [level=3] [ref=e77]
-                  - generic [ref=e78]: Global brand consistency
-                - paragraph [ref=e81]: Crafted a premium e-commerce experience that elevated the brand's minimalist aesthetic while maintaining accessibility and usability across global markets.
-            - 'button "Case study: Alexander Marchant. Brand elevation. Press Enter to view details." [ref=e82] [cursor=pointer]':
-              - generic [ref=e83]:
-                - generic [ref=e84]: B2B eCom
-                - generic [ref=e85]:
-                  - heading "Alexander Marchant" [level=3] [ref=e86]
-                  - generic [ref=e87]: Brand elevation
-                - paragraph [ref=e90]: Built the new Alexander Marchant's new website, whose primary customers are interior designers. The site integrates with a novel eCommerce solution.
-            - 'button "Case study: Before Launcher. 900k downloads. Press Enter to view details." [ref=e91] [cursor=pointer]':
-              - generic [ref=e92]:
-                - generic [ref=e93]: Mobile App
-                - generic [ref=e94]:
-                  - heading "Before Launcher" [level=3] [ref=e95]
-                  - generic [ref=e96]: 900k downloads
-                - paragraph [ref=e99]: An intelligent Android home screen replacement that tackled phone addiction through notification filtering and minimalist design. One of Fast Company's Best Apps of 2019.
-            - 'button "Case study: Houselogic (NAR). Zero to one. Press Enter to view details." [ref=e100] [cursor=pointer]':
-              - generic [ref=e101]:
-                - generic [ref=e102]: Content Site
-                - generic [ref=e103]:
-                  - heading "Houselogic (NAR)" [level=3] [ref=e104]
-                  - generic [ref=e105]: Zero to one
-                - paragraph [ref=e108]: Designed and built a brand new product (Houselogic) for NAR. Their first for intended solely for consumers (not Realtors)
-            - 'button "Case study: Lyft. Improved driver aquisition. Press Enter to view details." [ref=e109] [cursor=pointer]':
-              - generic [ref=e110]:
-                - generic [ref=e111]: Driver Aquisition
-                - generic [ref=e112]:
-                  - heading "Lyft" [level=3] [ref=e113]
-                  - generic [ref=e114]: Improved driver aquisition
-                - paragraph [ref=e117]: Driver-focused website redesign and acquisition flow optimization, including content marketing and AB testing.
-            - 'button "Case study: Peacock. Transformed product. Press Enter to view details." [ref=e118] [cursor=pointer]':
-              - generic [ref=e119]:
-                - generic [ref=e120]: TV App
-                - generic [ref=e121]:
-                  - heading "Peacock" [level=3] [ref=e122]
-                  - generic [ref=e123]: Transformed product
-                - paragraph [ref=e126]: Developed a white label solution for Peacock's TV app and also strategic design concepts for second screen enabled features for sports and reality tv.
-            - 'button "Case study: Peddle. 360 degree visibility. Press Enter to view details." [ref=e127] [cursor=pointer]':
-              - generic [ref=e128]:
-                - generic [ref=e129]: Junk Cars
-                - generic [ref=e130]:
-                  - heading "Peddle" [level=3] [ref=e131]
-                  - generic [ref=e132]: 360 degree visibility
-                - paragraph [ref=e135]: Helped establish data science at Peddle & built innovative & comprehensive dashboards & data with Snowflake, Snowplow & GA4.
-            - 'button "Case study: Playstation Vue. First Mover. Press Enter to view details." [ref=e136] [cursor=pointer]':
-              - generic [ref=e137]:
-                - generic [ref=e138]: Cable Replacement
-                - generic [ref=e139]:
-                  - heading "Playstation Vue" [level=3] [ref=e140]
-                  - generic [ref=e141]: First Mover
-                - paragraph [ref=e144]: Built out the proof of concept for Sony's since discontinued cable television replacement for the PS3.
-            - 'button "Case study: Post Pal. AI enabled care. Press Enter to view details." [ref=e145] [cursor=pointer]':
-              - generic [ref=e146]:
-                - generic [ref=e147]: Med Tech & AI
-                - generic [ref=e148]:
-                  - heading "Post Pal" [level=3] [ref=e149]
-                  - generic [ref=e150]: AI enabled care
-                - paragraph [ref=e153]: Healthcare AI product that transforms paper discharge instructions into intelligent recovery timelines, improving care and compliance.
-            - 'button "Case study: Target. ❤️. Press Enter to view details." [ref=e154] [cursor=pointer]':
-              - generic [ref=e155]:
-                - generic [ref=e156]: Retail Innovation
-                - generic [ref=e157]:
-                  - heading "Target" [level=3] [ref=e158]
-                  - generic [ref=e159]: ❤️
-                - paragraph [ref=e162]: Led many cross-functional workstreams during Target's replatforming effort, focusing on retail and eCommerce innovation
-            - 'button "Case study: Teaching Books. Increased usage by 25%. Press Enter to view details." [ref=e163] [cursor=pointer]':
-              - generic [ref=e164]:
-                - generic [ref=e165]: Education
-                - generic [ref=e166]:
-                  - heading "Teaching Books" [level=3] [ref=e167]
-                  - generic [ref=e168]: Increased usage by 25%
-                - paragraph [ref=e171]: Designed and developed a framework and system to support TeachingBook's business and users for its second 20 years.
-            - 'button "Case study: Virgin America. 15% conversion lift. Press Enter to view details." [ref=e172] [cursor=pointer]':
-              - generic [ref=e173]:
-                - generic [ref=e174]: Booking flow
-                - generic [ref=e175]:
-                  - heading "Virgin America" [level=3] [ref=e176]
-                  - generic [ref=e177]: 15% conversion lift
-                - paragraph [ref=e180]: By rethinking booking around decisions instead of clicks we created something that brings continued pride to the whole team.
-      - generic [ref=e181]:
-        - generic [ref=e182]:
-          - generic [ref=e183]:
-            - img "Crow logo" [ref=e185]
-            - navigation [ref=e187]:
-              - heading "Product Management" [level=3] [ref=e188]
-              - generic [ref=e189]: Research
-              - generic [ref=e190]: Strategy
-              - generic [ref=e191]: UX & Design
-              - generic [ref=e192]: Delivery
-              - generic [ref=e193]: Development
-              - generic [ref=e194]: AI Innovation
-            - navigation [ref=e195]:
-              - heading "Pages" [level=3] [ref=e196]
-              - link "Home" [ref=e197] [cursor=pointer]:
+          - generic [ref=e53]:
+            - generic [ref=e54]: Booking flow
+            - heading "Virgin America" [level=1] [ref=e55]
+            - paragraph [ref=e56]: By rethinking booking around decisions instead of clicks we created something that brings continued pride to the whole team.
+            - link "View Case Study" [ref=e57] [cursor=pointer]:
+              - /url: /case-studies/virgin-america
+              - generic [ref=e59]: View Case Study
+              - img [ref=e61]
+          - generic [ref=e64]: Randomly Selected
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - heading "All Case Studies" [level=2] [ref=e69]
+            - paragraph [ref=e70]: Products, projects, services & strategy
+          - generic [ref=e71]:
+            - 'button "Case study: Aesop. Global brand consistency. Press Enter to view details." [ref=e72] [cursor=pointer]':
+              - generic [ref=e73]:
+                - generic [ref=e74]: ecommerce replatform
+                - generic [ref=e75]:
+                  - heading "Aesop" [level=3] [ref=e76]
+                  - generic [ref=e77]: Global brand consistency
+                - paragraph [ref=e80]: Crafted a premium e-commerce experience that elevated the brand's minimalist aesthetic while maintaining accessibility and usability across global markets.
+            - 'button "Case study: Alexander Marchant. Brand elevation. Press Enter to view details." [ref=e81] [cursor=pointer]':
+              - generic [ref=e82]:
+                - generic [ref=e83]: B2B eCom
+                - generic [ref=e84]:
+                  - heading "Alexander Marchant" [level=3] [ref=e85]
+                  - generic [ref=e86]: Brand elevation
+                - paragraph [ref=e89]: Built the new Alexander Marchant's new website, whose primary customers are interior designers. The site integrates with a novel eCommerce solution.
+            - 'button "Case study: Before Launcher. 900k downloads. Press Enter to view details." [ref=e90] [cursor=pointer]':
+              - generic [ref=e91]:
+                - generic [ref=e92]: Mobile App
+                - generic [ref=e93]:
+                  - heading "Before Launcher" [level=3] [ref=e94]
+                  - generic [ref=e95]: 900k downloads
+                - paragraph [ref=e98]: An intelligent Android home screen replacement that tackled phone addiction through notification filtering and minimalist design. One of Fast Company's Best Apps of 2019.
+            - 'button "Case study: Houselogic (NAR). Zero to one. Press Enter to view details." [ref=e99] [cursor=pointer]':
+              - generic [ref=e100]:
+                - generic [ref=e101]: Content Site
+                - generic [ref=e102]:
+                  - heading "Houselogic (NAR)" [level=3] [ref=e103]
+                  - generic [ref=e104]: Zero to one
+                - paragraph [ref=e107]: Designed and built a brand new product (Houselogic) for NAR. Their first for intended solely for consumers (not Realtors)
+            - 'button "Case study: Lyft. Improved driver aquisition. Press Enter to view details." [ref=e108] [cursor=pointer]':
+              - generic [ref=e109]:
+                - generic [ref=e110]: Driver Aquisition
+                - generic [ref=e111]:
+                  - heading "Lyft" [level=3] [ref=e112]
+                  - generic [ref=e113]: Improved driver aquisition
+                - paragraph [ref=e116]: Driver-focused website redesign and acquisition flow optimization, including content marketing and AB testing.
+            - 'button "Case study: Peacock. Transformed product. Press Enter to view details." [ref=e117] [cursor=pointer]':
+              - generic [ref=e118]:
+                - generic [ref=e119]: TV App
+                - generic [ref=e120]:
+                  - heading "Peacock" [level=3] [ref=e121]
+                  - generic [ref=e122]: Transformed product
+                - paragraph [ref=e125]: Developed a white label solution for Peacock's TV app and also strategic design concepts for second screen enabled features for sports and reality tv.
+            - 'button "Case study: Peddle. 360 degree visibility. Press Enter to view details." [ref=e126] [cursor=pointer]':
+              - generic [ref=e127]:
+                - generic [ref=e128]: Junk Cars
+                - generic [ref=e129]:
+                  - heading "Peddle" [level=3] [ref=e130]
+                  - generic [ref=e131]: 360 degree visibility
+                - paragraph [ref=e134]: Helped establish data science at Peddle & built innovative & comprehensive dashboards & data with Snowflake, Snowplow & GA4.
+            - 'button "Case study: Playstation Vue. First Mover. Press Enter to view details." [ref=e135] [cursor=pointer]':
+              - generic [ref=e136]:
+                - generic [ref=e137]: Cable Replacement
+                - generic [ref=e138]:
+                  - heading "Playstation Vue" [level=3] [ref=e139]
+                  - generic [ref=e140]: First Mover
+                - paragraph [ref=e143]: Built out the proof of concept for Sony's since discontinued cable television replacement for the PS3.
+            - 'button "Case study: Post Pal. AI enabled care. Press Enter to view details." [ref=e144] [cursor=pointer]':
+              - generic [ref=e145]:
+                - generic [ref=e146]: Med Tech & AI
+                - generic [ref=e147]:
+                  - heading "Post Pal" [level=3] [ref=e148]
+                  - generic [ref=e149]: AI enabled care
+                - paragraph [ref=e152]: Healthcare AI product that transforms paper discharge instructions into intelligent recovery timelines, improving care and compliance.
+            - 'button "Case study: Target. ❤️. Press Enter to view details." [ref=e153] [cursor=pointer]':
+              - generic [ref=e154]:
+                - generic [ref=e155]: Retail Innovation
+                - generic [ref=e156]:
+                  - heading "Target" [level=3] [ref=e157]
+                  - generic [ref=e158]: ❤️
+                - paragraph [ref=e161]: Led many cross-functional workstreams during Target's replatforming effort, focusing on retail and eCommerce innovation
+            - 'button "Case study: Teaching Books. Increased usage by 25%. Press Enter to view details." [ref=e162] [cursor=pointer]':
+              - generic [ref=e163]:
+                - generic [ref=e164]: Education
+                - generic [ref=e165]:
+                  - heading "Teaching Books" [level=3] [ref=e166]
+                  - generic [ref=e167]: Increased usage by 25%
+                - paragraph [ref=e170]: Designed and developed a framework and system to support TeachingBook's business and users for its second 20 years.
+            - 'button "Case study: Virgin America. 15% conversion lift. Press Enter to view details." [ref=e171] [cursor=pointer]':
+              - generic [ref=e172]:
+                - generic [ref=e173]: Booking flow
+                - generic [ref=e174]:
+                  - heading "Virgin America" [level=3] [ref=e175]
+                  - generic [ref=e176]: 15% conversion lift
+                - paragraph [ref=e179]: By rethinking booking around decisions instead of clicks we created something that brings continued pride to the whole team.
+      - generic [ref=e180]:
+        - generic [ref=e181]:
+          - generic [ref=e182]:
+            - img "Crow logo" [ref=e184]
+            - navigation [ref=e186]:
+              - heading "Product Management" [level=3] [ref=e187]
+              - generic [ref=e188]: Research
+              - generic [ref=e189]: Strategy
+              - generic [ref=e190]: UX & Design
+              - generic [ref=e191]: Delivery
+              - generic [ref=e192]: Development
+              - generic [ref=e193]: AI Innovation
+            - navigation [ref=e194]:
+              - heading "Pages" [level=3] [ref=e195]
+              - link "Home" [ref=e196] [cursor=pointer]:
                 - /url: /
-              - link "About" [ref=e198] [cursor=pointer]:
+              - link "About" [ref=e197] [cursor=pointer]:
                 - /url: /about
-              - link "Case Studies" [ref=e199] [cursor=pointer]:
+              - link "Case Studies" [ref=e198] [cursor=pointer]:
                 - /url: /case-studies
-              - link "Posts" [ref=e200] [cursor=pointer]:
+              - link "Posts" [ref=e199] [cursor=pointer]:
                 - /url: /blog
-            - generic [ref=e202]:
-              - heading "Reach Out" [level=3] [ref=e203]
-              - link "LinkedIn" [ref=e204] [cursor=pointer]:
+            - generic [ref=e201]:
+              - heading "Reach Out" [level=3] [ref=e202]
+              - link "LinkedIn" [ref=e203] [cursor=pointer]:
                 - /url: https://www.linkedin.com/in/mevans212/
-              - link "Contact" [ref=e205] [cursor=pointer]:
+              - link "Contact" [ref=e204] [cursor=pointer]:
                 - /url: /contact
-          - generic [ref=e207]:
-            - paragraph [ref=e208]: MEvans LLC.
-            - paragraph [ref=e209]:
-              - text: Made in Portland, OR. It is 3:35 pm here and its
-              - button "day" [ref=e210] [cursor=pointer]
+          - generic [ref=e206]:
+            - paragraph [ref=e207]: MEvans LLC.
+            - paragraph [ref=e208]:
+              - text: Made in cloudy Portland, OR. It is 4:07 pm here and its
+              - button "day" [ref=e209] [cursor=pointer]
               - text: .
-        - button "Toggle theme (Easter egg)" [ref=e212] [cursor=pointer]: dark
+        - button "Toggle theme (Easter egg)" [ref=e211] [cursor=pointer]: dark
   - region "Notifications (F8)":
     - list
   - region "Notifications alt+T"
-  - button "Open Next.js Dev Tools" [ref=e218] [cursor=pointer]:
-    - img [ref=e219]
-  - alert [ref=e222]
+  - button "Open Next.js Dev Tools" [ref=e217] [cursor=pointer]:
+    - img [ref=e218]
+  - alert [ref=e221]
 ```

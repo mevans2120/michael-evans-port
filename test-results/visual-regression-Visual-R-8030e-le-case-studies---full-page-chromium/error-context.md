@@ -1,79 +1,151 @@
 # Page snapshot
 
 ```yaml
-- generic:
-  - generic [active]:
-    - generic [ref=e3]:
-      - generic [ref=e4]:
-        - navigation [ref=e6]:
-          - button "previous" [disabled] [ref=e7]:
-            - img "previous" [ref=e8]
-          - generic [ref=e10]:
-            - generic [ref=e11]: 1/
-            - text: "1"
-          - button "next" [disabled] [ref=e12]:
-            - img "next" [ref=e13]
-        - link "Next.js 15.5.6 (outdated) Turbopack" [ref=e16] [cursor=pointer]:
-          - /url: https://nextjs.org/docs/messages/version-staleness
-          - img [ref=e17]
-          - generic "An outdated version detected (latest is 16.0.3), upgrade is highly recommended!" [ref=e19]: Next.js 15.5.6 (outdated)
-          - generic [ref=e20]: Turbopack
-      - dialog "Build Error" [ref=e22]:
-        - generic [ref=e25]:
-          - generic [ref=e26]:
-            - generic [ref=e27]:
-              - generic [ref=e29]: Build Error
-              - generic [ref=e30]:
-                - button "Copy Error Info" [ref=e31] [cursor=pointer]:
-                  - img [ref=e32]
-                - button "No related documentation found" [disabled] [ref=e34]:
-                  - img [ref=e35]
-                - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e37] [cursor=pointer]:
-                  - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
-                  - img [ref=e38]
-            - paragraph [ref=e47]: Ecmascript file had an error
-          - generic [ref=e49]:
-            - generic [ref=e51]:
-              - img [ref=e53]
-              - generic [ref=e56]: ./src/app/layout.tsx (18:10)
-              - button "Open in editor" [ref=e57] [cursor=pointer]:
-                - img [ref=e59]
-            - generic [ref=e62]:
-              - generic [ref=e63]: Ecmascript file had an error
-              - generic [ref=e64]: 16 |
-              - text: import * as SunCalc from 'suncalc';
-              - generic [ref=e65]: 17 |
-              - text: import
-              - generic [ref=e66]: "{"
-              - text: Suspense
-              - generic [ref=e67]: "}"
-              - text: from "react"; >
-              - generic [ref=e68]: 18 |
-              - text: import
-              - generic [ref=e69]: "{"
-              - text: VisualEditingWrapper
-              - generic [ref=e70]: "}"
-              - text: from "@/components/VisualEditingWrapper";
-              - generic [ref=e71]: "|"
-              - text: ^^^^^^^^^^^^^^^^^^^^
-              - generic [ref=e72]: 19 |
-              - generic [ref=e73]: 20 |
-              - generic [ref=e74]: // DM Sans is a sans-serif font for headers and UI
-              - generic [ref=e75]: 21 |
-              - text: const
-              - generic [ref=e76]: dmSans
-              - text: "= DM_Sans({"
-              - generic [ref=e77]: "the name `VisualEditingWrapper` is defined multiple times"
-        - generic [ref=e78]:
-          - generic [ref=e79]: "1"
-          - generic [ref=e80]: "2"
-    - generic [ref=e85] [cursor=pointer]:
-      - button "Open Next.js Dev Tools" [ref=e86]:
-        - img [ref=e87]
-      - button "Open issues overlay" [ref=e91]:
-        - generic [ref=e92]:
-          - generic [ref=e93]: "0"
-          - generic [ref=e94]: "1"
-        - generic [ref=e95]: Issue
-  - alert [ref=e96]
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: MEvans
+      - button "Open menu" [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+  - main [ref=e10]:
+    - main [ref=e11]:
+      - generic [ref=e12]:
+        - img "protect your patients with Post Pal" [ref=e14]
+        - generic [ref=e17]:
+          - generic [ref=e18]: Med Tech & AI
+          - heading "Post Pal" [level=1] [ref=e19]
+          - paragraph [ref=e20]: How an AI-powered recovery timeline transforms healthcare's most frustrating patient experience
+          - link "View Case Study" [ref=e21] [cursor=pointer]:
+            - /url: /case-studies/postpal
+            - generic [ref=e23]: View Case Study
+            - img [ref=e25]
+        - generic [ref=e28]: Randomly Selected
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - heading "All Case Studies" [level=2] [ref=e33]
+          - paragraph [ref=e34]: Products, projects, services & strategy
+        - generic [ref=e35]:
+          - 'button "Case study: Aesop. Global brand consistency. Press Enter to view details." [ref=e36] [cursor=pointer]':
+            - generic [ref=e37]:
+              - generic [ref=e38]: ecommerce replatform
+              - generic [ref=e39]:
+                - heading "Aesop" [level=3] [ref=e40]
+                - generic [ref=e41]: Global brand consistency
+              - paragraph [ref=e44]: Crafted a premium e-commerce experience that elevated the brand's minimalist aesthetic while maintaining accessibility and usability across global markets.
+          - 'button "Case study: Alexander Marchant. Brand elevation. Press Enter to view details." [ref=e45] [cursor=pointer]':
+            - generic [ref=e46]:
+              - generic [ref=e47]: B2B eCom
+              - generic [ref=e48]:
+                - heading "Alexander Marchant" [level=3] [ref=e49]
+                - generic [ref=e50]: Brand elevation
+              - paragraph [ref=e53]: Built the new Alexander Marchant's new website, whose primary customers are interior designers. The site integrates with a novel eCommerce solution.
+          - 'button "Case study: Before Launcher. 900k downloads. Press Enter to view details." [ref=e54] [cursor=pointer]':
+            - generic [ref=e55]:
+              - generic [ref=e56]: Mobile App
+              - generic [ref=e57]:
+                - heading "Before Launcher" [level=3] [ref=e58]
+                - generic [ref=e59]: 900k downloads
+              - paragraph [ref=e62]: An intelligent Android home screen replacement that tackled phone addiction through notification filtering and minimalist design. One of Fast Company's Best Apps of 2019.
+          - 'button "Case study: Houselogic (NAR). Zero to one. Press Enter to view details." [ref=e63] [cursor=pointer]':
+            - generic [ref=e64]:
+              - generic [ref=e65]: Content Site
+              - generic [ref=e66]:
+                - heading "Houselogic (NAR)" [level=3] [ref=e67]
+                - generic [ref=e68]: Zero to one
+              - paragraph [ref=e71]: Designed and built a brand new product (Houselogic) for NAR. Their first for intended solely for consumers (not Realtors)
+          - 'button "Case study: Lyft. Improved driver aquisition. Press Enter to view details." [ref=e72] [cursor=pointer]':
+            - generic [ref=e73]:
+              - generic [ref=e74]: Driver Aquisition
+              - generic [ref=e75]:
+                - heading "Lyft" [level=3] [ref=e76]
+                - generic [ref=e77]: Improved driver aquisition
+              - paragraph [ref=e80]: Driver-focused website redesign and acquisition flow optimization, including content marketing and AB testing.
+          - 'button "Case study: Peacock. Transformed product. Press Enter to view details." [ref=e81] [cursor=pointer]':
+            - generic [ref=e82]:
+              - generic [ref=e83]: TV App
+              - generic [ref=e84]:
+                - heading "Peacock" [level=3] [ref=e85]
+                - generic [ref=e86]: Transformed product
+              - paragraph [ref=e89]: Developed a white label solution for Peacock's TV app and also strategic design concepts for second screen enabled features for sports and reality tv.
+          - 'button "Case study: Peddle. 360 degree visibility. Press Enter to view details." [ref=e90] [cursor=pointer]':
+            - generic [ref=e91]:
+              - generic [ref=e92]: Junk Cars
+              - generic [ref=e93]:
+                - heading "Peddle" [level=3] [ref=e94]
+                - generic [ref=e95]: 360 degree visibility
+              - paragraph [ref=e98]: Helped establish data science at Peddle & built innovative & comprehensive dashboards & data with Snowflake, Snowplow & GA4.
+          - 'button "Case study: Playstation Vue. First Mover. Press Enter to view details." [ref=e99] [cursor=pointer]':
+            - generic [ref=e100]:
+              - generic [ref=e101]: Cable Replacement
+              - generic [ref=e102]:
+                - heading "Playstation Vue" [level=3] [ref=e103]
+                - generic [ref=e104]: First Mover
+              - paragraph [ref=e107]: Built out the proof of concept for Sony's since discontinued cable television replacement for the PS3.
+          - 'button "Case study: Post Pal. AI enabled care. Press Enter to view details." [ref=e108] [cursor=pointer]':
+            - generic [ref=e109]:
+              - generic [ref=e110]: Med Tech & AI
+              - generic [ref=e111]:
+                - heading "Post Pal" [level=3] [ref=e112]
+                - generic [ref=e113]: AI enabled care
+              - paragraph [ref=e116]: Healthcare AI product that transforms paper discharge instructions into intelligent recovery timelines, improving care and compliance.
+          - 'button "Case study: Target. ❤️. Press Enter to view details." [ref=e117] [cursor=pointer]':
+            - generic [ref=e118]:
+              - generic [ref=e119]: Retail Innovation
+              - generic [ref=e120]:
+                - heading "Target" [level=3] [ref=e121]
+                - generic [ref=e122]: ❤️
+              - paragraph [ref=e125]: Led many cross-functional workstreams during Target's replatforming effort, focusing on retail and eCommerce innovation
+          - 'button "Case study: Teaching Books. Increased usage by 25%. Press Enter to view details." [ref=e126] [cursor=pointer]':
+            - generic [ref=e127]:
+              - generic [ref=e128]: Education
+              - generic [ref=e129]:
+                - heading "Teaching Books" [level=3] [ref=e130]
+                - generic [ref=e131]: Increased usage by 25%
+              - paragraph [ref=e134]: Designed and developed a framework and system to support TeachingBook's business and users for its second 20 years.
+          - 'button "Case study: Virgin America. 15% conversion lift. Press Enter to view details." [ref=e135] [cursor=pointer]':
+            - generic [ref=e136]:
+              - generic [ref=e137]: Booking flow
+              - generic [ref=e138]:
+                - heading "Virgin America" [level=3] [ref=e139]
+                - generic [ref=e140]: 15% conversion lift
+              - paragraph [ref=e143]: By rethinking booking around decisions instead of clicks we created something that brings continued pride to the whole team.
+    - generic [ref=e144]:
+      - generic [ref=e145]:
+        - generic [ref=e146]:
+          - navigation [ref=e147]:
+            - heading "Product Management" [level=3] [ref=e148]
+            - generic [ref=e149]: Research
+            - generic [ref=e150]: Strategy
+            - generic [ref=e151]: UX & Design
+            - generic [ref=e152]: Delivery
+            - generic [ref=e153]: Development
+            - generic [ref=e154]: AI Innovation
+          - generic [ref=e155]:
+            - generic [ref=e156]:
+              - heading "Reach Out" [level=3] [ref=e157]
+              - link "LinkedIn" [ref=e158] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/mevans212/
+              - link "Contact" [ref=e159] [cursor=pointer]:
+                - /url: /contact
+            - paragraph [ref=e160]: MEvans LLC.
+        - paragraph [ref=e163]:
+          - text: Made in Portland, OR. It is 4:08 pm here and its
+          - button "day" [ref=e164] [cursor=pointer]
+          - text: .
+      - button "Toggle theme (Easter egg)" [ref=e166] [cursor=pointer]: dark
+  - button "Expand AI Assistant" [ref=e168] [cursor=pointer]:
+    - generic [ref=e169]:
+      - img [ref=e170]
+      - generic [ref=e172]: AI Assistant
+    - img [ref=e173]
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e180] [cursor=pointer]:
+    - img [ref=e181]
+  - alert [ref=e184]
 ```
