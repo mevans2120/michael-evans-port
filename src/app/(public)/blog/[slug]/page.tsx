@@ -62,6 +62,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       <BlogHero
         heroSection={post.heroSection}
         title={post.title}
+        featuredImage={post.featuredImage}
       />
 
       <BlogMeta

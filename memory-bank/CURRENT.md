@@ -1,3 +1,103 @@
+# Blog Hero Icon Image Implementation (2025-11-20)
+
+## Context
+User wanted to add featured icon/image to the top right of blog post pages, matching the layout used in case studies (EditorialHero component).
+
+## Problem Analysis
+- Blog posts already had `featuredImage` field in Sanity schema
+- Query was already fetching the image data
+- BlogHero component wasn't displaying the image (only badge, title, subtitle)
+- Case studies had the exact pattern we needed in EditorialHero
+
+## Solution Implemented
+
+### 1. Updated BlogImage Type
+**File**: `src/types/blog.ts`
+
+Changed from reference-based to resolved asset structure:
+```typescript
+export interface BlogImage {
+  asset?: {
+    _id: string;
+    url: string;
+  };
+  crop?: { top, bottom, left, right };
+  hotspot?: { x, y, height, width };
+  alt?: string;
+  caption?: string;
+}
+```
+
+### 2. Enhanced BlogHero Component
+**File**: `src/components/blog/BlogHero.tsx`
+
+- Added `'use client'` directive for Next.js Image
+- Added `featuredImage` prop
+- Implemented two-column flex layout (text left, image right on desktop)
+- Image uses same styling as case studies: `shadow-xl ring-1 ring-border/50`
+- Responsive: stacks on mobile (image below text), side-by-side on desktop
+- Uses `buildImageUrl` with 'hero' preset (1920x900, crop top, quality 85)
+
+### 3. Wired Up Data Flow
+**File**: `src/app/(public)/blog/[slug]/page.tsx`
+
+Added `featuredImage={post.featuredImage}` prop to BlogHero component call.
+
+## Layout Pattern
+
+**Desktop (md+)**:
+```
+┌────────────────────────────────────────┐
+│  Badge                    ┌─────────┐  │
+│  Title (Large)           │  Icon   │  │
+│  Subtitle                 │  Image  │  │
+│                            └─────────┘  │
+└────────────────────────────────────────┘
+```
+
+**Mobile**:
+```
+Badge
+Title
+Subtitle
+┌────────────┐
+│  Icon      │
+│  Image     │
+└────────────┘
+```
+
+## Styling Details
+- Image container: `w-full md:w-1/3 flex-shrink-0`
+- Top margin alignment: `md:mt-[42px]` (aligns with title)
+- Image wrapper: `rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50`
+- Image: `w-full h-auto object-contain transition-opacity duration-normal`
+- Priority loading for above-fold performance
+
+## Benefits
+- ✅ Consistent layout between blog posts and case studies
+- ✅ Automatic image optimization via Next.js Image
+- ✅ Respects Sanity crop/hotspot settings
+- ✅ Graceful degradation when no image present
+- ✅ Dark mode support
+- ✅ Responsive design
+
+## Files Modified
+- `src/types/blog.ts` - Updated BlogImage interface
+- `src/components/blog/BlogHero.tsx` - Added image display
+- `src/app/(public)/blog/[slug]/page.tsx` - Passed featuredImage prop
+
+## Verification
+- ✅ Build successful (`npm run build`)
+- ✅ No TypeScript errors
+- ✅ Dev server running
+- ✅ Documentation created at `/docs/blog-hero-icon-implementation.md`
+
+## Related Documentation
+- Implementation plan: `/docs/blog-hero-icon-implementation.md`
+- Reference component: `src/components/case-study-editorial/EditorialHero.tsx`
+
+---
+
 # Google Analytics Localhost Filtering (2025-11-20)
 
 ## Context

@@ -6,11 +6,23 @@ export interface BlogHero {
 }
 
 export interface BlogImage {
-  asset: {
-    _ref: string;
-    _type: 'reference';
+  asset?: {
+    _id: string;
+    url: string;
   };
-  alt: string;
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+  hotspot?: {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+  };
+  alt?: string;
   caption?: string;
 }
 
