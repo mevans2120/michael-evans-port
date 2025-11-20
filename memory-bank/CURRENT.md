@@ -1,3 +1,57 @@
+# Blog Image Display Optimization (2025-11-19 Late Evening)
+
+## Context
+After fixing case study images, user requested review of blog images to check for similar aspect ratio constraint issues.
+
+## Problem Analysis
+Found blog images were using regular `<img>` tags instead of Next.js Image component, missing out on optimization benefits (lazy loading, format conversion). Also found one aspect ratio constraint in BlogPostCard.
+
+## Changes Made
+
+### 1. BlogContent.tsx - Converted to Next.js Image
+Updated all image variants to use Next.js Image component:
+- **Full width**: `Image` with `width={1200} height={800}` + `className="w-full h-auto"`
+- **Float left/right**: `Image` with `width={800} height={600}` + `className="w-full h-auto"`
+- **Float portrait**: `Image` with `width={400} height={600}` + `className="w-full h-auto"`
+
+### 2. BlogPostCard.tsx - Fixed Featured Images
+- Removed `aspect-[4/3]` constraint
+- Changed from `<img>` to Next.js `Image` component
+- Using `width={600} height={450}` with `className="w-full h-auto"`
+
+## Technical Pattern
+Consistent with case study solution:
+```tsx
+// ✅ GOOD: Next.js Image with explicit dimensions + flexible height
+<Image
+  width={800}
+  height={600}
+  className="w-full h-auto object-cover"
+/>
+
+// ❌ BAD: Regular img or fixed aspect ratios
+<img className="w-full h-full" />
+<div className="aspect-[4/3]">
+```
+
+## Benefits
+- ✅ Next.js optimizations retained (lazy loading, WebP/AVIF conversion)
+- ✅ Sanity crop/hotspot settings respected
+- ✅ Images display at natural dimensions
+- ✅ Consistent implementation across case studies and blog
+
+## Files Modified
+- `src/components/blog/BlogContent.tsx`
+- `src/components/blog/BlogPostCard.tsx`
+
+## Verification
+- ✅ Build successful
+- ✅ Dev server running
+- ✅ All image variants use Next.js Image component
+- ✅ No aspect ratio constraints forcing image dimensions
+
+---
+
 # Mobile Performance Optimization: JS Bundle Reduction (2025-11-19)
 
 ## Context

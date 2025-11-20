@@ -1,6 +1,7 @@
 import React from 'react';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import type { PortableTextBlock } from 'sanity';
+import Image from 'next/image';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import { ImageGrid } from '@/components/case-study-flowing/ImageGrid';
 import { PortraitImageList } from '@/components/case-study-flowing/PortraitImageList';
@@ -81,10 +82,14 @@ export function BlogContent({ content }: BlogContentProps) {
         if (style === 'fullWidth') {
           return (
             <figure className="my-8">
-              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
-                <img
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
+                <Image
                   src={imageUrl}
                   alt={value.alt || ''}
+                  width={1200}
+                  height={800}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 1200px"
                   className="w-full h-auto object-contain rounded-lg"
                 />
               </div>
@@ -101,10 +106,14 @@ export function BlogContent({ content }: BlogContentProps) {
         if (style === 'floatLeft') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-left md:mr-6 md:mb-6 clear-left">
-              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
-                <img
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
+                <Image
                   src={imageUrl}
                   alt={value.alt || ''}
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 45vw"
                   className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
@@ -121,10 +130,14 @@ export function BlogContent({ content }: BlogContentProps) {
         if (style === 'floatRight') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
-              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
-                <img
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
+                <Image
                   src={imageUrl}
                   alt={value.alt || ''}
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 45vw"
                   className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
@@ -141,10 +154,14 @@ export function BlogContent({ content }: BlogContentProps) {
         if (style === 'floatRightPortrait') {
           return (
             <figure className="my-6 w-full md:w-[45%] md:float-right md:ml-6 md:mb-6 clear-right">
-              <div className="relative w-full h-auto rounded-lg overflow-hidden bg-muted">
-                <img
+              <div className="relative w-full rounded-lg overflow-hidden bg-muted">
+                <Image
                   src={imageUrl}
                   alt={value.alt || ''}
+                  width={400}
+                  height={600}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 45vw"
                   className="w-full h-auto object-cover rounded-lg"
                 />
               </div>

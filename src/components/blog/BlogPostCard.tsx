@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import type { BlogListItem } from '@/types/blog';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import { CalendarIcon } from 'lucide-react';
@@ -57,11 +58,14 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
         {/* Featured Image */}
         {post.featuredImage && (
           <div className="w-full md:w-1/3 flex-shrink-0">
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
-              <img
+            <div className="relative rounded-lg overflow-hidden bg-muted">
+              <Image
                 src={buildImageUrl(post.featuredImage, 'card')}
-                alt={post.featuredImage.alt}
-                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-normal group-hover:opacity-90"
+                alt={post.featuredImage.alt || ''}
+                width={600}
+                height={450}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="w-full h-auto object-cover transition-opacity duration-normal group-hover:opacity-90"
               />
             </div>
           </div>
