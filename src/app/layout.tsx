@@ -57,7 +57,10 @@ export default async function RootLayout({
   const isDayTime = now >= times.sunrise && now < times.sunset;
 
   // Get GA measurement ID from environment (server-side access is reliable)
-  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  // Only enable in production to prevent localhost/preview tracking
+  const gaId = process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+    : undefined;
 
   // Day colors (Coral) vs Evening colors (Purple)
   const accentColors = isDayTime

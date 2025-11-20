@@ -1,3 +1,47 @@
+# Google Analytics Localhost Filtering (2025-11-20)
+
+## Context
+Google Analytics was firing on localhost during development, causing test traffic to appear in production analytics data. User wanted to prevent GA from tracking on localhost.
+
+## Problem Analysis
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID` was set in `.env.local` file
+- Existing code checked if measurement ID existed, but didn't check environment
+- GA was tracking all localhost development activity as production traffic
+
+## Solution Implemented
+Added environment-based filtering in `src/app/layout.tsx`:
+
+```typescript
+// Before:
+const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+// After:
+const gaId = process.env.NODE_ENV === 'production'
+  ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  : undefined;
+```
+
+## Impact
+- ✅ GA now only fires in production environment (`NODE_ENV === 'production'`)
+- ✅ Localhost development traffic no longer tracked
+- ✅ Preview deployments on Vercel won't track (they use `NODE_ENV === 'development'` or `NODE_ENV === 'preview'`)
+- ✅ Measurement ID can stay in `.env.local` for convenience
+- ✅ Code-level protection prevents accidental tracking
+
+## Testing
+- Verified with Omnibug browser extension on localhost
+- No GA requests to `googletagmanager.com` on localhost:3000
+- Vercel Analytics still works (separate system)
+
+## Files Modified
+- `src/app/layout.tsx` (lines 60-63)
+
+## Related Research
+- Created comprehensive research document at `/docs/google-analytics-test-traffic-filtering-research.md`
+- Covers 6 filtering strategies, Next.js implementation patterns, and Vercel configuration
+
+---
+
 # Blog Image Display Optimization (2025-11-19 Late Evening)
 
 ## Context
