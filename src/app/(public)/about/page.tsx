@@ -28,6 +28,10 @@ const profileQuery = `
   }
 `
 
+// ISR: Revalidate every 6 hours (Phase 3.4)
+// Webhook provides instant updates when publishing in Sanity
+export const revalidate = 21600; // 6 hours
+
 export async function generateMetadata(): Promise<Metadata> {
   const { data: profile } = await sanityFetch({ query: profileQuery })
 
