@@ -12,10 +12,6 @@ import { Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 
-// ISR: Revalidate every 6 hours (Phase 3.4)
-// Webhook provides instant updates when publishing in Sanity
-export const revalidate = 21600; // 6 hours
-
 export async function generateMetadata(): Promise<Metadata> {
   const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });
 

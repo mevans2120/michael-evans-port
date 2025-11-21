@@ -14,10 +14,6 @@ interface PageProps {
   }>;
 }
 
-// ISR: Revalidate every 6 hours (Phase 3.4)
-// Webhook provides instant updates when publishing in Sanity
-export const revalidate = 21600; // 6 hours
-
 export async function generateStaticParams() {
   const slugs = await client.fetch<{ slug: string }[]>(
     `*[_type == "blog" && defined(slug.current)]{ "slug": slug.current }`
