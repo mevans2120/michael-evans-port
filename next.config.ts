@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 const nextConfig: NextConfig = {
   // Image configuration for Sanity CDN
@@ -43,4 +48,4 @@ const nextConfig: NextConfig = {
   // Using default root (project root)
 };
 
-export default nextConfig;
+export default bundleAnalyzer(nextConfig);
