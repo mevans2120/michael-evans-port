@@ -22,6 +22,9 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
+  preload: true, // Preload critical font for faster rendering
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'], // Better fallback chain
+  adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
 
 // Newsreader is a serif font for body text (editorial style)
@@ -31,6 +34,9 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
+  preload: false, // Don't preload secondary font (loaded async)
+  fallback: ['Georgia', 'Cambria', 'Times New Roman', 'serif'], // Better serif fallback
+  adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
 
 export const metadata: Metadata = {
