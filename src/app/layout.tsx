@@ -90,6 +90,16 @@ export default async function RootLayout({
         '--color-button-primary': accentColors.buttonPrimary,
       } as React.CSSProperties}
     >
+      <head>
+        {/* Resource hints for performance optimization (Phase 3.1) */}
+        {/* DNS Prefetch - resolve DNS early for external domains */}
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+        {/* Preconnect - establish full connection for critical resources */}
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+      </head>
       <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a
