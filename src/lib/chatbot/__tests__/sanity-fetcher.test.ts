@@ -1,0 +1,707 @@
+/**
+ * Sanity Content Fetcher Tests
+ * Tests content transformation for vector database ingestion
+ *
+ * These tests ensure:
+ * - Sanity content is properly fetched and transformed
+ * - Portable text is converted to plain text correctly
+ * - Metadata is properly structured
+ * - All content types are handled consistently
+ * - URLs and slugs are preserved for chatbot linking
+ *
+ * Mocks: Sanity client API calls
+ * Real: Content transformation logic
+ */
+
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {
+  portableTextToPlainText,
+  fetchProjects,
+  fetchProfile,
+  fetchAIProjects,
+  fetchBlogPosts,
+  fetchAllSanityContent,
+} from '../sanity-fetcher';
+import { client } from '@/sanity/lib/client';
+import type { PortableTextBlock } from 'sanity';
+
+// Mock Sanity client
+vi.mock('@/sanity/lib/client', () => ({
+  client: {
+    fetch: vi.fn(),
+  },
+}));
+
+describe('Sanity Content Fetcher', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  describe('portableTextToPlainText', () => {
+    it('converts simple text blocks to plain text', () => {
+      const blocks: PortableTextBlock[] = [
+        {
+          _type: 'block',
+          _key: 'block-1',
+          children: [
+            { _type: 'span', _key: 'span-1', text: 'Hello world', marks: [] },
+          ],
+        } as any,
+      ];
+
+      const result = portableTextToPlainText(blocks);
+
+      expect(result).toBe('Hello world');
+    });
+
+    it('joins multiple blocks with double newlines', () => {
+      const blocks: PortableTextBlock[] = [
+        {
+          _type: 'block',
+          _key: 'block-1',
+          children: [
+            { _type: 'span', _key: 'span-1', text: 'First paragraph', marks: [] },
+          ],
+        } as any,
+        {
+          _type: 'block',
+          _key: 'block-2',
+          children: [
+            { _type: 'span', _key: 'span-2', text: 'Second paragraph', marks: [] },
+          ],
+        } as any,
+      ];
+
+      const result = portableTextToPlainText(blocks);
+
+      expect(result).toBe('First paragraph\n\nSecond paragraph');
+    });
+
+    it('concatenates multiple children in a block', () => {
+      const blocks: PortableTextBlock[] = [
+        {
+          _type: 'block',
+          _key: 'block-1',
+          children: [
+            { _type: 'span', _key: 'span-1', text: 'Hello ', marks: [] },
+            { _type: 'span', _key: 'span-2', text: 'world', marks: ['strong'] },
+          ],
+        } as any,
+      ];
+
+      const result = portableTextToPlainText(blocks);
+
+      expect(result).toBe('Hello world');
+    });
+
+    it('skips non-block types', () => {
+      const blocks: PortableTextBlock[] = [
+        {
+          _type: 'block',
+          _key: 'block-1',
+          children: [
+            { _type: 'span', _key: 'span-1', text: 'Text content', marks: [] },
+          ],
+        } as any,
+        {
+          _type: 'image',
+          _key: 'image-1',
+          asset: { _ref: 'image-123' },
+        } as any,
+      ];
+
+      const result = portableTextToPlainText(blocks);
+
+      expect(result).toBe('Text content');
+    });
+
+    it('handles undefined blocks', () => {
+      const result = portableTextToPlainText(undefined);
+      expect(result).toBe('');
+    });
+
+    it('handles empty array', () => {
+      const result = portableTextToPlainText([]);
+      expect(result).toBe('');
+    });
+
+    it('handles blocks without children', () => {
+      const blocks: PortableTextBlock[] = [
+        {
+          _type: 'block',
+          _key: 'block-1',
+        } as any,
+      ];
+
+      const result = portableTextToPlainText(blocks);
+
+      expect(result).toBe('');
+    });
+
+    it('filters out empty blocks', () => {
+      const blocks: PortableTextBlock[] = [
+        {
+          _type: 'block',
+          _key: 'block-1',
+          children: [
+            { _type: 'span', _key: 'span-1', text: 'Content', marks: [] },
+          ],
+        } as any,
+        {
+          _type: 'block',
+          _key: 'block-2',
+          children: [],
+        } as any,
+        {
+          _type: 'block',
+          _key: 'block-3',
+          children: [
+            { _type: 'span', _key: 'span-2', text: 'More content', marks: [] },
+          ],
+        } as any,
+      ];
+
+      const result = portableTextToPlainText(blocks);
+
+      expect(result).toBe('Content\n\nMore content');
+    });
+  });
+
+  describe('fetchProjects', () => {
+    it('fetches and transforms project data', async () => {
+      const mockProjects = [
+        {
+          _id: 'project-123',
+          _updatedAt: '2025-01-01T00:00:00Z',
+          title: 'Test Project',
+          slug: { current: 'test-project' },
+          category: 'Case Study',
+          summary: 'A test project summary',
+          description: 'Full project description',
+          content: [
+            {
+              _type: 'block',
+              children: [
+                { _type: 'span', text: 'Detailed content here' },
+              ],
+            },
+          ],
+          metrics: [
+            { label: 'Revenue', value: '2x increase' },
+            { label: 'Users', value: '1M+' },
+          ],
+          achievements: [
+            'Launched successfully',
+            'Won industry award',
+          ],
+          technologies: ['React', 'TypeScript', 'Next.js'],
+          publishedAt: '2025-01-01',
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchProjects();
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        content: expect.stringContaining('Test Project'),
+        metadata: {
+          source: 'sanity_project',
+          source_id: 'project-123',
+          title: 'Test Project',
+          category: 'Case Study',
+          slug: 'test-project',
+          updated_at: '2025-01-01T00:00:00Z',
+        },
+      });
+    });
+
+    it('includes case study URL in content', async () => {
+      const mockProjects = [
+        {
+          _id: 'project-123',
+          _updatedAt: '2025-01-01',
+          title: 'Virgin America',
+          slug: { current: 'virgin-america' },
+          category: 'Case Study',
+          summary: 'Test',
+          content: [],
+          technologies: [],
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchProjects();
+
+      expect(result[0].content).toContain('Case study URL: /case-studies/virgin-america');
+    });
+
+    it('builds comprehensive content string', async () => {
+      const mockProjects = [
+        {
+          _id: 'project-123',
+          _updatedAt: '2025-01-01',
+          title: 'Casa Bonita',
+          slug: { current: 'casa-bonita' },
+          category: 'Experience Design',
+          summary: 'Restaurant redesign project',
+          description: 'Complete overhaul of iconic restaurant',
+          content: [
+            {
+              _type: 'block',
+              children: [
+                { _type: 'span', text: 'Detailed case study content' },
+              ],
+            },
+          ],
+          metrics: [
+            { label: 'Visitors', value: '50% increase' },
+          ],
+          achievements: [
+            'Featured in national media',
+          ],
+          technologies: ['Figma', 'Adobe XD'],
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchProjects();
+
+      const content = result[0].content;
+
+      expect(content).toContain('# Casa Bonita');
+      expect(content).toContain('Category: Experience Design');
+      expect(content).toContain('Restaurant redesign project');
+      expect(content).toContain('Complete overhaul of iconic restaurant');
+      expect(content).toContain('Detailed case study content');
+      expect(content).toContain('## Key Metrics');
+      expect(content).toContain('Visitors: 50% increase');
+      expect(content).toContain('## Key Achievements');
+      expect(content).toContain('Featured in national media');
+      expect(content).toContain('Technologies: Figma, Adobe XD');
+    });
+
+    it('handles projects with minimal fields', async () => {
+      const mockProjects = [
+        {
+          _id: 'project-minimal',
+          _updatedAt: '2025-01-01',
+          title: 'Minimal Project',
+          slug: { current: 'minimal' },
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchProjects();
+
+      expect(result).toHaveLength(1);
+      expect(result[0].content).toContain('# Minimal Project');
+      expect(result[0].metadata.title).toBe('Minimal Project');
+    });
+
+    it('includes all metadata fields', async () => {
+      const mockProjects = [
+        {
+          _id: 'project-123',
+          _updatedAt: '2025-01-01T12:00:00Z',
+          title: 'Test',
+          slug: { current: 'test' },
+          category: 'UX Design',
+          technologies: ['React', 'Node.js'],
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchProjects();
+
+      expect(result[0].metadata).toEqual({
+        source: 'sanity_project',
+        source_id: 'project-123',
+        title: 'Test',
+        category: 'UX Design',
+        slug: 'test',
+        updated_at: '2025-01-01T12:00:00Z',
+        technologies: ['React', 'Node.js'],
+      });
+    });
+  });
+
+  describe('fetchProfile', () => {
+    it('fetches and transforms profile data', async () => {
+      const mockProfile = {
+        _id: 'profile-singleton',
+        _updatedAt: '2025-01-01T00:00:00Z',
+        name: 'Michael Evans',
+        heroHeadline: 'Product Manager & UX Strategist',
+        heroSubheadline: '20 years of experience',
+        heroIntro: 'Building innovative products',
+        quickFacts: [
+          { label: 'Location', value: 'Portland, OR' },
+        ],
+        capabilities: [
+          { title: 'Product Strategy', description: 'Expert in roadmapping' },
+        ],
+        bio: [
+          {
+            _type: 'block',
+            children: [
+              { _type: 'span', text: 'Bio content here' },
+            ],
+          },
+        ],
+        article: [
+          {
+            _type: 'block',
+            children: [
+              { _type: 'span', text: 'Extended about content' },
+            ],
+          },
+        ],
+        skills: [
+          { category: 'Technical', skills: ['JavaScript', 'Python'] },
+        ],
+        technologies: {
+          frontend: ['React', 'Vue'],
+          backend: ['Node.js', 'Django'],
+        },
+        experience: [
+          { company: 'Work & Co', role: 'Senior PM', description: 'Led multiple projects' },
+        ],
+      };
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+
+      const result = await fetchProfile();
+
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0].content).toContain('Michael Evans');
+      expect(result[0].content).toContain('Product Manager & UX Strategist');
+      expect(result[0].metadata.source).toBe('sanity_profile');
+    });
+
+    it('builds comprehensive profile content', async () => {
+      const mockProfile = {
+        _id: 'profile-singleton',
+        _updatedAt: '2025-01-01',
+        name: 'Michael Evans',
+        heroHeadline: 'PM & Builder',
+        capabilities: [
+          { title: 'Product Management', description: 'End-to-end ownership' },
+        ],
+        bio: [
+          { _type: 'block', children: [{ _type: 'span', text: 'Background info' }] },
+        ],
+        skills: [
+          { category: 'Design', skills: ['Figma', 'Sketch'] },
+        ],
+      };
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+
+      const result = await fetchProfile();
+
+      const mainContent = result[0].content;
+
+      expect(mainContent).toContain('# Michael Evans');
+      expect(mainContent).toContain('PM & Builder');
+      expect(mainContent).toContain('## Capabilities');
+      expect(mainContent).toContain('### Product Management');
+      expect(mainContent).toContain('End-to-end ownership');
+      expect(mainContent).toContain('## Background');
+      expect(mainContent).toContain('Background info');
+      expect(mainContent).toContain('## Skills');
+      expect(mainContent).toContain('### Design');
+      expect(mainContent).toContain('Figma, Sketch');
+    });
+
+    it('creates separate documents for sections', async () => {
+      const mockProfile = {
+        _id: 'profile-singleton',
+        _updatedAt: '2025-01-01',
+        name: 'Michael Evans',
+        sections: [
+          {
+            heading: 'Background',
+            content: [
+              { _type: 'block', children: [{ _type: 'span', text: 'My story' }] },
+            ],
+            subsections: [
+              {
+                heading: 'Education',
+                content: [
+                  { _type: 'block', children: [{ _type: 'span', text: 'University info' }] },
+                ],
+              },
+            ],
+          },
+          {
+            heading: 'Philosophy',
+            content: [
+              { _type: 'block', children: [{ _type: 'span', text: 'My approach' }] },
+            ],
+          },
+        ],
+      };
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+
+      const result = await fetchProfile();
+
+      // Should have main profile + 2 section documents
+      expect(result.length).toBeGreaterThanOrEqual(3);
+
+      const backgroundSection = result.find(doc => doc.metadata.title === 'Background');
+      expect(backgroundSection).toBeDefined();
+      expect(backgroundSection!.content).toContain('# Background');
+      expect(backgroundSection!.content).toContain('My story');
+      expect(backgroundSection!.content).toContain('## Education');
+      expect(backgroundSection!.content).toContain('University info');
+
+      const philosophySection = result.find(doc => doc.metadata.title === 'Philosophy');
+      expect(philosophySection).toBeDefined();
+      expect(philosophySection!.content).toContain('# Philosophy');
+      expect(philosophySection!.content).toContain('My approach');
+    });
+
+    it('returns empty array for null profile', async () => {
+      vi.mocked(client.fetch).mockResolvedValue(null);
+
+      const result = await fetchProfile();
+
+      expect(result).toEqual([]);
+    });
+
+    it('includes article content in main profile document', async () => {
+      const mockProfile = {
+        _id: 'profile-singleton',
+        _updatedAt: '2025-01-01',
+        name: 'Michael Evans',
+        article: [
+          { _type: 'block', children: [{ _type: 'span', text: 'Extended about content here' }] },
+        ],
+      };
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+
+      const result = await fetchProfile();
+
+      expect(result[0].content).toContain('## About / Background Details');
+      expect(result[0].content).toContain('Extended about content here');
+    });
+  });
+
+  describe('fetchAIProjects', () => {
+    it('fetches and transforms AI project data', async () => {
+      const mockProjects = [
+        {
+          _id: 'ai-project-123',
+          _updatedAt: '2025-01-01T00:00:00Z',
+          title: 'AI Chatbot System',
+          slug: { current: 'ai-chatbot' },
+          subtitle: 'RAG-powered chatbot',
+          description: 'Advanced AI system',
+          category: 'AI/ML',
+          status: 'Production',
+          overview: {
+            problem: 'Need better customer support',
+            solution: 'AI-powered chatbot',
+            role: 'Lead AI Engineer',
+            timeline: '6 months',
+          },
+          metrics: [
+            { label: 'Response Time', value: '<2s' },
+          ],
+          techStack: ['Python', 'TensorFlow', 'LangChain'],
+          aiComponents: [
+            {
+              name: 'RAG Pipeline',
+              description: 'Semantic search with reranking',
+              technology: 'LangChain + Pinecone',
+            },
+          ],
+          learnings: ['Importance of context windows'],
+          achievements: ['Reduced support tickets by 60%'],
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchAIProjects();
+
+      expect(result).toHaveLength(1);
+      expect(result[0].content).toContain('# AI Chatbot System');
+      expect(result[0].content).toContain('RAG-powered chatbot');
+      expect(result[0].content).toContain('Status: Production');
+      expect(result[0].content).toContain('## Problem');
+      expect(result[0].content).toContain('Need better customer support');
+      expect(result[0].content).toContain('## AI Components');
+      expect(result[0].content).toContain('### RAG Pipeline');
+      expect(result[0].metadata.source).toBe('sanity_ai_project');
+    });
+
+    it('includes all AI project sections', async () => {
+      const mockProjects = [
+        {
+          _id: 'ai-123',
+          _updatedAt: '2025-01-01',
+          title: 'ML Model',
+          slug: { current: 'ml-model' },
+          developmentProcess: [
+            {
+              phase: 'Research',
+              description: 'Data collection',
+              outcomes: ['Dataset created', 'Baseline established'],
+            },
+          ],
+          learnings: ['Model optimization tips'],
+          achievements: ['95% accuracy'],
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+
+      const result = await fetchAIProjects();
+
+      expect(result[0].content).toContain('## Development Process');
+      expect(result[0].content).toContain('### Research');
+      expect(result[0].content).toContain('Data collection');
+      expect(result[0].content).toContain('**Outcomes:**');
+      expect(result[0].content).toContain('- Dataset created');
+      expect(result[0].content).toContain('## Key Learnings');
+      expect(result[0].content).toContain('- Model optimization tips');
+      expect(result[0].content).toContain('## Achievements');
+      expect(result[0].content).toContain('- 95% accuracy');
+    });
+  });
+
+  describe('fetchBlogPosts', () => {
+    it('fetches and transforms blog post data', async () => {
+      const mockPosts = [
+        {
+          _id: 'blog-123',
+          _updatedAt: '2025-01-01T00:00:00Z',
+          title: 'How to Build Better Products',
+          slug: { current: 'better-products' },
+          excerpt: 'Tips for product managers',
+          content: [
+            {
+              _type: 'block',
+              children: [
+                { _type: 'span', text: 'Full blog content here' },
+              ],
+            },
+          ],
+          heroSection: {
+            badge: 'Product Management',
+            subtitle: 'A guide for PMs',
+          },
+          publishedAt: '2025-01-01T00:00:00Z',
+          author: 'Michael Evans',
+          featured: true,
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockPosts);
+
+      const result = await fetchBlogPosts();
+
+      expect(result).toHaveLength(1);
+      expect(result[0].content).toContain('# How to Build Better Products');
+      expect(result[0].content).toContain('Blog post URL: /blog/better-products');
+      expect(result[0].content).toContain('Category: Product Management');
+      expect(result[0].content).toContain('Tips for product managers');
+      expect(result[0].content).toContain('Full blog content here');
+      expect(result[0].metadata.source).toBe('sanity_blog');
+    });
+
+    it('includes blog URL in content', async () => {
+      const mockPosts = [
+        {
+          _id: 'blog-123',
+          _updatedAt: '2025-01-01',
+          title: 'Test Post',
+          slug: { current: 'test-post' },
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockPosts);
+
+      const result = await fetchBlogPosts();
+
+      expect(result[0].content).toContain('Blog post URL: /blog/test-post');
+    });
+
+    it('formats published date', async () => {
+      const mockPosts = [
+        {
+          _id: 'blog-123',
+          _updatedAt: '2025-01-01',
+          title: 'Test',
+          slug: { current: 'test' },
+          publishedAt: '2025-01-15T00:00:00Z',
+          author: 'Michael Evans',
+        },
+      ];
+
+      vi.mocked(client.fetch).mockResolvedValue(mockPosts);
+
+      const result = await fetchBlogPosts();
+
+      expect(result[0].content).toContain('Published:');
+      expect(result[0].content).toContain('Author: Michael Evans');
+    });
+  });
+
+  describe('fetchAllSanityContent', () => {
+    it('fetches and combines all content types', async () => {
+      const mockProjects = [{ _id: 'p1', _updatedAt: '2025-01-01', title: 'Project', slug: { current: 'p' } }];
+      const mockProfile = { _id: 'profile', _updatedAt: '2025-01-01', name: 'Michael' };
+      const mockAIProjects = [{ _id: 'ai1', _updatedAt: '2025-01-01', title: 'AI Project', slug: { current: 'ai' } }];
+      const mockBlogPosts = [{ _id: 'blog1', _updatedAt: '2025-01-01', title: 'Blog', slug: { current: 'b' } }];
+
+      vi.mocked(client.fetch)
+        .mockResolvedValueOnce(mockProjects)
+        .mockResolvedValueOnce(mockProfile)
+        .mockResolvedValueOnce(mockAIProjects)
+        .mockResolvedValueOnce(mockBlogPosts);
+
+      const result = await fetchAllSanityContent();
+
+      // Should include: 1 project + 1 profile + 1 AI project + 1 blog = 4 minimum
+      expect(result.length).toBeGreaterThanOrEqual(4);
+
+      // Check we have documents from each source
+      const sources = result.map(doc => doc.metadata.source);
+      expect(sources).toContain('sanity_project');
+      expect(sources).toContain('sanity_profile');
+      expect(sources).toContain('sanity_ai_project');
+      expect(sources).toContain('sanity_blog');
+    });
+
+    it('logs fetch summary', async () => {
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+      vi.mocked(client.fetch)
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([]);
+
+      await fetchAllSanityContent();
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Fetching Sanity content')
+      );
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Fetched')
+      );
+
+      consoleSpy.mockRestore();
+    });
+  });
+});
