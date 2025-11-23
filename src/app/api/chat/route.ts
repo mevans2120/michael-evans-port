@@ -175,7 +175,7 @@ Available case study URLs:
 //       [=========]
 //       | o     o |
 //       |    >    |
-//       |  \___/  |
+//       |  ___  |
 //       [=========]
 //        |[-----]|
 //        || THX ||
@@ -194,7 +194,7 @@ Available case study URLs:
 //
 // OR
 //
-//      /\_/\
+//      /-\
 //     ( o.o )
 //      > ^ <
 //     Purrfect feedback!

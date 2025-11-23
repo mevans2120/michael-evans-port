@@ -99,23 +99,25 @@ async function revalidateForDocument(
         break;
 
       // Footer (appears on all pages - revalidate main pages)
-      case 'footer':
+      case 'footer': {
         const mainPages = ['/', '/case-studies', '/about', '/contact'];
         for (const path of mainPages) {
           revalidatePath(path);
           revalidatedPaths.push(path);
         }
         break;
+      }
 
       // SEO Settings (global - revalidate all main pages)
       case 'siteSettings':
-      case 'seoSettings':
+      case 'seoSettings': {
         const allPages = ['/', '/case-studies', '/about', '/contact'];
         for (const path of allPages) {
           revalidatePath(path);
           revalidatedPaths.push(path);
         }
         break;
+      }
 
       default:
         logger.log(`   ℹ️  No revalidation rules defined for type: ${documentType}`);

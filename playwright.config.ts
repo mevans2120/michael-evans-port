@@ -33,7 +33,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: true,  // Always reuse existing server
-    timeout: 120000,
+    reuseExistingServer: !process.env.CI,  // Reuse in dev, fresh in CI
+    timeout: 180000,  // 3 minutes for Turbopack cold start
   },
 });
