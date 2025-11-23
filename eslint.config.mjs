@@ -162,6 +162,62 @@ export default [
     },
   },
 
+  // CLI utility scripts - allow console output for progress/status
+  {
+    files: [
+      'src/scripts/**/*.ts',
+      'src/scripts/**/*.js',
+      'src/scripts/**/*.mjs',
+      'src/lib/chatbot/ingest-*.ts',
+      'src/lib/chatbot/setup-*.ts',
+      'src/lib/chatbot/smart-sync.ts',
+      'src/lib/chatbot/sanity-fetcher.ts', // CLI progress output
+      'src/lib/logger.ts', // Logging utility wrapper
+    ],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+
+  // ArticleContent - allow img tags for Sanity optimization
+  {
+    files: [
+      'src/components/ArticleContent.tsx',
+      'src/components/case-study-flowing/ArticleContent.tsx',
+    ],
+    rules: {
+      '@next/next/no-img-element': 'off',
+    },
+  },
+
+  // Sanity schemas - allow 'any' type (required by Sanity's validation API)
+  {
+    files: ['sanity/schemas/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+
+  // Chatbot utilities - allow 'any' for flexible content/logging
+  {
+    files: [
+      'src/lib/chatbot/content-hash.ts',
+      'src/lib/chatbot/logging.ts',
+    ],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+
+  // Sanity client - allow 'any' for third-party API types
+  {
+    files: ['src/sanity/lib/client.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+
   // Config files - relaxed rules
   {
     files: [
