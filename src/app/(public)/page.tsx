@@ -11,6 +11,16 @@ import { type Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 
+interface Project {
+  _id: string
+  title: string
+  slug: string
+  category?: string
+  featuredMetric?: string
+  featuredDescription?: string
+  order?: number
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });
 
@@ -77,7 +87,7 @@ export default async function HomePage() {
 
   // Map case studies data to component format
   const featuredCaseStudies = caseStudiesData && caseStudiesData.length > 0
-    ? caseStudiesData.map((project: any, index: number) => ({
+    ? caseStudiesData.map((project: Project, index: number) => ({
         id: project._id,
         number: String(index + 1).padStart(2, '0'),
         category: project.category || 'Case Study',

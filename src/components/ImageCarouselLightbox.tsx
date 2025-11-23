@@ -116,6 +116,7 @@ export function ImageCarouselLightbox({
                   className="relative w-full h-auto rounded-lg overflow-hidden bg-muted block transition-smooth hover:opacity-80 focus-outline cursor-pointer"
                   aria-label={`View full size: ${image.alt || `Image ${index + 1}`}`}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageUrl}
                     alt={image.alt || ''}
@@ -178,6 +179,7 @@ export function ImageCarouselLightbox({
                       "relative w-full flex items-center justify-center px-4 md:px-16",
                       image.caption ? "h-[calc(100%-120px)] py-8" : "h-full py-12"
                     )}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageUrl}
                         alt={image.alt || ''}

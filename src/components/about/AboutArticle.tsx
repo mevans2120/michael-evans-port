@@ -4,10 +4,11 @@
  * Reuses the ArticleContent renderer from case-study-flowing
  */
 
+import type { PortableTextBlock } from 'sanity'
 import { ArticleContent } from '@/components/case-study-flowing/ArticleContent'
 
 interface AboutArticleProps {
-  article: any[]
+  article: PortableTextBlock[]
   className?: string
 }
 

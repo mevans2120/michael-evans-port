@@ -3,7 +3,7 @@
 import React, { type ReactNode, useEffect, useState } from 'react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavigationPanelProps {
@@ -48,10 +48,9 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
   };
 
   const [isBorderHovered, setIsBorderHovered] = React.useState(false);
-  const [isAnimating, setIsAnimating] = React.useState(false);
 
   // Determine border color class
-  const showBorder = panelState === 'partial' || isBorderHovered || isAnimating;
+  const showBorder = panelState === 'partial' || isBorderHovered;
 
   // Get dynamic width classes based on state
   const getWidthClasses = () => {
@@ -114,7 +113,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         )}
 
         {/* Clickable chevron button on purple border - Desktop only */}
-        {isDesktop && (isBorderHovered || isAnimating || panelState === 'partial') && (
+        {isDesktop && (isBorderHovered || panelState === 'partial') && (
           <button
             onClick={handleBorderClick}
             onMouseEnter={() => setIsBorderHovered(true)}

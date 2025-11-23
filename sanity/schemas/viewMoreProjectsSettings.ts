@@ -76,7 +76,7 @@ export const viewMoreProjectsSettings = defineType({
       hidden: ({ parent }) => parent?.selectionStrategy !== 'curated',
       description: 'Select specific projects to show (only used when Selection Strategy is "Curated")',
       validation: Rule => Rule.custom((curatedProjects, context) => {
-        const { parent } = context as any
+        const { parent } = context as { parent?: { selectionStrategy?: string } }
         if (parent?.selectionStrategy === 'curated' && (!curatedProjects || curatedProjects.length === 0)) {
           return 'Please select at least one project for curated selection'
         }

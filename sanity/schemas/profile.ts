@@ -142,7 +142,7 @@ export default defineType({
               url: 'url',
               caption: 'caption'
             },
-            prepare({ url, caption }: any) {
+            prepare({ url, caption }: { url?: string; caption?: string }) {
               return {
                 title: caption || 'Video',
                 subtitle: url

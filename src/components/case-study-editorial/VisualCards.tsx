@@ -29,6 +29,7 @@ export function VisualCards({ cards }: VisualCardsProps) {
         >
           {card.image ? (
             <div className="relative w-full h-auto bg-muted">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={buildImageUrl(card.image, 'visual-card')}
                 alt={card.caption || 'Case study visual'}

@@ -99,7 +99,7 @@ const TerminalDark: React.FC = () => {
     }
   ]);
 
-  const handleNavigate = (section: string) => {
+  const handleNavigate = (_section: string) => {
     setTimeout(() => {
       setPanelState('partial');
     }, 500);

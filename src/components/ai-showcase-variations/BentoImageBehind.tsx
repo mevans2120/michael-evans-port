@@ -124,6 +124,7 @@ const BentoImageBehind: React.FC<BentoImageBehindProps> = ({ isDarkMode }) => {
                 <div className="group relative h-full rounded-2xl overflow-hidden transition-all duration-300 border border-transparent hover:border-white/20">
                   {/* Background Image */}
                   <div className="absolute inset-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={project.image}
                       alt={project.title}

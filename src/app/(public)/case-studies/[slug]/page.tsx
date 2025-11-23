@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
 import { client } from '@/sanity/lib/client'
 import { type Metadata } from 'next'
+import { type PortableTextBlock } from 'sanity'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 import {
   EditorialHero,
@@ -32,12 +33,12 @@ interface EditorialCaseStudyData {
     label: string
     description?: string
   }>
-  article?: any[] // Flowing article content (new format)
+  article?: PortableTextBlock[] // Flowing article content (new format)
   slides?: Array<{
     _key: string
     sectionLabel?: string
     heading?: string
-    content?: any[] // Portable Text blocks
+    content?: PortableTextBlock[]
     quoteBox?: {
       quote: string
       attribution?: string
@@ -51,7 +52,25 @@ interface EditorialCaseStudyData {
       _key?: string
     }>
     visualCards?: Array<{
-      image?: any
+      image?: {
+        asset?: {
+          _id: string
+          url: string
+        }
+        crop?: {
+          top: number
+          bottom: number
+          left: number
+          right: number
+        }
+        hotspot?: {
+          x: number
+          y: number
+          height: number
+          width: number
+        }
+        alt?: string
+      }
       placeholderText?: string
       caption?: string
       _key?: string
@@ -71,8 +90,18 @@ interface EditorialCaseStudyData {
       _ref: string
       _type: string
     }
-    crop?: any
-    hotspot?: any
+    crop?: {
+      top: number
+      bottom: number
+      left: number
+      right: number
+    }
+    hotspot?: {
+      x: number
+      y: number
+      height: number
+      width: number
+    }
     alt?: string
   }
   featuredDescription?: string
@@ -252,7 +281,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
       {project.article && project.article.length > 0 ? (
         <FlowingArticle article={project.article} />
       ) : (
-        project.slides?.map((slide: any) => (
+        project.slides?.map((slide) => (
           <ContentSlide
             key={slide._key}
             sectionLabel={slide.sectionLabel}

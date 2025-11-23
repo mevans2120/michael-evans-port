@@ -1,18 +1,15 @@
 'use client';
 
-import { useState } from 'react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { Sparkles, ChevronUp } from 'lucide-react';
 import { ChatSection } from './ChatSection';
 
 export function MobileChatFooter() {
   const { chatExpanded, setChatExpanded, setMobileChatSource } = useNavigation();
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const handleExpand = () => {
     setMobileChatSource('footer');
     setChatExpanded(true);
-    setHasInteracted(true);
   };
 
   // When expanded, render full ChatSection (mobile only)

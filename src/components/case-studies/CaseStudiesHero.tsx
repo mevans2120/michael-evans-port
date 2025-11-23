@@ -26,7 +26,11 @@ interface CaseStudy {
       _id: string
       url: string
       metadata?: {
-        dimensions?: any
+        dimensions?: {
+          width: number
+          height: number
+          aspectRatio: number
+        }
         lqip?: string
       }
     }

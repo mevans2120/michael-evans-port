@@ -19,9 +19,8 @@ interface ChatSectionProps {
 }
 
 export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
-  const { panelState, chatExpanded, setChatExpanded, chatInputFocused, setChatInputFocused, signalChatCloseComplete, mobileChatSource } = useNavigation();
+  const { panelState, chatExpanded, setChatExpanded, setChatInputFocused } = useNavigation();
   const isDesktop = useIsDesktop();
-  const [hasInteracted, setHasInteracted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);

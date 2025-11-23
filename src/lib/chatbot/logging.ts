@@ -111,9 +111,9 @@ export async function logConversationStart(
       .from('chat_logs')
       .insert({
         session_id: chatLog.session_id,
-        messages: chatLog.messages as any,
-        metadata: chatLog.metadata as any,
-        metrics: chatLog.metrics as any,
+        messages: chatLog.messages as unknown,
+        metadata: chatLog.metadata as unknown,
+        metrics: chatLog.metrics as unknown,
       })
       .select()
       .single();

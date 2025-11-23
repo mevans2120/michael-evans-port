@@ -107,7 +107,7 @@ export default defineType({
       description: 'Order on homepage (1, 2, 3, etc.). Only applies if Featured is true.',
       hidden: ({ document }) => !document?.featured,
       validation: (Rule) => Rule.custom((value, context) => {
-        const featured = (context.document as any)?.featured
+        const featured = (context.document as { featured?: boolean })?.featured
         if (featured && !value) {
           return 'Order is required when project is featured on homepage'
         }

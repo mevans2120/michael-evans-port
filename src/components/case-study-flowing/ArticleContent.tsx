@@ -4,6 +4,7 @@
  */
 
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
+import type { PortableTextBlock } from 'sanity'
 import Image from 'next/image'
 import { buildImageUrl } from '@/lib/sanity/image-builder'
 import { StatBlockNumber } from './StatBlockNumber'
@@ -12,27 +13,31 @@ import { StatBlockText } from './StatBlockText'
 import { ImageGrid } from './ImageGrid'
 import { PortraitImageList } from './PortraitImageList'
 
+// Type for PortableText component value props
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PTValueProps = { value: any }
+
 interface ArticleContentProps {
-  content: any[]
+  content: PortableTextBlock[]
 }
 
 export function ArticleContent({ content }: ArticleContentProps) {
   const components: PortableTextComponents = {
     types: {
       // Stat Blocks
-      statBlockNumber: ({ value }: any) => (
+      statBlockNumber: ({ value }: PTValueProps) => (
         <StatBlockNumber
           number={value.number}
           label={value.label}
         />
       ),
-      statBlockQuote: ({ value }: any) => (
+      statBlockQuote: ({ value }: PTValueProps) => (
         <StatBlockQuote
           quote={value.quote}
           attribution={value.attribution}
         />
       ),
-      statBlockText: ({ value }: any) => (
+      statBlockText: ({ value }: PTValueProps) => (
         <StatBlockText
           heading={value.heading}
           text={value.text}
@@ -40,7 +45,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
       ),
 
       // Images
-      image: ({ value }: any) => {
+      image: ({ value }: PTValueProps) => {
         if (!value?.asset) return null
 
         const style = value.style || 'fullWidth' // Fallback for existing images without style
@@ -145,17 +150,17 @@ export function ArticleContent({ content }: ArticleContentProps) {
       },
 
       // Image Grid
-      imageGrid: ({ value }: any) => {
+      imageGrid: ({ value }: PTValueProps) => {
         return <ImageGrid images={value.images} />
       },
 
       // Portrait Image List
-      portraitImageList: ({ value }: any) => {
+      portraitImageList: ({ value }: PTValueProps) => {
         return <PortraitImageList images={value.images} />
       },
 
       // Video Embeds
-      videoEmbed: ({ value }: any) => {
+      videoEmbed: ({ value }: PTValueProps) => {
         if (!value?.url) return null
 
         // Extract video ID from YouTube or Vimeo URLs
@@ -198,7 +203,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
       },
 
       // Code Blocks
-      code: ({ value }: any) => {
+      code: ({ value }: PTValueProps) => {
         return (
           <div className="my-8 rounded-lg overflow-hidden bg-muted">
             {value.filename && (
@@ -283,7 +288,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
 
     marks: {
       // Links
-      link: ({ value, children }: any) => {
+      link: ({ value, children }: PTValueProps) => {
         const target = value?.newTab ? '_blank' : undefined
         const rel = value?.newTab ? 'noopener noreferrer' : undefined
 

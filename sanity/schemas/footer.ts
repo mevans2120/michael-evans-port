@@ -90,7 +90,7 @@ export default defineType({
       hidden: ({ parent }) => parent?.contactLinkType !== 'internal',
       initialValue: '/contact',
       validation: (Rule) => Rule.custom((value, context) => {
-        const parent = context.parent as any;
+        const parent = context.parent as { contactLinkType?: string };
         if (parent?.contactLinkType === 'internal' && !value) {
           return 'Internal link is required when Contact Link Type is Internal';
         }

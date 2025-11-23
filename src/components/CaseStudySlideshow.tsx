@@ -16,7 +16,6 @@ export function CaseStudySlideshow({
 }: CaseStudySlideshowProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
   const totalSlides = React.Children.count(children);
 
   // Handle scroll to update current slide

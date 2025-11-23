@@ -6,6 +6,16 @@
 import { client } from '@/sanity/lib/client';
 import { type PortableTextBlock } from 'sanity';
 
+interface PortableTextChild {
+  text: string;
+  _type?: string;
+}
+
+interface PortableTextBlockWithChildren {
+  _type: string;
+  children?: PortableTextChild[];
+}
+
 /**
  * Portable Text to Plain Text Converter
  * Converts Sanity's portable text blocks to plain text for embedding
@@ -14,11 +24,11 @@ export function portableTextToPlainText(blocks: PortableTextBlock[] | undefined)
   if (!blocks || !Array.isArray(blocks)) return '';
 
   return blocks
-    .map((block: any) => {
+    .map((block: PortableTextBlockWithChildren) => {
       // Handle regular text blocks
       if (block._type === 'block' && block.children) {
         return block.children
-          .map((child: any) => child.text)
+          .map((child: PortableTextChild) => child.text)
           .join('');
       }
 

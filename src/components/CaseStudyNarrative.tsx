@@ -3,6 +3,8 @@
 import React from 'react'
 import { CaseStudySection } from './CaseStudySection'
 import Image from 'next/image'
+import Link from 'next/link'
+import type { PortableTextBlock } from 'sanity'
 
 interface Metric {
   label: string
@@ -25,7 +27,7 @@ interface Section {
   _key: string
   sectionLabel?: string
   heading: string
-  content: any // Portable Text content
+  content: PortableTextBlock[]
   screenshots?: Screenshot[]
 }
 
@@ -66,12 +68,12 @@ export function CaseStudyNarrative({
 
       <div className="max-w-5xl mx-auto px-6 md:px-10 py-20 md:py-32">
         {/* Back Link */}
-        <a
+        <Link
           href="/case-studies"
           className="inline-block text-muted-foreground hover:text-accent transition-colors mb-12"
         >
           ← Back to Case Studies
-        </a>
+        </Link>
 
         {/* Hero Section */}
         <header className="mb-20 md:mb-32">
@@ -220,12 +222,12 @@ export function CaseStudyNarrative({
 
         {/* Back to Top / CTA */}
         <div className="text-center pt-20 border-t border-white/10">
-          <a
+          <Link
             href="/case-studies"
             className="inline-block px-12 py-5 bg-gradient-to-r from-accent to-accent-light text-background font-semibold rounded-lg text-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(199,128,245,0.4)]"
           >
             View More Case Studies
-          </a>
+          </Link>
         </div>
       </div>
     </div>

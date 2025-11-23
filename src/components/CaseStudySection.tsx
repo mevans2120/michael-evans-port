@@ -2,9 +2,13 @@
 
 import React from 'react'
 import { PortableText } from '@portabletext/react'
+import type { PortableTextBlock } from 'sanity'
 import { CaseStudyScreenshots } from './CaseStudyScreenshots'
 import { urlFor } from '@/sanity/lib/client'
 import Image from 'next/image'
+
+// Type for PortableText component props
+type PTProps = { children?: React.ReactNode }
 
 interface Screenshot {
   image: {
@@ -20,7 +24,7 @@ interface Screenshot {
 interface CaseStudySectionProps {
   sectionLabel?: string
   heading: string
-  content: any // Portable Text content
+  content: PortableTextBlock[]
   screenshots?: Screenshot[]
   index: number
 }
@@ -28,57 +32,57 @@ interface CaseStudySectionProps {
 // Custom Portable Text components
 const portableTextComponents = {
   block: {
-    normal: ({ children }: any) => (
+    normal: ({ children }: PTProps) => (
       <p className="text-xl text-foreground/80 leading-relaxed mb-6 font-sans font-light">{children}</p>
     ),
-    h2: ({ children }: any) => (
+    h2: ({ children }: PTProps) => (
       <h2 className="text-2xl md:text-3xl font-serif font-normal text-accent mb-4 mt-8">
         {children}
       </h2>
     ),
-    h3: ({ children }: any) => (
+    h3: ({ children }: PTProps) => (
       <h3 className="text-xl md:text-2xl font-serif font-normal text-foreground mb-3 mt-6">
         {children}
       </h3>
     ),
-    blockquote: ({ children }: any) => (
+    blockquote: ({ children }: PTProps) => (
       <blockquote className="border-l-4 border-accent pl-6 py-2 my-6 italic text-muted-foreground">
         {children}
       </blockquote>
     ),
   },
   list: {
-    bullet: ({ children }: any) => (
+    bullet: ({ children }: PTProps) => (
       <ul className="space-y-3 my-6 ml-6">{children}</ul>
     ),
-    number: ({ children }: any) => (
+    number: ({ children }: PTProps) => (
       <ol className="space-y-3 my-6 ml-6 list-decimal">{children}</ol>
     ),
   },
   listItem: {
-    bullet: ({ children }: any) => (
+    bullet: ({ children }: PTProps) => (
       <li className="text-lg text-foreground/80 leading-relaxed relative pl-6 font-sans">
         <span className="absolute left-0 top-3 w-1.5 h-1.5 rounded-full bg-accent" />
         {children}
       </li>
     ),
-    number: ({ children }: any) => (
+    number: ({ children }: PTProps) => (
       <li className="text-lg text-foreground/80 leading-relaxed font-sans">{children}</li>
     ),
   },
   marks: {
-    strong: ({ children }: any) => (
+    strong: ({ children }: PTProps) => (
       <strong className="font-semibold text-accent">{children}</strong>
     ),
-    em: ({ children }: any) => (
+    em: ({ children }: PTProps) => (
       <em className="italic text-foreground">{children}</em>
     ),
-    code: ({ children }: any) => (
+    code: ({ children }: PTProps) => (
       <code className="px-2 py-1 bg-background/50 rounded text-sm text-[hsl(var(--accent-light))] font-mono">
         {children}
       </code>
     ),
-    link: ({ children, value }: any) => (
+    link: ({ children, value }: PTProps) => (
       <a
         href={value.href}
         target="_blank"
@@ -90,7 +94,7 @@ const portableTextComponents = {
     ),
   },
   types: {
-    image: ({ value }: any) => {
+    image: ({ value }: PTProps) => {
       if (!value?.asset) return null
 
       const imageUrl = value.asset.url || urlFor(value.asset).url()

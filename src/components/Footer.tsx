@@ -85,7 +85,6 @@ export function Footer({ data }: FooterProps) {
 
   // Build tagline parts
   const weatherWord = data.weatherEnabled && weatherData?.weather ? weatherData.weather : '';
-  const location = data.weatherLocation || 'Portland, Oregon';
 
   return (
     <footer className="relative border-t border-border bg-background">

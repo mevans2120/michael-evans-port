@@ -6,6 +6,11 @@ import { buildImageUrl } from '@/lib/sanity/image-builder';
 import { ImageGrid } from '@/components/case-study-flowing/ImageGrid';
 import { PortraitImageList } from '@/components/case-study-flowing/PortraitImageList';
 
+// Type for PortableText component props
+type PTProps = { children?: React.ReactNode; value?: unknown };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PTValueProps = PTProps & { value: any };
+
 interface BlogContentProps {
   content: PortableTextBlock[];
 }
@@ -70,7 +75,7 @@ export function BlogContent({ content }: BlogContentProps) {
     },
     types: {
       // Images with style variants
-      image: ({ value }: any) => {
+      image: ({ value }: PTValueProps) => {
         if (!value?.asset) return null
 
         const style = value.style || 'fullWidth' // Fallback for existing images without style
@@ -178,17 +183,17 @@ export function BlogContent({ content }: BlogContentProps) {
       },
 
       // Image Grid
-      imageGrid: ({ value }: any) => {
+      imageGrid: ({ value }: PTValueProps) => {
         return <ImageGrid images={value.images} />
       },
 
       // Portrait Image List
-      portraitImageList: ({ value }: any) => {
+      portraitImageList: ({ value }: PTValueProps) => {
         return <PortraitImageList images={value.images} />
       },
 
       // Video Embeds
-      videoEmbed: ({ value }: any) => {
+      videoEmbed: ({ value }: PTValueProps) => {
         if (!value?.url) return null
 
         // Extract video ID from YouTube or Vimeo URLs

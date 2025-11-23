@@ -67,7 +67,7 @@ export default defineType({
           hidden: ({ parent }) => parent?.linkType !== 'internal',
           initialValue: '/about',
           validation: (Rule) => Rule.custom((value, context) => {
-            const parent = context.parent as any;
+            const parent = context.parent as { linkType?: string };
             if (parent?.linkType === 'internal' && !value) {
               return 'Internal page is required';
             }

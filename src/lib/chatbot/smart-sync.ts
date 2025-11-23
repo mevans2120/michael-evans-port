@@ -3,7 +3,7 @@
  * Intelligent incremental content synchronization with change detection
  */
 
-import { fetchAllSanityContent, SanityContentDocument } from './sanity-fetcher';
+import { fetchAllSanityContent } from './sanity-fetcher';
 import { processDocuments } from './embeddings';
 import { generateContentHash } from './content-hash';
 import {

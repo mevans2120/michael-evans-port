@@ -6,18 +6,30 @@
 import { supabase } from './supabase';
 import { CHATBOT_CONFIG } from '@/lib/constants';
 
+interface DocumentMetadata {
+  source_type: string;
+  source_id: string;
+  [key: string]: unknown;
+}
+
 export interface DocumentChunk {
   id?: string;
   content: string;
-  metadata: any;
+  metadata: DocumentMetadata;
 }
 
 interface SearchResult {
   content: string;
-  metadata: any;
+  metadata: DocumentMetadata;
   similarity?: number;
   textRank?: number;
   combinedScore: number;
+}
+
+interface DatabaseDocument {
+  content: string;
+  metadata: DocumentMetadata;
+  similarity: number;
 }
 
 /**
@@ -73,7 +85,7 @@ async function semanticSearch(
     return [];
   }
 
-  return (data || []).map((doc: any) => ({
+  return (data || []).map((doc: DatabaseDocument) => ({
     content: doc.content,
     metadata: doc.metadata,
     similarity: doc.similarity,

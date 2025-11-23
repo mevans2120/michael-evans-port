@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import type { PortableTextBlock } from 'sanity'
 import { AboutHero } from './AboutHero'
 import { AboutArticle } from './AboutArticle'
 
@@ -35,7 +36,7 @@ interface AboutData {
   heroSubheadline?: string
   heroIntro?: string
   quickFacts?: QuickFact[]
-  article?: any[] // Portable Text blocks
+  article?: PortableTextBlock[]
 }
 
 interface AboutPageClientProps {

@@ -174,7 +174,7 @@ export default defineType({
             select: {
               images: 'images'
             },
-            prepare(selection: any) {
+            prepare(selection: { images?: Array<unknown> }) {
               const { images } = selection
               return {
                 title: 'Image Grid',
@@ -224,7 +224,7 @@ export default defineType({
             select: {
               images: 'images'
             },
-            prepare(selection: any) {
+            prepare(selection: { images?: Array<unknown> }) {
               const { images } = selection
               return {
                 title: 'Portrait Image List',

@@ -5,13 +5,18 @@ import {
   projectCategoryQuery
 } from '@/lib/sanity/queries/viewMoreProjects'
 
+interface ProjectReference {
+  _id: string
+  slug: { current: string }
+}
+
 interface ProjectSelectionOptions {
   currentSlug: string
   strategy: 'random' | 'related' | 'recent' | 'curated'
   count: number
   excludeIds?: string[]
-  curatedProjects?: any[]
-  priorityBoost?: Array<{ project: any; weight: number }>
+  curatedProjects?: ProjectReference[]
+  priorityBoost?: Array<{ project: ProjectReference; weight: number }>
 }
 
 interface Project {
@@ -110,7 +115,7 @@ export async function getRecommendedProjects({
  * Get curated projects (manually selected)
  */
 async function getCuratedProjects(
-  curatedProjects: any[],
+  curatedProjects: ProjectReference[],
   currentSlug: string,
   count: number
 ): Promise<Project[]> {
@@ -193,7 +198,7 @@ async function getRandomProjects(
   currentSlug: string,
   count: number,
   excludeIds: string[],
-  priorityBoost: Array<{ project: any; weight: number }>
+  priorityBoost: Array<{ project: ProjectReference; weight: number }>
 ): Promise<Project[]> {
   const allProjects = await client.fetch(allProjectsForSelectionQuery)
 

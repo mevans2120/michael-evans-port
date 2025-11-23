@@ -22,7 +22,7 @@ export function generateContentHash(content: string): string {
  */
 export function generateDocumentHash(
   content: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 ): string {
   // Create a stable string representation
   const metadataString = metadata

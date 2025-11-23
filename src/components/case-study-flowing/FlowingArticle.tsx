@@ -3,10 +3,11 @@
  * Main component for rendering case study articles in flowing editorial format
  */
 
+import type { PortableTextBlock } from 'sanity'
 import { ArticleContent } from './ArticleContent'
 
 interface FlowingArticleProps {
-  article: any[]
+  article: PortableTextBlock[]
   className?: string
 }
 

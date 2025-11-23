@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { PortableText } from '@portabletext/react'
+import type { PortableTextBlock } from 'sanity'
 import { QuoteBox } from './QuoteBox'
 import { ComparisonBoxes } from './ComparisonBoxes'
 import { VisualCards } from './VisualCards'
@@ -10,7 +11,7 @@ import { DesignAnnotation } from './DesignAnnotation'
 interface ContentSlideProps {
   sectionLabel?: string
   heading?: string
-  content?: any[] // Portable Text blocks
+  content?: PortableTextBlock[]
   quoteBox?: {
     quote: string
     attribution?: string
@@ -24,7 +25,25 @@ interface ContentSlideProps {
     _key?: string
   }>
   visualCards?: Array<{
-    image?: any
+    image?: {
+      asset?: {
+        _id: string
+        url: string
+      }
+      crop?: {
+        top: number
+        bottom: number
+        left: number
+        right: number
+      }
+      hotspot?: {
+        x: number
+        y: number
+        height: number
+        width: number
+      }
+      alt?: string
+    }
     placeholderText?: string
     caption?: string
     _key?: string

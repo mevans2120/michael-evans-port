@@ -7,6 +7,16 @@ interface ViewMoreProjectsProps {
   currentSlug: string
 }
 
+interface ProjectReference {
+  _id: string
+  slug: { current: string }
+}
+
+interface Project {
+  slug: string | { current: string }
+  title: string
+}
+
 /**
  * Server component that fetches settings and projects
  * This component runs on the server and passes data to the client component
@@ -30,7 +40,7 @@ export async function ViewMoreProjects({ currentSlug }: ViewMoreProjectsProps) {
     if (settings.selectionStrategy === 'curated' && settings.curatedProjects?.length > 0) {
       // For curated, use the manually selected projects
       projects = settings.curatedProjects
-        .filter((p: any) => p.slug && p.slug.current !== currentSlug)
+        .filter((p: ProjectReference) => p.slug && p.slug.current !== currentSlug)
         .slice(0, projectCount)
     } else {
       // For all other strategies, use the selection logic
@@ -38,7 +48,7 @@ export async function ViewMoreProjects({ currentSlug }: ViewMoreProjectsProps) {
         currentSlug,
         strategy: settings.selectionStrategy || 'random',
         count: projectCount,
-        excludeIds: settings.excludeFromRandom?.map((p: any) => p._id) || [],
+        excludeIds: settings.excludeFromRandom?.map((p: ProjectReference) => p._id) || [],
         curatedProjects: settings.curatedProjects || [],
         priorityBoost: settings.priorityBoost || []
       })
@@ -56,7 +66,7 @@ export async function ViewMoreProjects({ currentSlug }: ViewMoreProjectsProps) {
     }
 
     // Normalize project data for the client component
-    const normalizedProjects = projects.map((project: any) => ({
+    const normalizedProjects = projects.map((project: Project) => ({
       slug: typeof project.slug === 'string' ? project.slug : project.slug?.current,
       title: project.title
     }))

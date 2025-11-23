@@ -6,6 +6,16 @@ import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
 import { FeaturedCaseStudies } from '@/components/FeaturedCaseStudies'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 
+interface Project {
+  _id: string
+  category?: string
+  title: string
+  featuredMetric?: string
+  featuredDescription?: string
+  slug: { current: string } | string
+  order?: number
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const { data: pageData } = await sanityFetch({
     query: caseStudiesIndexPageQuery,
@@ -34,14 +44,14 @@ export default async function CaseStudiesPage() {
 
   // Format all projects for FeaturedCaseStudies component
   const caseStudies = allProjects
-    .map((project: any, index: number) => ({
+    .map((project: Project, index: number) => ({
       id: project._id,
       number: String(index + 1).padStart(2, '0'),
       category: project.category || 'Case Study',
       title: project.title,
       metric: project.featuredMetric || '',
       description: project.featuredDescription || '',
-      slug: project.slug?.current || project.slug,
+      slug: typeof project.slug === 'string' ? project.slug : project.slug?.current,
       order: project.order || index + 1
     }))
 
