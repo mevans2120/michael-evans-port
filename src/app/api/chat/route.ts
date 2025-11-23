@@ -6,7 +6,6 @@
 import { streamText, convertToModelMessages } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { generateEmbedding } from '@/lib/chatbot/embeddings';
-import { searchSimilarDocuments } from '@/lib/chatbot/supabase';
 import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
 import { preprocessQuery } from '@/lib/chatbot/query-preprocessor';
 import { hybridSearch, rerankResults } from '@/lib/chatbot/hybrid-search';
@@ -278,7 +277,7 @@ export async function POST(req: Request) {
     // Build context from relevant documents
     const context = relevantDocs.length > 0
       ? relevantDocs
-          .map((doc, index) => {
+          .map((doc, _index) => {
             const source = doc.metadata.source || 'Unknown';
             return `[Source: ${source}]\n${doc.content}`;
           })

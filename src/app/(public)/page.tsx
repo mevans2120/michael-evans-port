@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
 import { OrnamentalCTA } from "@/components/ui/OrnamentalCTA";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";

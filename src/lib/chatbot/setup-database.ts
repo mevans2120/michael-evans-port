@@ -87,7 +87,7 @@ async function setupDatabase() {
     console.log('   (Find the connection string in Supabase Dashboard > Project Settings > Database)\n');
     console.log('   Once complete, run: npm run ingest\n');
     process.exit(0);
-  } catch (error) {
+  } catch (_error) {
     console.log('⚠️  Could not set up database automatically.\n');
     console.log('📋 Please set up the database manually:\n');
     console.log('   1. Go to: https://supabase.com/dashboard');

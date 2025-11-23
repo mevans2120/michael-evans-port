@@ -14,7 +14,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import crypto from 'crypto';
-import { syncSingleDocument, deleteSanityDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
+import { syncSingleDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
 import { logger } from '@/lib/logger';
 
 /**

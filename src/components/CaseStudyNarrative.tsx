@@ -1,20 +1,13 @@
 'use client'
 
 import React from 'react'
-import { PortableText } from '@portabletext/react'
 import { CaseStudySection } from './CaseStudySection'
-import { urlFor } from '@/sanity/lib/client'
 import Image from 'next/image'
 
 interface Metric {
   label: string
   value: string
   description?: string
-}
-
-interface Achievement {
-  _key?: string
-  children?: { text: string }[]
 }
 
 interface Screenshot {
