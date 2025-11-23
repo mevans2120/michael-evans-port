@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 interface FaviconOptions {
   accentColor: string;
@@ -21,23 +21,66 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
   const lastFaviconRef = useRef<string>('');
   const hasRunRef = useRef(false);
 
-  useEffect(() => {
-    if (!enabled || typeof window === 'undefined') return;
+  /**
+   * Adjust brightness of RGB color for gradient effect
+   */
+  const adjustBrightness = (rgb: string, factor: number): string => {
+    const match = rgb.match(/\d+/g);
+    if (!match) return rgb;
 
-    // If updateOnChange is false, only run once
-    if (!updateOnChange && hasRunRef.current) return;
+    const [r, g, b] = match.map(Number);
+    return `rgb(${Math.round(r * factor)}, ${Math.round(g * factor)}, ${Math.round(b * factor)})`;
+  };
 
-    hasRunRef.current = true;
-
-    try {
-      updateFavicon();
-    } catch (error) {
-      console.error('Failed to generate dynamic favicon, falling back to static:', error);
-      setFallbackFavicon();
+  const generateFaviconDataUrl = useCallback((accentRGB: string, textRGB: string): string => {
+    // Create or reuse canvas
+    if (!canvasRef.current) {
+      canvasRef.current = document.createElement('canvas');
+      canvasRef.current.width = 64;
+      canvasRef.current.height = 64;
     }
-  }, [enabled, ...(updateOnChange ? [accentColor, textColor] : [])]);
 
-  const updateFavicon = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return '';
+
+    // Clear canvas (transparent background)
+    ctx.clearRect(0, 0, 64, 64);
+
+    // Set text properties
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '600 40px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
+    // Draw "M" in solid color
+    ctx.fillStyle = textRGB;
+    ctx.fillText('M', 24, 32);
+
+    // Draw "E" with gradient
+    const gradient = ctx.createLinearGradient(30, 0, 50, 64);
+    gradient.addColorStop(0, accentRGB);
+    gradient.addColorStop(1, adjustBrightness(accentRGB, 0.7));
+
+    ctx.fillStyle = gradient;
+    ctx.fillText('E', 44, 32);
+
+    return canvas.toDataURL('image/png');
+  }, []);
+
+  const setFallbackFavicon = useCallback(() => {
+    // Remove any dynamically generated favicons
+    const existingLinks = document.querySelectorAll('link[rel*="icon"]');
+    existingLinks.forEach(link => link.remove());
+
+    // Add static favicon as fallback
+    const link = document.createElement('link');
+    link.rel = 'icon';
+    link.type = 'image/x-icon';
+    link.href = '/favicon-backup.ico';
+    document.head.appendChild(link);
+  }, []);
+
+  const updateFavicon = useCallback(() => {
     // Create favicon signature to avoid unnecessary updates
     const faviconSignature = `${accentColor}-${textColor}`;
     if (faviconSignature === lastFaviconRef.current) return;
@@ -58,66 +101,23 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
 
     // Update favicon link element
     updateFaviconLink(faviconDataUrl);
-  };
+  }, [accentColor, textColor, generateFaviconDataUrl, setFallbackFavicon]); // Dependencies for useCallback
 
-  const setFallbackFavicon = () => {
-    // Remove any dynamically generated favicons
-    const existingLinks = document.querySelectorAll('link[rel*="icon"]');
-    existingLinks.forEach(link => link.remove());
+  useEffect(() => {
+    if (!enabled || typeof window === 'undefined') return;
 
-    // Add static favicon as fallback
-    const link = document.createElement('link');
-    link.rel = 'icon';
-    link.type = 'image/x-icon';
-    link.href = '/favicon-backup.ico';
-    document.head.appendChild(link);
-  };
+    // If updateOnChange is false, only run once
+    if (!updateOnChange && hasRunRef.current) return;
 
-  const generateFaviconDataUrl = (accentRGB: string, textRGB: string): string => {
-    // Create or reuse canvas
-    if (!canvasRef.current) {
-      canvasRef.current = document.createElement('canvas');
-      canvasRef.current.width = 64;
-      canvasRef.current.height = 64;
+    hasRunRef.current = true;
+
+    try {
+      updateFavicon();
+    } catch (error) {
+      console.error('Failed to generate dynamic favicon, falling back to static:', error);
+      setFallbackFavicon();
     }
-
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return '';
-
-    // Clear canvas (transparent background)
-    ctx.clearRect(0, 0, 64, 64);
-
-    // Set text properties
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = '600 40px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-
-    // Draw "M" in solid color (white or black based on mode)
-    ctx.fillStyle = textRGB;
-    ctx.fillText('M', 24, 32);
-
-    // Draw "E" with gradient (accent color)
-    const gradient = ctx.createLinearGradient(30, 0, 50, 64);
-    gradient.addColorStop(0, accentRGB);
-    gradient.addColorStop(1, adjustBrightness(accentRGB, 0.7)); // Darker shade for gradient
-
-    ctx.fillStyle = gradient;
-    ctx.fillText('E', 44, 32);
-
-    return canvas.toDataURL('image/png');
-  };
-
-  /**
-   * Adjust brightness of RGB color for gradient effect
-   */
-  const adjustBrightness = (rgb: string, factor: number): string => {
-    const match = rgb.match(/\d+/g);
-    if (!match) return rgb;
-
-    const [r, g, b] = match.map(Number);
-    return `rgb(${Math.round(r * factor)}, ${Math.round(g * factor)}, ${Math.round(b * factor)})`;
-  };
+  }, [enabled, updateOnChange, accentColor, textColor, updateFavicon, setFallbackFavicon]);
 
   const updateFaviconLink = (dataUrl: string) => {
     // Remove existing favicon links

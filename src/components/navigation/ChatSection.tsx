@@ -51,14 +51,17 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   // Track if we're waiting for a response (after send but before streaming)
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
 
-  // Add welcome message to the start
-  const messages = chatMessages.length === 0 ? [
-    {
-      id: 'welcome',
-      role: 'assistant' as const,
-      content: "Hi. Ask me anything about Michael's work and background"
-    }
-  ] : chatMessages;
+  // Add welcome message to the start - memoized to prevent unnecessary re-renders
+  const messages = useMemo(() =>
+    chatMessages.length === 0 ? [
+      {
+        id: 'welcome',
+        role: 'assistant' as const,
+        content: "Hi. Ask me anything about Michael's work and background"
+      }
+    ] : chatMessages,
+    [chatMessages]
+  );
 
   const isExpanded = panelState === 'expanded';
   const showChatContent = isDesktop ? isExpanded : chatExpanded;
