@@ -60,9 +60,10 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
     switch (panelState) {
       case 'partial':
         return 'lg:w-[81px]';
-      case 'expanded':
+      case 'expanded': {
         const shouldBeWide = (chatInputFocused || chatExpanded) && !chatCloseAnimationComplete;
         return shouldBeWide ? 'lg:w-[455px]' : 'lg:w-[320px]';
+      }
       default:
         return 'lg:w-[81px]';
     }

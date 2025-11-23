@@ -56,9 +56,10 @@ export function NavigationProgress() {
     switch (panelState) {
       case 'partial':
         return 81; // Collapsed navigation width
-      case 'expanded':
+      case 'expanded': {
         const shouldBeWide = (chatInputFocused || chatExpanded) && !chatCloseAnimationComplete;
         return shouldBeWide ? 455 : 320; // Expanded with chat : normal expanded
+      }
       default:
         return 81;
     }

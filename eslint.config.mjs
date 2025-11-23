@@ -1,6 +1,9 @@
 import js from '@eslint/js';
 import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
+import nextPlugin from '@next/eslint-plugin-next';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 export default [
   // Ignore patterns
@@ -25,6 +28,9 @@ export default [
       'scripts/_archive/**',
       'analyze-*.ts',  // Analysis scripts can use console.log
       'memory-bank/**',
+      // Ignore test files in root (not part of build)
+      'test-*.mjs',
+      'test-*.js',
     ],
   },
 
@@ -55,6 +61,14 @@ export default [
     },
     plugins: {
       '@typescript-eslint': typescript,
+      '@next/next': nextPlugin,
+      'react': reactPlugin,
+      'react-hooks': reactHooksPlugin,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
     rules: {
       // TypeScript-specific rules
@@ -82,8 +96,17 @@ export default [
       'no-unused-vars': 'off', // Disabled in favor of @typescript-eslint/no-unused-vars
       'no-undef': 'off', // TypeScript handles this
 
-      // Next.js specific best practices
-      'no-html-link-for-pages': 'off', // Next.js Link component is preferred but not enforced here
+      // React rules
+      'react/react-in-jsx-scope': 'off', // Not needed in Next.js
+      'react/prop-types': 'off', // Using TypeScript for prop validation
+
+      // React Hooks rules
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      // Next.js specific rules
+      '@next/next/no-html-link-for-pages': 'warn',
+      '@next/next/no-img-element': 'warn',
     },
   },
 

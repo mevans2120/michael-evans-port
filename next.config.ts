@@ -41,6 +41,12 @@ const nextConfig: NextConfig = {
 
   // Turbopack configuration
   // Using default root (project root)
+
+  // ESLint configuration for builds
+  eslint: {
+    // Lint only source directories during builds
+    dirs: ['src', 'sanity'],
+  },
 };
 
 export default nextConfig;

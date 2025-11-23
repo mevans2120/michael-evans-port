@@ -15,18 +15,20 @@ export function SuggestedPrompts({
   prompts: cmsPrompts,
   numberOfPromptsToShow = 2
 }: SuggestedPromptsProps) {
-  // Only use CMS prompts, no fallbacks
-  if (!cmsPrompts || cmsPrompts.length === 0) {
-    return null; // Don't show anything if no CMS prompts available
-  }
-
-  const allPrompts = cmsPrompts;
-
   // Randomly select prompts when CMS data loads
+  // Must call hooks unconditionally before any returns
   const selectedPrompts = useMemo(() => {
-    const shuffled = [...allPrompts].sort(() => Math.random() - 0.5);
+    if (!cmsPrompts || cmsPrompts.length === 0) {
+      return [];
+    }
+    const shuffled = [...cmsPrompts].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, numberOfPromptsToShow);
-  }, [allPrompts, numberOfPromptsToShow]); // Re-run when prompts load
+  }, [cmsPrompts, numberOfPromptsToShow]); // Re-run when prompts load
+
+  // Only show if we have prompts
+  if (selectedPrompts.length === 0) {
+    return null;
+  }
 
   return (
     <div className="px-4 py-4 flex flex-col gap-2">

@@ -7,8 +7,10 @@ describe('cn (className utility)', () => {
   });
 
   it('handles conditional classes', () => {
-    expect(cn('base', true && 'conditional')).toContain('conditional');
-    expect(cn('base', false && 'conditional')).not.toContain('conditional');
+    const isTrue = true;
+    const isFalse = false;
+    expect(cn('base', isTrue && 'conditional')).toContain('conditional');
+    expect(cn('base', isFalse && 'conditional')).not.toContain('conditional');
   });
 
   it('handles Tailwind conflicts correctly', () => {

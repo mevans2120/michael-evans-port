@@ -33,7 +33,7 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
       updateFavicon();
     } catch (error) {
       console.error('Failed to generate dynamic favicon, falling back to static:', error);
-      useFallbackFavicon();
+      setFallbackFavicon();
     }
   }, [enabled, ...(updateOnChange ? [accentColor, textColor] : [])]);
 
@@ -52,7 +52,7 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
 
     if (!faviconDataUrl) {
       console.warn('Canvas generation returned empty data URL, using fallback');
-      useFallbackFavicon();
+      setFallbackFavicon();
       return;
     }
 
@@ -60,7 +60,7 @@ export function useDynamicFavicon({ accentColor, textColor, enabled = true, upda
     updateFaviconLink(faviconDataUrl);
   };
 
-  const useFallbackFavicon = () => {
+  const setFallbackFavicon = () => {
     // Remove any dynamically generated favicons
     const existingLinks = document.querySelectorAll('link[rel*="icon"]');
     existingLinks.forEach(link => link.remove());
