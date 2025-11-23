@@ -6,7 +6,7 @@ import { contactPageQuery } from '@/lib/sanity/queries'
 import type { ContactPageData } from '@/types/sanity'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data } = await sanityFetch({ query: contactPageQuery })
+  const { data }: { data: ContactPageData | null } = await sanityFetch({ query: contactPageQuery })
 
   if (!data) {
     return {
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-  const { data } = await sanityFetch({ query: contactPageQuery })
+  const { data }: { data: ContactPageData | null } = await sanityFetch({ query: contactPageQuery })
 
   if (!data) {
     return (

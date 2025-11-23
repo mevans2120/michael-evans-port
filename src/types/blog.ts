@@ -7,8 +7,8 @@ export interface BlogHero {
 
 export interface BlogImage {
   asset?: {
-    _id: string;
-    url: string;
+    _ref: string;
+    _type: string;
   };
   crop?: {
     top: number;

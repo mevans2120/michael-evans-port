@@ -66,6 +66,24 @@ interface EditorialCaseStudyData {
     text: string
     link: string
   }
+  featuredImage?: {
+    asset?: {
+      _ref: string
+      _type: string
+    }
+    crop?: any
+    hotspot?: any
+    alt?: string
+  }
+  featuredDescription?: string
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    twitterCard?: 'summary' | 'summary_large_image'
+    canonicalUrl?: string
+    noIndex?: boolean
+  }
 }
 
 const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
@@ -179,7 +197,7 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const { data: project } = await sanityFetch({
+  const { data: project }: { data: EditorialCaseStudyData | null } = await sanityFetch({
     query: EDITORIAL_PROJECT_QUERY,
     params: { slug },
   })
@@ -201,7 +219,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params
-  const { data: project } = await sanityFetch({
+  const { data: project }: { data: EditorialCaseStudyData | null } = await sanityFetch({
     query: EDITORIAL_PROJECT_QUERY,
     params: { slug },
   })

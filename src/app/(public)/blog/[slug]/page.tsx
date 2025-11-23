@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { data: post } = await sanityFetch({
+  const { data: post }: { data: Blog | null } = await sanityFetch({
     query: blogPostBySlugQuery,
     params: { slug },
   });
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const { data: post } = await sanityFetch({
+  const { data: post }: { data: Blog | null } = await sanityFetch({
     query: blogPostBySlugQuery,
     params: { slug },
   });
