@@ -3,7 +3,7 @@
  * Renders Portable Text with custom components for stat blocks, images, videos, and code
  */
 
-import { PortableText, PortableTextComponents } from '@portabletext/react'
+import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
 import { buildImageUrl } from '@/lib/sanity/image-builder'
 import { StatBlockNumber } from './StatBlockNumber'

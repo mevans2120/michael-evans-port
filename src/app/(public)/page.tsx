@@ -8,7 +8,7 @@ import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
 import { sanityFetch } from "@/sanity/lib/live";
 import { homepageHeroQuery } from "@/lib/sanity/queries";
 import { featuredBlogQuery } from "@/lib/sanity/queries/blog";
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 

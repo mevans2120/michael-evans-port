@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
 import { client } from '@/sanity/lib/client'
-import { Metadata } from 'next'
+import { type Metadata } from 'next'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 import {
   EditorialHero,

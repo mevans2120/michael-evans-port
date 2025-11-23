@@ -106,8 +106,8 @@ async function runPhase1Test() {
   console.log("✅ Temperature: 0.6");
   console.log("\nTesting 12 previously failing questions...\n");
 
-  let fixed = 0;
-  let stillFailing = 0;
+  const fixed = 0;
+  const stillFailing = 0;
 
   for (const { id, question } of failingQuestions) {
     await testQuestion(id, question);

@@ -128,7 +128,7 @@ function evaluateAnswer(question: string, answer: string): {
 
   let totalScore = 0;
   let maxScore = 0;
-  let explanations: string[] = [];
+  const explanations: string[] = [];
 
   for (const criteria of applicableCriteria) {
     let criteriaScore = 0;

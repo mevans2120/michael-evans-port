@@ -173,6 +173,45 @@ open http://localhost:3000/admin/chatbot-content
 - Use the `cn()` utility from `/src/lib/utils.ts` for combining conditional Tailwind classes
 - Use existing UI components from `/src/components/ui/` when possible
 
+### Code Quality & Linting
+
+**ESLint is configured and enforced**
+
+The project uses ESLint v9 with flat config format (`eslint.config.mjs`) for code quality enforcement.
+
+**Running ESLint:**
+```bash
+npm run lint              # Check all files
+npm run lint -- --fix     # Auto-fix issues where possible
+npm run lint -- src/      # Lint specific directory
+```
+
+**Configuration highlights:**
+- TypeScript-first with `@typescript-eslint` plugin
+- Enforces consistent type imports (`import type`)
+- Warns on `any` types (helps maintain type safety)
+- Catches unused variables (prefix with `_` to indicate intentional)
+- Allows `console.warn()` and `console.error()` (blocks other console methods)
+- Relaxed rules for test files and scripts
+
+**Common warnings you'll see:**
+- `@typescript-eslint/no-unused-vars` - Remove unused variables or prefix with `_`
+- `@typescript-eslint/no-explicit-any` - Replace `any` with specific types
+- `@typescript-eslint/consistent-type-imports` - Use `import type` for type-only imports
+- `no-console` - Replace `console.log()` with `console.warn()` or `console.error()`
+
+**When to ignore rules:**
+```typescript
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const legacy: any = thirdPartyLib(); // Sanity API requires any
+```
+
+**Integration:**
+- Runs automatically during `npm run build`
+- Warnings don't block builds (by design)
+- Configure in `eslint.config.mjs`
+- See Phase 1 of `/docs/technical-debt-resolution-plan-2025-11-22.md` for setup details
+
 ### Testing Requirements
 - Always plan for tests when implementing new features
 - Include test files in implementation plans

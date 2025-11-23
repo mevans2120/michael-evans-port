@@ -1,5 +1,5 @@
 import React from 'react';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import { sanityFetch } from '@/sanity/lib/live';
 import { allBlogPostsQuery } from '@/lib/sanity/queries/blog';
 import { blogIndexPageQuery } from '@/lib/sanity/queries';

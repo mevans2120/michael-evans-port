@@ -3,8 +3,8 @@
  * Handles vector database operations for RAG (Retrieval Augmented Generation)
  */
 
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Database, Json } from '@/lib/supabase/database.types';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { type Database, type Json } from '@/lib/supabase/database.types';
 import { logger } from '@/lib/logger';
 
 // Type for our typed Supabase client

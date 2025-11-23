@@ -110,6 +110,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.39.1",
     "@next/bundle-analyzer": "^16.0.3",
     "@playwright/test": "^1.56.1",
     "@tailwindcss/typography": "^0.5.19",
@@ -122,6 +124,8 @@
     "@types/react-dom": "^19",
     "@types/suncalc": "^1.9.2",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.47.0",
+    "@typescript-eslint/parser": "^8.47.0",
     "@vitejs/plugin-react": "^5.1.0",
     "autoprefixer": "^10.4.21",
     "canvas": "^3.2.0",
@@ -129,6 +133,7 @@
     "cssnano": "^7.1.2",
     "dotenv": "^17.2.3",
     "eslint": "^9",
+    "eslint-config-next": "^16.0.3",
     "jsdom": "^27.1.0",
     "pg": "^8.16.3",
     "playwright": "^1.56.1",

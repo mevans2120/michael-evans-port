@@ -5,7 +5,7 @@
  * Requires authentication via Bearer token in Authorization header
  */
 
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getSyncStatus } from '@/lib/chatbot/supabase';
 import { smartSyncSanityContent, printSyncSummary } from '@/lib/chatbot/smart-sync';
 import { verifyAdminAuth, createUnauthorizedResponse } from '@/lib/auth/admin-auth';

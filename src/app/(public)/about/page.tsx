@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { sanityFetch } from '@/sanity/lib/live'
-import { Metadata } from 'next'
+import { type Metadata } from 'next'
 import AboutPageClient from '@/components/about/AboutPageClient'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 

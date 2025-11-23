@@ -4,7 +4,7 @@
  */
 
 import { client } from '@/sanity/lib/client';
-import { PortableTextBlock } from 'sanity';
+import { type PortableTextBlock } from 'sanity';
 
 /**
  * Portable Text to Plain Text Converter

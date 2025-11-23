@@ -20,7 +20,7 @@ dotenv.config({ path: resolve(process.cwd(), '.env.local') });
 
 import { processDocuments } from './embeddings';
 import { insertDocuments, deleteAllDocuments } from './supabase';
-import { fetchAllSanityContent, SanityContentDocument } from './sanity-fetcher';
+import { fetchAllSanityContent, type SanityContentDocument } from './sanity-fetcher';
 import * as fs from 'fs';
 import * as path from 'path';
 

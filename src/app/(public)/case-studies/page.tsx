@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import { type Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
 import { allFeaturedCaseStudiesQuery, allProjectsAlphabeticalQuery, caseStudiesIndexPageQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'

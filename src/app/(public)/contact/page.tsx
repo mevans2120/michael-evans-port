@@ -1,5 +1,5 @@
 import React from 'react'
-import { Metadata } from 'next'
+import { type Metadata } from 'next'
 import ContactSection from '@/components/ContactSection'
 import { sanityFetch } from '@/sanity/lib/live'
 import { contactPageQuery } from '@/lib/sanity/queries'

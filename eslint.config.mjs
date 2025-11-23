@@ -1,0 +1,156 @@
+import js from '@eslint/js';
+import typescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+
+export default [
+  // Ignore patterns
+  {
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'out/**',
+      'public/**',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.ts',
+      'dist/**',
+      'build/**',
+      '.vercel/**',
+      '.sanity/**',
+      'coverage/**',
+      'playwright-report/**',
+      'test-results/**',
+      'sanity/static/**',
+      'sanity/.sanity/**',
+      'scripts/_archive/**',
+      'analyze-*.ts',  // Analysis scripts can use console.log
+      'memory-bank/**',
+    ],
+  },
+
+  // Base JavaScript config
+  js.configs.recommended,
+
+  // TypeScript config for all TS/TSX files
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        // Note: Not using 'project' to allow linting files outside tsconfig.json (e.g., scripts/)
+      },
+      globals: {
+        React: 'readonly',
+        JSX: 'readonly',
+        console: 'readonly',
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': typescript,
+    },
+    rules: {
+      // TypeScript-specific rules
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/consistent-type-imports': [
+        'warn',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'inline-type-imports',
+        },
+      ],
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+
+      // General code quality
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'prefer-const': 'warn',
+      'no-unused-vars': 'off', // Disabled in favor of @typescript-eslint/no-unused-vars
+      'no-undef': 'off', // TypeScript handles this
+
+      // Next.js specific best practices
+      'no-html-link-for-pages': 'off', // Next.js Link component is preferred but not enforced here
+    },
+  },
+
+  // JavaScript config
+  {
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'readonly',
+      },
+    },
+    rules: {
+      'no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
+
+  // Test files - relaxed rules
+  {
+    files: [
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
+      '**/__tests__/**',
+    ],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      'no-console': 'off',
+    },
+  },
+
+  // Scripts - relaxed rules (console.log is expected in scripts)
+  {
+    files: ['scripts/**/*.ts', 'scripts/**/*.js', 'scripts/**/*.mjs'],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+
+  // Config files - relaxed rules
+  {
+    files: [
+      'next.config.*',
+      'tailwind.config.*',
+      'postcss.config.*',
+      'playwright.config.*',
+      'vitest.config.*',
+    ],
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+      'no-console': 'off',
+    },
+  },
+];

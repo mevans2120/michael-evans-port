@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { buildImageUrl } from '@/lib/sanity/image-builder'
-import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import { type SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 interface VisualCard {
   image?: SanityImageSource

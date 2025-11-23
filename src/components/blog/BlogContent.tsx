@@ -1,5 +1,5 @@
 import React from 'react';
-import { PortableText, PortableTextComponents } from '@portabletext/react';
+import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import type { PortableTextBlock } from 'sanity';
 import Image from 'next/image';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
