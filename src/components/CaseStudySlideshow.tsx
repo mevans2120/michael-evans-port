@@ -26,11 +26,9 @@ export function CaseStudySlideshow({
     let scrollTimeout: NodeJS.Timeout;
 
     const handleScroll = () => {
-      setIsScrolling(true);
       clearTimeout(scrollTimeout);
 
       scrollTimeout = setTimeout(() => {
-        setIsScrolling(false);
         const slideWidth = container.clientWidth;
         const scrollPosition = container.scrollLeft;
         const newSlideIndex = Math.round(scrollPosition / slideWidth);

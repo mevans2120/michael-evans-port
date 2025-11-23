@@ -215,7 +215,7 @@ async function sendChatQuery(
           if (parsed.type === 'text-delta' && parsed.delta) {
             content += parsed.delta;
           }
-        } catch (e) {
+        } catch (_e) {
           // Skip malformed JSON
         }
       }

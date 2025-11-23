@@ -25,7 +25,7 @@ describe('Embeddings', () => {
       // Check that consecutive chunks share some content (overlap)
       for (let i = 0; i < chunks.length - 1; i++) {
         const currentEnd = chunks[i].slice(-3);
-        const nextStart = chunks[i + 1].slice(0, 3);
+        const _nextStart = chunks[i + 1].slice(0, 3);
         // There should be some overlap between chunks
         expect(chunks[i + 1]).toContain(currentEnd.charAt(currentEnd.length - 1));
       }

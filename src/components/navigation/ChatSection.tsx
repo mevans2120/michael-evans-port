@@ -168,7 +168,6 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   const handleInputFocus = () => {
     // Expand chat when input is focused
     setChatExpanded(true);
-    setHasInteracted(true);
     setChatInputFocused(true);
   };
 
@@ -194,7 +193,6 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   const handleHeaderClick = () => {
     // Always allow expanding when clicking the header
     setChatExpanded(true);
-    setHasInteracted(true);
     setChatInputFocused(true); // Expand width when chat opens
   };
 
@@ -328,7 +326,6 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
               setChatInputFocused(false);
             } else {
               setChatExpanded(true);
-              setHasInteracted(true);
               setChatInputFocused(true);
             }
           }}

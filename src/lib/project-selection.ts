@@ -124,7 +124,7 @@ async function getCuratedProjects(
     .filter(p => p && normalizeSlug(p.slug) !== currentSlug)
     .slice(0, count)
 
-  return filtered
+  return filtered as unknown as Project[]
 }
 
 /**

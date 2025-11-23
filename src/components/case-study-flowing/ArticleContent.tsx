@@ -16,6 +16,9 @@ import { PortraitImageList } from './PortraitImageList'
 // Type for PortableText component value props
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PTValueProps = { value: any }
+// Type for PortableText marks (value is optional for marks)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PTMarkProps = { value?: any; children?: React.ReactNode }
 
 interface ArticleContentProps {
   content: PortableTextBlock[]
@@ -288,7 +291,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
 
     marks: {
       // Links
-      link: ({ value, children }: PTValueProps) => {
+      link: ({ value, children }: PTMarkProps) => {
         const target = value?.newTab ? '_blank' : undefined
         const rel = value?.newTab ? 'noopener noreferrer' : undefined
 

@@ -9,6 +9,12 @@ import Image from 'next/image'
 
 // Type for PortableText component props
 type PTProps = { children?: React.ReactNode }
+// Type for PortableText component value props
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PTValueProps = { value: any }
+// Type for PortableText marks (value is optional for marks)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PTMarkProps = { value?: any; children?: React.ReactNode }
 
 interface Screenshot {
   image: {
@@ -82,9 +88,9 @@ const portableTextComponents = {
         {children}
       </code>
     ),
-    link: ({ children, value }: PTProps) => (
+    link: ({ children, value }: PTMarkProps) => (
       <a
-        href={value.href}
+        href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
         className="text-accent hover:text-accent-light underline transition-colors"
@@ -94,7 +100,7 @@ const portableTextComponents = {
     ),
   },
   types: {
-    image: ({ value }: PTProps) => {
+    image: ({ value }: PTValueProps) => {
       if (!value?.asset) return null
 
       const imageUrl = value.asset.url || urlFor(value.asset).url()

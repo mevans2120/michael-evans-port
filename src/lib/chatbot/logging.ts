@@ -114,7 +114,7 @@ export async function logConversationStart(
         messages: chatLog.messages as unknown,
         metadata: chatLog.metadata as unknown,
         metrics: chatLog.metrics as unknown,
-      })
+      } as never)
       .select()
       .single();
 

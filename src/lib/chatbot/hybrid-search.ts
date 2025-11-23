@@ -26,11 +26,6 @@ interface SearchResult {
   combinedScore: number;
 }
 
-interface DatabaseDocument {
-  content: string;
-  metadata: DocumentMetadata;
-  similarity: number;
-}
 
 /**
  * Perform hybrid search combining semantic and keyword search
@@ -85,11 +80,11 @@ async function semanticSearch(
     return [];
   }
 
-  return (data || []).map((doc: DatabaseDocument) => ({
+  return (data || []).map((doc) => ({
     content: doc.content,
-    metadata: doc.metadata,
+    metadata: doc.metadata as DocumentMetadata,
     similarity: doc.similarity,
-    combinedScore: doc.similarity * CHATBOT_CONFIG.SEARCH_WEIGHTS.semantic,
+    combinedScore: (doc.similarity ?? 0) * CHATBOT_CONFIG.SEARCH_WEIGHTS.semantic,
   }));
 }
 
@@ -156,7 +151,7 @@ async function keywordSearch(
 
   return unique.map(doc => ({
     content: doc.content,
-    metadata: doc.metadata,
+    metadata: doc.metadata as DocumentMetadata,
     textRank: doc.textRank || 0.3,
     combinedScore: (doc.textRank || 0.3) * CHATBOT_CONFIG.SEARCH_WEIGHTS.keyword,
   }));
@@ -225,7 +220,7 @@ export function rerankResults(
     }
 
     // Boost if source is FAQ
-    if (doc.metadata?.source?.includes('faq')) {
+    if (typeof doc.metadata?.source === 'string' && doc.metadata.source.includes('faq')) {
       score *= 1.4;
     }
 

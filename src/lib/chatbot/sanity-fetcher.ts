@@ -6,15 +6,6 @@
 import { client } from '@/sanity/lib/client';
 import { type PortableTextBlock } from 'sanity';
 
-interface PortableTextChild {
-  text: string;
-  _type?: string;
-}
-
-interface PortableTextBlockWithChildren {
-  _type: string;
-  children?: PortableTextChild[];
-}
 
 /**
  * Portable Text to Plain Text Converter
@@ -24,11 +15,11 @@ export function portableTextToPlainText(blocks: PortableTextBlock[] | undefined)
   if (!blocks || !Array.isArray(blocks)) return '';
 
   return blocks
-    .map((block: PortableTextBlockWithChildren) => {
+    .map((block) => {
       // Handle regular text blocks
-      if (block._type === 'block' && block.children) {
+      if (block._type === 'block' && 'children' in block && Array.isArray(block.children)) {
         return block.children
-          .map((child: PortableTextChild) => child.text)
+          .map((child) => ('text' in child && typeof child.text === 'string' ? child.text : ''))
           .join('');
       }
 

@@ -3,7 +3,7 @@
  * Tests semantic + keyword search combination and result reranking
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { rerankResults } from '../hybrid-search';
 import type { DocumentChunk } from '../hybrid-search';
 

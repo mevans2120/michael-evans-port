@@ -263,7 +263,7 @@ describe('Sanity Webhook Handler', () => {
 
         const request = createWebhookRequest(payload);
         const response = await POST(request);
-        const data = await response.json();
+        const _data = await response.json();
 
         expect(response.status).toBe(200);
         expect(syncSingleDocument).toHaveBeenCalled();
