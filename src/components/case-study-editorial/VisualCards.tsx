@@ -33,16 +33,6 @@ export function VisualCards({ cards }: VisualCardsProps) {
                 src={buildImageUrl(card.image, 'visual-card')}
                 alt={card.caption || 'Case study visual'}
                 className="w-full h-auto object-contain"
-                onLoad={(e) => {
-                  const img = e.target as HTMLImageElement;
-                  console.log('Image loaded:', {
-                    src: img.src,
-                    naturalWidth: img.naturalWidth,
-                    naturalHeight: img.naturalHeight,
-                    displayWidth: img.width,
-                    displayHeight: img.height
-                  });
-                }}
               />
             </div>
           ) : card.placeholderText ? (
