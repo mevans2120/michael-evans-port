@@ -262,7 +262,7 @@ export default function ChatLogsClient() {
                       <p className="text-xs text-muted-foreground">
                         {new Date(log.created_at).toLocaleString()}
                       </p>
-                      {log.metrics.off_topic_redirects_count! > 0 && (
+                      {(log.metrics.off_topic_redirects_count ?? 0) > 0 && (
                         <Badge variant="destructive" className="mt-1 text-xs">
                           {log.metrics.off_topic_redirects_count} redirects
                         </Badge>
