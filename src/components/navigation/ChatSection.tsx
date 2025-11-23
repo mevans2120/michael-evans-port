@@ -293,7 +293,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
         } ${
           !chatExpanded && !isMobileVersion ? 'cursor-pointer hover:bg-chat-suggestion/50 transition-colors' : ''
         }`}
-        onClick={(e) => {
+        onClick={(_e) => {
           if (!chatExpanded && !isMobileVersion) {
             handleHeaderClick();
           }
@@ -405,14 +405,14 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                          h1: ({ node, ...props }) => <h1 className="text-lg font-bold" {...props} />,
-                          h2: ({ node, ...props }) => <h2 className="text-base font-bold" {...props} />,
-                          h3: ({ node, ...props }) => <h3 className="text-sm font-semibold" {...props} />,
-                          p: ({ node, ...props }) => <p className="text-sm" {...props} />,
-                          ul: ({ node, ...props }) => <ul className="list-disc pl-4 text-sm" {...props} />,
-                          ol: ({ node, ...props }) => <ol className="list-decimal pl-4 text-sm" {...props} />,
-                          li: ({ node, ...props }) => <li className="text-sm" {...props} />,
-                          code: ({ node, inline, className, children, ...props }: {
+                          h1: ({ node: _node, ...props }) => <h1 className="text-lg font-bold" {...props} />,
+                          h2: ({ node: _node, ...props }) => <h2 className="text-base font-bold" {...props} />,
+                          h3: ({ node: _node, ...props }) => <h3 className="text-sm font-semibold" {...props} />,
+                          p: ({ node: _node, ...props }) => <p className="text-sm" {...props} />,
+                          ul: ({ node: _node, ...props }) => <ul className="list-disc pl-4 text-sm" {...props} />,
+                          ol: ({ node: _node, ...props }) => <ol className="list-decimal pl-4 text-sm" {...props} />,
+                          li: ({ node: _node, ...props }) => <li className="text-sm" {...props} />,
+                          code: ({ node: _node, inline, className: _className, children, ...props }: {
                             node?: unknown;
                             inline?: boolean;
                             className?: string;
@@ -423,15 +423,15 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
                             ) : (
                               <code className="block bg-code-block p-2 rounded my-2 text-sm font-mono" {...props}>{children}</code>
                             ),
-                          a: ({ node, href, children, ...props }) => (
+                          a: ({ node: _node, href, children, ...props }) => (
                             <LinkPreview href={href || '#'} {...props}>
                               {children}
                             </LinkPreview>
                           ),
-                          em: ({ node, children, ...props }) => (
+                          em: ({ node: _node, children, ...props }) => (
                             <em className="text-chat-foreground not-italic font-normal" {...props}>{children}</em>
                           ),
-                          strong: ({ node, children, ...props }) => (
+                          strong: ({ node: _node, children, ...props }) => (
                             <strong className="text-chat-foreground font-semibold" {...props}>{children}</strong>
                           ),
                         }}

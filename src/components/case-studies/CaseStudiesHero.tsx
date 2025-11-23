@@ -1,5 +1,3 @@
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import { CaseStudyBackground } from './CaseStudyBackground'
 import { OrnamentalCTA } from '@/components/ui/OrnamentalCTA'
 

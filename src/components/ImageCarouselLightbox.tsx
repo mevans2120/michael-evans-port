@@ -1,14 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import Image from 'next/image'
 import { buildImageUrl } from '@/lib/sanity/image-builder'
 import { urlFor } from '@/sanity/lib/client'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 import {
   Dialog,
   DialogContent,
-  DialogClose,
   DialogTitle,
 } from '@/components/ui/dialog'
 import {
@@ -19,9 +17,8 @@ import {
   CarouselNext,
   type CarouselApi,
 } from '@/components/ui/carousel'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 
 export interface ImageCarouselImage {
   asset: SanityImageSource
