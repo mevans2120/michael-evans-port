@@ -254,7 +254,7 @@ function parseContentSpec(filePath: string): ProfileSpec {
   console.log(`✅ Extracted ${sections.length} sections`);
 
   // Extract Selected Projects
-  const projectsContent = extractSection('### Section 8: Selected Work', '### Section 9');
+  const _projectsContent = extractSection('### Section 8: Selected Work', '### Section 9');
   const selectedProjects: SelectedProject[] = [
     {
       title: 'Virgin America',
@@ -297,7 +297,7 @@ function parseContentSpec(filePath: string): ProfileSpec {
   console.log(`✅ Created ${selectedProjects.length} selected projects`);
 
   // CTA fields
-  const ctaContent = extractSection('### Section 9: Current Work', '### Section 10');
+  const _ctaContent = extractSection('### Section 9: Current Work', '### Section 10');
   const availabilityText = 'Am I available for consulting? Yes. Projects that help my clients and solve challenging problems. I\'m especially interested in 0-to-1 product development, AI/ML integration, conversion optimization, and complex user flows.';
   const ctaText = 'The rates for an AI builder are much lower than you might find for a bigger team, and I think the quality is as high or higher. Let\'s talk about your project.';
 

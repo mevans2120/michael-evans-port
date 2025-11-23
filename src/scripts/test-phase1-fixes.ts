@@ -64,7 +64,7 @@ async function testQuestion(id: string, question: string) {
                 if (data.type === 'text-delta' && data.delta) {
                   content += data.delta;
                 }
-              } catch (e) {
+              } catch (_e) {
                 // Ignore parse errors
               }
             }
@@ -106,8 +106,8 @@ async function runPhase1Test() {
   console.log("✅ Temperature: 0.6");
   console.log("\nTesting 12 previously failing questions...\n");
 
-  const fixed = 0;
-  const stillFailing = 0;
+  const _fixed = 0;
+  const _stillFailing = 0;
 
   for (const { id, question } of failingQuestions) {
     await testQuestion(id, question);

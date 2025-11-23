@@ -150,7 +150,7 @@ function parseContentSpec(filePath: string): CaseStudySpec | null {
       try {
         const parsed = JSON.parse(match[1]);
         return parsed.metrics || parsed.achievements || parsed.technologies || [];
-      } catch (e) {
+      } catch (_e) {
         console.warn(`  ⚠️  Failed to parse ${section} JSON`);
         return [];
       }
@@ -321,7 +321,7 @@ async function createCaseStudy(spec: CaseStudySpec) {
     // Add 2-3 placeholder screenshots per section
     const numScreenshots = index % 2 === 0 ? 2 : 3;
     for (let i = 0; i < numScreenshots; i++) {
-      const imageUrl = placeholderImages[i % placeholderImages.length];
+      const _imageUrl = placeholderImages[i % placeholderImages.length];
       screenshots.push({
         _type: 'screenshot',
         _key: `screenshot-${index}-${i}`,

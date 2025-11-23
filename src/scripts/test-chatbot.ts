@@ -149,7 +149,7 @@ async function sendChatQuery(query: string, sessionId?: string): Promise<any> {
           if (parsed.type === 'text-delta' && parsed.delta) {
             content += parsed.delta;
           }
-        } catch (e) {
+        } catch (_e) {
           // Skip malformed JSON
         }
       }

@@ -91,7 +91,7 @@ function parseContentSpec(filePath: string): CaseStudySpec | null {
       try {
         const parsed = JSON.parse(match[1]);
         return parsed.metrics || parsed.achievements || parsed.technologies || [];
-      } catch (e) {
+      } catch (_e) {
         console.warn(`  ⚠️  Failed to parse ${section} JSON`);
         return [];
       }
@@ -243,7 +243,7 @@ function caseStudyToNDJSON(spec: CaseStudySpec): string {
   const docId = spec.slug;
 
   // Build sections
-  const sections = spec.sections.map((section, index) => ({
+  const sections = spec.sections.map((section, _index) => ({
     _type: 'caseStudySection',
     _key: uuidv4(),
     sectionLabel: section.sectionLabel,

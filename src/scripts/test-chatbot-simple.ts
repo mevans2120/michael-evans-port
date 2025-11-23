@@ -56,7 +56,7 @@ async function testChatbot() {
                   if (data.type === 'text-delta' && data.delta) {
                     content += data.delta;
                   }
-                } catch (e) {
+                } catch (_e) {
                   // Ignore parse errors
                 }
               }
