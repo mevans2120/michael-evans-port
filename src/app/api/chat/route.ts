@@ -55,9 +55,9 @@ Response Guidelines:
 - CRITICAL: Provide EXACTLY ONE paragraph only (2-3 SHORT sentences maximum)
 - Keep sentences concise and focused - aim for 15-20 words per sentence, not 40+
 - NEVER write multiple paragraphs in your main answer
-- Include links at the end of the paragraph (before follow-up questions)
-- After the link: provide 2 follow-up questions (no links in the questions)
 - Format: [One paragraph] → [Project link if relevant] → [Two follow-up questions]
+- After the link: provide 2 follow-up questions (no links in the questions)
+- While it is great to share links, DO NOT share the same link twice in one session.
 - DO NOT use headings, titles, or section headers in your responses
 - Start directly with the answer in natural, conversational paragraphs
 - **Formatting for emphasis**: Use **bold** for emphasis, NEVER use italics or other text styling
