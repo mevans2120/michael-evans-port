@@ -37,10 +37,21 @@ const EVENING_COLORS = {
   buttonPrimary: '276 70% 47%', // Darker purple for buttons
 };
 
+/**
+ * Calculate initial theme based on current time to prevent FOUC
+ * This ensures client-side state matches server-rendered colors
+ */
+function getInitialTheme(): TimeTheme {
+  const now = new Date();
+  const times = SunCalc.getTimes(now, PORTLAND_LAT, PORTLAND_LON);
+  const isDayTime = now >= times.sunrise && now < times.sunset;
+  return isDayTime ? 'day' : 'evening';
+}
+
 export function TimeThemeProvider({ children }: { children: ReactNode }) {
   const [sunrise, setSunrise] = useState<Date | null>(null);
   const [sunset, setSunset] = useState<Date | null>(null);
-  const [autoTheme, setAutoTheme] = useState<TimeTheme>('evening');
+  const [autoTheme, setAutoTheme] = useState<TimeTheme>(getInitialTheme());
   const [manualOverride, setManualOverrideState] = useState<TimeTheme | null>(null);
 
   // Single interval to update sunrise/sunset and auto theme

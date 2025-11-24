@@ -57,7 +57,7 @@ All colors MUST be HSL.
 
     --accent: var(--color-accent);
     --accent-foreground: 0 0% 98%;
-    --accent-light: 280 80% 65%;
+    --accent-light: 25 95% 60%;  /* Changed from purple to coral (day theme default to reduce flash) */
 
     --code-block-bg: 0 0% 0% / 0.2;        /* Black with 20% opacity */
     --error-bg: 0 60% 35% / 0.2;           /* Red background with 20% opacity */
