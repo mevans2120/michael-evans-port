@@ -76,6 +76,13 @@ npm run lint             # Run ESLint
 2. **Sanity Integration**: Embedded Sanity Studio at `/studio` route with schemas defined in `/sanity/schemas/`
 3. **Routing**: Next.js App Router with file-based routing in `/src/app/`
 4. **Styling**: Utility-first with Tailwind CSS, using `cn()` utility from `/src/lib/utils.ts` for conditional classes
+5. **Navigation State**: Route-based initial state with user preference persistence
+   - Desktop navigation starts collapsed (partial) on non-homepage routes
+   - Homepage loads with expanded navigation by default
+   - User's manual toggle preference saved to localStorage and takes precedence
+   - Implemented in NavigationContext using `@/lib/navigation-storage` utilities
+   - See `/docs/navigation-default-state-feature-research.md` for design decisions
+   - See `/docs/navigation-default-state-implementation-plan.md` for implementation details
 
 ## Sanity CMS Configuration
 
@@ -219,39 +226,43 @@ const legacy: any = thirdPartyLib(); // Sanity API requires any
 
 ### Git Commit Guidelines
 
-**CRITICAL: Always ask before committing**
+**CRITICAL: Always ask before pushing to remote**
 
-Before making any commits:
-1. **Always run `git status`** to review all modified and untracked files
-2. **Ask the user which files should be committed** - don't assume
-3. **Ask about files you're unsure about**, especially:
-   - Documentation files (docs/)
-   - Configuration files (.env.example, etc.)
-   - Test files and test results
-   - Generated files or build artifacts
-   - Any files not directly related to the current task
-4. **Commit related changes together** - all files needed for a feature should go in one atomic commit
-5. **Run `npm run build`** before committing to catch type errors and build issues
-6. **Never commit in pieces** - if files depend on each other, commit them together
+Commits are local and safe. You can commit freely, but **always ask permission before running `git push`**.
+
+**Workflow:**
+1. **Run `git status`** to review all modified and untracked files
+2. **Run `npm run build`** before committing to catch type errors and build issues
+3. **Commit related changes together** - all files needed for a feature should go in one atomic commit
+4. **Ask: "Ready to push?"** and wait for explicit approval
+5. **Only run `git push` after receiving "yes"**
 
 **Example workflow:**
 ```bash
 # 1. Check what changed
 git status
 
-# 2. Ask user: "I see these files changed: [list]. Should I commit all of them, or only specific ones?"
-
-# 3. Build to verify
+# 2. Build to verify
 npm run build
 
-# 4. Commit related files together
-git add [files] && git commit -m "message" && git push
+# 3. Commit related files together (no need to ask)
+git add [files] && git commit -m "message"
+
+# 4. STOP - Ask before pushing
+# "I've committed the navigation changes. Ready to push?"
+
+# 5. Only after approval
+git push
 ```
 
+**Examples:**
+- ✅ GOOD: "I've committed the changes. Ready to push?"
+- ❌ BAD: Running `git commit && git push` without asking first
+
 **Why this matters:**
-- Incomplete commits cause production deployment failures
-- Missing dependent files break the build
-- Unrelated files in commits make history unclear
+- Pushes affect the remote repository and production deployments
+- Local commits can be amended or reset if needed
+- Premature pushes can trigger unwanted CI/CD pipelines
 
 ### Important Files
 - `/src/app/layout.tsx` - Root layout with providers
