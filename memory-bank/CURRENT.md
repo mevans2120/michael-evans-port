@@ -1,3 +1,106 @@
+# Navigation Route-Based State & Hydration Fix (2025-11-23)
+
+## Context
+Implemented route-based navigation panel state feature where the desktop navigation opens collapsed on non-homepage pages and expanded on homepage. Fixed critical SSR hydration error that caused "text didn't match" errors on all subpages.
+
+## Problem Analysis
+- **Hydration Error**: Server rendered navigation as "expanded" for all pages, but client rendered non-homepage pages as "partial", causing React hydration mismatch
+- **Root Cause**: `getInitialState()` in NavigationContext returned hardcoded `'expanded'` for SSR (`typeof window === 'undefined'`) instead of checking pathname
+- **User Experience Issue**: Navigation was covering entire viewport on initial load before correcting itself
+
+## Solution Implemented
+
+### 1. Fixed Hydration Error
+**File**: `src/contexts/NavigationContext.tsx:32-36`
+
+**Changes**:
+- Removed SSR hardcoded default that always returned 'expanded'
+- Used pathname-based logic for both server and client rendering
+- Server and client now render identical state based on route
+```typescript
+// Before (caused hydration error):
+const getInitialState = (): PanelState => {
+  if (typeof window === 'undefined') return 'expanded'; // SSR default
+  return pathname === '/' ? 'expanded' : 'partial';
+};
+
+// After (fixed):
+const getInitialState = (): PanelState => {
+  return pathname === '/' ? 'expanded' : 'partial';
+};
+```
+
+### 2. Cleaned Up Navigation Implementation
+**Files Modified**:
+- `src/contexts/NavigationContext.tsx`:
+  - Removed unused `useIsDesktop` hook import
+  - Exported `PanelState` type (moved from deleted navigation-storage.ts)
+  - Removed unused `useEffect` import
+- `src/components/navigation/NavigationPanel.tsx`:
+  - Added `data-testid` attributes for testing
+  - Added comment explaining getWidthClasses() logic
+
+### 3. Removed Unused Code
+**Files Deleted**:
+- `src/lib/navigation-storage.ts` - localStorage persistence utilities (no longer needed)
+- `src/lib/__tests__/navigation-storage.test.ts` - Tests for deleted file (39 passing tests)
+
+## Navigation Behavior
+- **Homepage (`/`)**: Opens **expanded** (320px width, full labels visible)
+- **All other pages**: Opens **collapsed/partial** (81px width, icons only)
+- **User can toggle**: Clicking purple border toggles between states
+- **No hydration errors**: Server and client render identically
+
+## Technical Details
+
+### SSR/Client Rendering
+- `usePathname()` hook provides pathname during both SSR and client rendering
+- No need for `typeof window` checks or separate SSR/client logic
+- Server-rendered HTML matches client-rendered HTML exactly
+
+### Previous Session Issues
+From prior session, fixed additional issues:
+- Removed `isDesktop` check from `getWidthClasses()` that caused full-width flash (src/components/navigation/NavigationPanel.tsx:56)
+- NavigationPanel already uses `hidden lg:flex`, so no mobile/desktop branching needed in width logic
+
+## Build Verification
+- ✅ Build passes without errors
+- ✅ No ESLint warnings for modified files
+- ✅ Dev server runs cleanly
+- ✅ No hydration errors on any route
+- ✅ Navigation state transitions smoothly
+
+## Files Modified
+- `src/contexts/NavigationContext.tsx` - Fixed hydration error, removed unused code
+- `src/components/navigation/NavigationPanel.tsx` - Added test attributes, comments
+
+## Files Deleted
+- `src/lib/navigation-storage.ts`
+- `src/lib/__tests__/navigation-storage.test.ts`
+
+## Commit
+```
+fix: implement route-based navigation state and resolve hydration error
+
+Implements feature where navigation panel opens in collapsed state on
+non-homepage pages and expanded on homepage. Fixes SSR hydration mismatch
+that caused "text didn't match" errors.
+```
+
+## Related Documentation
+- Research: `/docs/navigation-default-state-feature-research.md`
+- Implementation Plan: `/docs/navigation-default-state-implementation-plan.md`
+
+## Success Criteria Met
+✅ Navigation opens collapsed on non-homepage routes
+✅ Navigation opens expanded on homepage
+✅ No hydration errors on any route
+✅ Clean builds with no warnings
+✅ Server-rendered HTML matches client HTML
+✅ Unused code removed
+
+---
+
 # E2E Test Infrastructure - Phase 2 Complete (2025-11-22)
 
 ## Context
