@@ -1,3 +1,87 @@
+# Time-Based Theme Flash Fix (2025-11-23)
+
+## Context
+Fixed purple flash issue where accent text briefly flashed purple before switching to orange during daytime page loads. The time-based theme system switches between orange (day) and purple (night) based on Portland, OR sunrise/sunset times.
+
+## Problem Analysis
+- **Visual Issue**: Users saw purple text flash before switching to orange during daytime
+- **Root Cause**: TimeThemeProvider initialized with `'evening'` (purple) default state, then calculated actual time in useEffect
+- **User Impact**: Distracting flash on every page load during daytime hours
+
+## Investigation
+1. **Server-side (layout.tsx)**: Already calculating correct time-based colors and setting inline styles on `<html>` element
+2. **Client-side (TimeThemeProvider.tsx)**: Defaulted to `'evening'` state, then calculated actual time
+3. **Timing**: Flash occurred during React hydration when state changed from default 'evening' to calculated 'day'
+
+## Solution Implemented
+
+### 1. Calculate Initial Theme Synchronously
+**File**: `src/components/providers/TimeThemeProvider.tsx:40-49`
+
+**Changes**:
+- Added `getInitialTheme()` helper function that calculates theme immediately
+- Uses SunCalc to determine day/evening on component mount
+- Client-side state now matches server-rendered colors from the start
+
+```typescript
+// Before (caused flash):
+const [autoTheme, setAutoTheme] = useState<TimeTheme>('evening');
+
+// After (fixed):
+function getInitialTheme(): TimeTheme {
+  const now = new Date();
+  const times = SunCalc.getTimes(now, PORTLAND_LAT, PORTLAND_LON);
+  const isDayTime = now >= times.sunrise && now < times.sunset;
+  return isDayTime ? 'day' : 'evening';
+}
+
+const [autoTheme, setAutoTheme] = useState<TimeTheme>(getInitialTheme());
+```
+
+### 2. Updated CSS Defaults (Defense in Depth)
+**File**: `src/app/globals.css:60`
+
+**Changes**:
+- Changed `--accent-light` default from purple (`280 80% 65%`) to coral (`25 95% 60%`)
+- Provides additional protection against flash if time calculations fail
+- Makes orange the "safe default" since most users visit during daytime
+
+## Technical Details
+
+### How Time-Based Theme Works
+1. **Server-side**: layout.tsx calculates Portland time and sets CSS variables on `<html>` element
+2. **Client-side**: TimeThemeProvider initializes with correct theme (now matches server)
+3. **Updates**: useEffect checks every 5 minutes and updates if time period changed
+4. **Colors**: Orange (coral) during day, purple during night, smooth 300ms transitions
+
+### Files Modified
+- `src/components/providers/TimeThemeProvider.tsx` - Synchronous theme calculation
+- `src/app/globals.css` - Updated CSS default to orange
+
+## Testing
+- ✅ Build passes without errors
+- ✅ Dev server runs cleanly
+- ✅ User confirmed flash is eliminated
+- ✅ Theme still switches correctly between day/night
+- ✅ Manual theme toggle still works
+
+## Result
+- No more purple flash during daytime page loads
+- Colors remain consistent: orange during day, purple at night
+- Theme still updates dynamically when time period changes
+- Improved user experience with seamless color transitions
+
+## Commit
+```
+fix: eliminate purple flash on daytime page loads
+
+Fixes TimeThemeProvider initialization to calculate theme synchronously,
+preventing purple → orange flash during daytime. Also updates CSS defaults
+to use orange as safe fallback.
+```
+
+---
+
 # Navigation Route-Based State & Hydration Fix (2025-11-23)
 
 ## Context
