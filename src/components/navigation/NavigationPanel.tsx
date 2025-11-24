@@ -53,9 +53,8 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
   const showBorder = panelState === 'partial' || isBorderHovered;
 
   // Get dynamic width classes based on state
+  // Note: Always return desktop classes since component is hidden on mobile via 'hidden lg:flex'
   const getWidthClasses = () => {
-    if (!isDesktop) return 'w-full';
-
     switch (panelState) {
       case 'partial':
         return 'lg:w-[81px]';
@@ -71,6 +70,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
   return (
     <div
       data-testid="navigation-panel"
+      data-panel-state={panelState}
       className={cn(
         "hidden lg:flex",
         "lg:relative",
@@ -115,6 +115,7 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         {/* Clickable chevron button on purple border - Desktop only */}
         {isDesktop && (isBorderHovered || panelState === 'partial') && (
           <button
+            data-testid="nav-toggle-button"
             onClick={handleBorderClick}
             onMouseEnter={() => setIsBorderHovered(true)}
             onMouseLeave={() => setIsBorderHovered(false)}

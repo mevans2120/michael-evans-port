@@ -1,12 +1,13 @@
 'use client';
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 
-type PanelState = 'collapsed' | 'partial' | 'expanded';
+export type PanelState = 'collapsed' | 'partial' | 'expanded';
 
 interface NavigationContextType {
   panelState: PanelState;
-  setPanelState: (state: PanelState) => void;
+  setPanelState: (state: PanelState | ((prev: PanelState) => PanelState)) => void;
   chatExpanded: boolean;
   setChatExpanded: (expanded: boolean) => void;
   chatInputFocused: boolean;
@@ -26,12 +27,29 @@ interface NavigationContextType {
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
-  const [panelState, setPanelState] = useState<PanelState>('expanded');
+  const pathname = usePathname();
+
+  // Determine initial state based on pathname (works for both SSR and client)
+  const getInitialState = (): PanelState => {
+    return pathname === '/' ? 'expanded' : 'partial';
+  };
+
+  const [panelState, setPanelStateInternal] = useState<PanelState>(getInitialState);
   const [chatExpanded, setChatExpanded] = useState(false);
   const [chatInputFocused, setChatInputFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileChatSource, setMobileChatSource] = useState<'footer' | 'hamburger' | null>(null);
   const [chatCloseAnimationComplete, setChatCloseAnimationComplete] = useState(false);
+
+  /**
+   * Update panel state (no localStorage persistence)
+   */
+  const setPanelState = (newState: PanelState | ((prev: PanelState) => PanelState)) => {
+    const resolvedState = typeof newState === 'function' ? newState(panelState) : newState;
+
+    // Update React state (no localStorage save)
+    setPanelStateInternal(resolvedState);
+  };
 
   const handleSetChatExpanded = (expanded: boolean) => {
     setChatExpanded(expanded);
