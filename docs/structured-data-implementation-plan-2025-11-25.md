@@ -561,49 +561,63 @@ src/
 
 Fields marked with **SEO-only** are not displayed on the page - only used by search engines.
 
+> **Last checked:** November 25, 2025
+
 ### Profile Fields (Sanity Studio → Profile)
 
-| Field | Path in Studio | Purpose | Displayed? |
-|-------|----------------|---------|------------|
-| Name | Profile → Name | Person `name` | Yes (About page) |
-| Hero Headline | Profile → Hero Headline | Person `jobTitle` | Yes (About page) |
-| Hero Subheadline | Profile → Hero Subheadline | Person `description` | **SEO-only** |
-| Social → GitHub | Profile → Social Links → GitHub | `sameAs` link | **SEO-only** |
-| Social → LinkedIn | Profile → Social Links → LinkedIn | `sameAs` link | **SEO-only** |
-| Social → Twitter | Profile → Social Links → Twitter | `sameAs` link | **SEO-only** |
-| Social → Bluesky | Profile → Social Links → Bluesky | `sameAs` link | **SEO-only** |
-| Social → Email | Profile → Social Links → Email | Person `email` | **SEO-only** |
-| Skills | Profile → Skills | Person `knowsAbout` | **SEO-only** |
-| Experience | Profile → Experience (with "Current" checked) | Person `worksFor` | **SEO-only** |
+| Field | Purpose | Displayed? | DB Status |
+|-------|---------|------------|-----------|
+| Name | Person `name` | Yes | ✅ Set |
+| Hero Headline | Person `jobTitle` | Yes | ✅ Set |
+| Hero Subheadline | Person `description` | **SEO-only** | ✅ Set |
+| Social → GitHub | `sameAs` link | **SEO-only** | ✅ Set |
+| Social → LinkedIn | `sameAs` link | **SEO-only** | ✅ Set |
+| Social → Twitter | `sameAs` link | **SEO-only** | ✅ Set |
+| Social → Bluesky | `sameAs` link | **SEO-only** | ✅ Set |
+| Social → Email | Person `email` | **SEO-only** | ✅ Set |
+| Skills | Person `knowsAbout` | **SEO-only** | ⚠️ **Empty** |
+| Experience | Person `worksFor` | **SEO-only** | ⚠️ **Empty** |
 
 ### SEO Settings (Sanity Studio → Global SEO Settings)
 
-| Field | Purpose | Status |
-|-------|---------|--------|
-| Site Name | WebSite `name` | Required |
-| Site URL | WebSite `url`, canonical URLs | Required |
-| Default Meta Description | WebSite `description` | Recommended |
+| Field | Purpose | DB Status |
+|-------|---------|-----------|
+| Site Name | WebSite `name` | ✅ Set |
+| Site URL | WebSite `url`, canonical URLs | ✅ Set |
+| Default Meta Description | WebSite `description` | ✅ Set |
+| Author | Default author name | ✅ Set |
 
-### Blog Posts (per post)
+### Blog Posts (all 3 posts)
 
-| Field | Purpose | Status |
-|-------|---------|--------|
-| Title | BlogPosting `headline` | Required |
-| Excerpt | BlogPosting `description` | Recommended |
-| Featured Image | BlogPosting `image` | Recommended |
-| Published Date | BlogPosting `datePublished` | Required |
-| Updated Date | BlogPosting `dateModified` | Optional |
-| Author | BlogPosting `author` | Optional (defaults to profile) |
+| Field | Purpose | DB Status |
+|-------|---------|-----------|
+| Title | BlogPosting `headline` | ✅ All set |
+| Excerpt | BlogPosting `description` | ✅ All set |
+| Featured Image | BlogPosting `image` | ✅ All set |
+| Published Date | BlogPosting `datePublished` | ✅ All set |
+| Updated Date | BlogPosting `dateModified` | ✅ All set |
+| Author | BlogPosting `author` | ✅ All set |
 
-### Case Studies (per project)
+### Case Studies (13 projects)
 
-| Field | Purpose | Status |
-|-------|---------|--------|
-| Title | Article `headline` | Required |
-| Featured Description | Article `description` | Recommended |
-| Featured Image | Article `image` | Recommended |
-| Published At | Article `datePublished` | Recommended |
-| Category | Article `about` | Optional |
+| Field | Purpose | DB Status |
+|-------|---------|-----------|
+| Title | Article `headline` | ✅ All set |
+| Featured Description | Article `description` | ✅ All set |
+| Featured Image | Article `image` | ✅ All set |
+| Published At | Article `datePublished` | ⚠️ **8 missing** (5 set) |
+| Updated At | Article `dateModified` | ⚠️ **All empty** |
+| Category | Article `about` | ✅ All set |
+
+### Action Items
+
+**Profile (SEO-only fields):**
+- [ ] Add Skills array (populates `knowsAbout` in Person schema)
+- [ ] Add Experience with current job checked (populates `worksFor` in Person schema)
+
+**Case Studies (missing dates):**
+- [ ] Add `publishedAt` to: Playstation Vue, Alexander Marchant, Houselogic, Peacock, Teaching Books
+- [ ] Optionally add `updatedAt` to case studies when content is revised
 
 ---
 
