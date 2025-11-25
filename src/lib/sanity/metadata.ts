@@ -3,8 +3,10 @@ import { urlFor, client } from '@/sanity/lib/client'
 
 interface SanityImage {
   asset?: {
-    _ref: string
-    _type: string
+    _ref?: string
+    _type?: string
+    _id?: string
+    url?: string
   }
   alt?: string
 }

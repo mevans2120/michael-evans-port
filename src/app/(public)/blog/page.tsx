@@ -6,6 +6,8 @@ import { blogIndexPageQuery } from '@/lib/sanity/queries';
 import { BlogPostCard } from '@/components/blog';
 import type { BlogListItem } from '@/types/blog';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
+import { generateBreadcrumbSchema } from '@/lib/structured-data';
+import { JsonLd } from '@/components/JsonLd';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: pageData } = await sanityFetch({
@@ -29,8 +31,20 @@ export default async function BlogPage() {
   const title = pageData?.title || 'Posts';
   const description = pageData?.description || 'Insights on AI, creative technology, and building with AI-powered tools';
 
+  // Generate breadcrumb structured data
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans.com';
+  const breadcrumbSchema = generateBreadcrumbSchema(
+    [
+      { name: 'Home', url: '/' },
+      { name: 'Blog' },
+    ],
+    siteUrl
+  );
+
   return (
-    <main className="w-full max-w-[920px] mx-auto px-6 md:px-8 py-16 md:py-20">
+    <>
+      <JsonLd data={breadcrumbSchema} />
+      <main className="w-full max-w-[920px] mx-auto px-6 md:px-8 py-16 md:py-20">
       {/* Header */}
       <header className="mb-16">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold font-sans mb-6 text-foreground">
@@ -56,5 +70,6 @@ export default async function BlogPage() {
         </div>
       )}
     </main>
+    </>
   );
 }

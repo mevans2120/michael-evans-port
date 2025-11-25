@@ -185,6 +185,8 @@ export const profileQuery = groq`
     name,
     title,
     tagline,
+    heroHeadline,
+    heroSubheadline,
     bio,
     profileImage,
     "profileImageUrl": profileImage.asset->url,
@@ -193,6 +195,26 @@ export const profileQuery = groq`
     social
   }
 `
+
+// Get profile and SEO settings for structured data (site-wide)
+export const structuredDataQuery = groq`{
+  "profile": *[_type == "profile"][0] {
+    name,
+    heroHeadline,
+    heroSubheadline,
+    title,
+    "profileImageUrl": profileImage.asset->url,
+    skills,
+    experience,
+    social
+  },
+  "seoSettings": *[_type == "seoSettings"][0] {
+    siteName,
+    siteUrl,
+    defaultMetaDescription,
+    author
+  }
+}`
 
 // Get all capabilities
 export const capabilitiesQuery = groq`

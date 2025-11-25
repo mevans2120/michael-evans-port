@@ -1,3 +1,66 @@
+# Structured Data (JSON-LD) Implementation (2025-11-25)
+
+## Context
+Implemented comprehensive schema.org structured data across the portfolio site to improve SEO and enable rich search results.
+
+## Implementation Summary
+
+### Phases Completed
+1. **Phase 1: Core Identity** - Site-wide Person + WebSite schemas in root layout
+2. **Phase 2: Profile Page** - ProfilePage schema on /about
+3. **Phase 3: Blog Posts** - BlogPosting schema on /blog/[slug]
+4. **Phase 4: Case Studies** - Article schema on /case-studies/[slug]
+5. **Phase 5: Breadcrumbs** - BreadcrumbList schema on all pages
+
+### Files Created
+- `src/lib/structured-data.ts` - Schema generator functions with TypeScript types
+- `src/components/JsonLd.tsx` - Reusable JSON-LD injection component
+- `docs/structured-data-research-2025-11-25.md` - Research documentation
+- `docs/structured-data-implementation-plan-2025-11-25.md` - Implementation plan with CMS checklist
+
+### Files Modified
+- `src/app/layout.tsx` - Added Person + WebSite schemas (site-wide)
+- `src/app/(public)/about/page.tsx` - Added ProfilePage + Breadcrumb schemas
+- `src/app/(public)/blog/page.tsx` - Added Breadcrumb schema
+- `src/app/(public)/blog/[slug]/page.tsx` - Added BlogPosting + Breadcrumb schemas
+- `src/app/(public)/case-studies/page.tsx` - Added Breadcrumb schema
+- `src/app/(public)/case-studies/[slug]/page.tsx` - Added Article + Breadcrumb schemas
+- `src/lib/sanity/queries.ts` - Added structuredDataQuery
+- `src/lib/sanity/queries/blog.ts` - Updated to include asset URL
+- `src/lib/sanity/types.ts` - Added new profile fields
+- `src/types/blog.ts` - Updated BlogImage interface
+- `sanity/schemas/profile.ts` - Added bluesky social field, restored quickFacts field
+
+### Schema Types Implemented
+- **Person**: Name, jobTitle, description, image, email, sameAs (social links), knowsAbout (skills), worksFor (current employer)
+- **WebSite**: Site name, URL, description, author
+- **ProfilePage**: Wraps Person with page-level metadata
+- **BlogPosting**: Headline, description, image, dates, author, publisher
+- **Article**: Headline, description, image, dates, author, about (category)
+- **BreadcrumbList**: Navigation hierarchy for each page
+
+### CMS Fields (SEO-Only)
+These fields feed structured data but don't display on pages:
+- Hero Subheadline → Person `description`
+- Social links (GitHub, LinkedIn, Twitter, Bluesky) → `sameAs`
+- Skills array → `knowsAbout`
+- Experience with `current: true` → `worksFor`
+
+### Bug Fixes During Implementation
+1. **Restored quickFacts field** - Was accidentally removed in prior schema cleanup (commit 175d2ed)
+2. **Hid heroIntro display** - User requested it be SEO-only, not displayed on page
+3. **Fixed null values in JSON-LD** - Created `cleanObject` utility to filter out null/undefined
+
+### Dependencies Added
+- `schema-dts` - TypeScript types for schema.org
+
+## Validation
+- Use Google Rich Results Test: https://search.google.com/test/rich-results
+- Use Schema Markup Validator: https://validator.schema.org/
+- Check browser DevTools for `<script type="application/ld+json">`
+
+---
+
 # Time-Based Theme Flash Fix (2025-11-23)
 
 ## Context

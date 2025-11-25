@@ -11,8 +11,12 @@ import {
 } from '@/components/case-study-editorial'
 import { FlowingArticle } from '@/components/case-study-flowing'
 import { ViewMoreProjects } from '@/components/view-more-projects'
+import { generateArticleSchema, generateBreadcrumbSchema, type StructuredDataCaseStudy, type StructuredDataProfile } from '@/lib/structured-data'
+import { JsonLd } from '@/components/JsonLd'
 
 interface EditorialCaseStudyData {
+  _createdAt: string
+  _updatedAt: string
   title: string
   slug: {
     current: string
@@ -105,6 +109,7 @@ interface EditorialCaseStudyData {
     alt?: string
   }
   featuredDescription?: string
+  featuredImageUrl?: string
   seo?: {
     metaTitle?: string
     metaDescription?: string
@@ -116,9 +121,12 @@ interface EditorialCaseStudyData {
 }
 
 const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][0] {
+  _createdAt,
+  _updatedAt,
   title,
   slug,
   category,
+  featuredDescription,
   heroSection {
     badge,
     subtitle,
@@ -196,6 +204,7 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     hotspot,
     alt
   },
+  "featuredImageUrl": featuredImage.asset->url,
   seo {
     metaTitle,
     metaDescription,
@@ -205,6 +214,9 @@ const EDITORIAL_PROJECT_QUERY = `*[_type == "project" && slug.current == $slug][
     noIndex
   }
 }`
+
+// Query to get minimal profile data for structured data author info
+const profileNameQuery = `*[_type == "profile"][0]{ name }`
 
 interface PageProps {
   params: Promise<{
@@ -248,16 +260,49 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params
-  const { data: project }: { data: EditorialCaseStudyData | null } = await sanityFetch({
-    query: EDITORIAL_PROJECT_QUERY,
-    params: { slug },
-  })
+  const [{ data: project }, { data: profile }] = await Promise.all([
+    sanityFetch({
+      query: EDITORIAL_PROJECT_QUERY,
+      params: { slug },
+    }) as Promise<{ data: EditorialCaseStudyData | null }>,
+    sanityFetch({
+      query: profileNameQuery,
+    }) as Promise<{ data: { name: string } | null }>,
+  ])
 
   if (!project) {
     notFound()
   }
 
+  // Generate Article structured data
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans.com'
+  const caseStudyData: StructuredDataCaseStudy = {
+    title: project.title,
+    slug: project.slug,
+    featuredDescription: project.featuredDescription,
+    featuredImage: project.featuredImageUrl ? {
+      asset: { url: project.featuredImageUrl },
+    } : undefined,
+    publishedAt: project._createdAt,
+    updatedAt: project._updatedAt,
+    category: project.category,
+  }
+  const authorProfile: StructuredDataProfile = {
+    name: profile?.name || 'Michael Evans',
+  }
+  const articleSchema = generateArticleSchema(caseStudyData, siteUrl, authorProfile)
+  const breadcrumbSchema = generateBreadcrumbSchema(
+    [
+      { name: 'Home', url: '/' },
+      { name: 'Case Studies', url: '/case-studies' },
+      { name: project.title },
+    ],
+    siteUrl
+  )
+
   return (
+    <>
+      <JsonLd data={[articleSchema, breadcrumbSchema]} />
     <div className="min-h-screen bg-background text-foreground">
       {/* Atmospheric blur orbs */}
       <div className="fixed top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-accent/15 dark:bg-accent/15 blur-[100px] pointer-events-none -z-10" />
@@ -317,5 +362,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
       {/* View More Projects Section */}
       <ViewMoreProjects currentSlug={slug} />
     </div>
+    </>
   )
 }

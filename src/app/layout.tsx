@@ -15,6 +15,10 @@ import { SanityVisualEditingLoader } from "@/components/SanityVisualEditingLoade
 import { draftMode } from "next/headers";
 import * as SunCalc from 'suncalc';
 import { Suspense } from "react";
+import { client } from "@/sanity/lib/client";
+import { structuredDataQuery } from "@/lib/sanity/queries";
+import { generatePersonSchema, generateWebSiteSchema, type StructuredDataProfile, type StructuredDataSeoSettings } from "@/lib/structured-data";
+import { JsonLd } from "@/components/JsonLd";
 
 // DM Sans is a sans-serif font for headers and UI
 const dmSans = DM_Sans({
@@ -68,6 +72,24 @@ export default async function RootLayout({
     ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
     : undefined;
 
+  // Fetch profile and SEO settings for structured data
+  const { profile, seoSettings } = await client.fetch<{
+    profile: StructuredDataProfile | null;
+    seoSettings: StructuredDataSeoSettings | null;
+  }>(structuredDataQuery);
+
+  // Generate structured data schemas
+  const siteUrl = seoSettings?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans.com';
+  const structuredData = [];
+
+  if (profile) {
+    structuredData.push(generatePersonSchema(profile, siteUrl));
+  }
+
+  if (seoSettings && profile) {
+    structuredData.push(generateWebSiteSchema(seoSettings, profile.name));
+  }
+
   // Day colors (Coral) vs Evening colors (Purple)
   const accentColors = isDayTime
     ? {
@@ -105,6 +127,9 @@ export default async function RootLayout({
 
         {/* Preconnect - establish full connection for critical resources */}
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+
+        {/* Structured Data (JSON-LD) for SEO - Person and WebSite schemas */}
+        {structuredData.length > 0 && <JsonLd data={structuredData} />}
       </head>
       <body className="font-sans overflow-hidden">
         {/* Skip navigation link for accessibility */}

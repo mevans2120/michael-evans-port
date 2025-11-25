@@ -44,7 +44,10 @@ export const blogPostBySlugQuery = groq`
     updatedAt,
     author,
     featuredImage {
-      asset,
+      asset->{
+        _id,
+        url
+      },
       crop,
       hotspot,
       alt,

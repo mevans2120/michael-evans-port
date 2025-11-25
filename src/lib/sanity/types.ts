@@ -54,6 +54,8 @@ export interface SanityProfile {
   name: string
   title: string
   tagline?: string
+  heroHeadline?: string
+  heroSubheadline?: string
   bio?: PortableTextBlock[]
   profileImage?: {
     asset: {
@@ -77,6 +79,7 @@ export interface SanityProfile {
     github?: string
     linkedin?: string
     twitter?: string
+    bluesky?: string
     email?: string
   }
 }

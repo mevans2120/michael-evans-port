@@ -44,7 +44,40 @@ export default defineType({
       description: '2-3 sentence introduction for about page hero',
     }),
 
-
+    // Quick Facts
+    defineField({
+      name: 'quickFacts',
+      title: 'Quick Facts',
+      type: 'array',
+      description: 'At-a-glance facts displayed in grid on about page (e.g., Role, Company, Timeline)',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'label',
+              type: 'string',
+              title: 'Label',
+              description: 'e.g., "ROLE", "COMPANY", "TIMELINE"',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'value',
+              type: 'string',
+              title: 'Value',
+              description: 'e.g., "Founder, AI Builder", "PostPal (Startup)", "2024 - Present"',
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'label',
+              subtitle: 'value',
+            },
+          },
+        },
+      ],
+    }),
 
     // ===== EDITORIAL FORMAT: Flowing Article =====
     defineField({
@@ -369,6 +402,7 @@ export default defineType({
         { name: 'github', type: 'url', title: 'GitHub' },
         { name: 'linkedin', type: 'url', title: 'LinkedIn' },
         { name: 'twitter', type: 'url', title: 'Twitter' },
+        { name: 'bluesky', type: 'url', title: 'Bluesky' },
         { name: 'email', type: 'email', title: 'Email' },
       ],
     }),

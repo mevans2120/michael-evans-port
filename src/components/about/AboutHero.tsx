@@ -85,19 +85,6 @@ export function AboutHero({
         </p>
       )}
 
-      {/* Subheadline */}
-      {heroSubheadline && (
-        <p className="font-serif text-[18px] text-foreground dark:text-foreground leading-relaxed mb-12 max-w-3xl">
-          {heroSubheadline}
-        </p>
-      )}
-
-      {/* Intro */}
-      {heroIntro && (
-        <p className="font-serif text-[18px] text-foreground dark:text-foreground leading-relaxed mb-12 max-w-3xl">
-          {heroIntro}
-        </p>
-      )}
 
       {/* Quick Facts Grid */}
       {quickFacts && quickFacts.length > 0 && (

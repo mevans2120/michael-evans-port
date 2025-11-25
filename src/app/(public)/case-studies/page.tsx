@@ -5,6 +5,8 @@ import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
 import { FeaturedCaseStudies } from '@/components/FeaturedCaseStudies'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
+import { generateBreadcrumbSchema } from '@/lib/structured-data'
+import { JsonLd } from '@/components/JsonLd'
 
 interface Project {
   _id: string
@@ -58,8 +60,20 @@ export default async function CaseStudiesPage() {
   const heading = pageData?.allCaseStudiesHeading || 'All Case Studies';
   const description = pageData?.allCaseStudiesDescription || 'Product launches and transformational projects';
 
+  // Generate breadcrumb structured data
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans.com'
+  const breadcrumbSchema = generateBreadcrumbSchema(
+    [
+      { name: 'Home', url: '/' },
+      { name: 'Case Studies' },
+    ],
+    siteUrl
+  )
+
   return (
-    <main>
+    <>
+      <JsonLd data={breadcrumbSchema} />
+      <main>
       {/* Hero Section */}
       {randomCaseStudy && (
         <CaseStudiesHero caseStudy={randomCaseStudy} />
@@ -86,5 +100,6 @@ export default async function CaseStudiesPage() {
         )}
       </section>
     </main>
+    </>
   )
 }
