@@ -575,8 +575,8 @@ Fields marked with **SEO-only** are not displayed on the page - only used by sea
 | Social → Twitter | `sameAs` link | **SEO-only** | ✅ Set |
 | Social → Bluesky | `sameAs` link | **SEO-only** | ✅ Set |
 | Social → Email | Person `email` | **SEO-only** | ✅ Set |
-| Skills | Person `knowsAbout` | **SEO-only** | ⚠️ **Empty** |
-| Experience | Person `worksFor` | **SEO-only** | ⚠️ **Empty** |
+| Skills | Person `knowsAbout` | **SEO-only** | ✅ Set (6 categories, 33 skills) |
+| Experience | Person `worksFor` | **SEO-only** | ✅ Set (6 entries, current: MEvans LLC) |
 
 ### SEO Settings (Sanity Studio → Global SEO Settings)
 
@@ -612,8 +612,8 @@ Fields marked with **SEO-only** are not displayed on the page - only used by sea
 ### Action Items
 
 **Profile (SEO-only fields):**
-- [ ] Add Skills array (populates `knowsAbout` in Person schema)
-- [ ] Add Experience with current job checked (populates `worksFor` in Person schema)
+- [x] Add Skills array (populates `knowsAbout` in Person schema) ✅ Done via migration script
+- [x] Add Experience with current job checked (populates `worksFor` in Person schema) ✅ Done via migration script
 
 **Case Studies (missing dates):**
 - [ ] Add `publishedAt` to: Playstation Vue, Alexander Marchant, Houselogic, Peacock, Teaching Books
