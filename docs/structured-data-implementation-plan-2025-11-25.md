@@ -365,7 +365,7 @@ defineField({
 
 ### Implementation Tasks
 
-- [ ] Add `updatedAt` field to project schema (optional)
+- [x] Add `updatedAt` field to project schema
 - [x] Add `generateArticleSchema` function
 - [x] Modify case study page to include schema
 - [ ] Validate with Rich Results Test

@@ -94,6 +94,12 @@ export default defineType({
       type: 'datetime',
     }),
     defineField({
+      name: 'updatedAt',
+      title: 'Updated At',
+      type: 'datetime',
+      description: 'When the case study was last updated (for SEO dateModified)',
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured on Homepage',
       type: 'boolean',
