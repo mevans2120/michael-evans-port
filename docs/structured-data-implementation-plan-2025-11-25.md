@@ -447,7 +447,7 @@ generateBreadcrumbSchema([
 - [x] Add breadcrumbs to blog post pages
 - [x] Add breadcrumbs to case studies listing page
 - [x] Add breadcrumbs to case study pages
-- [ ] Add breadcrumbs to contact page
+- [x] Add breadcrumbs to contact page
 - [ ] Validate with Rich Results Test
 
 ---
