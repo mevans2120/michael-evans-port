@@ -268,6 +268,75 @@ export default defineType({
             }
           }
         },
+        // Margin Note / Tip - Tufte-style sidenote
+        {
+          type: 'object',
+          name: 'marginNote',
+          title: 'Margin Note (Tip)',
+          description: 'Appears in the right margin on desktop, floats right on mobile.',
+          fields: [
+            {
+              name: 'content',
+              title: 'Note Content',
+              type: 'text',
+              rows: 3,
+              validation: (Rule) => Rule.required().max(200),
+            },
+            {
+              name: 'variant',
+              title: 'Variant',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Tip', value: 'tip' },
+                  { title: 'Pro Tip', value: 'pro' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'tip',
+            },
+          ],
+          preview: {
+            select: { content: 'content', variant: 'variant' },
+            prepare({ content, variant }: { content?: string; variant?: string }) {
+              return {
+                title: variant === 'pro' ? '💡 Pro Tip' : '💡 Tip',
+                subtitle: content?.substring(0, 50) + '...',
+              };
+            },
+          },
+        },
+        // Example Prompt - Classic italic blockquote
+        {
+          type: 'object',
+          name: 'examplePrompt',
+          title: 'Example Prompt',
+          description: 'Displays a prompt example in italic blockquote style.',
+          fields: [
+            {
+              name: 'prompt',
+              title: 'Prompt Text',
+              type: 'text',
+              rows: 4,
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'label',
+              title: 'Label (optional)',
+              type: 'string',
+              description: 'Defaults to "Example Prompt"',
+            },
+          ],
+          preview: {
+            select: { prompt: 'prompt', label: 'label' },
+            prepare({ prompt, label }: { prompt?: string; label?: string }) {
+              return {
+                title: `📝 ${label || 'Example Prompt'}`,
+                subtitle: prompt?.substring(0, 50) + '...',
+              };
+            },
+          },
+        },
       ],
       validation: (Rule) => Rule.required(),
     }),

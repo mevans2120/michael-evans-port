@@ -3,3 +3,5 @@ export { BlogHero } from './BlogHero';
 export { BlogMeta } from './BlogMeta';
 export { BlogContent } from './BlogContent';
 export { BlogPostCard } from './BlogPostCard';
+export { MarginNote } from './MarginNote';
+export { ExamplePrompt } from './ExamplePrompt';

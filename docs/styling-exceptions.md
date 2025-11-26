@@ -1,6 +1,6 @@
 # Styling Exception Policy
 
-**Last Updated:** November 2, 2025
+**Last Updated:** November 26, 2025
 
 This document defines when inline styles are acceptable and how to use the centralized Tailwind design system consistently across the portfolio.
 
@@ -65,6 +65,44 @@ CSS Grid's `repeat(auto-fit, minmax(...))` syntax doesn't have a Tailwind equiva
 // ✅ ACCEPTABLE (no Tailwind alternative)
 <div style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
 ```
+
+---
+
+## Vanilla CSS Utilities in globals.css
+
+Some patterns require vanilla CSS in `globals.css` rather than Tailwind utilities. This is acceptable when styling **CMS-generated content** where you don't control the markup.
+
+### When Vanilla CSS is Appropriate
+
+1. **Styling children of a container** - When content comes from PortableText/Sanity and you can't add classes to each element
+2. **Combinator selectors** - Adjacent sibling (`h2 + p`), descendant, or attribute selectors
+3. **Parent detection with `:has()`** - When layout depends on presence of specific child elements
+
+### Current Vanilla CSS Utilities
+
+#### `.prose-custom` - Rich Text Styling
+
+Styles CMS-generated content from PortableText where you can't add Tailwind classes to each element.
+
+```css
+/* globals.css */
+.prose-custom {
+  & p { @apply mb-4 text-lg leading-relaxed text-muted-foreground; }
+  & p:last-child { @apply mb-0; }
+  & h2 + p { @apply mt-0; }  /* Adjacent sibling - no Tailwind equivalent */
+  & [data-stat-block] + p { @apply mt-0; }
+}
+```
+
+**Why vanilla CSS:** PortableText renders `<p>`, `<h2>`, etc. without custom classes. Adjacent sibling selectors (`h2 + p`) cannot be expressed with Tailwind utilities on a parent element.
+
+### Guidelines for Adding New CSS Utilities
+
+1. **Exhaust Tailwind options first** - Only use vanilla CSS when Tailwind genuinely can't express the pattern
+2. **Use `@apply` where possible** - Keep values in the Tailwind system
+3. **Document the "why"** - Add comments explaining why vanilla CSS is necessary
+4. **Group with similar utilities** - Place in `@layer components` section of globals.css
+5. **Update this document** - Add new utilities to this section
 
 ---
 
@@ -374,6 +412,8 @@ Before merging code, verify:
 
 | Date | Version | Changes |
 |------|---------|---------|
+| 2025-11-26 | 1.2.0 | Removed `.blog-tufte-layout` - simplified margin notes to float-only |
+| 2025-11-26 | 1.1.0 | Added "Vanilla CSS Utilities" section documenting `.prose-custom` |
 | 2025-11-02 | 1.0.0 | Initial policy created as part of Phase 3 compliance refactor |
 
 ---

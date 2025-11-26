@@ -7,17 +7,17 @@ interface BlogLayoutProps {
 /**
  * BlogLayout Component
  *
- * Simple article wrapper providing:
- * - Centered column with max-width
+ * Article wrapper providing:
+ * - Centered container with max-width 920px
  * - Appropriate padding and spacing
  * - Semantic HTML structure
+ *
+ * Margin notes float right with text wrapping around them.
  */
 export function BlogLayout({ children }: BlogLayoutProps) {
   return (
     <article className="w-full max-w-[920px] mx-auto px-6 md:px-8 py-16 md:py-20">
-      <div className="space-y-12">
-        {children}
-      </div>
+      {children}
     </article>
   );
 }

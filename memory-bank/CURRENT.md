@@ -1,3 +1,75 @@
+# Blog Components & Presentation Mode Fix (2025-11-26)
+
+## Context
+Implemented blog tip/margin note components and researched Sanity Presentation mode revalidation issue.
+
+## Blog Components Implementation
+
+### Components Created
+1. **MarginNote.tsx** - Floating tip/pro-tip component
+   - Floats right at all viewport sizes
+   - Text wraps around naturally
+   - Two variants: 'tip' (amber) and 'pro' (emerald)
+   - Simple float-based approach (no CSS Grid complexity)
+
+2. **ExamplePrompt.tsx** - Collapsible prompt example component
+   - Used for showing AI prompts/code examples
+   - Collapsible with copy-to-clipboard functionality
+
+### Sanity Schema Updates
+- Added `tip` and `examplePrompt` block types to blog schema
+- Both render inline with blog content via PortableText
+
+### Simplification Decision
+Initially implemented Tufte-style CSS Grid layout with `:has()` selector, but simplified to float-only approach:
+- Removed `.blog-tufte-layout` CSS (24 lines)
+- Blog posts stay at full 920px width
+- No CSS Grid, no `:has()` selector
+- Much simpler and more maintainable
+
+## Presentation Mode Turbopack Issue
+
+### Problem
+Sanity Presentation mode was causing full page reloads instead of smooth WebSocket updates during content editing.
+
+### Root Cause Found
+**Turbopack + Sanity incompatibility** in Next.js 15:
+- `SanityLive` calls `revalidateTag()` on content changes (by design)
+- In Turbopack mode, this triggers HMR/Fast Refresh mechanism
+- Results in visible `[Fast Refresh] rebuilding` and full page rebuilds
+
+### Known GitHub Issues
+- [vercel/next.js#84294](https://github.com/vercel/next.js/issues/84294) - Turbopack Build Fails with Sanity CMS
+- [vercel/next.js#64494](https://github.com/vercel/next.js/issues/64494) - Module factory HMR issue
+- [vercel/next.js#78957](https://github.com/vercel/next.js/issues/78957) - Turbopack Fast Refresh issue
+
+### Solution
+Added `dev:cms` script that runs without Turbopack:
+```json
+"dev": "next dev -p 3000 --turbopack",     // Regular dev (fast HMR)
+"dev:cms": "next dev -p 3000"               // CMS editing (no Turbopack)
+```
+
+**Note:** This is dev-mode only. Production builds work correctly.
+
+### Documentation
+Full research documented in `/docs/presentation-mode-revalidation-research-2025-11-26.md`
+
+## Files Modified
+- `src/components/blog/MarginNote.tsx` (created)
+- `src/components/blog/ExamplePrompt.tsx` (created)
+- `src/components/blog/BlogLayout.tsx` (simplified)
+- `src/components/blog/BlogContent.tsx` (added PortableText handlers)
+- `src/components/blog/index.ts` (exports)
+- `sanity/schemas/blog.ts` (added tip/examplePrompt types)
+- `src/app/globals.css` (removed blog-tufte-layout CSS)
+- `src/app/layout.tsx` (added SanityLive refresh props)
+- `package.json` (added dev:cms script)
+- `docs/styling-exceptions.md` (updated documentation)
+- `docs/presentation-mode-revalidation-research-2025-11-26.md` (created)
+
+---
+
 # Structured Data (JSON-LD) Implementation (2025-11-25)
 
 ## Context

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import { ImageGrid } from '@/components/case-study-flowing/ImageGrid';
 import { PortraitImageList } from '@/components/case-study-flowing/PortraitImageList';
+import { MarginNote } from './MarginNote';
+import { ExamplePrompt } from './ExamplePrompt';
 
 // Type for PortableText component props
 type PTProps = { children?: React.ReactNode; value?: unknown };
@@ -234,6 +236,22 @@ export function BlogContent({ content }: BlogContentProps) {
           </figure>
         )
       },
+
+      // Margin Note (Tip) - Tufte-style sidenote
+      marginNote: ({ value }: PTValueProps) => (
+        <MarginNote
+          content={value.content}
+          variant={value.variant}
+        />
+      ),
+
+      // Example Prompt - Classic italic blockquote
+      examplePrompt: ({ value }: PTValueProps) => (
+        <ExamplePrompt
+          prompt={value.prompt}
+          label={value.label}
+        />
+      ),
     },
   };
 

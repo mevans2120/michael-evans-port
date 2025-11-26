@@ -151,7 +151,11 @@ export default async function RootLayout({
             <TimeThemeProvider>
               <FaviconGenerator />
               {children}
-              <SanityLive />
+              <SanityLive
+                refreshOnMount={false}
+                refreshOnFocus={false}
+                refreshOnReconnect={false}
+              />
               {(await draftMode()).isEnabled && <SanityVisualEditingLoader />}
               <Toaster />
               <Sonner />
