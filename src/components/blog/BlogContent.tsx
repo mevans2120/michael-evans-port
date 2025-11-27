@@ -7,6 +7,15 @@ import { ImageGrid } from '@/components/case-study-flowing/ImageGrid';
 import { PortraitImageList } from '@/components/case-study-flowing/PortraitImageList';
 import { MarginNote } from './MarginNote';
 import { ExamplePrompt } from './ExamplePrompt';
+import { FootnoteRef } from './FootnoteRef';
+import { FootnotesSection } from './FootnotesSection';
+
+// Type for footnote from markDefs
+interface Footnote {
+  _key: string;
+  _type: string;
+  note: string;
+}
 
 // Type for PortableText component props
 type PTProps = { children?: React.ReactNode; value?: unknown };
@@ -24,6 +33,24 @@ interface BlogContentProps {
  * with custom serializers for rich formatting
  */
 export function BlogContent({ content }: BlogContentProps) {
+  // Collect all footnotes from markDefs across all blocks
+  const footnotes = content.reduce<Footnote[]>((notes, block) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const typedBlock = block as any;
+    if (typedBlock._type !== 'block' || !typedBlock.markDefs?.length) {
+      return notes;
+    }
+    const blockFootnotes = typedBlock.markDefs.filter(
+      (def: { _type: string }) => def._type === 'footnote'
+    );
+    return [...notes, ...blockFootnotes];
+  }, []);
+
+  // Create lookup map for footnote numbers (by _key)
+  const footnoteNumbers = new Map<string, number>(
+    footnotes.map((fn, i) => [fn._key, i + 1])
+  );
+
   const components: PortableTextComponents = {
     block: {
       normal: ({ children }) => (
@@ -73,6 +100,11 @@ export function BlogContent({ content }: BlogContentProps) {
         >
           {children}
         </a>
+      ),
+      footnote: ({ value, children }) => (
+        <FootnoteRef number={footnoteNumbers.get(value._key) || 0}>
+          {children}
+        </FootnoteRef>
       ),
     },
     types: {
@@ -258,6 +290,7 @@ export function BlogContent({ content }: BlogContentProps) {
   return (
     <div>
       <PortableText value={content} components={components} />
+      <FootnotesSection footnotes={footnotes} />
     </div>
   );
 }

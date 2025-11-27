@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity';
-import { DocumentTextIcon } from '@sanity/icons';
+import { DocumentTextIcon, BookIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'blog',
@@ -91,6 +91,22 @@ export default defineType({
                     name: 'href',
                     type: 'url',
                     title: 'URL',
+                  },
+                ],
+              },
+              {
+                name: 'footnote',
+                type: 'object',
+                title: 'Footnote',
+                icon: BookIcon,
+                fields: [
+                  {
+                    name: 'note',
+                    type: 'text',
+                    title: 'Footnote Text',
+                    description: 'Citation or explanatory note',
+                    rows: 3,
+                    validation: (Rule) => Rule.required(),
                   },
                 ],
               },

@@ -1,3 +1,75 @@
+# Blog Footnotes Implementation (2025-11-27)
+
+## Context
+Implemented traditional bottom footnotes for blog posts using Sanity CMS annotations and PortableText rendering.
+
+## Implementation
+
+### 1. Sanity Schema Update
+**File**: `sanity/schemas/blog.ts`
+
+Added footnote annotation to blog content block (alongside existing link annotation):
+```typescript
+{
+  name: 'footnote',
+  type: 'object',
+  title: 'Footnote',
+  icon: BookIcon,
+  fields: [
+    {
+      name: 'note',
+      type: 'text',
+      title: 'Footnote Text',
+      description: 'Citation or explanatory note',
+      rows: 3,
+      validation: (Rule) => Rule.required(),
+    },
+  ],
+},
+```
+
+### 2. Components Created
+
+**FootnoteRef.tsx** - Inline superscript reference
+- Wraps annotated text with clickable number link
+- Styling: `text-accent text-[0.75em] align-super font-medium`
+- Links to `#fn-{number}` anchor
+
+**FootnotesSection.tsx** - Bottom notes section
+- Collects and displays all footnotes at article end
+- Includes back-links (`↩`) to return to reference
+- Uses `:target` CSS highlighting via Tailwind `target:` variant
+- `scroll-mt-24` for fixed header offset
+
+### 3. BlogContent.tsx Updates
+- Added footnote collection logic using `reduce` over PortableText blocks
+- Created `footnoteNumbers` Map for `_key` to number lookup
+- Added footnote mark handler in PortableText components
+- Renders FootnotesSection at end of content
+
+## How to Use
+1. In Sanity Studio, edit a blog post
+2. Select text to annotate
+3. Click the **link icon** (🔗) in toolbar
+4. Choose **"Footnote"** option
+5. Enter footnote text and save
+
+## Files Created
+- `src/components/blog/FootnoteRef.tsx`
+- `src/components/blog/FootnotesSection.tsx`
+
+## Files Modified
+- `sanity/schemas/blog.ts` - Added footnote annotation
+- `src/components/blog/BlogContent.tsx` - Collection and rendering logic
+
+## Technical Notes
+- Footnotes use Sanity's `markDefs` annotation system (same as links)
+- Auto-numbered in order of appearance via Map lookup
+- Back-links use CSS `:target` pseudo-class for highlighting
+- All styling uses Tailwind (including `target:` variant for `:target` state)
+
+---
+
 # Blog Components & Presentation Mode Fix (2025-11-26)
 
 ## Context
