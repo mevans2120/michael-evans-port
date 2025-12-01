@@ -33,14 +33,13 @@ const dmSans = DM_Sans({
 });
 
 // Newsreader is a serif font for body text (editorial style)
-// Preload enabled: LCP element (hero description) uses this font
 const newsreader = Newsreader({
   subsets: ["latin"],
   weight: ["300", "400", "600"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
-  preload: true, // Preload for LCP - hero description uses font-serif
+  preload: false, // Don't preload - testing showed it hurts mobile performance
   fallback: ['Georgia', 'Cambria', 'Times New Roman', 'serif'], // Better serif fallback
   adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
