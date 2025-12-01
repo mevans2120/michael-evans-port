@@ -1,13 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import * as SunCalc from 'suncalc';
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 
 type TimeTheme = 'day' | 'evening';
-
-// Portland, Oregon coordinates
-const PORTLAND_LAT = 45.52;
-const PORTLAND_LON = -122.68;
 
 interface TimeThemeContextType {
   theme: TimeTheme;
@@ -21,108 +16,82 @@ interface TimeThemeContextType {
 
 const TimeThemeContext = createContext<TimeThemeContextType | undefined>(undefined);
 
-// Day colors (Coral)
-const DAY_COLORS = {
-  accent: '20 90% 55%',        // Coral-orange #F46A25
-  accentLight: '25 95% 60%',   // Lighter coral #F57D39
-  accentForeground: '0 0% 100%', // White text
-  buttonPrimary: '20 90% 50%', // Slightly darker coral for buttons
-};
-
-// Evening colors (Purple)
-const EVENING_COLORS = {
-  accent: '270 80% 60%',       // Purple
-  accentLight: '270 70% 70%',  // Lighter purple
-  accentForeground: '0 0% 100%', // White text
-  buttonPrimary: '276 70% 47%', // Darker purple for buttons
-};
+// Day accent color HSL value (used to detect current theme from server-rendered CSS)
+const DAY_ACCENT = '20 90% 55%';
 
 /**
- * Calculate initial theme based on current time to prevent FOUC
- * This ensures client-side state matches server-rendered colors
+ * Detect initial theme from server-rendered CSS variables
+ * Server sets --accent in layout.tsx based on SunCalc calculation
+ * This ensures client hydration matches server state without importing SunCalc
  */
-function getInitialTheme(): TimeTheme {
-  const now = new Date();
-  const times = SunCalc.getTimes(now, PORTLAND_LAT, PORTLAND_LON);
-  const isDayTime = now >= times.sunrise && now < times.sunset;
-  return isDayTime ? 'day' : 'evening';
+function getInitialThemeFromCSS(): TimeTheme {
+  if (typeof window === 'undefined') {
+    // SSR fallback - server will have set the correct values
+    return 'evening';
+  }
+
+  const accent = getComputedStyle(document.documentElement)
+    .getPropertyValue('--accent')
+    .trim();
+
+  // If accent matches day color, it's day time
+  return accent === DAY_ACCENT ? 'day' : 'evening';
 }
 
+/**
+ * TimeThemeProvider - Lightweight client-side provider for time-based theming
+ *
+ * Performance optimization: SunCalc calculations are done server-side only (layout.tsx)
+ * Client just reads the server-rendered CSS variables and provides context
+ * This removes 121KB from the client bundle and eliminates 280ms+ TBT
+ *
+ * See: docs/research/RESEARCH_2025-12-01_lighthouse-performance-optimization.md
+ */
 export function TimeThemeProvider({ children }: { children: ReactNode }) {
-  const [sunrise, setSunrise] = useState<Date | null>(null);
-  const [sunset, setSunset] = useState<Date | null>(null);
-  const [autoTheme, setAutoTheme] = useState<TimeTheme>(getInitialTheme());
+  const [theme, setTheme] = useState<TimeTheme>('evening');
   const [manualOverride, setManualOverrideState] = useState<TimeTheme | null>(null);
 
-  // Single interval to update sunrise/sunset and auto theme
+  // Read theme from server-rendered CSS on mount
   useEffect(() => {
-    const updateTheme = () => {
-      const now = new Date();
-
-      // Get sunrise and sunset times for Portland
-      const times = SunCalc.getTimes(now, PORTLAND_LAT, PORTLAND_LON);
-
-      // Only update if changed (avoid unnecessary re-renders)
-      setSunrise(prev => {
-        if (!prev || prev.getTime() !== times.sunrise.getTime()) {
-          return times.sunrise;
-        }
-        return prev;
-      });
-
-      setSunset(prev => {
-        if (!prev || prev.getTime() !== times.sunset.getTime()) {
-          return times.sunset;
-        }
-        return prev;
-      });
-
-      // Determine if it's currently day or evening
-      const isDayTime = now >= times.sunrise && now < times.sunset;
-      setAutoTheme(isDayTime ? 'day' : 'evening');
-    };
-
-    // Initial update
-    updateTheme();
-
-    // Update every 5 minutes (sunrise/sunset don't change frequently)
-    const interval = setInterval(updateTheme, 5 * 60 * 1000);
-
-    return () => clearInterval(interval);
+    setTheme(getInitialThemeFromCSS());
   }, []);
 
-  const setManualOverride = useCallback((theme: TimeTheme | null) => {
-    setManualOverrideState(theme);
-  }, []);
+  const setManualOverride = useCallback((newTheme: TimeTheme | null) => {
+    setManualOverrideState(newTheme);
 
-  const theme = manualOverride ?? autoTheme;
+    // If manual override is set, update CSS variables
+    if (newTheme) {
+      const colors = newTheme === 'day'
+        ? {
+            accent: '20 90% 55%',
+            accentLight: '25 95% 60%',
+            accentForeground: '0 0% 100%',
+            buttonPrimary: '20 90% 50%',
+          }
+        : {
+            accent: '270 80% 60%',
+            accentLight: '270 70% 70%',
+            accentForeground: '0 0% 100%',
+            buttonPrimary: '276 70% 47%',
+          };
 
-  // Update CSS variables when theme changes
-  // Note: Server-side renders initial values on <html> element to prevent FOUC
-  // This effect only updates when time period actually changes (keepalive for long sessions)
-  useEffect(() => {
-    const colors = theme === 'day' ? DAY_COLORS : EVENING_COLORS;
-
-    // Read current values to avoid unnecessary updates
-    const currentAccent = getComputedStyle(document.documentElement)
-      .getPropertyValue('--accent')
-      .trim();
-
-    // Only update if time period has actually changed
-    if (currentAccent !== colors.accent) {
       document.documentElement.style.setProperty('--accent', colors.accent);
       document.documentElement.style.setProperty('--accent-light', colors.accentLight);
       document.documentElement.style.setProperty('--accent-foreground', colors.accentForeground);
       document.documentElement.style.setProperty('--color-button-primary', colors.buttonPrimary);
     }
-  }, [theme]);
+  }, []);
+
+  const activeTheme = manualOverride ?? theme;
 
   const value: TimeThemeContextType = {
-    theme,
-    isDayTime: theme === 'day',
-    isEveningTime: theme === 'evening',
-    sunrise,
-    sunset,
+    theme: activeTheme,
+    isDayTime: activeTheme === 'day',
+    isEveningTime: activeTheme === 'evening',
+    // Sunrise/sunset times not available client-side (calculated server-side only)
+    // These are kept for API compatibility but return null
+    sunrise: null,
+    sunset: null,
     isManualOverride: manualOverride !== null,
     setManualOverride,
   };

@@ -21,9 +21,10 @@ import { generatePersonSchema, generateWebSiteSchema, type StructuredDataProfile
 import { JsonLd } from "@/components/JsonLd";
 
 // DM Sans is a sans-serif font for headers and UI
+// Only preload critical weights (400, 600) to reduce LCP - other weights load on demand
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "600"],
   variable: "--font-sans",
   display: "swap",
   preload: true, // Preload critical font for faster rendering

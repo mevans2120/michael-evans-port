@@ -202,9 +202,41 @@ All colors MUST be HSL.
                 --accent-foreground 300ms ease-in-out;
   }
 
-  /* Apply color transition to all elements using accent colors */
-  * {
+  /*
+   * Selective color transitions for interactive elements and theme-aware components
+   * Performance optimization: Removed universal * selector to prevent forced reflows
+   * See: docs/research/RESEARCH_2025-12-01_lighthouse-performance-optimization.md
+   */
+  a,
+  button,
+  [role="button"],
+  input,
+  textarea,
+  select,
+  nav,
+  .nav-item,
+  .card-interactive,
+  .card-base,
+  .interactive-scale,
+  .interactive-opacity,
+  .transition-smooth,
+  .transition-colors-smooth,
+  .transition-fast,
+  .transition-slow,
+  [data-theme-transition] {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  /* Ensure accent-colored elements transition smoothly for time theme */
+  .text-accent,
+  .bg-accent,
+  .border-accent,
+  .text-gradient,
+  .gradient-hero-title,
+  .gradient-hero-badge {
+    transition-property: color, background-color, border-color, background;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
   }
