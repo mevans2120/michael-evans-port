@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Separator } from "@/components/ui/separator";
 import { OrnamentalCTA } from "@/components/ui/OrnamentalCTA";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
-import { sanityFetch } from "@/sanity/lib/live";
+import { cachedSanityFetch } from "@/sanity/lib/fetch";
 import { homepageHeroQuery } from "@/lib/sanity/queries";
 import { featuredBlogQuery } from "@/lib/sanity/queries/blog";
 import { type Metadata } from 'next';
@@ -21,8 +21,60 @@ interface Project {
   order?: number
 }
 
+// Type for homepage hero data from Sanity
+interface HomepageHeroData {
+  _id: string
+  tagline?: string
+  description?: string
+  heroCta?: {
+    text?: string
+    linkType?: 'internal' | 'external'
+    internalLink?: string
+    externalLink?: string
+  }
+  selectedWorkSection?: {
+    heading?: string
+    description?: string
+    viewAllText?: string
+    viewAllLinkType?: 'internal' | 'external'
+    viewAllInternalLink?: string
+    viewAllExternalLink?: string
+  }
+  featuredPostSection?: {
+    heading?: string
+    description?: string
+    viewAllText?: string
+    viewAllLinkType?: 'internal' | 'external'
+    viewAllInternalLink?: string
+    viewAllExternalLink?: string
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    twitterCard?: 'summary' | 'summary_large_image'
+    canonicalUrl?: string
+    noIndex?: boolean
+  }
+}
+
+// Type for featured blog post
+interface FeaturedBlogPost {
+  _id: string
+  title: string
+  slug: { current: string }
+  excerpt?: string
+  featuredImage?: {
+    asset?: {
+      _id: string
+      url: string
+    }
+    alt?: string
+  }
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const { data: homepage } = await sanityFetch({ query: homepageHeroQuery });
+  const { data: homepage } = await cachedSanityFetch<HomepageHeroData | null>({ query: homepageHeroQuery, tags: ['homepage'] });
 
   return generateSanityMetadata({
     seo: homepage?.seo,
@@ -33,26 +85,29 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  // Fetch all data in parallel for performance with live preview support
+  // Fetch all data in parallel with caching (CDN for visitors, live for editors)
   const [{ data: homepage }, { data: caseStudiesData }, { data: featuredShowcase }] = await Promise.all([
     // Fetch homepage content
-    sanityFetch({ query: homepageHeroQuery }),
+    cachedSanityFetch<HomepageHeroData | null>({ query: homepageHeroQuery, tags: ['homepage'] }),
 
     // Fetch featured case studies
-    sanityFetch({ query: `
-      *[_type == "project" && featured == true] | order(order asc) {
-        _id,
-        title,
-        "slug": slug.current,
-        category,
-        featuredMetric,
-        featuredDescription,
-        order
-      }
-    ` }),
+    cachedSanityFetch<Project[]>({
+      query: `
+        *[_type == "project" && featured == true] | order(order asc) {
+          _id,
+          title,
+          "slug": slug.current,
+          category,
+          featuredMetric,
+          featuredDescription,
+          order
+        }
+      `,
+      tags: ['homepage', 'case-studies']
+    }),
 
     // Fetch featured blog post
-    sanityFetch({ query: featuredBlogQuery })
+    cachedSanityFetch<FeaturedBlogPost | null>({ query: featuredBlogQuery, tags: ['homepage', 'blog'] })
   ])
 
   // Hero section with fallbacks
@@ -60,9 +115,9 @@ export default async function HomePage() {
   const description = homepage?.description || 'Shipping innovative digital products since 2007, across a variety of industries and technologies.'
   const heroCta = {
     text: homepage?.heroCta?.text || 'Learn more about my background',
-    link: homepage?.heroCta?.linkType === 'external'
+    link: (homepage?.heroCta?.linkType === 'external'
       ? homepage?.heroCta?.externalLink
-      : homepage?.heroCta?.internalLink || '/about'
+      : homepage?.heroCta?.internalLink) || '/about'
   }
 
   // Selected Work section with fallbacks
@@ -70,9 +125,9 @@ export default async function HomePage() {
     heading: homepage?.selectedWorkSection?.heading || 'Selected Work',
     description: homepage?.selectedWorkSection?.description || 'Case studies and product launches',
     viewAllText: homepage?.selectedWorkSection?.viewAllText || 'View all case studies',
-    viewAllLink: homepage?.selectedWorkSection?.viewAllLinkType === 'external'
+    viewAllLink: (homepage?.selectedWorkSection?.viewAllLinkType === 'external'
       ? homepage?.selectedWorkSection?.viewAllExternalLink
-      : homepage?.selectedWorkSection?.viewAllInternalLink || '/case-studies'
+      : homepage?.selectedWorkSection?.viewAllInternalLink) || '/case-studies'
   }
 
   // Featured Post section with fallbacks
@@ -80,9 +135,9 @@ export default async function HomePage() {
     heading: homepage?.featuredPostSection?.heading || 'Featured Post',
     description: homepage?.featuredPostSection?.description || 'My journey with AI-assisted development',
     viewAllText: homepage?.featuredPostSection?.viewAllText || 'View all posts',
-    viewAllLink: homepage?.featuredPostSection?.viewAllLinkType === 'external'
+    viewAllLink: (homepage?.featuredPostSection?.viewAllLinkType === 'external'
       ? homepage?.featuredPostSection?.viewAllExternalLink
-      : homepage?.featuredPostSection?.viewAllInternalLink || '/blog'
+      : homepage?.featuredPostSection?.viewAllInternalLink) || '/blog'
   }
 
   // Map case studies data to component format

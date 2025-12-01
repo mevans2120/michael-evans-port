@@ -1,5 +1,5 @@
 import { type Metadata } from 'next'
-import { sanityFetch } from '@/sanity/lib/live'
+import { cachedSanityFetch } from '@/sanity/lib/fetch'
 import { allFeaturedCaseStudiesQuery, allProjectsAlphabeticalQuery, caseStudiesIndexPageQuery } from '@/lib/sanity/queries'
 import { CaseStudiesHero } from '@/components/case-studies/CaseStudiesHero'
 import { SectionSeparator } from '@/components/case-studies/SectionSeparator'
@@ -14,13 +14,55 @@ interface Project {
   title: string
   featuredMetric?: string
   featuredDescription?: string
-  slug: { current: string } | string
+  slug: { current: string }
   order?: number
+  heroSection?: {
+    badge?: string
+    title?: string
+    subtitle?: string
+    summary?: string
+  }
+  metrics?: Array<{
+    label: string
+    value: string
+    description?: string
+  }>
+  featuredImage?: {
+    asset?: {
+      _id: string
+      url: string
+      metadata?: {
+        dimensions?: {
+          width: number
+          height: number
+          aspectRatio: number
+        }
+        lqip?: string
+      }
+    }
+    alt?: string
+  }
+}
+
+// Type for case studies index page data from Sanity
+interface CaseStudiesIndexPageData {
+  _id: string
+  allCaseStudiesHeading?: string
+  allCaseStudiesDescription?: string
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    twitterCard?: 'summary' | 'summary_large_image'
+    canonicalUrl?: string
+    noIndex?: boolean
+  }
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data: pageData } = await sanityFetch({
+  const { data: pageData } = await cachedSanityFetch<CaseStudiesIndexPageData | null>({
     query: caseStudiesIndexPageQuery,
+    tags: ['case-studies'],
   });
 
   return generateSanityMetadata({
@@ -32,11 +74,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CaseStudiesPage() {
-  // Fetch data in parallel
+  // Fetch data in parallel with caching
   const [{ data: featuredProjects }, { data: allProjects }, { data: pageData }] = await Promise.all([
-    sanityFetch({ query: allFeaturedCaseStudiesQuery }),
-    sanityFetch({ query: allProjectsAlphabeticalQuery }),
-    sanityFetch({ query: caseStudiesIndexPageQuery })
+    cachedSanityFetch<Project[]>({ query: allFeaturedCaseStudiesQuery, tags: ['case-studies'] }),
+    cachedSanityFetch<Project[]>({ query: allProjectsAlphabeticalQuery, tags: ['case-studies'] }),
+    cachedSanityFetch<CaseStudiesIndexPageData | null>({ query: caseStudiesIndexPageQuery, tags: ['case-studies'] })
   ])
 
   // Randomly select one featured project
@@ -53,7 +95,7 @@ export default async function CaseStudiesPage() {
       title: project.title,
       metric: project.featuredMetric || '',
       description: project.featuredDescription || '',
-      slug: typeof project.slug === 'string' ? project.slug : project.slug?.current,
+      slug: project.slug?.current,
       order: project.order || index + 1
     }))
 

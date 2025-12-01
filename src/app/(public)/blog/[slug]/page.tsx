@@ -1,8 +1,8 @@
 import React from 'react';
 import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/sanity/lib/live';
-import { client } from '@/sanity/lib/client';
+import { cachedSanityFetch } from '@/sanity/lib/fetch';
+import { productionClient } from '@/sanity/lib/client';
 import { blogPostBySlugQuery } from '@/lib/sanity/queries/blog';
 import { BlogLayout, BlogHero, BlogMeta, BlogContent } from '@/components/blog';
 import type { Blog } from '@/types/blog';
@@ -17,7 +17,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = await client.fetch<{ slug: string }[]>(
+  const slugs = await productionClient.fetch<{ slug: string }[]>(
     `*[_type == "blog" && defined(slug.current)]{ "slug": slug.current }`
   );
 
@@ -28,9 +28,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { data: post }: { data: Blog | null } = await sanityFetch({
+  const { data: post }: { data: Blog | null } = await cachedSanityFetch({
     query: blogPostBySlugQuery,
     params: { slug },
+    tags: ['blog', `blog-${slug}`],
   });
 
   if (!post) {
@@ -54,12 +55,14 @@ const profileNameQuery = `*[_type == "profile"][0]{ name }`;
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const [{ data: post }, { data: profile }] = await Promise.all([
-    sanityFetch({
+    cachedSanityFetch({
       query: blogPostBySlugQuery,
       params: { slug },
+      tags: ['blog', `blog-${slug}`],
     }) as Promise<{ data: Blog | null }>,
-    sanityFetch({
+    cachedSanityFetch({
       query: profileNameQuery,
+      tags: ['profile'],
     }) as Promise<{ data: { name: string } | null }>,
   ]);
 

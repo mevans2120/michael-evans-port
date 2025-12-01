@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { sanityFetch } from '@/sanity/lib/live'
-import { client } from '@/sanity/lib/client'
+import { cachedSanityFetch } from '@/sanity/lib/fetch'
+import { productionClient } from '@/sanity/lib/client'
 import { type Metadata } from 'next'
 import { type PortableTextBlock } from 'sanity'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
@@ -226,7 +226,7 @@ interface PageProps {
 
 // Generate static params for all case studies at build time
 export async function generateStaticParams() {
-  const projects = await client.fetch<{ slug: string }[]>(
+  const projects = await productionClient.fetch<{ slug: string }[]>(
     `*[_type == "project" && category == "Case Study"]{ "slug": slug.current }`
   )
 
@@ -238,9 +238,10 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const { data: project }: { data: EditorialCaseStudyData | null } = await sanityFetch({
+  const { data: project }: { data: EditorialCaseStudyData | null } = await cachedSanityFetch({
     query: EDITORIAL_PROJECT_QUERY,
     params: { slug },
+    tags: ['case-studies', `case-study-${slug}`],
   })
 
   if (!project) {
@@ -261,12 +262,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params
   const [{ data: project }, { data: profile }] = await Promise.all([
-    sanityFetch({
+    cachedSanityFetch({
       query: EDITORIAL_PROJECT_QUERY,
       params: { slug },
+      tags: ['case-studies', `case-study-${slug}`],
     }) as Promise<{ data: EditorialCaseStudyData | null }>,
-    sanityFetch({
+    cachedSanityFetch({
       query: profileNameQuery,
+      tags: ['profile'],
     }) as Promise<{ data: { name: string } | null }>,
   ])
 

@@ -1,17 +1,113 @@
-# Lighthouse Performance Optimization (2025-12-01)
+# Sanity CDN Caching Architecture (2025-12-01)
 
 ## Context
-Improved Lighthouse mobile performance score from 62 to 93 by optimizing font loading, CSS transitions, and removing unnecessary client-side JavaScript.
+Follow-up to Lighthouse optimization. Initial local testing showed score improvement from 62 to 93, but production PageSpeed still showed 63. Investigation revealed the real issue: pages weren't being cached because `sanityFetch` from `defineLive` always uses `useCdn: false`, causing every request to hit the Sanity API directly.
 
 ## Problem Analysis
-- **Before**: Lighthouse mobile score of 62
-- **Key Issues**:
-  - 5 font weights preloaded (only 2 needed)
-  - Universal `*` CSS transitions causing forced reflows
-  - SunCalc library (121KB) duplicated in client bundle
-  - 6.5s LCP, 3.0s FCP, 280ms TBT
+- **Symptom**: Production Lighthouse score stuck at 63 despite local optimizations
+- **Root Cause**: All Sanity fetches bypassed CDN caching
+- **Technical Issue**: `defineLive` from `next-sanity` configures `useCdn: false` for real-time preview
+- **Impact**: Every page request = fresh API call → slow TTFB → poor Lighthouse scores
 
-## Solution Implemented
+## Solution: Dual Client Architecture
+
+### Phase 1: Created Caching Infrastructure
+
+**File**: `src/sanity/lib/client.ts`
+- Added `productionClient` with `useCdn: true` for fast cached responses
+- Kept existing `client` with `useCdn: false` for draft mode
+
+**File**: `src/sanity/lib/fetch.ts` (NEW)
+- Created `cachedSanityFetch` helper that:
+  - Uses CDN-cached `productionClient` for regular visitors
+  - Falls back to `liveSanityFetch` for editors in draft mode
+  - Supports cache tags for targeted invalidation
+
+```typescript
+export async function cachedSanityFetch<T>({
+  query,
+  params = {},
+  tags = [],
+}: CachedFetchOptions): Promise<{ data: T }> {
+  const isDraftMode = (await draftMode()).isEnabled
+
+  if (isDraftMode) {
+    return liveSanityFetch({ query, params })
+  }
+
+  const data = await productionClient.fetch<T>(query, params, {
+    next: {
+      revalidate: false,
+      tags: ['sanity', ...tags],
+    },
+  })
+
+  return { data }
+}
+```
+
+### Phase 2: Updated All Pages
+
+All public pages now use `cachedSanityFetch` with appropriate cache tags:
+
+| Page | Tags |
+|------|------|
+| Homepage | `['homepage']` |
+| Blog listing | `['blog']` |
+| Blog posts | `['blog', 'blog-${slug}']` |
+| Case studies listing | `['case-studies']` |
+| Case study pages | `['case-studies', 'case-study-${slug}']` |
+| About page | `['profile']` |
+| Contact page | `['contact']` |
+| Layout footer | `['footer']` |
+
+### Phase 3: Webhook Tag-Based Invalidation
+
+**File**: `src/app/api/webhooks/sanity/route.ts`
+
+Updated to use both `revalidatePath` AND `revalidateTag`:
+- Added `revalidateTag` import from `next/cache`
+- Global `sanity` tag revalidation on any content change
+- Content-specific tags: `blog`, `case-studies`, `profile`, `contact`, `footer`
+- Per-item tags for granular invalidation: `blog-${slug}`, `case-study-${slug}`
+
+## Files Modified
+
+### New Files
+- `src/sanity/lib/fetch.ts` - Smart fetch helper
+
+### Updated Files
+- `src/sanity/lib/client.ts` - Added `productionClient`
+- `src/app/(public)/page.tsx` - Homepage caching
+- `src/app/(public)/layout.tsx` - Footer caching
+- `src/app/(public)/about/page.tsx` - Profile caching
+- `src/app/(public)/blog/page.tsx` - Blog listing caching
+- `src/app/(public)/blog/[slug]/page.tsx` - Blog post caching
+- `src/app/(public)/case-studies/page.tsx` - Case studies listing caching
+- `src/app/(public)/case-studies/[slug]/page.tsx` - Case study caching
+- `src/app/(public)/contact/page.tsx` - Contact page caching
+- `src/app/api/webhooks/sanity/route.ts` - Tag-based revalidation
+
+## Result
+
+| Visitor Type | Behavior |
+|--------------|----------|
+| Regular visitors | Content served from Sanity CDN + Next.js cache → fast TTFB |
+| Editors (draft mode) | Live preview via `defineLive` → real-time updates |
+| Content updates | Webhook triggers targeted cache invalidation |
+
+## Documentation
+- `docs/plans/PLAN_2025-12-01_sanity-caching-architecture.md` - Implementation plan
+- `docs/research/RESEARCH_2025-12-01_lighthouse-performance-optimization.md` - Initial research
+
+---
+
+# Initial Lighthouse Optimizations (2025-12-01)
+
+## Context
+First round of Lighthouse mobile performance optimizations. Local DevTools showed improvement from 62 to 93, but production PageSpeed still showed 63 (led to discovering the caching issue above).
+
+## Optimizations Implemented
 
 ### 1. Font Loading Optimization
 **File**: `src/app/layout.tsx:25-27`
@@ -25,58 +121,22 @@ weight: ["300", "400", "500", "600", "700"]
 weight: ["400", "600"]
 ```
 
-**Impact**: ~1s improvement to FCP/LCP
-
 ### 2. CSS Transition Optimization
 **File**: `src/app/globals.css:205-242`
 
-Replaced universal `*` selector with selective transitions:
-```css
-/* Before (caused forced reflows) */
-* {
-  transition-property: color, background-color, ...;
-}
-
-/* After (selective) */
-a, button, [role="button"], input, nav, .card-interactive, ... {
-  transition-property: color, background-color, ...;
-}
-```
-
-**Impact**: Eliminated 60ms forced reflows
+Replaced universal `*` selector with selective transitions (eliminated 60ms forced reflows).
 
 ### 3. Removed Client-Side SunCalc
 **File**: `src/components/providers/TimeThemeProvider.tsx`
 
-- Removed SunCalc import from client bundle (121KB savings)
+- Removed SunCalc import from client bundle (-121KB)
 - Client now reads theme from server-rendered CSS variables
-- Server-side calculation in `layout.tsx` preserved (time theme still works)
-- Removed 5-minute recalculation interval (unnecessary)
-
-**Impact**: -121KB bundle, -280ms TBT
-
-## Results
-
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Performance Score | 62 | 93 | +31 points |
-| Bundle Size | +121KB | -121KB | -121KB |
-| Forced Reflows | 60ms | 0ms | Eliminated |
-
-## Time Theme Preserved
-- Server calculates day/night theme on every request
-- CSS variables set on `<html>` element (no FOUC)
-- Client reads theme from CSS, provides context
-- Accent colors still change: Coral (day) / Purple (night)
+- Time theme still works (server calculates, CSS variables set on `<html>`)
 
 ## Files Modified
 - `src/app/layout.tsx` - Reduced font weights
 - `src/app/globals.css` - Selective CSS transitions
 - `src/components/providers/TimeThemeProvider.tsx` - Removed SunCalc
-
-## Documentation Created
-- `docs/research/RESEARCH_2025-12-01_lighthouse-performance-optimization.md`
-- `docs/plans/PLAN_2025-12-01_lighthouse-performance-optimization.md`
 
 ---
 

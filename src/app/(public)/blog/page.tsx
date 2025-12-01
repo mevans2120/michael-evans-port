@@ -1,6 +1,6 @@
 import React from 'react';
 import { type Metadata } from 'next';
-import { sanityFetch } from '@/sanity/lib/live';
+import { cachedSanityFetch } from '@/sanity/lib/fetch';
 import { allBlogPostsQuery } from '@/lib/sanity/queries/blog';
 import { blogIndexPageQuery } from '@/lib/sanity/queries';
 import { BlogPostCard } from '@/components/blog';
@@ -9,9 +9,25 @@ import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { generateBreadcrumbSchema } from '@/lib/structured-data';
 import { JsonLd } from '@/components/JsonLd';
 
+// Type for blog index page data from Sanity
+interface BlogIndexPageData {
+  _id: string;
+  title?: string;
+  description?: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+    twitterCard?: 'summary' | 'summary_large_image';
+    canonicalUrl?: string;
+    noIndex?: boolean;
+  };
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const { data: pageData } = await sanityFetch({
+  const { data: pageData } = await cachedSanityFetch<BlogIndexPageData | null>({
     query: blogIndexPageQuery,
+    tags: ['blog'],
   });
 
   return generateSanityMetadata({
@@ -24,8 +40,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BlogPage() {
   const [{ data: posts }, { data: pageData }] = await Promise.all([
-    sanityFetch({ query: allBlogPostsQuery }),
-    sanityFetch({ query: blogIndexPageQuery }),
+    cachedSanityFetch<BlogListItem[]>({ query: allBlogPostsQuery, tags: ['blog'] }),
+    cachedSanityFetch<BlogIndexPageData | null>({ query: blogIndexPageQuery, tags: ['blog'] }),
   ]);
 
   const title = pageData?.title || 'Posts';

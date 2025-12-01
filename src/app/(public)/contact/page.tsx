@@ -1,14 +1,14 @@
 import React from 'react'
 import { type Metadata } from 'next'
 import ContactSection from '@/components/ContactSection'
-import { sanityFetch } from '@/sanity/lib/live'
+import { cachedSanityFetch } from '@/sanity/lib/fetch'
 import { contactPageQuery } from '@/lib/sanity/queries'
 import type { ContactPageData } from '@/types/sanity'
 import { generateBreadcrumbSchema } from '@/lib/structured-data'
 import { JsonLd } from '@/components/JsonLd'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data }: { data: ContactPageData | null } = await sanityFetch({ query: contactPageQuery })
+  const { data }: { data: ContactPageData | null } = await cachedSanityFetch({ query: contactPageQuery, tags: ['contact'] })
 
   if (!data) {
     return {
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-  const { data }: { data: ContactPageData | null } = await sanityFetch({ query: contactPageQuery })
+  const { data }: { data: ContactPageData | null } = await cachedSanityFetch({ query: contactPageQuery, tags: ['contact'] })
 
   // Generate breadcrumb structured data
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://michael-evans.com'
