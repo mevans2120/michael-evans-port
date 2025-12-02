@@ -39,7 +39,18 @@ export const blogPostBySlugQuery = groq`
       badge,
       subtitle
     },
-    content,
+    content[] {
+      ...,
+      _type == "image" => {
+        ...,
+        asset->{
+          _id,
+          url
+        },
+        crop,
+        hotspot
+      }
+    },
     publishedAt,
     updatedAt,
     author,

@@ -1,3 +1,75 @@
+# Blog Post Layout & UX Improvements (2025-12-02)
+
+## Context
+Session focused on multiple blog post improvements: chatbot tone, styling consistency, hero layout, and Presentation mode image fix.
+
+## Changes Made
+
+### 1. Chatbot Tone - Reduced Hyperbolic Language
+**File**: `src/app/api/chat/route.ts`
+
+Added guideline to avoid superlatives:
+```
+- Avoid superlatives and hyperbolic phrases (e.g., "absolutely crushed it", "incredibly amazing", "totally nailed it") - let the work speak for itself
+```
+
+### 2. Blog Tip/Pro-Tip - Use Accent Color
+**File**: `src/components/blog/MarginNote.tsx`
+
+Changed hardcoded amber/emerald colors to semantic `accent` token:
+```tsx
+// Before
+const borderColor = variant === 'pro'
+  ? 'border-l-emerald-500 dark:border-l-emerald-400'
+  : 'border-l-amber-500 dark:border-l-amber-400';
+
+// After
+const borderColor = 'border-l-accent';
+const labelColor = 'text-accent';
+```
+
+### 3. Blog Hero - Moved Byline Inside Hero
+**Files**:
+- `src/components/blog/BlogHero.tsx` - Added byline rendering
+- `src/app/(public)/blog/[slug]/page.tsx` - Pass byline props, removed BlogMeta
+
+Byline (date + author) now renders inside BlogHero with visual separator:
+- Added `publishedAt` and `author` props to BlogHero
+- Renders with `pt-8 border-t border-border` separator
+- Matches case study EditorialHero pattern
+- Groups byline with title, adds spacing before body content
+
+### 4. Blog Images - Fixed Presentation Mode
+**File**: `src/lib/sanity/queries/blog.ts`
+
+Expanded image assets in content blocks for Presentation mode preview:
+```groq
+// Before
+content,
+
+// After
+content[] {
+  ...,
+  _type == "image" => {
+    ...,
+    asset->{ _id, url },
+    crop,
+    hotspot
+  }
+},
+```
+
+This ensures float-left/right images show up in Sanity Presentation mode for unpublished drafts.
+
+## Files Modified
+- `src/app/api/chat/route.ts` - Chatbot tone guideline
+- `src/components/blog/MarginNote.tsx` - Accent color styling
+- `src/components/blog/BlogHero.tsx` - Byline rendering inside hero
+- `src/app/(public)/blog/[slug]/page.tsx` - Pass byline props
+- `src/lib/sanity/queries/blog.ts` - Expand image assets in content
+
+---
+
 # Sanity CDN Caching Architecture (2025-12-01)
 
 ## Context

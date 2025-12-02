@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { cachedSanityFetch } from '@/sanity/lib/fetch';
 import { productionClient } from '@/sanity/lib/client';
 import { blogPostBySlugQuery } from '@/lib/sanity/queries/blog';
-import { BlogLayout, BlogHero, BlogMeta, BlogContent } from '@/components/blog';
+import { BlogLayout, BlogHero, BlogContent } from '@/components/blog';
 import type { Blog } from '@/types/blog';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { generateBlogPostingSchema, generateBreadcrumbSchema, type StructuredDataBlogPost, type StructuredDataProfile } from '@/lib/structured-data';
@@ -105,11 +105,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           heroSection={post.heroSection}
           title={post.title}
           featuredImage={post.featuredImage}
-        />
-
-        <BlogMeta
           publishedAt={post.publishedAt}
-          updatedAt={post.updatedAt}
           author={post.author}
         />
 

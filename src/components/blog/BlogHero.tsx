@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { CalendarIcon, UserIcon } from 'lucide-react';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import type { BlogHero as BlogHeroType, BlogImage } from '@/types/blog';
 
@@ -9,6 +10,8 @@ interface BlogHeroProps {
   heroSection?: BlogHeroType;
   title: string;
   featuredImage?: BlogImage;
+  publishedAt?: string;
+  author?: string;
 }
 
 /**
@@ -20,13 +23,21 @@ interface BlogHeroProps {
  * - Optional subtitle/tagline
  * - Optional featured image icon (top right on desktop)
  */
-export function BlogHero({ heroSection, title, featuredImage }: BlogHeroProps) {
+export function BlogHero({ heroSection, title, featuredImage, publishedAt, author }: BlogHeroProps) {
   const { badge, subtitle } = heroSection || {};
 
   // Build image URL using 'hero' preset (same as case studies)
   const imageUrl = featuredImage?.asset
     ? buildImageUrl(featuredImage, 'hero')
     : null;
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
 
   return (
     <header className="space-y-6">
@@ -73,6 +84,22 @@ export function BlogHero({ heroSection, title, featuredImage }: BlogHeroProps) {
           </div>
         )}
       </div>
+
+      {/* Byline - after hero content */}
+      {publishedAt && (
+        <div className="flex items-center gap-4 md:gap-6 text-sm text-muted-foreground font-sans pt-8 border-t border-border">
+          <div className="flex items-center gap-2">
+            <CalendarIcon className="w-4 h-4" />
+            <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
+          </div>
+          {author && (
+            <div className="flex items-center gap-2">
+              <UserIcon className="w-4 h-4" />
+              <span>{author}</span>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   );
 }
