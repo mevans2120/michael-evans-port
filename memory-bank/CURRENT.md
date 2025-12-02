@@ -28,16 +28,20 @@ const borderColor = 'border-l-accent';
 const labelColor = 'text-accent';
 ```
 
-### 3. Blog Hero - Moved Byline Inside Hero
+### 3. Blog Hero - Layout Refinements
 **Files**:
-- `src/components/blog/BlogHero.tsx` - Added byline rendering
+- `src/components/blog/BlogHero.tsx` - Byline + spacing fixes
 - `src/app/(public)/blog/[slug]/page.tsx` - Pass byline props, removed BlogMeta
 
-Byline (date + author) now renders inside BlogHero with visual separator:
+Byline (date + author) now renders inside BlogHero with proper spacing:
 - Added `publishedAt` and `author` props to BlogHero
-- Renders with `pt-8 border-t border-border` separator
+- Removed `space-y-6` from header (was adding unwanted gap)
+- Removed `md:mt-[42px]` from image (title and image tops now align)
+- Byline spacing: `pt-4 pb-4 mb-12 border-b border-border`
+  - `pt-4` = close to title/image
+  - `pb-4` = small gap above border
+  - `mb-12` = proper spacing below border before body content
 - Matches case study EditorialHero pattern
-- Groups byline with title, adds spacing before body content
 
 ### 4. Blog Images - Fixed Presentation Mode
 **File**: `src/lib/sanity/queries/blog.ts`

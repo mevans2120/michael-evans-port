@@ -40,7 +40,7 @@ export function BlogHero({ heroSection, title, featuredImage, publishedAt, autho
   };
 
   return (
-    <header className="space-y-6">
+    <header>
       {/* Content and Image Layout */}
       <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* Left: Text Content */}
@@ -69,7 +69,7 @@ export function BlogHero({ heroSection, title, featuredImage, publishedAt, autho
 
         {/* Right: Featured Image (Icon) */}
         {imageUrl && (
-          <div className="w-full md:w-1/3 flex-shrink-0 md:mt-[42px]">
+          <div className="w-full md:w-1/3 flex-shrink-0">
             <div className="relative rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50">
               <Image
                 src={imageUrl}
@@ -85,9 +85,9 @@ export function BlogHero({ heroSection, title, featuredImage, publishedAt, autho
         )}
       </div>
 
-      {/* Byline - after hero content */}
+      {/* Byline - grouped with title, border below separates from body */}
       {publishedAt && (
-        <div className="flex items-center gap-4 md:gap-6 text-sm text-muted-foreground font-sans pt-8 border-t border-border">
+        <div className="flex items-center gap-4 md:gap-6 text-sm text-muted-foreground font-sans pt-4 pb-4 mb-12 border-b border-border">
           <div className="flex items-center gap-2">
             <CalendarIcon className="w-4 h-4" />
             <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
