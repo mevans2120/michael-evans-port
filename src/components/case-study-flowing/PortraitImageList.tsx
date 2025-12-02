@@ -40,6 +40,7 @@ export function PortraitImageList({ images }: PortraitImageListProps) {
                   alt={image.alt || ''}
                   width={375}
                   height={500}
+                  sizes="375px"
                   loading="lazy"
                   className="h-[500px] w-auto object-contain rounded-[2px] block max-w-full"
                 />

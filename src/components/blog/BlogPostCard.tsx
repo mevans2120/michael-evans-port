@@ -1,7 +1,5 @@
-'use client';
-
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import type { BlogListItem } from '@/types/blog';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
@@ -16,19 +14,13 @@ interface BlogPostCardProps {
  * BlogPostCard Component
  *
  * Card for blog listing page with:
- * - Featured image
+ * - Featured image (lazy loaded for posts 3+)
  * - Title and excerpt
  * - Published date
- * - Click/tap to navigate
+ * - Click/tap to navigate via Link
  * - Alternating image position (left/right) on desktop
  */
 export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/blog/${post.slug.current}`);
-  };
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -41,19 +33,12 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
   const isImageRight = index % 2 === 1;
 
   return (
-    <article
-      className="group cursor-pointer border-b border-border pb-12 mb-12 transition-smooth hover:opacity-90"
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleClick();
-        }
-      }}
+    <Link
+      href={`/blog/${post.slug.current}`}
+      className="block group"
       aria-label={`Read blog post: ${post.title}`}
     >
+      <article className="cursor-pointer border-b border-border pb-12 mb-12 transition-smooth hover:opacity-90">
       <div className={`flex flex-col gap-8 items-start ${isImageRight ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
         {/* Featured Image */}
         {post.featuredImage && (
@@ -65,6 +50,7 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
                 width={600}
                 height={450}
                 sizes="(max-width: 768px) 100vw, 33vw"
+                loading={index < 2 ? 'eager' : 'lazy'}
                 className="w-full h-auto object-cover transition-opacity duration-normal group-hover:opacity-90"
               />
             </div>
@@ -96,6 +82,7 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
           </div>
         </div>
       </div>
-    </article>
+      </article>
+    </Link>
   );
 }

@@ -70,6 +70,7 @@ export function AboutHero({
                 src={builder.image(profileImage).width(384).height(384).fit('crop').url()}
                 alt={name}
                 fill
+                sizes="(max-width: 768px) 128px, (max-width: 1024px) 160px, 192px"
                 className="rounded-full object-cover border-2 border-accent/20 dark:border-accent/20"
                 priority
               />
