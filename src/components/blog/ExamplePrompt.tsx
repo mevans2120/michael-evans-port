@@ -12,8 +12,8 @@ interface ExamplePromptProps {
  */
 export function ExamplePrompt({ prompt, label = 'Example Prompt' }: ExamplePromptProps) {
   return (
-    <figure className="my-8 border-l-2 border-muted-foreground/30 pl-5">
-      <figcaption className="text-[11px] font-medium text-muted-foreground mb-2 uppercase tracking-wide">
+    <figure className="my-8 border-l-2 border-accent pl-5">
+      <figcaption className="text-[11px] font-medium text-accent mb-2 uppercase tracking-wide">
         {label}
       </figcaption>
       <blockquote className="font-serif text-lg italic text-foreground/85 leading-relaxed">
