@@ -18,6 +18,7 @@ export interface SanitySEO {
   twitterCard?: 'summary' | 'summary_large_image'
   canonicalUrl?: string
   noIndex?: boolean
+  ogImage?: SanityImage
 }
 
 interface GlobalSEOSettings {
@@ -99,12 +100,17 @@ export async function generateSanityMetadata({
   // Description with fallback chain: seo → page → global → empty
   const metaDescription = seo?.metaDescription || description || globalSettings.defaultMetaDescription || ''
 
-  // Social image with fallback chain: featuredImage → global.defaultOgImage → hardcoded defaultImage
+  // Social image with fallback chain: seo.ogImage → featuredImage → global.defaultOgImage → hardcoded defaultImage
   let socialImageUrl: string | undefined = defaultImage
 
-  if (featuredImage?.asset) {
+  if (seo?.ogImage?.asset) {
+    // Priority 1: Custom SEO OG image (explicit override)
+    socialImageUrl = urlFor(seo.ogImage).width(1200).height(630).url()
+  } else if (featuredImage?.asset) {
+    // Priority 2: Featured image from document
     socialImageUrl = urlFor(featuredImage).width(1200).height(630).url()
   } else if (globalSettings.defaultOgImage?.asset) {
+    // Priority 3: Global default OG image
     socialImageUrl = urlFor(globalSettings.defaultOgImage).width(1200).height(630).url()
   }
 
@@ -145,7 +151,7 @@ export async function generateSanityMetadata({
           url: socialImageUrl,
           width: 1200,
           height: 630,
-          alt: featuredImage?.alt || globalSettings.defaultOgImage?.alt || metaTitle,
+          alt: seo?.ogImage?.alt || featuredImage?.alt || globalSettings.defaultOgImage?.alt || metaTitle,
         }],
       }),
     },
