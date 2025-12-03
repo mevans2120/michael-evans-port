@@ -48,7 +48,10 @@ export const blogPostBySlugQuery = groq`
           url
         },
         crop,
-        hotspot
+        hotspot,
+        alt,
+        caption,
+        style
       }
     },
     publishedAt,
