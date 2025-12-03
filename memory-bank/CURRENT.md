@@ -1,3 +1,112 @@
+# Security Patch: CVE-2025-55182 (2025-12-03)
+
+## Context
+Critical RCE vulnerability discovered in React Server Components affecting our Next.js 15.5.6 and React 19.1.0 installation.
+
+## Vulnerability Details
+- **CVE**: CVE-2025-55182 (React) + CVE-2025-66478 (Next.js)
+- **Severity**: CVSS 10.0 (Critical)
+- **Type**: Remote Code Execution via malformed RSC payloads
+- **Exploitability**: Near 100% reliability, unauthenticated, default configs vulnerable
+
+## Versions Updated
+| Package | Before | After |
+|---------|--------|-------|
+| next | 15.5.6 | 15.5.7 |
+| react | 19.1.0 | 19.1.2 |
+| react-dom | 19.1.0 | 19.1.2 |
+
+## Mitigation Notes
+- Vercel platform-level protections were already blocking malicious patterns
+- Upgrade still recommended for defense in depth + local dev protection
+
+## Files Modified
+- `package.json` - Updated dependencies
+- `package-lock.json` - Lockfile updated
+
+## Documentation
+- Research: `docs/research/RESEARCH_2025-12-03_cve-2025-55182-nextjs-vulnerability.md`
+
+---
+
+# Blog Fixes & SEO OG Image Priority (2025-12-03)
+
+## Context
+Session focused on fixing blog floating images, ExamplePrompt styling, and SEO ogImage priority in metadata generation.
+
+## Changes Made
+
+### 1. Floating Images Not Showing
+**File**: `src/lib/sanity/queries/blog.ts`
+
+GROQ query wasn't fetching `style`, `alt`, `caption` for images:
+```groq
+content[] {
+  ...,
+  _type == "image" => {
+    ...,
+    asset->{ _id, url },
+    crop,
+    hotspot,
+    alt,      // Added
+    caption,  // Added
+    style     // Added - crucial for float styles
+  }
+},
+```
+
+### 2. ExamplePrompt Accent Color
+**File**: `src/components/blog/ExamplePrompt.tsx`
+
+Changed border and label to use accent color:
+```tsx
+// Before
+<figure className="my-8 border-l-2 border-muted-foreground/30 pl-5">
+  <figcaption className="text-[11px] font-medium text-muted-foreground ...">
+
+// After
+<figure className="my-8 border-l-2 border-accent pl-5">
+  <figcaption className="text-[11px] font-medium text-accent ...">
+```
+
+### 3. SEO OG Image Priority Fix
+**File**: `src/lib/sanity/metadata.ts`
+
+Added `seo.ogImage` as first priority in social image fallback chain:
+```typescript
+// Priority order now:
+// 1. seo.ogImage (explicit SEO override)
+// 2. featuredImage (document featured image)
+// 3. globalSettings.defaultOgImage (site default)
+// 4. hardcoded fallback
+
+if (seo?.ogImage?.asset) {
+  socialImageUrl = urlFor(seo.ogImage).width(1200).height(630).url()
+} else if (featuredImage?.asset) {
+  socialImageUrl = urlFor(featuredImage).width(1200).height(630).url()
+} else if (globalSettings.defaultOgImage?.asset) {
+  socialImageUrl = urlFor(globalSettings.defaultOgImage).width(1200).height(630).url()
+}
+```
+
+Also updated alt text fallback to include `seo?.ogImage?.alt`.
+
+### 4. TimeThemeProvider Revert
+**File**: `src/components/providers/TimeThemeProvider.tsx`
+
+Reverted to restore SunCalc and 5-minute interval updates for sunset theme transitioning.
+
+## Files Modified
+- `src/lib/sanity/queries/blog.ts` - Added style, alt, caption to image query
+- `src/components/blog/ExamplePrompt.tsx` - Accent color styling
+- `src/lib/sanity/metadata.ts` - SEO ogImage priority
+- `src/components/providers/TimeThemeProvider.tsx` - Reverted to restore sunset transitions
+
+## Documentation
+- Plan: `docs/plans/PLAN_2025-12-03_seo-priority.md`
+
+---
+
 # Blog Post Layout & UX Improvements (2025-12-02)
 
 ## Context
