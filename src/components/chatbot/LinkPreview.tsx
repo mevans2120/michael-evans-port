@@ -267,11 +267,6 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
 
         {/* Content - flex column to maintain consistent height */}
         <div className="flex-1 min-w-0 flex flex-col">
-          {/* Category badge */}
-          <div className="text-xs font-medium text-accent dark:text-accent-light uppercase tracking-wider mb-1">
-            {metadata.category}
-          </div>
-
           {/* Title */}
           <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-accent dark:group-hover:text-accent-light transition-colors">
             {metadata.title}

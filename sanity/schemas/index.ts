@@ -9,6 +9,7 @@ import chatPrompts from './chatPrompts'
 import footer from './footer'
 import seoSettings from './seoSettings'
 import viewMoreProjectsSettings from './viewMoreProjectsSettings'
+import relatedPostsSettings from './relatedPostsSettings'
 
 // Object types (reusable)
 import { seoType } from './objects/seo'
@@ -29,4 +30,5 @@ export const schemaTypes = [
   footer,
   seoSettings,
   viewMoreProjectsSettings,
+  relatedPostsSettings,
 ]

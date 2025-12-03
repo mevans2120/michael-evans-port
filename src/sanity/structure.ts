@@ -15,10 +15,19 @@ export const structure: StructureResolver = (S) =>
             .documentId('viewMoreProjectsSettings')
         ),
 
+      S.listItem()
+        .title('Related Posts Settings')
+        .child(
+          S.editor()
+            .id('relatedPostsSettings')
+            .schemaType('relatedPostsSettings')
+            .documentId('relatedPostsSettings')
+        ),
+
       S.divider(),
 
       // All other document types
       ...S.documentTypeListItems().filter(
-        listItem => !['viewMoreProjectsSettings'].includes(listItem.getId() as string)
+        listItem => !['viewMoreProjectsSettings', 'relatedPostsSettings'].includes(listItem.getId() as string)
       ),
     ])

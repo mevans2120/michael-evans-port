@@ -1,3 +1,57 @@
+# Related Posts Component Implementation (2025-12-03)
+
+## Context
+Implemented a Related Posts section for blog detail pages, modeled after the existing ViewMoreProjects pattern on case study pages.
+
+## Implementation Summary
+
+### Phase 1: Sanity Schema
+**File**: `sanity/schemas/relatedPostsSettings.ts`
+- Created singleton document type for CMS configuration
+- Fields: enabled, heading, subheading, numberOfPosts, layoutStyle, selectionStrategy, curatedPosts, excludeFromRandom, priorityBoost, ctaButton, animation
+- Mirrors viewMoreProjectsSettings structure
+
+### Phase 2: GROQ Queries & Selection Logic
+**Files**:
+- `src/lib/sanity/queries/relatedPosts.ts` - GROQ queries for settings and posts
+- `src/lib/blog-selection.ts` - Selection algorithms (recent, random, related, featured, curated)
+- Uses seeded random for consistent "random" results per slug
+
+### Phase 3: Components
+**Files**:
+- `src/components/related-posts/RelatedPosts.tsx` - Server component fetching data
+- `src/components/related-posts/RelatedPostsClient.tsx` - Client component rendering UI
+- `src/components/related-posts/index.ts` - Exports
+
+### Phase 4: Integration
+**File**: `src/app/(public)/blog/[slug]/page.tsx`
+- Added `<RelatedPosts currentSlug={slug} />` after BlogContent
+
+### LinkPreview Simplification
+**File**: `src/components/chatbot/LinkPreview.tsx`
+- Removed category badge (was showing "POST" or real categories like "MARKETING SITES SHOWCASE")
+- Cards now show only image, title, and description (description hidden on mobile)
+
+## Files Created
+- `sanity/schemas/relatedPostsSettings.ts`
+- `src/lib/sanity/queries/relatedPosts.ts`
+- `src/lib/blog-selection.ts`
+- `src/components/related-posts/RelatedPosts.tsx`
+- `src/components/related-posts/RelatedPostsClient.tsx`
+- `src/components/related-posts/index.ts`
+
+## Files Modified
+- `sanity/schemas/index.ts` - Added relatedPostsSettings schema
+- `src/sanity/structure.ts` - Added to Studio sidebar as singleton
+- `src/app/(public)/blog/[slug]/page.tsx` - Integration
+- `src/components/chatbot/LinkPreview.tsx` - Removed category badge
+
+## Documentation
+- Research: `docs/research/RESEARCH_2025-12-03_related-posts-component.md`
+- Plan: `docs/plans/PLAN_2025-12-03_related-posts-component.md`
+
+---
+
 # Security Patch: CVE-2025-55182 (2025-12-03)
 
 ## Context

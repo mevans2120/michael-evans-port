@@ -5,6 +5,7 @@ import { cachedSanityFetch } from '@/sanity/lib/fetch';
 import { productionClient } from '@/sanity/lib/client';
 import { blogPostBySlugQuery } from '@/lib/sanity/queries/blog';
 import { BlogLayout, BlogHero, BlogContent } from '@/components/blog';
+import { RelatedPosts } from '@/components/related-posts';
 import type { Blog } from '@/types/blog';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { generateBlogPostingSchema, generateBreadcrumbSchema, type StructuredDataBlogPost, type StructuredDataProfile } from '@/lib/structured-data';
@@ -110,6 +111,9 @@ export default async function BlogPostPage({ params }: PageProps) {
         />
 
         <BlogContent content={post.content} />
+
+        {/* Related Posts Section */}
+        <RelatedPosts currentSlug={slug} />
       </BlogLayout>
     </>
   );
