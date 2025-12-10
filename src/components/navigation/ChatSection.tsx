@@ -265,8 +265,8 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
     >
       {/* Mobile Header - Simple header with title and close button */}
       {isMobileVersion && (
-        <div className="px-8 py-6 border-b border-chat-border flex items-center justify-between flex-shrink-0">
-          <h2 className="text-lg font-medium text-chat-foreground font-serif">
+        <div className="px-6 h-16 border-b border-chat-border flex items-center justify-between flex-shrink-0">
+          <h2 className="text-xl font-medium text-chat-foreground font-serif">
             M<span className="text-gradient">Evans</span> AI Assistant
           </h2>
           <button
@@ -274,7 +274,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
               setChatExpanded(false);
               setChatInputFocused(false);
             }}
-            className="p-1.5 rounded-lg transition-all text-chat-foreground hover:bg-chat-suggestion/30"
+            className="p-2 rounded-lg transition-all text-chat-foreground hover:bg-chat-suggestion/30"
             aria-label="Close chat"
           >
             <X className="w-5 h-5" />
