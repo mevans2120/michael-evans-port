@@ -48,8 +48,8 @@ export function AboutHero({
   name,
   profileImage,
   heroHeadline,
-  heroSubheadline,
-  heroIntro,
+  heroSubheadline: _heroSubheadline,
+  heroIntro: _heroIntro,
   quickFacts
 }: AboutHeroProps) {
   return (

@@ -1,3 +1,69 @@
+# Mobile Header Scroll Stutter Fix (2025-12-09)
+
+## Context
+Fixed mobile scroll stutter caused by JS/CSS animation competition. The scroll-to-hide header was causing jank because JavaScript state updates were triggering CSS transitions that couldn't complete before the next scroll frame.
+
+## Problem Analysis
+- **Root Cause**: `useScrollDirection` hook updated React state on every scroll frame
+- **Effect**: CSS transitions (`transition-transform duration-normal`) were constantly interrupted
+- **Result**: Janky, stuttering scroll experience on mobile
+
+```
+Scroll Event → JS State Update → React Re-render → CSS Class Change → CSS Transition
+     ↑                                                                      ↓
+     └──────────────────── Next scroll frame interrupts ←─────────────────┘
+```
+
+## Solution: Remove Scroll-to-Hide Behavior
+
+Removed the JS-driven hide-on-scroll header entirely. Mobile header is now always visible (fixed at top).
+
+### Changes Made
+
+**1. Simplified MobileHeader.tsx**
+- Removed `useScrollDirection` hook
+- Removed `useMobileHeader` context usage
+- Removed `shouldHide` logic and CSS transitions
+- Header is now always visible with `position: fixed`
+
+**2. Simplified LayoutContent.tsx**
+- Removed dynamic padding logic
+- Always applies `pt-16` padding on mobile
+- No context dependency needed
+
+**3. Removed Unused Files**
+- `src/contexts/MobileHeaderContext.tsx` - deleted
+- `src/hooks/useScrollDirection.ts` - deleted
+
+**4. Updated layout.tsx**
+- Removed `MobileHeaderProvider` wrapper
+
+## Build Warning Fixes
+Also fixed ESLint warnings:
+- `AboutHero.tsx` - prefixed unused `heroSubheadline`, `heroIntro` with `_`
+- `use-toast.ts` - prefixed unused `actionTypes` with `_`
+
+## Result
+- **No JS during scroll** - scroll listener removed entirely
+- **No CSS transitions** - no transforms to animate
+- **Consistent 60fps** - browser handles scroll natively
+- **~150 lines removed** - cleaner codebase
+
+## Files Modified
+- `src/components/navigation/MobileHeader.tsx` - simplified
+- `src/app/(public)/LayoutContent.tsx` - simplified
+- `src/app/(public)/layout.tsx` - removed provider
+
+## Files Deleted
+- `src/contexts/MobileHeaderContext.tsx`
+- `src/hooks/useScrollDirection.ts`
+
+## Documentation
+- Research: `docs/research/RESEARCH_2025-12-09_mobile-hero-animation-stutter.md`
+- Plan: `docs/plans/PLAN_2025-12-09_mobile-header-sticky-refactor.md`
+
+---
+
 # Related Posts Component Implementation (2025-12-03)
 
 ## Context
