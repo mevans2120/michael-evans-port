@@ -277,7 +277,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
             className="p-2 rounded-lg transition-all text-chat-foreground hover:bg-chat-suggestion/30"
             aria-label="Close chat"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
       )}
