@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip Component Concepts V2 - More Distinctive Approaches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Crimson Pro', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            handwritten: ['Caveat', 'cursive'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      font-weight: 300;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    /* Margin note positioning */
+    .article-with-margin {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 40px;
+      max-width: 1000px;
+    }
+    @media (max-width: 900px) {
+      .article-with-margin {
+        grid-template-columns: 1fr;
+      }
+      .margin-note {
+        margin: 24px 0;
+      }
+    }
+
+    /* Expandable animation */
+    .expandable-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 300ms ease-out;
+    }
+    .expandable-content.open {
+      grid-template-rows: 1fr;
+    }
+    .expandable-inner {
+      overflow: hidden;
+    }
+
+    /* Sticky note effect */
+    .sticky-note {
+      position: relative;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      box-shadow:
+        2px 2px 8px rgba(0,0,0,0.1),
+        inset 0 -40px 40px -40px rgba(0,0,0,0.05);
+      transform: rotate(-1deg);
+    }
+    .sticky-note::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20px;
+      width: 60px;
+      height: 20px;
+      background: rgba(255,255,255,0.6);
+      transform: translateY(-50%);
+    }
+
+    .dark .sticky-note {
+      background: linear-gradient(135deg, #422006 0%, #78350f 100%);
+    }
+    .dark .sticky-note::before {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Annotation highlight */
+    .highlight-annotation {
+      background: linear-gradient(120deg, #fde68a 0%, #fcd34d 100%);
+      padding: 2px 6px;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+    .dark .highlight-annotation {
+      background: linear-gradient(120deg, rgba(253, 230, 138, 0.3) 0%, rgba(252, 211, 77, 0.3) 100%);
+    }
+
+    /* Popover */
+    .annotation-popover {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      width: 280px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 200ms ease;
+    }
+    .annotation-popover.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(-12px);
+    }
+
+    /* Folded corner effect */
+    .folded-corner {
+      position: relative;
+    }
+    .folded-corner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 24px 24px 0;
+      border-color: transparent #e5e7eb transparent transparent;
+    }
+    .dark .folded-corner::after {
+      border-color: transparent #1f2937 transparent transparent;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-[#0a0a0c] text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Theme Toggle -->
+  <div class="fixed top-4 right-4 z-50">
+    <button
+      onclick="document.documentElement.classList.toggle('dark')"
+      class="px-4 py-2 rounded-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm hover:shadow-md transition-all text-sm font-medium"
+    >
+      <span class="dark:hidden">Switch to Dark</span>
+      <span class="hidden dark:inline">Switch to Light</span>
+    </button>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-6 py-16">
+
+    <!-- Header -->
+    <header class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-semibold mb-4">
+        Tip Components V2
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
+        Three <strong>genuinely different</strong> approaches to surfacing tips — not just visual variations.
+      </p>
+    </header>
+
+    <!-- CONCEPT 1: MARGIN NOTE -->
+    <section class="mb-24">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-semibold">Concept 1</span>
+        <h2 class="text-2xl font-semibold">Margin Note (Tufte-style)</h2>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wide font-medium">Approach</p>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Tip appears in the margin alongside the main text, like academic papers or Edward Tufte's book designs.
+          Doesn't interrupt reading flow — reader can glance at it or ignore it.
+        </p>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Doesn't break flow</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Elegant, scholarly feel</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Needs wide viewport</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Falls back to inline on mobile</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="bg-gray-100/50 dark:bg-neutral-950/50 rounded-2xl p-8 border border-gray-200 dark:border-neutral-800">
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wide font-medium">Live Preview</p>
+
+        <div class="article-with-margin">
+          <article class="prose dark:prose-invert max-w-none">
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+              After I review the research and ask any questions I have, I ask the agent to take the research and whatever approach we agreed upon (if applicable) and create a phased project plan with success metrics. If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mt-4">
+              Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics. After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+            </p>
+          </article>
+
+          <!-- Margin Note -->
+          <aside class="margin-note">
+            <div class="sticky top-8">
+              <div class="border-l-2 border-amber-400 dark:border-amber-500 pl-4 py-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+                  </svg>
+                  <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  Always save the research and planning docs as .md files.
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPT 2: STICKY NOTE -->
+    <section class="mb-24">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-sm font-semibold">Concept 2</span>
+        <h2 class="text-2xl font-semibold">Sticky Note (Skeuomorphic)</h2>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wide font-medium">Approach</p>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Physical metaphor — looks like someone stuck a Post-it note on the page. Handwritten-style font adds personality.
+          Feels personal, like a mentor left you a note.
+        </p>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Memorable, distinctive</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Feels personal</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Very stylized, use sparingly</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Handwriting font less readable</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="bg-gray-100/50 dark:bg-neutral-950/50 rounded-2xl p-8 border border-gray-200 dark:border-neutral-800">
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wide font-medium">Live Preview</p>
+
+        <div class="max-w-xl mx-auto">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-8">
+            After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+          </p>
+
+          <!-- Sticky Note -->
+          <div class="sticky-note rounded-sm p-6 max-w-sm mx-auto mb-8">
+            <p class="font-handwritten text-2xl text-amber-900 dark:text-amber-100 leading-snug">
+              Always save the research and planning docs as .md files!
+            </p>
+            <div class="mt-3 flex items-center gap-2">
+              <svg class="w-5 h-5 text-amber-700 dark:text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+              </svg>
+              <span class="font-handwritten text-lg text-amber-700 dark:text-amber-300">– tip</span>
+            </div>
+          </div>
+
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+            Now that we've started building, I compare what we're building against the success metrics to determine when is the best time to test.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPT 3: EXPANDABLE HINT -->
+    <section class="mb-24">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-semibold">Concept 3</span>
+        <h2 class="text-2xl font-semibold">Expandable Hint (Progressive Disclosure)</h2>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wide font-medium">Approach</p>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Collapsed by default — click to reveal. Reader chooses to engage. Saves vertical space,
+          great for multiple tips without cluttering the page.
+        </p>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Saves space</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Reader-controlled</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Can have many tips</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Requires interaction</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Easy to miss</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="bg-gray-100/50 dark:bg-neutral-950/50 rounded-2xl p-8 border border-gray-200 dark:border-neutral-800">
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wide font-medium">Live Preview (click to expand)</p>
+
+        <div class="max-w-xl mx-auto space-y-6">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+            After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+          </p>
+
+          <!-- Expandable Hint -->
+          <div class="expandable-hint">
+            <button
+              onclick="this.parentElement.querySelector('.expandable-content').classList.toggle('open'); this.querySelector('.chevron').classList.toggle('rotate-90')"
+              class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors group"
+            >
+              <div class="w-6 h-6 rounded-full bg-amber-400 dark:bg-amber-500 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-amber-800 dark:text-amber-200">Show tip about saving docs</span>
+              <svg class="chevron w-4 h-4 text-amber-600 dark:text-amber-400 ml-auto transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <div class="expandable-content">
+              <div class="expandable-inner">
+                <div class="mt-2 px-4 py-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 border-t-0 rounded-t-none">
+                  <p class="text-sm text-amber-900 dark:text-amber-100 leading-relaxed">
+                    Always save the research and planning docs as .md files. This creates a paper trail you can reference later, and helps the AI maintain context across sessions.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+            Now that we've started building, I compare what we're building against the success metrics to determine when is the best time to test.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPT 4: INLINE ANNOTATION -->
+    <section class="mb-24">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 text-sm font-semibold">Concept 4 (Bonus)</span>
+        <h2 class="text-2xl font-semibold">Inline Annotation (Highlight + Popover)</h2>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-900 rounded-2xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wide font-medium">Approach</p>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Key phrase is highlighted inline. Hover/click reveals the tip in a popover. Minimal footprint —
+          the tip is embedded in the content itself, not a separate block.
+        </p>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Minimal footprint</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">+ Contextual</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Easy to miss</span>
+          <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400">- Popover can obscure text</span>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="bg-gray-100/50 dark:bg-neutral-950/50 rounded-2xl p-8 border border-gray-200 dark:border-neutral-800">
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-wide font-medium">Live Preview (hover the highlight)</p>
+
+        <div class="max-w-xl mx-auto">
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+            Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics (also
+            <span class="relative inline-block">
+              <span
+                class="highlight-annotation"
+                onmouseenter="this.parentElement.querySelector('.annotation-popover').classList.add('visible')"
+                onmouseleave="this.parentElement.querySelector('.annotation-popover').classList.remove('visible')"
+              >saved as a .md file</span>
+              <div class="annotation-popover z-10">
+                <div class="bg-white dark:bg-neutral-800 rounded-lg shadow-xl border border-gray-200 dark:border-neutral-700 p-4">
+                  <div class="flex items-center gap-2 mb-2">
+                    <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z"/>
+                    </svg>
+                    <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+                  </div>
+                  <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                    Always save the research and planning docs as .md files. This creates a paper trail you can reference later.
+                  </p>
+                  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full">
+                    <div class="w-3 h-3 bg-white dark:bg-neutral-800 border-r border-b border-gray-200 dark:border-neutral-700 transform rotate-45 -translate-y-1.5"></div>
+                  </div>
+                </div>
+              </div>
+            </span>). After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-8">Summary: What Makes These Different</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse bg-white dark:bg-neutral-900 rounded-xl overflow-hidden border border-gray-200 dark:border-neutral-800">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-neutral-800">
+              <th class="py-4 px-6 font-semibold">Concept</th>
+              <th class="py-4 px-6 font-semibold">Position</th>
+              <th class="py-4 px-6 font-semibold">Interaction</th>
+              <th class="py-4 px-6 font-semibold">Best For</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr class="border-t border-gray-100 dark:border-neutral-800">
+              <td class="py-4 px-6 font-medium">Margin Note</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Side of content</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">None (passive)</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Long reads, desktop-first</td>
+            </tr>
+            <tr class="border-t border-gray-100 dark:border-neutral-800">
+              <td class="py-4 px-6 font-medium">Sticky Note</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Inline block</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">None (passive)</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">1-2 key tips, personality</td>
+            </tr>
+            <tr class="border-t border-gray-100 dark:border-neutral-800">
+              <td class="py-4 px-6 font-medium">Expandable Hint</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Inline block</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Click to expand</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Many tips, clean layout</td>
+            </tr>
+            <tr class="border-t border-gray-100 dark:border-neutral-800">
+              <td class="py-4 px-6 font-medium">Inline Annotation</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Within text</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Hover to reveal</td>
+              <td class="py-4 px-6 text-gray-600 dark:text-gray-400">Contextual hints, minimal UI</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- RECOMMENDATION -->
+    <section class="bg-gradient-to-br from-purple-500/5 to-indigo-500/5 dark:from-purple-400/10 dark:to-indigo-400/5 rounded-2xl border border-purple-500/20 dark:border-purple-400/20 p-8">
+      <h2 class="text-2xl font-semibold mb-4">My New Recommendation</h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        For your article's tone (practical, technical, mentor-like):
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white/50 dark:bg-neutral-900/50 rounded-xl p-5 border border-gray-200/50 dark:border-neutral-700/50">
+          <div class="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">PRIMARY CHOICE</div>
+          <div class="text-lg font-medium mb-2">Sticky Note</div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Feels personal, like you're passing on wisdom. The handwritten feel matches your conversational tone. Use for the ONE key tip.</p>
+        </div>
+        <div class="bg-white/50 dark:bg-neutral-900/50 rounded-xl p-5 border border-gray-200/50 dark:border-neutral-700/50">
+          <div class="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">ALTERNATIVE</div>
+          <div class="text-lg font-medium mb-2">Expandable Hint</div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">If you want to add more tips without cluttering, this keeps the page clean while offering depth.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

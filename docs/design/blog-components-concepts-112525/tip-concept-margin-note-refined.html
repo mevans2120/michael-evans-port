@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Margin Note - Refined Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Crimson Pro', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      font-weight: 300;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    /* Margin note - floats right, text wraps around it */
+    .margin-note {
+      float: right;
+      clear: right;
+      width: 200px;
+      margin-left: 24px;
+      margin-bottom: 16px;
+      margin-top: 4px;
+    }
+
+    /* On smaller screens, make it a bit narrower */
+    @media (max-width: 640px) {
+      .margin-note {
+        width: 160px;
+        margin-left: 16px;
+      }
+    }
+
+    /* Option: Full width on very small screens */
+    @media (max-width: 480px) {
+      .margin-note.stack-mobile {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-[#0a0a0c] text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Theme Toggle -->
+  <div class="fixed top-4 right-4 z-50">
+    <button
+      onclick="document.documentElement.classList.toggle('dark')"
+      class="px-4 py-2 rounded-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm hover:shadow-md transition-all text-sm font-medium"
+    >
+      <span class="dark:hidden">Dark</span>
+      <span class="hidden dark:inline">Light</span>
+    </button>
+  </div>
+
+  <div class="max-w-2xl mx-auto px-6 py-16">
+
+    <header class="mb-12">
+      <h1 class="text-3xl font-semibold mb-3">Margin Note — Refined</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Floats right, text wraps around. No sticky. Resize the window to see it adapt.
+      </p>
+    </header>
+
+    <!-- VARIATION A: Minimal line accent -->
+    <section class="mb-20">
+      <h2 class="text-xl font-semibold mb-6 text-gray-500 dark:text-gray-400">Variation A: Line Accent</h2>
+
+      <article class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          After I review the research and ask any questions I have, I ask the agent to take the research and whatever approach we agreed upon (if applicable) and create a phased project plan with success metrics.
+        </p>
+
+        <!-- Margin Note -->
+        <aside class="margin-note">
+          <div class="border-l-2 border-amber-400 dark:border-amber-500 pl-3">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              Always save the research and planning docs as .md files.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase. Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1. Now that we've started building, I compare what we're building against the success metrics.
+        </p>
+      </article>
+    </section>
+
+    <!-- VARIATION B: Subtle background -->
+    <section class="mb-20">
+      <h2 class="text-xl font-semibold mb-6 text-gray-500 dark:text-gray-400">Variation B: Subtle Background</h2>
+
+      <article class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          After I review the research and ask any questions I have, I ask the agent to take the research and whatever approach we agreed upon (if applicable) and create a phased project plan with success metrics.
+        </p>
+
+        <!-- Margin Note -->
+        <aside class="margin-note">
+          <div class="bg-amber-50 dark:bg-amber-950/30 rounded-lg px-3 py-2.5">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+            <p class="text-[13px] text-amber-900 dark:text-amber-200 leading-relaxed mt-1">
+              Always save the research and planning docs as .md files.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase. Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1. Now that we've started building, I compare what we're building against the success metrics.
+        </p>
+      </article>
+    </section>
+
+    <!-- VARIATION C: Icon only (most minimal) -->
+    <section class="mb-20">
+      <h2 class="text-xl font-semibold mb-6 text-gray-500 dark:text-gray-400">Variation C: Icon Only (Most Minimal)</h2>
+
+      <article class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          After I review the research and ask any questions I have, I ask the agent to take the research and whatever approach we agreed upon (if applicable) and create a phased project plan with success metrics.
+        </p>
+
+        <!-- Margin Note -->
+        <aside class="margin-note">
+          <div class="flex gap-2">
+            <svg class="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            <p class="text-[13px] text-gray-500 dark:text-gray-400 leading-relaxed">
+              Always save the research and planning docs as .md files.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase. Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1. Now that we've started building, I compare what we're building against the success metrics.
+        </p>
+      </article>
+    </section>
+
+    <!-- VARIATION D: Muted text only (ultra minimal) -->
+    <section class="mb-20">
+      <h2 class="text-xl font-semibold mb-6 text-gray-500 dark:text-gray-400">Variation D: Muted Text (Ultra Minimal)</h2>
+
+      <article class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          After I review the research and ask any questions I have, I ask the agent to take the research and whatever approach we agreed upon (if applicable) and create a phased project plan with success metrics.
+        </p>
+
+        <!-- Margin Note -->
+        <aside class="margin-note">
+          <p class="text-[12px] text-gray-400 dark:text-gray-500 leading-relaxed italic">
+            Tip: Always save the research and planning docs as .md files.
+          </p>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase. Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1. Now that we've started building, I compare what we're building against the success metrics.
+        </p>
+      </article>
+    </section>
+
+    <!-- Multiple tips example -->
+    <section class="mb-20">
+      <h2 class="text-xl font-semibold mb-6 text-gray-500 dark:text-gray-400">Multiple Tips in One Article</h2>
+
+      <article class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <h3 class="font-serif text-2xl font-semibold mb-4">Research</h3>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          First, I ask the agent to research whatever it is we're trying to accomplish, provide options where applicable, and outline pros and cons.
+        </p>
+
+        <!-- Tip 1 -->
+        <aside class="margin-note">
+          <div class="border-l-2 border-amber-400 dark:border-amber-500 pl-3">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              There are no dumb questions! Ask the agent to clarify anything.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          This can happen at the beginning of a project when trying to determine the feasibility of a particular feature or idea, or when trying to debug a complex or tough-to-solve issue.
+        </p>
+
+        <h3 class="font-serif text-2xl font-semibold mb-4 mt-8">Plan</h3>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          After I review the research and ask any questions I have, I ask the agent to create a phased project plan with success metrics.
+        </p>
+
+        <!-- Tip 2 -->
+        <aside class="margin-note">
+          <div class="border-l-2 border-amber-400 dark:border-amber-500 pl-3">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              Always save the research and planning docs as .md files.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase. Once I've reviewed the research, I ask the agent to create a phased project plan.
+        </p>
+
+        <h3 class="font-serif text-2xl font-semibold mb-4 mt-8">Build ↔ Test</h3>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-4">
+          Now that we've started building, I compare what we're building against the success metrics to determine when is the best time to test.
+        </p>
+
+        <!-- Tip 3 -->
+        <aside class="margin-note">
+          <div class="border-l-2 border-emerald-400 dark:border-emerald-500 pl-3">
+            <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Pro tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              Fix failures right then and there — don't let them pile up.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+          If you discover failures and improvement areas during the build process, I like to fix them right then and there. The important part is that you and the agent get a chance to test and measure success.
+        </p>
+      </article>
+    </section>
+
+    <!-- CSS Summary -->
+    <section class="bg-gray-100 dark:bg-neutral-800 rounded-xl p-6">
+      <h2 class="text-lg font-semibold mb-4">Implementation</h2>
+      <pre class="text-sm text-gray-700 dark:text-gray-300 overflow-x-auto"><code>.margin-note {
+  float: right;
+  clear: right;
+  width: 200px;
+  margin-left: 24px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 640px) {
+  .margin-note {
+    width: 160px;
+    margin-left: 16px;
+  }
+}</code></pre>
+    </section>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Components Mood Board - Tip & Example Prompt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #f3f4f6;
+      padding: 60px 40px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 48px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #c084fc, #f3f4f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      font-size: 18px;
+      margin-bottom: 60px;
+      max-width: 600px;
+    }
+
+    h2 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      color: #f3f4f6;
+    }
+
+    h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9ca3af;
+      margin-bottom: 16px;
+    }
+
+    section {
+      margin-bottom: 80px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    /* Color Swatches */
+    .color-section {
+      background: #111;
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid #222;
+    }
+
+    .color-swatch {
+      height: 100px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .color-name {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .color-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    /* Typography Samples */
+    .type-sample {
+      background: #111;
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid #222;
+    }
+
+    .type-display {
+      margin-bottom: 16px;
+    }
+
+    .type-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* Concept Cards */
+    .concept-card {
+      background: #111;
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid #222;
+    }
+
+    .concept-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .badge-refined {
+      background: rgba(147, 197, 253, 0.15);
+      color: #93c5fd;
+    }
+
+    .badge-bold {
+      background: rgba(192, 132, 252, 0.15);
+      color: #c084fc;
+    }
+
+    .badge-experimental {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+    }
+
+    .concept-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .concept-description {
+      color: #9ca3af;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* Component Previews */
+    .preview-box {
+      background: #0a0a0a;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #333, transparent);
+      margin: 60px 0;
+    }
+
+    /* Inspiration */
+    .inspiration-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .inspiration-item {
+      background: #111;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #222;
+      transition: all 200ms ease;
+    }
+
+    .inspiration-item:hover {
+      border-color: #444;
+      transform: translateY(-2px);
+    }
+
+    .inspiration-source {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .inspiration-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Blog Components Mood Board</h1>
+    <p class="subtitle">Design exploration for Tip and Example Prompt components. Extending the existing portfolio design system with three distinct directions per component.</p>
+  </header>
+
+  <section>
+    <h2>Design System Extension</h2>
+    <h3>Color Palette (Building on Existing)</h3>
+
+    <div class="grid-3">
+      <div class="color-section">
+        <h3>Core Accent Colors</h3>
+        <div class="color-swatch" style="background: linear-gradient(135deg, hsl(276, 70%, 45%), hsl(276, 100%, 75%));">
+          <span style="color: white;">Accent Gradient</span>
+        </div>
+        <div class="color-name">Primary Purple</div>
+        <div class="color-hex">hsl(276, 70%, 45%) to hsl(276, 100%, 75%)</div>
+      </div>
+
+      <div class="color-section">
+        <h3>Tip Component Colors</h3>
+        <div class="color-swatch" style="background: hsl(47, 95%, 55%);">
+          <span style="color: #1a1a1a;">Amber / Warning</span>
+        </div>
+        <div class="color-name">Tip Highlight</div>
+        <div class="color-hex">hsl(47, 95%, 55%)</div>
+
+        <div class="color-swatch" style="background: hsl(142, 70%, 45%); margin-top: 16px;">
+          <span style="color: white;">Green / Success</span>
+        </div>
+        <div class="color-name">Pro Tip Variant</div>
+        <div class="color-hex">hsl(142, 70%, 45%)</div>
+      </div>
+
+      <div class="color-section">
+        <h3>Example Prompt Colors</h3>
+        <div class="color-swatch" style="background: hsl(215, 25%, 12%);">
+          <span style="color: #9ca3af;">Code Block BG</span>
+        </div>
+        <div class="color-name">Dark Surface</div>
+        <div class="color-hex">hsl(215, 25%, 12%)</div>
+
+        <div class="color-swatch" style="background: hsl(199, 89%, 48%); margin-top: 16px;">
+          <span style="color: #0a0a0a;">Cyan Accent</span>
+        </div>
+        <div class="color-name">Terminal Highlight</div>
+        <div class="color-hex">hsl(199, 89%, 48%)</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>Typography Scale</h2>
+
+    <div class="grid-2">
+      <div class="type-sample">
+        <h3>Headings (Crimson Pro)</h3>
+        <div class="type-display" style="font-family: 'Crimson Pro', serif; font-size: 24px; font-weight: 600;">
+          Tip: Always save research docs
+        </div>
+        <div class="type-meta">24px / 600 / Crimson Pro</div>
+      </div>
+
+      <div class="type-sample">
+        <h3>Body Text (DM Sans)</h3>
+        <div class="type-display" style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 300; color: #d1d5db;">
+          This is a recommendation that will help you get better results from AI agents by following this process.
+        </div>
+        <div class="type-meta">16px / 300 / DM Sans</div>
+      </div>
+
+      <div class="type-sample">
+        <h3>Code / Prompts (JetBrains Mono)</h3>
+        <div class="type-display" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #93c5fd;">
+          Can you create a phased project plan with measurable success metrics?
+        </div>
+        <div class="type-meta">14px / 400 / JetBrains Mono</div>
+      </div>
+
+      <div class="type-sample">
+        <h3>Labels (DM Sans)</h3>
+        <div class="type-display" style="font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af;">
+          Example Prompt
+        </div>
+        <div class="type-meta">12px / 600 / DM Sans / Uppercase</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>Concept Directions</h2>
+    <h3>Tip Component</h3>
+
+    <div class="grid-3">
+      <div class="concept-card">
+        <span class="concept-badge badge-refined">Concept 1: Refined</span>
+        <h3 class="concept-title">Subtle Card</h3>
+        <p class="concept-description">
+          Clean, minimal card with soft background tint. Left border accent in amber. Integrates seamlessly with prose content without demanding attention.
+        </p>
+        <div class="preview-box">
+          <div style="background: rgba(251, 191, 36, 0.08); border-left: 3px solid #fbbf24; padding: 16px 20px; border-radius: 0 8px 8px 0;">
+            <div style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #fbbf24; margin-bottom: 8px;">Tip</div>
+            <div style="font-family: 'DM Sans', sans-serif; font-size: 15px; color: #e5e7eb; line-height: 1.6;">Always save the research or planning docs into a .md file.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="concept-badge badge-bold">Concept 2: Bold</span>
+        <h3 class="concept-title">Gradient Callout</h3>
+        <p class="concept-description">
+          Eye-catching gradient border with glowing icon. Uses brand purple gradient. Demands attention for important tips without being overwhelming.
+        </p>
+        <div class="preview-box">
+          <div style="background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(192, 132, 252, 0.3); padding: 20px 24px; border-radius: 12px; position: relative;">
+            <div style="position: absolute; top: -12px; left: 20px; background: #0a0a0a; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(192, 132, 252, 0.3);">
+              <span style="font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: #c084fc;">PRO TIP</span>
+            </div>
+            <div style="font-family: 'DM Sans', sans-serif; font-size: 15px; color: #e5e7eb; line-height: 1.6; margin-top: 4px;">Always save the research or planning docs into a .md file.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="concept-badge badge-experimental">Concept 3: Experimental</span>
+        <h3 class="concept-title">Terminal Note</h3>
+        <p class="concept-description">
+          Developer-focused aesthetic inspired by terminal UIs. Monospace typography with command-line visual language. Appeals to technical readers.
+        </p>
+        <div class="preview-box">
+          <div style="background: #0d1117; border: 1px solid #30363d; padding: 16px 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+              <span style="color: #fbbf24;">$</span>
+              <span style="font-size: 12px; color: #8b949e;">tip --save</span>
+            </div>
+            <div style="font-size: 13px; color: #c9d1d9; line-height: 1.6; padding-left: 18px;">Always save the research or planning docs into a .md file.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Example Prompt Component</h3>
+
+    <div class="grid-3">
+      <div class="concept-card">
+        <span class="concept-badge badge-refined">Concept 1: Refined</span>
+        <h3 class="concept-title">Blockquote Style</h3>
+        <p class="concept-description">
+          Classic blockquote with subtle styling. Italic text with muted label. Elegant and unobtrusive, feels like traditional publishing.
+        </p>
+        <div class="preview-box">
+          <div style="border-left: 2px solid #4b5563; padding-left: 20px;">
+            <div style="font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: #6b7280; margin-bottom: 8px;">Example Prompt</div>
+            <div style="font-family: 'Crimson Pro', serif; font-size: 17px; font-style: italic; color: #d1d5db; line-height: 1.7;">"Can you create a phased approach for implementing this web app mono repo? Can the plan include additional research phases before we dive deep?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="concept-badge badge-bold">Concept 2: Bold</span>
+        <h3 class="concept-title">Chat Bubble</h3>
+        <p class="concept-description">
+          Conversational UI inspired by chat interfaces. Shows prompt as a message with user/AI indicator. Contextualizes prompts as dialogue.
+        </p>
+        <div class="preview-box">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #c084fc, #818cf8); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <span style="font-size: 14px;">U</span>
+            </div>
+            <div style="flex: 1;">
+              <div style="background: hsl(240, 10%, 12%); border-radius: 0 16px 16px 16px; padding: 16px 20px;">
+                <div style="font-family: 'DM Sans', sans-serif; font-size: 14px; color: #e5e7eb; line-height: 1.6;">Can you create a phased approach for implementing this web app mono repo? Can the plan include additional research phases before we dive deep?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="concept-badge badge-experimental">Concept 3: Experimental</span>
+        <h3 class="concept-title">Command Line</h3>
+        <p class="concept-description">
+          Terminal aesthetic with syntax highlighting feel. Cyan prompt indicator, dark code-block background. Technical and distinctive.
+        </p>
+        <div class="preview-box">
+          <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; overflow: hidden;">
+            <div style="background: #161b22; padding: 8px 16px; border-bottom: 1px solid #30363d; display: flex; align-items: center; gap: 8px;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; background: #f85149;"></span>
+              <span style="width: 12px; height: 12px; border-radius: 50%; background: #f0883e;"></span>
+              <span style="width: 12px; height: 12px; border-radius: 50%; background: #3fb950;"></span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8b949e; margin-left: 8px;">prompt.txt</span>
+            </div>
+            <div style="padding: 16px 20px; font-family: 'JetBrains Mono', monospace;">
+              <span style="color: #58a6ff;">&gt;</span>
+              <span style="font-size: 13px; color: #c9d1d9; margin-left: 8px;">Can you create a phased approach for implementing this web app mono repo? Can the plan include additional research phases before we dive deep?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>Design Principles</h2>
+
+    <div class="grid-3">
+      <div class="concept-card">
+        <h3 style="color: #f3f4f6; font-family: 'Crimson Pro', serif; font-size: 20px; margin-bottom: 12px;">Hierarchy</h3>
+        <p class="concept-description">Tips should enhance content without disrupting reading flow. Example prompts should stand out as actionable takeaways.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3 style="color: #f3f4f6; font-family: 'Crimson Pro', serif; font-size: 20px; margin-bottom: 12px;">Accessibility</h3>
+        <p class="concept-description">All components maintain 4.5:1 contrast ratio minimum. Focus states visible. Semantic HTML structure.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3 style="color: #f3f4f6; font-family: 'Crimson Pro', serif; font-size: 20px; margin-bottom: 12px;">Consistency</h3>
+        <p class="concept-description">Components use existing design tokens: border-radius, spacing scale, transition timing. Extend, don't reinvent.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Inspiration Sources</h2>
+
+    <div class="inspiration-grid">
+      <div class="inspiration-item">
+        <div class="inspiration-source">Documentation</div>
+        <div class="inspiration-title">Stripe Docs callouts</div>
+      </div>
+      <div class="inspiration-item">
+        <div class="inspiration-source">Documentation</div>
+        <div class="inspiration-title">Vercel tip components</div>
+      </div>
+      <div class="inspiration-item">
+        <div class="inspiration-source">Blog</div>
+        <div class="inspiration-title">Kent C. Dodds blockquotes</div>
+      </div>
+      <div class="inspiration-item">
+        <div class="inspiration-source">Technical</div>
+        <div class="inspiration-title">GitHub code blocks</div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

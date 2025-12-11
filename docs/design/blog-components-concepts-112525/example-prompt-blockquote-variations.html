@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Example Prompt - Blockquote Variations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Crimson Pro', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      font-weight: 300;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-[#0a0a0c] text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Theme Toggle -->
+  <div class="fixed top-4 right-4 z-50">
+    <button
+      onclick="document.documentElement.classList.toggle('dark')"
+      class="px-4 py-2 rounded-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm hover:shadow-md transition-all text-sm font-medium"
+    >
+      <span class="dark:hidden">Dark</span>
+      <span class="hidden dark:inline">Light</span>
+    </button>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-6 py-16">
+
+    <header class="mb-16">
+      <h1 class="text-3xl font-semibold mb-3">Example Prompt — Blockquote Variations</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Three styling variations, each shown standalone, in bullets, and in a table.
+      </p>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- VARIATION A: Classic Italic -->
+    <!-- ============================================ -->
+    <section class="mb-20">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-semibold">Variation A</span>
+        <h2 class="text-2xl font-semibold">Classic Italic</h2>
+      </div>
+
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        Serif italic with left border. Editorial, bookish feel.
+      </p>
+
+      <!-- Standalone -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">Standalone</p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+        </p>
+
+        <figure class="border-l-2 border-gray-300 dark:border-gray-600 pl-5 my-6">
+          <figcaption class="text-[11px] font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Example Prompt</figcaption>
+          <blockquote class="font-serif text-[17px] italic text-gray-700 dark:text-gray-300 leading-relaxed">
+            "Can you create a phased approach for implementing this web app monorepo? Can the plan include additional research phases before we dive deep?"
+          </blockquote>
+        </figure>
+      </div>
+
+      <!-- In Bullets -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">In Bullets</p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          Here are some example prompts you can use:
+        </p>
+
+        <ul class="space-y-4">
+          <li class="border-l-2 border-gray-300 dark:border-gray-600 pl-5">
+            <blockquote class="font-serif text-[16px] italic text-gray-700 dark:text-gray-300 leading-relaxed">
+              "Let's get started on phase 1"
+            </blockquote>
+          </li>
+          <li class="border-l-2 border-gray-300 dark:border-gray-600 pl-5">
+            <blockquote class="font-serif text-[16px] italic text-gray-700 dark:text-gray-300 leading-relaxed">
+              "Start on phase 1 and work through phase 3, then let's test the results"
+            </blockquote>
+          </li>
+          <li class="border-l-2 border-gray-300 dark:border-gray-600 pl-5">
+            <blockquote class="font-serif text-[16px] italic text-gray-700 dark:text-gray-300 leading-relaxed">
+              "Can you use your research to create a phased project plan with measurable success metrics?"
+            </blockquote>
+          </li>
+        </ul>
+      </div>
+
+      <!-- In Table -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">In Table</p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-neutral-700">
+                <th class="py-3 pr-4 text-sm font-semibold text-gray-900 dark:text-gray-100 w-28">Phase</th>
+                <th class="py-3 text-sm font-semibold text-gray-900 dark:text-gray-100">Example Prompt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 dark:border-neutral-800">
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Research</td>
+                <td class="py-4">
+                  <blockquote class="font-serif text-[15px] italic text-gray-700 dark:text-gray-300 leading-relaxed border-l-2 border-gray-300 dark:border-gray-600 pl-4">
+                    "What are the pros and cons of a monorepo approach for a mobile & web app?"
+                  </blockquote>
+                </td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-neutral-800">
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Plan</td>
+                <td class="py-4">
+                  <blockquote class="font-serif text-[15px] italic text-gray-700 dark:text-gray-300 leading-relaxed border-l-2 border-gray-300 dark:border-gray-600 pl-4">
+                    "Can you create a phased project plan with measurable success metrics?"
+                  </blockquote>
+                </td>
+              </tr>
+              <tr>
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Build</td>
+                <td class="py-4">
+                  <blockquote class="font-serif text-[15px] italic text-gray-700 dark:text-gray-300 leading-relaxed border-l-2 border-gray-300 dark:border-gray-600 pl-4">
+                    "Let's get started on phase 1"
+                  </blockquote>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- VARIATION B: Monospace Code Style -->
+    <!-- ============================================ -->
+    <section class="mb-20">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-sm font-semibold">Variation B</span>
+        <h2 class="text-2xl font-semibold">Monospace / Code Style</h2>
+      </div>
+
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        Monospace font with subtle background. Technical, copy-friendly.
+      </p>
+
+      <!-- Standalone -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">Standalone</p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+        </p>
+
+        <figure class="my-6">
+          <figcaption class="text-[11px] font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Example Prompt</figcaption>
+          <blockquote class="font-mono text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded-lg px-4 py-3 border border-gray-200 dark:border-neutral-700">
+            Can you create a phased approach for implementing this web app monorepo? Can the plan include additional research phases before we dive deep?
+          </blockquote>
+        </figure>
+      </div>
+
+      <!-- In Bullets -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">In Bullets</p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          Here are some example prompts you can use:
+        </p>
+
+        <ul class="space-y-3">
+          <li>
+            <blockquote class="font-mono text-[13px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded-lg px-4 py-2.5 border border-gray-200 dark:border-neutral-700">
+              Let's get started on phase 1
+            </blockquote>
+          </li>
+          <li>
+            <blockquote class="font-mono text-[13px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded-lg px-4 py-2.5 border border-gray-200 dark:border-neutral-700">
+              Start on phase 1 and work through phase 3, then let's test the results
+            </blockquote>
+          </li>
+          <li>
+            <blockquote class="font-mono text-[13px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded-lg px-4 py-2.5 border border-gray-200 dark:border-neutral-700">
+              Can you use your research to create a phased project plan with measurable success metrics?
+            </blockquote>
+          </li>
+        </ul>
+      </div>
+
+      <!-- In Table -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">In Table</p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-neutral-700">
+                <th class="py-3 pr-4 text-sm font-semibold text-gray-900 dark:text-gray-100 w-28">Phase</th>
+                <th class="py-3 text-sm font-semibold text-gray-900 dark:text-gray-100">Example Prompt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 dark:border-neutral-800">
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Research</td>
+                <td class="py-4">
+                  <blockquote class="font-mono text-[13px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded px-3 py-2 border border-gray-200 dark:border-neutral-700">
+                    What are the pros and cons of a monorepo approach for a mobile & web app?
+                  </blockquote>
+                </td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-neutral-800">
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Plan</td>
+                <td class="py-4">
+                  <blockquote class="font-mono text-[13px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded px-3 py-2 border border-gray-200 dark:border-neutral-700">
+                    Can you create a phased project plan with measurable success metrics?
+                  </blockquote>
+                </td>
+              </tr>
+              <tr>
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Build</td>
+                <td class="py-4">
+                  <blockquote class="font-mono text-[13px] text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-100 dark:bg-neutral-800 rounded px-3 py-2 border border-gray-200 dark:border-neutral-700">
+                    Let's get started on phase 1
+                  </blockquote>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- VARIATION C: Accent Border -->
+    <!-- ============================================ -->
+    <section class="mb-20">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-semibold">Variation C</span>
+        <h2 class="text-2xl font-semibold">Accent Border</h2>
+      </div>
+
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        Brand purple accent border, sans-serif. Modern, matches site aesthetic.
+      </p>
+
+      <!-- Standalone -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">Standalone</p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+        </p>
+
+        <figure class="border-l-3 border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r-lg pl-5 pr-4 py-4 my-6">
+          <figcaption class="text-[11px] font-semibold text-purple-600 dark:text-purple-400 mb-2 uppercase tracking-wide">Example Prompt</figcaption>
+          <blockquote class="text-[15px] text-gray-800 dark:text-gray-200 leading-relaxed">
+            "Can you create a phased approach for implementing this web app monorepo? Can the plan include additional research phases before we dive deep?"
+          </blockquote>
+        </figure>
+      </div>
+
+      <!-- In Bullets -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 mb-6">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">In Bullets</p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          Here are some example prompts you can use:
+        </p>
+
+        <ul class="space-y-3">
+          <li class="border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r-lg pl-4 pr-3 py-3">
+            <blockquote class="text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed">
+              "Let's get started on phase 1"
+            </blockquote>
+          </li>
+          <li class="border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r-lg pl-4 pr-3 py-3">
+            <blockquote class="text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed">
+              "Start on phase 1 and work through phase 3, then let's test the results"
+            </blockquote>
+          </li>
+          <li class="border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r-lg pl-4 pr-3 py-3">
+            <blockquote class="text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed">
+              "Can you use your research to create a phased project plan with measurable success metrics?"
+            </blockquote>
+          </li>
+        </ul>
+      </div>
+
+      <!-- In Table -->
+      <div class="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8">
+        <p class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">In Table</p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-neutral-700">
+                <th class="py-3 pr-4 text-sm font-semibold text-gray-900 dark:text-gray-100 w-28">Phase</th>
+                <th class="py-3 text-sm font-semibold text-gray-900 dark:text-gray-100">Example Prompt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 dark:border-neutral-800">
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Research</td>
+                <td class="py-4">
+                  <blockquote class="text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r pl-3 pr-2 py-2">
+                    "What are the pros and cons of a monorepo approach for a mobile & web app?"
+                  </blockquote>
+                </td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-neutral-800">
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Plan</td>
+                <td class="py-4">
+                  <blockquote class="text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r pl-3 pr-2 py-2">
+                    "Can you create a phased project plan with measurable success metrics?"
+                  </blockquote>
+                </td>
+              </tr>
+              <tr>
+                <td class="py-4 pr-4 text-sm text-gray-600 dark:text-gray-400 align-top">Build</td>
+                <td class="py-4">
+                  <blockquote class="text-[14px] text-gray-800 dark:text-gray-200 leading-relaxed border-l-[3px] border-purple-500 dark:border-purple-400 bg-purple-50/50 dark:bg-purple-950/20 rounded-r pl-3 pr-2 py-2">
+                    "Let's get started on phase 1"
+                  </blockquote>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="bg-gray-100 dark:bg-neutral-800 rounded-xl p-8">
+      <h2 class="text-xl font-semibold mb-6">Summary</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-neutral-600">
+              <th class="py-3 pr-4 font-semibold">Variation</th>
+              <th class="py-3 pr-4 font-semibold">Font</th>
+              <th class="py-3 pr-4 font-semibold">Style</th>
+              <th class="py-3 font-semibold">Best For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-neutral-700">
+              <td class="py-3 pr-4 font-medium">A: Classic Italic</td>
+              <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">Serif</td>
+              <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">Gray border, italic</td>
+              <td class="py-3 text-gray-600 dark:text-gray-400">Editorial, long-form</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-neutral-700">
+              <td class="py-3 pr-4 font-medium">B: Monospace</td>
+              <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">Mono</td>
+              <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">Code block bg</td>
+              <td class="py-3 text-gray-600 dark:text-gray-400">Technical, copy-paste</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-medium">C: Accent Border</td>
+              <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">Sans</td>
+              <td class="py-3 pr-4 text-gray-600 dark:text-gray-400">Purple border + tint</td>
+              <td class="py-3 text-gray-600 dark:text-gray-400">Brand-aligned, modern</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

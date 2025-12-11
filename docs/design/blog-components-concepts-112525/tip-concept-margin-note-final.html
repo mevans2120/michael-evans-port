@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Margin Note - Final Concept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Crimson Pro', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      font-weight: 300;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    /*
+     * MARGIN NOTE SYSTEM
+     * - Wide (1100px+): Note sits in right margin, outside content
+     * - Medium (768-1100px): Note floats right, text wraps
+     * - Narrow (<768px): Note floats right, narrower
+     */
+
+    .article-container {
+      --content-width: 680px;
+      --margin-width: 220px;
+      --gap: 40px;
+
+      max-width: calc(var(--content-width) + var(--margin-width) + var(--gap));
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .article-content {
+      max-width: var(--content-width);
+    }
+
+    /* Wide viewport: position in the margin */
+    @media (min-width: 1100px) {
+      .article-container {
+        position: relative;
+      }
+
+      .margin-note {
+        position: absolute;
+        right: 24px;
+        width: var(--margin-width);
+        /* The 'style' attribute on each note sets the 'top' position */
+      }
+    }
+
+    /* Medium viewport: float right, text wraps */
+    @media (min-width: 768px) and (max-width: 1099px) {
+      .margin-note {
+        float: right;
+        clear: right;
+        width: 200px;
+        margin-left: 24px;
+        margin-bottom: 16px;
+        margin-top: 4px;
+      }
+    }
+
+    /* Narrow viewport: float right, narrower */
+    @media (max-width: 767px) {
+      .margin-note {
+        float: right;
+        clear: right;
+        width: 160px;
+        margin-left: 16px;
+        margin-bottom: 12px;
+        margin-top: 4px;
+      }
+    }
+
+    /* Very narrow: could stack if needed */
+    @media (max-width: 480px) {
+      .margin-note {
+        width: 140px;
+        margin-left: 12px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-[#0a0a0c] text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Theme Toggle -->
+  <div class="fixed top-4 right-4 z-50">
+    <button
+      onclick="document.documentElement.classList.toggle('dark')"
+      class="px-4 py-2 rounded-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 shadow-sm hover:shadow-md transition-all text-sm font-medium"
+    >
+      <span class="dark:hidden">Dark</span>
+      <span class="hidden dark:inline">Light</span>
+    </button>
+  </div>
+
+  <!-- Viewport indicator -->
+  <div class="fixed top-4 left-4 z-50 text-xs text-gray-400 dark:text-gray-500">
+    <span class="hidden min-[1100px]:inline">Wide: margin outside</span>
+    <span class="hidden min-[768px]:max-[1099px]:inline">Medium: float right</span>
+    <span class="max-[767px]:inline min-[768px]:hidden">Narrow: float right (smaller)</span>
+  </div>
+
+  <div class="py-16">
+
+    <header class="article-container mb-12">
+      <div class="article-content">
+        <h1 class="text-3xl font-semibold mb-3">Margin Note — Final</h1>
+        <p class="text-gray-600 dark:text-gray-400">
+          Wide viewport → outside the content. Narrow → floats inside. Resize to see.
+        </p>
+      </div>
+    </header>
+
+    <!-- ARTICLE -->
+    <article class="article-container">
+      <div class="article-content bg-white dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-neutral-800 p-8 relative">
+
+        <h2 class="font-serif text-3xl font-semibold mb-6">Research → Plan → Build ↔ Test</h2>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-5">
+          If someone were to ask me "What's your secret?" I would point to quite a few tools and techniques that I use. But for me, the most important process to follow when designing and building with AI is to be diligent about following this workflow at nearly every step.
+        </p>
+
+        <h3 class="font-serif text-2xl font-semibold mb-4 mt-10">Research</h3>
+
+        <!-- Margin Note 1 -->
+        <aside class="margin-note" style="top: 280px;">
+          <div class="border-l-2 border-amber-400 dark:border-amber-500 pl-3">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              There are no dumb questions — ask the agent to clarify anything you don't understand.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-5">
+          First, I ask the agent to research whatever it is we're trying to accomplish, provide options where applicable, and outline pros and cons. This can happen at the beginning of a project when trying to determine the feasibility of a particular feature or idea, or when trying to debug a complex or tough-to-solve issue.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-5">
+          Examples include researching whether creating a Claude Code skill for memory and context management is a good idea, or investigating why preview mode in the Sanity CMS is still revalidating instead of using webhooks.
+        </p>
+
+        <h3 class="font-serif text-2xl font-semibold mb-4 mt-10">Plan</h3>
+
+        <!-- Margin Note 2 -->
+        <aside class="margin-note" style="top: 580px;">
+          <div class="border-l-2 border-amber-400 dark:border-amber-500 pl-3">
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              Always save the research and planning docs as .md files.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-5">
+          After I review the research and ask any questions I have, I ask the agent to take the research and whatever approach we agreed upon (if applicable) and create a phased project plan with success metrics. If it's a smaller bug and the fix is only a few lines of code, I'll skip the planning phase.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-5">
+          Once I've reviewed the research and asked for revisions if needed, I ask the agent to create a phased project plan based on the findings, with measurable success metrics. After reviewing this plan and asking questions about anything I don't understand, I ask the agent to start on phase 1.
+        </p>
+
+        <h3 class="font-serif text-2xl font-semibold mb-4 mt-10">Build ↔ Test</h3>
+
+        <!-- Margin Note 3 -->
+        <aside class="margin-note" style="top: 920px;">
+          <div class="border-l-2 border-emerald-400 dark:border-emerald-500 pl-3">
+            <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Pro tip</span>
+            <p class="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mt-1">
+              Fix failures right then and there — don't let them pile up.
+            </p>
+          </div>
+        </aside>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px] mb-5">
+          Now that we've started building, I compare what we're building against the success metrics to determine when is the best time to test. Should it be after phase 1, phase 2, etc.? If I don't know the answer, I'll ask the agent.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[16px]">
+          The important part is that you and the agent get a chance to test and measure success. If you discover failures and improvement areas during the build process, I like to fix them right then and there.
+        </p>
+
+      </div>
+    </article>
+
+    <!-- IMPLEMENTATION NOTES -->
+    <div class="article-container mt-16">
+      <div class="article-content">
+        <h2 class="text-xl font-semibold mb-4">Implementation</h2>
+
+        <div class="bg-gray-100 dark:bg-neutral-800 rounded-xl p-6 overflow-x-auto">
+          <pre class="text-sm text-gray-700 dark:text-gray-300"><code>/* Wide: outside content in true margin */
+@media (min-width: 1100px) {
+  .article-container { position: relative; }
+  .margin-note {
+    position: absolute;
+    right: 24px;
+    width: 220px;
+  }
+}
+
+/* Medium & Narrow: float inside content */
+@media (max-width: 1099px) {
+  .margin-note {
+    float: right;
+    clear: right;
+    width: 200px; /* or 160px on mobile */
+    margin-left: 24px;
+  }
+}</code></pre>
+        </div>
+
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
+          Note: On wide viewports, each margin note needs a <code class="bg-gray-200 dark:bg-neutral-700 px-1 rounded">top</code> position set to align with its content. This can be calculated or set manually.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
