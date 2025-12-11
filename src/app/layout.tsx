@@ -39,7 +39,7 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
-  preload: false, // Don't preload - testing showed it hurts mobile performance
+  preload: true, // Preload - used extensively across site (hero, blog, chat, navigation)
   fallback: ['Georgia', 'Cambria', 'Times New Roman', 'serif'], // Better serif fallback
   adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
