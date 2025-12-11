@@ -361,7 +361,7 @@ If you want chat to have its own distinct visual identity:
 
 **Next Steps**:
 1. Review this plan
-2. Approve approach
+2. Approvcne approach
 3. Implement changes (~30 min)
 4. Test both light and dark modes
 5. Deploy to production
