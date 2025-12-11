@@ -1,4 +1,4 @@
-# Implementation Roadmap
+We don# Implementation Roadmap
 ## Progressive Reveal Design Concept
 
 **Project**: Portfolio Design Update - Inline Progressive Reveal & Horizontal Case Studies
