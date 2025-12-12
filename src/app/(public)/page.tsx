@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Separator } from "@/components/ui/separator";
 import { OrnamentalCTA } from "@/components/ui/OrnamentalCTA";
 import { FeaturedCaseStudies } from "@/components/FeaturedCaseStudies";
@@ -10,6 +9,7 @@ import { featuredBlogQuery } from "@/lib/sanity/queries/blog";
 import { type Metadata } from 'next';
 import { generateSanityMetadata } from '@/lib/sanity/metadata';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
+import { HomepageFeaturedBlogImage } from '@/components/HomepageFeaturedBlogImage';
 
 interface Project {
   _id: string
@@ -71,6 +71,7 @@ interface FeaturedBlogPost {
     }
     alt?: string
   }
+  asciiArt?: 'none' | 'filing-cabinet'
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -251,19 +252,13 @@ export default async function HomePage() {
             <div className="-mx-6 md:mx-0">
               <Link href={`/blog/${featuredShowcase.slug.current}`} className="block group mb-8">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                  {/* Featured Image */}
-                  {featuredShowcase.featuredImage?.asset && (
-                    <div className="w-full md:w-1/3 flex-shrink-0">
-                      <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
-                        <Image
-                          src={buildImageUrl(featuredShowcase.featuredImage, 'card')}
-                          alt={featuredShowcase.featuredImage.alt || featuredShowcase.title}
-                          fill
-                          className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                        />
-                      </div>
-                    </div>
-                  )}
+                  {/* Featured Image or ASCII Art */}
+                  <HomepageFeaturedBlogImage
+                    featuredImage={featuredShowcase.featuredImage}
+                    asciiArt={featuredShowcase.asciiArt}
+                    title={featuredShowcase.title}
+                    imageUrl={featuredShowcase.featuredImage?.asset ? buildImageUrl(featuredShowcase.featuredImage, 'card') : undefined}
+                  />
 
                   {/* Text Content */}
                   <div className="flex-1">

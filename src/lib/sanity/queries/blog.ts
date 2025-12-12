@@ -18,6 +18,7 @@ export const allBlogPostsQuery = groq`
       hotspot,
       alt
     },
+    asciiArt,
     featured,
     order
   }
@@ -67,6 +68,7 @@ export const blogPostBySlugQuery = groq`
       alt,
       caption
     },
+    asciiArt,
     seo {
       metaTitle,
       metaDescription,
@@ -130,6 +132,7 @@ export const featuredBlogQuery = groq`
       crop,
       hotspot,
       alt
-    }
+    },
+    asciiArt
   }
 `;

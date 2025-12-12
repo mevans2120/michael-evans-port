@@ -5,11 +5,13 @@ import Image from 'next/image';
 import { CalendarIcon, UserIcon } from 'lucide-react';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import type { BlogHero as BlogHeroType, BlogImage } from '@/types/blog';
+import { AsciiArt, isValidAsciiArtType } from './AsciiArt';
 
 interface BlogHeroProps {
   heroSection?: BlogHeroType;
   title: string;
   featuredImage?: BlogImage;
+  asciiArtType?: string;
   publishedAt?: string;
   author?: string;
 }
@@ -23,13 +25,16 @@ interface BlogHeroProps {
  * - Optional subtitle/tagline
  * - Optional featured image icon (top right on desktop)
  */
-export function BlogHero({ heroSection, title, featuredImage, publishedAt, author }: BlogHeroProps) {
+export function BlogHero({ heroSection, title, featuredImage, asciiArtType, publishedAt, author }: BlogHeroProps) {
   const { badge, subtitle } = heroSection || {};
 
   // Build image URL using 'hero' preset (same as case studies)
   const imageUrl = featuredImage?.asset
     ? buildImageUrl(featuredImage, 'hero')
     : null;
+
+  // Check if we should show ASCII art instead of image
+  const showAsciiArt = isValidAsciiArtType(asciiArtType);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -42,7 +47,7 @@ export function BlogHero({ heroSection, title, featuredImage, publishedAt, autho
   return (
     <header>
       {/* Content and Image Layout */}
-      <div className="flex flex-col md:flex-row gap-8 items-start">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-8 items-start">
         {/* Left: Text Content */}
         <div className="flex-1">
           {/* Badge */}
@@ -67,8 +72,14 @@ export function BlogHero({ heroSection, title, featuredImage, publishedAt, autho
           )}
         </div>
 
-        {/* Right: Featured Image (Icon) */}
-        {imageUrl && (
+        {/* Right: ASCII Art or Featured Image */}
+        {showAsciiArt ? (
+          <div className="flex-shrink-0 w-full md:w-auto flex justify-center md:justify-start">
+            <div className="inline-flex items-center justify-center px-20 py-6 rounded-lg bg-card/50 border border-border/50">
+              <AsciiArt type={asciiArtType} className="text-[0.38rem] sm:text-[0.45rem] md:text-[0.5rem]" />
+            </div>
+          </div>
+        ) : imageUrl && (
           <div className="w-full md:w-1/3 flex-shrink-0">
             <div className="relative rounded-lg overflow-hidden bg-muted shadow-xl ring-1 ring-border/50">
               <Image

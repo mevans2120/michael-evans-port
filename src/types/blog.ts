@@ -64,6 +64,7 @@ export interface Blog {
 
   // Media
   featuredImage?: BlogImage;
+  asciiArt?: 'none' | 'filing-cabinet';
 
   // SEO
   seo?: BlogSEO;
@@ -79,4 +80,5 @@ export interface BlogListItem {
   publishedAt: string;
   author?: string;
   featuredImage?: BlogImage;
+  asciiArt?: 'none' | 'filing-cabinet';
 }

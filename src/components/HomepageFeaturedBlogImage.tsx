@@ -1,0 +1,58 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+import { AsciiArt, isValidAsciiArtType } from '@/components/blog/AsciiArt';
+
+interface HomepageFeaturedBlogImageProps {
+  featuredImage?: {
+    asset?: {
+      _id: string;
+      url: string;
+    };
+    alt?: string;
+  };
+  asciiArt?: string;
+  title: string;
+  imageUrl?: string;
+}
+
+/**
+ * Client component for homepage featured blog image/ASCII art
+ * Handles the conditional rendering of ASCII art vs featured image
+ */
+export function HomepageFeaturedBlogImage({
+  featuredImage,
+  asciiArt,
+  title,
+  imageUrl,
+}: HomepageFeaturedBlogImageProps) {
+  const showAsciiArt = isValidAsciiArtType(asciiArt);
+
+  if (showAsciiArt) {
+    return (
+      <div className="w-full md:w-1/3 flex-shrink-0">
+        <div className="flex items-center justify-center px-8 py-4 rounded-lg bg-card/50 border border-border/50">
+          <AsciiArt type={asciiArt} className="text-[0.28rem] sm:text-[0.32rem] md:text-[0.38rem]" />
+        </div>
+      </div>
+    );
+  }
+
+  if (featuredImage?.asset && imageUrl) {
+    return (
+      <div className="w-full md:w-1/3 flex-shrink-0">
+        <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted">
+          <Image
+            src={imageUrl}
+            alt={featuredImage.alt || title}
+            fill
+            className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}

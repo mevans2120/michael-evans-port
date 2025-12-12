@@ -425,6 +425,21 @@ export default defineType({
       ],
     }),
 
+    defineField({
+      name: 'asciiArt',
+      title: 'ASCII Art (Alternative to Image)',
+      type: 'string',
+      description: 'Display ASCII art instead of featured image. Select "None" to use featured image.',
+      options: {
+        list: [
+          { title: 'None', value: 'none' },
+          { title: 'Filing Cabinet', value: 'filing-cabinet' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'none',
+    }),
+
     // SEO
     defineField({
       name: 'seo',
