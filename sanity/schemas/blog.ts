@@ -428,16 +428,49 @@ export default defineType({
     defineField({
       name: 'asciiArt',
       title: 'ASCII Art (Alternative to Image)',
+      type: 'text',
+      description: 'Paste ASCII art to display instead of featured image. Leave empty to use featured image. Max 80 chars wide, 50 lines tall.',
+      rows: 20,
+      validation: (Rule) => Rule.custom((value) => {
+        if (!value) return true; // Empty is valid (uses featured image)
+
+        const lines = value.split('\n');
+        const maxWidth = 80;
+        const maxHeight = 50;
+
+        // Check height
+        if (lines.length > maxHeight) {
+          return `Too tall: ${lines.length} lines (max ${maxHeight})`;
+        }
+
+        // Check width
+        const longestLine = Math.max(...lines.map(l => l.length));
+        if (longestLine > maxWidth) {
+          return `Line too wide: ${longestLine} chars (max ${maxWidth})`;
+        }
+
+        // Check for tabs (should use spaces)
+        if (value.includes('\t')) {
+          return 'Contains tabs. Please convert tabs to spaces for consistent rendering.';
+        }
+
+        return true;
+      }),
+    }),
+
+    defineField({
+      name: 'asciiArtLabel',
+      title: 'ASCII Art Description',
       type: 'string',
-      description: 'Display ASCII art instead of featured image. Select "None" to use featured image.',
-      options: {
-        list: [
-          { title: 'None', value: 'none' },
-          { title: 'Filing Cabinet', value: 'filing-cabinet' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'none',
+      description: 'Accessibility label describing the ASCII art (for screen readers)',
+      hidden: ({ parent }) => !parent?.asciiArt,
+      validation: (Rule) => Rule.custom((value, context) => {
+        const parent = context.parent as { asciiArt?: string };
+        if (parent?.asciiArt && !value) {
+          return 'Please provide an accessibility description for the ASCII art';
+        }
+        return true;
+      }),
     }),
 
     // SEO

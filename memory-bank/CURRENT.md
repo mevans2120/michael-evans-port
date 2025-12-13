@@ -1,3 +1,134 @@
+# ASCII Art CMS Text Field Migration (2025-12-12)
+
+## Context
+Migrated ASCII art storage from a hardcoded TypeScript registry to a CMS-managed text field in Sanity. Enables content editors to paste ASCII art directly into blog posts without code changes.
+
+## Problem
+- ASCII art was hardcoded in a TypeScript registry (`AsciiArt.tsx`)
+- Adding new art required updating 3 files (registry, schema, types)
+- No way to manage art through CMS
+
+## Solution Implemented
+
+### Phase 1: Sanity Schema Update
+**File**: `sanity/schemas/blog.ts`
+
+Changed from radio button selector to multiline text field with validation:
+```typescript
+defineField({
+  name: 'asciiArt',
+  title: 'ASCII Art (Alternative to Image)',
+  type: 'text',
+  rows: 20,
+  validation: (Rule) => Rule.custom((value) => {
+    if (!value) return true;
+    const lines = value.split('\n');
+    if (lines.length > 50) return `Too tall: ${lines.length} lines (max 50)`;
+    const longestLine = Math.max(...lines.map(l => l.length));
+    if (longestLine > 80) return `Line too wide: ${longestLine} chars (max 80)`;
+    if (value.includes('\t')) return 'Contains tabs. Please convert to spaces.';
+    return true;
+  }),
+}),
+
+defineField({
+  name: 'asciiArtLabel',
+  title: 'ASCII Art Description',
+  type: 'string',
+  description: 'Accessibility label for screen readers',
+  hidden: ({ parent }) => !parent?.asciiArt,
+}),
+```
+
+### Phase 2: TypeScript Types
+**File**: `src/types/blog.ts`
+
+```typescript
+// Before
+asciiArt?: 'none' | 'filing-cabinet';
+
+// After
+asciiArt?: string | null;
+asciiArtLabel?: string;
+```
+
+### Phase 3: Simplified AsciiArt Component
+**File**: `src/components/blog/AsciiArt.tsx`
+
+Removed registry pattern, now accepts raw art string:
+```typescript
+interface AsciiArtProps {
+  art: string;
+  label?: string;
+  className?: string;
+}
+
+export function AsciiArt({ art, label, className }: AsciiArtProps) {
+  if (!art) return null;
+  return (
+    <pre className={cn('text-accent font-mono...', className)}
+         aria-label={label || 'ASCII art illustration'}
+         role="img">
+      {art}
+    </pre>
+  );
+}
+
+export function hasAsciiArt(art: string | null | undefined): art is string {
+  return !!art && art.trim().length > 0;
+}
+```
+
+### Phase 4: Updated Consuming Components
+- `BlogHero.tsx` - Changed props from `asciiArtType` to `asciiArt`/`asciiArtLabel`
+- `BlogPostCard.tsx` - Updated to use `hasAsciiArt()` and new props
+- `HomepageFeaturedBlogImage.tsx` - Updated to use new props
+- `blog/[slug]/page.tsx` - Pass new props to BlogHero
+- `page.tsx` (homepage) - Pass asciiArtLabel to HomepageFeaturedBlogImage
+- `blog/index.ts` - Updated exports (`hasAsciiArt` instead of `isValidAsciiArtType`)
+
+### Phase 5: GROQ Queries
+**File**: `src/lib/sanity/queries/blog.ts`
+
+Added `asciiArtLabel` to all queries that fetch `asciiArt`:
+- `allBlogPostsQuery`
+- `blogPostBySlugQuery`
+- `featuredBlogQuery`
+
+## Additional Fixes
+
+### Removed BlogHero Hover State
+**File**: `src/components/blog/BlogHero.tsx`
+
+Removed `hover:text-accent-light` from h1 title since it's not a link on individual post pages.
+
+### Font Preloading Disabled
+**File**: `src/app/layout.tsx`
+
+Changed Newsreader font from `preload: true` to `preload: false` - preloading hurt mobile Lighthouse scores.
+
+## Files Modified
+- `sanity/schemas/blog.ts` - New text field with validation
+- `src/types/blog.ts` - Updated interfaces
+- `src/components/blog/AsciiArt.tsx` - Simplified component
+- `src/components/blog/BlogHero.tsx` - New props + removed hover
+- `src/components/blog/BlogPostCard.tsx` - New props
+- `src/components/blog/index.ts` - Updated exports
+- `src/components/HomepageFeaturedBlogImage.tsx` - New props
+- `src/app/(public)/blog/[slug]/page.tsx` - Pass new props
+- `src/app/(public)/page.tsx` - Pass asciiArtLabel, updated FeaturedBlogPost type
+- `src/lib/sanity/queries/blog.ts` - Added asciiArtLabel to queries
+- `src/app/layout.tsx` - Disabled Newsreader font preloading
+
+## Documentation Created
+- `docs/ascii-art-blog-feature-research-2025-12-12.md` - Research findings
+- `docs/plans/PLAN_2025-12-12_ascii-art-cms-text-field.md` - Implementation plan
+
+## Cache Note
+Next.js caches Sanity data indefinitely (`revalidate: false`). After updating content in Sanity, may need to delete `.next` folder and restart dev server to see changes locally.
+
+---
+
 # Mobile Header Logo Alignment Fix (2025-12-09)
 
 ## Context

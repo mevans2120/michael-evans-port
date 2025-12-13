@@ -5,13 +5,14 @@ import Image from 'next/image';
 import { CalendarIcon, UserIcon } from 'lucide-react';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import type { BlogHero as BlogHeroType, BlogImage } from '@/types/blog';
-import { AsciiArt, isValidAsciiArtType } from './AsciiArt';
+import { AsciiArt, hasAsciiArt } from './AsciiArt';
 
 interface BlogHeroProps {
   heroSection?: BlogHeroType;
   title: string;
   featuredImage?: BlogImage;
-  asciiArtType?: string;
+  asciiArt?: string | null;
+  asciiArtLabel?: string;
   publishedAt?: string;
   author?: string;
 }
@@ -25,7 +26,7 @@ interface BlogHeroProps {
  * - Optional subtitle/tagline
  * - Optional featured image icon (top right on desktop)
  */
-export function BlogHero({ heroSection, title, featuredImage, asciiArtType, publishedAt, author }: BlogHeroProps) {
+export function BlogHero({ heroSection, title, featuredImage, asciiArt, asciiArtLabel, publishedAt, author }: BlogHeroProps) {
   const { badge, subtitle } = heroSection || {};
 
   // Build image URL using 'hero' preset (same as case studies)
@@ -34,7 +35,7 @@ export function BlogHero({ heroSection, title, featuredImage, asciiArtType, publ
     : null;
 
   // Check if we should show ASCII art instead of image
-  const showAsciiArt = isValidAsciiArtType(asciiArtType);
+  const showAsciiArt = hasAsciiArt(asciiArt);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -59,7 +60,7 @@ export function BlogHero({ heroSection, title, featuredImage, asciiArtType, publ
 
           {/* Title */}
           {title && (
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight font-sans text-foreground transition-colors duration-slower hover:text-accent-light mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight font-sans text-foreground mb-6">
               {title}
             </h1>
           )}
@@ -76,7 +77,7 @@ export function BlogHero({ heroSection, title, featuredImage, asciiArtType, publ
         {showAsciiArt ? (
           <div className="flex-shrink-0 w-full md:w-auto flex justify-center md:justify-start">
             <div className="inline-flex items-center justify-center px-20 py-6 rounded-lg bg-card/50 border border-border/50">
-              <AsciiArt type={asciiArtType} className="text-[0.38rem] sm:text-[0.45rem] md:text-[0.5rem]" />
+              <AsciiArt art={asciiArt} label={asciiArtLabel} className="text-[0.38rem] sm:text-[0.45rem] md:text-[0.5rem]" />
             </div>
           </div>
         ) : imageUrl && (

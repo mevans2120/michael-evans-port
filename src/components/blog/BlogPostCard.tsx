@@ -6,7 +6,7 @@ import Image from 'next/image';
 import type { BlogListItem } from '@/types/blog';
 import { buildImageUrl } from '@/lib/sanity/image-builder';
 import { CalendarIcon } from 'lucide-react';
-import { AsciiArt, isValidAsciiArtType } from './AsciiArt';
+import { AsciiArt, hasAsciiArt } from './AsciiArt';
 
 interface BlogPostCardProps {
   post: BlogListItem;
@@ -34,7 +34,7 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
 
   // Alternate image position: even indices on left, odd indices on right
   const isImageRight = index % 2 === 1;
-  const showAsciiArt = isValidAsciiArtType(post.asciiArt);
+  const showAsciiArt = hasAsciiArt(post.asciiArt);
 
   return (
     <Link
@@ -45,10 +45,10 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
       <article className="cursor-pointer border-b border-border pb-12 mb-12 transition-smooth hover:opacity-90">
       <div className={`flex flex-col gap-8 items-start ${isImageRight ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
         {/* ASCII Art or Featured Image */}
-        {showAsciiArt && post.asciiArt && post.asciiArt !== 'none' ? (
+        {showAsciiArt ? (
           <div className="w-full md:w-1/3 flex-shrink-0">
             <div className="flex items-center justify-center px-8 py-4 rounded-lg bg-card/50 border border-border/50">
-              <AsciiArt type={post.asciiArt} className="text-[0.28rem] sm:text-[0.32rem] md:text-[0.38rem]" />
+              <AsciiArt art={post.asciiArt!} label={post.asciiArtLabel} className="text-[0.28rem] sm:text-[0.32rem] md:text-[0.38rem]" />
             </div>
           </div>
         ) : post.featuredImage?.asset && (

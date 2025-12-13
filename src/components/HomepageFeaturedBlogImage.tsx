@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { AsciiArt, isValidAsciiArtType } from '@/components/blog/AsciiArt';
+import { AsciiArt, hasAsciiArt } from '@/components/blog/AsciiArt';
 
 interface HomepageFeaturedBlogImageProps {
   featuredImage?: {
@@ -12,7 +12,8 @@ interface HomepageFeaturedBlogImageProps {
     };
     alt?: string;
   };
-  asciiArt?: string;
+  asciiArt?: string | null;
+  asciiArtLabel?: string;
   title: string;
   imageUrl?: string;
 }
@@ -24,16 +25,17 @@ interface HomepageFeaturedBlogImageProps {
 export function HomepageFeaturedBlogImage({
   featuredImage,
   asciiArt,
+  asciiArtLabel,
   title,
   imageUrl,
 }: HomepageFeaturedBlogImageProps) {
-  const showAsciiArt = isValidAsciiArtType(asciiArt);
+  const showAsciiArt = hasAsciiArt(asciiArt);
 
   if (showAsciiArt) {
     return (
       <div className="w-full md:w-1/3 flex-shrink-0">
         <div className="flex items-center justify-center px-8 py-4 rounded-lg bg-card/50 border border-border/50">
-          <AsciiArt type={asciiArt} className="text-[0.28rem] sm:text-[0.32rem] md:text-[0.38rem]" />
+          <AsciiArt art={asciiArt} label={asciiArtLabel} className="text-[0.28rem] sm:text-[0.32rem] md:text-[0.38rem]" />
         </div>
       </div>
     );

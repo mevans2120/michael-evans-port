@@ -106,7 +106,8 @@ export default async function BlogPostPage({ params }: PageProps) {
           heroSection={post.heroSection}
           title={post.title}
           featuredImage={post.featuredImage}
-          asciiArtType={post.asciiArt}
+          asciiArt={post.asciiArt}
+          asciiArtLabel={post.asciiArtLabel}
           publishedAt={post.publishedAt}
           author={post.author}
         />

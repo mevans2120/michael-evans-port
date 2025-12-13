@@ -71,7 +71,8 @@ interface FeaturedBlogPost {
     }
     alt?: string
   }
-  asciiArt?: 'none' | 'filing-cabinet'
+  asciiArt?: string | null
+  asciiArtLabel?: string
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -256,6 +257,7 @@ export default async function HomePage() {
                   <HomepageFeaturedBlogImage
                     featuredImage={featuredShowcase.featuredImage}
                     asciiArt={featuredShowcase.asciiArt}
+                    asciiArtLabel={featuredShowcase.asciiArtLabel}
                     title={featuredShowcase.title}
                     imageUrl={featuredShowcase.featuredImage?.asset ? buildImageUrl(featuredShowcase.featuredImage, 'card') : undefined}
                   />
