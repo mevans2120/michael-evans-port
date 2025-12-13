@@ -233,35 +233,11 @@ export async function POST(request: NextRequest) {
 
     logger.log(`   ✅ Published document - processing...\n`);
 
-    // Step 5: Determine action based on document type and event
-    // Note: Sanity webhooks don't explicitly send the event type in the payload,
-    // but we can detect deletions by checking if the document exists when we fetch it
     const documentId = payload._id;
     const documentType = payload._type;
 
-    // Only process documents we care about
-    const supportedTypes = ['project', 'profile', 'aiProject'];
-
-    if (!supportedTypes.includes(documentType)) {
-      logger.log(`   ⚠️  Document type '${documentType}' not supported for chatbot sync`);
-      logger.log('   → Supported types: project, profile, aiProject\n');
-
-      return NextResponse.json({
-        success: true,
-        message: `Document type ${documentType} not supported for sync`,
-      });
-    }
-
-    // Step 6: Sync the document
-    logger.log(`   🔄 Syncing ${documentType}...`);
-
-    const result = await syncSingleDocument(documentId);
-
-    logger.log('\n');
-    printSyncSummary(result);
-    logger.log('');
-
-    // Step 7: Revalidate cache for affected pages and tags
+    // Step 5: Revalidate cache for affected pages and tags
+    // This runs for ALL document types that have revalidation rules
     logger.log(`   🔄 Revalidating cache...`);
     const { paths: revalidatedPaths, tags: revalidatedTags } = await revalidateForDocument(
       documentType,
@@ -281,18 +257,35 @@ export async function POST(request: NextRequest) {
     }
     logger.log('');
 
-    // Step 8: Return success response
+    // Step 6: Sync to chatbot vector database (only for supported types)
+    // Blog posts don't need chatbot sync, just cache revalidation
+    const chatbotSyncTypes = ['project', 'profile', 'aiProject'];
+    let syncResult = null;
+
+    if (chatbotSyncTypes.includes(documentType)) {
+      logger.log(`   🔄 Syncing ${documentType} to chatbot...`);
+      syncResult = await syncSingleDocument(documentId);
+      logger.log('\n');
+      printSyncSummary(syncResult);
+      logger.log('');
+    } else {
+      logger.log(`   ⏭️  Skipping chatbot sync (not needed for ${documentType})\n`);
+    }
+
+    // Step 7: Return success response
     return NextResponse.json({
       success: true,
       documentId,
       documentType,
-      result: {
-        added: result.added,
-        updated: result.updated,
-        deleted: result.deleted,
-        unchanged: result.unchanged,
-        totalChunks: result.totalChunks,
-      },
+      ...(syncResult && {
+        chatbotSync: {
+          added: syncResult.added,
+          updated: syncResult.updated,
+          deleted: syncResult.deleted,
+          unchanged: syncResult.unchanged,
+          totalChunks: syncResult.totalChunks,
+        },
+      }),
       revalidated: {
         paths: revalidatedPaths,
         tags: revalidatedTags,
@@ -317,7 +310,8 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     message: 'Sanity webhook endpoint is active',
-    supportedTypes: ['project', 'profile', 'aiProject'],
+    cacheRevalidation: ['blog', 'project', 'profile', 'homepageHero', 'contactPage', 'footer', 'blogIndexPage', 'caseStudiesIndexPage', 'siteSettings', 'seoSettings'],
+    chatbotSync: ['project', 'profile', 'aiProject'],
     events: ['create', 'update', 'delete'],
     setup: {
       url: '/api/webhooks/sanity',
