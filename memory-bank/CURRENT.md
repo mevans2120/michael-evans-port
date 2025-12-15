@@ -1,3 +1,89 @@
+# ASCII Art Rendering Fixes (2025-12-15)
+
+## Context
+Fixed ASCII art formatting issues where characters were misaligned on the frontend, and removed unnecessary responsive sizing.
+
+## Problems Identified
+1. **Sanity CMS text input uses proportional font** - When users paste ASCII art, they can't see proper character alignment
+2. **Frontend font-mono class not explicitly defined** - Tailwind was using defaults that may not apply correctly
+3. **Responsive font sizing unnecessary** - Art was shrinking on mobile when it should stay consistent
+
+## Solutions Implemented
+
+### 1. Custom Sanity Input Component
+**File**: `src/sanity/components/AsciiArtInput.tsx` (NEW)
+
+Created custom textarea input with monospace font for Sanity Studio:
+```typescript
+export function AsciiArtInput(props: AsciiArtInputProps) {
+  return (
+    <TextArea
+      style={{
+        fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", "Courier New", monospace',
+        fontSize: '12px',
+        lineHeight: '1.2',
+        whiteSpace: 'pre',
+      }}
+    />
+  );
+}
+```
+
+### 2. Updated Blog Schema
+**File**: `sanity/schemas/blog.ts`
+
+Added custom component to asciiArt field:
+```typescript
+defineField({
+  name: 'asciiArt',
+  type: 'text',
+  components: {
+    input: AsciiArtInput as any, // Type assertion needed for Sanity v4
+  },
+})
+```
+
+### 3. Explicit Mono Font in Tailwind
+**File**: `tailwind.config.ts`
+
+Added explicit `mono` fontFamily to ensure `font-mono` class works:
+```typescript
+fontFamily: {
+  sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+  serif: ['var(--font-serif)', 'Georgia', 'serif'],
+  mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+},
+```
+
+### 4. Removed Responsive Font Sizing
+**Files**: Multiple components
+
+Changed from responsive sizing to single consistent size:
+- `AsciiArt.tsx`: `text-[0.6rem]` (was `text-[0.4rem] sm:text-[0.5rem] md:text-[0.6rem]`)
+- `BlogPostCard.tsx`: Removed className override entirely
+- `BlogHero.tsx`: Removed className override entirely
+- `HomepageFeaturedBlogImage.tsx`: Removed className override entirely
+
+## Files Created
+- `src/sanity/components/AsciiArtInput.tsx` - Custom Sanity input
+
+## Files Modified
+- `sanity/schemas/blog.ts` - Added custom input component
+- `tailwind.config.ts` - Added explicit mono font family
+- `src/components/blog/AsciiArt.tsx` - Simplified to single font size
+- `src/components/blog/BlogPostCard.tsx` - Removed className override
+- `src/components/blog/BlogHero.tsx` - Removed className override
+- `src/components/HomepageFeaturedBlogImage.tsx` - Removed className override
+
+## Documentation Created
+- `docs/ascii-art-formatting-issue-research-2025-12-15.md` - Initial research
+- `docs/ascii-art-tailwind-refactor-plan-2025-12-15.md` - Refactor plan
+
+## Key Insight
+The root cause was that Sanity's default text input uses a proportional font, so ASCII art that looked aligned in the editor actually had inconsistent spacing. The custom monospace input allows content editors to see true character alignment.
+
+---
+
 # ASCII Art CMS Text Field Migration (2025-12-12)
 
 ## Context

@@ -20,6 +20,7 @@ export default {
 			fontFamily: {
 				sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
 				serif: ['var(--font-serif)', 'Georgia', 'serif'],
+				mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
 			},
 			height: {
 				'dvh': '100dvh', // Dynamic viewport height for mobile browsers

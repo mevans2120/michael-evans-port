@@ -75,9 +75,9 @@ export function BlogHero({ heroSection, title, featuredImage, asciiArt, asciiArt
 
         {/* Right: ASCII Art or Featured Image */}
         {showAsciiArt ? (
-          <div className="flex-shrink-0 w-full md:w-auto flex justify-center md:justify-start">
-            <div className="inline-flex items-center justify-center px-20 py-6 rounded-lg bg-card/50 border border-border/50">
-              <AsciiArt art={asciiArt} label={asciiArtLabel} className="text-[0.38rem] sm:text-[0.45rem] md:text-[0.5rem]" />
+          <div className="flex-shrink-0 w-full md:w-1/3 flex justify-center md:justify-start">
+            <div className="w-full aspect-video flex items-center justify-center rounded-lg bg-card/50 border border-border/50">
+              <AsciiArt art={asciiArt} label={asciiArtLabel} />
             </div>
           </div>
         ) : imageUrl && (

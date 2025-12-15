@@ -23,7 +23,9 @@ export function AsciiArt({ art, label, className }: AsciiArtProps) {
   return (
     <pre
       className={cn(
-        'text-accent font-mono text-[0.4rem] sm:text-[0.5rem] md:text-[0.6rem] leading-tight whitespace-pre select-none',
+        'font-mono whitespace-pre leading-[1.15]',
+        'text-accent text-[0.6rem]',
+        'select-none',
         className
       )}
       aria-label={label || 'ASCII art illustration'}

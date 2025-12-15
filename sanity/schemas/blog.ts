@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity';
 import { DocumentTextIcon, BookIcon } from '@sanity/icons';
+import { AsciiArtInput } from '../../src/sanity/components/AsciiArtInput';
 
 export default defineType({
   name: 'blog',
@@ -430,7 +431,10 @@ export default defineType({
       title: 'ASCII Art (Alternative to Image)',
       type: 'text',
       description: 'Paste ASCII art to display instead of featured image. Leave empty to use featured image. Max 80 chars wide, 50 lines tall.',
-      rows: 20,
+      components: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        input: AsciiArtInput as any,
+      },
       validation: (Rule) => Rule.custom((value) => {
         if (!value) return true; // Empty is valid (uses featured image)
 

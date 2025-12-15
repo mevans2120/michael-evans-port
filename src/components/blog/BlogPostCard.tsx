@@ -47,8 +47,8 @@ export function BlogPostCard({ post, index = 0 }: BlogPostCardProps) {
         {/* ASCII Art or Featured Image */}
         {showAsciiArt ? (
           <div className="w-full md:w-1/3 flex-shrink-0">
-            <div className="flex items-center justify-center px-8 py-4 rounded-lg bg-card/50 border border-border/50">
-              <AsciiArt art={post.asciiArt!} label={post.asciiArtLabel} className="text-[0.28rem] sm:text-[0.32rem] md:text-[0.38rem]" />
+            <div className="w-full aspect-video flex items-center justify-center rounded-lg bg-card/50 border border-border/50">
+              <AsciiArt art={post.asciiArt!} label={post.asciiArtLabel} />
             </div>
           </div>
         ) : post.featuredImage?.asset && (
