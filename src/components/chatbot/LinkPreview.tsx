@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ExternalLink, FileText } from 'lucide-react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
+import { AsciiArt, hasAsciiArt } from '@/components/blog/AsciiArt';
 
 /**
  * TypeScript interfaces
@@ -17,6 +18,8 @@ interface LinkMetadata {
   category: string;
   description: string;
   imageUrl: string;
+  asciiArt?: string;      // Blog posts only
+  asciiArtLabel?: string; // Blog posts only
 }
 
 interface LinkPreviewProps {
@@ -248,8 +251,16 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
       aria-label={`View ${metadata.category}: ${metadata.title}${!isInternalLink ? ' (opens in new tab)' : ''}`}
     >
       <div className="flex flex-col md:flex-row gap-4 p-4 md:h-[164px]">
-        {/* Image - taller aspect ratio on mobile */}
-        {hasImage ? (
+        {/* ASCII Art, Image, or Fallback Icon */}
+        {hasAsciiArt(metadata.asciiArt) ? (
+          <div className="w-full md:w-32 h-48 md:h-32 rounded-lg flex-shrink-0 bg-card/50 border border-border/50 flex items-center justify-center overflow-hidden">
+            <AsciiArt
+              art={metadata.asciiArt}
+              label={metadata.asciiArtLabel}
+              className="text-[0.21rem] md:text-[0.24rem]"
+            />
+          </div>
+        ) : hasImage ? (
           <div className="relative w-full md:w-32 h-48 md:h-32 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
             <Image
               src={metadata.imageUrl}

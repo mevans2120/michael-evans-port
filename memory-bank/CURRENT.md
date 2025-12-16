@@ -1,3 +1,90 @@
+# Related Posts ASCII Art Support (2025-12-16)
+
+## Context
+Added ASCII art rendering to the Related Posts ("More thoughts on software") section on blog post pages. Previously, blog posts without featured images showed a generic document icon.
+
+## Problem
+- Related Posts component used `LinkPreview` which fetched metadata from `/api/link-metadata`
+- API didn't include ASCII art data for blog posts
+- Posts without featured images showed generic `FileText` icon instead of ASCII art
+
+## Solution Implemented
+
+### 1. Updated Link Metadata API
+**File**: `src/app/api/link-metadata/route.ts`
+
+Added `asciiArt` and `asciiArtLabel` fields to blog query and response:
+```typescript
+// Updated interface
+export interface LinkMetadata {
+  title: string;
+  category: string;
+  description: string;
+  imageUrl: string;
+  asciiArt?: string;      // Blog posts only
+  asciiArtLabel?: string; // Blog posts only
+}
+
+// Updated GROQ query for blogs
+const query = `*[_type == "blog" && slug.current == $slug][0] {
+  ...
+  asciiArt,
+  asciiArtLabel
+}`;
+
+// Response includes ASCII art for blog posts only
+const metadata: LinkMetadata = {
+  ...
+  ...(type === 'blog' && 'asciiArt' in data && {
+    asciiArt: data.asciiArt || undefined,
+    asciiArtLabel: data.asciiArtLabel || undefined,
+  }),
+};
+```
+
+### 2. Updated LinkPreview Component
+**File**: `src/components/chatbot/LinkPreview.tsx`
+
+- Imported `AsciiArt` and `hasAsciiArt` from blog components
+- Updated `LinkMetadata` interface with ASCII art fields
+- Added ASCII art rendering with priority: ASCII Art → Featured Image → Generic Icon
+- Font size: `text-[0.21rem] md:text-[0.24rem]` (sized to fit thumbnail area)
+
+```tsx
+{hasAsciiArt(metadata.asciiArt) ? (
+  <div className="w-full md:w-32 h-48 md:h-32 rounded-lg flex-shrink-0 bg-card/50 border border-border/50 flex items-center justify-center overflow-hidden">
+    <AsciiArt
+      art={metadata.asciiArt}
+      label={metadata.asciiArtLabel}
+      className="text-[0.21rem] md:text-[0.24rem]"
+    />
+  </div>
+) : hasImage ? (
+  // Featured image...
+) : (
+  // Generic icon fallback...
+)}
+```
+
+## Display Priority
+1. **ASCII Art** (if `asciiArt` field has content)
+2. **Featured Image** (if image asset exists)
+3. **Generic Icon** (FileText fallback)
+
+## Scope
+- **Blog posts only** - Case studies and chatbot links unchanged
+- Reuses existing `AsciiArt` component
+- No changes to RelatedPosts or RelatedPostsClient components
+
+## Files Modified
+- `src/app/api/link-metadata/route.ts` - Added ASCII art to blog query and response
+- `src/components/chatbot/LinkPreview.tsx` - Added ASCII art rendering
+
+## Documentation Created
+- `docs/related-posts-ascii-art-plan.md` - Implementation plan
+
+---
+
 # ASCII Art Rendering Fixes (2025-12-15)
 
 ## Context

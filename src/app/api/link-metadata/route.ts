@@ -9,6 +9,8 @@ export interface LinkMetadata {
   category: string;
   description: string;
   imageUrl: string;
+  asciiArt?: string;      // Blog posts only
+  asciiArtLabel?: string; // Blog posts only
 }
 
 interface SanityProject {
@@ -38,6 +40,8 @@ interface SanityBlog {
       _ref: string;
     };
   };
+  asciiArt?: string;
+  asciiArtLabel?: string;
 }
 
 /**
@@ -114,7 +118,9 @@ export async function GET(request: NextRequest) {
             _id,
             url
           }
-        }
+        },
+        asciiArt,
+        asciiArtLabel
       }`;
 
       data = await client.fetch<SanityBlog>(query, { slug });
@@ -169,6 +175,11 @@ export async function GET(request: NextRequest) {
       category,
       description,
       imageUrl,
+      // Include ASCII art for blog posts only
+      ...(type === 'blog' && 'asciiArt' in data && {
+        asciiArt: data.asciiArt || undefined,
+        asciiArtLabel: data.asciiArtLabel || undefined,
+      }),
     };
 
     // Return with cache headers (5 minutes)
