@@ -7,6 +7,7 @@ import { ImageGrid } from '@/components/case-study-flowing/ImageGrid';
 import { PortraitImageList } from '@/components/case-study-flowing/PortraitImageList';
 import { MarginNote } from './MarginNote';
 import { ExamplePrompt } from './ExamplePrompt';
+import { ContentTable } from './ContentTable';
 import { FootnoteRef } from './FootnoteRef';
 import { FootnotesSection } from './FootnotesSection';
 
@@ -282,6 +283,14 @@ export function BlogContent({ content }: BlogContentProps) {
         <ExamplePrompt
           prompt={value.prompt}
           label={value.label}
+        />
+      ),
+
+      // Content Table - structured data display
+      contentTable: ({ value }: PTValueProps) => (
+        <ContentTable
+          caption={value.caption}
+          columns={value.columns}
         />
       ),
     },

@@ -354,6 +354,80 @@ export default defineType({
             },
           },
         },
+        // Table - structured data display (column-based entry)
+        {
+          type: 'object',
+          name: 'contentTable',
+          title: 'Table',
+          description: 'A table for displaying structured data. Enter data by column.',
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+              description: 'Optional description shown below the table',
+            },
+            {
+              name: 'columns',
+              type: 'array',
+              title: 'Columns',
+              description: 'Add 2-6 columns. Each column has a header and values.',
+              of: [
+                {
+                  type: 'object',
+                  name: 'tableColumn',
+                  title: 'Column',
+                  fields: [
+                    {
+                      name: 'header',
+                      type: 'string',
+                      title: 'Column Header',
+                      description: 'The header label for this column',
+                      validation: (Rule) => Rule.required(),
+                    },
+                    {
+                      name: 'values',
+                      type: 'array',
+                      title: 'Column Values',
+                      description: 'All values for this column (one per row)',
+                      of: [{ type: 'string' }],
+                      validation: (Rule) => Rule.required().min(1),
+                    },
+                  ],
+                  preview: {
+                    select: { header: 'header', values: 'values' },
+                    prepare({ header, values }: { header?: string; values?: string[] }) {
+                      return {
+                        title: header || 'Untitled Column',
+                        subtitle: `${values?.length || 0} rows`,
+                      };
+                    },
+                  },
+                },
+              ],
+              validation: (Rule) => Rule.required().min(2).max(6)
+                .error('Table must have 2-6 columns'),
+            },
+          ],
+          preview: {
+            select: {
+              columns: 'columns',
+              caption: 'caption',
+            },
+            prepare({ columns, caption }: {
+              columns?: Array<{ header?: string; values?: string[] }>;
+              caption?: string;
+            }) {
+              const colCount = columns?.length || 0;
+              const rowCount = columns?.[0]?.values?.length || 0;
+              const headers = columns?.map(c => c.header).join(' | ') || '';
+              return {
+                title: caption || 'Table',
+                subtitle: `${colCount} cols × ${rowCount} rows: ${headers}`,
+              };
+            },
+          },
+        },
       ],
       validation: (Rule) => Rule.required(),
     }),
