@@ -19,34 +19,50 @@ import { logger } from '@/lib/logger';
 
 /**
  * Verify Sanity webhook signature
- * Prevents unauthorized webhook calls
+ * Sanity uses format: t=<timestamp>,v1=<signature>
+ * Signed payload is: <timestamp>.<body>
  */
 function verifySignature(
   body: string,
-  signature: string | null,
+  signatureHeader: string | null,
   secret: string
 ): boolean {
-  if (!signature) {
-    console.log('DEBUG: No signature header received');
+  if (!signatureHeader) {
+    logger.error('No signature header received');
     return false;
   }
 
-  const computedSignature = crypto
+  // Parse "t=<timestamp>,v1=<signature>" format
+  const parts = signatureHeader.split(',');
+  const timestampPart = parts.find(p => p.startsWith('t='));
+  const signaturePart = parts.find(p => p.startsWith('v1='));
+
+  if (!timestampPart || !signaturePart) {
+    logger.error('Invalid signature header format');
+    return false;
+  }
+
+  const timestamp = timestampPart.slice(2); // Remove "t="
+  const receivedSignature = signaturePart.slice(3); // Remove "v1="
+
+  // Create signed payload: timestamp.body
+  const signedPayload = `${timestamp}.${body}`;
+
+  // Compute expected signature
+  const expectedSignature = crypto
     .createHmac('sha256', secret)
-    .update(body)
+    .update(signedPayload)
     .digest('hex');
 
-  const expected = `sha256=${computedSignature}`;
-
-  // DEBUG logging - remove after fixing
-  console.log('DEBUG Webhook Signature Check:');
-  console.log('  Received signature:', signature);
-  console.log('  Computed signature:', expected);
-  console.log('  Secret length:', secret.length);
-  console.log('  Body length:', body.length);
-  console.log('  Match:', expected === signature);
-
-  return expected === signature;
+  // Timing-safe comparison
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(receivedSignature),
+      Buffer.from(expectedSignature)
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -216,28 +232,10 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get('sanity-webhook-signature');
 
     // Step 3: Verify signature
-    const computedSig = crypto
-      .createHmac('sha256', webhookSecret)
-      .update(body)
-      .digest('hex');
-    const expectedSig = `sha256=${computedSig}`;
-
     if (!verifySignature(body, signature, webhookSecret)) {
       logger.error('Invalid webhook signature');
-      // DEBUG: Return detailed info in response for diagnosis
       return NextResponse.json(
-        {
-          error: 'Invalid signature',
-          debug: {
-            receivedSignature: signature,
-            expectedSignature: expectedSig,
-            receivedLength: signature?.length || 0,
-            expectedLength: expectedSig.length,
-            secretLength: webhookSecret.length,
-            bodyLength: body.length,
-            bodyPreview: body.substring(0, 100) + '...',
-          }
-        },
+        { error: 'Invalid signature' },
         { status: 401 }
       );
     }
@@ -346,7 +344,7 @@ export async function GET() {
       url: '/api/webhooks/sanity',
       method: 'POST',
       headers: {
-        'sanity-webhook-signature': 'sha256=<computed_signature>',
+        'sanity-webhook-signature': 't=<timestamp>,v1=<signature>',
       },
       envVar: 'SANITY_WEBHOOK_SECRET',
     },
