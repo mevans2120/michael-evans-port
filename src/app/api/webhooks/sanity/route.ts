@@ -13,57 +13,9 @@
 
 import { type NextRequest, NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
-import crypto from 'crypto';
+import { parseBody } from 'next-sanity/webhook';
 import { syncSingleDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
 import { logger } from '@/lib/logger';
-
-/**
- * Verify Sanity webhook signature
- * Sanity uses format: t=<timestamp>,v1=<signature>
- * Signed payload is: <timestamp>.<body>
- */
-function verifySignature(
-  body: string,
-  signatureHeader: string | null,
-  secret: string
-): boolean {
-  if (!signatureHeader) {
-    logger.error('No signature header received');
-    return false;
-  }
-
-  // Parse "t=<timestamp>,v1=<signature>" format
-  const parts = signatureHeader.split(',');
-  const timestampPart = parts.find(p => p.startsWith('t='));
-  const signaturePart = parts.find(p => p.startsWith('v1='));
-
-  if (!timestampPart || !signaturePart) {
-    logger.error('Invalid signature header format');
-    return false;
-  }
-
-  const timestamp = timestampPart.slice(2); // Remove "t="
-  const receivedSignature = signaturePart.slice(3); // Remove "v1="
-
-  // Create signed payload: timestamp.body
-  const signedPayload = `${timestamp}.${body}`;
-
-  // Compute expected signature
-  const expectedSignature = crypto
-    .createHmac('sha256', secret)
-    .update(signedPayload)
-    .digest('hex');
-
-  // Timing-safe comparison
-  try {
-    return crypto.timingSafeEqual(
-      Buffer.from(receivedSignature),
-      Buffer.from(expectedSignature)
-    );
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Check if document is a draft
@@ -227,20 +179,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 2: Read and parse request body
-    const body = await request.text();
-    const signature = request.headers.get('sanity-webhook-signature');
+    // Step 2: Parse body and verify signature using official next-sanity helper
+    const { isValidSignature, body: payload } = await parseBody<SanityWebhookPayload>(
+      request,
+      webhookSecret
+    );
 
-    // Step 3: Verify signature
-    if (!verifySignature(body, signature, webhookSecret)) {
+    // Step 3: Verify signature and payload
+    if (!isValidSignature || !payload) {
       logger.error('Invalid webhook signature');
       return NextResponse.json(
         { error: 'Invalid signature' },
         { status: 401 }
       );
     }
-
-    const payload: SanityWebhookPayload = JSON.parse(body);
 
     logger.log(`\n📨 Webhook received for: ${payload._type} (${payload._id})`);
     logger.log(`   Title: ${payload.title || 'N/A'}`);
