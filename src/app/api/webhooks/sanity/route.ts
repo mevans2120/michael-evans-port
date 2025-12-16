@@ -27,6 +27,7 @@ function verifySignature(
   secret: string
 ): boolean {
   if (!signature) {
+    console.log('DEBUG: No signature header received');
     return false;
   }
 
@@ -35,7 +36,17 @@ function verifySignature(
     .update(body)
     .digest('hex');
 
-  return `sha256=${computedSignature}` === signature;
+  const expected = `sha256=${computedSignature}`;
+
+  // DEBUG logging - remove after fixing
+  console.log('DEBUG Webhook Signature Check:');
+  console.log('  Received signature:', signature);
+  console.log('  Computed signature:', expected);
+  console.log('  Secret length:', secret.length);
+  console.log('  Body length:', body.length);
+  console.log('  Match:', expected === signature);
+
+  return expected === signature;
 }
 
 /**
