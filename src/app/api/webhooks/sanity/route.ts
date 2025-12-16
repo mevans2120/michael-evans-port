@@ -216,10 +216,28 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get('sanity-webhook-signature');
 
     // Step 3: Verify signature
+    const computedSig = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(body)
+      .digest('hex');
+    const expectedSig = `sha256=${computedSig}`;
+
     if (!verifySignature(body, signature, webhookSecret)) {
       logger.error('Invalid webhook signature');
+      // DEBUG: Return detailed info in response for diagnosis
       return NextResponse.json(
-        { error: 'Invalid signature' },
+        {
+          error: 'Invalid signature',
+          debug: {
+            receivedSignature: signature,
+            expectedSignature: expectedSig,
+            receivedLength: signature?.length || 0,
+            expectedLength: expectedSig.length,
+            secretLength: webhookSecret.length,
+            bodyLength: body.length,
+            bodyPreview: body.substring(0, 100) + '...',
+          }
+        },
         { status: 401 }
       );
     }
