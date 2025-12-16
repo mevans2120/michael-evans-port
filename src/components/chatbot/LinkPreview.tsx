@@ -257,7 +257,7 @@ function LinkPreviewCard({ href, metadata, className }: LinkPreviewCardProps) {
             <AsciiArt
               art={metadata.asciiArt}
               label={metadata.asciiArtLabel}
-              className="text-[0.21rem] md:text-[0.24rem]"
+              className="text-[0.24rem]"
             />
           </div>
         ) : hasImage ? (
