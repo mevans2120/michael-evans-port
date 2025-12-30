@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Page - Concept 2: Structured</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: #fafafa;
+      color: #080808;
+      line-height: 1.6;
+    }
+
+    body.dark {
+      background: #0a0a0f;
+      color: #f8f8f8;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============================================
+       CONCEPT 2: STRUCTURED / CARD-BASED
+
+       Design Philosophy:
+       - Services in a 2x2 grid of cards
+       - Clear visual separation between services
+       - Benefits as icon-led grid below
+       - More scannable for comparison shopping
+       - Still refined but with more visual structure
+
+       Target: Team leads comparing options
+       ============================================ */
+
+    /* WIREFRAME ANNOTATION STYLES */
+    .annotation {
+      background: #fff3cd;
+      border-left: 3px solid #ffc107;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 12px;
+      font-family: monospace;
+      color: #856404;
+    }
+
+    body.dark .annotation {
+      background: #332701;
+      color: #ffc107;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #8b5cf6;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(2.25rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero .subtitle {
+      font-size: 1.125rem;
+      color: #666;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    body.dark .hero .subtitle {
+      color: #999;
+    }
+
+    /* SERVICES GRID */
+    .services-section {
+      padding: 60px 0 80px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 40px 32px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    body.dark .service-card {
+      background: #161620;
+      border-color: #2a2a2a;
+    }
+
+    .service-card:hover {
+      border-color: #8b5cf6;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: #f5f3ff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: #8b5cf6;
+    }
+
+    body.dark .service-icon {
+      background: #2d2640;
+    }
+
+    .service-card h3 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: #666;
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+
+    body.dark .service-card p {
+      color: #999;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .service-tag {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      background: #f5f5f5;
+      border-radius: 100px;
+      color: #666;
+    }
+
+    body.dark .service-tag {
+      background: #2a2a2a;
+      color: #999;
+    }
+
+    /* BENEFITS SECTION */
+    .benefits-section {
+      padding: 80px 0;
+      background: #fff;
+      border-top: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    body.dark .benefits-section {
+      background: #0d0d12;
+      border-color: #2a2a2a;
+    }
+
+    .benefits-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .benefits-header h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.75rem;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .benefits-header p {
+      color: #666;
+    }
+
+    body.dark .benefits-header p {
+      color: #999;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    @media (max-width: 900px) {
+      .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .benefit-item {
+      text-align: center;
+    }
+
+    .benefit-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 16px;
+      color: #8b5cf6;
+    }
+
+    .benefit-item h4 {
+      font-weight: 500;
+      font-size: 0.9375rem;
+      margin-bottom: 8px;
+    }
+
+    .benefit-item p {
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    body.dark .benefit-item p {
+      color: #999;
+    }
+
+    /* APPROACH SECTION - Brief process overview */
+    .approach-section {
+      padding: 80px 0;
+    }
+
+    .approach-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .approach-header h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.75rem;
+      font-weight: 300;
+    }
+
+    .approach-steps {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .approach-step {
+      text-align: center;
+      max-width: 200px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #e5e5e5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 0.875rem;
+      color: #8b5cf6;
+    }
+
+    body.dark .step-number {
+      border-color: #2a2a2a;
+    }
+
+    .approach-step h4 {
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .approach-step p {
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    body.dark .approach-step p {
+      color: #999;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      border: 1px solid #080808;
+      border-radius: 100px;
+      color: #080808;
+      text-decoration: none;
+      font-size: 0.9375rem;
+      transition: all 0.2s;
+    }
+
+    body.dark .cta-button {
+      border-color: #f8f8f8;
+      color: #f8f8f8;
+    }
+
+    .cta-button:hover {
+      background: #080808;
+      color: #fff;
+    }
+
+    body.dark .cta-button:hover {
+      background: #f8f8f8;
+      color: #080808;
+    }
+
+    /* THEME TOGGLE */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="document.body.classList.toggle('dark')">
+    Toggle Dark Mode
+  </button>
+
+  <main>
+    <div class="container">
+
+      <div class="annotation">
+        <strong>CONCEPT 2: STRUCTURED / CARD-BASED</strong><br>
+        Strategy: 2x2 service cards + benefits grid + simple process.<br>
+        Best for: Team leads comparing options, more visual learners.<br>
+        Trade-off: More content, slightly less premium feel than Concept 1.
+      </div>
+
+      <!-- HERO -->
+      <section class="hero">
+        <span class="hero-badge">Services</span>
+        <h1>From strategy to shipped product</h1>
+        <p class="subtitle">
+          I partner with teams at critical moments - launches, pivots,
+          and scaling challenges - to build products that drive results.
+        </p>
+      </section>
+
+      <!-- SERVICES GRID -->
+      <section class="services-section">
+
+        <div class="annotation">
+          2x2 grid allows quick scanning. Cards have subtle hover states.
+          Tags help with SEO and quick filtering of capabilities.
+          Icons are placeholder - could be custom illustrations.
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h3>Product Strategy</h3>
+            <p>Define what to build and why. I help teams clarify vision,
+               validate opportunities, and create roadmaps that align stakeholders.</p>
+            <div class="service-tags">
+              <span class="service-tag">Roadmapping</span>
+              <span class="service-tag">Market Analysis</span>
+              <span class="service-tag">OKRs</span>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h3>AI/ML Implementation</h3>
+            <p>Practical AI for real business outcomes. From identifying opportunities
+               through production deployment and ongoing optimization.</p>
+            <div class="service-tags">
+              <span class="service-tag">LLM Integration</span>
+              <span class="service-tag">ML Pipelines</span>
+              <span class="service-tag">Data Strategy</span>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M9 21V9"/>
+              </svg>
+            </div>
+            <h3>Experience Design</h3>
+            <p>User research through design systems. I design experiences
+               that balance user needs, business goals, and technical reality.</p>
+            <div class="service-tags">
+              <span class="service-tag">UX Research</span>
+              <span class="service-tag">Interaction Design</span>
+              <span class="service-tag">Design Systems</span>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3>Technical Leadership</h3>
+            <p>Bridge business and engineering. I help teams scale,
+               make architecture decisions, and optimize delivery velocity.</p>
+            <div class="service-tags">
+              <span class="service-tag">Team Scaling</span>
+              <span class="service-tag">Process Design</span>
+              <span class="service-tag">Tech Strategy</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- BENEFITS -->
+    <section class="benefits-section">
+      <div class="container">
+
+        <div class="annotation">
+          Benefits section with icons in 4-column grid.
+          Addresses different audience concerns: speed, communication, results, experience.
+        </div>
+
+        <div class="benefits-header">
+          <h2>Why teams choose to work with me</h2>
+          <p>Results-focused partnership, not just deliverables</p>
+        </div>
+
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+            <h4>Ship Faster</h4>
+            <p>Reduce time to market with clear priorities and efficient execution</p>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <h4>Clear Communication</h4>
+            <p>Bridge the gap between business stakeholders and technical teams</p>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h4>Outcomes Focus</h4>
+            <p>Measure success by business impact, not feature volume</p>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h4>Deep Experience</h4>
+            <p>17+ years across enterprise, startup, and agency environments</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <div class="container">
+      <section class="approach-section">
+
+        <div class="annotation">
+          Simple 3-step process gives structure without being prescriptive.
+          Shows collaboration style without committing to rigid methodology.
+        </div>
+
+        <div class="approach-header">
+          <h2>How we work together</h2>
+        </div>
+
+        <div class="approach-steps">
+          <div class="approach-step">
+            <div class="step-number">1</div>
+            <h4>Understand</h4>
+            <p>Deep dive into your challenges, goals, and constraints</p>
+          </div>
+
+          <div class="approach-step">
+            <div class="step-number">2</div>
+            <h4>Define</h4>
+            <p>Align on scope, approach, and success metrics</p>
+          </div>
+
+          <div class="approach-step">
+            <div class="step-number">3</div>
+            <h4>Execute</h4>
+            <p>Embed with your team to ship results</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- CTA -->
+      <section class="cta-section">
+
+        <div class="annotation">
+          Slightly more prominent CTA than Concept 1, but still soft.
+          Uses outlined button (not filled) to maintain refinement.
+        </div>
+
+        <h2>Let's discuss your project</h2>
+        <a href="/contact" class="cta-button">
+          Get in touch
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

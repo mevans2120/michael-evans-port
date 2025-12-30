@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Page - Concept 3b: Refined Conversational</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: #fafafa;
+      color: #080808;
+      line-height: 1.6;
+    }
+
+    body.dark {
+      background: #0a0a0f;
+      color: #f8f8f8;
+    }
+
+    /* ============================================
+       CONCEPT 3b: REFINED CONVERSATIONAL
+
+       Changes from Concept 3:
+       - Flat cards with accent border (no elevation)
+       - Removed CTA section (footer handles it)
+       - animate-in fade-in on load (matches homepage)
+       - Kept question labels
+       - Will be CMS-driven via Sanity
+
+       Design System Integration:
+       - Uses --accent for card borders
+       - Uses --card / --card-foreground for cards
+       - Uses font-serif for headlines/questions
+       - Uses transition-smooth for hovers
+       ============================================ */
+
+    /* ANIMATION - matches homepage pattern */
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fade-in 0.7s ease-out forwards;
+    }
+
+    /* WIREFRAME ANNOTATION STYLES */
+    .annotation {
+      background: #fff3cd;
+      border-left: 3px solid #ffc107;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 12px;
+      font-family: monospace;
+      color: #856404;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    body.dark .annotation {
+      background: #332701;
+      color: #ffc107;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ATMOSPHERIC BLUR ORBS - matches About page */
+    .blur-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .blur-orb-1 {
+      top: 10%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(139, 92, 246, 0.15);
+      filter: blur(100px);
+    }
+
+    .blur-orb-2 {
+      bottom: 20%;
+      right: 10%;
+      width: 500px;
+      height: 500px;
+      background: rgba(139, 92, 246, 0.1);
+      filter: blur(100px);
+    }
+
+    /* OPENING / HERO */
+    .opening {
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 0 60px;
+    }
+
+    .opening h1 {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+
+    .opening .lead {
+      font-size: 1.125rem;
+      color: #666;
+    }
+
+    body.dark .opening .lead {
+      color: #999;
+    }
+
+    /* DIALOGUE SECTION */
+    .dialogue-section {
+      padding: 40px 0 80px;
+    }
+
+    .dialogue {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .dialogue-exchange {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Questions (from visitor) */
+    .question {
+      align-self: flex-end;
+      max-width: 85%;
+      text-align: right;
+    }
+
+    .question-text {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.375rem;
+      font-weight: 400;
+      color: #7c3aed; /* accent - purple-600 */
+      font-style: italic;
+    }
+
+    body.dark .question-text {
+      color: #a78bfa; /* accent-light - purple-400 */
+    }
+
+    .question-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #999;
+      margin-top: 6px;
+    }
+
+    /* Answers (from Michael) - FLAT with accent border */
+    .answer {
+      align-self: flex-start;
+      max-width: 90%;
+    }
+
+    .answer-content {
+      background: #fff;
+      border-left: 3px solid #7c3aed; /* accent border */
+      padding: 24px 28px;
+      transition: border-color 0.3s ease;
+    }
+
+    body.dark .answer-content {
+      background: #161620; /* --card equivalent */
+      border-left-color: #a78bfa;
+    }
+
+    .answer-content:hover {
+      border-left-color: #6d28d9; /* slightly darker on hover */
+    }
+
+    body.dark .answer-content:hover {
+      border-left-color: #c4b5fd;
+    }
+
+    .answer h3 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #080808;
+    }
+
+    body.dark .answer h3 {
+      color: #f8f8f8;
+    }
+
+    .answer p {
+      color: #444;
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+
+    body.dark .answer p {
+      color: #bbb;
+    }
+
+    .answer p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    /* INTERLUDE */
+    .interlude {
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .interlude-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, #7c3aed, transparent);
+      margin: 0 auto 24px;
+    }
+
+    body.dark .interlude-line {
+      background: linear-gradient(to bottom, transparent, #a78bfa, transparent);
+    }
+
+    .interlude p {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.125rem;
+      font-weight: 300;
+      color: #666;
+      font-style: italic;
+    }
+
+    body.dark .interlude p {
+      color: #999;
+    }
+
+    /* FOOTER PLACEHOLDER - Mimics site footer pattern */
+    .footer-placeholder {
+      margin-top: 80px;
+      padding: 48px 0;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
+    }
+
+    body.dark .footer-placeholder {
+      border-top-color: #2a2a2a;
+    }
+
+    .footer-placeholder p {
+      font-size: 0.875rem;
+      color: #999;
+    }
+
+    /* THEME TOGGLE */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <!-- Atmospheric blur orbs -->
+  <div class="blur-orb blur-orb-1"></div>
+  <div class="blur-orb blur-orb-2"></div>
+
+  <button class="theme-toggle" onclick="document.body.classList.toggle('dark')">
+    Toggle Dark Mode
+  </button>
+
+  <main class="container">
+
+    <div class="annotation">
+      <strong>CONCEPT 3b: REFINED CONVERSATIONAL</strong><br><br>
+      <strong>Changes from Concept 3:</strong><br>
+      - Flat cards with accent left-border (no rounded corners, no elevation)<br>
+      - Removed scroll hint<br>
+      - Removed recent examples sections<br>
+      - Removed CTA section (footer handles navigation)<br>
+      - Added atmospheric blur orbs (matches About page)<br>
+      - animate-in fade-in on load (matches Homepage)<br><br>
+      <strong>Ready for:</strong> High-fidelity React implementation with Sanity CMS
+    </div>
+
+    <!-- OPENING / HERO -->
+    <section class="opening animate-in">
+      <h1>The best partnerships start with good questions</h1>
+      <p class="lead">
+        Here are the ones I hear most often from teams
+        considering working together.
+      </p>
+    </section>
+
+    <!-- DIALOGUE -->
+    <section class="dialogue-section">
+
+      <div class="annotation">
+        Sanity CMS fields for each exchange:<br>
+        - question: text<br>
+        - questionLabel: string (optional, default "Common question")<br>
+        - serviceTitle: string<br>
+        - answerParagraphs: array of text blocks
+      </div>
+
+      <div class="dialogue animate-in" style="animation-delay: 0.1s;">
+
+        <!-- EXCHANGE 1: Product Strategy -->
+        <div class="dialogue-exchange">
+          <div class="question">
+            <p class="question-text">"We have a vision, but no clear path. Can you help?"</p>
+            <p class="question-label">Common question</p>
+          </div>
+          <div class="answer">
+            <div class="answer-content">
+              <h3>Product Strategy</h3>
+              <p>Absolutely. I work with teams to translate ambition into actionable plans.
+                 We'll clarify your vision, validate market opportunities, and create a
+                 roadmap that aligns your team and stakeholders.</p>
+              <p>This usually means deep discovery, competitive analysis, and helping you
+                 prioritize ruthlessly so you can ship what matters most.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXCHANGE 2: AI/ML -->
+        <div class="dialogue-exchange">
+          <div class="question">
+            <p class="question-text">"Everyone's talking about AI. Where do we even start?"</p>
+            <p class="question-label">Common question</p>
+          </div>
+          <div class="answer">
+            <div class="answer-content">
+              <h3>AI/ML Implementation</h3>
+              <p>Start with the business problem, not the technology. I help teams identify
+                 where AI can genuinely add value - then build practical solutions that
+                 actually ship to production.</p>
+              <p>This isn't about chasing trends. It's about finding the right application
+                 of AI that drives measurable business outcomes.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXCHANGE 3: Design -->
+        <div class="dialogue-exchange">
+          <div class="question">
+            <p class="question-text">"Our product works, but users struggle with it."</p>
+            <p class="question-label">Common question</p>
+          </div>
+          <div class="answer">
+            <div class="answer-content">
+              <h3>Experience Design</h3>
+              <p>That gap between "works" and "delights" is where I focus. I'll dig into
+                 user behavior, identify friction points, and redesign the experience
+                 to match how people actually think and work.</p>
+              <p>Good UX isn't decoration - it's the difference between a product people
+                 tolerate and one they recommend.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXCHANGE 4: Leadership -->
+        <div class="dialogue-exchange">
+          <div class="question">
+            <p class="question-text">"Engineering and product aren't aligned."</p>
+            <p class="question-label">Common question</p>
+          </div>
+          <div class="answer">
+            <div class="answer-content">
+              <h3>Technical Leadership</h3>
+              <p>This is often a communication and process problem, not a people problem.
+                 I embed with teams to improve how decisions get made, how work gets
+                 prioritized, and how progress gets measured.</p>
+              <p>The goal is sustainable velocity - shipping consistently without burning
+                 out your team.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- INTERLUDE -->
+    <section class="interlude animate-in" style="animation-delay: 0.2s;">
+      <div class="interlude-line"></div>
+      <p>"Every project starts with a conversation like this."</p>
+    </section>
+
+    <!-- FOOTER PLACEHOLDER -->
+    <div class="footer-placeholder">
+      <p>[ Site footer appears here with Contact link - same as About page ]</p>
+    </div>
+
+  </main>
+</body>
+</html>

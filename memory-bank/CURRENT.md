@@ -1,3 +1,71 @@
+# Services Page Implementation Plan (2025-12-30)
+
+## Context
+Created comprehensive implementation plan for the Services page using Concept 3b (Refined Conversational) - a Q&A dialogue format where visitor questions are paired with service-focused answers.
+
+## Design Concept Selected
+**Concept 3b: Refined Conversational**
+- Services presented as Q&A dialogue mimicking a discovery conversation
+- Questions appear as visitor thoughts; answers reveal services naturally
+- Flat cards with accent left-border (no rounded corners, no elevation)
+- Atmospheric blur orbs (matches About page)
+- No CTA section (footer handles navigation)
+
+## Implementation Plan Created
+**File**: `docs/design/services-page-concepts-121925/services-implementation-plan.md`
+
+### 7 Phases Outlined
+
+1. **Sanity Schema** (`/sanity/schemas/servicesPage.ts`)
+   - Singleton document type
+   - Fields: heroTitle, heroSubtitle, dialogueExchanges array, interludeText, seo
+   - Each exchange: question, questionLabel, serviceTitle, answerParagraphs
+
+2. **GROQ Query** (add to `/src/lib/sanity/queries.ts`)
+   - `servicesPageQuery` - singleton fetch pattern
+
+3. **TypeScript Types**
+   - `DialogueExchange` and `ServicesPageData` interfaces
+
+4. **React Components**
+   - `DialogueExchange.tsx` - Single Q&A pair
+   - `ServicesHero.tsx` - Hero section
+   - `ServicesInterlude.tsx` - Quote section
+
+5. **Page Route** (`/src/app/(public)/services/page.tsx`)
+   - Server component with `cachedSanityFetch`
+   - Fallback content for empty CMS
+   - Structured data (breadcrumbs)
+
+6. **Navigation Integration** (optional)
+
+7. **Cache Invalidation** - webhook tag setup
+
+### Design System Compliance
+
+All styles map to existing tokens:
+- Loading animation: `animate-in fade-in duration-700` (matches Homepage)
+- Staggered delays: 0s, 0.1s, 0.2s for sections
+- Blur orbs: `bg-accent/15 blur-[100px]` (matches About page)
+- Colors: `text-accent`, `bg-card`, `text-muted-foreground`
+- Card styling: `border-l-[3px] border-accent` with `transition-colors-smooth`
+
+### Files to Create
+```
+/sanity/schemas/servicesPage.ts
+/src/components/services/DialogueExchange.tsx
+/src/components/services/ServicesHero.tsx
+/src/components/services/ServicesInterlude.tsx
+/src/app/(public)/services/page.tsx
+```
+
+## Related Documentation
+- `docs/design/services-page-concepts-121925/services-overview.md` - Concept comparison
+- `docs/design/services-page-concepts-121925/services-hifi-iteration-plan.md` - Design decisions
+- `docs/design/services-page-concepts-121925/services-concept-3b-refined.html` - Visual prototype
+
+---
+
 # Related Posts ASCII Art Support (2025-12-16)
 
 ## Context

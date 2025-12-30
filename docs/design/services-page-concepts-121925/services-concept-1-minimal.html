@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Page - Concept 1: Minimal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: #fafafa;
+      color: #080808;
+      line-height: 1.6;
+    }
+
+    /* Dark mode toggle for testing */
+    body.dark {
+      background: #0a0a0f;
+      color: #f8f8f8;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============================================
+       CONCEPT 1: MINIMAL / REFINED
+
+       Design Philosophy:
+       - Maximum whitespace, minimum elements
+       - Vertical rhythm with clear hierarchy
+       - Services as a simple numbered list
+       - Single column, linear reading flow
+       - Soft sell with one CTA at bottom
+
+       Target: Executives who scan quickly
+       ============================================ */
+
+    /* WIREFRAME ANNOTATION STYLES */
+    .annotation {
+      background: #fff3cd;
+      border-left: 3px solid #ffc107;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 12px;
+      font-family: monospace;
+      color: #856404;
+    }
+
+    body.dark .annotation {
+      background: #332701;
+      color: #ffc107;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .hero h1 {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: #666;
+      max-width: 600px;
+    }
+
+    body.dark .hero .subtitle {
+      color: #999;
+    }
+
+    /* SERVICES LIST - Simple numbered approach */
+    .services-section {
+      padding: 80px 0;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    body.dark .services-section {
+      border-top-color: #2a2a2a;
+    }
+
+    .services-list {
+      list-style: none;
+    }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 24px;
+      padding: 48px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    body.dark .service-item {
+      border-bottom-color: #2a2a2a;
+    }
+
+    .service-item:last-child {
+      border-bottom: none;
+    }
+
+    .service-number {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      color: #999;
+    }
+
+    .service-content h3 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .service-content p {
+      color: #666;
+      max-width: 500px;
+    }
+
+    body.dark .service-content p {
+      color: #999;
+    }
+
+    /* BENEFITS SECTION - Minimal approach */
+    .benefits-section {
+      padding: 80px 0;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    body.dark .benefits-section {
+      border-top-color: #2a2a2a;
+    }
+
+    .benefits-section h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 40px;
+      color: #999;
+    }
+
+    .benefits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .benefit-marker {
+      width: 6px;
+      height: 6px;
+      background: #8b5cf6;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .benefit-item span {
+      font-size: 1.125rem;
+    }
+
+    /* CTA SECTION - Soft sell */
+    .cta-section {
+      padding: 120px 0;
+      text-align: left;
+    }
+
+    .cta-section p {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 24px;
+      color: #666;
+    }
+
+    body.dark .cta-section p {
+      color: #999;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #8b5cf6;
+      text-decoration: underline;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+
+    .cta-link:hover {
+      opacity: 0.7;
+    }
+
+    /* THEME TOGGLE */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="document.body.classList.toggle('dark')">
+    Toggle Dark Mode
+  </button>
+
+  <main class="container">
+
+    <div class="annotation">
+      <strong>CONCEPT 1: MINIMAL</strong><br>
+      Strategy: Maximum whitespace, linear flow, numbered services.<br>
+      Best for: Executives who scan quickly, premium positioning.<br>
+      Trade-off: Less visual interest, requires strong copy.
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <h1>I help teams build products that matter</h1>
+        <p class="subtitle">
+          Seventeen years shipping digital products across e-commerce, travel,
+          and enterprise software. Strategy through execution.
+        </p>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services-section">
+
+      <div class="annotation">
+        Services as numbered list - implies order/process without being rigid.
+        Each service has just title + 1-2 sentence description.
+        No icons, no cards - pure typography hierarchy.
+      </div>
+
+      <ul class="services-list">
+        <li class="service-item">
+          <span class="service-number">01</span>
+          <div class="service-content">
+            <h3>Product Strategy</h3>
+            <p>Define what to build and why. Market positioning,
+               roadmap development, and stakeholder alignment.</p>
+          </div>
+        </li>
+
+        <li class="service-item">
+          <span class="service-number">02</span>
+          <div class="service-content">
+            <h3>AI/ML Implementation</h3>
+            <p>Practical AI integration for real business outcomes.
+               From proof-of-concept through production deployment.</p>
+          </div>
+        </li>
+
+        <li class="service-item">
+          <span class="service-number">03</span>
+          <div class="service-content">
+            <h3>Experience Design</h3>
+            <p>User research, interaction design, and design systems.
+               Craft experiences that drive engagement and conversion.</p>
+          </div>
+        </li>
+
+        <li class="service-item">
+          <span class="service-number">04</span>
+          <div class="service-content">
+            <h3>Technical Leadership</h3>
+            <p>Bridge business and engineering. Team scaling,
+               architecture decisions, and delivery optimization.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="benefits-section">
+
+      <div class="annotation">
+        Benefits section uses simple bullets - appeals to all audiences.
+        Kept brief to maintain minimal aesthetic.
+        Could be hidden/expanded for even more minimal approach.
+      </div>
+
+      <h2>Why work with me</h2>
+
+      <div class="benefits-list">
+        <div class="benefit-item">
+          <div class="benefit-marker"></div>
+          <span>Ship faster with less rework</span>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-marker"></div>
+          <span>Clear communication between business and tech</span>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-marker"></div>
+          <span>Outcomes-focused, not feature-focused</span>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-marker"></div>
+          <span>17+ years of enterprise and startup experience</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+
+      <div class="annotation">
+        Soft CTA - conversational tone, not pushy.
+        Just a simple underlined link, not a button.
+        Maintains the refined, non-salesy aesthetic.
+      </div>
+
+      <p>Have a project in mind?</p>
+      <a href="/contact" class="cta-link">
+        Let's talk
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </section>
+
+  </main>
+</body>
+</html>
