@@ -66,32 +66,32 @@ export default defineType({
       validation: (Rule) => Rule.max(200),
     }),
 
-    // Dialogue Exchanges (Service Q&A)
+    // Service Entries (with optional lead-in quote)
     defineField({
-      name: 'dialogueExchanges',
-      title: 'Service Q&A Exchanges',
+      name: 'serviceEntries',
+      title: 'Service Entries',
       type: 'array',
-      description: 'Each exchange pairs a visitor question with a service answer',
+      description: 'Each entry is a service, optionally introduced by a quote or testimonial',
       of: [
         {
           type: 'object',
-          name: 'dialogueExchange',
-          title: 'Q&A Exchange',
+          name: 'serviceEntry',
+          title: 'Service Entry',
           fields: [
+            // Optional lead-in (quote, testimonial, or question)
             defineField({
-              name: 'question',
-              title: 'Question',
+              name: 'leadInText',
+              title: 'Lead-in Text (Optional)',
               type: 'text',
               rows: 2,
-              description: 'The visitor question (shown in italics)',
-              validation: (Rule) => Rule.required().max(150),
+              description: 'Optional quote, testimonial, or question shown before the service. Leave empty to show service card alone.',
+              validation: (Rule) => Rule.max(150),
             }),
             defineField({
-              name: 'questionLabel',
-              title: 'Question Label',
+              name: 'leadInAttribution',
+              title: 'Lead-in Attribution (Optional)',
               type: 'string',
-              description: 'Small label above/below the question',
-              initialValue: 'Common question',
+              description: 'Attribution for the quote (e.g., "VP Product, Fintech Startup"). Leave empty for no attribution.',
             }),
             defineField({
               name: 'serviceTitle',
@@ -112,12 +112,12 @@ export default defineType({
           preview: {
             select: {
               title: 'serviceTitle',
-              subtitle: 'question',
+              subtitle: 'leadInText',
             },
             prepare({ title, subtitle }) {
               return {
                 title: title || 'Untitled Service',
-                subtitle: subtitle ? `"${subtitle.slice(0, 50)}..."` : '',
+                subtitle: subtitle ? `"${subtitle.slice(0, 50)}..."` : '(No lead-in)',
               }
             },
           },
@@ -185,10 +185,10 @@ export const servicesPageQuery = groq`
     _id,
     heroTitle,
     heroSubtitle,
-    dialogueExchanges[] {
+    serviceEntries[] {
       _key,
-      question,
-      questionLabel,
+      leadInText,
+      leadInAttribution,
       serviceTitle,
       answerParagraphs
     },
@@ -212,10 +212,10 @@ export const servicesPageQuery = groq`
 ### File: `/src/lib/sanity/types.ts` (or inline in page)
 
 ```typescript
-export interface DialogueExchange {
+export interface ServiceEntry {
   _key: string
-  question: string
-  questionLabel?: string
+  leadInText?: string        // Optional quote/testimonial
+  leadInAttribution?: string // Optional attribution (e.g., "VP Product, Fintech")
   serviceTitle: string
   answerParagraphs: string[]
 }
@@ -224,7 +224,7 @@ export interface ServicesPageData {
   _id: string
   heroTitle: string
   heroSubtitle?: string
-  dialogueExchanges: DialogueExchange[]
+  serviceEntries: ServiceEntry[]
   interludeText?: string
   seo?: {
     metaTitle?: string
@@ -245,45 +245,49 @@ export interface ServicesPageData {
 
 ```
 /src/components/services/
-├── DialogueExchange.tsx     # Single Q&A pair
+├── ServiceEntry.tsx         # Single service with optional lead-in quote
 ├── ServicesHero.tsx         # Hero section
 └── ServicesInterlude.tsx    # Interlude quote section
 ```
 
-### 4.1 DialogueExchange Component
+### 4.1 ServiceEntry Component
 
-**File:** `/src/components/services/DialogueExchange.tsx`
+**File:** `/src/components/services/ServiceEntry.tsx`
 
 ```tsx
 'use client'
 
-interface DialogueExchangeProps {
-  question: string
-  questionLabel?: string
+interface ServiceEntryProps {
+  leadInText?: string        // Optional quote/testimonial
+  leadInAttribution?: string // Optional attribution
   serviceTitle: string
   answerParagraphs: string[]
 }
 
-export function DialogueExchange({
-  question,
-  questionLabel = 'Common question',
+export function ServiceEntry({
+  leadInText,
+  leadInAttribution,
   serviceTitle,
   answerParagraphs,
-}: DialogueExchangeProps) {
+}: ServiceEntryProps) {
   return (
     <div className="flex flex-col gap-5">
-      {/* Question (right-aligned) */}
-      <div className="self-end max-w-[85%] text-right">
-        <p className="font-serif text-[1.375rem] font-normal text-accent dark:text-accent-light italic">
-          "{question}"
-        </p>
-        <p className="text-[0.6875rem] uppercase tracking-[0.12em] text-muted-foreground mt-1.5">
-          {questionLabel}
-        </p>
-      </div>
+      {/* Optional Lead-in (quote/testimonial) - right-aligned */}
+      {leadInText && (
+        <div className="self-end max-w-[85%] text-right">
+          <p className="font-serif text-[1.375rem] font-normal text-accent dark:text-accent-light italic">
+            "{leadInText}"
+          </p>
+          {leadInAttribution && (
+            <p className="text-[0.6875rem] uppercase tracking-[0.12em] text-muted-foreground mt-1.5">
+              — {leadInAttribution}
+            </p>
+          )}
+        </div>
+      )}
 
-      {/* Answer (left-aligned) */}
-      <div className="self-start max-w-[90%]">
+      {/* Service card (left-aligned, or full-width if no lead-in) */}
+      <div className={leadInText ? "self-start max-w-[90%]" : "w-full"}>
         <div className="bg-card border-l-[3px] border-accent dark:border-accent-light px-7 py-6 transition-colors-smooth hover:border-purple-700 dark:hover:border-purple-300">
           <h3 className="font-serif text-xl font-medium text-foreground mb-3">
             {serviceTitle}
@@ -366,15 +370,15 @@ import { cachedSanityFetch } from '@/sanity/lib/fetch'
 import { servicesPageQuery } from '@/lib/sanity/queries'
 import { generateSanityMetadata } from '@/lib/sanity/metadata'
 import { JsonLd } from '@/components/JsonLd'
-import { generateBreadcrumbSchema, generateServiceSchema } from '@/lib/structured-data'
+import { generateBreadcrumbSchema } from '@/lib/structured-data'
 import { ServicesHero } from '@/components/services/ServicesHero'
-import { DialogueExchange } from '@/components/services/DialogueExchange'
+import { ServiceEntry } from '@/components/services/ServiceEntry'
 import { ServicesInterlude } from '@/components/services/ServicesInterlude'
 
-interface DialogueExchangeData {
+interface ServiceEntryData {
   _key: string
-  question: string
-  questionLabel?: string
+  leadInText?: string
+  leadInAttribution?: string
   serviceTitle: string
   answerParagraphs: string[]
 }
@@ -383,7 +387,7 @@ interface ServicesPageData {
   _id: string
   heroTitle: string
   heroSubtitle?: string
-  dialogueExchanges: DialogueExchangeData[]
+  serviceEntries: ServiceEntryData[]
   interludeText?: string
   seo?: {
     metaTitle?: string
@@ -398,22 +402,30 @@ interface ServicesPageData {
 // Fallback content if CMS is empty
 const fallbackContent: ServicesPageData = {
   _id: 'fallback',
-  heroTitle: 'The best partnerships start with good questions',
-  heroSubtitle: 'Here are the ones I hear most often from teams considering working together.',
-  dialogueExchanges: [
+  heroTitle: 'Services',
+  heroSubtitle: 'How I help teams build better products.',
+  serviceEntries: [
     {
       _key: '1',
-      question: 'We have a vision, but no clear path. Can you help?',
-      questionLabel: 'Common question',
+      leadInText: 'Michael helped us see what we couldn\'t.',
+      leadInAttribution: 'VP Product, Fintech Startup',
       serviceTitle: 'Product Strategy',
       answerParagraphs: [
-        'Absolutely. I work with teams to translate ambition into actionable plans. We\'ll clarify your vision, validate market opportunities, and create a roadmap that aligns your team and stakeholders.',
+        'I work with teams to translate ambition into actionable plans. We\'ll clarify your vision, validate market opportunities, and create a roadmap that aligns your team and stakeholders.',
         'This usually means deep discovery, competitive analysis, and helping you prioritize ruthlessly so you can ship what matters most.',
       ],
     },
-    // ... additional fallback exchanges
+    {
+      _key: '2',
+      // No leadInText - shows service card alone
+      serviceTitle: 'AI/ML Implementation',
+      answerParagraphs: [
+        'Start with the business problem, not the technology. I help teams identify where AI can genuinely add value - then build practical solutions that actually ship to production.',
+      ],
+    },
+    // ... additional fallback entries
   ],
-  interludeText: 'Every project starts with a conversation like this.',
+  interludeText: 'Every project starts with a conversation.',
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -461,19 +473,19 @@ export default async function ServicesPage() {
             subtitle={content.heroSubtitle}
           />
 
-          {/* Dialogue Section */}
+          {/* Services Section */}
           <section className="pt-10 pb-20">
             <div
               className="flex flex-col gap-12 animate-in fade-in duration-700"
               style={{ animationDelay: '0.1s' }}
             >
-              {content.dialogueExchanges.map((exchange) => (
-                <DialogueExchange
-                  key={exchange._key}
-                  question={exchange.question}
-                  questionLabel={exchange.questionLabel}
-                  serviceTitle={exchange.serviceTitle}
-                  answerParagraphs={exchange.answerParagraphs}
+              {content.serviceEntries.map((entry) => (
+                <ServiceEntry
+                  key={entry._key}
+                  leadInText={entry.leadInText}
+                  leadInAttribution={entry.leadInAttribution}
+                  serviceTitle={entry.serviceTitle}
+                  answerParagraphs={entry.answerParagraphs}
                 />
               ))}
             </div>
@@ -490,17 +502,30 @@ export default async function ServicesPage() {
 
 ---
 
-## Phase 6: Navigation Integration (Optional)
+## Phase 6: Soft Launch Strategy
 
-If the Services page should appear in the main navigation:
+**Decision:** No feature flag needed. Page will be accessible at `/services` but not linked from navigation until ready.
 
-### Update Navigation Schema
+### Launch Phases
 
-**File:** `/sanity/schemas/navigation.ts` (if exists) or add to footer links
+1. **Development Phase** (current)
+   - Build page components and Sanity schema
+   - Page exists at `/services` but is unlisted
+   - Test with direct URL access
 
-### Update Header Component
+2. **Content Phase**
+   - Populate content in Sanity Studio
+   - Review and refine copy
+   - Internal review via direct link
 
-Add "Services" link to the navigation menu in the appropriate location.
+3. **Launch Phase** (when ready)
+   - Add "Services" to navigation (header/footer as appropriate)
+   - Announce availability
+
+### Why This Works
+- Low traffic site — unlikely someone guesses `/services`
+- No code changes needed to launch — just add nav link
+- Can share direct link for feedback before public launch
 
 ---
 
@@ -529,7 +554,7 @@ Ensure the webhook recognizes `servicesPage` document type and invalidates the `
 - [ ] Add TypeScript types
 
 ### Phase 3: Components
-- [ ] Create `/src/components/services/DialogueExchange.tsx`
+- [ ] Create `/src/components/services/ServiceEntry.tsx`
 - [ ] Create `/src/components/services/ServicesHero.tsx`
 - [ ] Create `/src/components/services/ServicesInterlude.tsx`
 
@@ -543,10 +568,14 @@ Ensure the webhook recognizes `servicesPage` document type and invalidates the `
 - [ ] Test responsive behavior (mobile/tablet/desktop)
 - [ ] Verify SEO metadata renders correctly
 - [ ] Add structured data (breadcrumbs)
-- [ ] Update navigation if needed
 - [ ] Configure cache invalidation webhook
 
-### Phase 6: Content
+### Phase 6: Soft Launch
+- [ ] Share direct link (`/services`) for internal review
+- [ ] Finalize content in Sanity
+- [ ] When ready: Add "Services" to navigation
+
+### Phase 7: Content
 - [ ] Finalize service descriptions in Sanity
 - [ ] Review copy for tone and clarity
 - [ ] Test all content renders correctly
@@ -572,11 +601,11 @@ This matches the Homepage hero pattern exactly.
 | **Create** | `/sanity/schemas/servicesPage.ts` |
 | **Modify** | `/sanity/schemas/index.ts` |
 | **Modify** | `/src/lib/sanity/queries.ts` |
-| **Create** | `/src/components/services/DialogueExchange.tsx` |
+| **Create** | `/src/components/services/ServiceEntry.tsx` |
 | **Create** | `/src/components/services/ServicesHero.tsx` |
 | **Create** | `/src/components/services/ServicesInterlude.tsx` |
 | **Create** | `/src/app/(public)/services/page.tsx` |
-| **Modify** (optional) | Navigation component if adding to menu |
+| **Modify** (later) | Navigation component when ready to launch |
 | **Modify** (optional) | Webhook handler for cache tags |
 
 ---
@@ -592,3 +621,22 @@ This matches the Homepage hero pattern exactly.
 4. **Animation pattern:** Uses exact same `animate-in fade-in duration-700` as Homepage for consistency
 
 5. **Blur orbs:** Match About page pattern with `bg-accent/15` and `bg-accent/10` at different opacities
+
+---
+
+## Design Decisions (Updated January 5, 2026)
+
+### Flexible Lead-in Format
+- **Changed from:** Q&A format with required questions for each service
+- **Changed to:** Optional lead-in text (quotes, testimonials, or nothing)
+- **Rationale:** More flexibility to use client quotes when available, or show services standalone when not
+
+### Schema Changes
+- `dialogueExchanges` → `serviceEntries`
+- `question` → `leadInText` (now optional)
+- `questionLabel` → `leadInAttribution` (for quote attribution)
+
+### Soft Launch Strategy
+- **No feature flag** - page exists at `/services` but unlisted
+- **Rationale:** Low traffic site, unlikely to be discovered before launch
+- **Launch:** Simply add navigation link when content is ready

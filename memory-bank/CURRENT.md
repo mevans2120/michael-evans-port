@@ -1,3 +1,61 @@
+# Services Page Implementation Plan Updates (2026-01-05)
+
+## Context
+Updated the Services page implementation plan based on design review feedback. Two key changes: flexible lead-in format and soft launch strategy.
+
+## Changes Made
+
+### 1. Flexible Lead-in Format
+**Changed from:** Required Q&A format with questions for every service
+**Changed to:** Optional lead-in text (quotes, testimonials, or nothing)
+
+**Rationale:** More flexibility to use client quotes when available, or show services standalone when not.
+
+**Schema changes:**
+- `dialogueExchanges` → `serviceEntries`
+- `question` (required) → `leadInText` (optional)
+- `questionLabel` → `leadInAttribution` (for quote attribution, e.g., "— VP Product, Fintech")
+
+**Component changes:**
+- `DialogueExchange.tsx` → `ServiceEntry.tsx`
+- Lead-in conditionally renders only when `leadInText` is provided
+- Service cards go full-width when no lead-in, staggered when there is one
+
+### 2. Soft Launch Strategy (No Feature Flag)
+**Decision:** Page will be accessible at `/services` but not linked from navigation until ready.
+
+**Rationale:** Low traffic site, unlikely someone guesses `/services` URL. No code changes needed to launch — just add nav link when content is ready.
+
+**Launch phases:**
+1. **Development** - Build page at `/services` (unlisted)
+2. **Content** - Populate Sanity, internal review via direct link
+3. **Launch** - Add "Services" to navigation when ready
+
+## Updated Implementation Plan
+**File**: `docs/design/services-page-concepts-121925/services-implementation-plan.md`
+
+### Files to Create (Updated)
+```
+/sanity/schemas/servicesPage.ts
+/src/components/services/ServiceEntry.tsx      # Was DialogueExchange.tsx
+/src/components/services/ServicesHero.tsx
+/src/components/services/ServicesInterlude.tsx
+/src/app/(public)/services/page.tsx
+```
+
+### New TypeScript Types
+```typescript
+interface ServiceEntry {
+  _key: string
+  leadInText?: string        // Optional quote/testimonial
+  leadInAttribution?: string // Optional attribution
+  serviceTitle: string
+  answerParagraphs: string[]
+}
+```
+
+---
+
 # Services Page Implementation Plan (2025-12-30)
 
 ## Context
