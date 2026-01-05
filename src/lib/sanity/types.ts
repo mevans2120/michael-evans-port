@@ -93,3 +93,27 @@ export interface SanityCapability {
   skills?: string[]
   order?: number
 }
+
+export interface ServiceEntry {
+  _key: string
+  leadInText?: string // Optional quote/testimonial
+  leadInAttribution?: string // Optional attribution (e.g., "VP Product, Fintech")
+  serviceTitle: string
+  answerParagraphs: string[]
+}
+
+export interface ServicesPageData {
+  _id: string
+  heroTitle: string
+  heroSubtitle?: string
+  serviceEntries: ServiceEntry[]
+  interludeText?: string
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+    twitterCard?: 'summary' | 'summary_large_image'
+    canonicalUrl?: string
+    noIndex?: boolean
+  }
+}

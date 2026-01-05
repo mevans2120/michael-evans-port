@@ -401,3 +401,28 @@ export const contactPageQuery = groq`
     }
   }
 `
+
+// Get services page content (singleton)
+export const servicesPageQuery = groq`
+  *[_type == "servicesPage"][0] {
+    _id,
+    heroTitle,
+    heroSubtitle,
+    serviceEntries[] {
+      _key,
+      leadInText,
+      leadInAttribution,
+      serviceTitle,
+      answerParagraphs
+    },
+    interludeText,
+    seo {
+      metaTitle,
+      metaDescription,
+      keywords,
+      twitterCard,
+      canonicalUrl,
+      noIndex
+    }
+  }
+`

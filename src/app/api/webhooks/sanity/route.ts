@@ -103,6 +103,14 @@ async function revalidateForDocument(
         revalidatedTags.push('contact');
         break;
 
+      // Services Page (singleton)
+      case 'servicesPage':
+        revalidatePath('/services');
+        revalidatedPaths.push('/services');
+        revalidateTag('services');
+        revalidatedTags.push('services');
+        break;
+
       // Footer (appears on all pages)
       case 'footer': {
         const mainPages = ['/', '/case-studies', '/about', '/contact', '/blog'];
@@ -289,7 +297,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     message: 'Sanity webhook endpoint is active',
-    cacheRevalidation: ['blog', 'project', 'profile', 'homepageHero', 'contactPage', 'footer', 'blogIndexPage', 'caseStudiesIndexPage', 'siteSettings', 'seoSettings'],
+    cacheRevalidation: ['blog', 'project', 'profile', 'homepageHero', 'contactPage', 'servicesPage', 'footer', 'blogIndexPage', 'caseStudiesIndexPage', 'siteSettings', 'seoSettings'],
     chatbotSync: ['project', 'profile', 'aiProject'],
     events: ['create', 'update', 'delete'],
     setup: {

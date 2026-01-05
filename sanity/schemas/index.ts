@@ -4,6 +4,7 @@ import homepageHero from './homepageHero'
 import contactPage from './contactPage'
 import blogIndexPage from './blogIndexPage'
 import caseStudiesIndexPage from './caseStudiesIndexPage'
+import servicesPage from './servicesPage'
 import blog from './blog'
 import chatPrompts from './chatPrompts'
 import footer from './footer'
@@ -25,6 +26,7 @@ export const schemaTypes = [
   contactPage,
   blogIndexPage,
   caseStudiesIndexPage,
+  servicesPage,
   blog,
   chatPrompts,
   footer,

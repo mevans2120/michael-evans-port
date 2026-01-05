@@ -1,3 +1,73 @@
+# Services Page Implementation - Phases 1-4 Complete (2026-01-05)
+
+## Context
+Implemented the Services page using Concept 3b (Refined Conversational) - a conversational format with optional lead-in quotes/testimonials for each service.
+
+## What Was Implemented
+
+### Phase 1: Sanity Schema
+**File**: `/sanity/schemas/servicesPage.ts` (new)
+- Singleton document type for Services page
+- Fields: heroTitle, heroSubtitle, serviceEntries array, interludeText, seo
+- Each serviceEntry: optional leadInText, optional leadInAttribution, serviceTitle, answerParagraphs
+- Registered in `/sanity/schemas/index.ts`
+
+### Phase 2: Data Layer
+**File**: `/src/lib/sanity/queries.ts`
+- Added `servicesPageQuery` - singleton fetch pattern
+
+**File**: `/src/lib/sanity/types.ts`
+- Added `ServiceEntry` and `ServicesPageData` interfaces
+
+### Phase 3: React Components
+**Directory**: `/src/components/services/` (new)
+- `ServiceEntry.tsx` - Optional right-aligned lead-in quote + left-aligned service card
+- `ServicesHero.tsx` - Hero section with fade-in animation
+- `ServicesInterlude.tsx` - Gradient line + italic quote section
+
+### Phase 4: Page Route
+**File**: `/src/app/(public)/services/page.tsx` (new)
+- Server component with `cachedSanityFetch`
+- SEO metadata via `generateSanityMetadata`
+- Breadcrumb structured data
+- Atmospheric blur orbs (matches About page)
+- Fallback content if CMS is empty
+
+### Cache Invalidation
+**File**: `/src/app/api/webhooks/sanity/route.ts`
+- Added `servicesPage` case to revalidate `/services` path and `services` tag
+- Updated GET handler documentation
+
+## Design Decisions
+- **Optional lead-in**: Services can have quotes/testimonials or display standalone
+- **Soft launch**: Page accessible at `/services` but not linked from navigation yet
+- **Design system compliance**: Uses `text-accent`, `bg-card`, `animate-in fade-in duration-700`
+
+## Files Created
+```
+/sanity/schemas/servicesPage.ts
+/src/components/services/ServiceEntry.tsx
+/src/components/services/ServicesHero.tsx
+/src/components/services/ServicesInterlude.tsx
+/src/app/(public)/services/page.tsx
+```
+
+## Files Modified
+```
+/sanity/schemas/index.ts - Registered servicesPage schema
+/src/lib/sanity/queries.ts - Added servicesPageQuery
+/src/lib/sanity/types.ts - Added ServiceEntry, ServicesPageData types
+/src/app/api/webhooks/sanity/route.ts - Added cache invalidation
+```
+
+## Remaining (Phase 5+)
+- [ ] Test responsive behavior (mobile/tablet/desktop)
+- [ ] Verify SEO metadata renders correctly
+- [ ] Finalize content in Sanity
+- [ ] When ready: Add "Services" to navigation
+
+---
+
 # Services Page Implementation Plan Updates (2026-01-05)
 
 ## Context
