@@ -47,8 +47,8 @@ When moving to high-fidelity React, map to existing tokens:
 
 ### Typography
 ```
-font-serif (Crimson Pro)             → Headlines, questions, answer titles
-font-sans (DM Sans, weight 300)      → Body text, labels
+font-sans (DM Sans)                  → Headlines, answer titles
+font-serif (Crimson Pro)             → Body text, quotes, labels
 ```
 
 ### Transitions

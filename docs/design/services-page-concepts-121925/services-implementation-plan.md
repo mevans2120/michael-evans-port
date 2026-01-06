@@ -23,8 +23,8 @@ All styles map to existing design system tokens and utilities:
 | Question text (accent) | `text-accent dark:text-accent-light` |
 | Answer card background | `bg-card` |
 | Answer card border | `border-l-[3px] border-accent dark:border-accent-light` |
-| Answer title | `font-serif text-foreground` |
-| Answer body text | `text-muted-foreground` |
+| Answer title | `font-sans text-foreground` |
+| Answer body text | `font-serif text-muted-foreground` |
 | Question label | `text-muted-foreground text-xs uppercase tracking-wider` |
 | Hero lead text | `text-muted-foreground` |
 | Interlude gradient line | `bg-gradient-to-b from-transparent via-accent to-transparent` |
@@ -289,13 +289,13 @@ export function ServiceEntry({
       {/* Service card (left-aligned, or full-width if no lead-in) */}
       <div className={leadInText ? "self-start max-w-[90%]" : "w-full"}>
         <div className="bg-card border-l-[3px] border-accent dark:border-accent-light px-7 py-6 transition-colors-smooth hover:border-purple-700 dark:hover:border-purple-300">
-          <h3 className="font-serif text-xl font-medium text-foreground mb-3">
+          <h3 className="font-sans text-xl font-medium text-foreground mb-3">
             {serviceTitle}
           </h3>
           {answerParagraphs.map((paragraph, index) => (
             <p
               key={index}
-              className="text-muted-foreground leading-[1.7] mb-3 last:mb-0"
+              className="font-serif text-muted-foreground leading-[1.7] mb-3 last:mb-0"
             >
               {paragraph}
             </p>
@@ -320,11 +320,11 @@ interface ServicesHeroProps {
 export function ServicesHero({ title, subtitle }: ServicesHeroProps) {
   return (
     <section className="min-h-[50vh] flex flex-col justify-center pt-[120px] pb-[60px] animate-in fade-in duration-700">
-      <h1 className="font-serif text-[clamp(2rem,4vw,3rem)] font-light leading-[1.3] mb-6">
+      <h1 className="font-sans text-[clamp(2rem,4vw,3rem)] font-light leading-[1.3] mb-6">
         {title}
       </h1>
       {subtitle && (
-        <p className="text-lg text-muted-foreground">
+        <p className="font-serif text-lg text-muted-foreground">
           {subtitle}
         </p>
       )}
