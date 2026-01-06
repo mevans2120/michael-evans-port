@@ -109,7 +109,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${newsreader.variable}`}
+      className={`${dmSans.variable} ${newsreader.variable} bg-background`}
       suppressHydrationWarning
       // Inline styles required: Dynamic time-based color calculation to prevent FOUC on .text-gradient elements (see docs/styling-exceptions.md #2)
       style={{
@@ -132,7 +132,7 @@ export default async function RootLayout({
         {/* Structured Data (JSON-LD) for SEO - Person and WebSite schemas */}
         {structuredData.length > 0 && <JsonLd data={structuredData} />}
       </head>
-      <body className="font-sans overflow-hidden">
+      <body className="font-sans font-light bg-background text-foreground overflow-hidden">
         {/* Skip navigation link for accessibility */}
         <a
           href="#main-content"

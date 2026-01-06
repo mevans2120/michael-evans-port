@@ -1,3 +1,68 @@
+# Design System Audit & Typography Fixes (2026-01-05)
+
+## Context
+Audited the Services page against site-wide design conventions and fixed typography issues. Also consolidated redundant global styles between globals.css and layout.tsx.
+
+## Issues Found & Fixed
+
+### 1. Services Page Typography Reversed
+**Problem:** Services page had fonts backwards compared to site-wide convention.
+
+**Site-wide convention:**
+- Headings: `font-sans` (DM Sans)
+- Body copy: `font-serif` (Crimson Pro) - must be explicit
+
+**Services page before:**
+- Headings: `font-serif` (wrong)
+- Body copy: no font class, inherited `font-sans` (wrong)
+
+**Files Fixed:**
+- `src/components/services/ServicesHero.tsx`
+  - h1: `font-serif` → `font-sans`
+  - subtitle: added `font-serif`
+- `src/components/services/ServiceEntry.tsx`
+  - h3: `font-serif` → `font-sans`
+  - body paragraphs: added `font-serif`
+
+### 2. Globals/Layout Redundancy
+**Problem:** Body styles defined in both globals.css and layout.tsx. Also, globals.css had wrong `h1-h6 { font-serif }` rule.
+
+**Changes to layout.tsx:**
+```tsx
+// html element - added bg-background
+className={`${dmSans.variable} ${newsreader.variable} bg-background`}
+
+// body element - consolidated all styles
+className="font-sans font-light bg-background text-foreground overflow-hidden"
+```
+
+**Changes to globals.css:**
+```css
+/* Removed from html rule */
+@apply bg-background;
+
+/* Deleted entirely - was redundant */
+body {
+  @apply font-sans bg-background text-foreground;
+  font-weight: 300;
+}
+
+/* Deleted entirely - was WRONG (opposite of site convention) */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-serif;
+}
+```
+
+## Documentation Created
+- `docs/services-page-design-system-audit-2026-01-05.md` - Typography audit
+- `docs/globals-layout-consolidation-audit-2026-01-05.md` - Consolidation plan
+- `docs/plans/PLAN_2026-01-05_globals-layout-consolidation.md` - Implementation plan
+
+## Key Insight
+The `body { font-sans }` in globals.css was a fallback, not a style source. Body copy must explicitly use `font-serif` - relying on inheritance doesn't work because the body element defaults to sans.
+
+---
+
 # Services Page Implementation - Phases 1-4 Complete (2026-01-05)
 
 ## Context

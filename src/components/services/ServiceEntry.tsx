@@ -32,13 +32,13 @@ export function ServiceEntry({
       {/* Service card (left-aligned, or full-width if no lead-in) */}
       <div className={leadInText ? 'self-start max-w-[90%]' : 'w-full'}>
         <div className="bg-card border-l-[3px] border-accent dark:border-accent-light px-7 py-6 transition-colors-smooth hover:border-purple-700 dark:hover:border-purple-300">
-          <h3 className="font-serif text-xl font-medium text-foreground mb-3">
+          <h3 className="font-sans text-xl font-medium text-foreground mb-3">
             {serviceTitle}
           </h3>
           {answerParagraphs.map((paragraph, index) => (
             <p
               key={index}
-              className="text-muted-foreground leading-[1.7] mb-3 last:mb-0"
+              className="font-serif text-muted-foreground leading-[1.7] mb-3 last:mb-0"
             >
               {paragraph}
             </p>
