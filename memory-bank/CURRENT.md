@@ -58,6 +58,10 @@ h1, h2, h3, h4, h5, h6 {
 - `docs/globals-layout-consolidation-audit-2026-01-05.md` - Consolidation plan
 - `docs/plans/PLAN_2026-01-05_globals-layout-consolidation.md` - Implementation plan
 
+## Documentation Updated
+- `docs/design/services-page-concepts-121925/services-hifi-iteration-plan.md` - Fixed typography spec
+- `docs/design/services-page-concepts-121925/services-implementation-plan.md` - Fixed typography in code examples
+
 ## Key Insight
 The `body { font-sans }` in globals.css was a fallback, not a style source. Body copy must explicitly use `font-serif` - relying on inheritance doesn't work because the body element defaults to sans.
 
