@@ -47,6 +47,13 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   title: "Michael Evans | AI/ML Portfolio",
   description: "Portfolio showcasing AI/ML expertise, creative technology solutions, and professional case studies",
+  alternates: {
+    types: {
+      "application/rss+xml": [
+        { title: "Michael Evans RSS Feed", url: "/feed.xml" },
+      ],
+    },
+  },
 };
 
 export const viewport: Viewport = {
