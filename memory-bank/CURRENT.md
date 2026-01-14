@@ -1,3 +1,47 @@
+# Time-Based Theme Color Bug Fix (2026-01-14)
+
+## Context
+Fixed a bug where the site would change color from orange (day theme) to purple (evening theme) when navigating from homepage to case studies in production, even during Portland daytime.
+
+## Root Cause
+The `TimeThemeProvider` component was using `getComputedStyle` to read the current CSS variable value and compare it with the expected value before updating. This comparison was failing in production due to subtle formatting differences between server-rendered inline styles and computed styles, causing incorrect CSS variable updates during navigation.
+
+## Fix Applied
+Removed the `getComputedStyle` comparison logic entirely. The `useEffect` dependency array already ensures the effect only runs when `theme` changes, making the comparison redundant.
+
+**File:** `src/components/providers/TimeThemeProvider.tsx`
+
+**Before (problematic):**
+```tsx
+useEffect(() => {
+  const colors = theme === 'day' ? DAY_COLORS : EVENING_COLORS;
+  const currentAccent = getComputedStyle(document.documentElement)
+    .getPropertyValue('--accent')
+    .trim();
+  if (currentAccent !== colors.accent) {
+    document.documentElement.style.setProperty('--accent', colors.accent);
+    // ...
+  }
+}, [theme]);
+```
+
+**After (fixed):**
+```tsx
+useEffect(() => {
+  const colors = theme === 'day' ? DAY_COLORS : EVENING_COLORS;
+  document.documentElement.style.setProperty('--accent', colors.accent);
+  // ...
+}, [theme]);
+```
+
+## Key Insight
+- The bug only occurred in production, not locally
+- Server-rendered HTML had correct colors (verified via curl)
+- The smooth color transition indicated JavaScript was updating CSS variables
+- React's dependency array already handles the "only update when changed" logic
+
+---
+
 # Design System Audit & Typography Fixes (2026-01-05)
 
 ## Context

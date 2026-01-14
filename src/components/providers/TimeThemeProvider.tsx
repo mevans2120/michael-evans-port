@@ -98,23 +98,13 @@ export function TimeThemeProvider({ children }: { children: ReactNode }) {
   const theme = manualOverride ?? autoTheme;
 
   // Update CSS variables when theme changes
-  // Note: Server-side renders initial values on <html> element to prevent FOUC
-  // This effect only updates when time period actually changes (keepalive for long sessions)
+  // React's dependency array ensures this only runs when theme actually changes
   useEffect(() => {
     const colors = theme === 'day' ? DAY_COLORS : EVENING_COLORS;
-
-    // Read current values to avoid unnecessary updates
-    const currentAccent = getComputedStyle(document.documentElement)
-      .getPropertyValue('--accent')
-      .trim();
-
-    // Only update if time period has actually changed
-    if (currentAccent !== colors.accent) {
-      document.documentElement.style.setProperty('--accent', colors.accent);
-      document.documentElement.style.setProperty('--accent-light', colors.accentLight);
-      document.documentElement.style.setProperty('--accent-foreground', colors.accentForeground);
-      document.documentElement.style.setProperty('--color-button-primary', colors.buttonPrimary);
-    }
+    document.documentElement.style.setProperty('--accent', colors.accent);
+    document.documentElement.style.setProperty('--accent-light', colors.accentLight);
+    document.documentElement.style.setProperty('--accent-foreground', colors.accentForeground);
+    document.documentElement.style.setProperty('--color-button-primary', colors.buttonPrimary);
   }, [theme]);
 
   const value: TimeThemeContextType = {
