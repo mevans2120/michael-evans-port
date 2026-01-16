@@ -83,8 +83,10 @@ export function Footer({ data }: FooterProps) {
     setManualOverride(theme === 'day' ? 'evening' : 'day');
   };
 
-  // Build tagline parts
-  const weatherWord = data.weatherEnabled && weatherData?.weather ? weatherData.weather : '';
+  // Build tagline parts - use "clear" instead of "sunny" at night
+  const weatherWord = data.weatherEnabled && weatherData?.weather
+    ? (weatherData.weather === 'sunny' && actualTimePeriod === 'night' ? 'clear' : weatherData.weather)
+    : '';
 
   return (
     <footer className="relative border-t border-border bg-background">
