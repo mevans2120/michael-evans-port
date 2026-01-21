@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 
-// Weather condition mapping to single descriptive words
+// Map cloud percentage to descriptive weather word
+const getCloudDescription = (cloudPercent: number): string => {
+  if (cloudPercent < 25) return 'sunny';
+  if (cloudPercent < 50) return 'partly cloudy';
+  if (cloudPercent < 75) return 'mostly cloudy';
+  return 'cloudy';
+};
+
+// Weather condition mapping for non-cloud conditions
 const weatherConditionToWord = (condition: string): string => {
   const mapping: Record<string, string> = {
-    'Clear': 'sunny',
-    'Clouds': 'cloudy',
     'Rain': 'rainy',
     'Drizzle': 'drizzly',
     'Thunderstorm': 'stormy',
@@ -15,7 +21,7 @@ const weatherConditionToWord = (condition: string): string => {
     'Smoke': 'smoky',
   };
 
-  return mapping[condition] || 'beautiful';
+  return mapping[condition] || '';
 };
 
 // In-memory cache to avoid hitting API too frequently
@@ -57,15 +63,22 @@ export async function GET() {
 
     const data = await response.json();
 
-    // Extract weather condition
+    // Extract weather condition and cloud percentage
     const condition = data.weather?.[0]?.main;
+    const cloudPercent = data.clouds?.all ?? 0;
 
     if (!condition) {
       console.error('No weather condition in API response');
       return NextResponse.json({ weather: '', error: 'Invalid API response' }, { status: 500 });
     }
 
-    const weatherWord = weatherConditionToWord(condition);
+    // Use cloud percentage for cloud-based conditions, otherwise use condition mapping
+    let weatherWord: string;
+    if (condition === 'Clouds' || condition === 'Clear') {
+      weatherWord = getCloudDescription(cloudPercent);
+    } else {
+      weatherWord = weatherConditionToWord(condition) || 'beautiful';
+    }
 
     // Update cache
     cachedWeather = {

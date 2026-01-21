@@ -1,3 +1,47 @@
+# Weather API Cloud Percentage Update (2026-01-21)
+
+## Context
+Updated the weather API to use `clouds.all` percentage from OpenWeatherMap instead of the generic `weather[0].main` condition for more accurate weather descriptions.
+
+## Problem
+- API was returning `"main": "Clouds"` → always mapped to "cloudy"
+- Ignored `clouds.all` percentage (e.g., 20% clouds would still show "cloudy")
+
+## Solution Implemented
+
+### New Cloud Percentage Logic
+**File**: `src/app/api/weather/route.ts`
+
+Added `getCloudDescription()` function:
+```typescript
+const getCloudDescription = (cloudPercent: number): string => {
+  if (cloudPercent < 25) return 'sunny';
+  if (cloudPercent < 50) return 'partly cloudy';
+  if (cloudPercent < 75) return 'mostly cloudy';
+  return 'cloudy';
+};
+```
+
+### Weather Word Selection
+- For "Clouds" or "Clear" conditions: uses cloud percentage
+- For other conditions (rain, snow, fog, etc.): uses existing mapping
+- Falls back to "beautiful" for unknown conditions
+
+### Footer Unchanged
+`src/components/Footer.tsx` already handles "sunny" → "clear" at night conversion, no changes needed.
+
+## Result
+| Cloud Coverage | Weather Word |
+|----------------|--------------|
+| 0-24%          | sunny        |
+| 25-49%         | partly cloudy|
+| 50-74%         | mostly cloudy|
+| 75-100%        | cloudy       |
+
+Example: When condition is "Clouds" but cloud coverage is 20%, API now returns "sunny" instead of "cloudy".
+
+---
+
 # Time-Based Theme Color Bug Fix (2026-01-14)
 
 ## Context
