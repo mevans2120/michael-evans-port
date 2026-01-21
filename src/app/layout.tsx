@@ -26,8 +26,8 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "600"],
   variable: "--font-sans",
-  display: "optional", // Use 'optional' for better LCP - font used only if cached/loads fast
-  preload: true,
+  display: "swap",
+  preload: true, // Preload critical font for faster rendering
   fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'], // Better fallback chain
   adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
@@ -38,8 +38,8 @@ const newsreader = Newsreader({
   weight: ["300", "400", "600"],
   style: ["normal", "italic"],
   variable: "--font-serif",
-  display: "optional", // Use 'optional' for better LCP - font used only if cached/loads fast
-  preload: true,
+  display: "swap",
+  preload: false, // Preloading hurt mobile Lighthouse scores - load on demand
   fallback: ['Georgia', 'Cambria', 'Times New Roman', 'serif'], // Better serif fallback
   adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
