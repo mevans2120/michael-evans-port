@@ -39,7 +39,7 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
-  preload: false, // Preloading hurt mobile Lighthouse scores - load on demand
+  preload: true,
   fallback: ['Georgia', 'Cambria', 'Times New Roman', 'serif'], // Better serif fallback
   adjustFontFallback: true, // Reduce layout shift with size-adjusted fallback
 });
