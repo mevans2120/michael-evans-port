@@ -11,11 +11,18 @@ import {
 } from 'lucide-react';
 
 export function NavigationMenu() {
-  const { panelState, chatExpanded } = useNavigation();
+  const { panelState, setPanelState, chatExpanded, chatInputFocused } = useNavigation();
   const pathname = usePathname();
 
   const isExpanded = panelState === 'expanded';
   const isCollapsed = panelState === 'partial';
+
+  // Handle nav link click - collapse unless chat is focused
+  const handleNavClick = () => {
+    if (!chatInputFocused && panelState === 'expanded') {
+      setPanelState('partial');
+    }
+  };
 
   const navigationItems = [
     { href: '/', label: 'Home', icon: Home },
@@ -34,6 +41,7 @@ export function NavigationMenu() {
         {/* MEvans Logo - Desktop Only */}
         <Link
           href="/"
+          onClick={handleNavClick}
           className={`${isCollapsed ? 'justify-center' : 'px-8'} pt-2 pb-6 hidden md:flex items-center gap-2 relative z-20 hover:opacity-80 transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
             chatExpanded ? 'pointer-events-none' : ''
           }`}
@@ -58,10 +66,11 @@ export function NavigationMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent relative z-10 ${
+              onClick={handleNavClick}
+              className={`hidden md:flex items-center gap-4 ${isCollapsed ? 'justify-center' : 'px-8'} py-6 text-lg font-sans transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent relative z-10 hover:bg-navigation-link-hover-bg ${
                 isActive
                   ? 'text-navigation-link-hover'
-                  : 'text-navigation-link hover:text-navigation-link-hover hover:bg-navigation-link-hover-bg'
+                  : 'text-navigation-link hover:text-navigation-link-hover'
               }`}
             >
               <Icon className="w-4 h-4" />

@@ -313,6 +313,24 @@ All colors MUST be HSL.
   .animate-stagger:nth-child(19) { animation-delay: 1800ms; }
   .animate-stagger:nth-child(20) { animation-delay: 1900ms; }
 
+  /* Edge glow for navigation - emanates from the purple border */
+  .nav-edge-glow {
+    @apply pointer-events-none absolute right-0 top-0 bottom-0 opacity-0 transition-opacity duration-200;
+    width: 120px;
+    background: linear-gradient(
+      to left,
+      hsl(var(--accent) / 0.3) 0%,
+      hsl(var(--accent) / 0.15) 30%,
+      hsl(var(--accent) / 0.05) 60%,
+      transparent 100%
+    );
+    z-index: 50; /* Above nav item hover states */
+  }
+
+  .nav-edge-glow.visible {
+    @apply opacity-100;
+  }
+
   /* Hero gradient utilities */
   .gradient-hero-title {
     background: linear-gradient(135deg, hsl(var(--accent-light)), hsl(var(--foreground)));
@@ -461,6 +479,11 @@ All colors MUST be HSL.
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Hide edge glow for reduced motion */
+  .nav-edge-glow {
+    display: none;
   }
 }
 

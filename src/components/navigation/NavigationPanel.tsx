@@ -1,6 +1,6 @@
 'use client';
 
-import React, { type ReactNode, useEffect, useState } from 'react';
+import React, { type ReactNode, useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { ChevronLeft } from 'lucide-react';
@@ -10,10 +10,16 @@ interface NavigationPanelProps {
   children: ReactNode;
 }
 
+const HOVER_DELAY = 100; // ms before expanding on hover
+
 export function NavigationPanel({ children }: NavigationPanelProps) {
   const { panelState, setPanelState, chatInputFocused, chatExpanded, chatCloseAnimationComplete, setChatExpanded, setChatInputFocused } = useNavigation();
   const isDesktop = useIsDesktop();
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Hover-to-expand state
+  const [isMouseOver, setIsMouseOver] = useState(false);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Enable transitions only after user interaction
   useEffect(() => {
@@ -21,6 +27,50 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
       setHasInteracted(true);
     }
   }, [chatInputFocused, chatExpanded]);
+
+  // Cleanup hover timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Collapse when chat loses focus and mouse is not over nav
+  useEffect(() => {
+    if (!chatInputFocused && !isMouseOver && panelState === 'expanded') {
+      setPanelState('partial');
+    }
+  }, [chatInputFocused, isMouseOver, panelState, setPanelState]);
+
+  // Mouse enter - start hover intent timer
+  const handleMouseEnter = useCallback(() => {
+    setIsMouseOver(true);
+    setHasInteracted(true);
+
+    if (panelState === 'partial') {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setPanelState('expanded');
+      }, HOVER_DELAY);
+    }
+  }, [panelState, setPanelState]);
+
+  // Mouse leave - cancel timer or collapse
+  const handleMouseLeave = useCallback(() => {
+    setIsMouseOver(false);
+
+    // Cancel pending expansion
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+
+    // Collapse unless chat is focused
+    if (!chatInputFocused && panelState === 'expanded') {
+      setPanelState('partial');
+    }
+  }, [chatInputFocused, panelState, setPanelState]);
 
   // Reset chat state when panel collapses
   useEffect(() => {
@@ -85,8 +135,21 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
         hasInteracted && "transition-[width] duration-normal ease-smooth"
       )}
       onClick={panelState === 'partial' ? handleClick : undefined}
+      onMouseEnter={isDesktop ? handleMouseEnter : undefined}
+      onMouseLeave={isDesktop ? handleMouseLeave : undefined}
     >
       <div className="relative flex-1 flex flex-col h-full overflow-hidden">
+        {/* Edge glow effect - only shows when collapsed and hovering */}
+        {isDesktop && (
+          <div
+            className={cn(
+              'nav-edge-glow',
+              isMouseOver && panelState === 'partial' && 'visible'
+            )}
+            aria-hidden="true"
+          />
+        )}
+
         {children}
 
         {/* Purple border - positioned absolutely within inner container */}

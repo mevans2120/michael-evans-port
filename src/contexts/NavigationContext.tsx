@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
 
 export type PanelState = 'collapsed' | 'partial' | 'expanded';
 
@@ -27,11 +26,9 @@ interface NavigationContextType {
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-
-  // Determine initial state based on pathname (works for both SSR and client)
+  // Universal collapsed state - hover to expand on all pages
   const getInitialState = (): PanelState => {
-    return pathname === '/' ? 'expanded' : 'partial';
+    return 'partial';
   };
 
   const [panelState, setPanelStateInternal] = useState<PanelState>(getInitialState);

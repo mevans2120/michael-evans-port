@@ -171,6 +171,11 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
     setChatInputFocused(true);
   };
 
+  const handleInputBlur = () => {
+    // Allow nav to collapse when chat input loses focus
+    setChatInputFocused(false);
+  };
+
   const handlePromptClick = (prompt: string) => {
     // Prevent sending multiple messages simultaneously
     if (isLoading || isWaitingForResponse) return;
@@ -567,6 +572,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           onKeyDown={handleKeyDown}
           placeholder=""
           disabled={isLoading}

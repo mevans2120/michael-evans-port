@@ -1,3 +1,89 @@
+# Navigation Hover-to-Expand Implementation (2026-02-01)
+
+## Context
+Implemented hover-to-expand behavior for the desktop left navigation with edge glow effect. The nav now starts collapsed on all pages and expands on hover with a 100ms delay.
+
+## Key Behaviors Implemented
+
+| Trigger | Action |
+|---------|--------|
+| Hover on collapsed nav (100ms) | Expand to 320px with edge glow |
+| Mouse leave | Collapse to 81px |
+| Click nav link | Collapse to 81px |
+| Focus chat input | Lock nav open (prevent collapse) |
+| Blur chat input | Allow collapse (if mouse not over nav) |
+| Click chevron | Toggle state (override all) |
+
+## Breaking Changes from Previous Behavior
+
+| Aspect | Before | After |
+|--------|--------|-------|
+| Homepage initial state | Expanded (320px) | Collapsed (81px) |
+| Internal pages initial state | Collapsed (81px) | Collapsed (81px) |
+| Expand trigger | Click chevron only | Hover (100ms) + click chevron |
+| Collapse trigger | Click chevron only | Mouse leave, nav click, or chevron |
+| Chat visibility on load | Visible on homepage | Hidden until hover on all pages |
+
+## Files Modified
+
+### NavigationContext.tsx
+- Changed `getInitialState()` to always return `'partial'` (universal collapsed)
+- Removed route-based logic that expanded nav on homepage
+- Removed unused `usePathname()` import
+
+### NavigationPanel.tsx
+- Added hover-to-expand with 100ms delay (`HOVER_DELAY = 100`)
+- Added `isMouseOver` state for tracking mouse position
+- Added `handleMouseEnter`, `handleMouseLeave` callbacks
+- Added edge glow element (`.nav-edge-glow` class)
+- Added useEffect to collapse when chat loses focus and mouse not over nav
+
+### NavigationMenu.tsx
+- Added `handleNavClick()` that collapses nav on link click (unless chat focused)
+- Applied to all nav items and logo
+- Added `hover:bg-navigation-link-hover-bg` to active nav items for consistent hover states
+
+### ChatSection.tsx
+- Added `handleInputBlur()` to set `chatInputFocused(false)` when input loses focus
+- Added `onBlur={handleInputBlur}` to textarea
+
+### globals.css
+- Added `.nav-edge-glow` utility class with edge-based gradient
+- Added reduced motion support (hides glow when `prefers-reduced-motion`)
+
+## Edge Glow Design
+- Emanates from right border (purple accent edge)
+- 120px wide gradient fading left
+- Only visible when collapsed + hovering (dismissed on expand)
+- z-index: 50 (above nav item hover states)
+
+```css
+.nav-edge-glow {
+  width: 120px;
+  background: linear-gradient(
+    to left,
+    hsl(var(--accent) / 0.3) 0%,
+    hsl(var(--accent) / 0.15) 30%,
+    hsl(var(--accent) / 0.05) 60%,
+    transparent 100%
+  );
+  z-index: 50;
+}
+```
+
+## Design Decisions
+- **100ms delay**: Fast enough to feel responsive, long enough to prevent accidental expansion
+- **Edge glow over cursor glow**: Cursor-following glow felt "tacky" per user feedback
+- **Glow dismissed on expand**: Acts as "about to happen" indicator, not persistent decoration
+- **Chat focus locks nav open**: Prevents disorienting collapse while typing
+- **Universal collapsed state**: Consistent experience, content-first approach
+
+## Related Documentation
+- `/docs/exploration/nav-hover-expand-implementation-plan.md` - Full implementation plan
+- `/docs/design/nav-hover-expand-concepts-020126/` - Concept prototypes
+
+---
+
 # Weather API Cloud Percentage Update (2026-01-21)
 
 ## Context

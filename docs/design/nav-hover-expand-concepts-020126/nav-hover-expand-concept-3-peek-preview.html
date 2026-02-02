@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept 3: Peek Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: hsl(240 10% 3%);
+      color: hsl(0 0% 98%);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .nav-panel {
+      position: relative;
+      height: 100vh;
+      background: hsl(240 6% 10%);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: width 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      overflow: hidden;
+    }
+
+    .nav-panel.collapsed { width: 81px; }
+    .nav-panel.peeking { width: 180px; }
+    .nav-panel.expanded { width: 320px; }
+
+    .accent-border {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: hsl(276 100% 75%);
+      transition: all 200ms ease;
+    }
+
+    .nav-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border-bottom: 1px solid hsl(240 5% 20%);
+    }
+
+    .nav-menu {
+      padding: 16px 0;
+      border-bottom: 1px solid hsl(240 5% 20%);
+      height: 66%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.125rem;
+      padding: 8px 0 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-panel.peeking .logo,
+    .nav-panel.expanded .logo {
+      justify-content: flex-start;
+      padding-left: 32px;
+    }
+
+    .logo .gradient {
+      background: linear-gradient(135deg, hsl(276 100% 75%), hsl(280 100% 80%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-full { display: none; }
+    .logo-short { display: inline; }
+    .nav-panel.peeking .logo-full,
+    .nav-panel.expanded .logo-full { display: inline; }
+    .nav-panel.peeking .logo-short,
+    .nav-panel.expanded .logo-short { display: none; }
+
+    .nav-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 0;
+      color: hsl(0 0% 60%);
+      text-decoration: none;
+      transition: all 200ms ease;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 1.125rem;
+      justify-content: center;
+    }
+
+    .nav-panel.peeking .nav-item,
+    .nav-panel.expanded .nav-item {
+      justify-content: flex-start;
+      padding-left: 32px;
+    }
+
+    .nav-item:hover {
+      background: hsl(240 5% 20%);
+      color: hsl(0 0% 100%);
+    }
+
+    .nav-item.active {
+      color: hsl(0 0% 100%);
+    }
+
+    .nav-item svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-item span { display: none; }
+    .nav-panel.peeking .nav-item span,
+    .nav-panel.expanded .nav-item span { display: inline; }
+
+    /* Chat hint - shown in peek state */
+    .chat-hint {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+
+    .nav-panel.peeking .chat-hint {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-panel.expanded .chat-hint {
+      display: none;
+    }
+
+    .chat-hint-btn {
+      background: hsl(276 100% 75% / 0.1);
+      border: 1px dashed hsl(276 100% 75% / 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: hsl(276 100% 80%);
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: all 200ms ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .chat-hint-btn:hover {
+      background: hsl(276 100% 75% / 0.15);
+      border-style: solid;
+    }
+
+    .chat-hint-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Chat section - only in full expanded */
+    .chat-section {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+
+    .nav-panel.expanded .chat-section {
+      display: flex;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .chat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: hsl(0 0% 50%);
+      margin-bottom: 12px;
+      padding-left: 16px;
+    }
+
+    .chat-input-wrapper { position: relative; }
+
+    .chat-input {
+      width: 100%;
+      padding: 12px 16px;
+      padding-right: 40px;
+      background: hsl(240 10% 3%);
+      border: 1px solid hsl(240 5% 20%);
+      border-radius: 8px;
+      color: hsl(0 0% 98%);
+      font-family: inherit;
+      font-size: 0.875rem;
+    }
+
+    .chat-input::placeholder { color: hsl(0 0% 50%); }
+
+    .chat-send {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: hsl(276 100% 75%);
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0.6;
+      transition: opacity 200ms;
+    }
+
+    .chat-send:hover { opacity: 1; }
+
+    .chevron-toggle {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(50%, -50%);
+      width: 24px;
+      height: 40px;
+      background: hsl(276 100% 75% / 0.2);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 200ms ease;
+      z-index: 20;
+    }
+
+    .nav-panel:hover .chevron-toggle,
+    .nav-panel.collapsed .chevron-toggle { opacity: 1; }
+
+    .chevron-toggle:hover { background: hsl(276 100% 75% / 0.3); }
+
+    .chevron-toggle svg {
+      width: 16px;
+      height: 16px;
+      color: hsl(276 100% 75%);
+      transition: transform 200ms ease;
+    }
+
+    .nav-panel.collapsed .chevron-toggle svg { transform: rotate(180deg); }
+
+    /* State badge */
+    .state-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: hsl(45 100% 50% / 0.15);
+      border: 1px solid hsl(45 100% 50% / 0.3);
+      color: hsl(45 100% 65%);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    .nav-panel.peeking .state-badge {
+      opacity: 1;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      overflow: auto;
+    }
+
+    .demo-card {
+      background: hsl(240 10% 12%);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 600px;
+    }
+
+    .demo-card h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    .demo-card p {
+      color: hsl(0 0% 70%);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    /* State diagram */
+    .state-diagram {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: hsl(240 10% 12%);
+      border: 1px solid hsl(240 5% 25%);
+      padding: 16px;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    .state-diagram h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: hsl(0 0% 50%);
+      margin-bottom: 12px;
+    }
+
+    .states {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .state-node {
+      flex: 1;
+      padding: 8px 4px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 0.6875rem;
+      background: hsl(240 6% 15%);
+      border: 1px solid hsl(240 5% 25%);
+      transition: all 200ms ease;
+    }
+
+    .state-node.active {
+      background: hsl(276 100% 75% / 0.2);
+      border-color: hsl(276 100% 75%);
+      color: hsl(276 100% 85%);
+    }
+
+    .state-arrow {
+      color: hsl(0 0% 40%);
+      font-size: 0.75rem;
+    }
+
+    .state-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.5625rem;
+      color: hsl(0 0% 45%);
+      padding: 0 8px;
+    }
+
+    .status {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: hsl(240 10% 15%);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      border: 1px solid hsl(240 5% 25%);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background: hsl(0 0% 50%);
+    }
+
+    .status-dot.peeking { background: hsl(45 100% 60%); }
+    .status-dot.expanded { background: hsl(142 76% 50%); }
+
+    .annotation {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: hsl(276 100% 75% / 0.1);
+      border: 1px solid hsl(276 100% 75% / 0.3);
+      padding: 16px 20px;
+      border-radius: 8px;
+      max-width: 300px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .annotation strong { color: hsl(276 100% 75%); }
+  </style>
+</head>
+<body>
+  <nav class="nav-panel collapsed" id="navPanel">
+    <div class="accent-border"></div>
+    <div class="state-badge">Preview</div>
+
+    <div class="nav-content">
+      <div class="nav-menu">
+        <a href="#" class="logo">
+          <span class="logo-short">M<span class="gradient">E</span></span>
+          <span class="logo-full">M <span class="gradient">Evans</span></span>
+        </a>
+
+        <div class="nav-items">
+          <a href="#" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home</span>
+          </a>
+          <a href="#" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>About</span>
+          </a>
+          <a href="#" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span>Case Studies</span>
+          </a>
+          <a href="#" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+            <span>Posts</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="chat-hint">
+        <button class="chat-hint-btn" id="expandForChat">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+          <span>Expand for AI Chat</span>
+        </button>
+      </div>
+
+      <div class="chat-section">
+        <div class="chat-label">AI Assistant</div>
+        <div class="chat-input-wrapper">
+          <input type="text" class="chat-input" placeholder="Ask me anything..." />
+          <button class="chat-send">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button class="chevron-toggle" id="toggleBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+  </nav>
+
+  <main class="main-content">
+    <div class="demo-card">
+      <h2>Concept 3: Peek Preview</h2>
+      <p>
+        Three-state system: <strong>Collapsed → Peeking → Expanded</strong>.
+        Hover shows labels in a preview state; chat requires explicit expansion.
+      </p>
+      <ul style="color: hsl(0 0% 70%); line-height: 1.8; padding-left: 20px;">
+        <li><strong>Collapsed (81px)</strong>: Icons only</li>
+        <li><strong>Peeking (180px)</strong>: Labels visible, "Expand for Chat" hint</li>
+        <li><strong>Expanded (320px)</strong>: Full nav + chat input</li>
+        <li>Peek auto-collapses on leave; expanded persists</li>
+      </ul>
+    </div>
+  </main>
+
+  <div class="annotation">
+    <strong>Peek Preview:</strong> Progressive disclosure - hover shows just enough to navigate, click unlocks the full experience with AI chat.
+  </div>
+
+  <div class="state-diagram">
+    <h4>State Transitions</h4>
+    <div class="states">
+      <div class="state-node active" id="stateCollapsed">Collapsed</div>
+      <span class="state-arrow">→</span>
+      <div class="state-node" id="statePeeking">Peeking</div>
+      <span class="state-arrow">→</span>
+      <div class="state-node" id="stateExpanded">Expanded</div>
+    </div>
+    <div class="state-labels">
+      <span>hover →</span>
+      <span>← leave</span>
+      <span>click →</span>
+      <span>← click</span>
+    </div>
+  </div>
+
+  <div class="status">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Collapsed</span>
+  </div>
+
+  <script>
+    const navPanel = document.getElementById('navPanel');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const expandForChat = document.getElementById('expandForChat');
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+
+    const stateCollapsed = document.getElementById('stateCollapsed');
+    const statePeeking = document.getElementById('statePeeking');
+    const stateExpanded = document.getElementById('stateExpanded');
+
+    let currentState = 'collapsed';
+    let hoverTimeout = null;
+
+    function updateStatus(state) {
+      statusDot.className = 'status-dot ' + state;
+      statusText.textContent = state.charAt(0).toUpperCase() + state.slice(1);
+
+      stateCollapsed.classList.toggle('active', state === 'collapsed');
+      statePeeking.classList.toggle('active', state === 'peeking');
+      stateExpanded.classList.toggle('active', state === 'expanded');
+    }
+
+    function setState(newState) {
+      currentState = newState;
+      navPanel.classList.remove('collapsed', 'peeking', 'expanded');
+      navPanel.classList.add(newState);
+      updateStatus(newState);
+    }
+
+    navPanel.addEventListener('mouseenter', () => {
+      if (currentState === 'collapsed') {
+        hoverTimeout = setTimeout(() => {
+          setState('peeking');
+        }, 100);
+      }
+    });
+
+    navPanel.addEventListener('mouseleave', () => {
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+        hoverTimeout = null;
+      }
+      if (currentState === 'peeking') {
+        setState('collapsed');
+      }
+    });
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentState === 'expanded') {
+        setState('collapsed');
+      } else {
+        setState('expanded');
+      }
+    });
+
+    expandForChat.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setState('expanded');
+    });
+  </script>
+</body>
+</html>
