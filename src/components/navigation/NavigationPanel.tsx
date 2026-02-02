@@ -72,13 +72,14 @@ export function NavigationPanel({ children }: NavigationPanelProps) {
     }
   }, [chatInputFocused, panelState, setPanelState]);
 
-  // Reset chat state when panel collapses
+  // Reset chat state when panel collapses (desktop only)
+  // On mobile, panelState is always 'partial' so we skip this to avoid resetting mobile chat
   useEffect(() => {
-    if (panelState === 'partial') {
+    if (isDesktop && panelState === 'partial') {
       setChatExpanded(false);
       setChatInputFocused(false);
     }
-  }, [panelState, setChatExpanded, setChatInputFocused]);
+  }, [isDesktop, panelState, setChatExpanded, setChatInputFocused]);
 
   // Handle click to expand when in partial state
   const handleClick = () => {

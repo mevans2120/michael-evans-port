@@ -364,7 +364,9 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
             // Extract LinkPreview links from mainContent to render separately
             const { textContent: cleanContent, links: extractedLinks } = extractInternalLinks(mainContent);
 
-            const isCollapsedWithChat = panelState === 'partial' && chatExpanded;
+            // Only show minimal view (sparkle only) on desktop when nav is collapsed but chat expanded
+            // On mobile, always show full chat content
+            const isCollapsedWithChat = isDesktop && panelState === 'partial' && chatExpanded;
 
             return (
               <div
@@ -518,7 +520,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           )}
 
           {/* Suggested Prompts - Show below welcome message when expanded, hide when waiting or loading */}
-          {messages.length === 1 && chatExpanded && !(panelState === 'partial' && chatExpanded) && !isWaitingForResponse && !isLoading && (
+          {messages.length === 1 && chatExpanded && !(isDesktop && panelState === 'partial' && chatExpanded) && !isWaitingForResponse && !isLoading && (
             <SuggestedPrompts
               onPromptClick={handlePromptClick}
               isLoading={isLoading || isWaitingForResponse}
@@ -535,7 +537,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
         <div className={`px-8 pt-2 pb-1 text-center ${
           !showChatContent ? 'hidden' : ''
         } ${
-          panelState === 'partial' && chatExpanded ? 'hidden' : ''
+          isDesktop && panelState === 'partial' && chatExpanded ? 'hidden' : ''
         }`}>
           <p className="text-xs text-chat-foreground/60">
             I can make mistakes. If you are curious,{' '}
@@ -558,7 +560,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
         className={`px-8 py-3 border-t border-chat-border flex gap-2 flex-shrink-0 ${
           !showChatContent ? 'hidden' : ''
         } ${
-          panelState === 'partial' && chatExpanded ? 'hidden' : ''
+          isDesktop && panelState === 'partial' && chatExpanded ? 'hidden' : ''
         }`}
       >
         {/**

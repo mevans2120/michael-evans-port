@@ -1,3 +1,47 @@
+# Navigation Hover-to-Expand Implementation (2026-02-02)
+
+## Mobile Chat Fix (2026-02-02)
+
+### Problem
+After implementing universal collapsed state (`panelState === 'partial'` on all pages), mobile chat was broken:
+1. Chat would open but immediately close
+2. Chat would show only sparkle icon, no messages or input
+
+### Root Cause
+Several conditions in ChatSection and NavigationPanel assumed `panelState === 'partial'` meant "desktop collapsed nav" - but now it's also the state on mobile.
+
+### Fixes Applied
+
+**NavigationPanel.tsx:**
+- Added `isDesktop` check to reset effect: only reset chat state when desktop panel collapses
+```tsx
+// Before
+if (panelState === 'partial') { setChatExpanded(false); }
+
+// After
+if (isDesktop && panelState === 'partial') { setChatExpanded(false); }
+```
+
+**ChatSection.tsx (4 places):**
+- Line 369: `isCollapsedWithChat` now requires `isDesktop`
+- Line 523: Suggested prompts visibility
+- Line 540: AI disclaimer visibility
+- Line 563: Chat input form visibility
+
+All changed from:
+```tsx
+panelState === 'partial' && chatExpanded ? 'hidden' : ''
+```
+To:
+```tsx
+isDesktop && panelState === 'partial' && chatExpanded ? 'hidden' : ''
+```
+
+### Key Insight
+The "collapsed with chat" UI (sparkle-only minimal view) is a **desktop-only** feature for when the nav panel is collapsed but chat is expanded. On mobile, the nav panel is always hidden, so we always show full chat content.
+
+---
+
 # Navigation Hover-to-Expand Implementation (2026-02-01)
 
 ## Context
