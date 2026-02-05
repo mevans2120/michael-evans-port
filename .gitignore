@@ -64,3 +64,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# polis (private keys and root-level dirs — public files live in public/)
+.polis/
+/.well-known/
+/posts/
+/comments/
+/snippets/
+/metadata/

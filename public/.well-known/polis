@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "author": "Michael Evans",
+  "email": "mevans212@gmail.com",
+  "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA5Aj8oQpAX2sWGZ2Z4acubYkQKKLcvrexItjCiy9od9 polis-local",
+  "created": "2026-02-05T22:52:43Z",
+  "config": {
+    "directories": {
+      "keys": ".polis/keys",
+      "posts": "posts",
+      "comments": "comments",
+      "snippets": "snippets",
+      "themes": ".polis/themes",
+      "versions": ".versions"
+    },
+    "files": {
+      "public_index": "metadata/public.jsonl",
+      "blessed_comments": "metadata/blessed-comments.json",
+      "following_index": "metadata/following.json"
+    }
+  }
+}
