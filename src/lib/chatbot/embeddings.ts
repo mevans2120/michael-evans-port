@@ -11,7 +11,7 @@ import { logger } from '@/lib/logger';
  * Configuration
  */
 
-const EMBEDDING_MODEL = 'text-embedding-004';
+const EMBEDDING_MODEL = 'gemini-embedding-001';
 const CHUNK_SIZE = 800; // characters per chunk (increased for more context)
 const CHUNK_OVERLAP = 200; // overlap between chunks (increased to ensure better continuity)
 
@@ -54,6 +54,9 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     const { embedding } = await embed({
       model: google.textEmbeddingModel(EMBEDDING_MODEL),
       value: text,
+      providerOptions: {
+        google: { outputDimensionality: 768 },
+      },
     });
 
     return embedding;
@@ -80,6 +83,9 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
       const { embeddings } = await embedMany({
         model: google.textEmbeddingModel(EMBEDDING_MODEL),
         values: batch,
+        providerOptions: {
+          google: { outputDimensionality: 768 },
+        },
       });
 
       allEmbeddings.push(...embeddings);
