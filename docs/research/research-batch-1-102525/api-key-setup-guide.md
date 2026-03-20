@@ -26,7 +26,7 @@ This guide will walk you through getting the free API keys needed for your portf
    - Copy the API key that appears
 
 3. **Add to .env.local:**
-   - Open `/Users/michaelevans/michael-evans-port-main/.env.local`
+   - Open `/Users/michaelevans/repos/michael-evans-port-main/.env.local`
    - Replace `your_google_ai_api_key_here` with your actual key
    - Example: `GOOGLE_GENERATIVE_AI_API_KEY=AIzaSyA...`
 

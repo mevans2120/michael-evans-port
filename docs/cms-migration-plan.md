@@ -47,7 +47,7 @@ Before making any changes, we need to audit what data exists in Sanity.
 
 ```bash
 # In Sanity Studio or via CLI
-cd /Users/michaelevans/michael-evans-port-main
+cd /Users/michaelevans/repos/michael-evans-port-main
 
 # Check which projects use old vs new fields
 npx sanity documents query '*[_type == "project"]{

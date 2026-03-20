@@ -40,17 +40,17 @@ Update the contact page to include a simple contact form using Resend for email 
 - Install `resend`
 
 ### API Layer
-#### [NEW] [route.ts](file:///Users/michaelevans/michael-evans-port-main/src/app/api/send/route.ts)
+#### [NEW] [route.ts](file:///Users/michaelevans/repos/michael-evans-port-main/src/app/api/send/route.ts)
 - POST endpoint for form submission.
 
 ### UI Components
-#### [NEW] [textarea.tsx](file:///Users/michaelevans/michael-evans-port-main/src/components/ui/textarea.tsx)
+#### [NEW] [textarea.tsx](file:///Users/michaelevans/repos/michael-evans-port-main/src/components/ui/textarea.tsx)
 - New component matching `Input` styling.
 
-#### [NEW] [ContactForm.tsx](file:///Users/michaelevans/michael-evans-port-main/src/components/ContactForm.tsx)
+#### [NEW] [ContactForm.tsx](file:///Users/michaelevans/repos/michael-evans-port-main/src/components/ContactForm.tsx)
 - Client component with form logic.
 
-#### [MODIFY] [ContactSection.tsx](file:///Users/michaelevans/michael-evans-port-main/src/components/ContactSection.tsx)
+#### [MODIFY] [ContactSection.tsx](file:///Users/michaelevans/repos/michael-evans-port-main/src/components/ContactSection.tsx)
 - Import and render `ContactForm`.
 
 ### Environment

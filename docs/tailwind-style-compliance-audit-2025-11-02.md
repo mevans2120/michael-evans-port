@@ -841,24 +841,24 @@ The codebase is in excellent shape. The identified violations are minor and conc
 
 ### Non-Compliant Files (Require Attention)
 
-1. `/Users/michaelevans/michael-evans-port-main/src/components/case-studies/detail/CaseStudyHero.tsx`
-2. `/Users/michaelevans/michael-evans-port-main/src/components/case-studies/detail/CaseStudyMetrics.tsx`
-3. `/Users/michaelevans/michael-evans-port-main/src/components/case-studies/detail/CaseStudyAchievements.tsx`
-4. `/Users/michaelevans/michael-evans-port-main/src/components/case-studies/detail/CaseStudySectionHeader.tsx`
-5. `/Users/michaelevans/michael-evans-port-main/src/components/case-studies/detail/CaseStudyAnnotation.tsx`
-6. `/Users/michaelevans/michael-evans-port-main/src/components/design-concepts/WarmDepth.tsx` (acceptable)
+1. `/Users/michaelevans/repos/michael-evans-port-main/src/components/case-studies/detail/CaseStudyHero.tsx`
+2. `/Users/michaelevans/repos/michael-evans-port-main/src/components/case-studies/detail/CaseStudyMetrics.tsx`
+3. `/Users/michaelevans/repos/michael-evans-port-main/src/components/case-studies/detail/CaseStudyAchievements.tsx`
+4. `/Users/michaelevans/repos/michael-evans-port-main/src/components/case-studies/detail/CaseStudySectionHeader.tsx`
+5. `/Users/michaelevans/repos/michael-evans-port-main/src/components/case-studies/detail/CaseStudyAnnotation.tsx`
+6. `/Users/michaelevans/repos/michael-evans-port-main/src/components/design-concepts/WarmDepth.tsx` (acceptable)
 
 ### Design System Files
 
-- `/Users/michaelevans/michael-evans-port-main/src/app/globals.css`
-- `/Users/michaelevans/michael-evans-port-main/tailwind.config.ts`
+- `/Users/michaelevans/repos/michael-evans-port-main/src/app/globals.css`
+- `/Users/michaelevans/repos/michael-evans-port-main/tailwind.config.ts`
 
 ### Best Practice Examples
 
-- `/Users/michaelevans/michael-evans-port-main/src/components/ai-showcase/MetricsSlide.tsx`
-- `/Users/michaelevans/michael-evans-port-main/src/components/navigation/NavigationPanel.tsx`
-- `/Users/michaelevans/michael-evans-port-main/src/components/FeaturedCaseStudies.tsx`
-- `/Users/michaelevans/michael-evans-port-main/src/app/(public)/page.tsx`
+- `/Users/michaelevans/repos/michael-evans-port-main/src/components/ai-showcase/MetricsSlide.tsx`
+- `/Users/michaelevans/repos/michael-evans-port-main/src/components/navigation/NavigationPanel.tsx`
+- `/Users/michaelevans/repos/michael-evans-port-main/src/components/FeaturedCaseStudies.tsx`
+- `/Users/michaelevans/repos/michael-evans-port-main/src/app/(public)/page.tsx`
 
 ---
 

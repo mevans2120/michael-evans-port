@@ -245,8 +245,7 @@ export async function POST(request: NextRequest) {
     logger.log('');
 
     // Step 6: Sync to chatbot vector database (only for supported types)
-    // Blog posts don't need chatbot sync, just cache revalidation
-    const chatbotSyncTypes = ['project', 'profile', 'aiProject'];
+    const chatbotSyncTypes = ['project', 'profile', 'aiProject', 'blog'];
     let syncResult = null;
 
     if (chatbotSyncTypes.includes(documentType)) {
@@ -298,7 +297,7 @@ export async function GET() {
   return NextResponse.json({
     message: 'Sanity webhook endpoint is active',
     cacheRevalidation: ['blog', 'project', 'profile', 'homepageHero', 'contactPage', 'servicesPage', 'footer', 'blogIndexPage', 'caseStudiesIndexPage', 'siteSettings', 'seoSettings'],
-    chatbotSync: ['project', 'profile', 'aiProject'],
+    chatbotSync: ['project', 'profile', 'aiProject', 'blog'],
     events: ['create', 'update', 'delete'],
     setup: {
       url: '/api/webhooks/sanity',

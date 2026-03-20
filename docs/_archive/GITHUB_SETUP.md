@@ -44,7 +44,7 @@ If you prefer a GUI approach:
 1. Download [GitHub Desktop](https://desktop.github.com/)
 2. Sign in with your GitHub account
 3. Click "Add" → "Add Existing Repository"
-4. Browse to `/Users/michaelevans/michael-evans-port-main`
+4. Browse to `/Users/michaelevans/repos/michael-evans-port-main`
 5. Click "Publish repository" to create and push to GitHub
 
 ## After Setup

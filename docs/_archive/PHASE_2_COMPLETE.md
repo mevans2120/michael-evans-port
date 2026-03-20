@@ -146,7 +146,7 @@ images: {
 **Turbopack Configuration:**
 ```typescript
 turbopack: {
-  root: '/Users/michaelevans/michael-evans-port-main/nextjs-app',
+  root: '/Users/michaelevans/repos/michael-evans-port-main/nextjs-app',
 }
 ```
 - Silences lockfile warning

@@ -241,7 +241,7 @@ function evaluateAnswer(question: string, answer: string): {
 async function testEvaluation() {
   // Read the latest test results
   const fs = await import('fs');
-  const resultsPath = '/Users/michaelevans/michael-evans-port-main/docs/chatbot-comprehensive-results.json';
+  const resultsPath = '/Users/michaelevans/repos/michael-evans-port-main/docs/chatbot-comprehensive-results.json';
 
   if (!fs.existsSync(resultsPath)) {
     console.error('No test results found. Run the comprehensive test first.');
@@ -333,7 +333,7 @@ async function testEvaluation() {
     details: reevaluatedResults,
   };
 
-  const reevalPath = '/Users/michaelevans/michael-evans-port-main/docs/chatbot-reevaluation-results.json';
+  const reevalPath = '/Users/michaelevans/repos/michael-evans-port-main/docs/chatbot-reevaluation-results.json';
   fs.writeFileSync(reevalPath, JSON.stringify(reevaluationReport, null, 2));
 
   console.log(`\n✅ Re-evaluation complete!`);

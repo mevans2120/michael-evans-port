@@ -2,8 +2,8 @@
 
 **Status**: Ready to Execute
 **Migration Type**: Full (Option A) - Direct migration from React Router to Next.js App Router
-**Target Location**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/`
-**Source Location**: `/Users/michaelevans/michael-evans-port-main/src/`
+**Target Location**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/`
+**Source Location**: `/Users/michaelevans/repos/michael-evans-port-main/src/`
 
 ---
 
@@ -97,9 +97,9 @@ NotFound (P3) - Independent
 
 Before starting, verify:
 
-- [ ] Current working directory: `/Users/michaelevans/michael-evans-port-main/nextjs-app/`
+- [ ] Current working directory: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/`
 - [ ] All Phase 1-3 work is complete (run `npm run dev` to verify)
-- [ ] Source files are accessible at `/Users/michaelevans/michael-evans-port-main/src/`
+- [ ] Source files are accessible at `/Users/michaelevans/repos/michael-evans-port-main/src/`
 - [ ] Git repository is clean or changes are committed
 - [ ] Node.js and npm are working (`node -v`, `npm -v`)
 
@@ -119,13 +119,13 @@ The Navigation component is imported by all pages. Converting it first unblocks 
 #### 1.1 Create Navigation Component Directory
 
 ```bash
-mkdir -p /Users/michaelevans/michael-evans-port-main/nextjs-app/src/components
+mkdir -p /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/components
 ```
 
 #### 1.2 Convert Navigation Component
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/components/Navigation.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/components/Navigation.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/components/Navigation.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/components/Navigation.tsx`
 
 **Required Changes**:
 
@@ -315,7 +315,7 @@ export default Navigation;
 #### 1.3 Verify Navigation Component
 
 ```bash
-cd /Users/michaelevans/michael-evans-port-main/nextjs-app
+cd /Users/michaelevans/repos/michael-evans-port-main/nextjs-app
 npm run dev
 ```
 
@@ -346,11 +346,11 @@ Before migrating HomeMinimal, copy the BentoImageBehind component it depends on:
 
 ```bash
 # Create directory
-mkdir -p /Users/michaelevans/michael-evans-port-main/nextjs-app/src/components/ai-showcase-variations
+mkdir -p /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/components/ai-showcase-variations
 
 # Copy BentoImageBehind component
-cp /Users/michaelevans/michael-evans-port-main/src/components/ai-showcase-variations/BentoImageBehind.tsx \
-   /Users/michaelevans/michael-evans-port-main/nextjs-app/src/components/ai-showcase-variations/BentoImageBehind.tsx
+cp /Users/michaelevans/repos/michael-evans-port-main/src/components/ai-showcase-variations/BentoImageBehind.tsx \
+   /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/components/ai-showcase-variations/BentoImageBehind.tsx
 ```
 
 **Then convert BentoImageBehind.tsx**:
@@ -360,8 +360,8 @@ cp /Users/michaelevans/michael-evans-port-main/src/components/ai-showcase-variat
 
 #### 2.2 Create Homepage File
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/pages/HomeMinimal.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/app/page.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/pages/HomeMinimal.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/app/page.tsx`
 
 #### 2.3 Convert HomeMinimal to page.tsx
 
@@ -468,14 +468,14 @@ export default function HomePage() {  // Changed from `const HomeMinimal: React.
 
 ```bash
 # Copy types if not already copied
-mkdir -p /Users/michaelevans/michael-evans-port-main/nextjs-app/src/types
-cp /Users/michaelevans/michael-evans-port-main/src/types/sanity.ts \
-   /Users/michaelevans/michael-evans-port-main/nextjs-app/src/types/sanity.ts
+mkdir -p /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/types
+cp /Users/michaelevans/repos/michael-evans-port-main/src/types/sanity.ts \
+   /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/types/sanity.ts
 
 # Copy logger utility
-mkdir -p /Users/michaelevans/michael-evans-port-main/nextjs-app/src/lib
-cp /Users/michaelevans/michael-evans-port-main/src/lib/logger.ts \
-   /Users/michaelevans/michael-evans-port-main/nextjs-app/src/lib/logger.ts
+mkdir -p /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/lib
+cp /Users/michaelevans/repos/michael-evans-port-main/src/lib/logger.ts \
+   /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/lib/logger.ts
 ```
 
 #### 2.5 Test Homepage
@@ -507,8 +507,8 @@ Visit http://localhost:3000
 
 ### 3.1 About Page (30 minutes)
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/pages/About.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/app/about/page.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/pages/About.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/app/about/page.tsx`
 
 **Changes Required**:
 
@@ -538,8 +538,8 @@ export default function AboutPage() {  // Changed export
 **Additional Step**: Migrate Contact component (if not already done):
 
 ```bash
-cp /Users/michaelevans/michael-evans-port-main/src/components/Contact.tsx \
-   /Users/michaelevans/michael-evans-port-main/nextjs-app/src/components/Contact.tsx
+cp /Users/michaelevans/repos/michael-evans-port-main/src/components/Contact.tsx \
+   /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/components/Contact.tsx
 ```
 
 Convert Contact.tsx:
@@ -548,8 +548,8 @@ Convert Contact.tsx:
 
 ### 3.2 AI Showcase Page (45 minutes)
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/pages/AIShowcase.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/app/ai-showcase/page.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/pages/AIShowcase.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/app/ai-showcase/page.tsx`
 
 **Changes Required**:
 
@@ -595,9 +595,9 @@ export default function AIShowcasePage() {  // Changed export
 **Copy Hook**:
 
 ```bash
-mkdir -p /Users/michaelevans/michael-evans-port-main/nextjs-app/src/hooks
-cp /Users/michaelevans/michael-evans-port-main/src/hooks/useAIProject.ts \
-   /Users/michaelevans/michael-evans-port-main/nextjs-app/src/hooks/useAIProject.ts
+mkdir -p /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/hooks
+cp /Users/michaelevans/repos/michael-evans-port-main/src/hooks/useAIProject.ts \
+   /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/hooks/useAIProject.ts
 ```
 
 ---
@@ -610,8 +610,8 @@ cp /Users/michaelevans/michael-evans-port-main/src/hooks/useAIProject.ts \
 
 ### 4.1 Case Study Page
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/pages/CaseStudy.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/app/case-studies/[slug]/page.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/pages/CaseStudy.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/app/case-studies/[slug]/page.tsx`
 
 **Key Difference**: Next.js App Router handles params differently
 
@@ -833,8 +833,8 @@ After converting all four, test each route:
 
 ### 6.1 Studio Page (60 minutes)
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/pages/Studio.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/app/studio/[[...tool]]/page.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/pages/Studio.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/app/studio/[[...tool]]/page.tsx`
 
 **Why Complex**: Sanity Studio requires special handling for dynamic routes and SSR avoidance.
 
@@ -904,17 +904,17 @@ Ensure your schemas are accessible at the import path. You may need to copy them
 
 ```bash
 # Check if schemas exist in nextjs-app
-ls /Users/michaelevans/michael-evans-port-main/nextjs-app/sanity/schemas/
+ls /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/sanity/schemas/
 
 # If not, copy from old location
-cp -r /Users/michaelevans/michael-evans-port-main/sanity/ \
-      /Users/michaelevans/michael-evans-port-main/nextjs-app/
+cp -r /Users/michaelevans/repos/michael-evans-port-main/sanity/ \
+      /Users/michaelevans/repos/michael-evans-port-main/nextjs-app/
 ```
 
 ### 6.2 NotFound Page (15 minutes)
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/pages/NotFound.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/app/not-found.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/pages/NotFound.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/app/not-found.tsx`
 
 **Special Note**: This is a reserved Next.js filename. Place it at app root, not in a subfolder.
 
@@ -973,7 +973,7 @@ If you want to keep test pages for development:
 Run this to find all components used by pages:
 
 ```bash
-cd /Users/michaelevans/michael-evans-port-main/src/components
+cd /Users/michaelevans/repos/michael-evans-port-main/src/components
 ls -la
 ```
 
@@ -985,8 +985,8 @@ Common components likely needed:
 
 ### 7.2 Convert Contact Component
 
-**Source**: `/Users/michaelevans/michael-evans-port-main/src/components/Contact.tsx`
-**Target**: `/Users/michaelevans/michael-evans-port-main/nextjs-app/src/components/Contact.tsx`
+**Source**: `/Users/michaelevans/repos/michael-evans-port-main/src/components/Contact.tsx`
+**Target**: `/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src/components/Contact.tsx`
 
 **Pattern**:
 1. Check if it has state/effects → add `'use client'`
@@ -997,7 +997,7 @@ Common components likely needed:
 
 ```bash
 # Copy all components (excluding already migrated ones)
-cd /Users/michaelevans/michael-evans-port-main/src/components
+cd /Users/michaelevans/repos/michael-evans-port-main/src/components
 
 # List all .tsx files
 find . -name "*.tsx" -type f
@@ -1025,7 +1025,7 @@ find . -name "*.tsx" -type f
 Start the Next.js dev server:
 
 ```bash
-cd /Users/michaelevans/michael-evans-port-main/nextjs-app
+cd /Users/michaelevans/repos/michael-evans-port-main/nextjs-app
 npm run dev
 ```
 
@@ -1115,16 +1115,16 @@ Once Next.js app is verified working:
 # Just document what will be removed:
 
 # These can be removed after successful deployment:
-# - /Users/michaelevans/michael-evans-port-main/src/App.tsx
-# - /Users/michaelevans/michael-evans-port-main/src/main.tsx
-# - /Users/michaelevans/michael-evans-port-main/src/pages/ (entire directory)
-# - /Users/michaelevans/michael-evans-port-main/index.html
+# - /Users/michaelevans/repos/michael-evans-port-main/src/App.tsx
+# - /Users/michaelevans/repos/michael-evans-port-main/src/main.tsx
+# - /Users/michaelevans/repos/michael-evans-port-main/src/pages/ (entire directory)
+# - /Users/michaelevans/repos/michael-evans-port-main/index.html
 # - Old Vite config
 ```
 
 ### 9.2 Update package.json Scripts
 
-In `/Users/michaelevans/michael-evans-port-main/package.json`, update scripts to point to Next.js app:
+In `/Users/michaelevans/repos/michael-evans-port-main/package.json`, update scripts to point to Next.js app:
 
 ```json
 {
@@ -1557,8 +1557,8 @@ Quick copy-paste commands for the migration:
 
 ```bash
 # Set base paths
-OLD_APP="/Users/michaelevans/michael-evans-port-main/src"
-NEW_APP="/Users/michaelevans/michael-evans-port-main/nextjs-app/src"
+OLD_APP="/Users/michaelevans/repos/michael-evans-port-main/src"
+NEW_APP="/Users/michaelevans/repos/michael-evans-port-main/nextjs-app/src"
 
 # Create necessary directories
 mkdir -p $NEW_APP/components/ai-showcase-variations
@@ -1585,7 +1585,7 @@ cp $OLD_APP/types/sanity.ts $NEW_APP/types/
 cp -r $OLD_APP/data/* $NEW_APP/data/
 
 # Start dev server
-cd /Users/michaelevans/michael-evans-port-main/nextjs-app
+cd /Users/michaelevans/repos/michael-evans-port-main/nextjs-app
 npm run dev
 ```
 

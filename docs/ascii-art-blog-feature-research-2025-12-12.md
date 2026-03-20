@@ -24,7 +24,7 @@ The ASCII art feature allows blog posts to display ASCII art instead of featured
 
 ### 1. Sanity Schema Configuration
 
-**File:** `/Users/michaelevans/michael-evans-port-main/sanity/schemas/blog.ts` (lines 428-441)
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/sanity/schemas/blog.ts` (lines 428-441)
 
 ```typescript
 defineField({
@@ -53,7 +53,7 @@ defineField({
 
 ### 2. ASCII Art Registry Component
 
-**File:** `/Users/michaelevans/michael-evans-port-main/src/components/blog/AsciiArt.tsx`
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/src/components/blog/AsciiArt.tsx`
 
 **Architecture Pattern:** Registry-based component that maps string IDs to ASCII art configurations.
 
@@ -118,7 +118,7 @@ This type guard validates that a CMS value is a valid ASCII art type (excluding 
 
 ### 3. TypeScript Type Definitions
 
-**File:** `/Users/michaelevans/michael-evans-port-main/src/types/blog.ts`
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/src/types/blog.ts`
 
 ```typescript
 export interface Blog {
@@ -139,7 +139,7 @@ export interface BlogListItem {
 
 ### 4. GROQ Queries
 
-**File:** `/Users/michaelevans/michael-evans-port-main/src/lib/sanity/queries/blog.ts`
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/src/lib/sanity/queries/blog.ts`
 
 ASCII art field is fetched in **all blog queries**:
 
@@ -167,7 +167,7 @@ ASCII art is rendered in **3 locations** with different sizing:
 
 #### A. Blog Hero (Individual Post Page)
 
-**File:** `/Users/michaelevans/michael-evans-port-main/src/components/blog/BlogHero.tsx` (lines 76-81)
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/src/components/blog/BlogHero.tsx` (lines 76-81)
 
 ```tsx
 {showAsciiArt ? (
@@ -198,7 +198,7 @@ ASCII art is rendered in **3 locations** with different sizing:
 
 #### B. Blog Post Card (Listing Page)
 
-**File:** `/Users/michaelevans/michael-evans-port-main/src/components/blog/BlogPostCard.tsx` (lines 48-53)
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/src/components/blog/BlogPostCard.tsx` (lines 48-53)
 
 ```tsx
 {showAsciiArt && post.asciiArt && post.asciiArt !== 'none' ? (
@@ -227,7 +227,7 @@ ASCII art is rendered in **3 locations** with different sizing:
 
 #### C. Homepage Featured Blog
 
-**File:** `/Users/michaelevans/michael-evans-port-main/src/components/HomepageFeaturedBlogImage.tsx` (lines 32-39)
+**File:** `/Users/michaelevans/repos/michael-evans-port-main/src/components/HomepageFeaturedBlogImage.tsx` (lines 32-39)
 
 ```tsx
 if (showAsciiArt) {
@@ -277,7 +277,7 @@ This token provides **dynamic theming**:
 - **Dark Mode:** Automatically adjusts contrast
 - **Consistent:** Matches all other accent elements (headings, links, gradients)
 
-**Defined in:** `/Users/michaelevans/michael-evans-port-main/tailwind.config.ts`
+**Defined in:** `/Users/michaelevans/repos/michael-evans-port-main/tailwind.config.ts`
 
 ### Font Sizing Strategy
 
@@ -307,7 +307,7 @@ This token provides **dynamic theming**:
 
 **Primary Source:** Hardcoded in `ASCII_ART_REGISTRY` constant
 
-**File Reference:** `/Users/michaelevans/michael-evans-port-main/public/filing_cabinet_ascii.txt`
+**File Reference:** `/Users/michaelevans/repos/michael-evans-port-main/public/filing_cabinet_ascii.txt`
 - Contains the original ASCII art source
 - **Not used in rendering** - reference only
 - 15 lines, 769 bytes

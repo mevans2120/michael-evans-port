@@ -508,7 +508,7 @@ Nice to have for visibility, but not critical for a portfolio site. Consider imp
 `.env.local` has permissions `644` (readable by all users), should be `600` (owner only).
 
 **Location:**
-- `/Users/michaelevans/michael-evans-port-main/.env.local`
+- `/Users/michaelevans/repos/michael-evans-port-main/.env.local`
 
 **Exploit Scenario**:
 If another user has access to the same system, they can read your `.env.local` file.

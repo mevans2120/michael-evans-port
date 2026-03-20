@@ -742,7 +742,7 @@ Create 4 individual page components that display detailed AI project information
 First, create the directory structure:
 
 ```bash
-mkdir -p /Users/michaelevans/michael-evans-port-main/src/pages/ai-projects
+mkdir -p /Users/michaelevans/repos/michael-evans-port-main/src/pages/ai-projects
 ```
 
 #### Page Component Template
@@ -1903,14 +1903,14 @@ curl http://localhost:8080/ai-projects/post-pal  # Test route
 
 ### Key File Paths (Absolute)
 ```
-/Users/michaelevans/michael-evans-port-main/src/data/aiProjects.ts
-/Users/michaelevans/michael-evans-port-main/src/pages/ai-projects/PostPal.tsx
-/Users/michaelevans/michael-evans-port-main/src/pages/ai-projects/KarunaGatton.tsx
-/Users/michaelevans/michael-evans-port-main/src/pages/ai-projects/AIResearchAgent.tsx
-/Users/michaelevans/michael-evans-port-main/src/pages/ai-projects/DepartmentOfArt.tsx
-/Users/michaelevans/michael-evans-port-main/src/App.tsx
-/Users/michaelevans/michael-evans-port-main/src/components/Navigation.tsx
-/Users/michaelevans/michael-evans-port-main/src/components/ai-showcase-variations/BentoImageBehind.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/data/aiProjects.ts
+/Users/michaelevans/repos/michael-evans-port-main/src/pages/ai-projects/PostPal.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/pages/ai-projects/KarunaGatton.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/pages/ai-projects/AIResearchAgent.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/pages/ai-projects/DepartmentOfArt.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/App.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/components/Navigation.tsx
+/Users/michaelevans/repos/michael-evans-port-main/src/components/ai-showcase-variations/BentoImageBehind.tsx
 ```
 
 ### Reference URLs

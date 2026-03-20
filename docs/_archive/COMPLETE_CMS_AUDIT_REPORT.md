@@ -699,7 +699,7 @@ All type definitions are valid
 
 1. **Delete Duplicate Config**
    ```bash
-   rm /Users/michaelevans/michael-evans-port-main/src/sanity.config.ts
+   rm /Users/michaelevans/repos/michael-evans-port-main/src/sanity.config.ts
    ```
 
 2. **Fix Schema Field Mismatch**

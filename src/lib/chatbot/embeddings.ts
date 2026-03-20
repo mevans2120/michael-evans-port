@@ -73,34 +73,46 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 
 export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
   const BATCH_SIZE = 100; // Google API limit
+  const MAX_RETRIES = 5;
   const allEmbeddings: number[][] = [];
 
-  try {
-    // Process in batches
-    for (let i = 0; i < texts.length; i += BATCH_SIZE) {
-      const batch = texts.slice(i, i + BATCH_SIZE);
+  // Process in batches
+  for (let i = 0; i < texts.length; i += BATCH_SIZE) {
+    const batch = texts.slice(i, i + BATCH_SIZE);
 
-      const { embeddings } = await embedMany({
-        model: google.textEmbeddingModel(EMBEDDING_MODEL),
-        values: batch,
-        providerOptions: {
-          google: { outputDimensionality: 768 },
-        },
-      });
+    let lastError: Error | undefined;
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      try {
+        const { embeddings } = await embedMany({
+          model: google.textEmbeddingModel(EMBEDDING_MODEL),
+          values: batch,
+          providerOptions: {
+            google: { outputDimensionality: 768 },
+          },
+        });
 
-      allEmbeddings.push(...embeddings);
-
-      // Optional: Add small delay between batches to avoid rate limiting
-      if (i + BATCH_SIZE < texts.length) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+        allEmbeddings.push(...embeddings);
+        lastError = undefined;
+        break;
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+        const isRateLimit = lastError.message.includes('quota') || lastError.message.includes('rate') || lastError.message.includes('429');
+        if (!isRateLimit || attempt === MAX_RETRIES - 1) {
+          throw new Error(`Failed to generate embeddings: ${lastError.message}`);
+        }
+        const backoffMs = Math.min(10000 * Math.pow(2, attempt), 60000);
+        logger.log(`   ⏳ Rate limited, retrying in ${(backoffMs / 1000).toFixed(0)}s (attempt ${attempt + 1}/${MAX_RETRIES})...`);
+        await new Promise(resolve => setTimeout(resolve, backoffMs));
       }
     }
 
-    return allEmbeddings;
-  } catch (error) {
-    logger.error('Error generating embeddings:', error);
-    throw new Error(`Failed to generate embeddings: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    // Delay between batches to stay under free-tier rate limits
+    if (i + BATCH_SIZE < texts.length) {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
   }
+
+  return allEmbeddings;
 }
 
 /**
@@ -155,9 +167,15 @@ export async function processDocuments(
 ): Promise<ProcessedChunk[]> {
   const allChunks: ProcessedChunk[] = [];
 
-  for (const doc of documents) {
+  for (let i = 0; i < documents.length; i++) {
+    const doc = documents[i];
     const chunks = await processDocument(doc.content, doc.metadata);
     allChunks.push(...chunks);
+
+    // Delay between documents to respect free-tier rate limits
+    if (i < documents.length - 1) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
   }
 
   return allChunks;

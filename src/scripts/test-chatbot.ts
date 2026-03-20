@@ -320,7 +320,7 @@ async function runTests() {
 
   // Write detailed results to file
   const fs = await import('fs');
-  const reportPath = '/Users/michaelevans/michael-evans-port-main/docs/chatbot-eval-results.json';
+  const reportPath = '/Users/michaelevans/repos/michael-evans-port-main/docs/chatbot-eval-results.json';
   const report = {
     timestamp: new Date().toISOString(),
     summary: {

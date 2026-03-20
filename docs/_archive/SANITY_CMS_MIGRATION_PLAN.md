@@ -1356,7 +1356,7 @@ function App() {
 
 **Action:**
 ```bash
-cd /Users/michaelevans/michael-evans-port-main
+cd /Users/michaelevans/repos/michael-evans-port-main
 cat .env.local | grep SANITY
 ```
 

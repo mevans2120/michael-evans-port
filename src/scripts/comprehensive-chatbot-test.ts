@@ -593,7 +593,7 @@ async function runComprehensiveTest() {
   };
 
   const fs = await import('fs');
-  const reportPath = '/Users/michaelevans/michael-evans-port-main/docs/chatbot-comprehensive-results.json';
+  const reportPath = '/Users/michaelevans/repos/michael-evans-port-main/docs/chatbot-comprehensive-results.json';
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 
   console.log(`\n${terminalColors.bright}${terminalColors.green}✅ Comprehensive test complete!${terminalColors.reset}`);

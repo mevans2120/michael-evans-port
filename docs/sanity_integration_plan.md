@@ -29,7 +29,7 @@ Move hardcoded contact form strings (labels, placeholders, button text, success/
 ## Proposed Changes
 
 ### Sanity Schema
-#### [MODIFY] [contactPage.ts](file:///Users/michaelevans/michael-evans-port-main/sanity/schemas/contactPage.ts)
+#### [MODIFY] [contactPage.ts](file:///Users/michaelevans/repos/michael-evans-port-main/sanity/schemas/contactPage.ts)
 - Add a new object field `form` containing:
     - `nameLabel` (string)
     - `emailLabel` (string)
@@ -45,24 +45,24 @@ Move hardcoded contact form strings (labels, placeholders, button text, success/
     - `fromName` (string) - e.g., "Michael Evans"
 
 ### TypeScript Types
-#### [MODIFY] [sanity.ts](file:///Users/michaelevans/michael-evans-port-main/src/types/sanity.ts)
+#### [MODIFY] [sanity.ts](file:///Users/michaelevans/repos/michael-evans-port-main/src/types/sanity.ts)
 - Update `ContactPageData` interface to include the new `form` object and its fields.
 
 ### Sanity Queries
-#### [MODIFY] [queries.ts](file:///Users/michaelevans/michael-evans-port-main/src/lib/sanity/queries.ts)
+#### [MODIFY] [queries.ts](file:///Users/michaelevans/repos/michael-evans-port-main/src/lib/sanity/queries.ts)
 - Update `contactPageQuery` to fetch the new `form` and `confirmationEmail` objects.
 
 ### API Route
-#### [MODIFY] [route.ts](file:///Users/michaelevans/michael-evans-port-main/src/app/api/send/route.ts)
+#### [MODIFY] [route.ts](file:///Users/michaelevans/repos/michael-evans-port-main/src/app/api/send/route.ts)
 - Fetch `contactPage` data from Sanity to get confirmation email settings.
 - If `confirmationEmail.enabled` is true, send a second email to the user (`body.email`).
 - Use `confirmationEmail.subject` and `confirmationEmail.body` (replacing placeholders like `{name}` if needed).
 
 ### UI Components
-#### [MODIFY] [ContactSection.tsx](file:///Users/michaelevans/michael-evans-port-main/src/components/ContactSection.tsx)
+#### [MODIFY] [ContactSection.tsx](file:///Users/michaelevans/repos/michael-evans-port-main/src/components/ContactSection.tsx)
 - Pass the `data.form` object to the `ContactForm` component.
 
-#### [MODIFY] [ContactForm.tsx](file:///Users/michaelevans/michael-evans-port-main/src/components/ContactForm.tsx)
+#### [MODIFY] [ContactForm.tsx](file:///Users/michaelevans/repos/michael-evans-port-main/src/components/ContactForm.tsx)
 - Accept `formStrings` (or similar) prop.
 - Replace hardcoded labels, button text, and toast messages with values from props.
 - Fallback to default values if Sanity data is missing (to prevent crashes during migration).
