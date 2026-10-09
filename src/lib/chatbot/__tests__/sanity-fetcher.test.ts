@@ -165,6 +165,94 @@ describe('Sanity Content Fetcher', () => {
 
       expect(result).toBe('Content\n\nMore content');
     });
+
+    // Rich block types from sanity/schemas/project.ts and sanity/schemas/blog.ts
+    describe('rich block types', () => {
+      const rich = (block: Record<string, unknown>) =>
+        portableTextToPlainText([{ _key: 'k', ...block } as any]);
+
+      it('renders statBlockQuote as a quote with attribution', () => {
+        expect(
+          rich({ _type: 'statBlockQuote', quote: 'Finally, a launcher that respects my time.', attribution: 'App Store review' })
+        ).toBe('"Finally, a launcher that respects my time." — App Store review');
+      });
+
+      it('renders statBlockQuote without attribution as just the quote', () => {
+        expect(rich({ _type: 'statBlockQuote', quote: 'Just the quote.' })).toBe('"Just the quote."');
+      });
+
+      it('renders quoteBox like statBlockQuote', () => {
+        expect(rich({ _type: 'quoteBox', quote: 'Pull quote.', attribution: 'On design' })).toBe(
+          '"Pull quote." — On design'
+        );
+      });
+
+      it('renders statBlockText as heading and text', () => {
+        expect(rich({ _type: 'statBlockText', heading: 'Why it worked', text: 'Fewer notifications.' })).toBe(
+          'Why it worked\nFewer notifications.'
+        );
+        expect(rich({ _type: 'statBlockText', text: 'Only text.' })).toBe('Only text.');
+        expect(rich({ _type: 'statBlockText', heading: 'Only heading' })).toBe('Only heading');
+      });
+
+      it('renders statBlockNumber as number and label', () => {
+        expect(rich({ _type: 'statBlockNumber', number: '30-40%', label: 'fewer phone opens' })).toBe(
+          '30-40% fewer phone opens'
+        );
+      });
+
+      it('renders examplePrompt with optional label', () => {
+        expect(rich({ _type: 'examplePrompt', label: 'Try this', prompt: 'Summarize the article.' })).toBe(
+          'Try this: Summarize the article.'
+        );
+        expect(rich({ _type: 'examplePrompt', prompt: 'Summarize the article.' })).toBe('Summarize the article.');
+      });
+
+      it('renders image caption and skips images without one', () => {
+        expect(rich({ _type: 'image', asset: { _ref: 'image-1' }, alt: 'alt', caption: 'Home screen' })).toBe(
+          'Home screen'
+        );
+        expect(rich({ _type: 'image', asset: { _ref: 'image-1' }, alt: 'alt' })).toBe('');
+      });
+
+      it('renders imageGrid and portraitImageList captions, falling back to alt', () => {
+        const images = [
+          { _type: 'image', asset: { _ref: 'a' }, alt: 'First alt', caption: 'First caption' },
+          { _type: 'image', asset: { _ref: 'b' }, alt: 'Second alt' },
+          { _type: 'image', asset: { _ref: 'c' } },
+        ];
+        expect(rich({ _type: 'imageGrid', images })).toBe('First caption\nSecond alt');
+        expect(rich({ _type: 'portraitImageList', images })).toBe('First caption\nSecond alt');
+      });
+
+      it('renders videoEmbed caption only when present', () => {
+        expect(rich({ _type: 'videoEmbed', url: 'https://youtu.be/x', caption: 'Demo video' })).toBe('Demo video');
+        expect(rich({ _type: 'videoEmbed', url: 'https://youtu.be/x' })).toBe('');
+      });
+
+      it('renders marginNote string content and recurses into portable text content', () => {
+        expect(rich({ _type: 'marginNote', content: 'Keep prompts short.', variant: 'tip' })).toBe(
+          'Keep prompts short.'
+        );
+        expect(
+          rich({
+            _type: 'marginNote',
+            content: [{ _type: 'block', _key: 'b', children: [{ _type: 'span', _key: 's', text: 'Nested note.' }] }],
+          })
+        ).toBe('Nested note.');
+      });
+
+      it('skips codeBlock and contentTable', () => {
+        expect(rich({ _type: 'codeBlock', language: 'ts', code: 'const x = 1;' })).toBe('');
+        expect(
+          rich({ _type: 'contentTable', caption: 'Table', columns: [{ header: 'A', values: ['1'] }] })
+        ).toBe('');
+      });
+
+      it('skips unknown block types', () => {
+        expect(rich({ _type: 'somethingElse', foo: 'bar' })).toBe('');
+      });
+    });
   });
 
   describe('fetchProjects', () => {
@@ -175,7 +263,7 @@ describe('Sanity Content Fetcher', () => {
       title: 'Before Launcher',
       slug: { current: 'before-launcher' },
       category: 'Product',
-      description: 'Short description field',
+      heroSection: { subtitle: 'Reduced phone opens by 30-40% with a notification filter.' },
       featuredDescription: 'An Android launcher that cut phone opens by 30-40%.',
       featuredMetric: '30-40% fewer phone opens',
       overview: { role: 'Founder, Product', company: 'Before Labs', timeline: '2017-2020' },
@@ -220,6 +308,27 @@ describe('Sanity Content Fetcher', () => {
       expect(doc.content).toContain('Case study URL: /case-studies/before-launcher');
     });
 
+    it('includes the hero subtitle right after the category line', async () => {
+      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+
+      const [doc] = await fetchProjects();
+
+      expect(doc.content).toContain('Reduced phone opens by 30-40% with a notification filter.');
+      expect(doc.content).toContain(
+        'Category: Product\n\nReduced phone opens by 30-40% with a notification filter.'
+      );
+    });
+
+    it('carries chatbotOnly into metadata, defaulting to false', async () => {
+      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+      const [publicDoc] = await fetchProjects();
+      expect(publicDoc.metadata.chatbotOnly).toBe(false);
+
+      vi.mocked(client.fetch).mockResolvedValueOnce([{ ...projectFixture, chatbotOnly: true }]);
+      const [hiddenDoc] = await fetchProjects();
+      expect(hiddenDoc.metadata.chatbotOnly).toBe(true);
+    });
+
     it('carries chatbotQuestions into metadata', async () => {
       vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
 
@@ -257,7 +366,6 @@ describe('Sanity Content Fetcher', () => {
           slug: { current: 'casa-bonita' },
           category: 'Experience Design',
           featuredDescription: 'Restaurant redesign project',
-          description: 'Complete overhaul of iconic restaurant',
           article: [
             {
               _type: 'block',
@@ -282,7 +390,6 @@ describe('Sanity Content Fetcher', () => {
       expect(content).toContain('# Casa Bonita');
       expect(content).toContain('Category: Experience Design');
       expect(content).toContain('Restaurant redesign project');
-      expect(content).toContain('Complete overhaul of iconic restaurant');
       expect(content).toContain('Detailed case study content');
       expect(content).toContain('## Key Metrics');
       expect(content).toContain('Visitors: 50% increase');
@@ -334,6 +441,7 @@ describe('Sanity Content Fetcher', () => {
         updated_at: '2025-01-01T12:00:00Z',
         technologies: ['React', 'Node.js'],
         questions: [],
+        chatbotOnly: false,
       });
     });
   });

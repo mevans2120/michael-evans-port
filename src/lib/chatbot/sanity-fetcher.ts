@@ -8,25 +8,94 @@ import { type PortableTextBlock } from 'sanity';
 
 
 /**
+ * A portable text block with its custom fields exposed. Sanity's own type only
+ * knows `_type`/`_key`/`children`; the schema-specific object types
+ * (statBlockQuote, imageGrid, ...) add arbitrary fields we narrow with `typeof`.
+ */
+type RichBlock = PortableTextBlock & Record<string, unknown>;
+
+function str(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+/** Caption for an image-like object, falling back to alt text. */
+function imageCaption(image: unknown): string | undefined {
+  if (!image || typeof image !== 'object') return undefined;
+  const img = image as Record<string, unknown>;
+  return str(img.caption) ?? str(img.alt);
+}
+
+function quoteToText(block: RichBlock): string {
+  const quote = str(block.quote);
+  if (!quote) return '';
+  const attribution = str(block.attribution);
+  return attribution ? `"${quote}" — ${attribution}` : `"${quote}"`;
+}
+
+/**
+ * Convert a single portable text block to plain text.
+ * Field names mirror sanity/schemas/project.ts and sanity/schemas/blog.ts.
+ */
+function blockToPlainText(block: RichBlock): string {
+  switch (block._type) {
+    case 'block':
+      return Array.isArray(block.children)
+        ? block.children
+            .map((child) => ('text' in child && typeof child.text === 'string' ? child.text : ''))
+            .join('')
+        : '';
+
+    case 'statBlockQuote':
+    case 'quoteBox':
+      return quoteToText(block);
+
+    case 'statBlockText':
+      return [str(block.heading), str(block.text)].filter(Boolean).join('\n');
+
+    case 'statBlockNumber':
+      return [str(block.number), str(block.label)].filter(Boolean).join(' ');
+
+    case 'examplePrompt': {
+      const prompt = str(block.prompt);
+      if (!prompt) return '';
+      const label = str(block.label);
+      return label ? `${label}: ${prompt}` : prompt;
+    }
+
+    case 'image':
+      return str(block.caption) ?? '';
+
+    case 'imageGrid':
+    case 'portraitImageList':
+      return Array.isArray(block.images)
+        ? block.images.map(imageCaption).filter(Boolean).join('\n')
+        : '';
+
+    case 'videoEmbed':
+      return str(block.caption) ?? '';
+
+    case 'marginNote':
+      if (Array.isArray(block.content)) return portableTextToPlainText(block.content as PortableTextBlock[]);
+      return str(block.content) ?? '';
+
+    // Code is noise for a chatbot; tables don't flatten meaningfully.
+    case 'codeBlock':
+    case 'contentTable':
+    default:
+      return '';
+  }
+}
+
+/**
  * Portable Text to Plain Text Converter
- * Converts Sanity's portable text blocks to plain text for embedding
+ * Converts Sanity's portable text blocks (including the schema's custom object
+ * types) to plain text for embedding.
  */
 export function portableTextToPlainText(blocks: PortableTextBlock[] | undefined): string {
   if (!blocks || !Array.isArray(blocks)) return '';
 
   return blocks
-    .map((block) => {
-      // Handle regular text blocks
-      if (block._type === 'block' && 'children' in block && Array.isArray(block.children)) {
-        return block.children
-          .map((child) => ('text' in child && typeof child.text === 'string' ? child.text : ''))
-          .join('');
-      }
-
-      // Handle other block types (images, etc.)
-      // For now, we'll skip non-text blocks
-      return '';
-    })
+    .map((block) => blockToPlainText(block as RichBlock))
     .filter(Boolean)
     .join('\n\n');
 }
@@ -40,7 +109,7 @@ interface SanityProject {
   title: string;
   slug: { current: string };
   category?: string;
-  description?: string;
+  heroSection?: { badge?: string; subtitle?: string };
   featuredDescription?: string;
   featuredMetric?: string;
   overview?: { role?: string; company?: string; timeline?: string };
@@ -137,6 +206,7 @@ export interface SanityContentDocument {
     url?: string;
     questions: string[];
     updated_at: string;
+    chatbotOnly?: boolean;
     [key: string]: unknown;
   };
 }
@@ -151,7 +221,7 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
     title,
     slug,
     category,
-    description,
+    heroSection,
     featuredDescription,
     featuredMetric,
     overview,
@@ -173,6 +243,7 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
       contentParts.push(`Case study URL: /case-studies/${project.slug.current}`);
     }
     if (project.category) contentParts.push(`Category: ${project.category}`);
+    if (project.heroSection?.subtitle) contentParts.push(project.heroSection.subtitle);
 
     const o = project.overview;
     if (o && (o.role || o.company || o.timeline)) {
@@ -182,7 +253,6 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
     }
 
     if (project.featuredDescription) contentParts.push(project.featuredDescription);
-    if (project.description) contentParts.push(project.description);
     if (project.featuredMetric) contentParts.push(`Headline result: ${project.featuredMetric}`);
 
     if (project.article) {
@@ -214,6 +284,7 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
         updated_at: project._updatedAt,
         technologies: project.technologies,
         questions: project.chatbotQuestions ?? [],
+        chatbotOnly: project.chatbotOnly ?? false,
       },
     };
   });
