@@ -40,12 +40,15 @@ interface SanityProject {
   title: string;
   slug: { current: string };
   category?: string;
-  summary?: string;
   description?: string;
-  content?: PortableTextBlock[];
-  metrics?: Array<{ label: string; value: string }>;
-  achievements?: string[];
+  featuredDescription?: string;
+  featuredMetric?: string;
+  overview?: { role?: string; company?: string; timeline?: string };
+  metrics?: Array<{ label: string; value: string; description?: string }>;
   technologies?: string[];
+  article?: PortableTextBlock[];
+  chatbotQuestions?: string[];
+  chatbotOnly?: boolean;
   publishedAt?: string;
 }
 
@@ -57,30 +60,9 @@ interface SanityProfile {
   heroSubheadline?: string;
   heroIntro?: string;
   quickFacts?: Array<{ label: string; value: string }>;
-  capabilities?: Array<{ title: string; description: string }>;
-  sections?: Array<{
-    heading: string;
-    content?: PortableTextBlock[];
-    subsections?: Array<{
-      heading: string;
-      content?: PortableTextBlock[];
-    }>;
-  }>;
-  selectedProjects?: Array<{
-    title: string;
-    metric?: string;
-    description?: string;
-  }>;
-  technologies?: {
-    frontend?: string[];
-    mobile?: string[];
-    backend?: string[];
-    cms?: string[];
-    data?: string[];
-    aiMl?: string[];
-    deployment?: string[];
-    enterprise?: string[];
-  };
+  title?: string;
+  tagline?: string;
+  chatbotQuestions?: string[];
   bio?: PortableTextBlock[];
   article?: PortableTextBlock[];
   skills?: Array<{
@@ -139,6 +121,7 @@ interface SanityBlog {
   publishedAt?: string;
   author?: string;
   featured?: boolean;
+  chatbotQuestions?: string[];
 }
 
 /**
@@ -151,8 +134,10 @@ export interface SanityContentDocument {
     source_id: string;
     title: string;
     category?: string;
+    url?: string;
+    questions: string[];
     updated_at: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -166,56 +151,53 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
     title,
     slug,
     category,
-    summary,
     description,
-    content,
+    featuredDescription,
+    featuredMetric,
+    overview,
     metrics,
-    achievements,
     technologies,
+    article,
+    chatbotQuestions,
+    chatbotOnly,
     publishedAt
   }`;
 
   const projects: SanityProject[] = await client.fetch(query);
 
   return projects.map((project) => {
-    // Build content string from all text fields
     const contentParts: string[] = [];
-
-    // Add title and basic info
     contentParts.push(`# ${project.title}`);
 
-    // Add URL so chatbot knows which link to use
     if (project.slug?.current) {
       contentParts.push(`Case study URL: /case-studies/${project.slug.current}`);
     }
-
     if (project.category) contentParts.push(`Category: ${project.category}`);
-    if (project.summary) contentParts.push(project.summary);
-    if (project.description) contentParts.push(project.description);
 
-    // Add main content (portable text)
-    if (project.content) {
-      const contentText = portableTextToPlainText(project.content);
-      if (contentText) contentParts.push(contentText);
+    const o = project.overview;
+    if (o && (o.role || o.company || o.timeline)) {
+      const where = o.company ? ` at ${o.company}` : '';
+      const when = o.timeline ? ` (${o.timeline})` : '';
+      contentParts.push(`Role: ${o.role ?? 'Contributor'}${where}${when}`);
     }
 
-    // Add metrics
+    if (project.featuredDescription) contentParts.push(project.featuredDescription);
+    if (project.description) contentParts.push(project.description);
+    if (project.featuredMetric) contentParts.push(`Headline result: ${project.featuredMetric}`);
+
+    if (project.article) {
+      const articleText = portableTextToPlainText(project.article);
+      if (articleText) contentParts.push(articleText);
+    }
+
     if (project.metrics && project.metrics.length > 0) {
       contentParts.push('\n## Key Metrics');
-      project.metrics.forEach(metric => {
-        contentParts.push(`- ${metric.label}: ${metric.value}`);
+      project.metrics.forEach((m) => {
+        const note = m.description ? ` (${m.description})` : '';
+        contentParts.push(`- ${m.label}: ${m.value}${note}`);
       });
     }
 
-    // Add achievements
-    if (project.achievements && project.achievements.length > 0) {
-      contentParts.push('\n## Key Achievements');
-      project.achievements.forEach(achievement => {
-        contentParts.push(`- ${achievement}`);
-      });
-    }
-
-    // Add technologies
     if (project.technologies && project.technologies.length > 0) {
       contentParts.push(`\nTechnologies: ${project.technologies.join(', ')}`);
     }
@@ -228,8 +210,10 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
         title: project.title,
         category: project.category,
         slug: project.slug?.current,
+        url: project.slug?.current ? `/case-studies/${project.slug.current}` : undefined,
         updated_at: project._updatedAt,
         technologies: project.technologies,
+        questions: project.chatbotQuestions ?? [],
       },
     };
   });
@@ -247,10 +231,9 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     heroSubheadline,
     heroIntro,
     quickFacts,
-    capabilities,
-    sections,
-    selectedProjects,
-    technologies,
+    title,
+    tagline,
+    chatbotQuestions,
     bio,
     article,
     skills,
@@ -267,6 +250,8 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
   const mainContentParts: string[] = [];
   mainContentParts.push(`# ${profile.name}`);
 
+  if (profile.title) mainContentParts.push(profile.title);
+  if (profile.tagline) mainContentParts.push(profile.tagline);
   if (profile.heroHeadline) mainContentParts.push(profile.heroHeadline);
   if (profile.heroSubheadline) mainContentParts.push(profile.heroSubheadline);
   if (profile.heroIntro) mainContentParts.push(profile.heroIntro);
@@ -276,15 +261,6 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     mainContentParts.push('\n## Quick Facts');
     profile.quickFacts.forEach(fact => {
       mainContentParts.push(`- ${fact.label}: ${fact.value}`);
-    });
-  }
-
-  // Add capabilities
-  if (profile.capabilities && profile.capabilities.length > 0) {
-    mainContentParts.push('\n## Capabilities');
-    profile.capabilities.forEach(cap => {
-      mainContentParts.push(`\n### ${cap.title}`);
-      if (cap.description) mainContentParts.push(cap.description);
     });
   }
 
@@ -315,17 +291,6 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     });
   }
 
-  // Add technologies
-  if (profile.technologies) {
-    mainContentParts.push('\n## Technologies & Tools');
-    Object.entries(profile.technologies).forEach(([category, techs]) => {
-      if (techs && (techs as string[]).length > 0) {
-        mainContentParts.push(`\n### ${category}`);
-        mainContentParts.push((techs as string[]).join(', '));
-      }
-    });
-  }
-
   // Add experience
   if (profile.experience && profile.experience.length > 0) {
     mainContentParts.push('\n## Experience');
@@ -342,43 +307,11 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
       source_id: profile._id,
       title: 'Profile',
       category: 'profile',
+      url: '/about',
       updated_at: profile._updatedAt,
+      questions: profile.chatbotQuestions ?? [],
     },
   });
-
-  // Create separate documents for each section
-  if (profile.sections && profile.sections.length > 0) {
-    profile.sections.forEach((section, index) => {
-      const sectionParts: string[] = [];
-      sectionParts.push(`# ${section.heading}`);
-
-      if (section.content) {
-        const sectionText = portableTextToPlainText(section.content);
-        if (sectionText) sectionParts.push(sectionText);
-      }
-
-      if (section.subsections && section.subsections.length > 0) {
-        section.subsections.forEach(subsection => {
-          sectionParts.push(`\n## ${subsection.heading}`);
-          if (subsection.content) {
-            const subsectionText = portableTextToPlainText(subsection.content);
-            if (subsectionText) sectionParts.push(subsectionText);
-          }
-        });
-      }
-
-      documents.push({
-        content: sectionParts.join('\n\n'),
-        metadata: {
-          source: 'sanity_profile' as const,
-          source_id: `${profile._id}_section_${index}`,
-          title: section.heading,
-          category: 'profile_section',
-          updated_at: profile._updatedAt,
-        },
-      });
-    });
-  }
 
   return documents;
 }
@@ -496,9 +429,11 @@ export async function fetchAIProjects(): Promise<SanityContentDocument[]> {
         title: project.title,
         category: project.category,
         slug: project.slug?.current,
+        url: undefined,
         status: project.status,
         updated_at: project._updatedAt,
         techStack: project.techStack,
+        questions: [],
       },
     };
   });
@@ -518,7 +453,8 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
     heroSection,
     publishedAt,
     author,
-    featured
+    featured,
+    chatbotQuestions
   }`;
 
   const blogPosts: SanityBlog[] = await client.fetch(query);
@@ -570,10 +506,12 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
         title: post.title,
         category: post.heroSection?.badge || 'blog',
         slug: post.slug?.current,
+        url: post.slug?.current ? `/blog/${post.slug.current}` : undefined,
         updated_at: post._updatedAt,
         publishedAt: post.publishedAt,
         author: post.author,
         featured: post.featured,
+        questions: post.chatbotQuestions ?? [],
       },
     };
   });

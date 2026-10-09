@@ -168,53 +168,65 @@ describe('Sanity Content Fetcher', () => {
   });
 
   describe('fetchProjects', () => {
-    it('fetches and transforms project data', async () => {
-      const mockProjects = [
-        {
-          _id: 'project-123',
-          _updatedAt: '2025-01-01T00:00:00Z',
-          title: 'Test Project',
-          slug: { current: 'test-project' },
-          category: 'Case Study',
-          summary: 'A test project summary',
-          description: 'Full project description',
-          content: [
-            {
-              _type: 'block',
-              children: [
-                { _type: 'span', text: 'Detailed content here' },
-              ],
-            },
-          ],
-          metrics: [
-            { label: 'Revenue', value: '2x increase' },
-            { label: 'Users', value: '1M+' },
-          ],
-          achievements: [
-            'Launched successfully',
-            'Won industry award',
-          ],
-          technologies: ['React', 'TypeScript', 'Next.js'],
-          publishedAt: '2025-01-01',
-        },
-      ];
+    // Mirrors the real `project` schema shape (sanity/schemas/project.ts)
+    const projectFixture = {
+      _id: 'project-1',
+      _updatedAt: '2025-11-18T03:41:27Z',
+      title: 'Before Launcher',
+      slug: { current: 'before-launcher' },
+      category: 'Product',
+      description: 'Short description field',
+      featuredDescription: 'An Android launcher that cut phone opens by 30-40%.',
+      featuredMetric: '30-40% fewer phone opens',
+      overview: { role: 'Founder, Product', company: 'Before Labs', timeline: '2017-2020' },
+      metrics: [{ label: 'Downloads', value: '100k+', description: 'Play Store' }],
+      technologies: ['Android', 'Kotlin'],
+      article: [
+        { _type: 'block', children: [{ _type: 'span', text: 'Body paragraph one.' }] },
+      ],
+      chatbotQuestions: ['What is the Before Launcher?'],
+      publishedAt: '2020-01-01',
+    };
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+    it('fetches and transforms project data', async () => {
+      vi.mocked(client.fetch).mockResolvedValue([projectFixture]);
 
       const result = await fetchProjects();
 
       expect(result).toHaveLength(1);
       expect(result[0]).toMatchObject({
-        content: expect.stringContaining('Test Project'),
+        content: expect.stringContaining('Before Launcher'),
         metadata: {
           source: 'sanity_project',
-          source_id: 'project-123',
-          title: 'Test Project',
-          category: 'Case Study',
-          slug: 'test-project',
-          updated_at: '2025-01-01T00:00:00Z',
+          source_id: 'project-1',
+          title: 'Before Launcher',
+          category: 'Product',
+          slug: 'before-launcher',
+          updated_at: '2025-11-18T03:41:27Z',
         },
       });
+    });
+
+    it('includes overview, featured description, metric, and article body', async () => {
+      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+
+      const [doc] = await fetchProjects();
+
+      expect(doc.content).toContain('Role: Founder, Product at Before Labs (2017-2020)');
+      expect(doc.content).toContain('An Android launcher that cut phone opens by 30-40%.');
+      expect(doc.content).toContain('Headline result: 30-40% fewer phone opens');
+      expect(doc.content).toContain('Body paragraph one.');
+      expect(doc.content).toContain('Downloads: 100k+ (Play Store)');
+      expect(doc.content).toContain('Case study URL: /case-studies/before-launcher');
+    });
+
+    it('carries chatbotQuestions into metadata', async () => {
+      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+
+      const [doc] = await fetchProjects();
+
+      expect(doc.metadata.questions).toEqual(['What is the Before Launcher?']);
+      expect(doc.metadata.url).toBe('/case-studies/before-launcher');
     });
 
     it('includes case study URL in content', async () => {
@@ -225,8 +237,6 @@ describe('Sanity Content Fetcher', () => {
           title: 'Virgin America',
           slug: { current: 'virgin-america' },
           category: 'Case Study',
-          summary: 'Test',
-          content: [],
           technologies: [],
         },
       ];
@@ -246,9 +256,9 @@ describe('Sanity Content Fetcher', () => {
           title: 'Casa Bonita',
           slug: { current: 'casa-bonita' },
           category: 'Experience Design',
-          summary: 'Restaurant redesign project',
+          featuredDescription: 'Restaurant redesign project',
           description: 'Complete overhaul of iconic restaurant',
-          content: [
+          article: [
             {
               _type: 'block',
               children: [
@@ -258,9 +268,6 @@ describe('Sanity Content Fetcher', () => {
           ],
           metrics: [
             { label: 'Visitors', value: '50% increase' },
-          ],
-          achievements: [
-            'Featured in national media',
           ],
           technologies: ['Figma', 'Adobe XD'],
         },
@@ -279,8 +286,6 @@ describe('Sanity Content Fetcher', () => {
       expect(content).toContain('Detailed case study content');
       expect(content).toContain('## Key Metrics');
       expect(content).toContain('Visitors: 50% increase');
-      expect(content).toContain('## Key Achievements');
-      expect(content).toContain('Featured in national media');
       expect(content).toContain('Technologies: Figma, Adobe XD');
     });
 
@@ -325,8 +330,10 @@ describe('Sanity Content Fetcher', () => {
         title: 'Test',
         category: 'UX Design',
         slug: 'test',
+        url: '/case-studies/test',
         updated_at: '2025-01-01T12:00:00Z',
         technologies: ['React', 'Node.js'],
+        questions: [],
       });
     });
   });
@@ -343,9 +350,9 @@ describe('Sanity Content Fetcher', () => {
         quickFacts: [
           { label: 'Location', value: 'Portland, OR' },
         ],
-        capabilities: [
-          { title: 'Product Strategy', description: 'Expert in roadmapping' },
-        ],
+        title: 'Product Leader',
+        tagline: 'Builds things people use',
+        chatbotQuestions: ['Where is Michael based?'],
         bio: [
           {
             _type: 'block',
@@ -365,10 +372,6 @@ describe('Sanity Content Fetcher', () => {
         skills: [
           { category: 'Technical', skills: ['JavaScript', 'Python'] },
         ],
-        technologies: {
-          frontend: ['React', 'Vue'],
-          backend: ['Node.js', 'Django'],
-        },
         experience: [
           { company: 'Work & Co', role: 'Senior PM', description: 'Led multiple projects' },
         ],
@@ -378,10 +381,14 @@ describe('Sanity Content Fetcher', () => {
 
       const result = await fetchProfile();
 
-      expect(result.length).toBeGreaterThan(0);
+      expect(result).toHaveLength(1);
       expect(result[0].content).toContain('Michael Evans');
       expect(result[0].content).toContain('Product Manager & UX Strategist');
+      expect(result[0].content).toContain('Product Leader');
+      expect(result[0].content).toContain('Builds things people use');
       expect(result[0].metadata.source).toBe('sanity_profile');
+      expect(result[0].metadata.url).toBe('/about');
+      expect(result[0].metadata.questions).toEqual(['Where is Michael based?']);
     });
 
     it('builds comprehensive profile content', async () => {
@@ -390,9 +397,6 @@ describe('Sanity Content Fetcher', () => {
         _updatedAt: '2025-01-01',
         name: 'Michael Evans',
         heroHeadline: 'PM & Builder',
-        capabilities: [
-          { title: 'Product Management', description: 'End-to-end ownership' },
-        ],
         bio: [
           { _type: 'block', children: [{ _type: 'span', text: 'Background info' }] },
         ],
@@ -409,9 +413,6 @@ describe('Sanity Content Fetcher', () => {
 
       expect(mainContent).toContain('# Michael Evans');
       expect(mainContent).toContain('PM & Builder');
-      expect(mainContent).toContain('## Capabilities');
-      expect(mainContent).toContain('### Product Management');
-      expect(mainContent).toContain('End-to-end ownership');
       expect(mainContent).toContain('## Background');
       expect(mainContent).toContain('Background info');
       expect(mainContent).toContain('## Skills');
@@ -419,53 +420,19 @@ describe('Sanity Content Fetcher', () => {
       expect(mainContent).toContain('Figma, Sketch');
     });
 
-    it('creates separate documents for sections', async () => {
+    it('returns a single profile document with empty questions when none are set', async () => {
       const mockProfile = {
         _id: 'profile-singleton',
         _updatedAt: '2025-01-01',
         name: 'Michael Evans',
-        sections: [
-          {
-            heading: 'Background',
-            content: [
-              { _type: 'block', children: [{ _type: 'span', text: 'My story' }] },
-            ],
-            subsections: [
-              {
-                heading: 'Education',
-                content: [
-                  { _type: 'block', children: [{ _type: 'span', text: 'University info' }] },
-                ],
-              },
-            ],
-          },
-          {
-            heading: 'Philosophy',
-            content: [
-              { _type: 'block', children: [{ _type: 'span', text: 'My approach' }] },
-            ],
-          },
-        ],
       };
 
       vi.mocked(client.fetch).mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
-      // Should have main profile + 2 section documents
-      expect(result.length).toBeGreaterThanOrEqual(3);
-
-      const backgroundSection = result.find(doc => doc.metadata.title === 'Background');
-      expect(backgroundSection).toBeDefined();
-      expect(backgroundSection!.content).toContain('# Background');
-      expect(backgroundSection!.content).toContain('My story');
-      expect(backgroundSection!.content).toContain('## Education');
-      expect(backgroundSection!.content).toContain('University info');
-
-      const philosophySection = result.find(doc => doc.metadata.title === 'Philosophy');
-      expect(philosophySection).toBeDefined();
-      expect(philosophySection!.content).toContain('# Philosophy');
-      expect(philosophySection!.content).toContain('My approach');
+      expect(result).toHaveLength(1);
+      expect(result[0].metadata.questions).toEqual([]);
     });
 
     it('returns empty array for null profile', async () => {
@@ -603,6 +570,7 @@ describe('Sanity Content Fetcher', () => {
           publishedAt: '2025-01-01T00:00:00Z',
           author: 'Michael Evans',
           featured: true,
+          chatbotQuestions: ['How do I build better products?'],
         },
       ];
 
@@ -617,6 +585,8 @@ describe('Sanity Content Fetcher', () => {
       expect(result[0].content).toContain('Tips for product managers');
       expect(result[0].content).toContain('Full blog content here');
       expect(result[0].metadata.source).toBe('sanity_blog');
+      expect(result[0].metadata.url).toBe('/blog/better-products');
+      expect(result[0].metadata.questions).toEqual(['How do I build better products?']);
     });
 
     it('includes blog URL in content', async () => {
