@@ -91,7 +91,7 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'warn',
 
       // General code quality
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
       'prefer-const': 'warn',
       'no-unused-vars': 'off', // Disabled in favor of @typescript-eslint/no-unused-vars
       'no-undef': 'off', // TypeScript handles this

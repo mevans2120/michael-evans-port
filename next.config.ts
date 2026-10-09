@@ -35,8 +35,8 @@ const nextConfig: NextConfig = {
 
   // Compiler optimizations
   compiler: {
-    // Remove console logs in production
-    removeConsole: process.env.NODE_ENV === 'production',
+    // Strip console.log in production but keep structured/diagnostic output
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn', 'info'] } : false,
   },
 
   // Turbopack configuration
