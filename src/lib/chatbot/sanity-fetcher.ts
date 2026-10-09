@@ -3,9 +3,15 @@
  * Fetches and transforms Sanity CMS content for vector database ingestion
  */
 
-import { client } from '@/sanity/lib/client';
+import { productionClient } from '@/sanity/lib/client';
 import { type PortableTextBlock } from 'sanity';
 
+/**
+ * Next.js fetch cache options for every corpus query. Cached indefinitely and
+ * invalidated by the Sanity webhook via the 'chatbot-corpus' tag (or the
+ * global 'sanity' tag).
+ */
+const CORPUS_CACHE = { next: { revalidate: false as const, tags: ['sanity', 'chatbot-corpus'] } };
 
 /**
  * A portable text block with its custom fields exposed. Sanity's own type only
@@ -233,7 +239,7 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
     publishedAt
   }`;
 
-  const projects: SanityProject[] = await client.fetch(query);
+  const projects: SanityProject[] = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   return projects.map((project) => {
     const contentParts: string[] = [];
@@ -311,7 +317,7 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     experience
   }`;
 
-  const profile: SanityProfile | null = await client.fetch(query);
+  const profile: SanityProfile | null = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   if (!profile) return [];
 
@@ -409,7 +415,7 @@ export async function fetchAIProjects(): Promise<SanityContentDocument[]> {
     achievements
   }`;
 
-  const aiProjects: SanityAIProject[] = await client.fetch(query);
+  const aiProjects: SanityAIProject[] = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   return aiProjects.map((project) => {
     const contentParts: string[] = [];
@@ -528,7 +534,7 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
     chatbotQuestions
   }`;
 
-  const blogPosts: SanityBlog[] = await client.fetch(query);
+  const blogPosts: SanityBlog[] = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   return blogPosts.map((post) => {
     const contentParts: string[] = [];

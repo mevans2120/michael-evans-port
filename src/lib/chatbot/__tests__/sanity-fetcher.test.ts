@@ -22,12 +22,12 @@ import {
   fetchBlogPosts,
   fetchAllSanityContent,
 } from '../sanity-fetcher';
-import { client } from '@/sanity/lib/client';
+import { productionClient } from '@/sanity/lib/client';
 import type { PortableTextBlock } from 'sanity';
 
 // Mock Sanity client
 vi.mock('@/sanity/lib/client', () => ({
-  client: {
+  productionClient: {
     fetch: vi.fn(),
   },
 }));
@@ -277,7 +277,7 @@ describe('Sanity Content Fetcher', () => {
     };
 
     it('fetches and transforms project data', async () => {
-      vi.mocked(client.fetch).mockResolvedValue([projectFixture]);
+      vi.mocked(productionClient.fetch).mockResolvedValue([projectFixture]);
 
       const result = await fetchProjects();
 
@@ -296,7 +296,7 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('includes overview, featured description, metric, and article body', async () => {
-      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
 
       const [doc] = await fetchProjects();
 
@@ -309,7 +309,7 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('includes the hero subtitle right after the category line', async () => {
-      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
 
       const [doc] = await fetchProjects();
 
@@ -320,17 +320,17 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('carries chatbotOnly into metadata, defaulting to false', async () => {
-      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
       const [publicDoc] = await fetchProjects();
       expect(publicDoc.metadata.chatbotOnly).toBe(false);
 
-      vi.mocked(client.fetch).mockResolvedValueOnce([{ ...projectFixture, chatbotOnly: true }]);
+      vi.mocked(productionClient.fetch).mockResolvedValueOnce([{ ...projectFixture, chatbotOnly: true }]);
       const [hiddenDoc] = await fetchProjects();
       expect(hiddenDoc.metadata.chatbotOnly).toBe(true);
     });
 
     it('carries chatbotQuestions into metadata', async () => {
-      vi.mocked(client.fetch).mockResolvedValueOnce([projectFixture]);
+      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
 
       const [doc] = await fetchProjects();
 
@@ -350,7 +350,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -381,7 +381,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -406,7 +406,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -427,7 +427,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -485,7 +485,7 @@ describe('Sanity Content Fetcher', () => {
         ],
       };
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -513,7 +513,7 @@ describe('Sanity Content Fetcher', () => {
         ],
       };
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -535,7 +535,7 @@ describe('Sanity Content Fetcher', () => {
         name: 'Michael Evans',
       };
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -544,7 +544,7 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('returns empty array for null profile', async () => {
-      vi.mocked(client.fetch).mockResolvedValue(null);
+      vi.mocked(productionClient.fetch).mockResolvedValue(null);
 
       const result = await fetchProfile();
 
@@ -561,7 +561,7 @@ describe('Sanity Content Fetcher', () => {
         ],
       };
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProfile);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -604,7 +604,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
 
       const result = await fetchAIProjects();
 
@@ -638,7 +638,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockProjects);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
 
       const result = await fetchAIProjects();
 
@@ -682,7 +682,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockPosts);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockPosts);
 
       const result = await fetchBlogPosts();
 
@@ -707,7 +707,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockPosts);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockPosts);
 
       const result = await fetchBlogPosts();
 
@@ -726,7 +726,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(client.fetch).mockResolvedValue(mockPosts);
+      vi.mocked(productionClient.fetch).mockResolvedValue(mockPosts);
 
       const result = await fetchBlogPosts();
 
@@ -742,7 +742,7 @@ describe('Sanity Content Fetcher', () => {
       const mockAIProjects = [{ _id: 'ai1', _updatedAt: '2025-01-01', title: 'AI Project', slug: { current: 'ai' } }];
       const mockBlogPosts = [{ _id: 'blog1', _updatedAt: '2025-01-01', title: 'Blog', slug: { current: 'b' } }];
 
-      vi.mocked(client.fetch)
+      vi.mocked(productionClient.fetch)
         .mockResolvedValueOnce(mockProjects)
         .mockResolvedValueOnce(mockProfile)
         .mockResolvedValueOnce(mockAIProjects)
@@ -764,7 +764,7 @@ describe('Sanity Content Fetcher', () => {
     it('logs fetch summary', async () => {
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-      vi.mocked(client.fetch)
+      vi.mocked(productionClient.fetch)
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce(null)
         .mockResolvedValueOnce([])

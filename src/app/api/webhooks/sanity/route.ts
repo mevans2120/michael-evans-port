@@ -14,7 +14,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { parseBody } from 'next-sanity/webhook';
-import { syncSingleDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
 import { logger } from '@/lib/logger';
 
 /**
@@ -244,18 +243,19 @@ export async function POST(request: NextRequest) {
     }
     logger.log('');
 
-    // Step 6: Sync to chatbot vector database (only for supported types)
-    const chatbotSyncTypes = ['project', 'profile', 'aiProject', 'blog'];
-    let syncResult = null;
+    // Step 6: Invalidate the chatbot corpus for content types it includes
+    const chatbotCorpusTypes = ['project', 'profile', 'aiProject', 'blog'];
+    let corpusInvalidated = false;
 
-    if (chatbotSyncTypes.includes(documentType)) {
-      logger.log(`   🔄 Syncing ${documentType} to chatbot...`);
-      syncResult = await syncSingleDocument(documentId);
-      logger.log('\n');
-      printSyncSummary(syncResult);
-      logger.log('');
-    } else {
-      logger.log(`   ⏭️  Skipping chatbot sync (not needed for ${documentType})\n`);
+    if (chatbotCorpusTypes.includes(documentType)) {
+      revalidateTag('chatbot-corpus');
+      corpusInvalidated = true;
+      logger.log('   🔄 Invalidated chatbot corpus cache');
+    }
+
+    if (documentType === 'chatPrompts') {
+      revalidateTag('chat-prompts');
+      logger.log('   🔄 Invalidated chat prompts cache');
     }
 
     // Step 7: Return success response
@@ -263,15 +263,7 @@ export async function POST(request: NextRequest) {
       success: true,
       documentId,
       documentType,
-      ...(syncResult && {
-        chatbotSync: {
-          added: syncResult.added,
-          updated: syncResult.updated,
-          deleted: syncResult.deleted,
-          unchanged: syncResult.unchanged,
-          totalChunks: syncResult.totalChunks,
-        },
-      }),
+      chatbotCorpusInvalidated: corpusInvalidated,
       revalidated: {
         paths: revalidatedPaths,
         tags: revalidatedTags,
@@ -297,7 +289,7 @@ export async function GET() {
   return NextResponse.json({
     message: 'Sanity webhook endpoint is active',
     cacheRevalidation: ['blog', 'project', 'profile', 'homepageHero', 'contactPage', 'servicesPage', 'footer', 'blogIndexPage', 'caseStudiesIndexPage', 'siteSettings', 'seoSettings'],
-    chatbotSync: ['project', 'profile', 'aiProject', 'blog'],
+    chatbotCorpus: ['project', 'profile', 'aiProject', 'blog'],
     events: ['create', 'update', 'delete'],
     setup: {
       url: '/api/webhooks/sanity',
