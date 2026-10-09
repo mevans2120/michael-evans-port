@@ -72,3 +72,6 @@ next-env.d.ts
 /comments/
 /snippets/
 /metadata/
+
+# Generated chatbot corpus (built by scripts/build-transcript-corpus.ts)
+src/lib/chatbot/generated/
