@@ -1,3 +1,11 @@
+---
+questions:
+  - What was Michael's AI research project about?
+  - Who did Michael interview for his AI research?
+  - What were the key findings of Michael's AI research?
+  - What is the "Chatphone" concept?
+  - Where can I see Michael's AI research presentation?
+---
 # Michael Evans AI Research Project Summary
 
 **Source:** www.mevans212.com | AI Research Presentation

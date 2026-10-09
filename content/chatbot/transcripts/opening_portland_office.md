@@ -1,3 +1,9 @@
+---
+questions:
+  - Why did Work & Co open a Portland office?
+  - How did Michael open the Work & Co Portland office?
+  - What did Michael learn about leadership from opening the Portland office?
+---
 # Opening the Work & Co Portland Office
 
 ## Background

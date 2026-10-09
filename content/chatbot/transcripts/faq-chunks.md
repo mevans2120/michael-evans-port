@@ -1,3 +1,11 @@
+---
+questions:
+  - What companies has Michael worked for?
+  - How did Michael get into technology?
+  - What was the hardest technical challenge Michael has faced?
+  - What type of work is Michael looking for?
+  - What did Michael build for Astral?
+---
 # Frequently Asked Questions - Direct Answers
 
 ## Background & Education

@@ -1,3 +1,11 @@
+---
+questions:
+  - Where did Michael grow up?
+  - What did Michael study in college?
+  - What was Michael's first job in tech?
+  - How did Michael end up at Work & Co?
+  - What is Michael most proud of in his career?
+---
 # Chatbot Content Questionnaire
 
 ## Early Education

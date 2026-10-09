@@ -1,3 +1,10 @@
+---
+questions:
+  - What is TeachingBooks and what did Michael do for it?
+  - What did Michael work on for Sony PlayStation View?
+  - What did Michael work on for Peacock?
+  - What projects did Michael work on with YouTube?
+---
 # Project Portfolio
 
 ## Teaching Books

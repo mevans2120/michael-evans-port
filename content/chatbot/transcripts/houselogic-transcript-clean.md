@@ -1,3 +1,9 @@
+---
+questions:
+  - What was the HouseLogic project?
+  - What did Michael learn from HouseLogic?
+  - Why did HouseLogic pivot from tools to content?
+---
 House Logic was a project that came to Huge from the National Association of Realtors. It was a blue sky project—they were looking for a website for homebuyers. The National Association of Realtors is a collection of real estate agents, an association, not technically a for-profit enterprise. The goal was to create an excellent consumer product for the National Association of Realtors.
 
 The design team, before I was working on the project, came up with this idea for House Logic. It was basically a set of tools for homeowners to track their home projects and potentially how much home value they were adding. This was intended to slot in next to content sites like This Old House and others.

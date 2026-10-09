@@ -1,3 +1,11 @@
+---
+questions:
+  - What was Michael's "oh shit" moment with AI?
+  - What is Dungeon Tracker?
+  - What are Michael's best practices for agentic engineering?
+  - Why does Michael prefer Claude Code?
+  - What challenges does Michael see in working with AI coding tools?
+---
 # Agentic Engineering Journey
 
 ## Background: The "Oh Shit" Moment

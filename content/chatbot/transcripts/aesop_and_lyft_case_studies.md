@@ -1,3 +1,11 @@
+---
+questions:
+  - What did Michael do for Lyft?
+  - How did Michael's team improve Lyft's driver signup flow?
+  - What was the Aesop e-commerce project?
+  - How did the Aesop website replicate the in-store experience?
+  - What results did the Aesop and Lyft projects achieve?
+---
 # Lyft Case Study
 
 ## Background

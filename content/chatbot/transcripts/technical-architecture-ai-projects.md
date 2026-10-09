@@ -1,3 +1,11 @@
+---
+questions:
+  - What AI projects has Michael built?
+  - What is the tech stack behind PostPal?
+  - How does Michael's AI research agent work?
+  - What Claude Code skills and tools has Michael built?
+  - How was Michael's portfolio site and chatbot built?
+---
 # Michael Evans - Technical Architecture & AI Projects
 
 ## Overview

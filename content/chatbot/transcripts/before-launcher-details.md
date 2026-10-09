@@ -1,3 +1,11 @@
+---
+questions:
+  - What is the Before Launcher?
+  - How did Before Launcher's notification filter work?
+  - How much did Before Launcher reduce phone usage?
+  - Why did Michael sell the Before Launcher?
+  - What did Michael learn about App Store optimization?
+---
 # Before Launcher - Product Details
 
 ## Project Overview

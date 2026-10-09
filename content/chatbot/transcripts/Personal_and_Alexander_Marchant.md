@@ -1,3 +1,11 @@
+---
+questions:
+  - What does Michael do outside of work?
+  - What kind of music does Michael play and listen to?
+  - Does Michael have kids or pets?
+  - What did Michael build for Alexander Marchant?
+  - Who are Alexander Marchant's customers?
+---
 # Personal Information
 
 I'm originally from Eugene, Oregon. I attended Fox Hollow Elementary School, a French immersion school where I spent half the day learning in French and half in English. I went on to Roosevelt Middle School and South Eugene High School. My parents still live in Eugene, while I now live in Portland. I've also lived in San Francisco, New York, Brighton, England, and Boulder, Colorado during college.
