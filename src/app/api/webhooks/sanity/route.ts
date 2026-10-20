@@ -1,6 +1,11 @@
 /**
  * Sanity Webhook Handler
- * Automatically syncs content when changes are made in Sanity CMS
+ *
+ * Revalidates Next.js caches when a document is published in Sanity: the
+ * affected page paths and tags, plus the chatbot corpus ('chatbot-corpus')
+ * and suggested prompts ('chat-prompts') when those content types change.
+ * The chatbot reads the corpus straight from Sanity behind the data cache,
+ * so there is no separate sync step.
  *
  * Setup:
  * 1. Add SANITY_WEBHOOK_SECRET to environment variables
@@ -247,15 +252,20 @@ export async function POST(request: NextRequest) {
     const chatbotCorpusTypes = ['project', 'profile', 'aiProject', 'blog'];
     let corpusInvalidated = false;
 
-    if (chatbotCorpusTypes.includes(documentType)) {
-      revalidateTag('chatbot-corpus');
-      corpusInvalidated = true;
-      logger.log('   🔄 Invalidated chatbot corpus cache');
-    }
+    try {
+      if (chatbotCorpusTypes.includes(documentType)) {
+        revalidateTag('chatbot-corpus');
+        corpusInvalidated = true;
+        logger.log('   🔄 Invalidated chatbot corpus cache');
+      }
 
-    if (documentType === 'chatPrompts') {
-      revalidateTag('chat-prompts');
-      logger.log('   🔄 Invalidated chat prompts cache');
+      if (documentType === 'chatPrompts') {
+        revalidateTag('chat-prompts');
+        logger.log('   🔄 Invalidated chat prompts cache');
+      }
+    } catch (error) {
+      logger.error(`   ❌ Error invalidating chatbot caches:`, error);
+      // Don't throw - revalidation failures shouldn't break the webhook
     }
 
     // Step 7: Return success response

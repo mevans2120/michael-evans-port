@@ -1,6 +1,6 @@
 /**
  * Sanity Content Fetcher Tests
- * Tests content transformation for vector database ingestion
+ * Tests content flattening for the chatbot corpus
  *
  * These tests ensure:
  * - Sanity content is properly fetched and transformed
@@ -13,7 +13,7 @@
  * Real: Content transformation logic
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import {
   portableTextToPlainText,
   fetchProjects,
@@ -32,6 +32,11 @@ vi.mock('@/sanity/lib/client', () => ({
   },
 }));
 
+/** The client's overloaded `fetch` signature defeats `vi.mocked`; type the mock loosely once. */
+const fetchMock = productionClient.fetch as unknown as Mock<(...args: unknown[]) => Promise<unknown>>;
+
+const CORPUS_CACHE_OPTIONS = { next: { revalidate: false, tags: ['sanity', 'chatbot-corpus'] } };
+
 describe('Sanity Content Fetcher', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -46,7 +51,7 @@ describe('Sanity Content Fetcher', () => {
           children: [
             { _type: 'span', _key: 'span-1', text: 'Hello world', marks: [] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
       ];
 
       const result = portableTextToPlainText(blocks);
@@ -62,14 +67,14 @@ describe('Sanity Content Fetcher', () => {
           children: [
             { _type: 'span', _key: 'span-1', text: 'First paragraph', marks: [] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
         {
           _type: 'block',
           _key: 'block-2',
           children: [
             { _type: 'span', _key: 'span-2', text: 'Second paragraph', marks: [] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
       ];
 
       const result = portableTextToPlainText(blocks);
@@ -86,7 +91,7 @@ describe('Sanity Content Fetcher', () => {
             { _type: 'span', _key: 'span-1', text: 'Hello ', marks: [] },
             { _type: 'span', _key: 'span-2', text: 'world', marks: ['strong'] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
       ];
 
       const result = portableTextToPlainText(blocks);
@@ -102,12 +107,12 @@ describe('Sanity Content Fetcher', () => {
           children: [
             { _type: 'span', _key: 'span-1', text: 'Text content', marks: [] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
         {
           _type: 'image',
           _key: 'image-1',
           asset: { _ref: 'image-123' },
-        } as any,
+        } as unknown as PortableTextBlock,
       ];
 
       const result = portableTextToPlainText(blocks);
@@ -130,7 +135,7 @@ describe('Sanity Content Fetcher', () => {
         {
           _type: 'block',
           _key: 'block-1',
-        } as any,
+        } as unknown as PortableTextBlock,
       ];
 
       const result = portableTextToPlainText(blocks);
@@ -146,19 +151,19 @@ describe('Sanity Content Fetcher', () => {
           children: [
             { _type: 'span', _key: 'span-1', text: 'Content', marks: [] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
         {
           _type: 'block',
           _key: 'block-2',
           children: [],
-        } as any,
+        } as unknown as PortableTextBlock,
         {
           _type: 'block',
           _key: 'block-3',
           children: [
             { _type: 'span', _key: 'span-2', text: 'More content', marks: [] },
           ],
-        } as any,
+        } as unknown as PortableTextBlock,
       ];
 
       const result = portableTextToPlainText(blocks);
@@ -169,7 +174,7 @@ describe('Sanity Content Fetcher', () => {
     // Rich block types from sanity/schemas/project.ts and sanity/schemas/blog.ts
     describe('rich block types', () => {
       const rich = (block: Record<string, unknown>) =>
-        portableTextToPlainText([{ _key: 'k', ...block } as any]);
+        portableTextToPlainText([{ _key: 'k', ...block } as unknown as PortableTextBlock]);
 
       it('renders statBlockQuote as a quote with attribution', () => {
         expect(
@@ -208,11 +213,14 @@ describe('Sanity Content Fetcher', () => {
         expect(rich({ _type: 'examplePrompt', prompt: 'Summarize the article.' })).toBe('Summarize the article.');
       });
 
-      it('renders image caption and skips images without one', () => {
+      it('renders image caption, falls back to alt, and skips images with neither', () => {
         expect(rich({ _type: 'image', asset: { _ref: 'image-1' }, alt: 'alt', caption: 'Home screen' })).toBe(
           'Home screen'
         );
-        expect(rich({ _type: 'image', asset: { _ref: 'image-1' }, alt: 'alt' })).toBe('');
+        expect(rich({ _type: 'image', asset: { _ref: 'image-1' }, alt: 'Home screen alt' })).toBe(
+          'Home screen alt'
+        );
+        expect(rich({ _type: 'image', asset: { _ref: 'image-1' } })).toBe('');
       });
 
       it('renders imageGrid and portraitImageList captions, falling back to alt', () => {
@@ -276,8 +284,16 @@ describe('Sanity Content Fetcher', () => {
       publishedAt: '2020-01-01',
     };
 
+    it('requests the corpus with an indefinite, tag-invalidated data cache', async () => {
+      fetchMock.mockResolvedValue([projectFixture]);
+
+      await fetchProjects();
+
+      expect(fetchMock).toHaveBeenCalledWith(expect.any(String), {}, CORPUS_CACHE_OPTIONS);
+    });
+
     it('fetches and transforms project data', async () => {
-      vi.mocked(productionClient.fetch).mockResolvedValue([projectFixture]);
+      fetchMock.mockResolvedValue([projectFixture]);
 
       const result = await fetchProjects();
 
@@ -296,7 +312,7 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('includes overview, featured description, metric, and article body', async () => {
-      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
+      fetchMock.mockResolvedValueOnce([projectFixture]);
 
       const [doc] = await fetchProjects();
 
@@ -309,7 +325,7 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('includes the hero subtitle right after the category line', async () => {
-      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
+      fetchMock.mockResolvedValueOnce([projectFixture]);
 
       const [doc] = await fetchProjects();
 
@@ -320,17 +336,17 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('carries chatbotOnly into metadata, defaulting to false', async () => {
-      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
+      fetchMock.mockResolvedValueOnce([projectFixture]);
       const [publicDoc] = await fetchProjects();
       expect(publicDoc.metadata.chatbotOnly).toBe(false);
 
-      vi.mocked(productionClient.fetch).mockResolvedValueOnce([{ ...projectFixture, chatbotOnly: true }]);
+      fetchMock.mockResolvedValueOnce([{ ...projectFixture, chatbotOnly: true }]);
       const [hiddenDoc] = await fetchProjects();
       expect(hiddenDoc.metadata.chatbotOnly).toBe(true);
     });
 
     it('carries chatbotQuestions into metadata', async () => {
-      vi.mocked(productionClient.fetch).mockResolvedValueOnce([projectFixture]);
+      fetchMock.mockResolvedValueOnce([projectFixture]);
 
       const [doc] = await fetchProjects();
 
@@ -350,7 +366,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
+      fetchMock.mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -381,7 +397,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
+      fetchMock.mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -406,7 +422,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
+      fetchMock.mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -427,7 +443,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
+      fetchMock.mockResolvedValue(mockProjects);
 
       const result = await fetchProjects();
 
@@ -485,7 +501,7 @@ describe('Sanity Content Fetcher', () => {
         ],
       };
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
+      fetchMock.mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -513,7 +529,7 @@ describe('Sanity Content Fetcher', () => {
         ],
       };
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
+      fetchMock.mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -535,7 +551,7 @@ describe('Sanity Content Fetcher', () => {
         name: 'Michael Evans',
       };
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
+      fetchMock.mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -544,7 +560,7 @@ describe('Sanity Content Fetcher', () => {
     });
 
     it('returns empty array for null profile', async () => {
-      vi.mocked(productionClient.fetch).mockResolvedValue(null);
+      fetchMock.mockResolvedValue(null);
 
       const result = await fetchProfile();
 
@@ -561,7 +577,7 @@ describe('Sanity Content Fetcher', () => {
         ],
       };
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProfile);
+      fetchMock.mockResolvedValue(mockProfile);
 
       const result = await fetchProfile();
 
@@ -604,7 +620,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
+      fetchMock.mockResolvedValue(mockProjects);
 
       const result = await fetchAIProjects();
 
@@ -638,7 +654,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockProjects);
+      fetchMock.mockResolvedValue(mockProjects);
 
       const result = await fetchAIProjects();
 
@@ -682,7 +698,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockPosts);
+      fetchMock.mockResolvedValue(mockPosts);
 
       const result = await fetchBlogPosts();
 
@@ -707,7 +723,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockPosts);
+      fetchMock.mockResolvedValue(mockPosts);
 
       const result = await fetchBlogPosts();
 
@@ -726,7 +742,7 @@ describe('Sanity Content Fetcher', () => {
         },
       ];
 
-      vi.mocked(productionClient.fetch).mockResolvedValue(mockPosts);
+      fetchMock.mockResolvedValue(mockPosts);
 
       const result = await fetchBlogPosts();
 
@@ -742,7 +758,7 @@ describe('Sanity Content Fetcher', () => {
       const mockAIProjects = [{ _id: 'ai1', _updatedAt: '2025-01-01', title: 'AI Project', slug: { current: 'ai' } }];
       const mockBlogPosts = [{ _id: 'blog1', _updatedAt: '2025-01-01', title: 'Blog', slug: { current: 'b' } }];
 
-      vi.mocked(productionClient.fetch)
+      fetchMock
         .mockResolvedValueOnce(mockProjects)
         .mockResolvedValueOnce(mockProfile)
         .mockResolvedValueOnce(mockAIProjects)
@@ -761,10 +777,10 @@ describe('Sanity Content Fetcher', () => {
       expect(sources).toContain('sanity_blog');
     });
 
-    it('logs fetch summary', async () => {
+    it('does not log to the console on the request path', async () => {
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-      vi.mocked(productionClient.fetch)
+      fetchMock
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce(null)
         .mockResolvedValueOnce([])
@@ -772,12 +788,7 @@ describe('Sanity Content Fetcher', () => {
 
       await fetchAllSanityContent();
 
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Fetching Sanity content')
-      );
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Fetched')
-      );
+      expect(consoleSpy).not.toHaveBeenCalled();
 
       consoleSpy.mockRestore();
     });

@@ -1,6 +1,6 @@
 /**
  * Sanity Content Fetcher for AI Chatbot
- * Fetches and transforms Sanity CMS content for vector database ingestion
+ * Fetches Sanity CMS content and flattens it to plain text for the chatbot corpus
  */
 
 import { productionClient } from '@/sanity/lib/client';
@@ -69,7 +69,7 @@ function blockToPlainText(block: RichBlock): string {
     }
 
     case 'image':
-      return str(block.caption) ?? '';
+      return imageCaption(block) ?? '';
 
     case 'imageGrid':
     case 'portraitImageList':
@@ -595,11 +595,10 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
 }
 
 /**
- * Fetch all Sanity content for chatbot ingestion
+ * Fetch every Sanity content type the chatbot corpus includes. Runs on the
+ * request path (behind the Next.js data cache), so it must not log.
  */
 export async function fetchAllSanityContent(): Promise<SanityContentDocument[]> {
-  console.log('📦 Fetching Sanity content...');
-
   const [projects, profile, aiProjects, blogPosts] = await Promise.all([
     fetchProjects(),
     fetchProfile(),
@@ -607,13 +606,5 @@ export async function fetchAllSanityContent(): Promise<SanityContentDocument[]> 
     fetchBlogPosts(),
   ]);
 
-  const allContent = [...projects, ...profile, ...aiProjects, ...blogPosts];
-
-  console.log(`✅ Fetched ${allContent.length} Sanity documents:`);
-  console.log(`   - Projects: ${projects.length}`);
-  console.log(`   - Profile sections: ${profile.length}`);
-  console.log(`   - AI Projects: ${aiProjects.length}`);
-  console.log(`   - Blog Posts: ${blogPosts.length}`);
-
-  return allContent;
+  return [...projects, ...profile, ...aiProjects, ...blogPosts];
 }
