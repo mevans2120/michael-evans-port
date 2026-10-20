@@ -12,6 +12,7 @@ import { createClient } from 'next-sanity';
 
 import { FOLLOWUP_MARKER } from '../src/lib/chatbot/followups';
 import { REFUSAL_SENTENCE } from '../src/lib/chatbot/prompt';
+import { askWithRetry } from './lib/chat-client';
 
 const base = process.env.CHAT_BASE ?? 'http://localhost:3000';
 
@@ -32,29 +33,6 @@ interface ChatPromptsDoc {
   prompts: { text: string }[] | null;
 }
 
-async function ask(question: string): Promise<string> {
-  const res = await fetch(`${base}/api/chat`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      messages: [{ id: 'q', role: 'user', parts: [{ type: 'text', text: question }] }],
-    }),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status} for "${question}"`);
-  const raw = await res.text();
-  let text = '';
-  for (const line of raw.split('\n')) {
-    if (!line.startsWith('data: ')) continue;
-    try {
-      const ev = JSON.parse(line.slice(6)) as { type?: string; delta?: string };
-      if (ev.type === 'text-delta') text += ev.delta ?? '';
-    } catch {
-      /* ignore non-JSON lines */
-    }
-  }
-  return text;
-}
-
 async function main() {
   const data = await sanity.fetch<ChatPromptsDoc | null>(
     `*[_type == "chatPrompts"][0]{ prompts[active == true]{ text } }`
@@ -64,8 +42,16 @@ async function main() {
   console.warn(`Checking ${prompts.length} active prompt(s) against ${base}\n`);
 
   let failures = 0;
+  let errors = 0;
   for (const prompt of prompts) {
-    const answer = await ask(prompt);
+    let answer: string;
+    try {
+      answer = await askWithRetry(base, prompt);
+    } catch (err) {
+      errors++;
+      console.error(`ERROR  ${prompt}  ${err instanceof Error ? err.message : String(err)}`);
+      continue;
+    }
     const refused = answer.includes(REFUSAL_SENTENCE);
     const hasFollowUps = FOLLOWUP_TRAILER.test(answer);
     const ok = !refused && hasFollowUps;
@@ -75,8 +61,10 @@ async function main() {
     );
   }
 
-  if (failures > 0) {
-    console.error(`\n${failures} of ${prompts.length} suggested prompts are not answerable.`);
+  if (failures > 0 || errors > 0) {
+    console.error(
+      `\n${failures} of ${prompts.length} suggested prompts are not answerable; ${errors} errored (timeout or stream error).`
+    );
     process.exit(1);
   }
   console.warn(`\nAll ${prompts.length} suggested prompts answerable.`);
