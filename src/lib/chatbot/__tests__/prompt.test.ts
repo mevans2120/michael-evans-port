@@ -27,4 +27,10 @@ describe('buildInstructions', () => {
   it('explains the FOLLOWUPS trailer format', () => {
     expect(buildInstructions(pages)).toContain('FOLLOWUPS: [');
   });
+
+  it('asks for a bare link line with no "Learn more" label', () => {
+    const text = buildInstructions(pages);
+    expect(text).not.toContain('**Learn more:**');
+    expect(text).toContain('\n[Title](url)\n');
+  });
 });

@@ -27,8 +27,8 @@ export function buildInstructions(pages: CorpusPage[]): string {
 - Attribution: case-study client work is "Michael and team". Before Launcher and the AI projects are "Michael".
 
 ## Links
-After the paragraph, if (and only if) the answer draws on one of these pages, add one line:
-**Learn more:** [Title](url)
+If (and only if) the answer draws on one of these pages, put the link on its own line after the paragraph and before the follow-up line, as a bare markdown link with no label or lead-in text:
+[Title](url)
 Use URLs exactly as listed here. Never invent or alter a URL. Do not repeat a link already given earlier in this conversation.
 
 Pages you may link:

@@ -14,7 +14,8 @@ import { fetchAllSanityContent } from './sanity-fetcher';
 export interface CorpusPage {
   title: string;
   url: string;
-  kind: 'case-study' | 'blog' | 'about';
+  /** `/about` is intentionally absent: prompt.ts hardcodes that link. */
+  kind: 'case-study' | 'blog';
 }
 
 export interface Corpus {
@@ -35,16 +36,28 @@ function escapeAttr(value: string): string {
   return value.replace(/"/g, '&quot;');
 }
 
+/**
+ * Bodies come from CMS content and transcripts, so a stray `</document>` must
+ * not be able to close a block early. A zero-width space after `<` breaks the
+ * tag without visibly altering the text.
+ */
+function neutralizeTags(body: string): string {
+  return body.replace(/<(\/?)(document|suggested-questions)\b/gi, '<$1​$2');
+}
+
+function cleanQuestions(questions: string[]): string[] {
+  return questions.map((q) => q.trim()).filter((q) => q.length > 0);
+}
+
 function wrap(id: string, title: string, body: string, url?: string, questions: string[] = []): string {
   const urlAttr = url ? ` url="${escapeAttr(url)}"` : '';
   const q = questions.length > 0 ? `\n<suggested-questions>\n${questions.map((s) => `- ${s}`).join('\n')}\n</suggested-questions>` : '';
-  return `<document id="${escapeAttr(id)}" title="${escapeAttr(title)}"${urlAttr}>\n${body.trim()}${q}\n</document>`;
+  return `<document id="${escapeAttr(id)}" title="${escapeAttr(title)}"${urlAttr}>\n${neutralizeTags(body.trim())}${q}\n</document>`;
 }
 
 function kindFor(url: string): CorpusPage['kind'] | null {
   if (url.startsWith('/case-studies/')) return 'case-study';
   if (url.startsWith('/blog/')) return 'blog';
-  if (url === '/about') return 'about';
   return null;
 }
 
@@ -57,15 +70,19 @@ export async function buildCorpus(): Promise<Corpus> {
   const questions = new Set<string>();
 
   for (const t of transcriptDocs) {
-    blocks.push(wrap(t.id, t.title, t.body, undefined, t.questions));
-    t.questions.forEach((q) => questions.add(q));
+    const qs = cleanQuestions(t.questions);
+    blocks.push(wrap(t.id, t.title, t.body, undefined, qs));
+    qs.forEach((q) => questions.add(q));
   }
 
   for (const d of sanityDocs) {
     const url = typeof d.metadata.url === 'string' ? d.metadata.url : undefined;
-    blocks.push(wrap(d.metadata.source_id, d.metadata.title, d.content, url, d.metadata.questions));
-    d.metadata.questions.forEach((q) => questions.add(q));
-    if (url) {
+    const chatbotOnly = d.metadata.chatbotOnly === true;
+    const qs = cleanQuestions(d.metadata.questions);
+    blocks.push(wrap(d.metadata.source_id, d.metadata.title, d.content, url, qs));
+    qs.forEach((q) => questions.add(q));
+    // chatbotOnly documents have no public page, so they stay out of the manifest.
+    if (url && !chatbotOnly) {
       const kind = kindFor(url);
       if (kind) pages.push({ title: d.metadata.title, url, kind });
     }
