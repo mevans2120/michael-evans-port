@@ -1,0 +1,28 @@
+name: Chatbot smoke test
+
+on:
+  schedule:
+    - cron: '17 14 * * *' # daily, 14:17 UTC (~7:17am Pacific)
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CHAT_BASE: https://mevans.space
+      NEXT_PUBLIC_SANITY_PROJECT_ID: 5n331bys
+      NEXT_PUBLIC_SANITY_DATASET: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # --ignore-scripts skips the prebuild corpus build; the two checks below
+      # only need tsx (devDependency) and next-sanity.
+      - run: npm ci --ignore-scripts
+      - name: Validate suggested prompts against production
+        run: npx tsx scripts/validate-chat-prompts.ts
+      - name: Known-answer checks
+        run: npx tsx scripts/chatbot-smoke-checks.ts
