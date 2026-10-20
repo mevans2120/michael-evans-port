@@ -5,7 +5,15 @@
  * plus three end-to-end conversations that call the real model via /api/chat:
  * a grounded answer with follow-ups, a clean refusal, and a follow-up round-trip.
  *
- * The model-backed tests need ANTHROPIC_API_KEY in .env.local.
+ * Model cost gate: the real-model group is tagged `@model`. `npm run test:e2e`
+ * runs `playwright test --grep-invert @model` (UI-only, no model calls), and
+ * `npm run test:e2e:model` runs just the tagged group. `test:refactor` chains
+ * `test:e2e`, so it never calls the model either.
+ *
+ * The model-backed tests need ANTHROPIC_API_KEY in .env.local for the dev
+ * server. Their "Before Launcher" and "NASA" assertions are intentionally
+ * model-sensitive: a failure there should be read as a prompt regression
+ * (grounding or refusal behaviour changed), not as test flakiness.
  */
 
 import { test, expect, type Page, type Locator } from '@playwright/test';
@@ -14,8 +22,24 @@ import { FOLLOWUP_MARKER, MAX_FOLLOWUPS } from '../src/lib/chatbot/followups';
 
 const WELCOME_MESSAGE = "Hi. Ask me anything about Michael's work and background";
 
-/** Suggested prompt from the CMS. The stored value has a trailing space, so match loosely. */
-const BEFORE_LAUNCHER_PROMPT = /What is the Before Launcher\?/;
+/**
+ * Grounded question typed into the box rather than clicked as a suggestion:
+ * SuggestedPrompts shuffles the CMS set and shows only `numberOfPromptsToShow`,
+ * so no particular prompt button is guaranteed to render.
+ */
+const BEFORE_LAUNCHER_QUESTION = 'What is the Before Launcher?';
+
+/** Live CMS prompt config, fetched inside the test so it never drifts from Sanity. */
+const SANITY_PROMPTS_URL =
+  'https://5n331bys.api.sanity.io/v2024-01-01/data/query/production?query=' +
+  encodeURIComponent(
+    '*[_type=="chatPrompts"][0]{numberOfPromptsToShow,"prompts":prompts[active==true].text}'
+  );
+
+interface ChatPromptsConfig {
+  numberOfPromptsToShow: number;
+  prompts: string[];
+}
 
 /** Generous ceiling for a full model response, including the follow-up trailer. */
 const MODEL_TIMEOUT = 30_000;
@@ -76,13 +100,22 @@ test.describe('Chatbot UI (desktop)', () => {
     await expect(chat.getByText('Suggested questions:')).toBeVisible();
   });
 
-  test('shows the CMS suggested prompts', async ({ page }) => {
+  test('shows the CMS suggested prompts', async ({ page, request }) => {
+    const response = await request.get(SANITY_PROMPTS_URL);
+    expect(response.ok()).toBe(true);
+    const { result } = (await response.json()) as { result: ChatPromptsConfig | null };
+    expect(result).not.toBeNull();
+    const { numberOfPromptsToShow, prompts: cmsPrompts } = result as ChatPromptsConfig;
+    const allowed = new Set(cmsPrompts.map((text) => text.trim()));
+
     const { chat } = await openDesktopChat(page);
 
     const prompts = chat.getByRole('button').filter({ has: page.locator('.chatbot-suggestion') });
     await expect(prompts.first()).toBeVisible();
-    expect(await prompts.count()).toBeGreaterThanOrEqual(2);
-    await expect(chat.getByRole('button', { name: BEFORE_LAUNCHER_PROMPT })).toBeVisible();
+    await expect(prompts).toHaveCount(Math.min(numberOfPromptsToShow, cmsPrompts.length));
+    for (const text of await prompts.allInnerTexts()) {
+      expect(allowed.has(text.trim())).toBe(true);
+    }
   });
 
   test('collapses the chat from the header button', async ({ page }) => {
@@ -148,17 +181,18 @@ test.describe('Chatbot UI (mobile)', () => {
   });
 });
 
-test.describe('Chatbot grounding (calls the real model)', () => {
+test.describe('Chatbot grounding (calls the real model)', { tag: '@model' }, () => {
   // Two model round-trips plus page load can exceed Playwright's 30s default.
   test.describe.configure({ timeout: 120_000 });
 
-  test('answers a suggested prompt and offers follow-ups without leaking the trailer', async ({ page }) => {
-    const { chat, messages, followUps } = await openDesktopChat(page);
+  test('answers a grounded question and offers follow-ups without leaking the trailer', async ({ page }) => {
+    const { chat, input, messages, followUps } = await openDesktopChat(page);
 
-    await chat.getByRole('button', { name: BEFORE_LAUNCHER_PROMPT }).click();
+    await input.fill(BEFORE_LAUNCHER_QUESTION);
+    await page.keyboard.press('Enter');
 
     // Welcome message is replaced by the user turn, then the assistant turn.
-    await expect(messages.first()).toContainText('What is the Before Launcher?');
+    await expect(messages.first()).toContainText(BEFORE_LAUNCHER_QUESTION);
     await waitForReplyToFinish(chat);
     await expect(messages).toHaveCount(2);
 
@@ -186,9 +220,10 @@ test.describe('Chatbot grounding (calls the real model)', () => {
   });
 
   test('clicking a follow-up sends it as the next user turn and gets an answer', async ({ page }) => {
-    const { chat, messages, followUps } = await openDesktopChat(page);
+    const { chat, input, messages, followUps } = await openDesktopChat(page);
 
-    await chat.getByRole('button', { name: BEFORE_LAUNCHER_PROMPT }).click();
+    await input.fill(BEFORE_LAUNCHER_QUESTION);
+    await page.keyboard.press('Enter');
     await waitForReplyToFinish(chat);
     await expect(followUps).toHaveCount(MAX_FOLLOWUPS);
 
