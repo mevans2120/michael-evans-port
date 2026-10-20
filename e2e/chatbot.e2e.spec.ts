@@ -122,6 +122,11 @@ test.describe('Chatbot UI (desktop)', () => {
     await expect(messages.first()).toContainText('special chars: @#$%');
     await expect(chat.locator('script')).toHaveCount(0);
     await expect(chat.getByText(/temporarily unavailable/)).toBeVisible();
+
+    // A pre-stream failure must release the UI: no stuck loader, controls usable again.
+    await expect(chat.getByRole('button', { name: 'Send message' })).toBeVisible();
+    await input.fill('again');
+    await expect(chat.getByRole('button', { name: 'Send message' })).toBeEnabled();
   });
 });
 

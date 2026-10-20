@@ -61,8 +61,9 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
 
   const [input, setInput] = useState('');
 
-  // Track if we're waiting for a response (after send but before streaming)
-  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  // Derived from the SDK status so a pre-stream failure (400/503) clears the
+  // loader and re-enables the controls: 'submitted' | 'streaming' | 'ready' | 'error'.
+  const isWaitingForResponse = status === 'submitted';
   const isStreaming = status === 'streaming';
 
   // Add welcome message to the start - memoized to prevent unnecessary re-renders
@@ -159,7 +160,6 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
 
       // Only submit if there's valid input and we're not already waiting on a reply
       if (input.trim() && !isWaitingForResponse && !isStreaming) {
-        setIsWaitingForResponse(true);
         sendMessage({ text: input });
         setInput('');
       }
@@ -186,16 +186,8 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
       setChatExpanded(true);
     }
     setChatInputFocused(true); // Expand width when using chat
-    setIsWaitingForResponse(true);
     sendMessage({ text: prompt });
   };
-
-  // Reset waiting state when streaming starts
-  useEffect(() => {
-    if (status === 'streaming') {
-      setIsWaitingForResponse(false);
-    }
-  }, [status]);
 
   const handleHeaderClick = () => {
     // Always allow expanding when clicking the header
@@ -460,7 +452,8 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
             <div className="rounded-lg bg-error border border-error-border p-3 text-sm text-error-text mb-4">
               <p className="font-medium">Error</p>
               <p className="text-xs mt-1">
-                {error.message?.includes('503')
+                {/* @ai-sdk/react surfaces the response body as error.message; the route's 503 body is "Chat is temporarily unavailable." */}
+                {error.message?.startsWith('Chat is temporarily unavailable')
                   ? 'The assistant is temporarily unavailable. You can reach Michael through the contact page.'
                   : error.message || 'Something went wrong. Please try again.'}
               </p>
@@ -501,7 +494,6 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
         onSubmit={(e) => {
           e.preventDefault();
           if (!input.trim() || isWaitingForResponse || isStreaming) return;
-          setIsWaitingForResponse(true);
           sendMessage({ text: input });
           setInput('');
         }}

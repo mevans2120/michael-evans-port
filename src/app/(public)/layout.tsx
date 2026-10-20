@@ -31,14 +31,12 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetch footer data from Sanity (cached for visitors, live for editors)
-  const { data: footerData } = await cachedSanityFetch<FooterData | null>({ query: footerQuery, tags: ['footer'] });
-
-  // Suggested chat prompts, server-rendered so they appear on first paint
-  const { data: chatPrompts } = await cachedSanityFetch<ChatPromptsData | null>({
-    query: chatPromptsQuery,
-    tags: ['chat-prompts'],
-  });
+  // Footer data and suggested chat prompts from Sanity, fetched in parallel
+  // (cached for visitors, live for editors; prompts are server-rendered for first paint)
+  const [{ data: footerData }, { data: chatPrompts }] = await Promise.all([
+    cachedSanityFetch<FooterData | null>({ query: footerQuery, tags: ['footer'] }),
+    cachedSanityFetch<ChatPromptsData | null>({ query: chatPromptsQuery, tags: ['chat-prompts'] }),
+  ]);
 
   return (
     <NavigationProvider>
