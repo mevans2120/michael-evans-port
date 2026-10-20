@@ -33,4 +33,17 @@ describe('buildInstructions', () => {
     expect(text).not.toContain('**Learn more:**');
     expect(text).toContain('\n[Title](url)\n');
   });
+
+  it('lets the model borrow follow-ups from other documents but never invent them', () => {
+    const text = buildInstructions(pages);
+    expect(text).toContain('VERBATIM');
+    expect(text).toContain('from other documents');
+    expect(text).toContain('Never write a question that is not in a list');
+  });
+
+  it('pins the link format to the listed title and a relative path', () => {
+    const text = buildInstructions(pages);
+    expect(text).toContain('beginning with /');
+    expect(text).toContain('never add a domain');
+  });
 });

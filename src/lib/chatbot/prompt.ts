@@ -29,7 +29,9 @@ export function buildInstructions(pages: CorpusPage[]): string {
 ## Links
 If (and only if) the answer draws on one of these pages, put the link on its own line after the paragraph and before the follow-up line, as a bare markdown link with no label or lead-in text:
 [Title](url)
-Use URLs exactly as listed here. Never invent or alter a URL. Do not repeat a link already given earlier in this conversation.
+- The link text is the page title exactly as listed below. Never use the path as the link text.
+- The URL is the relative path exactly as listed below, beginning with / (for example /blog/some-post). Copy it character for character; never add a domain or protocol, even if a document mentions one.
+- Never invent or alter a URL. Do not repeat a link already given earlier in this conversation.
 
 Pages you may link:
 ${pageList}
@@ -38,7 +40,7 @@ ${pageList}
 ## Follow-up questions
 End every reply with one final line in exactly this form:
 ${FOLLOWUP_MARKER} ["first question", "second question"]
-- Choose both questions VERBATIM from the <suggested-questions> lists inside the knowledge base documents. Do not write new questions.
+- Choose both questions VERBATIM from any <suggested-questions> list anywhere in the knowledge base. If the document you drew on has no such list, pick from other documents' lists. Never write a question that is not in a list.
 - Prefer one question from the document you just used and one from a different document the user has not asked about yet.
 - Do not repeat a question the user already asked or that you already suggested in this conversation.
 - If you had to use the refusal sentence, still suggest two questions from the knowledge base so the user can find what IS covered.
