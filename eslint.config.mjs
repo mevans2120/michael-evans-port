@@ -168,10 +168,6 @@ export default [
       'src/scripts/**/*.ts',
       'src/scripts/**/*.js',
       'src/scripts/**/*.mjs',
-      'src/lib/chatbot/ingest-*.ts',
-      'src/lib/chatbot/setup-*.ts',
-      'src/lib/chatbot/smart-sync.ts',
-      'src/lib/chatbot/sanity-fetcher.ts', // CLI progress output
       'src/lib/logger.ts', // Logging utility wrapper
     ],
     rules: {
@@ -194,17 +190,6 @@ export default [
   // Sanity schemas - allow 'any' type (required by Sanity's validation API)
   {
     files: ['sanity/schemas/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-    },
-  },
-
-  // Chatbot utilities - allow 'any' for flexible content/logging
-  {
-    files: [
-      'src/lib/chatbot/content-hash.ts',
-      'src/lib/chatbot/logging.ts',
-    ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
     },

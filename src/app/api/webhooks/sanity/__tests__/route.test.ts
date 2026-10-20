@@ -56,7 +56,9 @@ describe('POST /api/webhooks/sanity', () => {
   });
 
   afterEach(() => {
-    process.env.SANITY_WEBHOOK_SECRET = originalSecret;
+    // Assigning undefined would store the string "undefined", so delete instead.
+    if (originalSecret === undefined) delete process.env.SANITY_WEBHOOK_SECRET;
+    else process.env.SANITY_WEBHOOK_SECRET = originalSecret;
   });
 
   it('invalidates the chatbot corpus for a project document', async () => {
@@ -103,6 +105,16 @@ describe('POST /api/webhooks/sanity', () => {
 
     expect(status).toBe(401);
     expect(json.error).toBe('Invalid signature');
+    expect(revalidateTag).not.toHaveBeenCalled();
+  });
+
+  it('returns 500 when the webhook secret is not configured', async () => {
+    delete process.env.SANITY_WEBHOOK_SECRET;
+
+    const { status } = await post({ _id: 'project-1', _type: 'project' });
+
+    expect(status).toBe(500);
+    expect(parseBody).not.toHaveBeenCalled();
     expect(revalidateTag).not.toHaveBeenCalled();
   });
 });
