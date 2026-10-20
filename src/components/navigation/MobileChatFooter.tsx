@@ -2,9 +2,14 @@
 
 import { useNavigation } from '@/contexts/NavigationContext';
 import { Sparkles, ChevronUp } from 'lucide-react';
+import type { ChatPromptsData } from '@/lib/sanity/queries';
 import { ChatSection } from './ChatSection';
 
-export function MobileChatFooter() {
+interface MobileChatFooterProps {
+  chatPrompts: ChatPromptsData | null;
+}
+
+export function MobileChatFooter({ chatPrompts }: MobileChatFooterProps) {
   const { chatExpanded, setChatExpanded, setMobileChatSource } = useNavigation();
 
   const handleExpand = () => {
@@ -16,7 +21,7 @@ export function MobileChatFooter() {
   if (chatExpanded) {
     return (
       <div className="lg:hidden">
-        <ChatSection isMobileVersion={true} />
+        <ChatSection isMobileVersion={true} chatPrompts={chatPrompts} />
       </div>
     );
   }

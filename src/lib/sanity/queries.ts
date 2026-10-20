@@ -315,6 +315,11 @@ export const chatPromptsQuery = groq`
   }
 `
 
+export interface ChatPromptsData {
+  prompts: { text: string; order: number; active: boolean }[];
+  numberOfPromptsToShow: number;
+}
+
 // Get footer content (singleton)
 export const footerQuery = groq`
   *[_type == "footer"][0] {

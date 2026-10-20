@@ -6,7 +6,7 @@ import { ConditionalChatSection } from "@/components/navigation/ConditionalChatS
 import { MobileChatFooter } from "@/components/navigation/MobileChatFooter";
 import { Footer } from "@/components/Footer";
 import { cachedSanityFetch } from "@/sanity/lib/fetch";
-import { footerQuery } from "@/lib/sanity/queries";
+import { chatPromptsQuery, footerQuery, type ChatPromptsData } from "@/lib/sanity/queries";
 import { LayoutContent } from "./LayoutContent";
 
 // Type for footer data from Sanity
@@ -34,6 +34,12 @@ export default async function PublicLayout({
   // Fetch footer data from Sanity (cached for visitors, live for editors)
   const { data: footerData } = await cachedSanityFetch<FooterData | null>({ query: footerQuery, tags: ['footer'] });
 
+  // Suggested chat prompts, server-rendered so they appear on first paint
+  const { data: chatPrompts } = await cachedSanityFetch<ChatPromptsData | null>({
+    query: chatPromptsQuery,
+    tags: ['chat-prompts'],
+  });
+
   return (
     <NavigationProvider>
       {/* Navigation loading indicator */}
@@ -46,7 +52,7 @@ export default async function PublicLayout({
         {/* Navigation Panel - Now on the left for desktop */}
         <NavigationPanel>
           <NavigationMenu />
-          <ConditionalChatSection />
+          <ConditionalChatSection chatPrompts={chatPrompts} />
         </NavigationPanel>
 
         {/* Main Content Area */}
@@ -62,7 +68,7 @@ export default async function PublicLayout({
       </LayoutContent>
 
       {/* Mobile Chat Footer - Always render, CSS handles visibility */}
-      <MobileChatFooter />
+      <MobileChatFooter chatPrompts={chatPrompts} />
     </NavigationProvider>
   );
 }

@@ -1,9 +1,14 @@
 'use client';
 
 import { useIsDesktop } from '@/hooks/useMediaQuery';
+import type { ChatPromptsData } from '@/lib/sanity/queries';
 import { ChatSection } from './ChatSection';
 
-export function ConditionalChatSection() {
+interface ConditionalChatSectionProps {
+  chatPrompts: ChatPromptsData | null;
+}
+
+export function ConditionalChatSection({ chatPrompts }: ConditionalChatSectionProps) {
   const isDesktop = useIsDesktop();
 
   // Only render ChatSection in NavigationPanel on desktop
@@ -12,5 +17,5 @@ export function ConditionalChatSection() {
     return null;
   }
 
-  return <ChatSection />;
+  return <ChatSection chatPrompts={chatPrompts} />;
 }
