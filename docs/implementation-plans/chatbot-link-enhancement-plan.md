@@ -2268,7 +2268,7 @@ analytics.track('Link Preview Error', { slug, error });
 
 ### Reference Documents
 
-- **Research Document**: `/docs/chatbot-link-enhancement-research.md`
+- **Research Document**: `/docs/archive/chatbot-2025/chatbot-link-enhancement-research.md`
 - **CLAUDE.md**: `/CLAUDE.md` (project instructions)
 - **Current Memory Bank**: `/memory-bank/CURRENT.md`
 
@@ -2360,7 +2360,7 @@ vercel rollback              # Rollback deployment
 - 2025-11-04 v1.1: Updated to emphasize this is a UI/presentation enhancement only. Clarified that chatbot content recommendations are already excellent and no changes to AI logic, prompts, or content selection are needed.
 
 **Related Documents:**
-- Research: `/docs/chatbot-link-enhancement-research.md`
+- Research: `/docs/archive/chatbot-2025/chatbot-link-enhancement-research.md`
 - Project Instructions: `/CLAUDE.md`
 - Memory Bank: `/memory-bank/CURRENT.md`
 

@@ -312,4 +312,4 @@ Keep the corpus as a set of 20 to 30 whole documents (one per transcript, projec
 - `src/app/api/admin/chatbot-sync/route.ts`, `src/app/api/admin/chat-logs/route.ts`
 - `sanity/schemas/chatPrompts.ts`, `project.ts`, `blog.ts`, `profile.ts`
 - `public/chatbot-content/transcripts/` — source corpus (currently public)
-- Prior context: `docs/chatbot/chatbot-content-gap-analysis-2025-10-29.md`, `docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md`, `docs/chatbot-fixes-plan-2025-11-17.md`
+- Prior context: `docs/archive/chatbot-2025/chatbot/chatbot-content-gap-analysis-2025-10-29.md`, `docs/archive/chatbot-2025/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md`, `docs/archive/chatbot-2025/chatbot-fixes-plan-2025-11-17.md`
