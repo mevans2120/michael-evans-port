@@ -85,7 +85,7 @@ const TerminalDark: React.FC = () => {
       navigationCards: [
         {
           title: "rag_chatbot.project",
-          description: "Claude Haiku 4.5 | Supabase pgvector | AI SDK v5",
+          description: "Claude Haiku 4.5 | Prompt-cached corpus | AI SDK v5",
           targetSection: "/projects/rag-chatbot",
           onNavigate: (section) => handleNavigate(section)
         },

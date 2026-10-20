@@ -1455,7 +1455,9 @@ npm run start
 /docs
 ├── implementation-plans
 │   └── chatbot-link-enhancement-plan.md # This document
-└── chatbot-link-enhancement-research.md # Research document
+└── archive
+    └── chatbot-2025
+        └── chatbot-link-enhancement-research.md # Research document
 ```
 
 ### API Endpoint Specification
