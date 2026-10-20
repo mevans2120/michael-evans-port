@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { Sparkles, ChevronDown, Send, User, Loader2, X } from 'lucide-react';
@@ -32,7 +33,24 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
     [chatPrompts]
   );
 
+  // Stable per-conversation id so server log events can correlate turns.
+  // Generated lazily on the first send (browser only), so SSR never touches crypto
+  // and the id is created at most once for the life of this component.
+  const sessionIdRef = useRef<string | null>(null);
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: '/api/chat',
+        body: () => {
+          sessionIdRef.current ??= crypto.randomUUID();
+          return { sessionId: sessionIdRef.current };
+        },
+      }),
+    []
+  );
+
   const { messages: chatMessages, sendMessage, status, error } = useChat({
+    transport,
     onFinish: () => {
       // Scroll to bottom when assistant responds
       scrollTimeoutRef.current = setTimeout(() => {
