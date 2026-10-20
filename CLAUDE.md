@@ -99,7 +99,7 @@ The chatbot has no vector database. The whole knowledge base (about 50k tokens) 
 ```
 Transcripts (content/chatbot/transcripts/*.md, with `questions:` frontmatter)
    └─ npm run build:corpus (automatic via prebuild and pretest) → src/lib/chatbot/generated/transcripts.json (gitignored)
-Sanity (project, blog, profile; each with a `chatbotQuestions` field)
+Sanity (project, blog, profile, aiProject; the first three carry a `chatbotQuestions` field)
    └─ fetched at request time, cached by tag `chatbot-corpus`, invalidated by the Sanity webhook
 Both → one prompt-cached system block → Claude Haiku 4.5 → POST /api/chat
 ```
@@ -117,7 +117,7 @@ npm run build:corpus       # Compile transcripts into the generated JSON (also r
 npm run validate:prompts   # Post every active CMS prompt to /api/chat; fails on refusal or missing trailer
 ```
 
-**Observability:** the route logs one JSON line per event (`chat.question`, `chat.answer`, `chat.error`, `chat.unavailable`). Read them with `vercel logs <deployment> | grep '"event":"chat.'`. A daily GitHub Actions smoke test (`.github/workflows/chatbot-smoke.yml`) runs the prompt validation and known-answer checks against production.
+**Observability:** the route logs one JSON line per event (`chat.question`, `chat.answer`, `chat.error`, `chat.unavailable`). Read them with `vercel logs <deployment> | grep '"event":"chat.'`, which streams live logs for that deployment; add `--no-follow -n 1000` to search recent history instead. A daily GitHub Actions smoke test (`.github/workflows/chatbot-smoke.yml`) runs the prompt validation and known-answer checks against production.
 
 **Documentation:**
 - `src/lib/chatbot/README.md` - module guide, frontmatter format, caching, logs

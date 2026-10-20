@@ -4,7 +4,7 @@ This directory holds the server-side pieces of the portfolio chatbot: corpus ass
 
 ## Design
 
-The whole knowledge base is sent to the model on every request. It is small: sixteen transcript files plus the Sanity projects, blog posts, and profile come to roughly 50k tokens. That fits comfortably in Claude Haiku 4.5's context, so there is no retrieval step, no embeddings, and no database. The model sees every document and answers from them or says it cannot. The reasoning behind this choice is in `docs/chatbot-functionality-audit-2026-10-09.md`, section 6, option B, and the implementation plan is `docs/plans/2026-10-09-chatbot-remediation.md`.
+The whole knowledge base is sent to the model on every request. It is small: twelve transcript files plus the Sanity projects, blog posts, and profile come to roughly 50k tokens. That fits comfortably in Claude Haiku 4.5's context, so there is no retrieval step, no embeddings, and no database. The model sees every document and answers from them or says it cannot. The reasoning behind this choice is in `docs/chatbot-functionality-audit-2026-10-09.md`, section 6, option B, and the implementation plan is `docs/plans/2026-10-09-chatbot-remediation.md`.
 
 The corpus has two sources that arrive by different paths. Transcripts are markdown files in the repo, compiled into a JSON module before `next build`, so the route never touches the filesystem at request time and nothing is served from `public/`. Sanity content is fetched at request time through the Next.js data cache and invalidated by the existing Sanity webhook, so edits in the Studio reach the chatbot within seconds without a redeploy. `buildCorpus()` in `corpus.ts` merges both into one text block, wraps each document in a `<document>` tag with its title and public URL, and collects every editor-written question into a question bank. The route sends that block as a prompt-cached system message, so the model reads it from cache on all but the first request in an hour.
 
@@ -76,11 +76,11 @@ FOLLOWUPS: ["first question", "second question"]
 
 The route calls `streamText` with two system blocks in a fixed order: the instructions, then the corpus with `providerOptions.anthropic.cacheControl = { type: 'ephemeral', ttl: '1h' }`. Anthropic caching is a prefix match, so both blocks are read from cache as long as neither changes. Editing the prompt or any corpus document invalidates the cache once; the next request pays a cache write and everything after it reads from cache again. Do not reorder those two blocks or put anything variable before them.
 
-Haiku 4.5 list prices are $1 per million input tokens and $5 per million output tokens. A one-hour cache write is twice the input price and a cache read is a tenth of it. For a 50k-token corpus that works out to about 10 cents for the write, about half a cent per message for the cached read, and a fraction of a cent for a 200-token answer. The write happens once per hour of idle time, or once per content change. A conversation of ten messages therefore costs on the order of five cents. Check the `cacheWrite` and `cacheRead` fields on `chat.answer` events to confirm reads are happening; a run of answers with `cacheRead: 0` means something in the prefix is changing between requests.
+At the time of writing (October 2026), Haiku 4.5 list prices are $1 per million input tokens and $5 per million output tokens. A one-hour cache write is twice the input price and a cache read is a tenth of it. For a 50k-token corpus that works out to about 10 cents for the write, about half a cent per message for the cached read, and a fraction of a cent for a 200-token answer. The write happens once per hour of idle time, or once per content change. A conversation of ten messages therefore costs on the order of five cents. Check the `cacheWrite` and `cacheRead` fields on `chat.answer` events to confirm reads are happening; a run of answers with `cacheRead: 0` means something in the prefix is changing between requests.
 
 ## Request handling
 
-`POST /api/chat` runs on the Node.js runtime with `maxDuration = 60`. It accepts `{ messages, sessionId? }` in the AI SDK UI message format. Only the most recent twelve messages are forwarded, each text part is capped at 4,000 characters, non-text parts are dropped, and a malformed body returns `400` with a plain-text reason. If the assembled corpus is under `CHATBOT_CONFIG.MIN_CORPUS_CHARS` (20,000 characters) the route returns `503` rather than answer from almost nothing. The response carries an `X-Session-ID` header, echoing the client's UUID or minting one. Model constants live in `CHATBOT_CONFIG` in `src/lib/constants.ts`.
+`POST /api/chat` runs on the Node.js runtime with `maxDuration = 60`. It accepts `{ messages, sessionId? }` in the AI SDK UI message format. Only the most recent twelve messages are kept, and that window is then trimmed to start at a user turn, because Anthropic rejects a conversation that opens with an assistant message. Every message must have the role `user` or `assistant`; any other role fails the request. Only text parts are forwarded, each under 4,000 characters, and non-text parts are dropped. A user message left with no text parts is rejected, as is a last message that is not a user text message. All of these failures return `400` with a plain-text reason, since the client renders the response body as the error message. If the assembled corpus is under `CHATBOT_CONFIG.MIN_CORPUS_CHARS` (20,000 characters) the route returns `503`, also plain text, rather than answer from almost nothing, and an unexpected exception before streaming returns a plain-text `500`. The response carries an `X-Session-ID` header, echoing the client's UUID or minting one. Model constants live in `CHATBOT_CONFIG` in `src/lib/constants.ts`.
 
 Suggested prompts shown before the first message come from the `chatPrompts` singleton in Sanity. They are fetched server-side in the public layout with the `chat-prompts` cache tag, which the webhook also invalidates, so they are on the page at first paint.
 
@@ -89,12 +89,15 @@ Suggested prompts shown before the first message come from the `chatPrompts` sin
 `events.ts` exports `logChatEvent(event, fields)`, which writes one JSON object per line to stdout via `console.info`. Vercel captures these as runtime logs. Every line has `event` and `ts`; string fields are truncated at 500 characters.
 
 ```bash
-vercel logs <deployment-url> | grep '"event":"chat.'
+vercel logs <deployment-url> | grep '"event":"chat.'                       # streams live logs for that deployment
+vercel logs <deployment-url> --no-follow -n 1000 | grep '"event":"chat.'   # searches recent history instead
 ```
+
+Given a deployment URL, `vercel logs` streams live logs, so it shows nothing until a request arrives. Add `--no-follow -n 1000` to search the most recent lines instead.
 
 | Event | Fields | When |
 |---|---|---|
-| `chat.question` | `sessionId`, `turn`, `text`, `corpusChars` | Request validated, before the model call |
+| `chat.question` | `sessionId`, `turn` (messages received), `window` (messages forwarded after trimming), `text`, `corpusChars` | Request validated, before the model call |
 | `chat.answer` | `sessionId`, `ms`, `chars`, `refused`, `followUps`, `followUpsOffBank`, `inputTokens`, `outputTokens`, `cacheWrite`, `cacheRead` | Stream finished, including when the client disconnected |
 | `chat.error` | `sessionId`, `phase` (`request` or `stream`), `message` | Thrown before streaming, or a provider error inside the stream |
 | `chat.unavailable` | `sessionId`, `reason` | Corpus too small; the route returned 503 |

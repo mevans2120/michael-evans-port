@@ -95,7 +95,7 @@ function blockToPlainText(block: RichBlock): string {
 /**
  * Portable Text to Plain Text Converter
  * Converts Sanity's portable text blocks (including the schema's custom object
- * types) to plain text for embedding.
+ * types) to plain text for the corpus.
  */
 export function portableTextToPlainText(blocks: PortableTextBlock[] | undefined): string {
   if (!blocks || !Array.isArray(blocks)) return '';
@@ -200,7 +200,7 @@ interface SanityBlog {
 }
 
 /**
- * Content document interface for ingestion
+ * Content document interface for the chatbot corpus
  */
 export interface SanityContentDocument {
   content: string;
