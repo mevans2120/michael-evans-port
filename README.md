@@ -202,7 +202,7 @@ Access at `/admin/chatbot-content` to:
 - **Client Components**: Interactive elements with 'use client'
 - **shadcn/ui Pattern**: Components copied into codebase for customization
 
-For detailed architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md) and [docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md](./docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md).
+For detailed architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md) and [src/lib/chatbot/README.md](./src/lib/chatbot/README.md).
 
 ## 📝 Memory Bank System
 
