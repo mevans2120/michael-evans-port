@@ -42,8 +42,10 @@ export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectio
       new DefaultChatTransport({
         api: '/api/chat',
         body: () => {
-          sessionIdRef.current ??= crypto.randomUUID();
-          return { sessionId: sessionIdRef.current };
+          // crypto.randomUUID is undefined outside secure contexts (e.g. a dev
+          // server reached over LAN http). Send nothing and let the route mint an id.
+          sessionIdRef.current ??= globalThis.crypto?.randomUUID?.() ?? null;
+          return sessionIdRef.current ? { sessionId: sessionIdRef.current } : {};
         },
       }),
     []
