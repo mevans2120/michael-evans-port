@@ -36,18 +36,26 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /**
- * Validate and normalise the client-supplied message list. Returns null if any
- * message is malformed, has a disallowed role, or carries an oversized text
- * part. Non-text parts are dropped silently. Only the last MAX_MESSAGES
- * messages are kept.
+ * Validate and normalise the client-supplied message list. Four rules:
+ *   1. Only the last MAX_MESSAGES messages are kept.
+ *   2. The window starts at a user turn (Anthropic rejects a conversation whose
+ *      first message is from the assistant). Leading assistant messages left
+ *      over from the slice are dropped.
+ *   3. Roles must be `user` or `assistant`.
+ *   4. Only text parts are kept, each under MAX_TEXT_PART_CHARS; a user
+ *      message with no text parts is rejected.
+ * Returns null when any rule cannot be satisfied (the caller answers 400).
  */
 function sanitizeMessages(input: unknown): UIMessage[] | null {
   if (!Array.isArray(input) || input.length === 0) return null;
 
   const recent = input.slice(-MAX_MESSAGES);
+  const firstUser = recent.findIndex((m) => isRecord(m) && m.role === 'user');
+  if (firstUser === -1) return null;
+
   const out: UIMessage[] = [];
 
-  for (const raw of recent) {
+  for (const raw of recent.slice(firstUser)) {
     if (!isRecord(raw)) return null;
     if (raw.role !== 'user' && raw.role !== 'assistant') return null;
     if (!Array.isArray(raw.parts)) return null;
@@ -58,6 +66,9 @@ function sanitizeMessages(input: unknown): UIMessage[] | null {
       if (part.text.length > MAX_TEXT_PART_CHARS) return null;
       parts.push({ type: 'text', text: part.text });
     }
+    // Anthropic rejects a user message with empty content; the SDK drops empty
+    // assistant messages on its own, so those are harmless.
+    if (raw.role === 'user' && parts.length === 0) return null;
 
     out.push({
       id: typeof raw.id === 'string' ? raw.id : crypto.randomUUID(),
@@ -118,10 +129,11 @@ export async function POST(req: Request) {
       sessionId = body.sessionId;
     }
 
+    const rawMessageCount = Array.isArray(body.messages) ? body.messages.length : 0;
     const messages = sanitizeMessages(body.messages);
     if (!messages) {
       return badRequest(
-        `messages must be a non-empty array of user/assistant messages with text parts under ${MAX_TEXT_PART_CHARS} characters`,
+        `messages must be a non-empty array of user/assistant messages with non-empty text parts under ${MAX_TEXT_PART_CHARS} characters`,
       );
     }
 
@@ -137,7 +149,8 @@ export async function POST(req: Request) {
 
     logChatEvent('chat.question', {
       sessionId,
-      turn: messages.length,
+      turn: rawMessageCount,
+      window: messages.length,
       text: question,
       corpusChars: corpus.chars,
     });
