@@ -22,6 +22,7 @@
     "test:refactor": "npm run build && npm run test:visual && npm run test:styles && npm run test:e2e",
     "build:corpus": "tsx scripts/build-transcript-corpus.ts",
     "validate:prompts": "tsx --env-file=.env.local scripts/validate-chat-prompts.ts",
+    "eval:chat": "tsx --env-file=.env.local scripts/eval-chat.ts",
     "prebuild": "npm run build:corpus",
     "pretest": "npm run build:corpus",
     "migrate:about": "tsx scripts/migrate-about-content.ts",

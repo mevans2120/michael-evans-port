@@ -1,0 +1,124 @@
+{
+  "base": "http://localhost:3000",
+  "summary": {
+    "avgWords": 158,
+    "maxWords": 263,
+    "bulletedAnswers": 3,
+    "brokenLinks": 0,
+    "emptyFollowUps": 0,
+    "refusals": 1,
+    "avgMs": 4181
+  },
+  "results": [
+    {
+      "question": "What is the Before Launcher?",
+      "words": 147,
+      "bulleted": false,
+      "links": {
+        "/case-studies/before-launcher": 200
+      },
+      "followUps": [
+        "Why did the Before Launcher fail as a business?",
+        "What did Michael learn from the Before Launcher about App Store optimization?"
+      ],
+      "refused": false,
+      "ms": 4577,
+      "body": "The Before Launcher was an Android home screen replacement that Michael founded through Before Labs. It tackled phone addiction by filtering notifications intelligently and simplifying the interface—keeping all the power of a smartphone while reducing distractions.\n\nThe core innovation was a **notification filter** that separated important notifications (texts from your mom, work emails) from unimportant ones (Target deals, Facebook ads). Important notifications appeared immediately; filtered ones were tucked away in a list you could check intentionally. Combined with a simple three-swipe interface (left for apps, right for notifications, center for favorites), it helped users open their phones **30-40% less** than average.\n\nThe app was successful—it won Fast Company's Best App of 2019 and genuinely worked. But the business model wasn't sustainable. Consumer apps on Android face brutal economics, and despite the product's quality, Michael ultimately sold it to a developer who still maintains it today.\n\n[Before Launcher](/case-studies/before-launcher)"
+    },
+    {
+      "question": "Tell me Michael's latest work with AI",
+      "words": 227,
+      "bulleted": true,
+      "links": {},
+      "followUps": [
+        "What is PostPal?",
+        "What are Michael's best practices for agentic engineering?"
+      ],
+      "refused": false,
+      "ms": 5897,
+      "body": "Michael's latest work with AI centers on **PostPal**, an AI-powered healthcare app that transforms post-procedure recovery instructions into intelligent, personalized care timelines.\n\nThe core innovation is using AI to parse medical discharge instruction PDFs and convert them into actionable recovery plans. Michael and his co-founder Jay built both a **web app (Next.js)** and **mobile app (React Native)** that replace confusing paper pamphlets with intuitive task tracking. The system uses **Claude for content analysis** and **Mistral's OCR service** for redundancy, ensuring high accuracy without hallucinations.\n\nBeyond PostPal, Michael has been actively building with **Claude Code**, which he considers the most powerful AI coding tool available. He's shipped multiple projects including:\n\n- **Marketing websites** (DOA, Opal Creek, Karuna Gatton) built with Next.js and Sanity CMS\n- **Custom Claude Code skills** for project management, design, and development automation\n- **AI research agent** that breaks down complex questions into sub-queries and synthesizes findings\n\nHe's generated **over 1,000 GitHub commits** since March 2024 across 30+ projects. His workflow emphasizes **TypeScript, React, and Next.js** because they're strongly typed and widely understood by AI—preventing entire categories of errors.\n\nMichael's core belief: **every software project should be powered by AI or machine learning** from day one, not as an afterthought. He documents his process extensively on his blog, sharing learnings about agentic engineering, prompt engineering, and working effectively with AI as a collaborative team member."
+    },
+    {
+      "question": "What goes into building a successful product?",
+      "words": 142,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What did Michael learn from the Before Launcher project?",
+        "How did Michael approach the Virgin America booking flow?"
+      ],
+      "refused": false,
+      "ms": 3648,
+      "body": "Building a successful product comes down to a few core things. **Solve a specific problem well first**—don't try to solve everything at once. Get to know your customers deeply through research and testing, then put your product in front of them early and often. Watch how they actually use it, whether that's through analytics or sitting next to them at Starbucks. The details matter enormously; there are plenty of good ideas out there, but far fewer great executions.\n\nBeyond that, I'd say strategy matters. Having a clear strategy that inspires people—not just internally but for your customers—makes all the difference. And you need to be willing to pivot when something isn't working. Don't fall victim to sunk cost fallacy. If you've invested time in pursuing one direction and the market tells you it's wrong, move on and figure out what actually resonates."
+    },
+    {
+      "question": "Where did Michael grow up?",
+      "words": 55,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What did Michael study in college?",
+        "How did Michael get into technology?"
+      ],
+      "refused": false,
+      "ms": 1942,
+      "body": "Michael grew up in Eugene, Oregon, in a purple house near the University of Oregon. He was raised by hippies—his mom is a shaman—and there was even a yurt in his backyard. He attended Fox Hollow Elementary School (a French immersion program), Roosevelt Middle School, and South Eugene High School, all public schools in Eugene."
+    },
+    {
+      "question": "What is the Gag Scale?",
+      "words": 218,
+      "bulleted": true,
+      "links": {
+        "/blog/an-introduction-to-the-gag-scale": 200
+      },
+      "followUps": [
+        "What did Michael learn about leadership from opening the Portland office?",
+        "What is Michael's research → plan → build ↔ test workflow?"
+      ],
+      "refused": false,
+      "ms": 4839,
+      "body": "The Gag Scale is a simple -3 to +3 system for measuring how teammates feel about decisions and ideas. Here's how it works:\n\n**Positive side:**\n- **+1** means you think it's a good idea\n- **+2** means you think it's such a good idea you'd spread it around the company\n- **+3** means you think it's so good you'd quit and start your own company based on it\n\n**Negative side:**\n- **0** means you're indifferent and could go either way\n- **-1** means you disagree but will go along with it\n- **-2** means you disagree so strongly you'd actively undermine it\n- **-3** means you think it's such a terrible idea you'd quit\n\nMichael learned this from one of his early mentors, Joel Butler, and has used it throughout his career to gauge team sentiment on decisions. Rather than asking people to announce their scores (who wants to admit they're a -2?), he evaluates it through what people say and do. If someone seems genuinely upset about a decision, he'll talk with them to see if there's been a miscommunication or room for compromise. He's also found that teams with a healthy mix of agreement and disagreement—who aren't afraid to voice concerns but can also commit to decisions—do the best work.\n\n[An introduction to the Gag Scale](/blog/an-introduction-to-the-gag-scale)"
+    },
+    {
+      "question": "Tell me about the Peacock project",
+      "words": 263,
+      "bulleted": false,
+      "links": {
+        "/case-studies/peacock": 200
+      },
+      "followUps": [
+        "What did Michael work on for Peacock?",
+        "What projects did Michael work on with YouTube?"
+      ],
+      "refused": false,
+      "ms": 5816,
+      "body": "Peacock was a strategic design project Michael worked on at Raw Materials in 2022-2023. The work focused on two main areas: exploring second-screen experiences and transforming Peacock into a white label platform.\n\nOn the second-screen side, Michael explored the idea of using your phone as a companion while watching TV—something nearly every TV company has tried. The honest finding: it doesn't really work. People mostly just want to talk about what they're watching on social media rather than engage with interactive features on their phones. While Michael showed some compelling use cases (like diving deep on player stats during sports), the technology to seamlessly implement these features isn't quite there yet.\n\nThe more impactful work was transforming Peacock from a standard streaming product into a white label solution. This meant other cable providers and content companies could use Peacock's design system and technology, brand it as their own, and deliver it to their customers. Instead of building streaming platforms from scratch, they could license what Peacock had already built.\n\nThis was primarily an engineering and systems design challenge. Michael had to spec out the existing design system so it was flexible enough for other brands while maintaining quality across implementations. The work involved developing documentation, guidelines, and customization frameworks that let content providers plug in their own branding and content while keeping the core functionality intact.\n\nThat white label product is currently being used by some European cable providers—they're running streaming services built on Peacock's technology, but you'd never know it unless you looked under the hood. That was exactly the point.\n\n[Peacock](/case-studies/peacock)"
+    },
+    {
+      "question": "What did Michael build for NASA?",
+      "words": 37,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What major projects has Michael worked on?",
+        "What case studies are available on Michael's site?"
+      ],
+      "refused": true,
+      "ms": 1885,
+      "body": "I don't have that in Michael's materials. Michael's portfolio includes work on airlines (Virgin America, Alaska Airlines), streaming services (Peacock, PlayStation Vue), e-commerce (Aesop, Alexander Marchant), and healthcare apps (PostPal), but there's no mention of NASA projects."
+    },
+    {
+      "question": "What companies has Michael worked for?",
+      "words": 176,
+      "bulleted": true,
+      "links": {},
+      "followUps": [
+        "What did Michael build for Virgin America?",
+        "What is Michael working on now?"
+      ],
+      "refused": false,
+      "ms": 4841,
+      "body": "Michael has worked for several companies throughout his career:\n\n**Early Career:**\n- **Symantec** - His first tech job, where he started as a customer data analyst doing data entry, then moved into business analysis and learned SQL.\n\n**Agencies & Consulting:**\n- **Huge** - A digital agency where he worked on major projects like Broadway.com, HouseLogic (for the National Association of Realtors), Target, and HBO Go (Astral).\n- **Work & Co** - One of the first employees. He opened the Portland office and led major projects including Virgin America, Aesop, and Lyft.\n- **Raw Materials** (formerly Handsome) - Where he worked on Peacock, Casa Bonita, and Peddle.\n\n**Startups:**\n- **Before Labs** - His own startup where he created the Before Launcher, an Android home screen replacement that won Fast Company's Best App of 2019.\n\n**Current:**\n- **MEvans LLC** - Independent consulting and AI product development work, including his current interest in **PostPal**, a startup building AI-powered post-procedure care apps.\n\nHe's also done independent consulting work on projects like Teaching Books and PlayStation Vue with MLB Advanced Media."
+    }
+  ]
+}
