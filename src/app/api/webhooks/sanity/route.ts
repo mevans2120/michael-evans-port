@@ -1,6 +1,11 @@
 /**
  * Sanity Webhook Handler
- * Automatically syncs content when changes are made in Sanity CMS
+ *
+ * Revalidates Next.js caches when a document is published in Sanity: the
+ * affected page paths and tags, plus the chatbot corpus ('chatbot-corpus')
+ * and suggested prompts ('chat-prompts') when those content types change.
+ * The chatbot reads the corpus straight from Sanity behind the data cache,
+ * so there is no separate sync step.
  *
  * Setup:
  * 1. Add SANITY_WEBHOOK_SECRET to environment variables
@@ -14,7 +19,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { parseBody } from 'next-sanity/webhook';
-import { syncSingleDocument, printSyncSummary } from '@/lib/chatbot/smart-sync';
 import { logger } from '@/lib/logger';
 
 /**
@@ -244,18 +248,24 @@ export async function POST(request: NextRequest) {
     }
     logger.log('');
 
-    // Step 6: Sync to chatbot vector database (only for supported types)
-    const chatbotSyncTypes = ['project', 'profile', 'aiProject', 'blog'];
-    let syncResult = null;
+    // Step 6: Invalidate the chatbot corpus for content types it includes
+    const chatbotCorpusTypes = ['project', 'profile', 'aiProject', 'blog'];
+    let corpusInvalidated = false;
 
-    if (chatbotSyncTypes.includes(documentType)) {
-      logger.log(`   🔄 Syncing ${documentType} to chatbot...`);
-      syncResult = await syncSingleDocument(documentId);
-      logger.log('\n');
-      printSyncSummary(syncResult);
-      logger.log('');
-    } else {
-      logger.log(`   ⏭️  Skipping chatbot sync (not needed for ${documentType})\n`);
+    try {
+      if (chatbotCorpusTypes.includes(documentType)) {
+        revalidateTag('chatbot-corpus');
+        corpusInvalidated = true;
+        logger.log('   🔄 Invalidated chatbot corpus cache');
+      }
+
+      if (documentType === 'chatPrompts') {
+        revalidateTag('chat-prompts');
+        logger.log('   🔄 Invalidated chat prompts cache');
+      }
+    } catch (error) {
+      logger.error(`   ❌ Error invalidating chatbot caches:`, error);
+      // Don't throw - revalidation failures shouldn't break the webhook
     }
 
     // Step 7: Return success response
@@ -263,15 +273,7 @@ export async function POST(request: NextRequest) {
       success: true,
       documentId,
       documentType,
-      ...(syncResult && {
-        chatbotSync: {
-          added: syncResult.added,
-          updated: syncResult.updated,
-          deleted: syncResult.deleted,
-          unchanged: syncResult.unchanged,
-          totalChunks: syncResult.totalChunks,
-        },
-      }),
+      chatbotCorpusInvalidated: corpusInvalidated,
       revalidated: {
         paths: revalidatedPaths,
         tags: revalidatedTags,
@@ -297,7 +299,7 @@ export async function GET() {
   return NextResponse.json({
     message: 'Sanity webhook endpoint is active',
     cacheRevalidation: ['blog', 'project', 'profile', 'homepageHero', 'contactPage', 'servicesPage', 'footer', 'blogIndexPage', 'caseStudiesIndexPage', 'siteSettings', 'seoSettings'],
-    chatbotSync: ['project', 'profile', 'aiProject', 'blog'],
+    chatbotCorpus: ['project', 'profile', 'aiProject', 'blog'],
     events: ['create', 'update', 'delete'],
     setup: {
       url: '/api/webhooks/sanity',

@@ -3,8 +3,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Simple passthrough - no navigation
-  // Admin pages that need auth (like chat-logs) will use nested layouts
+  // Simple passthrough with no navigation; the embedded Sanity Studio lives under /studio.
   return (
     <div className="min-h-screen bg-neutral-950">
       {children}

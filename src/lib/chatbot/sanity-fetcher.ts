@@ -1,32 +1,107 @@
 /**
  * Sanity Content Fetcher for AI Chatbot
- * Fetches and transforms Sanity CMS content for vector database ingestion
+ * Fetches Sanity CMS content and flattens it to plain text for the chatbot corpus
  */
 
-import { client } from '@/sanity/lib/client';
+import { productionClient } from '@/sanity/lib/client';
 import { type PortableTextBlock } from 'sanity';
 
+/**
+ * Next.js fetch cache options for every corpus query. Cached indefinitely and
+ * invalidated by the Sanity webhook via the 'chatbot-corpus' tag (or the
+ * global 'sanity' tag).
+ */
+const CORPUS_CACHE = { next: { revalidate: false as const, tags: ['sanity', 'chatbot-corpus'] } };
+
+/**
+ * A portable text block with its custom fields exposed. Sanity's own type only
+ * knows `_type`/`_key`/`children`; the schema-specific object types
+ * (statBlockQuote, imageGrid, ...) add arbitrary fields we narrow with `typeof`.
+ */
+type RichBlock = PortableTextBlock & Record<string, unknown>;
+
+function str(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+/** Caption for an image-like object, falling back to alt text. */
+function imageCaption(image: unknown): string | undefined {
+  if (!image || typeof image !== 'object') return undefined;
+  const img = image as Record<string, unknown>;
+  return str(img.caption) ?? str(img.alt);
+}
+
+function quoteToText(block: RichBlock): string {
+  const quote = str(block.quote);
+  if (!quote) return '';
+  const attribution = str(block.attribution);
+  return attribution ? `"${quote}" — ${attribution}` : `"${quote}"`;
+}
+
+/**
+ * Convert a single portable text block to plain text.
+ * Field names mirror sanity/schemas/project.ts and sanity/schemas/blog.ts.
+ */
+function blockToPlainText(block: RichBlock): string {
+  switch (block._type) {
+    case 'block':
+      return Array.isArray(block.children)
+        ? block.children
+            .map((child) => ('text' in child && typeof child.text === 'string' ? child.text : ''))
+            .join('')
+        : '';
+
+    case 'statBlockQuote':
+    case 'quoteBox':
+      return quoteToText(block);
+
+    case 'statBlockText':
+      return [str(block.heading), str(block.text)].filter(Boolean).join('\n');
+
+    case 'statBlockNumber':
+      return [str(block.number), str(block.label)].filter(Boolean).join(' ');
+
+    case 'examplePrompt': {
+      const prompt = str(block.prompt);
+      if (!prompt) return '';
+      const label = str(block.label);
+      return label ? `${label}: ${prompt}` : prompt;
+    }
+
+    case 'image':
+      return imageCaption(block) ?? '';
+
+    case 'imageGrid':
+    case 'portraitImageList':
+      return Array.isArray(block.images)
+        ? block.images.map(imageCaption).filter(Boolean).join('\n')
+        : '';
+
+    case 'videoEmbed':
+      return str(block.caption) ?? '';
+
+    case 'marginNote':
+      if (Array.isArray(block.content)) return portableTextToPlainText(block.content as PortableTextBlock[]);
+      return str(block.content) ?? '';
+
+    // Code is noise for a chatbot; tables don't flatten meaningfully.
+    case 'codeBlock':
+    case 'contentTable':
+    default:
+      return '';
+  }
+}
 
 /**
  * Portable Text to Plain Text Converter
- * Converts Sanity's portable text blocks to plain text for embedding
+ * Converts Sanity's portable text blocks (including the schema's custom object
+ * types) to plain text for the corpus.
  */
 export function portableTextToPlainText(blocks: PortableTextBlock[] | undefined): string {
   if (!blocks || !Array.isArray(blocks)) return '';
 
   return blocks
-    .map((block) => {
-      // Handle regular text blocks
-      if (block._type === 'block' && 'children' in block && Array.isArray(block.children)) {
-        return block.children
-          .map((child) => ('text' in child && typeof child.text === 'string' ? child.text : ''))
-          .join('');
-      }
-
-      // Handle other block types (images, etc.)
-      // For now, we'll skip non-text blocks
-      return '';
-    })
+    .map((block) => blockToPlainText(block as RichBlock))
     .filter(Boolean)
     .join('\n\n');
 }
@@ -40,12 +115,15 @@ interface SanityProject {
   title: string;
   slug: { current: string };
   category?: string;
-  summary?: string;
-  description?: string;
-  content?: PortableTextBlock[];
-  metrics?: Array<{ label: string; value: string }>;
-  achievements?: string[];
+  heroSection?: { badge?: string; subtitle?: string };
+  featuredDescription?: string;
+  featuredMetric?: string;
+  overview?: { role?: string; company?: string; timeline?: string };
+  metrics?: Array<{ label: string; value: string; description?: string }>;
   technologies?: string[];
+  article?: PortableTextBlock[];
+  chatbotQuestions?: string[];
+  chatbotOnly?: boolean;
   publishedAt?: string;
 }
 
@@ -57,30 +135,9 @@ interface SanityProfile {
   heroSubheadline?: string;
   heroIntro?: string;
   quickFacts?: Array<{ label: string; value: string }>;
-  capabilities?: Array<{ title: string; description: string }>;
-  sections?: Array<{
-    heading: string;
-    content?: PortableTextBlock[];
-    subsections?: Array<{
-      heading: string;
-      content?: PortableTextBlock[];
-    }>;
-  }>;
-  selectedProjects?: Array<{
-    title: string;
-    metric?: string;
-    description?: string;
-  }>;
-  technologies?: {
-    frontend?: string[];
-    mobile?: string[];
-    backend?: string[];
-    cms?: string[];
-    data?: string[];
-    aiMl?: string[];
-    deployment?: string[];
-    enterprise?: string[];
-  };
+  title?: string;
+  tagline?: string;
+  chatbotQuestions?: string[];
   bio?: PortableTextBlock[];
   article?: PortableTextBlock[];
   skills?: Array<{
@@ -139,10 +196,11 @@ interface SanityBlog {
   publishedAt?: string;
   author?: string;
   featured?: boolean;
+  chatbotQuestions?: string[];
 }
 
 /**
- * Content document interface for ingestion
+ * Content document interface for the chatbot corpus
  */
 export interface SanityContentDocument {
   content: string;
@@ -151,8 +209,11 @@ export interface SanityContentDocument {
     source_id: string;
     title: string;
     category?: string;
+    url?: string;
+    questions: string[];
     updated_at: string;
-    [key: string]: any;
+    chatbotOnly?: boolean;
+    [key: string]: unknown;
   };
 }
 
@@ -166,56 +227,53 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
     title,
     slug,
     category,
-    summary,
-    description,
-    content,
+    heroSection,
+    featuredDescription,
+    featuredMetric,
+    overview,
     metrics,
-    achievements,
     technologies,
+    article,
+    chatbotQuestions,
+    chatbotOnly,
     publishedAt
   }`;
 
-  const projects: SanityProject[] = await client.fetch(query);
+  const projects: SanityProject[] = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   return projects.map((project) => {
-    // Build content string from all text fields
     const contentParts: string[] = [];
-
-    // Add title and basic info
     contentParts.push(`# ${project.title}`);
 
-    // Add URL so chatbot knows which link to use
     if (project.slug?.current) {
       contentParts.push(`Case study URL: /case-studies/${project.slug.current}`);
     }
-
     if (project.category) contentParts.push(`Category: ${project.category}`);
-    if (project.summary) contentParts.push(project.summary);
-    if (project.description) contentParts.push(project.description);
+    if (project.heroSection?.subtitle) contentParts.push(project.heroSection.subtitle);
 
-    // Add main content (portable text)
-    if (project.content) {
-      const contentText = portableTextToPlainText(project.content);
-      if (contentText) contentParts.push(contentText);
+    const o = project.overview;
+    if (o && (o.role || o.company || o.timeline)) {
+      const where = o.company ? ` at ${o.company}` : '';
+      const when = o.timeline ? ` (${o.timeline})` : '';
+      contentParts.push(`Role: ${o.role ?? 'Contributor'}${where}${when}`);
     }
 
-    // Add metrics
+    if (project.featuredDescription) contentParts.push(project.featuredDescription);
+    if (project.featuredMetric) contentParts.push(`Headline result: ${project.featuredMetric}`);
+
+    if (project.article) {
+      const articleText = portableTextToPlainText(project.article);
+      if (articleText) contentParts.push(articleText);
+    }
+
     if (project.metrics && project.metrics.length > 0) {
       contentParts.push('\n## Key Metrics');
-      project.metrics.forEach(metric => {
-        contentParts.push(`- ${metric.label}: ${metric.value}`);
+      project.metrics.forEach((m) => {
+        const note = m.description ? ` (${m.description})` : '';
+        contentParts.push(`- ${m.label}: ${m.value}${note}`);
       });
     }
 
-    // Add achievements
-    if (project.achievements && project.achievements.length > 0) {
-      contentParts.push('\n## Key Achievements');
-      project.achievements.forEach(achievement => {
-        contentParts.push(`- ${achievement}`);
-      });
-    }
-
-    // Add technologies
     if (project.technologies && project.technologies.length > 0) {
       contentParts.push(`\nTechnologies: ${project.technologies.join(', ')}`);
     }
@@ -228,8 +286,11 @@ export async function fetchProjects(): Promise<SanityContentDocument[]> {
         title: project.title,
         category: project.category,
         slug: project.slug?.current,
+        url: project.slug?.current ? `/case-studies/${project.slug.current}` : undefined,
         updated_at: project._updatedAt,
         technologies: project.technologies,
+        questions: project.chatbotQuestions ?? [],
+        chatbotOnly: project.chatbotOnly ?? false,
       },
     };
   });
@@ -247,17 +308,16 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     heroSubheadline,
     heroIntro,
     quickFacts,
-    capabilities,
-    sections,
-    selectedProjects,
-    technologies,
+    title,
+    tagline,
+    chatbotQuestions,
     bio,
     article,
     skills,
     experience
   }`;
 
-  const profile: SanityProfile | null = await client.fetch(query);
+  const profile: SanityProfile | null = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   if (!profile) return [];
 
@@ -267,6 +327,8 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
   const mainContentParts: string[] = [];
   mainContentParts.push(`# ${profile.name}`);
 
+  if (profile.title) mainContentParts.push(profile.title);
+  if (profile.tagline) mainContentParts.push(profile.tagline);
   if (profile.heroHeadline) mainContentParts.push(profile.heroHeadline);
   if (profile.heroSubheadline) mainContentParts.push(profile.heroSubheadline);
   if (profile.heroIntro) mainContentParts.push(profile.heroIntro);
@@ -276,15 +338,6 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     mainContentParts.push('\n## Quick Facts');
     profile.quickFacts.forEach(fact => {
       mainContentParts.push(`- ${fact.label}: ${fact.value}`);
-    });
-  }
-
-  // Add capabilities
-  if (profile.capabilities && profile.capabilities.length > 0) {
-    mainContentParts.push('\n## Capabilities');
-    profile.capabilities.forEach(cap => {
-      mainContentParts.push(`\n### ${cap.title}`);
-      if (cap.description) mainContentParts.push(cap.description);
     });
   }
 
@@ -315,17 +368,6 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
     });
   }
 
-  // Add technologies
-  if (profile.technologies) {
-    mainContentParts.push('\n## Technologies & Tools');
-    Object.entries(profile.technologies).forEach(([category, techs]) => {
-      if (techs && (techs as string[]).length > 0) {
-        mainContentParts.push(`\n### ${category}`);
-        mainContentParts.push((techs as string[]).join(', '));
-      }
-    });
-  }
-
   // Add experience
   if (profile.experience && profile.experience.length > 0) {
     mainContentParts.push('\n## Experience');
@@ -342,43 +384,11 @@ export async function fetchProfile(): Promise<SanityContentDocument[]> {
       source_id: profile._id,
       title: 'Profile',
       category: 'profile',
+      url: '/about',
       updated_at: profile._updatedAt,
+      questions: profile.chatbotQuestions ?? [],
     },
   });
-
-  // Create separate documents for each section
-  if (profile.sections && profile.sections.length > 0) {
-    profile.sections.forEach((section, index) => {
-      const sectionParts: string[] = [];
-      sectionParts.push(`# ${section.heading}`);
-
-      if (section.content) {
-        const sectionText = portableTextToPlainText(section.content);
-        if (sectionText) sectionParts.push(sectionText);
-      }
-
-      if (section.subsections && section.subsections.length > 0) {
-        section.subsections.forEach(subsection => {
-          sectionParts.push(`\n## ${subsection.heading}`);
-          if (subsection.content) {
-            const subsectionText = portableTextToPlainText(subsection.content);
-            if (subsectionText) sectionParts.push(subsectionText);
-          }
-        });
-      }
-
-      documents.push({
-        content: sectionParts.join('\n\n'),
-        metadata: {
-          source: 'sanity_profile' as const,
-          source_id: `${profile._id}_section_${index}`,
-          title: section.heading,
-          category: 'profile_section',
-          updated_at: profile._updatedAt,
-        },
-      });
-    });
-  }
 
   return documents;
 }
@@ -405,7 +415,7 @@ export async function fetchAIProjects(): Promise<SanityContentDocument[]> {
     achievements
   }`;
 
-  const aiProjects: SanityAIProject[] = await client.fetch(query);
+  const aiProjects: SanityAIProject[] = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   return aiProjects.map((project) => {
     const contentParts: string[] = [];
@@ -496,9 +506,11 @@ export async function fetchAIProjects(): Promise<SanityContentDocument[]> {
         title: project.title,
         category: project.category,
         slug: project.slug?.current,
+        url: undefined,
         status: project.status,
         updated_at: project._updatedAt,
         techStack: project.techStack,
+        questions: [],
       },
     };
   });
@@ -518,10 +530,11 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
     heroSection,
     publishedAt,
     author,
-    featured
+    featured,
+    chatbotQuestions
   }`;
 
-  const blogPosts: SanityBlog[] = await client.fetch(query);
+  const blogPosts: SanityBlog[] = await productionClient.fetch(query, {}, CORPUS_CACHE);
 
   return blogPosts.map((post) => {
     const contentParts: string[] = [];
@@ -532,6 +545,11 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
     // Add URL so chatbot knows which link to use
     if (post.slug?.current) {
       contentParts.push(`Blog post URL: /blog/${post.slug.current}`);
+    }
+
+    // ISO date in the header so "latest work" questions have an unambiguous anchor
+    if (post.publishedAt) {
+      contentParts.push(`Published: ${post.publishedAt.slice(0, 10)}`);
     }
 
     if (post.heroSection?.badge) {
@@ -553,11 +571,6 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
     }
 
     // Add metadata footer
-    if (post.publishedAt) {
-      const date = new Date(post.publishedAt).toLocaleDateString();
-      contentParts.push(`\nPublished: ${date}`);
-    }
-
     if (post.author) {
       contentParts.push(`Author: ${post.author}`);
     }
@@ -570,21 +583,22 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
         title: post.title,
         category: post.heroSection?.badge || 'blog',
         slug: post.slug?.current,
+        url: post.slug?.current ? `/blog/${post.slug.current}` : undefined,
         updated_at: post._updatedAt,
         publishedAt: post.publishedAt,
         author: post.author,
         featured: post.featured,
+        questions: post.chatbotQuestions ?? [],
       },
     };
   });
 }
 
 /**
- * Fetch all Sanity content for chatbot ingestion
+ * Fetch every Sanity content type the chatbot corpus includes. Runs on the
+ * request path (behind the Next.js data cache), so it must not log.
  */
 export async function fetchAllSanityContent(): Promise<SanityContentDocument[]> {
-  console.log('📦 Fetching Sanity content...');
-
   const [projects, profile, aiProjects, blogPosts] = await Promise.all([
     fetchProjects(),
     fetchProfile(),
@@ -592,13 +606,5 @@ export async function fetchAllSanityContent(): Promise<SanityContentDocument[]> 
     fetchBlogPosts(),
   ]);
 
-  const allContent = [...projects, ...profile, ...aiProjects, ...blogPosts];
-
-  console.log(`✅ Fetched ${allContent.length} Sanity documents:`);
-  console.log(`   - Projects: ${projects.length}`);
-  console.log(`   - Profile sections: ${profile.length}`);
-  console.log(`   - AI Projects: ${aiProjects.length}`);
-  console.log(`   - Blog Posts: ${blogPosts.length}`);
-
-  return allContent;
+  return [...projects, ...profile, ...aiProjects, ...blogPosts];
 }

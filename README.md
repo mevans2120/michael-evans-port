@@ -10,8 +10,8 @@ This portfolio site is built with Next.js 15 and features a clean, minimalist de
 
 ## ✨ Key Features
 
-- **AI Chatbot Assistant**: Interactive chatbot powered by Google Gemini 1.5 Pro with RAG (Retrieval Augmented Generation)
-- **Smart Content Sync**: Automatic content updates via Sanity webhooks (< 30s latency)
+- **AI Chatbot Assistant**: Interactive chatbot powered by Claude Haiku 4.5 that answers from the whole prompt-cached knowledge base, with no retrieval step
+- **Live Content**: Sanity edits reach the chatbot on the next request through webhook cache invalidation
 - **Dynamic Case Studies**: 7 comprehensive case studies with detailed metrics and results
 - **Responsive Design**: Fully responsive layout that works seamlessly across all devices
 - **Performance Optimized**: Next.js 15 with zero TypeScript errors/warnings
@@ -29,14 +29,11 @@ This portfolio site is built with Next.js 15 and features a clean, minimalist de
 - **Styling**: Tailwind CSS 3.4
 - **UI Components**: shadcn/ui with Radix UI primitives
 - **CMS**: Sanity Studio (embedded at `/studio`)
-- **Database**: Supabase (PostgreSQL with pgvector)
 
 ### AI & Chatbot
-- **LLM**: Google Gemini 1.5 Pro
-- **Vector DB**: Supabase pgvector
-- **AI SDK**: Vercel AI SDK
-- **Embeddings**: text-embedding-004
-- **Knowledge Base**: 170 chunks from transcripts + Sanity CMS content
+- **LLM**: Claude Haiku 4.5 via the Vercel AI SDK and `@ai-sdk/anthropic`
+- **Design**: The whole knowledge base (about 50k tokens) is sent as one prompt-cached system block on every request; there is no database
+- **Knowledge Base**: 12 transcript files + Sanity CMS content (case studies, blog posts, profile, AI projects)
 
 ### Development Tools
 - **Build Tool**: Next.js with Turbopack
@@ -52,9 +49,8 @@ michael-evans-port/
 ├── src/
 │   ├── app/                    # Next.js App Router pages
 │   │   ├── (public)/          # Public pages (home, about, case studies)
-│   │   ├── (admin)/           # Admin dashboard
-│   │   ├── api/               # API routes (chat, webhooks)
-│   │   └── studio/            # Embedded Sanity Studio
+│   │   ├── (admin)/           # Embedded Sanity Studio
+│   │   └── api/               # API routes (chat, webhooks)
 │   ├── components/            # React components
 │   │   ├── ui/               # shadcn/ui components (50+)
 │   │   ├── chatbot/          # AI chatbot components
@@ -62,24 +58,21 @@ michael-evans-port/
 │   │   └── ai-showcase/      # AI project showcase components
 │   ├── lib/
 │   │   ├── sanity/           # Sanity client & queries
-│   │   ├── chatbot/          # Chatbot logic & content ingestion
-│   │   └── supabase/         # Database client & types
+│   │   └── chatbot/          # Chatbot corpus, prompt, follow-ups, logging
 │   └── hooks/                # Custom React hooks
 ├── sanity/
 │   └── schemas/              # Sanity CMS schemas (project, profile, aiProject, etc.)
 ├── docs/
 │   ├── content-specs/        # Case study content specifications (7 files)
-│   ├── chatbot/             # Chatbot documentation
+│   ├── plans/               # Implementation plans, including the chatbot remediation
 │   └── design/              # Design concepts and explorations
 ├── memory-bank/             # Development documentation
 │   ├── CURRENT.md           # Active work tracking
 │   ├── PROGRESS.md          # Development log
 │   └── ...                  # Additional docs
-├── public/
-│   └── chatbot-content/
-│       └── transcripts/     # Source of truth for chatbot knowledge (9 files)
-└── supabase/
-    └── migrations/          # Database migrations
+└── content/
+    └── chatbot/
+        └── transcripts/     # Source of truth for chatbot knowledge (12 markdown files)
 ```
 
 ## 🚀 Getting Started
@@ -88,7 +81,7 @@ michael-evans-port/
 - Node.js 18+ and npm
 - Git
 - Sanity account (for CMS)
-- Supabase account (for vector database)
+- Anthropic API key (for the chatbot)
 
 ### Environment Variables
 
@@ -101,15 +94,8 @@ NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_AUTH_TOKEN=your_token
 SANITY_WEBHOOK_SECRET=your_webhook_secret
 
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-
-# Google AI
-GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_key
-
-# Optional: Enable Sanity content ingestion
-INGEST_SANITY_CONTENT=true
+# Anthropic (chatbot)
+ANTHROPIC_API_KEY=your_anthropic_api_key
 ```
 
 ### Installation
@@ -139,7 +125,8 @@ npm run dev           # Start development server
 npm run build         # Build for production
 npm run start         # Start production server
 npm run lint          # Run ESLint
-npm run ingest        # Sync chatbot content to vector DB
+npm run build:corpus  # Compile chatbot transcripts to JSON (also runs via prebuild and pretest)
+npm run validate:prompts  # Check every CMS suggested prompt is answerable by the chatbot
 npm run memory:start  # View current development status
 ```
 
@@ -157,44 +144,35 @@ npm run memory:start  # View current development status
   - Peddle - 15% conversion increase
   - Lyft - 8% driver acquisition improvement
   - Aesop - 12% conversion improvement (luxury e-commerce)
-- **Admin** (`/admin/chatbot-content`) - Chatbot content management dashboard
 - **Sanity Studio** (`/studio`) - Embedded CMS
 
 ## 🤖 AI Chatbot Features
 
 ### Intelligent Assistant
 - Answers questions about Michael's background, projects, and expertise
-- RAG-powered responses using vector similarity search
-- Follow-up question suggestions
+- Grounded responses: the whole knowledge base is in the prompt, and the model refuses anything it does not cover
+- Follow-up question suggestions drawn from editor-written question lists
 - Streaming responses for better UX
 
-### Smart Content Sync
-- **Automatic Updates**: Sanity webhook triggers sync on content changes (< 30s)
-- **Manual Sync**: Admin dashboard for on-demand syncing
-- **Dual Sources**: Syncs from Sanity CMS + transcript files
-- **Incremental Updates**: Only re-embeds changed content (98% API cost savings)
-- **Content Hash Tracking**: SHA-256 fingerprinting for change detection
+### Live Content
+- **Transcripts**: Markdown files in `content/chatbot/transcripts/`, compiled into a JSON module by `npm run build:corpus` before every build
+- **Sanity CMS**: Fetched at request time and cached; the Sanity webhook invalidates that cache, so edits appear on the next chat request
+- **Suggested Prompts**: Managed in the `chatPrompts` Sanity document and checked by `npm run validate:prompts`
+- **Prompt Caching**: The corpus is cached by Anthropic for an hour, so most requests read it at a tenth of the input price
 
 ### Knowledge Base
-- 170 chunks from 9 transcript files
-- Sanity CMS content (case studies, profile, AI projects)
+- 12 transcript files (about 50k tokens together with the Sanity content)
+- Sanity CMS content (case studies, blog posts, profile, AI projects)
 - Technical architecture documentation
 - Career history and achievements
-
-### Admin Dashboard
-Access at `/admin/chatbot-content` to:
-- View sync statistics
-- Monitor content sources
-- Trigger manual syncs
-- Check last sync timestamp
 
 ## 🏗️ Architecture
 
 ### Content Architecture
-- **Single Source of Truth**: `public/chatbot-content/transcripts/` (9 markdown files)
+- **Single Source of Truth**: `content/chatbot/transcripts/` (12 markdown files)
 - **Flat Structure**: Preserves narrative flow of comprehensive transcripts
-- **Vector Database**: Unified search layer for chatbot
-- **Auto-Sync**: Sanity webhooks + manual transcript ingestion
+- **Whole-Corpus Prompt**: Transcripts and Sanity content go to the model together as one prompt-cached system block; there is no database
+- **Live Sanity Content**: Webhook-driven cache invalidation, with no sync step
 
 ### Component Architecture
 - **Atomic Design**: Reusable, composable components
@@ -202,7 +180,7 @@ Access at `/admin/chatbot-content` to:
 - **Client Components**: Interactive elements with 'use client'
 - **shadcn/ui Pattern**: Components copied into codebase for customization
 
-For detailed architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md) and [docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md](./docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md).
+For detailed architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md) and [src/lib/chatbot/README.md](./src/lib/chatbot/README.md).
 
 ## 📝 Memory Bank System
 
@@ -259,14 +237,9 @@ The site is deployed on Vercel with automatic deployments from the main branch.
    - Add webhook URL: `https://your-domain.com/api/webhooks/sanity`
    - Set secret: Use your `SANITY_WEBHOOK_SECRET`
    - Trigger on: Create, Update, Delete
-3. Run database migration:
+3. Confirm the chatbot answers its suggested prompts:
    ```bash
-   # Apply migration to Supabase
-   psql $DATABASE_URL < supabase/migrations/20251028_add_content_tracking.sql
-   ```
-4. Initial content sync:
-   ```bash
-   npm run ingest
+   CHAT_BASE=https://your-domain.com npm run validate:prompts
    ```
 
 ## 🔄 Content Management
@@ -274,12 +247,12 @@ The site is deployed on Vercel with automatic deployments from the main branch.
 ### Adding/Updating Content
 
 1. **Via Sanity Studio** (`/studio`):
-   - Edit case studies, profile, AI projects
-   - Changes auto-sync to chatbot within 30 seconds
+   - Edit case studies, blog posts, profile, AI projects
+   - The webhook invalidates the chatbot's cached content, so the next chat request sees the change
 
-2. **Via Transcript Files** (`public/chatbot-content/transcripts/`):
-   - Add or edit markdown files
-   - Run `npm run ingest` to sync to vector DB
+2. **Via Transcript Files** (`content/chatbot/transcripts/`):
+   - Add or edit markdown files, with a `questions:` frontmatter block listing the follow-up questions the file answers
+   - Production builds recompile the corpus automatically; while `next dev` is running, run `npm run build:corpus` after editing
 
 ### Creating New Case Studies
 
@@ -287,15 +260,15 @@ The site is deployed on Vercel with automatic deployments from the main branch.
 2. Use export script: `npx tsx src/scripts/export-case-studies-ndjson.ts [slug]`
 3. Import to Sanity: `sanity dataset import case-studies.ndjson production`
 4. Add images in Sanity Studio
-5. Content auto-syncs to chatbot
+5. The chatbot sees the new case study on its next request
 
 ## 🐛 Troubleshooting
 
 ### Chatbot Issues
-- Check `/admin/chatbot-content` for sync status
-- Verify environment variables are set
-- Run `npm run ingest` to force sync
-- Check Supabase logs for errors
+- Read the runtime logs: `vercel logs <deployment> | grep '"event":"chat.'`
+- Verify `ANTHROPIC_API_KEY` is set
+- Run `npm run validate:prompts` to confirm every suggested prompt is answerable
+- If a transcript edit is missing locally, run `npm run build:corpus`
 
 ### Build Issues
 - Run `npm run lint` to check for errors
@@ -312,7 +285,7 @@ The site is deployed on Vercel with automatic deployments from the main branch.
 - **Build**: Zero TypeScript errors, zero warnings
 - **Lighthouse Score**: 90+ (target)
 - **Production Build**: All 21 routes optimized
-- **API Costs**: 98% reduction through smart content sync
+- **API Costs**: Prompt caching serves the corpus at a tenth of the input price on all but the first request each hour
 
 ## 🤝 Contributing
 
@@ -332,11 +305,10 @@ This project is proprietary and confidential. All rights reserved.
 ## 🙏 Acknowledgments
 
 - Built with [Next.js](https://nextjs.org/), [Sanity](https://www.sanity.io/), and [shadcn/ui](https://ui.shadcn.com/)
-- AI powered by [Google Gemini](https://ai.google.dev/)
-- Vector database by [Supabase](https://supabase.com/)
+- AI powered by [Claude](https://www.anthropic.com/claude) through the [Vercel AI SDK](https://ai-sdk.dev/)
 - Deployed on [Vercel](https://vercel.com)
 - Icons by [Lucide](https://lucide.dev)
 
 ---
 
-*Last Updated: October 30, 2025*
+*Last Updated: October 20, 2026*

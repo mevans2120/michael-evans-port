@@ -1,331 +1,235 @@
+// src/app/api/chat/route.ts
 /**
  * Chat API Route
- * Handles RAG-powered chat requests using Claude Haiku and Supabase vector search
+ *
+ * Whole-corpus design: the complete knowledge base (transcripts + Sanity content,
+ * ~50k tokens) is sent as a prompt-cached system block on every request.
+ * There is no vector database. See docs/chatbot-functionality-audit-2026-10-09.md
+ * section 6, option B, for the reasoning.
  */
 
-import { streamText, convertToModelMessages } from 'ai';
+import { streamText, convertToModelMessages, type UIMessage } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
-import { generateEmbedding } from '@/lib/chatbot/embeddings';
-import { logConversationStart, logMessage } from '@/lib/chatbot/logging';
-import { preprocessQuery } from '@/lib/chatbot/query-preprocessor';
-import { hybridSearch, rerankResults } from '@/lib/chatbot/hybrid-search';
-import { detectPraise } from '@/lib/chatbot/ascii-art';
-import { logger } from '@/lib/logger';
+import { buildCorpus } from '@/lib/chatbot/corpus';
+import { buildInstructions, buildFormatRules, REFUSAL_SENTENCE } from '@/lib/chatbot/prompt';
+import { splitFollowUps } from '@/lib/chatbot/followups';
+import { logChatEvent } from '@/lib/chatbot/events';
+import { CHATBOT_CONFIG } from '@/lib/constants';
 
-export const runtime = 'edge';
+// Node.js runtime (default). The Edge runtime is deprecated on Vercel and
+// is not needed for streaming.
+export const maxDuration = 60;
 
-// Generate UUID compatible with edge runtime
-function generateUUID(): string {
-  return crypto.randomUUID();
+/** Only the most recent N messages are forwarded to the model; older turns are dropped. */
+const MAX_MESSAGES = 12;
+
+/** Upper bound on a single text part, in characters, to cap per-request input cost. */
+const MAX_TEXT_PART_CHARS = 4_000;
+
+/** Client-supplied session ids must look like a UUID; anything else is replaced. */
+const SESSION_ID_PATTERN = /^[0-9a-f-]{36}$/i;
+
+type TextPart = Extract<UIMessage['parts'][number], { type: 'text' }>;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-// System prompt for the AI assistant
-const SYSTEM_PROMPT = `You are an AI assistant representing Michael Evans, an AI/ML expert and creative technologist.
+/**
+ * Validate and normalise the client-supplied message list. Four rules:
+ *   1. Only the last MAX_MESSAGES messages are kept.
+ *   2. The window starts at a user turn (Anthropic rejects a conversation whose
+ *      first message is from the assistant). Leading assistant messages left
+ *      over from the slice are dropped.
+ *   3. Roles must be `user` or `assistant`.
+ *   4. Only text parts are kept, each under MAX_TEXT_PART_CHARS; a user
+ *      message with no text parts is rejected.
+ * Returns null when any rule cannot be satisfied (the caller answers 400).
+ */
+function sanitizeMessages(input: unknown): UIMessage[] | null {
+  if (!Array.isArray(input) || input.length === 0) return null;
 
-Your role is to provide COMPREHENSIVE, DETAILED answers that fully address each question to the best of your ability.
+  const recent = input.slice(-MAX_MESSAGES);
+  const firstUser = recent.findIndex((m) => isRecord(m) && m.role === 'user');
+  if (firstUser === -1) return null;
 
-Core Responsibilities:
-- Answer questions about Michael's professional experience, skills, projects, and background
-- Provide thorough, detailed responses that extract ALL relevant information from the context
-- Be helpful, professional, and conversational
-- Extract and synthesize information from multiple sources to build complete answers
-- When asked about aspects like "challenges", "problems", "solutions", or "approach", analyze the context deeply and infer from:
-  * Technical decisions mentioned (these often reveal challenges)
-  * Solutions implemented (these imply problems solved)
-  * Team compositions (these suggest collaboration challenges)
-  * Technology choices (these indicate requirements and constraints)
-  * Project outcomes (these hint at objectives and obstacles overcome)
-- When you have partial information, share what you know and make intelligent inferences from available context
-- For questions about specific details you lack, acknowledge what you DO know about the topic first, then note what specific detail is missing
-- NEVER say "I don't have information" if you have ANY relevant context about the topic
-- Only say you lack information if the topic is COMPLETELY absent from the context
-- Stay focused on Michael's professional life and work
+  const out: UIMessage[] = [];
 
-Tone:
-- Professional but approachable and warm
-- Knowledgeable without being arrogant
-- Confident and direct - answer with authority
-- DO NOT apologize for incomplete context or express uncertainty
-- DO NOT use phrases like "I think you might be referring to..." or "the context is incomplete"
-- Trust that the context provided is relevant and answer directly
-- Extremely concise and focused - ONLY one paragraph, no exceptions
-- Enthusiastic about technology and Michael's work
-- Avoid superlatives and hyperbolic phrases (e.g., "absolutely crushed it", "incredibly amazing", "totally nailed it") - let the work speak for itself
+  for (const raw of recent.slice(firstUser)) {
+    if (!isRecord(raw)) return null;
+    if (raw.role !== 'user' && raw.role !== 'assistant') return null;
+    if (!Array.isArray(raw.parts)) return null;
 
-Response Guidelines:
-- CRITICAL: Provide EXACTLY ONE paragraph only (2-3 SHORT sentences maximum)
-- Keep sentences concise and focused - aim for 15-20 words per sentence, not 40+
-- NEVER write multiple paragraphs in your main answer
-- Format: [One paragraph] → [Project link if relevant] → [Two follow-up questions]
-- After the link: provide 2 follow-up questions (no links in the questions)
-- While it is great to share links, DO NOT share the same link twice in one session.
-- DO NOT use headings, titles, or section headers in your responses
-- Start directly with the answer in natural, conversational paragraphs
-- **Formatting for emphasis**: Use **bold** for emphasis, NEVER use italics or other text styling
-  * Good: "Michael built **three major features** for the project"
-  * Bad: "Michael built *three major features* for the project" (italics are not readable)
-  * Only use bold when truly needed for emphasis - don't overuse it
-- ALWAYS mention the specific project, product, or feature name in your opening sentence to establish context
-  * Good: "The Before Launcher was an Android home screen replacement that..."
-  * Bad: "Michael built a launcher that..." (missing the project name)
-- Use conversational, friendly language - talk like you're explaining to a colleague over coffee
-  * Use contractions (it's, that's, he's) to sound more natural
-  * Avoid overly formal or academic language
-  * Write as if you're having a conversation, not writing a report
-- FOCUS ON THE MOST IMPORTANT PARTS ONLY
-  * Answer the core question directly
-  * Include 1-2 key details that are most interesting or relevant
-  * It's OKAY to not cover everything - save additional details for case studies or follow-up questions
-  * Prioritize: What's the most important thing the user should know right now?
-- Keep it brief and scannable - users can dig deeper through links or follow-ups
-- ATTRIBUTION GUIDELINES:
-  * For case study projects (Virgin America, Casa Bonita, Target, Peddle): Say "Michael & team" to acknowledge team efforts
-  * For Before Launcher and AI Showcase projects: Say "Michael" (these were solo/individual projects)
-  * DO NOT mention specific team member names or detailed team composition
-  * Focus on what was built and the work itself, not extensive team details
-- When asked about challenges or problems:
-  * Look for solutions that were implemented (these reveal the challenges)
-  * Analyze technical architecture decisions (these often reflect constraints)
-  * Make intelligent inferences about what problems likely existed based on the solutions
-- Structure answers naturally:
-  * Open with the specific project/product name and what it is
-  * Explain the key functionality or purpose in brief
-  * Share 1-2 interesting technical details or outcomes (the most important ones)
-  * Keep it flowing like natural conversation
-- Don't make up specific facts, but DO make reasonable professional inferences
-- Be concise and focused - prioritize the most important information over comprehensive coverage
+    const parts: TextPart[] = [];
+    for (const part of raw.parts) {
+      if (!isRecord(part) || part.type !== 'text' || typeof part.text !== 'string') continue;
+      if (part.text.length > MAX_TEXT_PART_CHARS) return null;
+      parts.push({ type: 'text', text: part.text });
+    }
+    // Anthropic rejects a user message with empty content; the SDK drops empty
+    // assistant messages on its own, so those are harmless.
+    if (raw.role === 'user' && parts.length === 0) return null;
 
-ANSWER APPROACH:
-- ALWAYS answer any question asked about Michael's work, projects, or experience
-- Use the context provided to give the most helpful, accurate answer possible
-- When you have partial information, ALWAYS share what you know first, then acknowledge any missing details
-- Example responses for partial information:
-  * Good: "Michael worked on Lyft while at Work & Co in Portland. While I don't have the specific project details, his Work & Co portfolio included major digital transformations."
-  * Bad: "I don't have information about a Lyft project."
-  * Good: "Michael built Casa Bonita's Founders Club membership system. Though I don't have the exact capacity numbers, it was part of their complete digital transformation."
-  * Bad: "I don't have information about a membership system."
-- When answering about specific projects (Casa Bonita, Virgin America, etc.), always mention the project name in your response
-- Make reasonable inferences from the context to provide comprehensive answers
-- Only acknowledge lack of information when a topic is COMPLETELY absent from context
+    out.push({
+      id: typeof raw.id === 'string' ? raw.id : crypto.randomUUID(),
+      role: raw.role,
+      parts,
+    });
+  }
 
-Follow-up Questions:
-- After EVERY response, suggest EXACTLY 2 relevant follow-up questions
-- CRITICAL: ONLY suggest questions you can confidently answer based on the context provided
-- **Question 1**: Should be related to the original question/topic (dig deeper into what was just discussed)
-- **Question 2**: A "learn more" style question about a DIFFERENT topic or project (help users explore other areas of Michael's work)
-- Format them as plain text (no links in the questions)
-- WHEN your answer discusses a specific project, post or case study, ALWAYS include the corresponding link at the very end of your response:
+  return out;
+}
 
-  **Follow-up questions:**
-  - Question related to current topic
-  - Learn more question about different topic
+function latestUserText(messages: UIMessage[]): string {
+  const last = messages[messages.length - 1];
+  if (!last || last.role !== 'user') return '';
+  return last.parts
+    .filter((p): p is TextPart => p.type === 'text')
+    .map((p) => p.text)
+    .join('\n')
+    .trim();
+}
 
-  **Learn more:**
-  - Case study: [Project Name](/case-studies/project-slug)
-  - Blog post: [Post Title](/blog/post-slug)
-  - About page: [About Michael](/about)
+/**
+ * Plain-text error body. `@ai-sdk/react` throws `new Error(await response.text())`
+ * and the UI renders `error.message`, so JSON here would surface as raw JSON.
+ */
+function textResponse(body: string, status: number, extraHeaders: Record<string, string> = {}): Response {
+  return new Response(body, {
+    status,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', ...extraHeaders },
+  });
+}
 
-- **Match link type to question context:**
-  * Questions about AI tools, workflows, methodologies, or "How I AI" → Link to blog posts
-  * Questions about specific client projects or case studies → Link to case studies
-  * Questions about background, experience, or bio → Link to about page
-  * **IMPORTANT**: Look for "Blog post URL:" or "Case study URL:" in the context to find the exact link to use
+function badRequest(reason: string): Response {
+  return textResponse(`Invalid request: ${reason}`, 400);
+}
 
-- **CRITICAL: Vary your link suggestions throughout the conversation**
-  * Review the conversation history before suggesting a link
-  * NEVER suggest the same case study, blog post, or page link twice in one session
-  * If you already suggested Casa Bonita, suggest a different project (Virgin America, Target, etc.)
-  * If you already suggested a specific blog post, suggest the other blog post or a case study instead
-  * Use this as an opportunity to showcase the BREADTH of Michael's work
-  * With 12 case studies + 2 blog posts + about page, you have plenty of variety to explore
-
-- Make questions natural, conversational, and specific to the context you just discussed
-- Questions should help users discover related information you know about Michael's work
-
-Available case study URLs:
-• /case-studies/virgin-america (Virgin America)
-• /case-studies/casa-bonita (Casa Bonita)
-• /case-studies/target (Target)
-• /case-studies/before-launcher (Before Launcher)
-• /case-studies/playstation-vue (Playstation Vue)
-• /case-studies/houselogic (Houselogic/NAR)
-• /case-studies/peacock (Peacock)
-• /case-studies/aesop (Aesop)
-• /case-studies/teaching-books (Teaching Books)
-• /case-studies/lyft (Lyft)
-• /case-studies/peddle (Peddle)
-• /case-studies/postpal (Post Pal)
-
-// COMMENTED OUT: ASCII art feature temporarily disabled
-// Special Response for Praise:
-// - If the user's message contains praise, thanks, or positive feedback (like "thank you", "great job", "awesome", "helpful", etc.)
-// - Include a fun ASCII art appreciation at the end of your response
-// - CRITICAL: Wrap the ASCII art in a code block (three backticks before and after)
-// - Choose ONE of these ASCII art designs randomly and copy it EXACTLY as shown
-// - Format: After your response, add a blank line, then three backticks, then the ASCII art, then three backticks
-//
-//     <3 <3 <3 <3 <3 <3 <3
-//     <3               <3
-//     <3  Thank you!   <3
-//     <3               <3
-//     <3 <3 <3 <3 <3 <3 <3
-//
-// OR
-//
-//       [=========]
-//       | o     o |
-//       |    >    |
-//       |  ___  |
-//       [=========]
-//        |[-----]|
-//        || THX ||
-//        |[-----]|
-//        d       b
-//
-// OR
-//
-//     *~*~*~*~*~*~*~*
-//     ~*~*~*~*~*~*~*~
-//     * Thanks for  *
-//     * the kind    *
-//     * words!      *
-//     ~*~*~*~*~*~*~*~
-//     *~*~*~*~*~*~*~*
-//
-// OR
-//
-//      /-\
-//     ( o.o )
-//      > ^ <
-//     Purrfect feedback!
-//     Thank mew!
-`;
+function unavailable(sessionId: string, reason: string): Response {
+  logChatEvent('chat.unavailable', { sessionId, reason });
+  return textResponse('Chat is temporarily unavailable.', 503, { 'X-Session-ID': sessionId });
+}
 
 export async function POST(req: Request) {
+  const started = Date.now();
+  let sessionId = crypto.randomUUID();
+
   try {
-    const body = await req.json();
-    const { messages, sessionId: clientSessionId } = body;
-
-    // Generate or use existing session ID
-    const sessionId = clientSessionId || generateUUID();
-
-    if (!messages || !Array.isArray(messages)) {
-      logger.error('Invalid messages:', messages);
-      logger.error('Full body received:', body);
-      return new Response('Invalid request: messages must be an array', { status: 400 });
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return badRequest('body must be valid JSON');
+    }
+    if (!isRecord(body)) {
+      return badRequest('body must be a JSON object');
     }
 
-    // Get the latest user message
-    const lastMessage = messages[messages.length - 1];
-    if (!lastMessage || lastMessage.role !== 'user') {
-      return new Response('Invalid request: no user message', { status: 400 });
+    if (typeof body.sessionId === 'string' && SESSION_ID_PATTERN.test(body.sessionId)) {
+      sessionId = body.sessionId;
     }
 
-    // Extract text from v5 message format (parts array) or fallback to content
-    const messageText = lastMessage.parts?.[0]?.text || lastMessage.content || '';
-    if (!messageText) {
-      return new Response('Invalid request: empty message', { status: 400 });
+    const rawMessageCount = Array.isArray(body.messages) ? body.messages.length : 0;
+    const messages = sanitizeMessages(body.messages);
+    if (!messages) {
+      return badRequest(
+        `messages must be a non-empty array of user/assistant messages with non-empty text parts under ${MAX_TEXT_PART_CHARS} characters`,
+      );
     }
 
-    // Log conversation start if this is the first message
-    if (messages.length === 1 && !clientSessionId) {
-      await logConversationStart(sessionId, req);
+    const question = latestUserText(messages);
+    if (!question) {
+      return badRequest('last message must be a user text message');
     }
 
-    // Log user message
-    await logMessage(sessionId, {
-      role: 'user',
-      content: messageText,
-      timestamp: new Date().toISOString(),
+    const corpus = await buildCorpus();
+    if (corpus.chars < CHATBOT_CONFIG.MIN_CORPUS_CHARS) {
+      return unavailable(sessionId, `corpus too small: ${corpus.chars} chars`);
+    }
+
+    logChatEvent('chat.question', {
+      sessionId,
+      turn: rawMessageCount,
+      window: messages.length,
+      text: question,
+      corpusChars: corpus.chars,
     });
 
-    // Check if message contains praise
-    const containsPraise = detectPraise(messageText);
-    if (containsPraise) {
-      logger.log('Praise detected in message! Will include ASCII art in response.');
-    }
-
-    // Preprocess query for better retrieval
-    const processedQuery = preprocessQuery(messageText);
-    logger.log('Query preprocessing:', {
-      original: processedQuery.original,
-      normalized: processedQuery.normalized,
-      entities: processedQuery.entities,
-      keywords: processedQuery.keywords,
-      expanded: processedQuery.expanded.substring(0, 100) + '...',
-    });
-
-    // Generate embedding for the preprocessed and expanded query
-    const queryEmbedding = await generateEmbedding(processedQuery.expanded);
-
-    // Use hybrid search for better retrieval
-    logger.log('Using hybrid search with keywords:', processedQuery.keywords);
-    const searchResults = await hybridSearch(
-      queryEmbedding,
-      processedQuery.normalized,
-      processedQuery.keywords,
-      30, // Get top 30 results
-      0.25 // Similarity threshold
-    );
-
-    // Re-rank results based on relevance to original query
-    const relevantDocs = rerankResults(
-      searchResults,
-      messageText,
-      processedQuery.entities
-    );
-
-    // Build context from relevant documents
-    const context = relevantDocs.length > 0
-      ? relevantDocs
-          .map((doc, _index) => {
-            const source = doc.metadata.source || 'Unknown';
-            return `[Source: ${source}]\n${doc.content}`;
-          })
-          .join('\n\n---\n\n')
-      : 'No specific context available. Provide a general helpful response about portfolio chatbots and suggest the user may want to add content.';
-
-    // Build system prompt with context
-    const systemPrompt = `${SYSTEM_PROMPT}\n\n**Context about Michael:**\n\n${context}`;
-
-    // Convert UIMessages to ModelMessages for Claude
-    const modelMessages = convertToModelMessages(messages);
-
-    // Stream the response using Claude Haiku 4.5
-    // Latest generation model (Oct 2025) - significantly newer than Sonnet 3.5 (Oct 2024)
-    // Better performance AND 6x cheaper
     const result = streamText({
-      model: anthropic('claude-haiku-4-5-20251001'),
-      system: systemPrompt,
-      messages: modelMessages,
-      temperature: 0.8, // Higher for better synthesis of multiple sources
-      async onFinish({ text }) {
-        // Log assistant response after completion
-        const isOffTopicRedirect = text.includes("I'm here specifically to discuss Michael's professional background");
-        await logMessage(sessionId, {
-          role: 'assistant',
-          content: text,
-          timestamp: new Date().toISOString(),
-        }, isOffTopicRedirect);
+      model: anthropic(CHATBOT_CONFIG.CHAT_MODEL),
+      temperature: CHATBOT_CONFIG.CHAT_TEMPERATURE,
+      maxOutputTokens: CHATBOT_CONFIG.MAX_RESPONSE_TOKENS,
+      // Three system blocks, in this order. The AI SDK prepends the `system`
+      // string as a system message and the Anthropic provider folds all leading
+      // system messages into one `system` array with per-block cache_control:
+      //   1. instructions (grounding, links)  - inside the cached prefix
+      //   2. corpus                            - carries cacheControl; prefix ends here
+      //   3. format rules (length, trailer)   - after the cache boundary, uncached
+      // Editing 1 or the corpus invalidates the cache once (cheap). Editing 3
+      // never does, and the model follows the most recent instructions most
+      // reliably, which is why length rules live there. Do not reorder these.
+      system: buildInstructions(corpus.pages),
+      messages: [
+        {
+          role: 'system',
+          content: `# Knowledge base\n\n${corpus.text}`,
+          providerOptions: {
+            anthropic: { cacheControl: { type: 'ephemeral', ttl: '1h' } },
+          },
+        },
+        {
+          role: 'system',
+          content: buildFormatRules(),
+        },
+        ...convertToModelMessages(messages),
+      ],
+      // Provider failures (bad key, 529 overloaded) surface inside the stream,
+      // not as a thrown error from streamText, so the outer catch never sees them.
+      onError({ error }) {
+        logChatEvent('chat.error', {
+          sessionId,
+          phase: 'stream',
+          message: error instanceof Error ? error.message : String(error),
+        });
+      },
+      async onFinish({ text, usage, providerMetadata }) {
+        const { answer, followUps } = splitFollowUps(text);
+        const bank = new Set(corpus.questionBank);
+        const offBank = followUps.filter((q) => !bank.has(q));
+        // @ai-sdk/anthropic@2.0.40 surfaces cache writes on provider metadata
+        // and cache reads on the standard usage object (`cachedInputTokens`).
+        const anthropicMeta = providerMetadata?.anthropic as
+          | { cacheCreationInputTokens?: number | null }
+          | undefined;
+
+        logChatEvent('chat.answer', {
+          sessionId,
+          ms: Date.now() - started,
+          chars: answer.length,
+          refused: answer.includes(REFUSAL_SENTENCE),
+          followUps,
+          followUpsOffBank: offBank,
+          inputTokens: usage.inputTokens ?? null,
+          outputTokens: usage.outputTokens ?? null,
+          cacheWrite: anthropicMeta?.cacheCreationInputTokens ?? null,
+          cacheRead: usage.cachedInputTokens ?? null,
+        });
       },
     });
 
-    // Return response with session ID in headers
+    // Drain the stream independently of the HTTP response so onFinish still
+    // fires (and logs) when the client disconnects mid-stream. Not awaited.
+    void result.consumeStream();
+
     const response = result.toUIMessageStreamResponse();
     response.headers.set('X-Session-ID', sessionId);
     return response;
   } catch (error) {
-    logger.error('Error in chat API:', error);
-
-    return new Response(
-      JSON.stringify({
-        error: 'Failed to process chat request',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    logChatEvent('chat.error', {
+      sessionId,
+      phase: 'request',
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return textResponse('Something went wrong processing your message.', 500);
   }
 }

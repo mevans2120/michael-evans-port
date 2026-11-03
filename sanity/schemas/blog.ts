@@ -38,6 +38,16 @@ export default defineType({
       validation: (Rule) => Rule.max(200),
     }),
 
+    defineField({
+      name: 'chatbotQuestions',
+      title: 'Chatbot: Suggested Questions',
+      type: 'array',
+      description:
+        'Questions the AI assistant may suggest about this content. Only add questions this document actually answers. 2 to 5 is ideal.',
+      of: [{ type: 'string', validation: (Rule) => Rule.max(150) }],
+      validation: (Rule) => Rule.max(8),
+    }),
+
     // Hero section
     defineField({
       name: 'heroSection',

@@ -10,36 +10,25 @@
  */
 export const CHATBOT_CONFIG = {
   /**
-   * Maximum number of search results to return from hybrid search
+   * Chat model temperature (0-1 scale).
+   * Kept low: answers must stay grounded in the corpus, so faithfulness
+   * matters more than creativity here.
    */
-  SEARCH_RESULT_LIMIT: 30,
+  CHAT_TEMPERATURE: 0.3,
+
+  /** Model used for chat answers. Haiku 4.5 is current, fast, and inexpensive. */
+  CHAT_MODEL: 'claude-haiku-4-5',
+
+  /** Minimum corpus size (chars) below which the route refuses to answer rather than improvise. */
+  MIN_CORPUS_CHARS: 20_000,
 
   /**
-   * Minimum similarity score threshold (0-1 scale)
-   * Results below this threshold are filtered out
+   * Maximum tokens in a chat response. A 90-word answer plus a link line and the
+   * FOLLOWUPS trailer is about 220 tokens; 400 leaves headroom while making a
+   * multi-paragraph answer impossible. If the trailer ever gets cut off, the
+   * `chat.answer` log shows `followUps: []` and `npm run eval:chat` fails.
    */
-  SIMILARITY_THRESHOLD: 0.25,
-
-  /**
-   * Weights for hybrid search (semantic + keyword)
-   * Must sum to 1.0 for balanced results
-   */
-  SEARCH_WEIGHTS: {
-    semantic: 0.7,
-    keyword: 0.3,
-  },
-
-  /**
-   * Chat model temperature (0-1 scale)
-   * Higher values (0.8) produce more creative responses
-   * Lower values (0.2) produce more focused, deterministic responses
-   */
-  CHAT_TEMPERATURE: 0.8,
-
-  /**
-   * Maximum tokens in chat response
-   */
-  MAX_RESPONSE_TOKENS: 1000,
+  MAX_RESPONSE_TOKENS: 400,
 } as const;
 
 /**

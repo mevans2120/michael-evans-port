@@ -89,78 +89,42 @@ npm run lint             # Run ESLint
 - **Project ID**: 5n331bys
 - **Dataset**: production
 - **Studio Path**: http://localhost:3000/studio
-- **Schemas**: profile (singleton), homepageHero (singleton), project, aiShowcase, timelinePhase, workflowStep, projectCard
+- **Schemas**: profile (singleton), homepageHero (singleton), project, aiShowcase, timelinePhase, workflowStep, projectCard, blog, chatPrompts
 - **Client**: Configured in `/src/lib/sanity/client.ts`
 
 ## Content Architecture & AI Chatbot
 
-**CRITICAL**: Understanding the content flow is essential for maintaining the AI chatbot and website content.
-
-### Content Sources & Flow
+The chatbot has no vector database. The whole knowledge base (about 50k tokens) is assembled server-side and sent to Claude Haiku 4.5 as one prompt-cached system block on every request. The model answers only from that block and otherwise replies with the exact sentence "I don't have that in Michael's materials."
 
 ```
-PRIMARY SOURCE: Interview Transcripts
-  └─ Location: docs/research/research-batch-1-102525/source-materials/transcripts/
-      ↓
-      ├──→ [Manual Path] Website Content
-      │      1. Create migration scripts from transcripts
-      │      2. Run scripts → Sanity CMS
-      │      3. Sanity → Website pages (case studies, profile, etc.)
-      │      4. [Automatic] Sanity webhook → Vector Database
-      │
-      └──→ [Manual Path] Chatbot Direct Content
-             1. Copy transcripts to: public/chatbot-content/transcripts/
-             2. Run: npm run ingest
-             3. Transcripts → Vector Database
-
-RESULT: Vector Database (unified search layer)
-  ├─ Source 1: Sanity CMS content (auto-synced via webhooks)
-  └─ Source 2: Transcript files (manually synced)
-      ↓
-   AI Chatbot (answers from vector DB)
+Transcripts (content/chatbot/transcripts/*.md, with `questions:` frontmatter)
+   └─ npm run build:corpus (automatic via prebuild and pretest) → src/lib/chatbot/generated/transcripts.json (gitignored)
+Sanity (project, blog, profile, aiProject; the first three carry a `chatbotQuestions` field)
+   └─ fetched at request time, cached by tag `chatbot-corpus`, invalidated by the Sanity webhook
+Both → one prompt-cached system block → Claude Haiku 4.5 → POST /api/chat
 ```
 
-### Key Principles
+**Editing content:**
+- **Transcripts** are the primary source. Edit the markdown files in `content/chatbot/transcripts/`. The `questions:` frontmatter on each file lists the only follow-up questions the model may suggest about it, so add only questions the file answers. A production build recompiles the corpus automatically; while `next dev` is running, run `npm run build:corpus` after editing.
+- **Sanity content** needs no sync step. Publishing in the Studio triggers the webhook, which revalidates the `chatbot-corpus` tag, and the next chat request sees the change. Fill in `chatbotQuestions` on each project, post, and profile for the same reason as the frontmatter.
+- **Suggested prompts** shown before the first message come from the `chatPrompts` singleton in Sanity. Every active prompt must be answerable from the corpus; `npm run validate:prompts` checks that.
+- Follow-ups travel as a `FOLLOWUPS: [...]` trailer on the last line of each answer, parsed by `src/lib/chatbot/followups.ts` on both server and client.
 
-1. **Transcripts are the PRIMARY source of truth**
-   - Original recordings and interviews with Michael
-   - Located in `docs/research/.../transcripts/`
-   - ALL content derives from these
-
-2. **Two parallel content systems**:
-   - **Website**: Transcripts → Migration scripts → Sanity CMS → Website pages
-   - **Chatbot**: Transcripts → `public/chatbot-content/transcripts/` → Vector DB
-
-3. **Vector Database is the unified search layer**
-   - Contains content from BOTH Sanity CMS and transcript files
-   - Sanity content auto-syncs via webhooks (see `/docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md`)
-   - Transcript content manually syncs via `npm run ingest`
-   - Chatbot searches this unified database to answer questions
-
-4. **Content updates**:
-   - **Website content**: Edit in Sanity Studio → Auto-syncs to vector DB (< 30 seconds)
-   - **Transcript content**: Add/edit files in `public/chatbot-content/transcripts/` → Run `npm run ingest`
-
-### Chatbot Content Sync Commands
+**Commands:**
 
 ```bash
-# Sync all content (Sanity + transcripts) to vector database
-npm run ingest
-
-# Clear and re-sync everything (use if content seems stale)
-npm run ingest -- --clear
-
-# Check sync status (admin dashboard)
-open http://localhost:3000/admin/chatbot-content
+npm run build:corpus       # Compile transcripts into the generated JSON (also runs via prebuild and pretest)
+npm run validate:prompts   # Post every active CMS prompt to /api/chat; fails on refusal or missing trailer
+npm run eval:chat          # Fixed 8-question eval: answer length, lists, broken links, trailer; run before and after prompt edits
 ```
 
-### Important Notes
+**Observability:** the route logs one JSON line per event (`chat.question`, `chat.answer`, `chat.error`, `chat.unavailable`). Read them with `vercel logs <deployment> | grep '"event":"chat.'`, which streams live logs for that deployment; add `--no-follow -n 1000` to search recent history instead. A daily GitHub Actions smoke test (`.github/workflows/chatbot-smoke.yml`) runs the prompt validation and known-answer checks against production.
 
-- **Never** edit vector database directly - always update source content (Sanity or transcripts)
-- **Always** run `npm run ingest` after adding/editing transcript files
-- **Check** admin dashboard to verify sync status
-- **Sanity webhooks** handle auto-sync in production (configured in Vercel environment)
-- See `/docs/chatbot/MAINTAINABLE-CONTENT-SYSTEM.md` for complete chatbot documentation
+**Documentation:**
+- `src/lib/chatbot/README.md` - module guide, frontmatter format, caching, logs
+- `docs/chatbot-functionality-audit-2026-10-09.md` - why the vector pipeline was replaced
+- `docs/plans/2026-10-09-chatbot-remediation.md` - the implementation plan
+- `docs/archive/chatbot-2025/` - retired Supabase-era documentation; do not follow it
 
 ## Development Workflow
 

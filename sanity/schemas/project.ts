@@ -131,6 +131,15 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'chatbotQuestions',
+      title: 'Chatbot: Suggested Questions',
+      type: 'array',
+      description:
+        'Questions the AI assistant may suggest about this content. Only add questions this document actually answers. 2 to 5 is ideal.',
+      of: [{ type: 'string', validation: (Rule) => Rule.max(150) }],
+      validation: (Rule) => Rule.max(8),
+    }),
+    defineField({
       name: 'featuredMetric',
       title: 'Featured Metric',
       type: 'string',

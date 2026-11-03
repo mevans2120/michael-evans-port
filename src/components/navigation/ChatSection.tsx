@@ -2,40 +2,57 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { useNavigation } from '@/contexts/NavigationContext';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { Sparkles, ChevronDown, Send, User, Loader2, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { SuggestedPrompts } from './SuggestedPrompts';
-import { client } from '@/sanity/lib/client';
-import { chatPromptsQuery } from '@/lib/sanity/queries';
+import type { ChatPromptsData } from '@/lib/sanity/queries';
+import { splitFollowUps } from '@/lib/chatbot/followups';
 import { LinkPreview } from '@/components/chatbot/LinkPreview';
 import { extractInternalLinks } from '@/lib/linkExtractor';
 import '../chatbot/chatbot.css';
 
 interface ChatSectionProps {
   isMobileVersion?: boolean;
+  chatPrompts: ChatPromptsData | null;
 }
 
-export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
+export function ChatSection({ isMobileVersion = false, chatPrompts }: ChatSectionProps) {
   const { panelState, chatExpanded, setChatExpanded, setChatInputFocused } = useNavigation();
   const isDesktop = useIsDesktop();
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [chatPromptsData, setChatPromptsData] = useState<{
-    prompts: { text: string; order: number; active: boolean }[];
-    numberOfPromptsToShow: number;
-  } | null>(null);
 
   // Memoize prompts array to prevent re-shuffling on every render
   const memoizedPrompts = useMemo(
-    () => chatPromptsData?.prompts?.map(p => p.text),
-    [chatPromptsData]
+    () => chatPrompts?.prompts?.filter((p) => p.active).map((p) => p.text),
+    [chatPrompts]
+  );
+
+  // Stable per-conversation id so server log events can correlate turns.
+  // Generated lazily on the first send (browser only), so SSR never touches crypto
+  // and the id is created at most once for the life of this component.
+  const sessionIdRef = useRef<string | null>(null);
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: '/api/chat',
+        body: () => {
+          // crypto.randomUUID is undefined outside secure contexts (e.g. a dev
+          // server reached over LAN http). Send nothing and let the route mint an id.
+          sessionIdRef.current ??= globalThis.crypto?.randomUUID?.() ?? null;
+          return sessionIdRef.current ? { sessionId: sessionIdRef.current } : {};
+        },
+      }),
+    []
   );
 
   const { messages: chatMessages, sendMessage, status, error } = useChat({
+    transport,
     onFinish: () => {
       // Scroll to bottom when assistant responds
       scrollTimeoutRef.current = setTimeout(() => {
@@ -45,10 +62,11 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
   });
 
   const [input, setInput] = useState('');
-  const isLoading = false; // We use isWaitingForResponse for loading state instead
 
-  // Track if we're waiting for a response (after send but before streaming)
-  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  // Derived from the SDK status so a pre-stream failure (400/503) clears the
+  // loader and re-enables the controls: 'submitted' | 'streaming' | 'ready' | 'error'.
+  const isWaitingForResponse = status === 'submitted';
+  const isStreaming = status === 'streaming';
 
   // Add welcome message to the start - memoized to prevent unnecessary re-renders
   const messages = useMemo(() =>
@@ -87,19 +105,6 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
         clearTimeout(scrollTimeoutRef.current);
       }
     };
-  }, []);
-
-  // Fetch chat prompts from CMS
-  useEffect(() => {
-    async function fetchChatPrompts() {
-      try {
-        const data = await client.fetch(chatPromptsQuery);
-        setChatPromptsData(data);
-      } catch (error) {
-        console.error('Failed to fetch chat prompts:', error);
-      }
-    }
-    fetchChatPrompts();
   }, []);
 
   // Auto-scroll to bottom when messages change - only when chat is visible
@@ -155,9 +160,8 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault(); // Prevent default newline insertion
 
-      // Only submit if there's valid input and we're not already loading
-      if (input.trim() && !isLoading && !isWaitingForResponse) {
-        setIsWaitingForResponse(true);
+      // Only submit if there's valid input and we're not already waiting on a reply
+      if (input.trim() && !isWaitingForResponse && !isStreaming) {
         sendMessage({ text: input });
         setInput('');
       }
@@ -178,68 +182,19 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
 
   const handlePromptClick = (prompt: string) => {
     // Prevent sending multiple messages simultaneously
-    if (isLoading || isWaitingForResponse) return;
+    if (isWaitingForResponse || isStreaming) return;
 
     if (!isDesktop) {
       setChatExpanded(true);
     }
     setChatInputFocused(true); // Expand width when using chat
-    setIsWaitingForResponse(true);
     sendMessage({ text: prompt });
   };
-
-  // Reset waiting state when streaming starts
-  useEffect(() => {
-    if (status === 'streaming') {
-      setIsWaitingForResponse(false);
-    }
-  }, [status]);
 
   const handleHeaderClick = () => {
     // Always allow expanding when clicking the header
     setChatExpanded(true);
     setChatInputFocused(true); // Expand width when chat opens
-  };
-
-  // Extract link info from markdown link syntax
-  const parseMarkdownLink = (text: string): { hasLink: boolean; linkText: string; linkUrl: string } => {
-    const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/;
-    const match = text.match(linkPattern);
-
-    if (match) {
-      return {
-        hasLink: true,
-        linkText: match[1],
-        linkUrl: match[2],
-      };
-    }
-
-    return {
-      hasLink: false,
-      linkText: text,
-      linkUrl: '',
-    };
-  };
-
-  // Parse follow-up questions from assistant messages
-  const parseFollowUpQuestions = (text: string): { mainContent: string; questions: string[] } => {
-    // Match the entire follow-up section including the header
-    const followUpPattern = /\*\*Follow-up questions:\*\*\s*\n((?:- .+\n?)+)/i;
-    const match = text.match(followUpPattern);
-
-    if (!match) {
-      return { mainContent: text, questions: [] };
-    }
-
-    // Remove the entire follow-up section (including the header) from main content
-    const mainContent = text.substring(0, match.index).trim();
-    const questionsText = match[1];
-    const questions = questionsText
-      .split('\n')
-      .filter(line => line.trim().startsWith('-'))
-      .map(line => line.trim().substring(1).trim()); // Keep original markdown
-
-    return { mainContent, questions };
   };
 
   // Render minimal chat header when collapsed
@@ -357,9 +312,10 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
             const textPart = 'parts' in message ? message.parts?.find(part => part.type === 'text') : undefined;
             const content = textPart?.text || ('content' in message ? message.content : '') || '';
             const isUser = message.role === 'user';
-            const { mainContent, questions } = !isUser && message.role === 'assistant'
-              ? parseFollowUpQuestions(content)
-              : { mainContent: content, questions: [] };
+            const { answer: mainContent, followUps: questions } =
+              !isUser && message.role === 'assistant'
+                ? splitFollowUps(content)
+                : { answer: content, followUps: [] };
 
             // Extract LinkPreview links from mainContent to render separately
             const { textContent: cleanContent, links: extractedLinks } = extractInternalLinks(mainContent);
@@ -455,35 +411,19 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
                     )}
                   </div>
 
-                  {/* Follow-up question suggestions - Render LinkPreview for links */}
+                  {/* Follow-up question suggestions (plain text from the FOLLOWUPS trailer) */}
                   {questions.length > 0 && (
                     <div className="flex flex-col gap-2 mt-2">
-                      {questions.map((question, index) => {
-                        const { hasLink, linkText, linkUrl } = parseMarkdownLink(question);
-
-                        // If it's a link to a case study or blog, render LinkPreview
-                        if (hasLink && (linkUrl.includes('/case-studies/') || linkUrl.includes('/blog/'))) {
-                          return (
-                            <div key={index}>
-                              <LinkPreview href={linkUrl}>
-                                {linkText}
-                              </LinkPreview>
-                            </div>
-                          );
-                        }
-
-                        // Otherwise, render as a button (original behavior)
-                        return (
-                          <button
-                            key={index}
-                            onClick={() => handlePromptClick(hasLink ? linkText : question)}
-                            disabled={isLoading}
-                            className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80 disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            {hasLink ? linkText : question}
-                          </button>
-                        );
-                      })}
+                      {questions.map((question, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handlePromptClick(question)}
+                          disabled={isWaitingForResponse || isStreaming}
+                          className="text-left text-sm chatbot-followup px-3 py-2 rounded-lg bg-chat-suggestion/50 hover:bg-chat-suggestion transition-colors border border-chat-input-border/50 hover:border-chat-input-border text-chat-foreground/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {question}
+                        </button>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -493,7 +433,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           })}
 
           {/* Loading indicator */}
-          {(isLoading || isWaitingForResponse) && (
+          {isWaitingForResponse && (
             <div className="flex gap-3 mb-4">
               {/* Avatar - matches assistant message style */}
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chat-message">
@@ -514,18 +454,21 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
             <div className="rounded-lg bg-error border border-error-border p-3 text-sm text-error-text mb-4">
               <p className="font-medium">Error</p>
               <p className="text-xs mt-1">
-                {error.message || 'Something went wrong. Please try again.'}
+                {/* @ai-sdk/react surfaces the response body as error.message; the route's 503 body is "Chat is temporarily unavailable." */}
+                {error.message?.startsWith('Chat is temporarily unavailable')
+                  ? 'The assistant is temporarily unavailable. You can reach Michael through the contact page.'
+                  : error.message || 'Something went wrong. Please try again.'}
               </p>
             </div>
           )}
 
           {/* Suggested Prompts - Show below welcome message when expanded, hide when waiting or loading */}
-          {messages.length === 1 && chatExpanded && !(isDesktop && panelState === 'partial' && chatExpanded) && !isWaitingForResponse && !isLoading && (
+          {messages.length === 1 && chatExpanded && !(isDesktop && panelState === 'partial' && chatExpanded) && !isWaitingForResponse && (
             <SuggestedPrompts
               onPromptClick={handlePromptClick}
-              isLoading={isLoading || isWaitingForResponse}
+              isLoading={isWaitingForResponse}
               prompts={memoizedPrompts}
-              numberOfPromptsToShow={chatPromptsData?.numberOfPromptsToShow}
+              numberOfPromptsToShow={chatPrompts?.numberOfPromptsToShow}
             />
           )}
 
@@ -552,8 +495,7 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!input.trim() || isLoading || isWaitingForResponse) return;
-          setIsWaitingForResponse(true);
+          if (!input.trim() || isWaitingForResponse || isStreaming) return;
           sendMessage({ text: input });
           setInput('');
         }}
@@ -577,18 +519,17 @@ export function ChatSection({ isMobileVersion = false }: ChatSectionProps) {
           onBlur={handleInputBlur}
           onKeyDown={handleKeyDown}
           placeholder=""
-          disabled={isLoading}
           rows={1}
           className="flex-1 px-3 py-2 text-base font-serif bg-chat-message border border-accent text-chat-input-text placeholder:text-chat-foreground/40 rounded-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-none w-full min-w-0 resize-none overflow-hidden"
           style={{ minHeight: '42px', maxHeight: '150px' }}
         />
         <button
           type="submit"
-          disabled={isLoading || !input?.trim()}
+          disabled={isWaitingForResponse || isStreaming || !input?.trim()}
           className="p-2 bg-accent hover:bg-accent/90 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label={isLoading ? "Sending message" : "Send message"}
+          aria-label={isWaitingForResponse || isStreaming ? "Sending message" : "Send message"}
         >
-          {isLoading ? (
+          {isWaitingForResponse || isStreaming ? (
             <Loader2 className="w-4 h-4 text-white animate-spin" />
           ) : (
             <Send className="w-4 h-4 text-white" />
