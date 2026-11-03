@@ -11,7 +11,7 @@
 import { streamText, convertToModelMessages, type UIMessage } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { buildCorpus } from '@/lib/chatbot/corpus';
-import { buildInstructions, REFUSAL_SENTENCE } from '@/lib/chatbot/prompt';
+import { buildInstructions, buildFormatRules, REFUSAL_SENTENCE } from '@/lib/chatbot/prompt';
 import { splitFollowUps } from '@/lib/chatbot/followups';
 import { logChatEvent } from '@/lib/chatbot/events';
 import { CHATBOT_CONFIG } from '@/lib/constants';
@@ -159,13 +159,15 @@ export async function POST(req: Request) {
       model: anthropic(CHATBOT_CONFIG.CHAT_MODEL),
       temperature: CHATBOT_CONFIG.CHAT_TEMPERATURE,
       maxOutputTokens: CHATBOT_CONFIG.MAX_RESPONSE_TOKENS,
-      // The `system` string and the leading system message below are merged by
-      // the AI SDK into one consecutive system block, which the Anthropic
-      // provider emits as two `system` text blocks: instructions first, then
-      // the corpus. Caching is a prefix match, so the instructions are part of
-      // the cached prefix. Editing the prompt invalidates the cache once (one
-      // cache write, cheap); after that every request reads the whole prefix
-      // from cache again. Do not reorder these.
+      // Three system blocks, in this order. The AI SDK prepends the `system`
+      // string as a system message and the Anthropic provider folds all leading
+      // system messages into one `system` array with per-block cache_control:
+      //   1. instructions (grounding, links)  - inside the cached prefix
+      //   2. corpus                            - carries cacheControl; prefix ends here
+      //   3. format rules (length, trailer)   - after the cache boundary, uncached
+      // Editing 1 or the corpus invalidates the cache once (cheap). Editing 3
+      // never does, and the model follows the most recent instructions most
+      // reliably, which is why length rules live there. Do not reorder these.
       system: buildInstructions(corpus.pages),
       messages: [
         {
@@ -174,6 +176,10 @@ export async function POST(req: Request) {
           providerOptions: {
             anthropic: { cacheControl: { type: 'ephemeral', ttl: '1h' } },
           },
+        },
+        {
+          role: 'system',
+          content: buildFormatRules(),
         },
         ...convertToModelMessages(messages),
       ],

@@ -23,9 +23,12 @@ export const CHATBOT_CONFIG = {
   MIN_CORPUS_CHARS: 20_000,
 
   /**
-   * Maximum tokens in chat response
+   * Maximum tokens in a chat response. A 90-word answer plus a link line and the
+   * FOLLOWUPS trailer is about 220 tokens; 400 leaves headroom while making a
+   * multi-paragraph answer impossible. If the trailer ever gets cut off, the
+   * `chat.answer` log shows `followUps: []` and `npm run eval:chat` fails.
    */
-  MAX_RESPONSE_TOKENS: 1000,
+  MAX_RESPONSE_TOKENS: 400,
 } as const;
 
 /**
