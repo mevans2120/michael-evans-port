@@ -54,7 +54,7 @@ Projects become `/case-studies/<slug>`, posts `/blog/<slug>`, and the profile `/
 
 ## Prompt and output contract
 
-`prompt.ts` exports `buildInstructions(pages)`, a pure function that returns the instruction text, and `REFUSAL_SENTENCE`. The instructions tell the model to answer only from the knowledge base, to use the refusal sentence verbatim when it cannot, to link only to pages in the manifest and only by the exact title and relative path listed, and to end every reply with a follow-up trailer.
+`prompt.ts` exports two pure functions and `REFUSAL_SENTENCE`. `buildInstructions(pages)` returns the identity, grounding, and link rules: answer only from the knowledge base, use the refusal sentence verbatim when it cannot, prefer the most recently dated blog post for "latest work" questions, and link only to pages in the manifest by the exact title and relative path listed. `buildFormatRules()` returns the length and formatting rules (a single paragraph under 90 words, no lists) and the follow-up trailer contract. They are sent in different positions, which is the point: see the caching section below.
 
 The refusal sentence is:
 
@@ -74,7 +74,7 @@ FOLLOWUPS: ["first question", "second question"]
 
 ## Prompt caching and cost
 
-The route calls `streamText` with two system blocks in a fixed order: the instructions, then the corpus with `providerOptions.anthropic.cacheControl = { type: 'ephemeral', ttl: '1h' }`. Anthropic caching is a prefix match, so both blocks are read from cache as long as neither changes. Editing the prompt or any corpus document invalidates the cache once; the next request pays a cache write and everything after it reads from cache again. Do not reorder those two blocks or put anything variable before them.
+The route calls `streamText` with three system blocks in a fixed order: the instructions, then the corpus with `providerOptions.anthropic.cacheControl = { type: 'ephemeral', ttl: '1h' }`, then the format rules. Anthropic caching is a prefix match that ends at the block carrying `cacheControl`, so the instructions and corpus are read from cache as long as neither changes, and the format rules sit after the cache boundary. That placement is deliberate: the model follows the most recent instructions most reliably (moving the length rules there cut average answers from about 160 words to about 80), and edits to the format rules never invalidate the cache. Editing the instructions or any corpus document invalidates the cache once; the next request pays a cache write and everything after it reads from cache again. Do not reorder these blocks or put anything variable before the corpus. `MAX_RESPONSE_TOKENS` (400) is the hard ceiling that makes a multi-paragraph answer impossible regardless of what the model intends.
 
 At the time of writing (October 2026), Haiku 4.5 list prices are $1 per million input tokens and $5 per million output tokens. A one-hour cache write is twice the input price and a cache read is a tenth of it. For a 50k-token corpus that works out to about 10 cents for the write, about half a cent per message for the cached read, and a fraction of a cent for a 200-token answer. The write happens once per hour of idle time, or once per content change. A conversation of ten messages therefore costs on the order of five cents. Check the `cacheWrite` and `cacheRead` fields on `chat.answer` events to confirm reads are happening; a run of answers with `cacheRead: 0` means something in the prefix is changing between requests.
 
@@ -113,6 +113,13 @@ CHAT_BASE=https://mevans.space npm run validate:prompts
 
 `scripts/validate-chat-prompts.ts` reads every active prompt from the `chatPrompts` document, posts each to `/api/chat`, and fails if any answer contains the refusal sentence or lacks the follow-up trailer. Run it after adding a suggested prompt or editing the corpus. The script needs a running server; locally that is `npm run dev`.
 
+```bash
+npm run eval:chat                                  # against http://localhost:3000
+npm run eval:chat -- --json docs/chatbot-eval/<date>.json
+```
+
+`scripts/eval-chat.ts` posts a fixed set of eight questions and reports average and maximum answer length, bulleted answers, broken internal links, missing follow-up trailers, and refusals. It exits non-zero when a threshold is exceeded (average over 110 words, any answer over 150, any list, any 404, any missing trailer), so run it before and after every prompt change. Baselines live in `docs/chatbot-eval/`; the tuning that introduced it is recorded in `docs/chatbot-prompt-tuning-2026-11-03.md`.
+
 `.github/workflows/chatbot-smoke.yml` runs daily at 14:17 UTC and on manual dispatch against production. It runs the prompt validation and then `scripts/chatbot-smoke-checks.ts`, which asks one question the corpus answers (expecting a grounded reply with the trailer) and one it does not (expecting the refusal sentence). Both scripts share `scripts/lib/chat-client.ts`, which reassembles the assistant text from the UI message stream and throws on timeout, non-2xx status, or an error chunk.
 
 Unit tests for this directory are in `__tests__/` and run with `npm test`. The Playwright spec for the chat UI is `e2e/chatbot.e2e.spec.ts`.
@@ -122,7 +129,7 @@ Unit tests for this directory are in `__tests__/` and run with `npm test`. The P
 | Path | Purpose |
 |---|---|
 | `corpus.ts` | `buildCorpus()`: merges transcripts and Sanity into one text block, page manifest, and question bank |
-| `prompt.ts` | `buildInstructions(pages)` and `REFUSAL_SENTENCE` |
+| `prompt.ts` | `buildInstructions(pages)`, `buildFormatRules()`, and `REFUSAL_SENTENCE` |
 | `followups.ts` | `FOLLOWUP_MARKER`, `splitFollowUps()`; shared by route and UI |
 | `events.ts` | `logChatEvent()` structured logging |
 | `transcript-frontmatter.ts` | Parses the `questions:` frontmatter block |
@@ -135,6 +142,7 @@ Unit tests for this directory are in `__tests__/` and run with `npm test`. The P
 | `../../../content/chatbot/transcripts/` | Transcript sources |
 | `../../../scripts/build-transcript-corpus.ts` | Writes `generated/transcripts.json` |
 | `../../../scripts/validate-chat-prompts.ts` | Checks CMS suggested prompts are answerable |
+| `../../../scripts/eval-chat.ts` | Measures answer length, lists, links, and trailer compliance |
 | `../../../scripts/chatbot-smoke-checks.ts` | Known-answer and refusal checks |
 | `../../../scripts/lib/chat-client.ts` | Shared HTTP client for the two scripts |
 | `../../../.github/workflows/chatbot-smoke.yml` | Daily production smoke test |

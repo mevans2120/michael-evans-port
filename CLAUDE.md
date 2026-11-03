@@ -115,6 +115,7 @@ Both → one prompt-cached system block → Claude Haiku 4.5 → POST /api/chat
 ```bash
 npm run build:corpus       # Compile transcripts into the generated JSON (also runs via prebuild and pretest)
 npm run validate:prompts   # Post every active CMS prompt to /api/chat; fails on refusal or missing trailer
+npm run eval:chat          # Fixed 8-question eval: answer length, lists, broken links, trailer; run before and after prompt edits
 ```
 
 **Observability:** the route logs one JSON line per event (`chat.question`, `chat.answer`, `chat.error`, `chat.unavailable`). Read them with `vercel logs <deployment> | grep '"event":"chat.'`, which streams live logs for that deployment; add `--no-follow -n 1000` to search recent history instead. A daily GitHub Actions smoke test (`.github/workflows/chatbot-smoke.yml`) runs the prompt validation and known-answer checks against production.
