@@ -730,14 +730,14 @@ describe('Sanity Content Fetcher', () => {
       expect(result[0].content).toContain('Blog post URL: /blog/test-post');
     });
 
-    it('formats published date', async () => {
+    it('writes an ISO publication date in the header right after the URL', async () => {
       const mockPosts = [
         {
           _id: 'blog-123',
           _updatedAt: '2025-01-01',
           title: 'Test',
           slug: { current: 'test' },
-          publishedAt: '2025-01-15T00:00:00Z',
+          publishedAt: '2025-12-16T21:08:09Z',
           author: 'Michael Evans',
         },
       ];
@@ -746,8 +746,22 @@ describe('Sanity Content Fetcher', () => {
 
       const result = await fetchBlogPosts();
 
-      expect(result[0].content).toContain('Published:');
+      // Header position: the date sits directly after the URL line so the model
+      // sees it before the body when judging which post is most recent.
+      expect(result[0].content).toContain('Blog post URL: /blog/test\n\nPublished: 2025-12-16');
+      // No locale-formatted date anywhere (the old footer used toLocaleDateString)
+      expect(result[0].content).not.toMatch(/Published: \d{1,2}\/\d{1,2}\/\d{4}/);
       expect(result[0].content).toContain('Author: Michael Evans');
+    });
+
+    it('omits the Published line when there is no publishedAt', async () => {
+      fetchMock.mockResolvedValue([
+        { _id: 'blog-1', _updatedAt: '2025-01-01', title: 'Draft', slug: { current: 'draft' } },
+      ]);
+
+      const result = await fetchBlogPosts();
+
+      expect(result[0].content).not.toContain('Published:');
     });
   });
 

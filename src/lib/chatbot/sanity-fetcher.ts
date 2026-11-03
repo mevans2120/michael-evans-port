@@ -547,6 +547,11 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
       contentParts.push(`Blog post URL: /blog/${post.slug.current}`);
     }
 
+    // ISO date in the header so "latest work" questions have an unambiguous anchor
+    if (post.publishedAt) {
+      contentParts.push(`Published: ${post.publishedAt.slice(0, 10)}`);
+    }
+
     if (post.heroSection?.badge) {
       contentParts.push(`Category: ${post.heroSection.badge}`);
     }
@@ -566,11 +571,6 @@ export async function fetchBlogPosts(): Promise<SanityContentDocument[]> {
     }
 
     // Add metadata footer
-    if (post.publishedAt) {
-      const date = new Date(post.publishedAt).toLocaleDateString();
-      contentParts.push(`\nPublished: ${date}`);
-    }
-
     if (post.author) {
       contentParts.push(`Author: ${post.author}`);
     }
