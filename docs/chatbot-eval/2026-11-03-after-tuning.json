@@ -1,0 +1,124 @@
+{
+  "base": "http://localhost:3000",
+  "summary": {
+    "avgWords": 78,
+    "maxWords": 109,
+    "bulletedAnswers": 0,
+    "brokenLinks": 0,
+    "emptyFollowUps": 0,
+    "refusals": 1,
+    "avgMs": 2785
+  },
+  "results": [
+    {
+      "question": "What is the Before Launcher?",
+      "words": 92,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What did Michael learn about App Store optimization?",
+        "What is Michael working on now?"
+      ],
+      "refused": false,
+      "ms": 3404,
+      "body": "**Before Launcher** was an Android home screen replacement Michael founded through Before Labs that helped thousands of people reduce phone distractions. The app's breakthrough feature was an **intelligent notification filter** that separated important notifications (texts from mom, work emails) from distracting ones (Target deals, Facebook ads), letting users check filtered notifications only when intentional. It won Fast Company's Best App of 2019 and helped users open their phones 30–40% less than average, though the consumer app business model ultimately proved unsustainable, so Michael sold it to a developer who still maintains it."
+    },
+    {
+      "question": "Tell me Michael's latest work with AI",
+      "words": 92,
+      "bulleted": false,
+      "links": {
+        "/blog/how-i-ai-in-q4-2025": 200
+      },
+      "followUps": [
+        "What is PostPal?",
+        "What did Michael learn about App Store optimization?"
+      ],
+      "refused": false,
+      "ms": 3538,
+      "body": "Michael's most recent AI work centers on **PostPal**, a healthcare app he's building with co-founder Jay that transforms medical discharge instructions into intelligent recovery timelines. Published in October 2025, his blog post \"How I AI in Q4 2025\" documents his current workflow: he uses Claude Code in the terminal to build full-stack applications with TypeScript, Next.js, and React Native, emphasizing strongly-typed languages that prevent AI errors. Since March 2024, he's generated over 1,000 GitHub commits across 30+ projects, including marketing websites, mobile apps, and developer tools.\n\n[How I AI in Q4 2025](/blog/how-i-ai-in-q4-2025)"
+    },
+    {
+      "question": "What goes into building a successful product?",
+      "words": 80,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What is Michael most proud of in his career?",
+        "What did Michael learn from HouseLogic?"
+      ],
+      "refused": false,
+      "ms": 2625,
+      "body": "Building a successful product starts with understanding your customers deeply—Michael emphasizes that you have to **research, get to know your customers, and put your product in front of them** to learn what they actually need. The best digital products solve one specific problem really well before expanding to adjacent areas. Beyond that, the details matter enormously; there are plenty of good ideas, but far fewer great executions, and it's the small refinements that separate exceptional products from merely good ones."
+    },
+    {
+      "question": "Where did Michael grow up?",
+      "words": 61,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What did Michael study in college?",
+        "How did Michael get into technology?"
+      ],
+      "refused": false,
+      "ms": 2043,
+      "body": "Michael grew up in Eugene, Oregon, in a purple house near the University of Oregon. He attended Fox Hollow Elementary School (where he was in a French immersion program), Roosevelt Middle School, and South Eugene High School. His parents still live in Eugene, though he's since moved to Portland and has also lived in San Francisco, New York, Brighton, and Boulder."
+    },
+    {
+      "question": "What is the Gag Scale?",
+      "words": 109,
+      "bulleted": false,
+      "links": {
+        "/blog/an-introduction-to-the-gag-scale": 200
+      },
+      "followUps": [
+        "What did Michael learn about leadership from opening the Portland office?",
+        "What is Michael working on now?"
+      ],
+      "refused": false,
+      "ms": 3322,
+      "body": "The **Gag Scale** is a -3 to +3 system for measuring how strongly teammates feel about decisions and ideas. A 0 means indifferent, +1 to +3 represent increasing levels of support (with +3 meaning you'd quit and start your own company around it), and -1 to -3 represent increasing levels of disagreement (with -2 meaning you'd actively undermine it, and -3 meaning you'd quit). Michael learned it from an early mentor and uses it to gauge team consensus without requiring people to publicly announce their scoring, instead watching for patterns in what people say and do to identify potential concerns worth discussing one-on-one.\n\n[An introduction to the Gag Scale](/blog/an-introduction-to-the-gag-scale)"
+    },
+    {
+      "question": "Tell me about the Peacock project",
+      "words": 75,
+      "bulleted": false,
+      "links": {
+        "/case-studies/peacock": 200
+      },
+      "followUps": [
+        "What did Michael work on for Peacock?",
+        "What is Michael working on now?"
+      ],
+      "refused": false,
+      "ms": 2448,
+      "body": "At Raw Materials, Michael worked on **Peacock's white label platform**, transforming it from a standard streaming product into a system other cable and content providers could license and brand as their own. The core challenge was engineering the design system and technology to be flexible enough for different brands while maintaining quality and usability across implementations. That white label product is now being used by European cable providers to run their own streaming services.\n\n[Peacock](/case-studies/peacock)"
+    },
+    {
+      "question": "What did Michael build for NASA?",
+      "words": 31,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What did Michael build for Virgin America?",
+        "What AI projects has Michael built?"
+      ],
+      "refused": true,
+      "ms": 1693,
+      "body": "I don't have that in Michael's materials. Michael's portfolio includes work on airline websites, streaming platforms, e-commerce sites, and AI-powered healthcare apps, but NASA isn't mentioned among his clients or projects."
+    },
+    {
+      "question": "What companies has Michael worked for?",
+      "words": 83,
+      "bulleted": false,
+      "links": {},
+      "followUps": [
+        "What did Michael work on for Astral?",
+        "How did Michael end up at Work & Co?"
+      ],
+      "refused": false,
+      "ms": 3205,
+      "body": "Michael has worked for **Symantec** (his first tech job, doing data entry and business analysis), **Huge** (a digital agency where he worked on major clients like Target and HBO Go), **Work & Co** (where he was a founding employee and opened the Portland office), **Raw Materials** (formerly Handsome, where he led product strategy for Peacock and Casa Bonita), and founded his own startup **Before Labs** (which created the Before Launcher app). He's currently consulting independently and working on PostPal, an AI-powered healthcare app."
+    }
+  ]
+}
